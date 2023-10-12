@@ -29,11 +29,11 @@ jobs:
          path: .git/lfs
          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
 
-     - name: Git LFS Pull
-       run: |
-         git lfs pull
-         git add .
-         git reset --hard
+    #  - name: Git LFS Pull
+    #    run: |
+    #      git lfs pull
+    #      git add .
+    #      git reset --hard
 
      - name: Restore Library cache
        uses: actions/cache@v2
