@@ -2,8 +2,6 @@ name: Actions 😎
 
 on: [push, pull_request]
 
-permissions: write-all
-
 jobs:
   build:
     name: Build my project ✨
@@ -16,12 +14,12 @@ jobs:
           lfs: true
 
       # Cache
-      # - uses: actions/cache@v3
-      #   with:
-      #     path: Library
-      #     key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
-      #     restore-keys: |
-      #       Library-
+      - uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
 
       # Test
       - name: Run tests
