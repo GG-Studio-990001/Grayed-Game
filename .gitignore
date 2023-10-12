@@ -9,7 +9,10 @@
 [Bb]uilds/
 [Ll]ogs/
 [Uu]ser[Ss]ettings/
-/artifacts/
+
+# Ignore temporaries from GameCI
+/[Aa]rtifacts/
+/[Cc]odeCoverage/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
