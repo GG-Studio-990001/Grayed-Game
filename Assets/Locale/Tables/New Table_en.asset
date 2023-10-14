@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: b87be384f43a975449b10529c4d05ebd, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 5862241180441903116
   m_TableData:
   - m_Id: 509731061760
     m_Localized: Title
@@ -26,6 +27,20 @@ MonoBehaviour:
     m_Localized: Body
     m_Metadata:
       m_Items: []
+  - m_Id: 12788275003392
+    m_Localized: '{global.player-name}Smart Test'
+    m_Metadata:
+      m_Items:
+      - rid: 5862241180441903116
+      - rid: 5862241180441903131
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 5862241180441903116
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 00c09680a10b0000
+    - rid: 5862241180441903131
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: "\uCF54\uBA58\uD2B8 \uD14C\uC2A4\uD2B8"

@@ -25,13 +25,18 @@ MonoBehaviour:
       m_Items:
       - rid: 5862241180441903107
   - m_Id: 802325708800
-    m_Localized: "\uBCF8\uBB38\uC784"
+    m_Localized: "\uBCF8\uBB38\uC784\uB2C8\uB2E4."
     m_Metadata:
       m_Items: []
+  - m_Id: 12788275003392
+    m_Localized: "{global.player-name}\uC2A4\uB9C8\uD2B8 \uCCB4\uD06C"
+    m_Metadata:
+      m_Items:
+      - rid: 5862241180441903107
   references:
     version: 2
     RefIds:
     - rid: 5862241180441903107
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 00c056ae76000000
+        m_Entries: 00c056ae7600000000c09680a10b0000
