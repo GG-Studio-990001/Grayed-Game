@@ -23,6 +23,10 @@ MonoBehaviour:
     m_Key: UI_Title
     m_Metadata:
       m_Items: []
+  - m_Id: 12788275003392
+    m_Key: UI_Player
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
