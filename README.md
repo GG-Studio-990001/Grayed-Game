@@ -17,6 +17,8 @@ GameOver에 관한 문의사항은 아래 이메일을 통해 연락해주시면
 
 [**진행중인 로드맵**](https://github.com/orgs/GG-Studio-990001/projects/1)
 
+[**진행중인 토론**](https://github.com/GG-Studio-990001/GameOver/discussions)
+
 ## 프로젝트 목표
 
 만든 게임에서 팬이 생기는 것
