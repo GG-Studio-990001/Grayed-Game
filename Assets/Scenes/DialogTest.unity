@@ -338,8 +338,8 @@ MonoBehaviour:
     m_Left: 0
     m_Right: 0
     m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 4
+    m_Bottom: -166
+  m_ChildAlignment: 7
   m_Spacing: 10
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
@@ -396,8 +396,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -50}
-  m_SizeDelta: {x: 329.594, y: 100}
+  m_AnchoredPosition: {x: 50, y: -166}
+  m_SizeDelta: {x: 329.594, y: 70.612}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &526307172
 MonoBehaviour:
@@ -624,6 +624,7 @@ GameObject:
   m_Component:
   - component: {fileID: 766723491}
   - component: {fileID: 766723492}
+  - component: {fileID: 766723493}
   m_Layer: 0
   m_Name: DialogueRunner
   m_TagString: Untagged
@@ -666,7 +667,7 @@ MonoBehaviour:
   startNode: NewYarnScript
   startAutomatically: 1
   runSelectedOptionAsLine: 0
-  lineProvider: {fileID: 0}
+  lineProvider: {fileID: 766723493}
   verboseLogging: 1
   onNodeStart:
     m_PersistentCalls:
@@ -683,6 +684,24 @@ MonoBehaviour:
   onCommand:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &766723493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766723490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9c1f487b798d402db42bc11cee5b810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stringsTable:
+    m_TableReference:
+      m_TableCollectionName: GUID:5e7bf2bebeb9afe45a4600e42f61547b
+  assetTable:
+    m_TableReference:
+      m_TableCollectionName: 
 --- !u!1 &975672929
 GameObject:
   m_ObjectHideFlags: 0
@@ -1421,7 +1440,7 @@ MonoBehaviour:
       m_Calls: []
   typewriterEffectSpeed: 20
   continueButton: {fileID: 311773569}
-  holdTime: 2
+  holdTime: 1.5
   autoAdvance: 1
 --- !u!225 &2082044543
 CanvasGroup:
