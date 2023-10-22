@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Dialog Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Dialog
+  m_TableCollectionNameGuidString: 5e7bf2bebeb9afe45a4600e42f61547b
+  m_Entries:
+  - m_Id: 94660796416
+    m_Key: line:9b2f1181
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94681767936
+    m_Key: line:0d1f16f6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94681767937
+    m_Key: line:b74e1f6f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94681767938
+    m_Key: line:217e1818
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94681767939
+    m_Key: line:82eb7c86
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94681767940
+    m_Key: line:14db7bf1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94681767941
+    m_Key: line:ae8a7268
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94681767942
+    m_Key: line:38ba751f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94681767943
+    m_Key: line:a9a7ca8f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94681767944
+    m_Key: line:47957458
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94681767945
+    m_Key: line:8ff5e2d4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94681767946
+    m_Key: line:19c5e5a3
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 6331315019174903810
+  references:
+    version: 2
+    RefIds:
+    - rid: 6331315019174903810
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1697985032316
