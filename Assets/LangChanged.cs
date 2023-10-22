@@ -20,4 +20,13 @@ public class LangChanged : MonoBehaviour
         yield return new WaitForSeconds(1.8f);
         Log.SetActive(false);
     }
+
+    public void GameExit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 }
