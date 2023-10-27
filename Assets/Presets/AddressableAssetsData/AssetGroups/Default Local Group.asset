@@ -16,12 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: cafeba31574c11542a823273f29d0eb3
-  m_SerializeEntries:
-  - m_GUID: c7c45e16b181d6243bc3c33eed6c7d3c
-    m_Address: Assets/Presets/Locale/Tables/Dialog.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 2e2cd1ffb4f408040b3e2fa4dfca47c4, type: 2}
   m_SchemaSet:

@@ -23,7 +23,6 @@
   </assembly>
   <assembly fullname="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="UnityEngine.Object" preserve="all" />
-    <type fullname="UnityEngine.TextAsset" preserve="all" />
   </assembly>
   <assembly fullname="YarnSpinner.Unity">
     <type fullname="Yarn.Unity.UnityLocalization.LineMetadata" preserve="nothing" serialized="true" />
