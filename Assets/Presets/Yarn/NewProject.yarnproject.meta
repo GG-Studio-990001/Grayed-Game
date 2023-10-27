@@ -10,4 +10,4 @@ ScriptedImporter:
   script: {fileID: 11500000, guid: 053561912b1654d80a424bb0696a74ae, type: 3}
   useAddressableAssets: 0
   UseUnityLocalisationSystem: 1
-  unityLocalisationStringTableCollection: {fileID: 11400000, guid: ebdaf6b284f686042b0b540189f0bdda, type: 2}
+  unityLocalisationStringTableCollection: {fileID: 11400000, guid: 91fed2fff48c46d47b30baa0edc0123e, type: 2}
