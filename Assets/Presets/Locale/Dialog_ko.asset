@@ -81,6 +81,69 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 6331315019174903822
+  - m_Id: 1854147833438208
+    m_Localized: "\uD638\uB791\uC774: \uC5B4\uD765!"
+    m_Metadata:
+      m_Items:
+      - rid: 6331315134268178434
+  - m_Id: 1854147846021120
+    m_Localized: "\uD638\uB791\uC774: \uC7A1\uC544\uBA39\uACA0\uB2E4!"
+    m_Metadata:
+      m_Items:
+      - rid: 6331315134268178435
+  - m_Id: 1854147846021121
+    m_Localized: "\uB098: \uC81C\uBC1C \uBAA9\uC228\uB9CC\uC740 \uC0B4\uB824\uC8FC\uC138\uC694!"
+    m_Metadata:
+      m_Items:
+      - rid: 6331315134268178436
+  - m_Id: 1854147846021122
+    m_Localized: "\uD638\uB791\uC774: \uB1CC\uBB3C\uC774\uB77C\uBA74 \uC0DD\uAC01\uD574\uBCF4\uC9C0"
+    m_Metadata:
+      m_Items:
+      - rid: 6331315134268178437
+  - m_Id: 1854147846021123
+    m_Localized: "\uB098: \uB5A1\uC774\uB77C\uB3C4 \uB4DC\uB9B4\uAC8C\uC694!"
+    m_Metadata:
+      m_Items:
+      - rid: 6331315134268178438
+  - m_Id: 1854147846021124
+    m_Localized: "\uB098: \uB2E4\uB978 \uC0AC\uB78C\uC744 \uB4DC\uB9B4\uAC8C\uC694!"
+    m_Metadata:
+      m_Items:
+      - rid: 6331315134268178439
+  - m_Id: 1854147846021125
+    m_Localized: "\uD638\uB791\uC774: \uB09C \uB2F9\uC7A5 \uBC30\uAC00 \uACE0\uD504\uB2E8
+      \uB9D0\uC774\uB2E4!"
+    m_Metadata:
+      m_Items:
+      - rid: 6331315134268178440
+  - m_Id: 1854147846021126
+    m_Localized: "\uB098: \uB5A1 \uD558\uB098 \uC904\uD14C\uB2C8\uAE4C \uBD10\uC8FC\uC138\uC694!"
+    m_Metadata:
+      m_Items:
+      - rid: 6331315134268178441
+  - m_Id: 1854147846021127
+    m_Localized: "\uB098: \uB09C \uC774\uB807\uAC8C \uC8FD\uB294\uAD6C\uB098! \uC138\uC0C1\uC544
+      \uC548\uB155!"
+    m_Metadata:
+      m_Items:
+      - rid: 6331315134268178442
+  - m_Id: 1854147846021128
+    m_Localized: "\uD638\uB791\uC774: \uD760... \uB5A1\uC774\uB77C\uACE0?"
+    m_Metadata:
+      m_Items:
+      - rid: 6331315134268178443
+  - m_Id: 1854147846021129
+    m_Localized: "\uD638\uB791\uC774: \uBA87 \uAC1C\uB098 \uC904 \uC218 \uC788\uB294\uB370?"
+    m_Metadata:
+      m_Items:
+      - rid: 6331315134268178444
+  - m_Id: 1854147846021130
+    m_Localized: "\uB098: \uC9D1\uC5D0 \uB9CE\uC544\uC694! \uC9D1\uC5D0\uB9CC \uB2E4\uB140\uC624\uAC8C
+      \uD574\uC8FC\uC138\uC694!"
+    m_Metadata:
+      m_Items:
+      - rid: 6331315134268178445
   references:
     version: 2
     RefIds:
@@ -142,6 +205,68 @@ MonoBehaviour:
         nodeName: Dduk
         tags: []
     - rid: 6331315019174903822
+      type: {class: LineMetadata, ns: Yarn.Unity.UnityLocalization, asm: YarnSpinner.Unity}
+      data:
+        nodeName: Dduk
+        tags: []
+    - rid: 6331315134268178434
+      type: {class: LineMetadata, ns: Yarn.Unity.UnityLocalization, asm: YarnSpinner.Unity}
+      data:
+        nodeName: NewYarnScript
+        tags: []
+    - rid: 6331315134268178435
+      type: {class: LineMetadata, ns: Yarn.Unity.UnityLocalization, asm: YarnSpinner.Unity}
+      data:
+        nodeName: NewYarnScript
+        tags:
+        - lastline
+    - rid: 6331315134268178436
+      type: {class: LineMetadata, ns: Yarn.Unity.UnityLocalization, asm: YarnSpinner.Unity}
+      data:
+        nodeName: NewYarnScript
+        tags: []
+    - rid: 6331315134268178437
+      type: {class: LineMetadata, ns: Yarn.Unity.UnityLocalization, asm: YarnSpinner.Unity}
+      data:
+        nodeName: NewYarnScript
+        tags:
+        - lastline
+    - rid: 6331315134268178438
+      type: {class: LineMetadata, ns: Yarn.Unity.UnityLocalization, asm: YarnSpinner.Unity}
+      data:
+        nodeName: NewYarnScript
+        tags: []
+    - rid: 6331315134268178439
+      type: {class: LineMetadata, ns: Yarn.Unity.UnityLocalization, asm: YarnSpinner.Unity}
+      data:
+        nodeName: NewYarnScript
+        tags: []
+    - rid: 6331315134268178440
+      type: {class: LineMetadata, ns: Yarn.Unity.UnityLocalization, asm: YarnSpinner.Unity}
+      data:
+        nodeName: NewYarnScript
+        tags: []
+    - rid: 6331315134268178441
+      type: {class: LineMetadata, ns: Yarn.Unity.UnityLocalization, asm: YarnSpinner.Unity}
+      data:
+        nodeName: NewYarnScript
+        tags: []
+    - rid: 6331315134268178442
+      type: {class: LineMetadata, ns: Yarn.Unity.UnityLocalization, asm: YarnSpinner.Unity}
+      data:
+        nodeName: NewYarnScript
+        tags: []
+    - rid: 6331315134268178443
+      type: {class: LineMetadata, ns: Yarn.Unity.UnityLocalization, asm: YarnSpinner.Unity}
+      data:
+        nodeName: Dduk
+        tags: []
+    - rid: 6331315134268178444
+      type: {class: LineMetadata, ns: Yarn.Unity.UnityLocalization, asm: YarnSpinner.Unity}
+      data:
+        nodeName: Dduk
+        tags: []
+    - rid: 6331315134268178445
       type: {class: LineMetadata, ns: Yarn.Unity.UnityLocalization, asm: YarnSpinner.Unity}
       data:
         nodeName: Dduk
