@@ -2,7 +2,7 @@ using Runtime.UI.Settings;
 
 namespace Runtime.UI
 {
-    public class PresenterFactory
+    public static class PresenterFactory
     {
         public static SettingsUIPresenter CreateSettingsUIPresenter(SettingsUIView view)
         {

@@ -11,7 +11,7 @@ namespace Runtime.UI.Settings
         {
             _presenter = PresenterFactory.CreateSettingsUIPresenter(this);
             
-            _presenter.OnViewCreated();
+            _presenter.InitializeSettings();
         }
 
         public void SetMusicVolume(float volume)
