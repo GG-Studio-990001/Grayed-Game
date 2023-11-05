@@ -6,6 +6,8 @@ namespace Runtime.UI.Settings
     public class SettingsUIView : MonoBehaviour
     {
         private SettingsUIPresenter _presenter;
+        
+        
 
         private void Start()
         {
@@ -16,7 +18,7 @@ namespace Runtime.UI.Settings
 
         public void SetMusicVolume(float volume)
         {
-            
+           
         }
     }
 }

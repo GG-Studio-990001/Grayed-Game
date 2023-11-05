@@ -7,21 +7,22 @@ namespace Tests.Editor
     [TestFixture]
     public class SettingsUIPresenterTests
     {
-        [Test]
-        public void DummyTest()
+        private SettingsUIView _view;
+        private SettingsUIPresenter _presenter;
+        
+        [SetUp]
+        public void SetUp()
         {
-            Assert.IsTrue(true);
+            _view = Substitute.For<SettingsUIView>();
+            _presenter = new SettingsUIPresenter(_view);
         }
         
         [Test]
-        public void InitializeSettingsSetsMusicVolume()
+        public void InitializeSettings()
         {
-            // var view = Substitute.For<SettingsUIView>();
-            // var presenter = new SettingsUIPresenter(view);
-            //
-            // presenter.InitializeSettings();
-            //
-            // view.Received().SetMusicVolume(0.5f);
+            _presenter.InitializeSettings();
+            
+            _view.Received().SetMusicVolume(0.5f);
         }
     }
 }
