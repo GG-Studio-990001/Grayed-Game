@@ -191,6 +191,13 @@
       },
       "url": "https://package.openupm.com"
     },
+    "net.tnrd.nsubstitute": {
+      "version": "https://github.com/Thundernerd/Unity3D-NSubstitute.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "eec6769f8e3f904c00755e1aa1f491088bd76d9f"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
