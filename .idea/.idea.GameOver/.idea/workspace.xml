@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b92e3963-3ac6-4419-ae77-cd6c1cffc83d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/UITest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/UITest.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.GameOver/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GameOver/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/UI/Settings.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tests/Editor/FirstRunTimeTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tests/Editor/SettingsUIPresenterTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tests/Editor/FirstRunTimeTest.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tests/Editor/SettingsUIPresenterTest.cs.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +19,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/Learning.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Runtime/UI/TriviaGamePresenter.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Tests/Editor/FirstRunTimeTest.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Tests/Editor/SettingsUIPresenterTest.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -122,6 +121,7 @@
       <workItem from="1698776930814" duration="1144000" />
       <workItem from="1698858932090" duration="213000" />
       <workItem from="1698918983341" duration="1737000" />
+      <workItem from="1699219025128" duration="375000" />
     </task>
     <servers />
   </component>
