@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b92e3963-3ac6-4419-ae77-cd6c1cffc83d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/CH1/Main/TopDownAnimation.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/CH1/Main/TopDownAnimation.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Tests/Editor/TopDownPlayerTests.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Tests/Editor/TopDownPlayerTests.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GameOver/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GameOver/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Sample/Sprout Lands - Sprites - Basic pack/Characters/Basic Charakter Spritesheet.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Sample/Sprout Lands - Sprites - Basic pack/Characters/Basic Charakter Spritesheet.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TopDownTest.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TopDownTest.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/CH1/Main/TopDownPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/CH1/Main/TopDownPlayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Sample/Anim/Player.controller" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Sample/Anim/Player.controller.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +126,7 @@
       <workItem from="1698918983341" duration="1737000" />
       <workItem from="1699219025128" duration="837000" />
       <workItem from="1699219881832" duration="7180000" />
-      <workItem from="1699267897396" duration="3734000" />
+      <workItem from="1699267897396" duration="6088000" />
     </task>
     <servers />
   </component>
