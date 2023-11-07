@@ -158,6 +158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  animSpeed: 0.5
 --- !u!4 &212840503
 Transform:
   m_ObjectHideFlags: 0
@@ -1403,7 +1404,7 @@ GameObject:
   - component: {fileID: 1267319288}
   m_Layer: 0
   m_Name: ---System---
-  m_TagString: Untagged
+  m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1547,7 +1548,7 @@ GameObject:
   - component: {fileID: 1683366823}
   m_Layer: 0
   m_Name: ---Environment---
-  m_TagString: Untagged
+  m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
