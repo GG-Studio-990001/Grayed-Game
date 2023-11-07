@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.febucci.custom-hierarchy": {
+      "version": "https://github.com/febucci/unitypackage-custom-hierarchy.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "093baf4e09c2cd21c284303a977ec112a43041a7"
+    },
     "com.unity.2d.animation": {
       "version": "9.0.4",
       "depth": 0,
