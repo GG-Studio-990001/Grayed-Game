@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.febucci.custom-hierarchy": "https://github.com/febucci/unitypackage-custom-hierarchy.git",
     "com.unity.2d.animation": "9.0.4",
     "com.unity.2d.pixel-perfect": "5.0.3",
     "com.unity.2d.sprite": "1.0.0",
