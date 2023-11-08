@@ -1,22 +1,24 @@
 using System;
+using UnityEngine;
 
 namespace Runtime.Common.Domain
 {
-    public class SettingsData
+    [CreateAssetMenu(fileName = "SettingsData", menuName = "ScriptableObject/SettingsData", order = 0)]
+    public class SettingsData : ScriptableObject
     {
+        [SerializeField][Range(0, 1)] private float musicVolume;
+        [SerializeField][Range(0, 1)] private float sfxVolume;
+        
         public float MusicVolume
         {
-            get => _musicVolume;
-            set { Math.Clamp(value, 0, 1); _musicVolume = value; }
+            get => musicVolume;
+            set { Math.Clamp(value, 0, 1); musicVolume = value; }
         }
         
         public float SfxVolume
         {
-            get => _sfxVolume;
-            set { Math.Clamp(value, 0, 1); _sfxVolume = value; }
+            get => sfxVolume;
+            set { Math.Clamp(value, 0, 1); sfxVolume = value; }
         }
-        
-        private float _musicVolume = 1;
-        private float _sfxVolume = 1;
     }
 }
