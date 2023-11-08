@@ -3,62 +3,69 @@ using NUnit.Framework;
 using Runtime.Common.Domain;
 using Runtime.Common.Presentation;
 using Runtime.Common.View;
+using UnityEngine;
 
 namespace Tests.Editor
 {
     [TestFixture]
     public class SettingsUIPresenterTests
     {
-        private SettingsUIView _settingsUIView;
-        private SettingsData _settingsData;
-        private SettingsUIPresenter _settingsUIPresenter;
+        private SettingsUIView _view;
+        private SettingsData _model;
+        private SettingsUIPresenter _presenter;
         
         [SetUp]
         public void SetUp()
         {
-            _settingsUIView = Substitute.For<SettingsUIView>();
-            _settingsData = new SettingsData();
-            _settingsUIPresenter = new SettingsUIPresenter(_settingsUIView, _settingsData);
-        }
-        
-        [Test]
-        public void WhenMusicVolumeChangesThenMusicVolumeIsSet()
-        {
-            _settingsUIPresenter.SetMusicVolume(0.5f);
-
-            Assert.AreEqual(0.5f, _settingsData.MusicVolume);
-        }
-        
-        [Test]
-        public void WhenMusicVolumeChangesThenMusicVolumeIsSetOnView()
-        {
-            _settingsUIPresenter.SetMusicVolume(0.5f);
+            _view = Substitute.For<SettingsUIView>();
+            _model = ScriptableObject.CreateInstance<SettingsData>();
+            _presenter = new SettingsUIPresenter(_view, _model);
             
-            _settingsUIView.Received(1).SetMusicVolume(0.5f);
+            _model.MusicVolume = 0.5f;
+            _model.SfxVolume = 0.5f;
         }
         
         [Test]
-        public void WhenSfxVolumeChangesThenSfxVolumeIsSet()
+        public void CheckInitialValue()
         {
-            _settingsUIPresenter.SetSfxVolume(0.5f);
-
-            Assert.AreEqual(0.5f, _settingsData.SfxVolume);
+            Assert.AreEqual(0.5f, _model.MusicVolume);
+            Assert.AreEqual(0.5f, _model.SfxVolume);
         }
         
         [Test]
-        public void WhenSfxVolumeChangesThenSfxVolumeIsSetOnView()
+        public void WhenMusicVolumeChangesViewIsUpdated()
         {
-            _settingsUIPresenter.SetSfxVolume(0.5f);
-            
-            _settingsUIView.Received(1).SetSfxVolume(0.5f);
+            _presenter.SetMusicVolume(0.75f);
+            _view.Received(1).SetViewMusicVolume(0.75f);
         }
         
-        [TearDown]
-        public void TearDown()
+        [Test]
+        public void WhenSfxVolumeChangesViewIsUpdated()
         {
-            _settingsUIView = null;
-            _settingsData = null;
-            _settingsUIPresenter = null;
+            _presenter.SetSfxVolume(0.3f);
+            _view.Received(1).SetViewSfxVolume(0.3f);
         }
+        
+        [Test]
+        public void WhenMusicVolumeChangesModelIsUpdated()
+        {
+            _presenter.SetMusicVolume(0.75f);
+            Assert.AreEqual(0.75f, _model.MusicVolume);
+        }
+        
+        [Test]
+        public void WhenSfxVolumeChangesModelIsUpdated()
+        {
+            _presenter.SetSfxVolume(0.3f);
+            Assert.AreEqual(0.3f, _model.SfxVolume);
+        }
+        
+        [Test]
+        public void WhenMusicVolumeChagesEqualModelAndPresenter()
+        {
+            _model.MusicVolume = 0.31f;
+            Assert.AreEqual(_presenter.SettingsData.MusicVolume, _model.MusicVolume);
+        }
+        
     }
 }
