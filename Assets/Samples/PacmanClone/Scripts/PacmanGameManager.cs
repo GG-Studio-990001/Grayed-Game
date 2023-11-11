@@ -110,7 +110,10 @@ public class PacmanGameManager : MonoBehaviour
 
     public void PowerPelletEaten(PowerPellet pellet)
     {
-        // TODO: Changing ghost state
+        for (int i = 0; i < this.ghosts.Length; i++)
+        {
+            this.ghosts[i].frightend.Enable(pellet.duration);
+        }
 
         PelletEaten(pellet);
 
