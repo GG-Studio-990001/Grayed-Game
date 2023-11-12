@@ -11,6 +11,7 @@ namespace Tests.Editor
         private TopDownPlayer _player;
         private TopDownMovement _movement;
         private TopDownAnimation _animation;
+        private TopDownInteraction _interaction;
         
         [SetUp]
         public void SetUp()
@@ -18,10 +19,13 @@ namespace Tests.Editor
             _playerObject = new GameObject("Player");
             
             _player = _playerObject.AddComponent<TopDownPlayer>();
+            _player.transform.position = Vector3.zero;
+            
             Animator animator = _playerObject.AddComponent<Animator>();
             
             _movement = new TopDownMovement(5.0f, _player.transform);
             _animation = new TopDownAnimation(_player.GetComponent<Animator>(), 0.5f);
+            _interaction = new TopDownInteraction(_player.transform, LayerMask.GetMask("Object"), 2f);
             
             // TODO 에섯 변경되는대로 수정
             animator.runtimeAnimatorController = Resources.Load("Sample/Player") as RuntimeAnimatorController;
@@ -57,6 +61,26 @@ namespace Tests.Editor
             bool isMoving = animator.GetBool("IsMoving");
             
             Assert.IsTrue(isMoving);
+        }
+        
+        [Test]
+        public void TestPlayerInteraction()
+        {
+            GameObject interactionObject = new GameObject("InteractionObject");
+            interactionObject.transform.position = new Vector3(1.0f, 0.0f, 0.0f);
+            interactionObject.layer = LayerMask.NameToLayer("Object");
+            
+            Assert.IsTrue(_interaction.Interact(Vector2.right));
+        }
+        
+        [Test]
+        public void TestPlayerInteractionFail()
+        {
+            GameObject interactionObject = new GameObject("InteractionObject");
+            interactionObject.transform.position = new Vector3(-3.0f, 0.0f, 0.0f);
+            interactionObject.layer = LayerMask.NameToLayer("Object");
+            
+            Assert.IsFalse(_interaction.Interact(Vector2.left));
         }
     }
 }

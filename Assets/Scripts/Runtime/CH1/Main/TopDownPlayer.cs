@@ -13,6 +13,9 @@ namespace Runtime.CH1.Main
         private Vector2 _movementInput;
         private TopDownMovement _movement;
         private TopDownAnimation _animation;
+        private TopDownInteraction _interaction;
+        
+        private const string Interaction = "Object";
         
         private void Awake()
         {
@@ -23,11 +26,8 @@ namespace Runtime.CH1.Main
                 throw new NullReferenceException("Animator is null");
             }
             _animation = new TopDownAnimation(GetComponent<Animator>(), animSpeed);
-        }
-
-        private void OnMove(InputValue value)
-        {
-            _movementInput = value.Get<Vector2>();
+            
+            _interaction = new TopDownInteraction(transform, LayerMask.GetMask(Interaction));
         }
         
         private void Update()
@@ -39,6 +39,15 @@ namespace Runtime.CH1.Main
         {
             _movement.Move(_movementInput);
         }
+
+        private void OnMove(InputValue value)
+        {
+            _movementInput = value.Get<Vector2>();
+        }
         
+        private void OnInteraction(InputValue value)
+        {
+            _interaction.Interact(_movement.Direction);
+        }
     }
 }

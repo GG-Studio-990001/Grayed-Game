@@ -4,6 +4,8 @@ namespace Runtime.CH1.Main
 {
     public class TopDownMovement
     {
+        public Vector2 Direction => _previousMovementInput;
+        
         private readonly Transform _transform;
         private readonly float _moveSpeed = 5.0f;
         private Vector2 _previousMovementInput;
