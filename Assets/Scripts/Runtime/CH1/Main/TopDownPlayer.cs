@@ -14,10 +14,14 @@ namespace Runtime.CH1.Main
         private TopDownMovement _movement;
         private TopDownAnimation _animation;
         
-
         private void Awake()
         {
             _movement = new TopDownMovement(moveSpeed, transform);
+            
+            if (GetComponent<Animator>() == null)
+            {
+                throw new NullReferenceException("Animator is null");
+            }
             _animation = new TopDownAnimation(GetComponent<Animator>(), animSpeed);
         }
 
