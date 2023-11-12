@@ -16,7 +16,7 @@ namespace Runtime.CH1.Main
         private TopDownInteraction _interaction;
         
         private const string Interaction = "Object";
-        
+
         private void Awake()
         {
             _movement = new TopDownMovement(moveSpeed, transform);
