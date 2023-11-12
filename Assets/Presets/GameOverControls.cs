@@ -15,10 +15,10 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public partial class @NewControls: IInputActionCollection2, IDisposable
+public partial class @GameOverControls: IInputActionCollection2, IDisposable
 {
     public InputActionAsset asset { get; }
-    public @NewControls()
+    public @GameOverControls()
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""New Controls"",
@@ -251,8 +251,8 @@ public partial class @NewControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     public struct PlayerActions
     {
-        private @NewControls m_Wrapper;
-        public PlayerActions(@NewControls wrapper) { m_Wrapper = wrapper; }
+        private @GameOverControls m_Wrapper;
+        public PlayerActions(@GameOverControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -297,8 +297,8 @@ public partial class @NewControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Click;
     public struct UIActions
     {
-        private @NewControls m_Wrapper;
-        public UIActions(@NewControls wrapper) { m_Wrapper = wrapper; }
+        private @GameOverControls m_Wrapper;
+        public UIActions(@GameOverControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Click => m_Wrapper.m_UI_Click;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
