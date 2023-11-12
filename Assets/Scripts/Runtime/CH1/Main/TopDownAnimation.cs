@@ -7,6 +7,10 @@ namespace Runtime.CH1.Main
         private Animator _animator;
         private float _animationSpeed;
         
+        private const string IsMoving = "IsMoving";
+        private const string Horizontal = "Horizontal";
+        private const string Vertical = "Vertical";
+        
         public TopDownAnimation(Animator animator, float animationSpeed = 1.0f)
         {
             _animator = animator;
@@ -20,14 +24,14 @@ namespace Runtime.CH1.Main
             // TODO 리터럴값 제거, 애니메이션 확장되는대로
             if (movementInput == Vector2.zero)
             {
-                _animator.SetBool("IsMoving", false);
+                _animator.SetBool(IsMoving, false);
                 return;
             }
             
-            _animator.SetBool("IsMoving", true);
+            _animator.SetBool(IsMoving, true);
             
-            _animator.SetFloat("Horizontal", movementInput.x);
-            _animator.SetFloat("Vertical", movementInput.y);
+            _animator.SetFloat(Horizontal, movementInput.x);
+            _animator.SetFloat(Vertical, movementInput.y);
         }
     }
 }
