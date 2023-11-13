@@ -1,3 +1,4 @@
+using Runtime.CH1.Main.PlayerFunction;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -45,7 +46,7 @@ namespace Runtime.CH1.Main
             _movementInput = value.Get<Vector2>();
         }
         
-        private void OnInteraction(InputValue value)
+        private void OnInteraction()
         {
             _interaction.Interact(_movement.Direction);
         }

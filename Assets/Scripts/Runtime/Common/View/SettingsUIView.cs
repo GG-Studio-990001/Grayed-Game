@@ -6,11 +6,11 @@ namespace Runtime.Common.View
 {
     public class SettingsUIView : MonoBehaviour
     {
-        private SettingsUIPresenter _presenter;
-        
         [SerializeField] private Slider musicVolumeSlider;
         [SerializeField] private Slider sfxVolumeSlider;
-
+        
+        private SettingsUIPresenter _presenter;
+        
         private void Start()
         {
             _presenter = PresenterFactory.CreateSettingsUIPresenter(this);

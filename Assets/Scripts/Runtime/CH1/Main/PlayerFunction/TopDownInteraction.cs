@@ -1,13 +1,13 @@
-using Runtime.Common;
+using Runtime.CH1.Main.Interface;
 using UnityEngine;
 
-namespace Runtime.CH1.Main
+namespace Runtime.CH1.Main.PlayerFunction
 {
     public class TopDownInteraction
     {
-        private int _interactionLayerMask;
-        private Transform _transform;
-        private float _interactionDistance;
+        private readonly int _interactionLayerMask;
+        private readonly Transform _transform;
+        private readonly float _interactionDistance;
         
         public TopDownInteraction(Transform transform, int interactionLayerMask, float interactionDistance = 1.0f)
         {
@@ -22,7 +22,7 @@ namespace Runtime.CH1.Main
             
             if (hit.collider != null)
             {
-                hit.collider.GetComponent<Interactive>()?.Interact();
+                hit.collider.GetComponent<IInteractive>()?.Interact();
                 return true;
             }
             
