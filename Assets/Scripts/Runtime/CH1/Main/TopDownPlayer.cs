@@ -1,3 +1,4 @@
+using Runtime.CH1.Main.PlayerFunction;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;

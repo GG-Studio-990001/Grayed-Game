@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Runtime.CH1.Main;
+using Runtime.CH1.Main.PlayerFunction;
 using UnityEngine;
 
 namespace Tests.Editor

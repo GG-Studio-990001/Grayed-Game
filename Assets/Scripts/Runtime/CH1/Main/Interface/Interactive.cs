@@ -1,6 +1,6 @@
-namespace Runtime.Common
+namespace Runtime.CH1.Main.Interface
 {
-    public interface Interactive
+    public interface IInteractive
     {
         public void Interact();
     }

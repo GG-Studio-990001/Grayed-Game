@@ -1,9 +1,8 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Runtime.CH1.Main
 {
-    public class CH1GameController : MonoBehaviour
+    public class Ch1GameController : MonoBehaviour
     {
         [SerializeField] private GameObject gameSettingUI;
         
