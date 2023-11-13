@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Tests.Editor
 {
     [TestFixture]
-    public class SettingsUIPresenterTests
+    public class SettingsUITests
     {
         private SettingsUIView _view;
         private SettingsData _model;
