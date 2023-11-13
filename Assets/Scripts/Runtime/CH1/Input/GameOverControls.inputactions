@@ -1,5 +1,5 @@
 {
-    "name": "New Controls",
+    "name": "GameOverControls",
     "maps": [
         {
             "name": "Player",
@@ -160,6 +160,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "GameSetting",
+                    "type": "Button",
+                    "id": "1d0fe5c3-eb98-487a-898d-7436f0744739",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -171,6 +180,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5926c339-de06-491c-b93c-f7b2556b7ee5",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GameSetting",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
