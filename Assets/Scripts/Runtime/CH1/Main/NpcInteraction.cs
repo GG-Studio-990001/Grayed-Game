@@ -7,10 +7,10 @@ namespace Runtime.CH1.Main
 {
     public class NpcInteraction : MonoBehaviour, IInteractive
     {
-        private DialogueUIPresenter _presenter;
-        
-        public void Interact()
+        public bool Interact()
         {
+            return true;
+            
             Debug.Log("Test");
         }
     }
