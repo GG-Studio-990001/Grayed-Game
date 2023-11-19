@@ -12,7 +12,6 @@ namespace Runtime.CH1.Pacmom
         private void Start()
         {
             ResetState();
-            movement.ResetState();
         }
 
         public void ResetState()
@@ -21,6 +20,7 @@ namespace Runtime.CH1.Pacmom
             {
                 gameObject.SetActive(true);
             }
+            movement.ResetState();
         }
 
         private void FixedUpdate()
