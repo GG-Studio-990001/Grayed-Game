@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace Runtime.CH1.Pacmom
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class RapleyMovement : MonoBehaviour
     {
-        public Rigidbody2D rigid { get; private set; }
+        public Rigidbody2D rigid;
         public Vector2 direction { get; private set; }
         public Vector2 nextDirection { get; private set; }
         public Vector3 startingPosition { get; private set; }
