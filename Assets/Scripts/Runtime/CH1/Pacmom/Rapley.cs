@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 
 namespace Runtime.CH1.Pacmom
 {
-    [RequireComponent(typeof(Rigidbody2D))]
     public class Rapley : MonoBehaviour
     {
         public RapleyMovement movement;
