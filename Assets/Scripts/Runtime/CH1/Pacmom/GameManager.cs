@@ -22,6 +22,8 @@ namespace Runtime.CH1.Pacmom
             {
                 coin.gameObject.SetActive(true);
             }
+
+            rapley.ResetState();
         }
 
         private void SetRapleyScore(int score)
@@ -37,6 +39,7 @@ namespace Runtime.CH1.Pacmom
             if (!HasRemainingCoins())
             {
                 Debug.Log("Game Clear! 3초 뒤 재시작");
+                rapley.gameObject.SetActive(false);
                 Invoke("NewGame", 3f);
             }
         }
