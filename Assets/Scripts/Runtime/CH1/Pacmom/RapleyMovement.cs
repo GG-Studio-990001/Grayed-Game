@@ -14,12 +14,13 @@ namespace Runtime.CH1.Pacmom
         public float speed = 8f;
         public float speedMultiplier = 1f; // 팩맘의 청소기 습득 시 속도 변화를 위한 변수
 
-        public LayerMask obstacleLayer;
+        public LayerMask obstacleLayer { get; private set; }
 
         private void Awake()
         {
             rigid = GetComponent<Rigidbody2D>();
             startingPosition = transform.position;
+            obstacleLayer = LayerMask.GetMask("Obstacle");
         }
 
         private void Update()

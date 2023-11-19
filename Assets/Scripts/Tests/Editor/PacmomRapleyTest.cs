@@ -31,7 +31,7 @@ namespace Tests.Editor
         public void TestObstacleDetect()
         {
             // 시작 위치에서 좌우로 뚫려있음
-            player.GetComponent<RapleyMovement>().obstacleLayer = LayerMask.GetMask("Obstacle");
+            //player.GetComponent<RapleyMovement>().obstacleLayer = LayerMask.GetMask("Obstacle");
             Assert.AreEqual(false, player.GetComponent<RapleyMovement>().CheckRoadBlocked(new Vector2(1, 0)));
         }
 
@@ -39,7 +39,7 @@ namespace Tests.Editor
         public void TestNoObstacleDetect()
         {
             // 시작 위치에서 위아래로 막혀있음
-            player.GetComponent<RapleyMovement>().obstacleLayer = LayerMask.GetMask("Obstacle");
+            //player.GetComponent<RapleyMovement>().obstacleLayer = LayerMask.GetMask("Obstacle");
             Assert.AreEqual(true, player.GetComponent<RapleyMovement>().CheckRoadBlocked(new Vector2(0, 1)));
         }
     }
