@@ -9,9 +9,9 @@ namespace Runtime.CH1.Main
     {
         public bool Interact()
         {
-            return true;
-            
             Debug.Log("Test");
+            
+            return true;
         }
     }
 }

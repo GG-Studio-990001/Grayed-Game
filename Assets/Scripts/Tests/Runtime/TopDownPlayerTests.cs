@@ -36,7 +36,7 @@ namespace Tests.Runtime
             
             _movement = new TopDownMovement(5.0f, _player.transform);
             _animation = new TopDownAnimation(_player.GetComponent<Animator>(), 0.5f);
-            _interaction = new TopDownInteraction(_player.transform, LayerMask.GetMask("Object"), 2f);
+            _interaction = new TopDownInteraction(_player.transform, LayerMask.GetMask("Object"), 1f);
         }
         
         [UnityTest]
@@ -78,7 +78,7 @@ namespace Tests.Runtime
             
             Assert.IsTrue(_interaction.Interact(Vector2.right));
             
-            GameObject.Destroy(interactionObject);
+            GameObject.DestroyImmediate(interactionObject);
         }
         
         [UnityTest]
@@ -89,13 +89,13 @@ namespace Tests.Runtime
             interactionObject.AddComponent<NpcInteraction>();
             interactionObject.layer = LayerMask.NameToLayer("Object");
             
-            interactionObject.transform.position = new Vector3(0.0f, 3.0f, 0.0f);
+            interactionObject.transform.position = new Vector3(1.0f, 0.0f, 0.0f);
             
             yield return null;
             
-            Assert.IsFalse(_interaction.Interact(Vector2.right));
+            Assert.IsFalse(_interaction.Interact(Vector2.left));
             
-            GameObject.Destroy(interactionObject);
+            GameObject.DestroyImmediate(interactionObject);
         }
         
         [UnityTearDown]

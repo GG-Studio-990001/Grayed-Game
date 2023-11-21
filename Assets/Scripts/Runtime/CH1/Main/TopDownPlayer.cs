@@ -45,6 +45,7 @@ namespace Runtime.CH1.Main
         
         private void OnInteraction()
         {
+            Debug.Log("Interaction"+_movement.Direction);
             _interaction.Interact(_movement.Direction);
         }
     }
