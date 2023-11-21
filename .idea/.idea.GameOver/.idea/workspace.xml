@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b92e3963-3ac6-4419-ae77-cd6c1cffc83d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/CH1/Pacmom/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/CH1/Pacmom/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/CH1/Main/PlayerFunction/TopDownInteraction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/CH1/Main/PlayerFunction/TopDownInteraction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tests/Runtime/TopDownPlayerTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tests/Runtime/TopDownPlayerTests.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,6 +131,7 @@
       <workItem from="1699813768016" duration="647000" />
       <workItem from="1699862966646" duration="5545000" />
       <workItem from="1700410989330" duration="4839000" />
+      <workItem from="1700575152776" duration="3214000" />
     </task>
     <servers />
   </component>
