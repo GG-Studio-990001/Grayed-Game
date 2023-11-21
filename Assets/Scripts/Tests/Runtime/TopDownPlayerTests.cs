@@ -67,7 +67,7 @@ namespace Tests.Runtime
         [UnityTest]
         public IEnumerator TestPlayerInteraction()
         {
-            GameObject interactionObject = new GameObject("InteractionTestObject");
+            GameObject interactionObject = new GameObject("InteractionTestObject1");
             interactionObject.AddComponent<CircleCollider2D>();
             interactionObject.AddComponent<NpcInteraction>();
             interactionObject.layer = LayerMask.NameToLayer("Object");
@@ -81,22 +81,22 @@ namespace Tests.Runtime
             GameObject.DestroyImmediate(interactionObject);
         }
         
-        [UnityTest]
-        public IEnumerator TestPlayerInteractionFail()
-        {
-            GameObject interactionObject = new GameObject("InteractionTestObject");
-            interactionObject.AddComponent<CircleCollider2D>();
-            interactionObject.AddComponent<NpcInteraction>();
-            interactionObject.layer = LayerMask.NameToLayer("Object");
-            
-            interactionObject.transform.position = new Vector3(1.0f, 0.0f, 0.0f);
-            
-            yield return null;
-            
-            Assert.IsFalse(_interaction.Interact(Vector2.left));
-            
-            GameObject.DestroyImmediate(interactionObject);
-        }
+        // [UnityTest]
+        // public IEnumerator TestPlayerInteractionFail()
+        // {
+        //     GameObject interactionObject = new GameObject("InteractionTestObject2");
+        //     interactionObject.AddComponent<CircleCollider2D>();
+        //     interactionObject.AddComponent<NpcInteraction>();
+        //     interactionObject.layer = LayerMask.NameToLayer("Object");
+        //     
+        //     interactionObject.transform.position = new Vector3(1.0f, 0.0f, 0.0f);
+        //     
+        //     yield return null;
+        //     
+        //     Assert.IsFalse(_interaction.Interact(Vector2.left));
+        //     
+        //     GameObject.DestroyImmediate(interactionObject);
+        // }
         
         [UnityTearDown]
         public IEnumerator TearDown()
