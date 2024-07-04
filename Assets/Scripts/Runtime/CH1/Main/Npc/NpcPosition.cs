@@ -19,7 +19,7 @@ namespace Runtime.CH1.Main.Npc
 
         // 0:초기 1:씬1.1(추가) 2:씬1 이후 3:씬2 시작 4:씬2 이동자리
         // 5:동굴 출구 앞(다리건넌 후) 6:동굴에서 나온 후 (알투몬 조정)
-        // 7: 맵3으로 이동하는 1차 위치 8: 맵3의 기본 위치
+        // 7: 맵3으로 이동하는 1차 위치 8: 씬4에서 맵3 초반 위치 9: 씬4 이후 맵3 위치
 
         public void LoadNpcPosition()
         {
@@ -44,9 +44,10 @@ namespace Runtime.CH1.Main.Npc
                 SetNpcPosition(6);
                 Debug.Log("동굴 출구 앞");
             }
-            else // if (Managers.Data.Scene == 4)
+            else
             {
-                SetNpcPosition(8);
+                // TODO: 9 지정 필요 (달러는 맵 바깥)
+                // SetNpcPosition(9);
                 Debug.Log("맵3");
             }
         }

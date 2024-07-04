@@ -19,8 +19,6 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private SLGActionComponent SLGAction;
         [SerializeField] private NpcDialogueController _npcDialogue;
         [SerializeField] private FadeController _fadeController;
-        // [SerializeField] private TimelineController _timelineController;
-        // [SerializeField] private Image _backgroundImage;
         [Header("=Else=")]
         [SerializeField] private GameObject _nameTag;
         [SerializeField] private Volume _volume;
@@ -58,6 +56,8 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler<bool>("ShakeMap", _cutScene.ShakeMap);
             _runner.AddCommandHandler("BreakBridge", _cutScene.BreakBridge);
             _runner.AddCommandHandler<int>("SetNpcPosition", _cutScene.SetNpcPosition);
+            // CutScene / Michael
+            _runner.AddCommandHandler<int>("MichaelAction", _cutScene.MichaelAction);
             // CutScene / Mamago
             _runner.AddCommandHandler("BuildCompany", _cutScene.BuildCompany);
             _runner.AddCommandHandler("CompleteSFX", _cutScene.CompleteSFX);

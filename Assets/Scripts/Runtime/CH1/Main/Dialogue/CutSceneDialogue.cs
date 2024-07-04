@@ -19,6 +19,7 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private Vector3 _r2monLocation;
         [SerializeField] private NpcBody _mamago;
         [SerializeField] private Vector3[] _mamagoLocation;
+        [SerializeField] private NpcBody _michael;
         [Header("=Else=")]
         [SerializeField] private GameObject[] _illerstration = new GameObject[2];
         [SerializeField] private GameObject _lucky;
@@ -26,6 +27,42 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private BridgeController _bridge;
         [SerializeField] private DialogueRunner _luckyDialogue;
         private Sequence _shakeTween;
+
+        // 무언가를 찾고있는 미카엘
+        // 미카엘 멈췄다가 도망가기
+        // 달러 따라가기
+        // 알투몬, 파머 제자리
+
+        public void MichaelAction(int i)
+        {
+            switch (i)
+            {
+                case 0:
+                    ShowMichael();
+                    break;
+                case 1:
+                    MichaelStop();
+                    break;
+                case 2:
+                    MichaelRun();
+                    break;
+            }
+        }
+
+        private void ShowMichael()
+        {
+            _michael.gameObject.SetActive(true);
+        }
+
+        private void MichaelStop()
+        {
+            
+        }
+
+        private void MichaelRun()
+        {
+
+        }
 
         public void SetR2MonPosition()
         {
@@ -77,13 +114,16 @@ namespace Runtime.CH1.Main.Dialogue
 
         public void SetNpcPosition(int i)
         {
-            if (i == 0) // 3매치 깬 후 위치
+            switch(i)
             {
-                NpcPos.SetNpcPosition(6);
-            }
-            else if (i == 1) // 맵3 위치
-            {
-                NpcPos.SetNpcPosition(8);
+                case 0:
+                    // 3매치 깬 후 동굴 앞
+                    NpcPos.SetNpcPosition(6);
+                    break;
+                case 1:
+                    // 씬4에서 맵3 처음 같이 갔을 때
+                    NpcPos.SetNpcPosition(8);
+                    break;
             }
         }
 
@@ -211,6 +251,9 @@ namespace Runtime.CH1.Main.Dialogue
                 case 3:
                     CharIdleDown();
                     break;
+                case 4:
+                    CharIdleRight();
+                    break;
                 default:
                     Debug.LogError("Invalid Move Number");
                     break;
@@ -222,6 +265,14 @@ namespace Runtime.CH1.Main.Dialogue
             for (int i = 0; i < 3; i++)
             {
                 _npc[i].Anim.SetAnimation(GlobalConst.IdleStr, Vector2.down);
+            }
+        }
+
+        private void CharIdleRight()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                _npc[i].Anim.SetAnimation(GlobalConst.IdleStr, Vector2.right);
             }
         }
 
