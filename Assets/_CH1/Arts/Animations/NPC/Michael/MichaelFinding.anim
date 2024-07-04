@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: R2-MonIdleDown
+  m_Name: MichaelFinding
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,9 +21,9 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 1777450768, guid: af165c0bbe2c792469aedcf3bf0edbf6, type: 3}
+      value: {fileID: -703293975, guid: b66621b6aeb6b3f45a592f258bc2130c, type: 3}
     - time: 0.083333336
-      value: {fileID: -878206044, guid: af165c0bbe2c792469aedcf3bf0edbf6, type: 3}
+      value: {fileID: 878518151, guid: b66621b6aeb6b3f45a592f258bc2130c, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,8 +46,8 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 1777450768, guid: af165c0bbe2c792469aedcf3bf0edbf6, type: 3}
-    - {fileID: -878206044, guid: af165c0bbe2c792469aedcf3bf0edbf6, type: 3}
+    - {fileID: -703293975, guid: b66621b6aeb6b3f45a592f258bc2130c, type: 3}
+    - {fileID: 878518151, guid: b66621b6aeb6b3f45a592f258bc2130c, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
