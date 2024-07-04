@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bd63aeb0120bc3b4c924ab7cdab03a0c
+guid: b66621b6aeb6b3f45a592f258bc2130c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Sprite_Michaelver2_0
+      name: Sprite_Michael_Black_0
       rect:
         serializedVersion: 2
         x: 0
@@ -137,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a883a753b024fde49a944000892e843d
-      internalID: 2009279540
+      spriteID: be6abd449f13f9c4db4f9004ea86ad61
+      internalID: -703293975
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Michaelver2_1
+      name: Sprite_Michael_Black_1
       rect:
         serializedVersion: 2
         x: 33
@@ -158,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 87e65aa0e21204d418b70150ad512496
-      internalID: 1158268265
+      spriteID: adb68fd330bcdd3419121b8ef249c244
+      internalID: 1029718387
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Michaelver2_2
+      name: Sprite_Michael_Black_2
       rect:
         serializedVersion: 2
         x: 66
@@ -179,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af8c5bb46df814c448e2bb13ad60af89
-      internalID: 1947839114
+      spriteID: fdf4e6bb8d881014781f1c1a64751c7e
+      internalID: -1640533586
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Michaelver2_3
+      name: Sprite_Michael_Black_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 0.5
         width: 33
-        height: 40
+        height: 40.5
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 157f3a3b822c8324b918393e7ff566e6
-      internalID: 841564117
+      spriteID: 97dc7c7cca72ce54597651db515480d5
+      internalID: -220328203
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Michaelver2_4
+      name: Sprite_Michael_Black_4
       rect:
         serializedVersion: 2
         x: 33
-        y: 0
+        y: 0.5
         width: 33
-        height: 40
+        height: 40.5
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -221,20 +221,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 46319d63c937ee14e996e50055ece3b7
-      internalID: -1435313493
+      spriteID: 07842d7386eea414088e0a225da83f9a
+      internalID: 1845760461
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Michaelver2_5
+      name: Sprite_Michael_Black_5
       rect:
         serializedVersion: 2
         x: 66
-        y: 0
+        y: 0.5
         width: 33
-        height: 40
+        height: 40.5
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -242,8 +242,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d478561413c3b64eaaedc1e9f485e29
-      internalID: -1967487061
+      spriteID: 7efa0dd2f82ad6140a39b70a332cb0c7
+      internalID: 878518151
       vertices: []
       indices: 
       edges: []
@@ -251,7 +251,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 729d0c18e7dfedc488e4d84b7fb27cc9
+    spriteID: a5de5afc1566ab24b86db84a61c6a1a8
     internalID: 0
     vertices: []
     indices: 
@@ -259,12 +259,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Sprite_Michaelver2_0: 2009279540
-      Sprite_Michaelver2_1: 1158268265
-      Sprite_Michaelver2_2: 1947839114
-      Sprite_Michaelver2_3: 841564117
-      Sprite_Michaelver2_4: -1435313493
-      Sprite_Michaelver2_5: -1967487061
+      Sprite_Michael_Black_0: -703293975
+      Sprite_Michael_Black_1: 1029718387
+      Sprite_Michael_Black_2: -1640533586
+      Sprite_Michael_Black_3: -220328203
+      Sprite_Michael_Black_4: 1845760461
+      Sprite_Michael_Black_5: 878518151
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
