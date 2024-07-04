@@ -28,10 +28,21 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private DialogueRunner _luckyDialogue;
         private Sequence _shakeTween;
 
-        // 무언가를 찾고있는 미카엘
-        // 미카엘 멈췄다가 도망가기
-        // 달러 따라가기
-        // 알투몬, 파머 제자리
+        public void NpcsMove()
+        {
+            _npc[1].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
+            _npc[1].transform.DOMove(new Vector3(69.5500031f, -13.6400003f, 0), 3f).SetEase(Ease.Linear);
+
+            _npc[2].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
+            _npc[2].transform.DOMove(new Vector3(74.2099991f, -14.3800001f, 0), 3f).SetEase(Ease.Linear);
+        }
+
+        public void Scene4End()
+        {
+            CharactersStop(3);
+            _npc[0].gameObject.SetActive(false);
+            _michael.gameObject.SetActive(false);
+        }
 
         public void MichaelAction(int i)
         {
@@ -56,12 +67,19 @@ namespace Runtime.CH1.Main.Dialogue
 
         private void MichaelStop()
         {
-            
+            _michael.GetComponent<Animator>().SetTrigger("Stop");
         }
 
         private void MichaelRun()
         {
+            _michael.Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
+            _michael.transform.DOMove(new Vector3(89.5400009f, -15.5799999f, 0), 3.5f).SetEase(Ease.Linear);
+        }
 
+        public void DallarRun()
+        {
+            _npc[0].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
+            _npc[0].transform.DOMove(new Vector3(89.5400009f, -15.5799999f, 0), 6f).SetEase(Ease.Linear);
         }
 
         public void SetR2MonPosition()

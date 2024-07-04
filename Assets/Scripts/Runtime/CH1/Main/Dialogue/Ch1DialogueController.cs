@@ -58,6 +58,9 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler<int>("SetNpcPosition", _cutScene.SetNpcPosition);
             // CutScene / Michael
             _runner.AddCommandHandler<int>("MichaelAction", _cutScene.MichaelAction);
+            _runner.AddCommandHandler("DallarRun", _cutScene.DallarRun);
+            _runner.AddCommandHandler("NpcsMove", _cutScene.NpcsMove);
+            _runner.AddCommandHandler("Scene4End", _cutScene.Scene4End);
             // CutScene / Mamago
             _runner.AddCommandHandler("BuildCompany", _cutScene.BuildCompany);
             _runner.AddCommandHandler("CompleteSFX", _cutScene.CompleteSFX);
