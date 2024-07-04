@@ -4953,156 +4953,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.1, y: 2.32}
   m_EdgeRadius: 0
---- !u!1 &248890228
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 248890230}
-  - component: {fileID: 248890232}
-  - component: {fileID: 248890229}
-  - component: {fileID: 248890231}
-  m_Layer: 0
-  m_Name: TimeLineController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!320 &248890229
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 248890228}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 29e843b83f4d54745879222afae3a6d3, type: 2}
-  m_InitialState: 0
-  m_WrapMode: 2
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings:
-  - key: {fileID: 7705661023833803927, guid: 29e843b83f4d54745879222afae3a6d3, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: -5469710700633018827, guid: 29e843b83f4d54745879222afae3a6d3, type: 2}
-    value: {fileID: 248890231}
-  - key: {fileID: -2503341871401293276, guid: 29e843b83f4d54745879222afae3a6d3, type: 2}
-    value: {fileID: 248890231}
-  - key: {fileID: 9014734946870965644, guid: 1dc44c28531066c48989982cab644a0e, type: 2}
-    value: {fileID: 248890231}
-  - key: {fileID: -2117645611797600445, guid: 1dc44c28531066c48989982cab644a0e, type: 2}
-    value: {fileID: 1674432340}
-  - key: {fileID: -2117645611797600445, guid: 7c05a6fefb8a7f5409a77d6dbfa8b321, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: 9014734946870965644, guid: 7c05a6fefb8a7f5409a77d6dbfa8b321, type: 2}
-    value: {fileID: 0}
-  m_ExposedReferences:
-    m_References:
-    - 33a239e91e3651b49b842f09236ac65c: {fileID: 1429684704}
-    - fad75008480e75a40b37dc526748deb1: {fileID: 1535368151}
-    - ea6daa4fd21ea0b41b6974d9b0168ea0: {fileID: 0}
-    - 0188da566b2337d48ae99737433fc95e: {fileID: 1535368151}
-    - 6c624880b94168a46bf8c7b7b7c7ea7b: {fileID: 1429684704}
-    - 5fdca65bcd1ee1a4daf5bdb9f2797860: {fileID: 1804662138}
-    - de0e89439e646634b85d2097ff25469c: {fileID: 1311836788}
---- !u!4 &248890230
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 248890228}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &248890231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 248890228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Events:
-    m_Signals:
-    - {fileID: 11400000, guid: cc0ef4c86861af545a272de34eb33a11, type: 2}
-    - {fileID: 11400000, guid: ebe1b4bfbe6ec7948b03d4a8102b7988, type: 2}
-    - {fileID: 11400000, guid: e6ffcb0bbc2a52e48a113ae9b0210f28, type: 2}
-    m_Events:
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1757409998}
-          m_TargetAssemblyTypeName: Runtime.CH1.Main.Dialogue.Ch1DialogueManager,
-            Scripts
-          m_MethodName: NextDirectionDialogue
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: Start0
-            m_BoolArgument: 0
-          m_CallState: 2
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1311836793}
-          m_TargetAssemblyTypeName: Runtime.InGameSystem.FadeController, Scripts
-          m_MethodName: SetBackground
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1311836793}
-          m_TargetAssemblyTypeName: Runtime.InGameSystem.FadeController, Scripts
-          m_MethodName: SetBackground
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!114 &248890232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 248890228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efa4b26fa7100a947bf41f5d51b5fe65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _timelineAssets:
-  - {fileID: 11400000, guid: 29e843b83f4d54745879222afae3a6d3, type: 2}
-  - {fileID: 11400000, guid: 1dc44c28531066c48989982cab644a0e, type: 2}
-  - {fileID: 11400000, guid: 7c05a6fefb8a7f5409a77d6dbfa8b321, type: 2}
-  <PlayableDirector>k__BackingField: {fileID: 248890229}
 --- !u!1001 &253647948
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7166,7 +7016,7 @@ MonoBehaviour:
   _settingsUIView: {fileID: 1076722901}
   _ch1StageController: {fileID: 1754088581}
   _ch1DialogueController: {fileID: 1757409998}
-  _timelineController: {fileID: 248890232}
+  _timelineController: {fileID: 0}
   _fadeController: {fileID: 1311836793}
   _player: {fileID: 669133898}
   _npcPosition: {fileID: 1908934228}
@@ -49898,11 +49748,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1799918324}
   m_CullTransparentMesh: 1
---- !u!1 &1804662138 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6584498748132185721, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
-  m_PrefabInstance: {fileID: 1284326281653811846}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1805313459 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9222804178671123590, guid: 57796641bda70d147805b66c9dd59d1e, type: 3}
@@ -60367,7 +60212,6 @@ SceneRoots:
   - {fileID: 1298425575}
   - {fileID: 674618126}
   - {fileID: 399678925}
-  - {fileID: 248890230}
   - {fileID: 1757409997}
   - {fileID: 1284326281653811846}
   - {fileID: 1808261532}
