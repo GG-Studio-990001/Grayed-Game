@@ -15,7 +15,7 @@ namespace Runtime.CH1.Main.Controller
         [SerializeField] private SettingsUIView _settingsUIView;
         [SerializeField] private Ch1StageController _ch1StageController;
         [SerializeField] private Ch1DialogueController _ch1DialogueController;
-        [SerializeField] private TimelineController _timelineController;
+        // [SerializeField] private TimelineController _timelineController;
         [SerializeField] private FadeController _fadeController;
         
         [Header("Player")]
@@ -62,8 +62,8 @@ namespace Runtime.CH1.Main.Controller
             _ch1DialogueController.OnDialogueStart.AddListener(() => Managers.Data.InGameKeyBinder.PlayerInputDisable());
             _ch1DialogueController.OnDialogueEnd.AddListener(() => Managers.Data.InGameKeyBinder.PlayerInputEnable());
 
-            _timelineController.PlayableDirector.played += (_) => Managers.Data.InGameKeyBinder.PlayerInputDisable();
-            _timelineController.PlayableDirector.stopped += (_) => Managers.Data.InGameKeyBinder.PlayerInputEnable();
+            // _timelineController.PlayableDirector.played += (_) => Managers.Data.InGameKeyBinder.PlayerInputDisable();
+            // _timelineController.PlayableDirector.stopped += (_) => Managers.Data.InGameKeyBinder.PlayerInputEnable();
 
             _settingsUIView.OnSettingsOpen += () => Managers.Data.InGameKeyBinder.PlayerInputDisable();
             _settingsUIView.OnSettingsClose += () => Managers.Data.InGameKeyBinder.PlayerInputEnable();
