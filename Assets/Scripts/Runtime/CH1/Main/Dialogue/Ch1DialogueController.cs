@@ -72,7 +72,6 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("MamagoEnter", _cutScene.MamagoEnter);
             // CutScene / R2mon
             _runner.AddCommandHandler("SetR2MonPosition", _cutScene.SetR2MonPosition);
-            _runner.AddCommandHandler("ChangeChapter2", _cutScene.ChangeChapter2);
             // _runner.AddCommandHandler<string>("ChangeScene", ChangeScene);
 
             //if (_volume != null)
@@ -140,28 +139,25 @@ namespace Runtime.CH1.Main.Dialogue
 
         private void SceneChange(string sceneName)
         {
-            if ("Pacmom" == sceneName)
-            {
-                _sceneTransform.ConnectToScene("Pacmom");
+            _sceneTransform.ConnectToScene(sceneName);
 
-                //float startValue = 500f;
-                //float endValue = -75f;
-                //float duration = 2f;
+            //float startValue = 500f;
+            //float endValue = -75f;
+            //float duration = 2f;
 
-                //_lowRes.IsActive();
+            //_lowRes.IsActive();
 
-                //Managers.Data.InGameKeyBinder.PlayerInputDisable();
+            //Managers.Data.InGameKeyBinder.PlayerInputDisable();
 
-                //DOVirtual.Float(startValue, endValue, duration, currentValue =>
-                //{
-                //    _lowRes.height.value = (int)currentValue;
-                //}).SetEase(Ease.Linear).onComplete += () =>
-                //{
-                //    Managers.Data.InGameKeyBinder.PlayerInputEnable();
-                //    Managers.Sound.StopAllSound();
-                //    SceneManager.LoadScene("Pacmom");
-                //};
-            }
+            //DOVirtual.Float(startValue, endValue, duration, currentValue =>
+            //{
+            //    _lowRes.height.value = (int)currentValue;
+            //}).SetEase(Ease.Linear).onComplete += () =>
+            //{
+            //    Managers.Data.InGameKeyBinder.PlayerInputEnable();
+            //    Managers.Sound.StopAllSound();
+            //    SceneManager.LoadScene("Pacmom");
+            //};
         }
 
         public void SetDialogueData(string value)

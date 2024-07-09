@@ -80,6 +80,6 @@ R2-Mon: 자, 그럼... '비주얼노벨 팩'을 받으십시오!
 : 이상한 기분이 든다.
 <<FadeOut>>
 <<wait 1>>
-<<ChangeChapter2>>
-<<NpcDialogueFin 2>>
+<<SceneChange CH2>>
+// <<NpcDialogueFin 2>>
 ===
