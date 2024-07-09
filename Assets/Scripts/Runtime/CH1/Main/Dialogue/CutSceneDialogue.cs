@@ -2,7 +2,6 @@ using Runtime.CH1.Main.Player;
 using UnityEngine;
 using DG.Tweening;
 using Runtime.ETC;
-using UnityEngine.SceneManagement;
 using Runtime.CH1.Main.Npc;
 using Yarn.Unity;
 
@@ -85,11 +84,6 @@ namespace Runtime.CH1.Main.Dialogue
         public void SetR2MonPosition()
         {
             _npc[2].transform.position = _r2monLocation;
-        }
-
-        public void ChangeChapter2()
-        {
-            SceneManager.LoadScene("CH2");
         }
 
         public void BuildCompany()
