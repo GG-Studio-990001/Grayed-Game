@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Runtime.ETC;
 using Runtime.InGameSystem;
 using System;
 using UnityEngine;
@@ -21,8 +22,9 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private FadeController _fadeController;
         [Header("=Else=")]
         [SerializeField] private GameObject _nameTag;
-        [SerializeField] private Volume _volume;
-        private LowRes _lowRes;
+        [SerializeField] private SceneTransform _sceneTransform;
+        // [SerializeField] private Volume _volume;
+        // private LowRes _lowRes;
         private string _speaker;
         private bool _isR2MonSpeaking = false;
 
@@ -70,13 +72,12 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("MamagoEnter", _cutScene.MamagoEnter);
             // CutScene / R2mon
             _runner.AddCommandHandler("SetR2MonPosition", _cutScene.SetR2MonPosition);
-            _runner.AddCommandHandler("ChangeChapter2", _cutScene.ChangeChapter2);
             // _runner.AddCommandHandler<string>("ChangeScene", ChangeScene);
 
-            if (_volume != null)
-            {
-                _volume.profile.TryGet(out _lowRes);
-            }
+            //if (_volume != null)
+            //{
+            //    _volume.profile.TryGet(out _lowRes);
+            //}
         }
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
@@ -138,30 +139,25 @@ namespace Runtime.CH1.Main.Dialogue
 
         private void SceneChange(string sceneName)
         {
-            Managers.Sound.StopBGM();
-            Managers.Sound.Play(Sound.SFX, "[CH1] Pacmom_SFX_Connection");
+            _sceneTransform.ConnectToScene(sceneName);
 
-            // Hard Coding
-            if ("Pacmom" == sceneName)
-            {
-                float startValue = 500f;
-                float endValue = -75f;
-                float duration = 2f;
+            //float startValue = 500f;
+            //float endValue = -75f;
+            //float duration = 2f;
 
-                _lowRes.IsActive();
+            //_lowRes.IsActive();
 
-                Managers.Data.InGameKeyBinder.PlayerInputDisable();
+            //Managers.Data.InGameKeyBinder.PlayerInputDisable();
 
-                DOVirtual.Float(startValue, endValue, duration, currentValue =>
-                {
-                    _lowRes.height.value = (int)currentValue;
-                }).SetEase(Ease.Linear).onComplete += () =>
-                {
-                    Managers.Data.InGameKeyBinder.PlayerInputEnable();
-                    Managers.Sound.StopAllSound();
-                    SceneManager.LoadScene("Pacmom");
-                };
-            }
+            //DOVirtual.Float(startValue, endValue, duration, currentValue =>
+            //{
+            //    _lowRes.height.value = (int)currentValue;
+            //}).SetEase(Ease.Linear).onComplete += () =>
+            //{
+            //    Managers.Data.InGameKeyBinder.PlayerInputEnable();
+            //    Managers.Sound.StopAllSound();
+            //    SceneManager.LoadScene("Pacmom");
+            //};
         }
 
         public void SetDialogueData(string value)

@@ -17,6 +17,8 @@ namespace Runtime.CH1.Pacmom
         private SpriteControl[] _spriteControls = new SpriteControl[6];
         [SerializeField]
         private TextMeshProUGUI _resultCoinTxt;
+        [SerializeField]
+        private SceneTransform _sceneTransform;
 
         public void Awake()
         {
@@ -81,12 +83,14 @@ namespace Runtime.CH1.Pacmom
 
             Time.timeScale = 1f;
 
+            CancelInvoke();
             _sceneSystem.LoadScene("Pacmom");
         }
 
         public void ExitPacmom()
         {
-            _sceneSystem.LoadScene("CH1");
+            CancelInvoke();
+            _sceneTransform.EscapeFromScene("CH1");
         }
     }
 }

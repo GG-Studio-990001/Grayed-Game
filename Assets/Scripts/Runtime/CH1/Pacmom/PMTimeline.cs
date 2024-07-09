@@ -1,13 +1,11 @@
 using Runtime.ETC;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Runtime.CH1.Pacmom
 {
     public class PMTimeline : MonoBehaviour
     {
-        [SerializeField]
-        private PlayerInput _playerInput;
+        // [SerializeField] private PlayerInput _playerInput;
         [SerializeField]
         private PMController _controller;
         [SerializeField]

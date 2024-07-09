@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7defa729ac8ea0646a285c87a260349f
+guid: 1910c27bb37937b449cceb57d2379485
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Sprite_Michael_0
+      name: Sprite_Michael (1)_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 40.5
+        y: 80
         width: 33
-        height: 40.5
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6f0fef366583cfb4fac296f18b69bb69
-      internalID: 361897795
+      spriteID: 3167a728a1664254fb329e72b9350684
+      internalID: -499870555
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Michael_1
+      name: Sprite_Michael (1)_1
       rect:
         serializedVersion: 2
         x: 33
-        y: 40.5
+        y: 80
         width: 33
-        height: 40.5
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fa3b8c4966db0e447b43f31f2c270e21
-      internalID: 2109084220
+      spriteID: 98b36303f782fd84ca13ddebbe5d75ff
+      internalID: 1867673533
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Michael_2
+      name: Sprite_Michael (1)_2
       rect:
         serializedVersion: 2
         x: 66
-        y: 40.5
+        y: 80
         width: 33
-        height: 40.5
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,14 +179,77 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 47db90ffd969b634f8bb9541a4065852
-      internalID: -1924604056
+      spriteID: ed684b36c42263a45870dfb44d433b84
+      internalID: -1945482737
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Michael_3
+      name: Sprite_Michael (1)_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 40
+        width: 33
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 454c77fd44d14d446a2b28724f5eea34
+      internalID: 167632794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Michael (1)_4
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 40
+        width: 33
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae9113de397a078409d822350516badf
+      internalID: 1482440473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Michael (1)_5
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 40
+        width: 33
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ddbdad05c5e71d4faf7bb488847070a
+      internalID: 1158928950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_Michael (1)_6
       rect:
         serializedVersion: 2
         x: 0
@@ -200,14 +263,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ff8ff391193e53848ba897f071d96dc9
-      internalID: 180760013
+      spriteID: 76cf7f4d5d8e33145b1de3e03728f9d8
+      internalID: -1877887948
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Michael_4
+      name: Sprite_Michael (1)_7
       rect:
         serializedVersion: 2
         x: 33
@@ -221,29 +284,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e4257e1e02907f48a8c0fcd2fd06e71
-      internalID: -1533870535
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sprite_Michael_5
-      rect:
-        serializedVersion: 2
-        x: 66
-        y: 0
-        width: 33
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7a9f8ada5f5681a4b8f900b2577f0152
-      internalID: 1815968236
+      spriteID: 97a332a2dc3edc14895dcd3bc52e55ac
+      internalID: -659980596
       vertices: []
       indices: 
       edges: []
@@ -251,7 +293,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 452f7f487a423fe428db967e5e0d7cf8
+    spriteID: 4ac5b58b8b2778e4dba798b0b3e7aa6c
     internalID: 0
     vertices: []
     indices: 
@@ -259,12 +301,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Sprite_Michael_0: 361897795
-      Sprite_Michael_1: 2109084220
-      Sprite_Michael_2: -1924604056
-      Sprite_Michael_3: 180760013
-      Sprite_Michael_4: -1533870535
-      Sprite_Michael_5: 1815968236
+      Sprite_Michael (1)_0: -499870555
+      Sprite_Michael (1)_1: 1867673533
+      Sprite_Michael (1)_2: -1945482737
+      Sprite_Michael (1)_3: 167632794
+      Sprite_Michael (1)_4: 1482440473
+      Sprite_Michael (1)_5: 1158928950
+      Sprite_Michael (1)_6: -1877887948
+      Sprite_Michael (1)_7: -659980596
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
