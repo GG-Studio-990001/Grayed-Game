@@ -2,42 +2,58 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneTransform : MonoBehaviour
+namespace Runtime.ETC
 {
-    private readonly string _connectionScene = "ConnectionScene";
-    private readonly string _escapeScene = "EscapeScene";
-    private string _targetScene;
-    private string _middleScene;
-
-    public void ConnectToScene(string targetScene)
+    public class SceneTransform : MonoBehaviour
     {
-        _middleScene = _connectionScene;
-        _targetScene = targetScene;
-        StartCoroutine(nameof(TranslateScene));
-    }
+        private readonly string _connectionScene = "Connection";
+        private readonly string _escapeScene = "Escape";
+        private readonly float _translationDuration = 2f;
+        private string _targetScene;
+        private string _middleScene;
 
-    public void EscapeFromScene(string targetScene)
-    {
-        _middleScene = _escapeScene;
-        _targetScene = targetScene;
-        StartCoroutine(nameof(TranslateScene));
-    }
+        private void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
 
-    private IEnumerator TranslateScene(string targetScene)
-    {
-        // 비동기 방식을 쓰지 않으면 씬 로드나 언로드 중에 게임이 멈출 수 있다고 함
+        public void ConnectToScene(string targetScene)
+        {
+            _middleScene = _connectionScene;
+            _targetScene = targetScene;
+            StartCoroutine(nameof(TranslateScene));
+        }
 
-        // 중간 씬 로드
-        yield return SceneManager.LoadSceneAsync(_middleScene, LoadSceneMode.Additive);
+        public void EscapeFromScene(string targetScene)
+        {
+            _middleScene = _escapeScene;
+            _targetScene = targetScene;
+            StartCoroutine(nameof(TranslateScene));
+        }
 
-        // 현재 씬 언로드
-        Scene currentScene = SceneManager.GetActiveScene();
-        yield return SceneManager.UnloadSceneAsync(currentScene);
+        private IEnumerator TranslateScene()
+        {
+            Managers.Sound.StopAllSound();
+            Managers.Sound.Play(Sound.SFX, "[CH1] Pacmom_SFX_Connection");
 
-        // 목표 씬 로드
-        yield return SceneManager.LoadSceneAsync(targetScene, LoadSceneMode.Additive);
+            // 비동기 방식을 쓰지 않으면 씬 로드나 언로드 중에 게임이 멈출 수 있다고 함
+            Debug.Log("_targetScene: " + _targetScene);
 
-        // 중간 씬 언로드
-        yield return SceneManager.UnloadSceneAsync(_middleScene);
+            // 중간 씬 로드
+            yield return SceneManager.LoadSceneAsync(_middleScene, LoadSceneMode.Additive);
+
+            // 대기
+            yield return new WaitForSeconds(_translationDuration);
+
+            // 현재 씬 언로드
+            Scene currentScene = SceneManager.GetActiveScene();
+            yield return SceneManager.UnloadSceneAsync(currentScene);
+
+            // 목표 씬 로드
+            yield return SceneManager.LoadSceneAsync(_targetScene, LoadSceneMode.Additive);
+
+            // 중간 씬 언로드
+            yield return SceneManager.UnloadSceneAsync(_middleScene);
+        }
     }
 }
