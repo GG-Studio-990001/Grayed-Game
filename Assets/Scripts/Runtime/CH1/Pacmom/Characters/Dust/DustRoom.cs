@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -5,6 +6,8 @@ namespace Runtime.CH1.Pacmom
 {
     public class DustRoom : MonoBehaviour
     {
+        [NonSerialized]
+        public PMController GameController;
         private MovementWithEyes _movement;
         [SerializeField]
         private Transform _inside;
@@ -27,6 +30,14 @@ namespace Runtime.CH1.Pacmom
         public void ExitRoom(float afterTime)
         {
             StartCoroutine(nameof(ExitTransition), afterTime);
+        }
+
+        private void Update()
+        {
+            if (GameController.IsGameOver)
+            {
+                StopCoroutine(nameof(ExitTransition));
+            }
         }
 
         private void Transition(Vector3 start, Vector3 end, float lerpTime)

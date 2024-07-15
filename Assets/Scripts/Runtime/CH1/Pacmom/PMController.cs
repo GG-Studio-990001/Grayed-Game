@@ -64,6 +64,7 @@ namespace Runtime.CH1.Pacmom
             for (int i = 0; i < GlobalConst.DustCnt; i++)
             {
                 _dusts[i].GameController = this;
+                _dustRooms[i].GameController = this;
             }
         }
         #endregion
