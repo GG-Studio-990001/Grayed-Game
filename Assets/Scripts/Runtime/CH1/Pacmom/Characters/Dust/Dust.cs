@@ -1,11 +1,13 @@
 using Runtime.ETC;
 using Runtime.Interface.Pacmom;
+using System;
 using UnityEngine;
 
 namespace Runtime.CH1.Pacmom
 {
     public class Dust : MonoBehaviour, IFoodChain
     {
+        [NonSerialized]
         public PMController GameController;
         public MovementWithEyes Movement { get; set; }
         private AI _ai;

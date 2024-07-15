@@ -22274,8 +22274,8 @@ MonoBehaviour:
   m_text: "\uCCAD\uC18C\uC2DC\uAC04\uC5D0<br>\uD329\uB9D8\uACFC \uBD80\uB52A\uD788\uBA74<br>\uCF54\uC778\uC744
     \uBE7C\uC557\uAE34\uB300"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 94026959aaa5c994ebf1ee77d30f9fbb, type: 2}
-  m_sharedMaterial: {fileID: -373988886366029061, guid: 94026959aaa5c994ebf1ee77d30f9fbb, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1734656a2e7f533439b0d9f572ed26e4, type: 2}
+  m_sharedMaterial: {fileID: -178129832433001489, guid: 1734656a2e7f533439b0d9f572ed26e4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -24130,6 +24130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1267132490}
   - component: {fileID: 1267132489}
+  - component: {fileID: 1267132491}
   m_Layer: 4
   m_Name: Post-processing volume
   m_TagString: Untagged
@@ -24169,6 +24170,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1267132491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267132488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4812dc66f40e3fc40919c71c28b01b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _volume: {fileID: 1267132489}
 --- !u!1 &1306120546
 GameObject:
   m_ObjectHideFlags: 0
@@ -24916,7 +24930,6 @@ GameObject:
   - component: {fileID: 1575259377}
   - component: {fileID: 1575259376}
   - component: {fileID: 1575259378}
-  - component: {fileID: 1575259379}
   m_Layer: 0
   m_Name: TimelineManager
   m_TagString: Untagged
@@ -24973,6 +24986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f01a2d5d2682fcd408dc47330623b8a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _postProcessing: {fileID: 1267132491}
   _sceneSystem: {fileID: 2119691701}
   _timeline3: {fileID: 250424353}
   _spriteControls:
@@ -24984,19 +24998,6 @@ MonoBehaviour:
   - {fileID: 1325164805}
   _resultCoinTxt: {fileID: 536695875}
   _sceneTransform: {fileID: 948141944}
---- !u!114 &1575259379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575259375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4812dc66f40e3fc40919c71c28b01b4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _volume: {fileID: 1267132489}
 --- !u!1 &1584184286
 GameObject:
   m_ObjectHideFlags: 0
