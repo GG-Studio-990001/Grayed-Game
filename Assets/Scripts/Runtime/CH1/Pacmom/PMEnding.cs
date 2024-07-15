@@ -8,7 +8,8 @@ namespace Runtime.CH1.Pacmom
 {
     public class PMEnding : MonoBehaviour
     {
-        private PMShader _shader;
+        [SerializeField]
+        private PMShader _postProcessing;
         [SerializeField]
         private SceneSystem _sceneSystem;
         [SerializeField]
@@ -19,11 +20,6 @@ namespace Runtime.CH1.Pacmom
         private TextMeshProUGUI _resultCoinTxt;
         [SerializeField]
         private SceneTransform _sceneTransform;
-
-        public void Awake()
-        {
-            _shader = GetComponent<PMShader>();
-        }
 
         public void RapleyWin(int reward)
         {
@@ -77,7 +73,7 @@ namespace Runtime.CH1.Pacmom
         {
             Time.timeScale = 0;
             Managers.Sound.Play(Sound.SFX, "Pacmom_SFX_Fail");
-            _shader.ChangeBleedAmount();
+            _postProcessing.ChangeBleedAmount();
 
             yield return new WaitForSecondsRealtime(2f);
 
@@ -90,6 +86,7 @@ namespace Runtime.CH1.Pacmom
         public void ExitPacmom()
         {
             CancelInvoke();
+            _postProcessing.gameObject.SetActive(false);
             _sceneTransform.EscapeFromScene("CH1");
         }
     }

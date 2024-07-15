@@ -19,7 +19,7 @@ namespace Runtime.ETC
 
         public void ConnectToScene(string targetScene)
         {
-            // 사용중인 씬에서 처리
+            // 접속할 땐 사용중인 씬에서 처리
             // Managers.Data.InGameKeyBinder.PlayerInputDisable();
 
             Managers.Sound.StopAllSound();
@@ -33,6 +33,8 @@ namespace Runtime.ETC
 
         public void EscapeFromScene(string targetScene)
         {
+            Managers.Data.InGameKeyBinder.PlayerInputDisable();
+
             Managers.Sound.StopAllSound();
             // TODO: 효과음 교체
             // Managers.Sound.Play(Sound.SFX, "[CH1] Pacmom_SFX_Connection");
