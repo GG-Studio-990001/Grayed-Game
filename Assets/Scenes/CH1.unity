@@ -14941,7 +14941,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &674618125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48832,6 +48832,7 @@ MonoBehaviour:
   _fadeController: {fileID: 1311836793}
   _nameTag: {fileID: 3712000284494713604}
   _sceneTransform: {fileID: 1522664182}
+  _postProcessingVolume: {fileID: 674618124}
 --- !u!114 &1757409999
 MonoBehaviour:
   m_ObjectHideFlags: 0

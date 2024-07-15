@@ -19,8 +19,12 @@ namespace Runtime.ETC
 
         public void ConnectToScene(string targetScene)
         {
+            // 사용중인 씬에서 처리
+            // Managers.Data.InGameKeyBinder.PlayerInputDisable();
+
             Managers.Sound.StopAllSound();
-            Managers.Sound.Play(Sound.SFX, "[CH1] Pacmom_SFX_Connection");
+            // TODO: 효과음 교체
+            // Managers.Sound.Play(Sound.SFX, "[CH1] Pacmom_SFX_Connection");
 
             _middleScene = _connectionScene;
             _targetScene = targetScene;
@@ -31,7 +35,7 @@ namespace Runtime.ETC
         {
             Managers.Sound.StopAllSound();
             // TODO: 효과음 교체
-            Managers.Sound.Play(Sound.SFX, "[CH1] Pacmom_SFX_Connection");
+            // Managers.Sound.Play(Sound.SFX, "[CH1] Pacmom_SFX_Connection");
 
             _middleScene = _escapeScene;
             _targetScene = targetScene;
@@ -40,8 +44,6 @@ namespace Runtime.ETC
 
         private IEnumerator TranslateScene()
         {
-            Managers.Data.InGameKeyBinder.PlayerInputDisable();
-
             // 비동기 방식을 쓰지 않으면 씬 로드나 언로드 중에 게임이 멈출 수 있다고 함
             Debug.Log("_targetScene: " + _targetScene);
 
@@ -61,6 +63,7 @@ namespace Runtime.ETC
             // 중간 씬 언로드
             yield return SceneManager.UnloadSceneAsync(_middleScene);
 
+            // 여기서 처리
             Managers.Data.InGameKeyBinder.PlayerInputEnable();
         }
     }
