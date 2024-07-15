@@ -1,11 +1,9 @@
-using DG.Tweening;
 using Runtime.ETC;
 using Runtime.InGameSystem;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 using Yarn.Unity;
 using Sound = Runtime.ETC.Sound;
 
@@ -25,6 +23,7 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private SceneTransform _sceneTransform;
         // [SerializeField] private Volume _volume;
         // private LowRes _lowRes;
+        [SerializeField] private GameObject _postProcessingVolume;
         private string _speaker;
         private bool _isR2MonSpeaking = false;
 
@@ -139,7 +138,7 @@ namespace Runtime.CH1.Main.Dialogue
 
         private void SceneChange(string sceneName)
         {
-            _sceneTransform.ConnectToScene(sceneName);
+            StartCoroutine(nameof(ConnectToScene), sceneName);
 
             //float startValue = 500f;
             //float endValue = -75f;
@@ -158,6 +157,14 @@ namespace Runtime.CH1.Main.Dialogue
             //    Managers.Sound.StopAllSound();
             //    SceneManager.LoadScene("Pacmom");
             //};
+        }
+
+        IEnumerator ConnectToScene(string sceneName)
+        {
+            Managers.Data.InGameKeyBinder.PlayerInputDisable();
+            _postProcessingVolume.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            _sceneTransform.ConnectToScene(sceneName);
         }
 
         public void SetDialogueData(string value)

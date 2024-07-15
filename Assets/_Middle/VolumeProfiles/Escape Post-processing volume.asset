@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-893260689080936235
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e79f1067b2c40b0b84df7cfe285ae4, type: 3}
+  m_Name: CinematicBars
+  m_EditorClassIdentifier: 
+  active: 1
+  enable:
+    m_OverrideState: 1
+    m_Value: 1
+  amount:
+    m_OverrideState: 1
+    m_Value: 0.01
+  fade:
+    m_OverrideState: 1
+    m_Value: 1
+  GlobalPostProcessingSettings:
+    m_OverrideState: 0
+    m_Value: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
+  m_Name: Escape Post-processing volume
+  m_EditorClassIdentifier: 
+  components:
+  - {fileID: 526798215974323476}
+  - {fileID: -893260689080936235}
+--- !u!114 &526798215974323476
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e1719e9f39824295869cbd51931ffe6, type: 3}
+  m_Name: Noise
+  m_EditorClassIdentifier: 
+  active: 1
+  enable:
+    m_OverrideState: 1
+    m_Value: 1
+  stretchResolution:
+    m_OverrideState: 0
+    m_Value: 480
+  VerticalResolution:
+    m_OverrideState: 0
+    m_Value: 480
+  Granularity:
+    m_OverrideState: 0
+    m_Value: 0
+  GranularityAmount:
+    m_OverrideState: 0
+    m_Value: 0.5
+  TapeNoise:
+    m_OverrideState: 0
+    m_Value: 0
+  TapeNoiseSignalProcessing:
+    m_OverrideState: 0
+    m_Value: 1
+  TapeNoiseFade:
+    m_OverrideState: 0
+    m_Value: 1.5
+  TapeNoiseAmount:
+    m_OverrideState: 0
+    m_Value: 1
+  tapeLinesAmount:
+    m_OverrideState: 0
+    m_Value: 0.8
+  TapeNoiseSpeed:
+    m_OverrideState: 0
+    m_Value: 0.5
+  LineNoise:
+    m_OverrideState: 1
+    m_Value: 1
+  LineNoiseAmount:
+    m_OverrideState: 1
+    m_Value: 15
+  LineNoiseSpeed:
+    m_OverrideState: 1
+    m_Value: 10
+  SignalNoise:
+    m_OverrideState: 1
+    m_Value: 1
+  SignalNoisePower:
+    m_OverrideState: 1
+    m_Value: 0.91
+  SignalNoiseAmount:
+    m_OverrideState: 1
+    m_Value: 2
+  mask:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+    dimension: 1
+  maskChannel:
+    m_OverrideState: 0
+    m_Value: 0
+  unscaledTime:
+    m_OverrideState: 0
+    m_Value: 0
+  GlobalPostProcessingSettings:
+    m_OverrideState: 0
+    m_Value: 0

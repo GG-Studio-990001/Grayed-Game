@@ -7,8 +7,7 @@ namespace Runtime.CH2.Main
     {
         void Start()
         {
-            Managers.Sound.Play(Sound.BGM, "Floyard_BGM_2");
-            // Managers.Sound.Play(Sound.BGM, "[Ch1] Lucky_BGM_3");
+            Managers.Sound.Play(Sound.BGM, "[CH2] BGM_#1_02");
         }
     }
 }
