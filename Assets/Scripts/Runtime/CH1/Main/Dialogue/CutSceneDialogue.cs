@@ -30,15 +30,16 @@ namespace Runtime.CH1.Main.Dialogue
         public void NpcsMove()
         {
             _npc[1].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
-            _npc[1].transform.DOMove(new Vector3(69.5500031f, -13.6400003f, 0), 3f).SetEase(Ease.Linear);
+            _npc[1].transform.DOMove(NpcPos.GetSingeNpcPos(1, 9), 3f).SetEase(Ease.Linear);
 
             _npc[2].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
-            _npc[2].transform.DOMove(new Vector3(74.2099991f, -14.3800001f, 0), 3f).SetEase(Ease.Linear);
+            _npc[2].transform.DOMove(NpcPos.GetSingeNpcPos(2, 9), 3f).SetEase(Ease.Linear);
         }
 
         public void Scene4End()
         {
             CharactersStop(3);
+            _npc[0].transform.localPosition = NpcPos.GetSingeNpcPos(0, 9);
             _npc[0].gameObject.SetActive(false);
             _michael.gameObject.SetActive(false);
         }

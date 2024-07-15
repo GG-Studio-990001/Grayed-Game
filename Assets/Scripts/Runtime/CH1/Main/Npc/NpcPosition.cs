@@ -47,9 +47,14 @@ namespace Runtime.CH1.Main.Npc
             else
             {
                 // TODO: 9 지정 필요 (달러는 맵 바깥)
-                // SetNpcPosition(9);
+                SetNpcPosition(9);
                 Debug.Log("맵3");
             }
+        }
+
+        public Vector3 GetSingeNpcPos(int npc, int loc)
+        {
+            return NpcLocations[npc].Locations[loc];
         }
 
         public void SetNpcPosition(int idx)
