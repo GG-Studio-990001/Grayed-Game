@@ -25,7 +25,10 @@ public class TurnOff : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        _noise.enable.value = false;
         DOTween.To(() => _cinematicBar.amount.value, x => _cinematicBar.amount.value = x, 1f, 0.5f);
+
+        yield return new WaitForSeconds(0.5f);
+
+        _noise.enable.value = false;
     }
 }
