@@ -1,12 +1,9 @@
-using DG.Tweening;
 using Runtime.ETC;
 using Runtime.InGameSystem;
 using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 using Yarn.Unity;
 using Sound = Runtime.ETC.Sound;
 
@@ -166,7 +163,7 @@ namespace Runtime.CH1.Main.Dialogue
         {
             Managers.Data.InGameKeyBinder.PlayerInputDisable();
             _postProcessingVolume.SetActive(true);
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1f);
             _sceneTransform.ConnectToScene(sceneName);
         }
 

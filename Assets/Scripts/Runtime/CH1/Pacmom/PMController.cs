@@ -1,4 +1,3 @@
-using Runtime.Common.View;
 using Runtime.ETC;
 using System.Collections;
 using UnityEngine;
