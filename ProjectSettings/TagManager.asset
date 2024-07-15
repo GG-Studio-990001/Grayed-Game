@@ -54,3 +54,6 @@ TagManager:
   - name: UI
     uniqueID: 1546151723
     locked: 0
+  - name: AdditiveScene
+    uniqueID: 97621289
+    locked: 0
