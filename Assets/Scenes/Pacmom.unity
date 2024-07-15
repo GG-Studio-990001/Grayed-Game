@@ -22274,8 +22274,8 @@ MonoBehaviour:
   m_text: "\uCCAD\uC18C\uC2DC\uAC04\uC5D0<br>\uD329\uB9D8\uACFC \uBD80\uB52A\uD788\uBA74<br>\uCF54\uC778\uC744
     \uBE7C\uC557\uAE34\uB300"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 94026959aaa5c994ebf1ee77d30f9fbb, type: 2}
-  m_sharedMaterial: {fileID: -373988886366029061, guid: 94026959aaa5c994ebf1ee77d30f9fbb, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1734656a2e7f533439b0d9f572ed26e4, type: 2}
+  m_sharedMaterial: {fileID: -178129832433001489, guid: 1734656a2e7f533439b0d9f572ed26e4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
