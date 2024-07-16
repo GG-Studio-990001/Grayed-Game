@@ -1,61 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3380943808983306060
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f1c62bdc7f018b43a75aef3da42496f, type: 3}
-  m_Name: TVEffect
-  m_EditorClassIdentifier: 
-  active: 0
-  enable:
-    m_OverrideState: 1
-    m_Value: 1
-  fade:
-    m_OverrideState: 0
-    m_Value: 1
-  maskDark:
-    m_OverrideState: 1
-    m_Value: 0.5
-  maskLight:
-    m_OverrideState: 0
-    m_Value: 1.5
-  hardScan:
-    m_OverrideState: 0
-    m_Value: -8
-  resScale:
-    m_OverrideState: 0
-    m_Value: 4
-  ScaleWithActualScreenSize:
-    m_OverrideState: 0
-    m_Value: 0
-  hardPix:
-    m_OverrideState: 0
-    m_Value: -3
-  warpMode:
-    m_OverrideState: 0
-    m_Value: 0
-  warp:
-    m_OverrideState: 0
-    m_Value: {x: 0, y: 0}
-  scale:
-    m_OverrideState: 0
-    m_Value: 0.5
-  mask:
-    m_OverrideState: 0
-    m_Value: {fileID: 0}
-    dimension: 1
-  maskChannel:
-    m_OverrideState: 0
-    m_Value: 0
-  GlobalPostProcessingSettings:
-    m_OverrideState: 0
-    m_Value: 0
 --- !u!114 &-3355198389844961193
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -143,11 +87,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: Connect Post-processing volume 1
+  m_Name: Connect Post-processing volume
   m_EditorClassIdentifier: 
   components:
-  - {fileID: -3380943808983306060}
-  - {fileID: 1955106620325395610}
   - {fileID: 7273919427060763421}
   - {fileID: -3355198389844961193}
   - {fileID: 1548382904032640705}
@@ -226,42 +168,6 @@ MonoBehaviour:
   GlobalPostProcessingSettings:
     m_OverrideState: 1
     m_Value: 0
---- !u!114 &1955106620325395610
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4388191585ea44bb892b7a3954c42607, type: 3}
-  m_Name: Bleed
-  m_EditorClassIdentifier: 
-  active: 0
-  enable:
-    m_OverrideState: 1
-    m_Value: 1
-  bleedMode:
-    m_OverrideState: 1
-    m_Value: 0
-  bleedAmount:
-    m_OverrideState: 1
-    m_Value: 0
-  bleedDebug:
-    m_OverrideState: 1
-    m_Value: 0
-  mask:
-    m_OverrideState: 1
-    m_Value: {fileID: 0}
-    dimension: 1
-  maskChannel:
-    m_OverrideState: 1
-    m_Value: 0
-  GlobalPostProcessingSettings:
-    m_OverrideState: 0
-    m_Value: 0
-  bleedModeIndex: 0
 --- !u!114 &7273919427060763421
 MonoBehaviour:
   m_ObjectHideFlags: 3

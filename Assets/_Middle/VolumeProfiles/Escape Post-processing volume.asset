@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6e79f1067b2c40b0b84df7cfe285ae4, type: 3}
   m_Name: CinematicBars
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enable:
     m_OverrideState: 1
     m_Value: 1
@@ -39,6 +39,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   components:
   - {fileID: 526798215974323476}
+  - {fileID: 7807221582111203329}
   - {fileID: -893260689080936235}
 --- !u!114 &526798215974323476
 MonoBehaviour:
@@ -70,7 +71,7 @@ MonoBehaviour:
     m_Value: 0.5
   TapeNoise:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: 1
   TapeNoiseSignalProcessing:
     m_OverrideState: 0
     m_Value: 1
@@ -87,20 +88,20 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0.5
   LineNoise:
-    m_OverrideState: 1
-    m_Value: 1
+    m_OverrideState: 0
+    m_Value: 0
   LineNoiseAmount:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 15
   LineNoiseSpeed:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 10
   SignalNoise:
     m_OverrideState: 1
     m_Value: 1
   SignalNoisePower:
     m_OverrideState: 1
-    m_Value: 0.91
+    m_Value: 0.914
   SignalNoiseAmount:
     m_OverrideState: 1
     m_Value: 2
@@ -116,4 +117,66 @@ MonoBehaviour:
     m_Value: 0
   GlobalPostProcessingSettings:
     m_OverrideState: 0
+    m_Value: 0
+--- !u!114 &7807221582111203329
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7942413263386430284c3a24e8e45f75, type: 3}
+  m_Name: Jitter
+  m_EditorClassIdentifier: 
+  active: 1
+  enable:
+    m_OverrideState: 1
+    m_Value: 1
+  twitchHorizontal:
+    m_OverrideState: 1
+    m_Value: 0
+  horizontalFreq:
+    m_OverrideState: 1
+    m_Value: 1
+  twitchVertical:
+    m_OverrideState: 1
+    m_Value: 1
+  verticalFreq:
+    m_OverrideState: 1
+    m_Value: 5
+  stretch:
+    m_OverrideState: 1
+    m_Value: 0
+  stretchResolution:
+    m_OverrideState: 1
+    m_Value: 1
+  jitterHorizontal:
+    m_OverrideState: 1
+    m_Value: 1
+  jitterHorizontalAmount:
+    m_OverrideState: 1
+    m_Value: 1
+  jitterVertical:
+    m_OverrideState: 1
+    m_Value: 1
+  jitterVerticalAmount:
+    m_OverrideState: 1
+    m_Value: 1
+  jitterVerticalSpeed:
+    m_OverrideState: 1
+    m_Value: 1
+  unscaledTime:
+    m_OverrideState: 1
+    m_Value: 0
+  mask:
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  maskChannel:
+    m_OverrideState: 1
+    m_Value: 0
+  GlobalPostProcessingSettings:
+    m_OverrideState: 1
     m_Value: 0
