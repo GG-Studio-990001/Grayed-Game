@@ -9,6 +9,7 @@ namespace Runtime.CH1.Pacmom
     public class InGameDialogue : DialogueViewBase
     {
         private DialogueRunner _runner;
+        [NonSerialized]
         public PMController GameController;
 
         [Header("=DustA=")]

@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using Sound = Runtime.ETC.Sound;
@@ -6,6 +7,7 @@ namespace Runtime.CH1.Pacmom
 {
     public class Timer : MonoBehaviour
     {
+        [NonSerialized]
         public PMController GameController;
         private TextMeshProUGUI _timerTxt;
         [SerializeField]

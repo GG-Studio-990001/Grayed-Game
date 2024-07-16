@@ -19,8 +19,12 @@ namespace Runtime.ETC
 
         public void ConnectToScene(string targetScene)
         {
+            // 접속할 땐 사용중인 씬에서 처리
+            // Managers.Data.InGameKeyBinder.PlayerInputDisable();
+
             Managers.Sound.StopAllSound();
-            Managers.Sound.Play(Sound.SFX, "[CH1] Pacmom_SFX_Connection");
+            // TODO: 효과음 교체
+            // Managers.Sound.Play(Sound.SFX, "[CH1] Pacmom_SFX_Connection");
 
             _middleScene = _connectionScene;
             _targetScene = targetScene;
@@ -29,9 +33,11 @@ namespace Runtime.ETC
 
         public void EscapeFromScene(string targetScene)
         {
+            Managers.Data.InGameKeyBinder.PlayerInputDisable();
+
             Managers.Sound.StopAllSound();
             // TODO: 효과음 교체
-            Managers.Sound.Play(Sound.SFX, "[CH1] Pacmom_SFX_Connection");
+            // Managers.Sound.Play(Sound.SFX, "[CH1] Pacmom_SFX_Connection");
 
             _middleScene = _escapeScene;
             _targetScene = targetScene;
@@ -58,6 +64,9 @@ namespace Runtime.ETC
 
             // 중간 씬 언로드
             yield return SceneManager.UnloadSceneAsync(_middleScene);
+
+            // 여기서 처리
+            Managers.Data.InGameKeyBinder.PlayerInputEnable();
         }
     }
 }
