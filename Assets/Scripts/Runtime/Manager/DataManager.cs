@@ -2,7 +2,6 @@ using Runtime.Input;
 using System;
 using Runtime.ETC;
 using UnityEngine;
-using Runtime.CH1.Main.Stage;
 
 namespace Runtime.Manager
 {

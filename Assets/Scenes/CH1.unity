@@ -4203,8 +4203,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uBD80\uC871\uD558\uB2E4 \uC2F6\uC73C\uBA74<br>\uC7A0\uAE50 \uAE30\uB2E4\uB824\uBD10"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 94026959aaa5c994ebf1ee77d30f9fbb, type: 2}
-  m_sharedMaterial: {fileID: -373988886366029061, guid: 94026959aaa5c994ebf1ee77d30f9fbb, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1734656a2e7f533439b0d9f572ed26e4, type: 2}
+  m_sharedMaterial: {fileID: -178129832433001489, guid: 1734656a2e7f533439b0d9f572ed26e4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4267,7 +4267,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &213274876
@@ -9619,7 +9619,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &453375413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9690,7 +9690,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 453375412}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
@@ -14941,7 +14941,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &674618125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34238,7 +34238,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1307555726
 RectTransform:
   m_ObjectHideFlags: 0
@@ -48832,6 +48832,7 @@ MonoBehaviour:
   _fadeController: {fileID: 1311836793}
   _nameTag: {fileID: 3712000284494713604}
   _sceneTransform: {fileID: 1522664182}
+  _postProcessingVolume: {fileID: 674618124}
 --- !u!114 &1757409999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51256,6 +51257,7 @@ MonoBehaviour:
     - {x: 47.74, y: -11.39, z: 0}
     - {x: 58.97, y: -13.46, z: 0}
     - {x: 65.27, y: -14.34, z: 0}
+    - {x: 105.05, y: -14.34, z: 0}
   - Locations:
     - {x: -4.7500005, y: -7.22, z: 0}
     - {x: 5.06, y: -7.22, z: 0}
@@ -51266,6 +51268,7 @@ MonoBehaviour:
     - {x: 49.120003, y: -11.81, z: 0}
     - {x: 60.89, y: -14.42, z: 0}
     - {x: 62.940002, y: -14.75, z: 0}
+    - {x: 69.55, y: -13.64, z: 0}
   - Locations:
     - {x: -2.67, y: -6.63, z: 0}
     - {x: 7.14, y: -6.63, z: 0}
@@ -51276,6 +51279,7 @@ MonoBehaviour:
     - {x: 50.85, y: -11.46, z: 0}
     - {x: 62.97, y: -13.86, z: 0}
     - {x: 64.03, y: -13.56, z: 0}
+    - {x: 74.21, y: -14.38, z: 0}
 --- !u!114 &1908934229
 MonoBehaviour:
   m_ObjectHideFlags: 0
