@@ -2331,7 +2331,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 307, y: -201}
+  m_AnchoredPosition: {x: 475, y: -201}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &429307290
@@ -2891,7 +2891,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 419.6, y: -170.9}
+  m_AnchoredPosition: {x: 543, y: -213}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &513051067
@@ -22248,8 +22248,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.600586, y: 555}
-  m_SizeDelta: {x: 301.64, y: 169.47}
+  m_AnchoredPosition: {x: -0.024933, y: 35.5}
+  m_SizeDelta: {x: 314.1, y: 74.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &898401473
 MonoBehaviour:
@@ -22271,8 +22271,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uCCAD\uC18C\uC2DC\uAC04\uC5D0<br>\uD329\uB9D8\uACFC \uBD80\uB52A\uD788\uBA74<br>\uCF54\uC778\uC744
-    \uBE7C\uC557\uAE34\uB300"
+  m_text: "\uB7ED\uD0A4\uB2D8 \uD1F4\uC7A5\uC774\uC694~"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1734656a2e7f533439b0d9f572ed26e4, type: 2}
   m_sharedMaterial: {fileID: -178129832433001489, guid: 1734656a2e7f533439b0d9f572ed26e4, type: 2}
@@ -22299,8 +22298,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -22430,7 +22429,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b56f45846f8118b4d817fc9e42e0c02d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameController: {fileID: 0}
   _dustA: {fileID: 972530197}
   _bubbleA: {fileID: 1604375867}
   _textA: {fileID: 589625776}
@@ -23036,7 +23034,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10558416b4f6a154585fd7710c97978f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameController: {fileID: 0}
   _timelimit: 180
 --- !u!1 &1091952893
 GameObject:
@@ -23908,8 +23905,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 440, y: 47}
-  m_SizeDelta: {x: 6281.4, y: 4746.54}
+  m_AnchoredPosition: {x: 426.30002, y: 93}
+  m_SizeDelta: {x: 7350, y: 3200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1160680248
 MonoBehaviour:
@@ -23931,8 +23928,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1730986566, guid: 3af4becce146a204d82c587c1bfb9371, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: bb329b2a21ed7244195ee06db5b1d99b, type: 3}
+  m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -24137,7 +24134,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1267132489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24911,8 +24908,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lucky: {fileID: 429307290}
   _bubble: {fileID: 2130668678}
-  _outPosition: {x: 773, y: -159, z: 0}
-  _inPosition: {x: 353, y: -159, z: 0}
+  _outPosition: {x: 773, y: -201, z: 0}
+  _inPosition: {x: 475, y: -201, z: 0}
   _drawing: {fileID: 513051065}
   _luckyObjs:
   - {fileID: 1143825153}
@@ -26442,7 +26439,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79ed6df6db7172144b2bc3c47f356ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameController: {fileID: 0}
   _vacuum: {fileID: 1725276333}
 --- !u!114 &1861729287
 MonoBehaviour:
@@ -30807,7 +30803,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -203, y: -224}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2130668680
