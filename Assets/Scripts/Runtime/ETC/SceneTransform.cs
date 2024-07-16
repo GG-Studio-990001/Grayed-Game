@@ -17,14 +17,16 @@ namespace Runtime.ETC
             DontDestroyOnLoad(gameObject);
         }
 
+        public void BeforeConnection()
+        {
+            Managers.Data.InGameKeyBinder.PlayerInputDisable();
+            Managers.Sound.StopAllSound();
+            Managers.Sound.Play(Sound.SFX, "[CH1] SFX_Connection");
+        }
+
         public void ConnectToScene(string targetScene)
         {
-            // 접속할 땐 사용중인 씬에서 처리
-            // Managers.Data.InGameKeyBinder.PlayerInputDisable();
-
-            Managers.Sound.StopAllSound();
-            // TODO: 효과음 교체
-            // Managers.Sound.Play(Sound.SFX, "[CH1] Pacmom_SFX_Connection");
+            // ConnectToScene 전에 BeforeConnection() 호출 필수
 
             _middleScene = _connectionScene;
             _targetScene = targetScene;
@@ -37,7 +39,7 @@ namespace Runtime.ETC
 
             Managers.Sound.StopAllSound();
             // TODO: 효과음 교체
-            // Managers.Sound.Play(Sound.SFX, "[CH1] Pacmom_SFX_Connection");
+            Managers.Sound.Play(Sound.SFX, "Tmp_Escape");
 
             _middleScene = _escapeScene;
             _targetScene = targetScene;
