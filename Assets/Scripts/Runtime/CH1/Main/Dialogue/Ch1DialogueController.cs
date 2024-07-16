@@ -161,9 +161,11 @@ namespace Runtime.CH1.Main.Dialogue
 
         IEnumerator ConnectToScene(string sceneName)
         {
-            Managers.Data.InGameKeyBinder.PlayerInputDisable();
+            _sceneTransform.BeforeConnection();
             _postProcessingVolume.SetActive(true);
+
             yield return new WaitForSeconds(1f);
+            
             _sceneTransform.ConnectToScene(sceneName);
         }
 

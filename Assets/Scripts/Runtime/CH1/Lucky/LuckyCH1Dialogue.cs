@@ -14,6 +14,7 @@ namespace Runtime.CH1.Lucky
         [SerializeField] private GameObject[] _luckys;
         [SerializeField] private LuckyBody _lucky;
         [SerializeField] private RectTransform _bubble;
+        [SerializeField] private RectTransform _bubbleImg;
         [SerializeField] private Vector3[] _leftPositions;
         [SerializeField] private Vector3[] _rightPositions;
         [SerializeField] private Vector3[] _bubblePositions;
@@ -72,6 +73,8 @@ namespace Runtime.CH1.Lucky
             _lucky.SetFlipX(false);
             _lucky.Anim.SetAnimation("Walking"); // enum으로 변경
             _lucky.transform.DOLocalMove(_leftPositions[idx], 3f).SetEase(Ease.Linear);
+
+            _bubbleImg.transform.localScale = new(1, 1, 1);
         }
 
         private void WalkRight(int idx)
@@ -79,6 +82,8 @@ namespace Runtime.CH1.Lucky
             _lucky.SetFlipX(true);
             _lucky.Anim.SetAnimation("Walking");
             _lucky.transform.DOLocalMove(_rightPositions[idx], 3f).SetEase(Ease.Linear);
+
+            _bubbleImg.transform.localScale = new(-1, 1, 1);
         }
 
         private void Idle()

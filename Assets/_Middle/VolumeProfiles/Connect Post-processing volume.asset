@@ -1,0 +1,232 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3355198389844961193
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e1719e9f39824295869cbd51931ffe6, type: 3}
+  m_Name: Noise
+  m_EditorClassIdentifier: 
+  active: 1
+  enable:
+    m_OverrideState: 1
+    m_Value: 1
+  stretchResolution:
+    m_OverrideState: 0
+    m_Value: 491.04
+  VerticalResolution:
+    m_OverrideState: 0
+    m_Value: 650.4
+  Granularity:
+    m_OverrideState: 0
+    m_Value: 1
+  GranularityAmount:
+    m_OverrideState: 0
+    m_Value: 0
+  TapeNoise:
+    m_OverrideState: 0
+    m_Value: 1
+  TapeNoiseSignalProcessing:
+    m_OverrideState: 0
+    m_Value: 1
+  TapeNoiseFade:
+    m_OverrideState: 0
+    m_Value: 1
+  TapeNoiseAmount:
+    m_OverrideState: 0
+    m_Value: 1
+  tapeLinesAmount:
+    m_OverrideState: 0
+    m_Value: 0.8
+  TapeNoiseSpeed:
+    m_OverrideState: 0
+    m_Value: 0.5
+  LineNoise:
+    m_OverrideState: 1
+    m_Value: 1
+  LineNoiseAmount:
+    m_OverrideState: 1
+    m_Value: 8.73
+  LineNoiseSpeed:
+    m_OverrideState: 1
+    m_Value: 10
+  SignalNoise:
+    m_OverrideState: 1
+    m_Value: 1
+  SignalNoisePower:
+    m_OverrideState: 1
+    m_Value: 0.898
+  SignalNoiseAmount:
+    m_OverrideState: 1
+    m_Value: 0
+  mask:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+    dimension: 1
+  maskChannel:
+    m_OverrideState: 0
+    m_Value: 0
+  unscaledTime:
+    m_OverrideState: 0
+    m_Value: 0
+  GlobalPostProcessingSettings:
+    m_OverrideState: 0
+    m_Value: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
+  m_Name: Connect Post-processing volume
+  m_EditorClassIdentifier: 
+  components:
+  - {fileID: 7273919427060763421}
+  - {fileID: -3355198389844961193}
+  - {fileID: 1548382904032640705}
+--- !u!114 &1548382904032640705
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ece09b57fde18445b241e21a99082d4, type: 3}
+  m_Name: VHSEffect
+  m_EditorClassIdentifier: 
+  active: 1
+  enable:
+    m_OverrideState: 1
+    m_Value: 1
+  colorOffset:
+    m_OverrideState: 1
+    m_Value: 4
+  colorOffsetAngle:
+    m_OverrideState: 1
+    m_Value: 1
+  verticalOffsetFrequency:
+    m_OverrideState: 1
+    m_Value: 1
+  verticalOffset:
+    m_OverrideState: 1
+    m_Value: 0.01
+  offsetDistortion:
+    m_OverrideState: 1
+    m_Value: 0.008
+  noiseTexture:
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  blendMode:
+    m_OverrideState: 1
+    m_Value: 0
+  tile:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1}
+  _textureIntensity:
+    m_OverrideState: 1
+    m_Value: 1
+  smoothCut:
+    m_OverrideState: 1
+    m_Value: 0
+  iterations:
+    m_OverrideState: 1
+    m_Value: 5
+  smoothSize:
+    m_OverrideState: 1
+    m_Value: 0.1
+  deviation:
+    m_OverrideState: 1
+    m_Value: 0.1
+  _textureCutOff:
+    m_OverrideState: 1
+    m_Value: 1
+  stripes:
+    m_OverrideState: 1
+    m_Value: 0.01
+  unscaledTime:
+    m_OverrideState: 1
+    m_Value: 0
+  mask:
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+    dimension: 1
+  maskChannel:
+    m_OverrideState: 1
+    m_Value: 0
+  GlobalPostProcessingSettings:
+    m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &7273919427060763421
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7942413263386430284c3a24e8e45f75, type: 3}
+  m_Name: Jitter
+  m_EditorClassIdentifier: 
+  active: 1
+  enable:
+    m_OverrideState: 1
+    m_Value: 1
+  twitchHorizontal:
+    m_OverrideState: 0
+    m_Value: 0
+  horizontalFreq:
+    m_OverrideState: 0
+    m_Value: 5
+  twitchVertical:
+    m_OverrideState: 1
+    m_Value: 1
+  verticalFreq:
+    m_OverrideState: 1
+    m_Value: 3.96
+  stretch:
+    m_OverrideState: 0
+    m_Value: 1
+  stretchResolution:
+    m_OverrideState: 0
+    m_Value: 1
+  jitterHorizontal:
+    m_OverrideState: 1
+    m_Value: 1
+  jitterHorizontalAmount:
+    m_OverrideState: 0
+    m_Value: 0.14
+  jitterVertical:
+    m_OverrideState: 1
+    m_Value: 1
+  jitterVerticalAmount:
+    m_OverrideState: 1
+    m_Value: 7.1
+  jitterVerticalSpeed:
+    m_OverrideState: 0
+    m_Value: 1
+  unscaledTime:
+    m_OverrideState: 0
+    m_Value: 0
+  mask:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+    dimension: 1
+  maskChannel:
+    m_OverrideState: 0
+    m_Value: 0
+  GlobalPostProcessingSettings:
+    m_OverrideState: 0
+    m_Value: 0
