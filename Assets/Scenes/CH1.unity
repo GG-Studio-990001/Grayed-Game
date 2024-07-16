@@ -2402,17 +2402,17 @@ MonoBehaviour:
   _bubbleImg: {fileID: 1021925729}
   _leftPositions:
   - {x: -0.9, y: -12.57, z: 0}
-  - {x: -2, y: -5.91, z: 0}
+  - {x: -2, y: -6.11, z: 0}
   - {x: 15.6, y: 1.9, z: 0}
   - {x: 81.7, y: -20, z: 0}
   _rightPositions:
   - {x: 6, y: -12.57, z: 0}
-  - {x: 4.9, y: -5.91, z: 0}
+  - {x: 4.9, y: -6.11, z: 0}
   - {x: 23.7, y: 1.9, z: 0}
   - {x: 89.5, y: -20, z: 0}
   _bubblePositions:
   - {x: -93, y: -210, z: 0}
-  - {x: 477, y: -66, z: 0}
+  - {x: 134, y: -225, z: 0}
   - {x: 424, y: 252, z: 0}
   - {x: 447, y: -82, z: 0}
   _fish: {fileID: 572122668}
@@ -58292,7 +58292,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3610823345873123190, guid: a4fa811cdc3960346896b628a8bbe022, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4246051215351575475, guid: a4fa811cdc3960346896b628a8bbe022, type: 3}
       propertyPath: m_LocalPosition.x
@@ -58868,7 +58868,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6505116825378322279, guid: 6d173b4636e6a974e877862ce6efc4e9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6930880402753157368, guid: 6d173b4636e6a974e877862ce6efc4e9, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.size
