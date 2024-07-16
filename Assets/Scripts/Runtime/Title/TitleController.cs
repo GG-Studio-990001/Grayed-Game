@@ -7,7 +7,7 @@ namespace Runtime.CH1.Title
     {
         private void Start()
         {
-            Managers.Sound.Play(Sound.BGM, "Title_BGM_CH1_02");
+            Managers.Sound.Play(Sound.BGM, "Title_BGM_CH1_04");
         }
 
         public void StopBGM()
