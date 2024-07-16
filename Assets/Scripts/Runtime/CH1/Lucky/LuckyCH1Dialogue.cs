@@ -74,7 +74,7 @@ namespace Runtime.CH1.Lucky
             _lucky.Anim.SetAnimation("Walking"); // enum으로 변경
             _lucky.transform.DOLocalMove(_leftPositions[idx], 3f).SetEase(Ease.Linear);
 
-            _bubbleImg.transform.localScale = new(-1, 1, 1);
+            _bubbleImg.transform.localScale = new(1, 1, 1);
         }
 
         private void WalkRight(int idx)
@@ -83,7 +83,7 @@ namespace Runtime.CH1.Lucky
             _lucky.Anim.SetAnimation("Walking");
             _lucky.transform.DOLocalMove(_rightPositions[idx], 3f).SetEase(Ease.Linear);
 
-            _bubbleImg.transform.localScale = new(1, 1, 1);
+            _bubbleImg.transform.localScale = new(-1, 1, 1);
         }
 
         private void Idle()
