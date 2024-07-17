@@ -91,6 +91,13 @@ namespace Runtime.CH1.SubB
             JewelryType = _originalType;
             gameObject.SetActive(true);
         }
+        
+        public void ResetPosition(Vector3 position)
+        {
+            transform.position = position;
+            JewelryType = _originalType;
+            gameObject.SetActive(true);
+        }
 
         public void DestroyJewelry()
         {

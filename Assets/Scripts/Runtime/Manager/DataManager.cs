@@ -1,3 +1,4 @@
+using Runtime.CH1.SubB._3_Match;
 using Runtime.Input;
 using System;
 using Runtime.ETC;
@@ -22,6 +23,7 @@ namespace Runtime.Manager
         // 3match
         public bool Is3MatchEntered;
         public bool Is3MatchCleared;
+        public ThreeMatchPuzzleStageData[] ThreeMatchPuzzleStageData;
         // Pacmom
         public bool IsPacmomPlayed;
         public bool IsPacmomCleared;
@@ -47,6 +49,13 @@ namespace Runtime.Manager
             Is3MatchEntered = false;
             // 3match
             Is3MatchCleared = false;
+            ThreeMatchPuzzleStageData = new ThreeMatchPuzzleStageData[3];
+            for (int i = 0; i < ThreeMatchPuzzleStageData.Length; i++)
+            {
+                ThreeMatchPuzzleStageData[i] = new ThreeMatchPuzzleStageData();
+                ThreeMatchPuzzleStageData[i].isClear = false;
+                ThreeMatchPuzzleStageData[i].jewelryPositions = new System.Collections.Generic.List<Vector2>();
+            }
             // Pacmom
             IsPacmomPlayed = false;
             IsPacmomCleared = false;
@@ -90,6 +99,7 @@ namespace Runtime.Manager
         
         // 3match
         public bool Is3MatchCleared { get { return _gameData.Is3MatchCleared; } set { _gameData.Is3MatchCleared = value; } }
+        public ThreeMatchPuzzleStageData[] ThreeMatchPuzzleStageData { get { return _gameData.ThreeMatchPuzzleStageData; } set { _gameData.ThreeMatchPuzzleStageData = value; } }
 
         // Pacmom
         public bool IsPacmomPlayed { get { return _gameData.IsPacmomPlayed; } set { _gameData.IsPacmomPlayed = value; } }
