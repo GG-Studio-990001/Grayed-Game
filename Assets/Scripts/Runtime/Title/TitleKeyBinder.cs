@@ -1,5 +1,6 @@
 using Runtime.Common.View;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Runtime.CH1.Title
 {
@@ -24,6 +25,11 @@ namespace Runtime.CH1.Title
         public void ActiveTimeline()
         {
             _timeline.SetActive(true);
+        }
+
+        public void GoToMain()
+        {
+            SceneManager.LoadScene("Main");
         }
     }
 }
