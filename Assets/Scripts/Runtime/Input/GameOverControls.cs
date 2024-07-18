@@ -248,7 +248,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a862329c-06f5-48c2-ae50-593397d923d1"",
-                    ""path"": ""<Keyboard>/f12"",
+                    ""path"": ""<Keyboard>/f8"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
