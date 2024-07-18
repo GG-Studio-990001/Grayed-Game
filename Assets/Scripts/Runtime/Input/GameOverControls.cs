@@ -200,6 +200,15 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cheat"",
+                    ""type"": ""Button"",
+                    ""id"": ""f9f39aac-8b20-422f-92cc-4d6f00dd9adf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -235,6 +244,17 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""action"": ""DialogueInput"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a862329c-06f5-48c2-ae50-593397d923d1"",
+                    ""path"": ""<Keyboard>/f8"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cheat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -250,6 +270,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
         m_UI_GameSetting = m_UI.FindAction("GameSetting", throwIfNotFound: true);
         m_UI_DialogueInput = m_UI.FindAction("DialogueInput", throwIfNotFound: true);
+        m_UI_Cheat = m_UI.FindAction("Cheat", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -368,6 +389,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Click;
     private readonly InputAction m_UI_GameSetting;
     private readonly InputAction m_UI_DialogueInput;
+    private readonly InputAction m_UI_Cheat;
     public struct UIActions
     {
         private @GameOverControls m_Wrapper;
@@ -375,6 +397,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         public InputAction @Click => m_Wrapper.m_UI_Click;
         public InputAction @GameSetting => m_Wrapper.m_UI_GameSetting;
         public InputAction @DialogueInput => m_Wrapper.m_UI_DialogueInput;
+        public InputAction @Cheat => m_Wrapper.m_UI_Cheat;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -393,6 +416,9 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
             @DialogueInput.started += instance.OnDialogueInput;
             @DialogueInput.performed += instance.OnDialogueInput;
             @DialogueInput.canceled += instance.OnDialogueInput;
+            @Cheat.started += instance.OnCheat;
+            @Cheat.performed += instance.OnCheat;
+            @Cheat.canceled += instance.OnCheat;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -406,6 +432,9 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
             @DialogueInput.started -= instance.OnDialogueInput;
             @DialogueInput.performed -= instance.OnDialogueInput;
             @DialogueInput.canceled -= instance.OnDialogueInput;
+            @Cheat.started -= instance.OnCheat;
+            @Cheat.performed -= instance.OnCheat;
+            @Cheat.canceled -= instance.OnCheat;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -433,5 +462,6 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         void OnClick(InputAction.CallbackContext context);
         void OnGameSetting(InputAction.CallbackContext context);
         void OnDialogueInput(InputAction.CallbackContext context);
+        void OnCheat(InputAction.CallbackContext context);
     }
 }

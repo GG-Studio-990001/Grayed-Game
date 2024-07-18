@@ -1,7 +1,6 @@
 using Runtime.CH1.Main.Player;
 using Runtime.CH1.Pacmom;
 using Runtime.CH1.Title;
-using Runtime.CH2.Main;
 using Runtime.Common.View;
 using Yarn.Unity;
 
@@ -20,18 +19,19 @@ namespace Runtime.Input
         }
         
         // Title
-        public void TitleKeyBinding(TitleKeyBinder keyBinder)
+        public void TitleKeyBinding(TitleKeyBinder keyBinder, SettingsUIView settingsUIView)
         {
             _gameOverControls.UI.Enable();
             _gameOverControls.UI.DialogueInput.performed += _ => keyBinder.ActiveTimeline();
-            _gameOverControls.UI.GameSetting.performed += _ => keyBinder.SetSettingUI();
+            _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
+            _gameOverControls.UI.Cheat.performed += _ => keyBinder.GoToMain();
         }
 
         // Pacmom
-        public void PMKeyBinding(PMKeyBinder keyBinder, LineView line, Rapley rapley )
+        public void PMKeyBinding(SettingsUIView settingsUIView, LineView line, Rapley rapley )
         {
             _gameOverControls.UI.Enable();
-            _gameOverControls.UI.GameSetting.performed += _ => keyBinder.SetSettingUI();
+            _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
             _gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
 
             _gameOverControls.Player.Enable();
@@ -50,18 +50,18 @@ namespace Runtime.Input
             _gameOverControls.Player.Interaction.performed += _ => player.OnInteraction();
         }
         
-        public void CH1UIKeyBinding(SettingsUIView settingsUIView, LineView lucky)
+        public void CH1UIKeyBinding(SettingsUIView settingsUIView, LineView line)
         {
             _gameOverControls.UI.Enable();
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
-            _gameOverControls.UI.DialogueInput.performed += _ => lucky.OnContinueClicked();
+            _gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
         }
 
         // CH2
-        public void CH2KeyBinding(CH2KeyBinder keyBinder)
+        public void CH2KeyBinding(SettingsUIView settingsUIView)
         {
             _gameOverControls.UI.Enable();
-            _gameOverControls.UI.GameSetting.performed += _ => keyBinder.SetSettingUI();
+            _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
         }
 
         // ETC
