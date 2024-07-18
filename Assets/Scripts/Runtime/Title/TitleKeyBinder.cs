@@ -1,6 +1,5 @@
 using Runtime.Common.View;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Runtime.CH1.Title
 {
@@ -19,17 +18,12 @@ namespace Runtime.CH1.Title
         private void InitKeyBinding()
         {
             Managers.Data.InGameKeyBinder.GameControlReset();
-            Managers.Data.InGameKeyBinder.TitleKeyBinding(this);
+            Managers.Data.InGameKeyBinder.TitleKeyBinding(this, _settingsUIView);
         }
 
         public void ActiveTimeline()
         {
             _timeline.SetActive(true);
-        }
-
-        public void SetSettingUI()
-        {
-            _settingsUIView.GameSettingToggle();
         }
     }
 }
