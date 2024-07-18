@@ -24,6 +24,7 @@ namespace Runtime.Input
             _gameOverControls.UI.Enable();
             _gameOverControls.UI.DialogueInput.performed += _ => keyBinder.ActiveTimeline();
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
+            _gameOverControls.UI.Cheat.performed += _ => keyBinder.GoToMain();
         }
 
         // Pacmom
