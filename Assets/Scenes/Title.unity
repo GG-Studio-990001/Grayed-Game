@@ -1118,7 +1118,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1670056649}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &748518206
 GameObject:
@@ -1602,7 +1602,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 315213551}
-  background: {fileID: 411657962}
   fadeDeltaTime: 0.1
 --- !u!114 &1299185957
 MonoBehaviour:
@@ -1956,8 +1955,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 748020248}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1732244490
@@ -12006,6 +12004,7 @@ SceneRoots:
   - {fileID: 651019597}
   - {fileID: 2040245081}
   - {fileID: 1670056649}
+  - {fileID: 748020248}
   - {fileID: 467642165}
   - {fileID: 1283960391}
   - {fileID: 203302446}

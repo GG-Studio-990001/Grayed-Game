@@ -15,7 +15,7 @@ namespace Runtime.Common.View
         [field:SerializeField] public Button GameExitButton { get; set; }
         
         private SettingsUIPresenter _presenter;
-        
+
         public event Action OnSettingsOpen;
         public event Action OnSettingsClose;
         
@@ -29,15 +29,16 @@ namespace Runtime.Common.View
             if (SettingUIObject.activeSelf)
             {
                 OnSettingsClose?.Invoke();
+                Time.timeScale = 1;
                 SettingsEvent.ToggleSettings(false);
-                // Managers.Data.SaveGame(); // 볼륨 해야되는데..
             }
             else
             {
                 OnSettingsOpen?.Invoke();
+                Time.timeScale = 0;
                 SettingsEvent.ToggleSettings(true);
             }
-            
+
             SettingUIObject.SetActive(!SettingUIObject.activeSelf);
         }
     }

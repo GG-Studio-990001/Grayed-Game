@@ -87,7 +87,7 @@ namespace Runtime.CH1.Pacmom
         {
             CancelInvoke();
             _postProcessing.gameObject.SetActive(false);
-            _sceneTransform.EscapeFromScene("CH1");
+            _sceneTransform.EscapeFromScene("CH1", true);
         }
     }
 }

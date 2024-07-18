@@ -19,7 +19,7 @@ namespace Runtime.CH1.Title
         private void InitKeyBinding()
         {
             Managers.Data.InGameKeyBinder.GameControlReset();
-            Managers.Data.InGameKeyBinder.TitleKeyBinding(this);
+            Managers.Data.InGameKeyBinder.TitleKeyBinding(this, _settingsUIView);
         }
 
         public void ActiveTimeline()
@@ -27,9 +27,9 @@ namespace Runtime.CH1.Title
             _timeline.SetActive(true);
         }
 
-        public void SetSettingUI()
+        public void GoToMain()
         {
-            _settingsUIView.GameSettingToggle();
+            SceneManager.LoadScene("Main");
         }
     }
 }
