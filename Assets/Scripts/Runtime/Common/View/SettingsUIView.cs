@@ -30,7 +30,6 @@ namespace Runtime.Common.View
             {
                 OnSettingsClose?.Invoke();
                 SettingsEvent.ToggleSettings(false);
-                // Managers.Data.SaveGame(); // 볼륨 해야되는데..
             }
             else
             {

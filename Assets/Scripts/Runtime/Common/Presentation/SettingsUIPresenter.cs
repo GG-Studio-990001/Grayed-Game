@@ -1,7 +1,4 @@
 using Runtime.Common.View;
-using Runtime.Data.Original;
-using Runtime.InGameSystem;
-using Runtime.Interface;
 using UnityEngine;
 
 namespace Runtime.Common.Presentation
