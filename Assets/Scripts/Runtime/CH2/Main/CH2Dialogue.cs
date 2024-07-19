@@ -14,16 +14,13 @@ namespace Runtime.CH2.Main
 
     public class CH2Dialogue : DialogueViewBase
     {
-        private DialogueRunner _runner;
-        [SerializeField]
-        private Image[] _characters = new Image[2];
-        [SerializeField]
-        private GameObject next;
+        [SerializeField] private DialogueRunner _runner;
+        [SerializeField] private Image[] _characters = new Image[2];
+        [SerializeField] private GameObject next;
         private string _speaker;
 
         private void Awake()
         {
-            _runner = GetComponent<DialogueRunner>();
             _runner.AddCommandHandler("DialogueFin", HighlightAll);
         }
 
