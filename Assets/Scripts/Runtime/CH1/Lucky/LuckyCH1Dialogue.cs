@@ -3,6 +3,7 @@ using Runtime.CH1.SubB;
 using Runtime.ETC;
 using Runtime.Lucky;
 using System;
+using System.Collections;
 using UnityEngine;
 using Yarn.Unity;
 
@@ -19,6 +20,8 @@ namespace Runtime.CH1.Lucky
         [SerializeField] private Vector3[] _rightPositions;
         [SerializeField] private Vector3[] _bubblePositions;
         [SerializeField] private GameObject _fish;
+        [SerializeField] private SceneTransform _sceneTransform;
+        [SerializeField] private GameObject _postProcessingVolume;
 
         private void Awake()
         {
@@ -37,6 +40,7 @@ namespace Runtime.CH1.Lucky
             _runner.AddCommandHandler("ExitSLG", ExitSLG);
 
             _runner.AddCommandHandler("ActiveFish", ActiveFish);
+            _runner.AddCommandHandler("FirstMeet", FirstMeet);
         }
 
         private void Start()
@@ -161,6 +165,25 @@ namespace Runtime.CH1.Lucky
             _fish.SetActive(true);
             _fish.transform.localPosition = new(9.5f, -0.5f, 0);
             _fish.GetComponent<Jewelry>().JewelryType = JewelryType.B;
+        }
+
+        private void FirstMeet()
+        {
+            StartCoroutine(nameof(ConnectDirection));
+        }
+
+        IEnumerator ConnectDirection()
+        {
+            _sceneTransform.BeforeConnection();
+            _postProcessingVolume.SetActive(true);
+
+            yield return new WaitForSeconds(1f);
+
+            _sceneTransform.ConnectDirection();
+
+            // Before _translationDuration end
+            yield return new WaitForSeconds(1f);
+            _postProcessingVolume.SetActive(false);
         }
     }
 }
