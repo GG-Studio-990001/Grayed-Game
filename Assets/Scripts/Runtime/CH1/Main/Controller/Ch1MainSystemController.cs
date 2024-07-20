@@ -4,6 +4,7 @@ using Runtime.CH1.Main.Player;
 using Runtime.CH1.Main.Stage;
 using Runtime.Common.View;
 using Runtime.InGameSystem;
+using Runtime.Manager;
 using UnityEngine;
 using Yarn.Unity;
 
@@ -15,7 +16,6 @@ namespace Runtime.CH1.Main.Controller
         [SerializeField] private SettingsUIView _settingsUIView;
         [SerializeField] private Ch1StageController _ch1StageController;
         [SerializeField] private Ch1DialogueController _ch1DialogueController;
-        // [SerializeField] private TimelineController _timelineController;
         [SerializeField] private FadeController _fadeController;
         
         [Header("Player")]
@@ -28,18 +28,39 @@ namespace Runtime.CH1.Main.Controller
         [SerializeField] private MamagoController _mamago;
         [SerializeField] private LineView _luckyDialogue;
 
-
         private void Start()
         {
-            GameKeyBinding();
             LoadGame();
+            GameKeyBinding();
             GameInit();
             SetMap();
+            SetPlayerPosition();
         }
 
-        private void LoadGame()
+        private void SetPlayerPosition()
         {
-            Managers.Data.LoadGame();
+            // 진행도에 따른 플레이어 위치 재지정
+            // TO DO: 클래스 따로 빼기?
+
+            switch(Managers.Data.Stage)
+            {
+                case 1:
+                    if (Managers.Data.Scene > 1)
+                    {
+                        // 팩맘 앞
+                        _player.transform.position = new Vector3(22.07f, -7.21f, 0);
+                    }
+                    break;
+                case 2:
+                    if ((Managers.Data.Scene == 3 && Managers.Data.SceneDetail == 1) || Managers.Data.Scene > 3)
+                    {
+                        // 3Match 끝냈으면 오른쪽에 위치
+                        _player.transform.position = new Vector3(50.4f, -11.6f, 0);
+                    }
+                    break;
+                case 3:
+                    break;
+            }
         }
 
         private void SetMap()
@@ -49,6 +70,12 @@ namespace Runtime.CH1.Main.Controller
             _luckyPack.ActiveLuckyPack();
             _bridge.CheckBridge();
             _mamago.CheckMamago();
+        }
+
+        // 각 컨트롤러 초기화
+        private void GameInit()
+        {
+            _ch1StageController.Init(_fadeController, _player.transform);
         }
 
         // 인게임에 사용되는 키 이벤트 바인딩
@@ -62,17 +89,13 @@ namespace Runtime.CH1.Main.Controller
             _ch1DialogueController.OnDialogueStart.AddListener(() => Managers.Data.InGameKeyBinder.PlayerInputDisable());
             _ch1DialogueController.OnDialogueEnd.AddListener(() => Managers.Data.InGameKeyBinder.PlayerInputEnable());
 
-            // _timelineController.PlayableDirector.played += (_) => Managers.Data.InGameKeyBinder.PlayerInputDisable();
-            // _timelineController.PlayableDirector.stopped += (_) => Managers.Data.InGameKeyBinder.PlayerInputEnable();
-
             _settingsUIView.OnSettingsOpen += () => Managers.Data.InGameKeyBinder.PlayerInputDisable();
             _settingsUIView.OnSettingsClose += () => Managers.Data.InGameKeyBinder.PlayerInputEnable();
         }
-        
-        // 각 컨트롤러 초기화
-        private void GameInit()
+
+        private void LoadGame()
         {
-            _ch1StageController.Init(_fadeController, _player.transform);
+            Managers.Data.LoadGame();
         }
     }
 }

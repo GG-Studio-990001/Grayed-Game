@@ -5,83 +5,66 @@ namespace Runtime.Main
 {
     public class MainController : MonoBehaviour
     {
-        [SerializeField] private SceneSystem sceneSystem;
+        [SerializeField] private SceneSystem _sceneSystem;
+        private TestData _testData;
 
         private void Start()
         {
+            _testData = new TestData();
             Managers.Data.InGameKeyBinder.GameControlReset();
         }
 
-        // Hard Cordings
 
         public void NewGame()
         {
             Managers.Data.NewGame();
-            sceneSystem.LoadScene("CH1");
+            _sceneSystem.LoadScene("CH1");
         }
         
         public void LoadGame()
         {
             Managers.Data.LoadGame();
-            sceneSystem.LoadScene("CH1");
+
+            if (Managers.Data.Chapter == 1)
+                _sceneSystem.LoadScene("CH1");
+            else if (Managers.Data.Chapter == 2)
+                _sceneSystem.LoadScene("CH2");
         }
 
         public void GoPacmom()
         {
             Managers.Data.NewGame();
-            sceneSystem.LoadScene("Pacmom");
+            _sceneSystem.LoadScene("Pacmom");
         }
 
         public void GoCH2()
         {
             Managers.Data.NewGame();
-            sceneSystem.LoadScene("CH2");
+            _sceneSystem.LoadScene("CH2");
         }
 
         public void AfterIntro()
         {
             Managers.Data.NewGame();
-            Managers.Data.Scene = 1;
-            Managers.Data.SceneDetail = 1;
+            _testData.DataAfterIntro();
             Managers.Data.SaveGame();
-            Managers.Data.LoadGame();
-            sceneSystem.LoadScene("CH1");
+            LoadGame();
         }
 
         public void AfterPacmom()
         {
             Managers.Data.NewGame();
-            Managers.Data.Scene = 1;
-            Managers.Data.SceneDetail = 1;
-            Managers.Data.MeetLucky = true;
-            Managers.Data.IsPacmomPlayed = true;
-            Managers.Data.IsPacmomCleared = true;
-            Managers.Data.PacmomCoin = 300;
+            _testData.DataAfterPacmom();
             Managers.Data.SaveGame();
-            Managers.Data.LoadGame();
-            sceneSystem.LoadScene("CH1");
+            LoadGame();
         }
 
         public void After3Match()
         {
             Managers.Data.NewGame();
-            Managers.Data.Scene = 3;
-            Managers.Data.SceneDetail = 1;
-            Managers.Data.MeetLucky = true;
-            Managers.Data.IsPacmomPlayed = true;
-            Managers.Data.IsPacmomCleared = true;
-            Managers.Data.PacmomCoin = 300;
-            Managers.Data.Is3MatchEntered = true;
-            Managers.Data.Is3MatchCleared = true;
+            _testData.DataAfter3Match();
             Managers.Data.SaveGame();
-            Managers.Data.LoadGame();
-            sceneSystem.LoadScene("CH1");
-        }
-
-        public void AfterSLG()
-        {
-            Managers.Data.NewGame();
-
+            LoadGame();
         }
     }
 }

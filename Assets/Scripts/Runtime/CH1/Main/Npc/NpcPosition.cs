@@ -39,10 +39,14 @@ namespace Runtime.CH1.Main.Npc
                 SetNpcPosition(4);
                 Debug.Log("씬2 후 이동");
             }
-            else if (Managers.Data.Scene == 3)
+            else if (Managers.Data.Scene == 3 && Managers.Data.SceneDetail == 0)
             {
                 SetNpcPosition(6);
                 Debug.Log("동굴 출구 앞");
+            }
+            else if (Managers.Data.Scene == 3 && Managers.Data.SceneDetail == 1)
+            {
+                SetNpcPosition(8);
             }
             else
             {
