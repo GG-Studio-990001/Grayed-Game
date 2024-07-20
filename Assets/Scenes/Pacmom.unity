@@ -22273,8 +22273,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uB7ED\uD0A4\uB2D8 \uD1F4\uC7A5\uC774\uC694~"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1734656a2e7f533439b0d9f572ed26e4, type: 2}
-  m_sharedMaterial: {fileID: -178129832433001489, guid: 1734656a2e7f533439b0d9f572ed26e4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c9c56bd2e3490a64a8815943175efb10, type: 2}
+  m_sharedMaterial: {fileID: 4052432197268177338, guid: c9c56bd2e3490a64a8815943175efb10, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -22298,8 +22298,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
-  m_fontSizeBase: 28
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
