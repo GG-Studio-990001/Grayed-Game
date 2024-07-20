@@ -48,7 +48,7 @@ namespace Runtime.CH1.Main.Controller
                     if (Managers.Data.Scene > 1)
                     {
                         // 팩맘 앞
-                        _player.transform.position = new Vector3(22.07f, -7.21f, 0);
+                        _player.transform.position = new Vector3(22.07f, -6.94f, 0);
                     }
                     break;
                 case 2:
