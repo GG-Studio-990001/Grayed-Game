@@ -72,5 +72,25 @@ namespace Runtime.ETC
                 Managers.Data.InGameKeyBinder.PlayerInputEnable();
             }
         }
+
+        public void ConnectDirection()
+        {
+            _middleScene = _connectionScene;
+            StartCoroutine(nameof(TranslateDirection));
+        }
+
+        private IEnumerator TranslateDirection()
+        {
+            // 중간 씬 로드
+            yield return SceneManager.LoadSceneAsync(_middleScene, LoadSceneMode.Additive);
+
+            // 대기
+            yield return new WaitForSeconds(_translationDuration);
+
+            // 중간 씬 언로드
+            yield return SceneManager.UnloadSceneAsync(_middleScene);
+
+            Managers.Data.InGameKeyBinder.PlayerInputEnable();
+        }
     }
 }
