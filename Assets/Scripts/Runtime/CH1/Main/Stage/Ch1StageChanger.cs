@@ -46,7 +46,7 @@ namespace Runtime.CH1.Main.Stage
 
             OnStageEnd?.Invoke();
         }
-        
+
         // 맵 접속
         public async Task SetStage(int moveStageNumber, Vector2 spawnPosition)
         {
@@ -56,9 +56,9 @@ namespace Runtime.CH1.Main.Stage
                 _fadeController.StartFadeIn();
 
             StageMoveLogic(moveStageNumber, spawnPosition);
-            
+
             await Task.Delay(1000);
-            
+
             OnStageEnd?.Invoke();
         }
 
@@ -73,6 +73,9 @@ namespace Runtime.CH1.Main.Stage
             
             _currentStage.Enable();
             _confiner2D.m_BoundingShape2D = _currentStage.GetStageCollider();
+
+            Managers.Data.Stage = moveStageNumber;
+            Managers.Data.SaveGame();
         }
     }
 }

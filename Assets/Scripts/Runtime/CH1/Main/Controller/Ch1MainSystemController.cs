@@ -32,8 +32,8 @@ namespace Runtime.CH1.Main.Controller
         private void Start()
         {
             GameKeyBinding();
-            GameInit();
             LoadGame();
+            GameInit();
             SetMap();
         }
 
