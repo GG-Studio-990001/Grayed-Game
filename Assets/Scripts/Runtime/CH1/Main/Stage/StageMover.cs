@@ -19,8 +19,7 @@ namespace Runtime.CH1.Main.Stage
         {
             if (_npcs == null)
             {
-                _npcs = GameObject.Find("NPC").GetComponent<NpcPosition>(); // FindObjectOfType<NpcPosition>();
-                if (_npcs == null)
+                if (!GameObject.Find("NPC").TryGetComponent<NpcPosition>(out _npcs))
                 {
                     Debug.Log("NpcPosition is not found.");
                 }

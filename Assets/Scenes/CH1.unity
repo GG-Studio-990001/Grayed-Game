@@ -2519,6 +2519,8 @@ MonoBehaviour:
   - {x: 214, y: 144, z: 0}
   - {x: 180, y: -217, z: 0}
   _fish: {fileID: 572122668}
+  _sceneTransform: {fileID: 1522664182}
+  _postProcessingVolume: {fileID: 674618124}
 --- !u!4 &102153461 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1368314908901170753, guid: 57796641bda70d147805b66c9dd59d1e, type: 3}
@@ -4351,7 +4353,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uBD80\uC871\uD558\uB2E4 \uC2F6\uC73C\uBA74<br>\uC7A0\uAE50 \uAE30\uB2E4\uB824\uBD10"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1734656a2e7f533439b0d9f572ed26e4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c9c56bd2e3490a64a8815943175efb10, type: 2}
   m_sharedMaterial: {fileID: -178129832433001489, guid: 1734656a2e7f533439b0d9f572ed26e4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -4376,8 +4378,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38
-  m_fontSizeBase: 38
+  m_fontSize: 34
+  m_fontSizeBase: 34
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4415,7 +4417,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &213274876
