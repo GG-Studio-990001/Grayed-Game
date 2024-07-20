@@ -64,9 +64,14 @@ namespace Runtime.CH1.Main.Stage
 
         private void StageMoveLogic(int moveStageNumber, Vector2 spawnPosition)
         {
-            if (_currentStage != null)
-                _currentStage.Disable();
-            
+            foreach (var stage in _stages)
+            {
+                stage.Disable();
+            }
+
+            //if (_currentStage != null)
+            //    _currentStage.Disable();
+
             _currentStage = _stages[moveStageNumber - 1];
             
             _player.transform.position = spawnPosition;
