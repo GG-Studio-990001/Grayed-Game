@@ -7326,7 +7326,7 @@ MonoBehaviour:
   SLGMaMagoGateColider: {fileID: 566740323}
   bShowWnd: 0
   _luckyDialogue: {fileID: 101260564}
-  _dialogue: {fileID: 0}
+  _dialogue: {fileID: 7390379506314505000}
 --- !u!1 &332104389
 GameObject:
   m_ObjectHideFlags: 0
