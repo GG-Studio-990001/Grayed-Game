@@ -33,6 +33,7 @@ namespace Runtime.Manager
         public SLGProgress SLGProgressData;
         public int SLGWoodCount;
         public int SLGStoneCount;
+        public bool SLGBridgeRebuild;
 
         public GameData()
         {
@@ -65,6 +66,7 @@ namespace Runtime.Manager
             SLGProgressData = SLGProgress.None;
             SLGWoodCount = 0;
             SLGStoneCount = 0;
+            SLGBridgeRebuild = false;
         }
     }
     
@@ -113,6 +115,7 @@ namespace Runtime.Manager
         public int SLGWoodCount { get { return _gameData.SLGWoodCount; } set { _gameData.SLGWoodCount = value; } }
 
         public int SLGStoneCount { get { return _gameData.SLGStoneCount; } set { _gameData.SLGStoneCount = value; } }
+        public bool SLGBridgeRebuild { get { return _gameData.SLGBridgeRebuild; } set { _gameData.SLGBridgeRebuild = value; } }
         #endregion
 
         public void Init()
