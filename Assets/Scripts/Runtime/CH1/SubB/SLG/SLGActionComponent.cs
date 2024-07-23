@@ -29,6 +29,7 @@ public class SLGActionComponent : MonoBehaviour
 
     [SerializeField] private GameObject _SLGCanvas;
     [SerializeField] private GameObject _constructUI;
+    [SerializeField] private GameObject _buildingListUI;
     [SerializeField] private TextMeshProUGUI UI_WoodText;
     [SerializeField] private TextMeshProUGUI UI_StoneText;
     [SerializeField] private TextMeshProUGUI UI_CoinText;
@@ -52,6 +53,7 @@ public class SLGActionComponent : MonoBehaviour
     [SerializeField] private GameObject SLGConstructionSite;
     [SerializeField] private GameObject SLGMaMagoGate;
     [SerializeField] private GameObject SLGMaMagoGateColider;
+    [SerializeField] private GameObject bridgeObject;
 
 
     private SLGInteractionObject[] _cachedObjects;
@@ -96,6 +98,7 @@ public class SLGActionComponent : MonoBehaviour
         Wnd_CloseBtn.onClick.AddListener(OnClickCloseBtn);
         Wnd_AccelerateBtn.onClick.AddListener(OnClickAccelerateBtn);
         _constructUI.SetActive(false);
+        _buildingListUI.SetActive(false);
 
         SLGConstructionSite.SetActive(true);
         SLGMaMagoGate.SetActive(false);
@@ -131,7 +134,10 @@ public class SLGActionComponent : MonoBehaviour
                 _sponSpots.SetActive(true);
             }
         }
-        
+        if (bridgeObject != null)
+        {
+            bridgeObject.SetActive(Managers.Data.SLGBridgeRebuild);
+        }
     }
 
     private void Update()
@@ -206,6 +212,7 @@ public class SLGActionComponent : MonoBehaviour
         SLGTriggerObject.SetActive(false);
         _sponSpots.SetActive(true);
         SLGConstructionObject.SetActive(true);
+        _buildingListUI.SetActive(true);
         _wood = Managers.Data.SLGWoodCount;
         _stone = Managers.Data.SLGStoneCount;
 
@@ -218,6 +225,12 @@ public class SLGActionComponent : MonoBehaviour
         RefreshCoinText();
         UI_WoodText.text = _wood.ToString();
         UI_StoneText.text = _stone.ToString();
+
+        SLGBuildingListWindow BuildingWnd = _buildingListUI.GetComponent<SLGBuildingListWindow>();
+        if (BuildingWnd != null)
+        { 
+            BuildingWnd.RefreshBuildingInfo();
+        }
     }
     public void ProcessObjectInteraction(SLGObjectType InObjectType)
     {
@@ -253,6 +266,11 @@ public class SLGActionComponent : MonoBehaviour
                 }
             default: break;
         }
+        SLGBuildingListWindow BuildingWnd = _buildingListUI.GetComponent<SLGBuildingListWindow>();
+        if (BuildingWnd != null)
+        {
+            BuildingWnd.RefreshBuildingInfo();
+        }
     }
 
     public void GetSLGPack()
@@ -264,6 +282,7 @@ public class SLGActionComponent : MonoBehaviour
     {
         MoveOnNextProgress();
         _SLGCanvas.SetActive(true);
+        _buildingListUI.SetActive(true);
         _sponSpots.SetActive(true);
         SLGTriggerObject.SetActive(false);
 
@@ -438,6 +457,15 @@ public class SLGActionComponent : MonoBehaviour
             if (bShowWnd)
             {
                 RefreshConstructionWnd();
+            }
+            if (_buildingListUI != null)
+            {
+                _buildingListUI.SetActive(true);
+                SLGBuildingListWindow BuildingWnd = _buildingListUI.GetComponent<SLGBuildingListWindow>();
+                if (BuildingWnd != null)
+                {
+                    BuildingWnd.RefreshBuildingInfo();
+                }
             }
             if (SLGProgressInfo == SLGProgress.Constructing)
             {
