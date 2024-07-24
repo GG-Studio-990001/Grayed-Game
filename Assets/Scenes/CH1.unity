@@ -2521,6 +2521,7 @@ MonoBehaviour:
   _fish: {fileID: 572122668}
   _sceneTransform: {fileID: 1522664182}
   _postProcessingVolume: {fileID: 674618124}
+  _player: {fileID: 669133899}
 --- !u!4 &102153461 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1368314908901170753, guid: 57796641bda70d147805b66c9dd59d1e, type: 3}
