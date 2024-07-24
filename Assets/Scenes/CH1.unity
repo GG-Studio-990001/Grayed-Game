@@ -2516,11 +2516,12 @@ MonoBehaviour:
   _bubblePositions:
   - {x: -93, y: -210, z: 0}
   - {x: 134, y: -225, z: 0}
-  - {x: 214, y: 144, z: 0}
+  - {x: 214, y: 260, z: 0}
   - {x: 180, y: -217, z: 0}
   _fish: {fileID: 572122668}
   _sceneTransform: {fileID: 1522664182}
   _postProcessingVolume: {fileID: 674618124}
+  _player: {fileID: 669133899}
 --- !u!4 &102153461 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1368314908901170753, guid: 57796641bda70d147805b66c9dd59d1e, type: 3}
@@ -4354,7 +4355,7 @@ MonoBehaviour:
   m_text: "\uBD80\uC871\uD558\uB2E4 \uC2F6\uC73C\uBA74<br>\uC7A0\uAE50 \uAE30\uB2E4\uB824\uBD10"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c9c56bd2e3490a64a8815943175efb10, type: 2}
-  m_sharedMaterial: {fileID: -178129832433001489, guid: 1734656a2e7f533439b0d9f572ed26e4, type: 2}
+  m_sharedMaterial: {fileID: 4052432197268177338, guid: c9c56bd2e3490a64a8815943175efb10, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4378,8 +4379,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34
-  m_fontSizeBase: 34
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4417,7 +4418,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &213274876
@@ -24729,7 +24730,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bb329b2a21ed7244195ee06db5b1d99b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7c0807bea832d5d4dbe81f2e84329055, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -36912,7 +36913,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.4375, y: 0.4375}
+    oldSize: {x: 0.5, y: 0.5}
     newSize: {x: 1.1875, y: 1.1875}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -49732,7 +49733,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1740714777}
   - component: {fileID: 1740714779}
-  - component: {fileID: 1740714780}
   m_Layer: 15
   m_Name: Dummy
   m_TagString: Untagged
@@ -49796,7 +49796,7 @@ SpriteRenderer:
   m_SortingLayerID: 517879615
   m_SortingLayer: 3
   m_SortingOrder: 3
-  m_Sprite: {fileID: -2032112551, guid: 1696ea71af2e84e499d64a02dc6e0fba, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7e2e52b690b9fa84b99042cd9de6663e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -49807,21 +49807,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1740714780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1740714776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6dd3a0605680fc4d99395d8cfaf79da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnInteract:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &1742866743
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61503,7 +61488,7 @@ PrefabInstance:
     - target: {fileID: 2915497411903025528, guid: fabd929830e0d48429c6e047af57dd53, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 728065361, guid: 49dc63c0849f2e944abc72fa4b425132, type: 3}
+      objectReference: {fileID: 21300000, guid: 63a364643b703ae4c82480d0a2facb09, type: 3}
     - target: {fileID: 2915497411903025528, guid: fabd929830e0d48429c6e047af57dd53, type: 3}
       propertyPath: m_SortingOrder
       value: 3

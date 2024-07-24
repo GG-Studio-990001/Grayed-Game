@@ -22,6 +22,7 @@ namespace Runtime.CH1.Lucky
         [SerializeField] private GameObject _fish;
         [SerializeField] private SceneTransform _sceneTransform;
         [SerializeField] private GameObject _postProcessingVolume;
+        [SerializeField] private Transform _player;
 
         private void Awake()
         {
@@ -120,6 +121,13 @@ namespace Runtime.CH1.Lucky
 
         private void SetBubblePos(int idx)
         {
+            // 예외처리 하드코딩
+            if (idx == 2 && _player.position.y > 0)
+            {
+                _bubble.anchoredPosition = new Vector3(_bubblePositions[idx].x, 114, _bubblePositions[idx].z);
+                return;
+            }
+
             _bubble.anchoredPosition = _bubblePositions[idx];
         }
         #endregion
@@ -169,21 +177,22 @@ namespace Runtime.CH1.Lucky
 
         private void FirstMeet()
         {
-            StartCoroutine(nameof(ConnectDirection));
+            // TODO: 역접속 연출로 교체
+            //StartCoroutine(nameof(ConnectDirection));
         }
 
-        IEnumerator ConnectDirection()
-        {
-            _sceneTransform.BeforeConnection();
-            _postProcessingVolume.SetActive(true);
+        //IEnumerator ConnectDirection()
+        //{
+        //    _sceneTransform.BeforeConnection();
+        //    _postProcessingVolume.SetActive(true);
 
-            yield return new WaitForSeconds(1f);
+        //    yield return new WaitForSeconds(1f);
 
-            _sceneTransform.ConnectDirection();
+        //    _sceneTransform.ConnectDirection();
 
-            // Before _translationDuration end
-            yield return new WaitForSeconds(1f);
-            _postProcessingVolume.SetActive(false);
-        }
+        //    // Before _translationDuration end
+        //    yield return new WaitForSeconds(1f);
+        //    _postProcessingVolume.SetActive(false);
+        //}
     }
 }
