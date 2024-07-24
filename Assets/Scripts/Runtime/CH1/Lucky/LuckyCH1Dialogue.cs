@@ -169,21 +169,22 @@ namespace Runtime.CH1.Lucky
 
         private void FirstMeet()
         {
-            StartCoroutine(nameof(ConnectDirection));
+            // TODO: 역접속 연출로 교체
+            //StartCoroutine(nameof(ConnectDirection));
         }
 
-        IEnumerator ConnectDirection()
-        {
-            _sceneTransform.BeforeConnection();
-            _postProcessingVolume.SetActive(true);
+        //IEnumerator ConnectDirection()
+        //{
+        //    _sceneTransform.BeforeConnection();
+        //    _postProcessingVolume.SetActive(true);
 
-            yield return new WaitForSeconds(1f);
+        //    yield return new WaitForSeconds(1f);
 
-            _sceneTransform.ConnectDirection();
+        //    _sceneTransform.ConnectDirection();
 
-            // Before _translationDuration end
-            yield return new WaitForSeconds(1f);
-            _postProcessingVolume.SetActive(false);
-        }
+        //    // Before _translationDuration end
+        //    yield return new WaitForSeconds(1f);
+        //    _postProcessingVolume.SetActive(false);
+        //}
     }
 }
