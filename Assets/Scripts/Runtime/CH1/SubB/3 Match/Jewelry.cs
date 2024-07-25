@@ -94,6 +94,8 @@ namespace Runtime.CH1.SubB
             JewelryType = _originalType;
             if (!gameObject.name.Contains("Lucky"))
                 gameObject.SetActive(true);
+            else
+                gameObject.SetActive(false);
         }
         
         public void ResetPosition(Vector3 position)
@@ -102,6 +104,8 @@ namespace Runtime.CH1.SubB
             JewelryType = _originalType;
             if (!gameObject.name.Contains("Lucky"))
                 gameObject.SetActive(true);
+            else
+                gameObject.SetActive(false);
         }
 
         public void DestroyJewelry()
