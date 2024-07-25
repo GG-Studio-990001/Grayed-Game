@@ -38,8 +38,7 @@ namespace Runtime.ETC
             Managers.Data.InGameKeyBinder.PlayerInputDisable();
 
             Managers.Sound.StopAllSound();
-            // TODO: 효과음 교체
-            Managers.Sound.Play(Sound.SFX, "Tmp_Escape");
+            Managers.Sound.Play(Sound.SFX, "[CH1] SFX_Escape_03");
 
             _middleScene = _escapeScene;
             _targetScene = targetScene;
