@@ -6,7 +6,7 @@ title: PMStart
 <<DustASpeak>>
 DustA: 뭐야, 여기에는<br>어떻게 들어온 거야?
 <<DustBSpeak>>
-DustB: 너도 팩맘을<br>잡으러 온 거야?
+DustB: 너도 <wave>팩맘을<br>잡으러</wave> 온 거야?
 <<RapleySpeak>>
 Player: 
 <<DustASpeak>>
@@ -14,43 +14,43 @@ DustA: 팩맘이 우리 보고<br>더러운 먼지들이래
 <<DustBSpeak>>
 DustB: 정말 미워!
 <<DustASpeak>>
-DustA: 잡아서<br>코인을 뺏어주마!
+DustA: <bounce>잡아서<br>코인을 뺏어주마!</bounce>
 <<DustBSpeak>>
 DustB: 잔뜩 뺏어주마!
 <<DustASpeak>>
-DustA: 하지만 <i>청소 시간</i>에는<br>꼭 도망가야 해!
+DustA: 하지만 <bounce>청소 시간</bounce>에는<br>꼭 <shake>도망</shake>가야 해!
 <<DustBSpeak>>
 DustB: 으으, 끔찍한 청소기
 <<DustASpeak>>
 DustA: 아무튼 파이팅이야
 <<DustBSpeak>>
-DustB: 이제 곧 시작한다!
+DustB: 이제 곧 <slide>시작</slide>한다!
 <<OpeningDialogueFin>>
 ===
 
 title: PMRetry
 ---
 <<DustASpeak>>
-DustA: 역시 다시 왔구나!
+DustA: 역시 <wave>다시</wave> 왔구나!
 DustA: 아까는 정말 아까웠어
 <<DustBSpeak>>
 DustB: 이번엔 제대로<br>괴롭혀주마!
 <<DustASpeak>>
 DustA: 한 번 더 파이팅이야!
 <<DustBSpeak>>
-DustB: 다시 시작이다!
+DustB: <bounce>다시 시작</bounce>이다!
 <<OpeningDialogueFin>>
 ===
 
 title: PMStartAgain
 ---
 <<DustASpeak>>
-DustA: 오 또 온거야?
+DustA: <wave>오 또 온거야?</wave>
 DustA: 대단해!
 <<DustBSpeak>>
 DustB: 대단해, 대단해!
 <<DustASpeak>>
-DustA: 한 번 더 이겨보자!
+DustA: <wave>한 번 더 이겨보자!</wave>
 <<DustBSpeak>>
 DustB: 이기는거다!
 <<OpeningDialogueFin>>

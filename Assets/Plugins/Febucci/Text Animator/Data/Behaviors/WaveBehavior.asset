@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: WaveBehavior
   m_EditorClassIdentifier: 
   tagID: wave
-  baseAmplitude: 7.27
+  baseAmplitude: 2
   baseFrequency: 4
   baseWaveSize: 0.4

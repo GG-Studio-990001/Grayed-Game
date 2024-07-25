@@ -2507,12 +2507,12 @@ MonoBehaviour:
   - {x: -0.9, y: -12.57, z: 0}
   - {x: -2, y: -6.11, z: 0}
   - {x: 19.51, y: 1.9, z: 0}
-  - {x: 84.8, y: -20, z: 0}
+  - {x: 78.96, y: -20, z: 0}
   _rightPositions:
   - {x: 6, y: -12.57, z: 0}
   - {x: 4.9, y: -6.11, z: 0}
   - {x: 26, y: 1.9, z: 0}
-  - {x: 91.11, y: -20, z: 0}
+  - {x: 84.8, y: -20, z: 0}
   _bubblePositions:
   - {x: -93, y: -210, z: 0}
   - {x: 134, y: -225, z: 0}
@@ -4306,6 +4306,7 @@ GameObject:
   - component: {fileID: 213274874}
   - component: {fileID: 213274876}
   - component: {fileID: 213274875}
+  - component: {fileID: 213274877}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -4429,6 +4430,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 213274873}
   m_CullTransparentMesh: 1
+--- !u!114 &213274877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213274873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ace8ced0e81c847968cdca0aeda757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typewriterStartsAutomatically: 0
+  animationLoop: 0
+  timeScale: 0
+  _text: "\uBD80\uC871\uD558\uB2E4 \uC2F6\uC73C\uBA74<br>\uC7A0\uAE50 \uAE30\uB2E4\uB824\uBD10"
+  useDynamicScaling: 1
+  referenceFontSize: 10
+  isResettingTimeOnNewText: 1
+  useDefaultDatabases: 1
+  databaseBehaviors: {fileID: 11400000, guid: 272d3ec56a8c26249a296ec61d44d27e, type: 2}
+  databaseAppearances: {fileID: 11400000, guid: aa12e5c5c15eaa747874f3987f53d4cd, type: 2}
+  useDefaultStyleSheet: 1
+  styleSheet: {fileID: 0}
+  databaseActions: {fileID: 11400000, guid: 804df5312151a9a4b985eb361015b0df, type: 2}
+  defaultAppearancesTags: []
+  defaultDisappearancesTags: []
+  defaultBehaviorsTags: []
+  defaultTagsMode: 0
 --- !u!1001 &216624994
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61763,11 +61793,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7264366329380742176, guid: fabd929830e0d48429c6e047af57dd53, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.32
+      value: -8.5
       objectReference: {fileID: 0}
     - target: {fileID: 7264366329380742176, guid: fabd929830e0d48429c6e047af57dd53, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.98
+      value: 1.88
       objectReference: {fileID: 0}
     - target: {fileID: 7592783444359195873, guid: fabd929830e0d48429c6e047af57dd53, type: 3}
       propertyPath: m_IsActive

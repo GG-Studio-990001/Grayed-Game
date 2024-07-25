@@ -20,8 +20,8 @@ MonoBehaviour:
   appearances:
     defaultDatabase: {fileID: 11400000, guid: aa12e5c5c15eaa747874f3987f53d4cd, type: 2}
     enabled: 1
-    openingSymbol: 123
-    closingSymbol: 125
+    openingSymbol: 45
+    closingSymbol: 61
   actions:
     defaultDatabase: {fileID: 11400000, guid: 804df5312151a9a4b985eb361015b0df, type: 2}
     enabled: 1
