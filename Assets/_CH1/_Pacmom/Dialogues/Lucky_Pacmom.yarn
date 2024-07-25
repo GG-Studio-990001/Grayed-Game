@@ -9,27 +9,27 @@ title: Lucky_Pacmom
 
 <<ActiveBubble true>>
 <<Idle>>
-럭키: 럭키님 등장이요~
+럭키: -rot=럭키님 등장이요~-/rot=
 럭키: 도움이 필요해?
-럭키: 아하! 나 <i>팩맘</i> 알아!
-럭키: 먼지들이랑 같이<br>팩맘을 잡으면 돼
+럭키: 아하! 나 <slide>팩맘</slide> 알아!
+럭키: 먼지들이랑 같이<br><wave>팩맘을 잡으면 돼</wave>
 
 <<Pointing>>
 // 먼지를 가리킨다.
-럭키: 먼지는 여기서 출발할 거야
-럭키: 팩맘을 잡으면<br>코인을 뺏을 수 있고,
-럭키: 총 3번 잡으면 게임 끝이래
-럭키: 팩맘보다 코인을<br>더 많이 모아봐!
+럭키: 먼지는 여기서<br>출발할 거야
+럭키: 팩맘을 잡으면<br><bounce>코인을 뺏을 수 있어</bounce>
+럭키: 총 <shake>3번</shake> 잡으면<br>게임 끝이래
+럭키: 팩맘보다 코인을<br>더 <wave>많이</wave> 모아봐!
 
 <<Showing>>
 <<ShowDrawing true>>
 // 팩맘을 보여준다.
-럭키: 대신 청소기를 든<br>팩맘은 조심해야 해
-럭키: 청소시간에 팩맘과 부딪히면<br>코인을 빼앗긴대
+럭키: 대신 청소기를 든<br>팩맘은 <bounce>조심</bounce>해야 해
+럭키: <bounce>청소시간</bounce>에 팩맘과 부딪히면<br><shake>코인을 빼앗긴대</shake>
 <<ShowDrawing false>>
 <<Idle>>
 럭키: 휴, 말 다 했다
-럭키: 럭키님 퇴장이요~
+럭키: -rot=럭키님 퇴장이요~-/rot=
 
 <<ActiveBubble false>>
 <<WalkOut>>
