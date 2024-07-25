@@ -57,7 +57,7 @@ public class EscapeController : MonoBehaviour
 
     private void LightAppear()
     {
-        _light.DOScale(new Vector3(0.6f, 0.6f, 0.6f), 0.3f).SetEase(Ease.Linear);
+        _light.DOScale(new Vector3(0.5f, 0.5f, 0.5f), 0.3f).SetEase(Ease.Linear);
     }
 
     private void LightDisappear()
