@@ -46,7 +46,7 @@ namespace Runtime.CH1.Lucky
 
         private void Start()
         {
-            _fish.SetActive(false);
+            //_fish.SetActive(false);
         }
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
