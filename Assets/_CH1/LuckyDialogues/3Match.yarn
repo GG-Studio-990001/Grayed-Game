@@ -38,6 +38,7 @@ title: LuckyFish
 럭키: 아차차~ 여기에 조금<br><bounce>문제</bounce>가 있는데 깜빡했네!
 럭키: 이럴 때일수록 침착하게...<br><incr>럭키 효과 발동!</incr>
 
+<<RemoveLineText>>
 <<wait 0.5>>
 // 물고기 생성
 <<ActiveFish>>
