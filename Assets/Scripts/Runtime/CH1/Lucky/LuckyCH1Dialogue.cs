@@ -4,6 +4,7 @@ using Runtime.ETC;
 using Runtime.Lucky;
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using Yarn.Unity;
 
@@ -23,6 +24,7 @@ namespace Runtime.CH1.Lucky
         [SerializeField] private SceneTransform _sceneTransform;
         [SerializeField] private GameObject _postProcessingVolume;
         [SerializeField] private Transform _player;
+        [SerializeField] private TextMeshProUGUI _line;
 
         private void Awake()
         {
@@ -40,6 +42,7 @@ namespace Runtime.CH1.Lucky
             _runner.AddCommandHandler("Exit3Match", Exit3Match);
             _runner.AddCommandHandler("ExitSLG", ExitSLG);
 
+            _runner.AddCommandHandler("RemoveLineText", RemoveLineText);
             _runner.AddCommandHandler("ActiveFish", ActiveFish);
             _runner.AddCommandHandler("FirstMeet", FirstMeet);
         }
@@ -165,6 +168,11 @@ namespace Runtime.CH1.Lucky
             Managers.Sound.Play(Sound.BGM, "[Ch1] Main_BGM", true);
         }
         #endregion
+
+        private void RemoveLineText()
+        {
+            _line.text = "";
+        }
 
         private void ActiveFish()
         {

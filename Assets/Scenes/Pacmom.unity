@@ -22272,7 +22272,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD329\uB9D8\uBCF4\uB2E4 \uCF54\uC778\uC744<br>\uB354 \uB9CE\uC774 \uBAA8\uC544\uBD10!"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c9c56bd2e3490a64a8815943175efb10, type: 2}
   m_sharedMaterial: {fileID: 4052432197268177338, guid: c9c56bd2e3490a64a8815943175efb10, type: 2}
@@ -22364,20 +22364,18 @@ MonoBehaviour:
   typewriterStartsAutomatically: 0
   animationLoop: 0
   timeScale: 0
-  _text: 
+  _text: "\uD329\uB9D8\uBCF4\uB2E4 \uCF54\uC778\uC744<br>\uB354 \uB9CE\uC774 \uBAA8\uC544\uBD10!"
   useDynamicScaling: 1
   referenceFontSize: 10
   isResettingTimeOnNewText: 1
   useDefaultDatabases: 1
-  databaseBehaviors: {fileID: 0}
-  databaseAppearances: {fileID: 0}
+  databaseBehaviors: {fileID: 11400000, guid: 272d3ec56a8c26249a296ec61d44d27e, type: 2}
+  databaseAppearances: {fileID: 11400000, guid: aa12e5c5c15eaa747874f3987f53d4cd, type: 2}
   useDefaultStyleSheet: 1
   styleSheet: {fileID: 0}
-  databaseActions: {fileID: 0}
-  defaultAppearancesTags:
-  - size
-  defaultDisappearancesTags:
-  - fade
+  databaseActions: {fileID: 11400000, guid: 804df5312151a9a4b985eb361015b0df, type: 2}
+  defaultAppearancesTags: []
+  defaultDisappearancesTags: []
   defaultBehaviorsTags: []
   defaultTagsMode: 0
 --- !u!1 &945587683
