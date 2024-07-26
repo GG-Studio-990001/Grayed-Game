@@ -177,10 +177,15 @@ namespace Runtime.CH1.Lucky
         private void ActiveFish()
         {
             Managers.Sound.Play(Sound.SFX, "FishJelly");
-
-            _fish.SetActive(true);
+            
+            var jewelry = _fish.GetComponent<Jewelry>();
+            
             _fish.transform.localPosition = new(9.5f, -0.5f, 0);
-            _fish.GetComponent<Jewelry>().JewelryType = JewelryType.B;
+            jewelry.ChangeOriginalPosition(_fish.transform.position);
+            Debug.Log($"??????????? {jewelry.transform.position}");
+            jewelry.JewelryType = JewelryType.B;
+            jewelry.gameObject.SetActive(true);
+            _fish.name = "Jewelry_B";
         }
 
         private void FirstMeet()
