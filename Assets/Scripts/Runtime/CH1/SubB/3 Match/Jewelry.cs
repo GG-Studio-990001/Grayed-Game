@@ -125,6 +125,8 @@ namespace Runtime.CH1.SubB
             gameObject.SetActive(false);
             transform.position = new Vector3(-100, -100, 0);
         }
+        
+        public void ChangeOriginalPosition(Vector3 position) => _orignalPosition = position;
 
         private void CallCheckMatching() => Controller.CheckMatching();
         public void PlayEffectSound() => Managers.Sound.Play(Sound.SFX, "[CH1] Candy_SFX_Meow");
