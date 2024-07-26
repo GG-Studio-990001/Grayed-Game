@@ -1,10 +1,9 @@
 title: Lucky3Match
 // 시점 : 첫 3매치 퍼즐 스테이지1
 ---
-<<LuckyEnter>>
-<<wait 0>>
 <<SetLuckyPos 1>>
 <<SetBubblePos 1>>
+<<LuckyEnter>>
 
 <<WalkLeft 1>>
 <<wait 3>>
@@ -27,10 +26,9 @@ title: Lucky3Match
 title: LuckyFish
 // 시점 : 첫 3매치 퍼즐 스테이지3 후반
 ---
-<<LuckyEnter>>
-<<wait 0>>
 <<SetLuckyPos 2>>
 <<SetBubblePos 2>>
+<<LuckyEnter>>
 
 <<WalkLeft 2>>
 <<wait 3>>
