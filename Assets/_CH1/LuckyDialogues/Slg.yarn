@@ -1,10 +1,9 @@
 title: LuckySlg
 // 상황 : SLG UI 역접속 후 럭키의 튜토리얼
 ---
-<<LuckyEnter>>
-<<wait 0>>
 <<SetLuckyPos 3>>
 <<SetBubblePos 3>>
+<<LuckyEnter>>
 
 <<WalkLeft 3>>
 <<wait 3>>

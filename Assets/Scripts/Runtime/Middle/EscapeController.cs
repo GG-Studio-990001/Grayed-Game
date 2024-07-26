@@ -36,10 +36,10 @@ public class EscapeController : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         LightAppear();
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
 
         LightDisappear();
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
 
         _noise.enable.value = false;
     }
@@ -57,7 +57,7 @@ public class EscapeController : MonoBehaviour
 
     private void LightAppear()
     {
-        _light.DOScale(new Vector3(0.5f, 0.5f, 0.5f), 0.3f).SetEase(Ease.Linear);
+        _light.DOScale(new Vector3(0.2f, 0.2f, 0.2f), 0.2f).SetEase(Ease.Linear);
     }
 
     private void LightDisappear()
