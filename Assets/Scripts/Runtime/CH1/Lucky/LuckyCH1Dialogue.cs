@@ -3,6 +3,8 @@ using Runtime.CH1.SubB;
 using Runtime.ETC;
 using Runtime.Lucky;
 using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using Yarn.Unity;
 
@@ -19,6 +21,10 @@ namespace Runtime.CH1.Lucky
         [SerializeField] private Vector3[] _rightPositions;
         [SerializeField] private Vector3[] _bubblePositions;
         [SerializeField] private GameObject _fish;
+        [SerializeField] private SceneTransform _sceneTransform;
+        [SerializeField] private GameObject _postProcessingVolume;
+        [SerializeField] private Transform _player;
+        [SerializeField] private TextMeshProUGUI _line;
 
         private void Awake()
         {
@@ -36,12 +42,14 @@ namespace Runtime.CH1.Lucky
             _runner.AddCommandHandler("Exit3Match", Exit3Match);
             _runner.AddCommandHandler("ExitSLG", ExitSLG);
 
+            _runner.AddCommandHandler("RemoveLineText", RemoveLineText);
             _runner.AddCommandHandler("ActiveFish", ActiveFish);
+            _runner.AddCommandHandler("FirstMeet", FirstMeet);
         }
 
         private void Start()
         {
-            _fish.SetActive(false);
+            //_fish.SetActive(false);
         }
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
@@ -116,6 +124,13 @@ namespace Runtime.CH1.Lucky
 
         private void SetBubblePos(int idx)
         {
+            // 예외처리 하드코딩
+            if (idx == 2 && _player.position.y > 0)
+            {
+                _bubble.anchoredPosition = new Vector3(_bubblePositions[idx].x, 114, _bubblePositions[idx].z);
+                return;
+            }
+
             _bubble.anchoredPosition = _bubblePositions[idx];
         }
         #endregion
@@ -154,13 +169,43 @@ namespace Runtime.CH1.Lucky
         }
         #endregion
 
+        private void RemoveLineText()
+        {
+            _line.text = "";
+        }
+
         private void ActiveFish()
         {
             Managers.Sound.Play(Sound.SFX, "FishJelly");
-
-            _fish.SetActive(true);
+            
+            var jewelry = _fish.GetComponent<Jewelry>();
+            
             _fish.transform.localPosition = new(9.5f, -0.5f, 0);
-            _fish.GetComponent<Jewelry>().JewelryType = JewelryType.B;
+            jewelry.ChangeOriginalPosition(_fish.transform.position);
+            Debug.Log($"??????????? {jewelry.transform.position}");
+            jewelry.JewelryType = JewelryType.B;
+            jewelry.gameObject.SetActive(true);
+            _fish.name = "Jewelry_B";
         }
+
+        private void FirstMeet()
+        {
+            // TODO: 역접속 연출로 교체
+            //StartCoroutine(nameof(ConnectDirection));
+        }
+
+        //IEnumerator ConnectDirection()
+        //{
+        //    _sceneTransform.BeforeConnection();
+        //    _postProcessingVolume.SetActive(true);
+
+        //    yield return new WaitForSeconds(1f);
+
+        //    _sceneTransform.ConnectDirection();
+
+        //    // Before _translationDuration end
+        //    yield return new WaitForSeconds(1f);
+        //    _postProcessingVolume.SetActive(false);
+        //}
     }
 }

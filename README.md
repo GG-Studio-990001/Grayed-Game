@@ -45,6 +45,8 @@ Grayed Game는 여러가지 장르가 결합된 게임으로 다양한 연출과
 [개발 일지 [1]](https://fkdl0048.github.io/game/game_12/)  
 [개발 일지 [2]](https://fkdl0048.github.io/game/game_13/)  
 [개발 일지 [3]](https://fkdl0048.github.io/game/game_14/)  
+[개발 일지 [4]](https://fkdl0048.github.io/game/game_15/)  
+[개발 일지 [5]](https://fkdl0048.github.io/game/game_16/)  
 
 </p>
 </details> 

@@ -29,6 +29,9 @@ namespace Runtime.CH1.SubB
             _orignalPosition = transform.position;
             _originalType = JewelryType;
             _movement = new JewelryMovement(this.transform, moveTime, Tilemap);
+            
+            if (gameObject.name.Contains("Lucky"))
+                gameObject.SetActive(false);
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -89,14 +92,20 @@ namespace Runtime.CH1.SubB
         {
             transform.position = _orignalPosition;
             JewelryType = _originalType;
-            gameObject.SetActive(true);
+            if (!gameObject.name.Contains("Lucky"))
+                gameObject.SetActive(true);
+            else
+                gameObject.SetActive(false);
         }
         
         public void ResetPosition(Vector3 position)
         {
             transform.position = position;
             JewelryType = _originalType;
-            gameObject.SetActive(true);
+            if (!gameObject.name.Contains("Lucky"))
+                gameObject.SetActive(true);
+            else
+                gameObject.SetActive(false);
         }
 
         public void DestroyJewelry()
@@ -116,6 +125,8 @@ namespace Runtime.CH1.SubB
             gameObject.SetActive(false);
             transform.position = new Vector3(-100, -100, 0);
         }
+        
+        public void ChangeOriginalPosition(Vector3 position) => _orignalPosition = position;
 
         private void CallCheckMatching() => Controller.CheckMatching();
         public void PlayEffectSound() => Managers.Sound.Play(Sound.SFX, "[CH1] Candy_SFX_Meow");

@@ -1,21 +1,20 @@
 title: Lucky3Match
 // 시점 : 첫 3매치 퍼즐 스테이지1
 ---
-<<LuckyEnter>>
-<<wait 0>>
 <<SetLuckyPos 1>>
 <<SetBubblePos 1>>
+<<LuckyEnter>>
 
 <<WalkLeft 1>>
 <<wait 3>>
 <<ActiveBubble true>>
 <<Idle>>
 
-럭키: 럭키님 등장~
+럭키: -rot=럭키님 등장~-/rot=
 럭키: 뭐야, 이 쉬운 건!
 럭키: 딱 봐도 알겠구만.
-럭키: 세 개 연결하면 펑!<br>오케이?
-럭키: 럭키님 퇴장이요~
+럭키: <wave>세 개 연결하면</wave> <shake>펑!</shake><br>오케이?
+럭키: -rot=럭키님 퇴장이요~-/rot=
 
 <<ActiveBubble false>>
 <<WalkRight 1>>
@@ -27,19 +26,19 @@ title: Lucky3Match
 title: LuckyFish
 // 시점 : 첫 3매치 퍼즐 스테이지3 후반
 ---
-<<LuckyEnter>>
-<<wait 0>>
 <<SetLuckyPos 2>>
 <<SetBubblePos 2>>
+<<LuckyEnter>>
 
 <<WalkLeft 2>>
 <<wait 3>>
 <<ActiveBubble true>>
 <<Idle>>
 
-럭키: 행운이 필요해?
-럭키: 기다려 봐!
+럭키: 아차차~ 여기에 조금<br><bounce>문제</bounce>가 있는데 깜빡했네!
+럭키: 이럴 때일수록 침착하게...<br><incr>럭키 효과 발동!</incr>
 
+<<RemoveLineText>>
 <<wait 0.5>>
 // 물고기 생성
 <<ActiveFish>>
@@ -47,8 +46,8 @@ title: LuckyFish
 
 // 물고기 물고 가져온다
 // 럭키가 젤리를 가져다 둔다.
-럭키: 이게 바로 럭키 효과!
-럭키: 휴, 이제<br>밖으로 나가야지~
+럭키: 휴, 이러면 <wave>연결</wave>할 수 있겠지?
+럭키: 그럼 다시<br>밖으로 나가야지~
 
 <<ActiveBubble false>>
 <<WalkRight 2>>
@@ -62,7 +61,7 @@ title: Lucky_3Match_Done
 // 상황 : 3매치를 설명하는 럭키
 ---
 // 1라운드 이상 클리어 기록이 있을 때 (특수대사)
-럭키: 럭키님 등장이요~
+럭키: -rot=럭키님 등장이요~-/rot=
 럭키: 에휴, 나 없이 해버렸잖아!!
 럭키: 럭키님 아까비요~
 ===
