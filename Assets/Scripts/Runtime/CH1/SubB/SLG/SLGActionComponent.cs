@@ -56,7 +56,6 @@ public class SLGActionComponent : MonoBehaviour
     [SerializeField] private GameObject SLGConstructionSite;
     [SerializeField] private GameObject SLGMaMagoGate;
     [SerializeField] private GameObject SLGMaMagoGateColider;
-    [SerializeField] private GameObject bridgeObject;
 
 
     private SLGInteractionObject[] _cachedObjects;
@@ -139,10 +138,6 @@ public class SLGActionComponent : MonoBehaviour
             {
                 _sponSpots.SetActive(true);
             }
-        }
-        if (bridgeObject != null)
-        {
-            bridgeObject.SetActive(Managers.Data.SLGBridgeRebuild);
         }
     }
 

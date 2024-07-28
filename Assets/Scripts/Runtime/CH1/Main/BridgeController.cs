@@ -8,9 +8,16 @@ namespace Runtime.CH1.Main
 
         public void CheckBridge()
         {
-            if (Managers.Data.Scene >= 3 && Managers.Data.SLGBridgeRebuild == false)
+            if (Managers.Data.Scene >= 3)
             {
-                ActiveBrokenBridge();
+                if (Managers.Data.SLGBridgeRebuild == false)
+                {
+                    ActiveBrokenBridge();
+                }
+                else
+                {
+                    ActiveNormalBridge();
+                }
             }
             else
             {
