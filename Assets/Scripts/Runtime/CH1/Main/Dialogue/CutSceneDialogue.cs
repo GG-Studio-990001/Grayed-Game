@@ -85,7 +85,6 @@ namespace Runtime.CH1.Main.Dialogue
         public void SetR2MonPosition()
         {
             _npc[2].transform.position = _r2monLocation;
-            _bridge.ActiveBrokenBridge();
         }
 
         public void RebuildBridge()
