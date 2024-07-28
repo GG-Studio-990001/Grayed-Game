@@ -1,3 +1,4 @@
+using Runtime.CH1.Main.Dialogue;
 using Runtime.CH1.Main.Interface;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,35 +9,24 @@ namespace Runtime.CH1.SubB.SLG
     public class SlguiObject : MonoBehaviour, IInteractive
     {
         public UnityEvent onInteract;
-        private DialogueRunner _dialogueRunner;
-
-        private void Awake()
-        {
-            if (_dialogueRunner == null)
-            {
-                // 다이얼로그러너를 하나 더 추가했으므로 임시 조치
-                _dialogueRunner = GameObject.Find("DialogueRunner").GetComponent<DialogueRunner>(); // FindObjectOfType<DialogueRunner>();
-                if (_dialogueRunner == null)
-                {
-                    Debug.LogError("DialogueRunner is not found.");
-                }
-            }
-        }
 
         public bool Interact(Vector2 direction = default)
         {
             onInteract?.Invoke();
 
-            if (Managers.Data.Scene < 4)
+            Ch1DialogueController Ch1DC = GameObject.FindObjectOfType<Ch1DialogueController>();
+            if (Ch1DC != null)
             {
-                // 임시로 막아두기
-                _dialogueRunner.StartDialogue("SLG_Block");
+                if (Managers.Data.Scene < 4)
+                {
+                    // 임시로 막아두기
+                    Ch1DC.StartCh1MainDialogue("SLG_Block");
+                }
+                else
+                {
+                    Ch1DC.StartCh1MainDialogue("SLG_Start");
+                }
             }
-            else
-            {
-                _dialogueRunner.StartDialogue("SLG_Start");
-            }
-
             return true;
         }
     

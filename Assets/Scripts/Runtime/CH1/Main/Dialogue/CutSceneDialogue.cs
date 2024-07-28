@@ -85,6 +85,13 @@ namespace Runtime.CH1.Main.Dialogue
         public void SetR2MonPosition()
         {
             _npc[2].transform.position = _r2monLocation;
+            _bridge.ActiveBrokenBridge();
+        }
+
+        public void RebuildBridge()
+        {
+            Managers.Sound.Play(Sound.SFX, "[CH1] Mamago_Construction");
+            _bridge.CheckBridge();
         }
 
         public void BuildCompany()

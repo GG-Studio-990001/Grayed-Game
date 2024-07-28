@@ -30,6 +30,7 @@ public class SLGActionComponent : MonoBehaviour
 
     [SerializeField] private GameObject _SLGCanvas;
     [SerializeField] private GameObject _constructUI;
+    [SerializeField] private GameObject _bridgeConstructUI;
     [SerializeField] private GameObject _buildingListUI;
     [SerializeField] private TextMeshProUGUI UI_WoodText;
     [SerializeField] private TextMeshProUGUI UI_StoneText;
@@ -50,6 +51,7 @@ public class SLGActionComponent : MonoBehaviour
 
     [SerializeField] private GameObject _sponSpots;
     [SerializeField] private GameObject SLGConstructionObject;
+    [SerializeField] private GameObject SLGBridgeConstructionObject;
     [SerializeField] private GameObject SLGTriggerObject;
     [SerializeField] private GameObject SLGConstructionSite;
     [SerializeField] private GameObject SLGMaMagoGate;
@@ -67,6 +69,7 @@ public class SLGActionComponent : MonoBehaviour
     private int _wood = 0;
     private int _stone = 0;
     private float _spawnTime = 0.0f;
+    private bool _rebuildBridge = false;
 
     //CONST Value 
     const int IncreaseAssetCount = 10;
@@ -75,8 +78,7 @@ public class SLGActionComponent : MonoBehaviour
     const int NeededConstrcutionTimeSec = 60 * 60 * 24;
     const float SpawnTime = 3.0f;
     const int NeededCoinCount = 200;
-
-    public bool bShowWnd;
+    [SerializeField] public Vector2 BridgeNeededAssetCount;
 
     // 럭키 등장용
     [SerializeField] private DialogueRunner _luckyDialogue;
@@ -93,14 +95,17 @@ public class SLGActionComponent : MonoBehaviour
         Managers.Data.LoadGame();
         SLGProgressInfo = Managers.Data.SLGProgressData;
         SLGConstructionBeginTime = Managers.Data.SLGConstructionBeginTime;
+        _rebuildBridge = Managers.Data.SLGBridgeRebuild;
 
         _cachedObjects = _sponSpots.GetComponentsInChildren<SLGInteractionObject>();
         Wnd_ConstructionBtn.onClick.AddListener(OnClickConstructBtn);
         Wnd_CloseBtn.onClick.AddListener(OnClickCloseBtn);
         Wnd_AccelerateBtn.onClick.AddListener(OnClickAccelerateBtn);
         _constructUI.SetActive(false);
+        _bridgeConstructUI.SetActive(false);
         _buildingListUI.SetActive(false);
 
+        SLGBridgeConstructionObject.SetActive(false);
         SLGConstructionSite.SetActive(true);
         SLGMaMagoGate.SetActive(false);
         SLGMaMagoGateColider.SetActive(false);
@@ -149,7 +154,7 @@ public class SLGActionComponent : MonoBehaviour
             int RemainedTimeSec = NeededConstrcutionTimeSec - DurationTimeSec;
             if (RemainedTimeSec >= 0)
             {
-                if (bShowWnd)
+                if (_constructUI.activeSelf)
                 {
                     int Hour = RemainedTimeSec / (60 * 60);
                     RemainedTimeSec -= 60 * 60 * Hour;
@@ -190,6 +195,11 @@ public class SLGActionComponent : MonoBehaviour
         return SLGProgressInfo > SLGProgress.None;
     }
 
+    public bool IsShowingWindow()
+    {
+        return _constructUI.activeSelf || _bridgeConstructUI.activeSelf;
+    }
+
     public Sprite GetInteractionSprite(SLGObjectType InObjectType)
     {
         if ((int)InObjectType >= SLGPopupSprites.Count)
@@ -213,6 +223,11 @@ public class SLGActionComponent : MonoBehaviour
         SLGTriggerObject.SetActive(false);
         _sponSpots.SetActive(true);
         SLGConstructionObject.SetActive(true);
+
+        if(Managers.Data.SLGBridgeRebuild == false)
+        {
+            SLGBridgeConstructionObject.SetActive(true);
+        }
         _buildingListUI.SetActive(true);
         _wood = Managers.Data.SLGWoodCount;
         _stone = Managers.Data.SLGStoneCount;
@@ -220,22 +235,9 @@ public class SLGActionComponent : MonoBehaviour
         Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
         RefreshHudInfo();
     }
-
-    public void RefreshHudInfo()
-    {
-        RefreshCoinText();
-        UI_WoodText.text = _wood.ToString();
-        UI_StoneText.text = _stone.ToString();
-
-        SLGBuildingListWindow BuildingWnd = _buildingListUI.GetComponent<SLGBuildingListWindow>();
-        if (BuildingWnd != null)
-        { 
-            BuildingWnd.RefreshBuildingInfo();
-        }
-    }
     public void ProcessObjectInteraction(SLGObjectType InObjectType)
     {
-        if (bShowWnd)
+        if (_constructUI.activeSelf || _bridgeConstructUI.activeSelf)
         {
             return;
         }
@@ -248,6 +250,7 @@ public class SLGActionComponent : MonoBehaviour
                     _spawnCount--;
                     Managers.Sound.Play(Sound.SFX, "SLG/[Ch1] SLG_SFX_Wood");
                     PlayGainAnim(InObjectType);
+                    WriteSLGData();
                     break;
                 }
             case SLGObjectType.STONE:
@@ -256,6 +259,7 @@ public class SLGActionComponent : MonoBehaviour
                     UI_StoneText.text = _stone.ToString();
                     Managers.Sound.Play(Sound.SFX, "SLG/[Ch1] SLG_SFX_Stone");
                     _spawnCount--;
+                    WriteSLGData();
                     PlayGainAnim(InObjectType);
                     break;
                 }
@@ -265,12 +269,12 @@ public class SLGActionComponent : MonoBehaviour
                     RefreshConstructionWnd();
                     break;
                 }
+            case SLGObjectType.BridgeConstructWindow:
+                {
+                    _bridgeConstructUI.SetActive(true);
+                }
+                break;
             default: break;
-        }
-        SLGBuildingListWindow BuildingWnd = _buildingListUI.GetComponent<SLGBuildingListWindow>();
-        if (BuildingWnd != null)
-        {
-            BuildingWnd.RefreshBuildingInfo();
         }
     }
 
@@ -294,7 +298,10 @@ public class SLGActionComponent : MonoBehaviour
             SLGConstructionObject.SetActive(true);
         }
 
+        SLGBridgeConstructionObject.SetActive(!Managers.Data.SLGBridgeRebuild);
+
         _constructUI.SetActive(false);
+        _bridgeConstructUI.SetActive(false);
         RefreshCoinText();
 
         InitMap();
@@ -336,6 +343,19 @@ public class SLGActionComponent : MonoBehaviour
         }
     }
 
+
+    public void RefreshHudInfo()
+    {
+        RefreshCoinText();
+        UI_WoodText.text = _wood.ToString();
+        UI_StoneText.text = _stone.ToString();
+
+        SLGBuildingListWindow BuildingWnd = _buildingListUI.GetComponent<SLGBuildingListWindow>();
+        if (BuildingWnd != null)
+        {
+            BuildingWnd.RefreshBuildingInfo();
+        }
+    }
     private void RefreshConstructionWnd()
     {
         if (_constructUI)
@@ -359,8 +379,6 @@ public class SLGActionComponent : MonoBehaviour
                 Wnd_CoinCostText.text = Managers.Data.PacmomCoin.ToString() + "/" + NeededCoinCount.ToString();
                 Wnd_CoinCostText.color = Managers.Data.PacmomCoin < NeededCoinCount ? Color.red : Color.black;
             }
-
-            bShowWnd = true;
         }
     }
 
@@ -382,7 +400,6 @@ public class SLGActionComponent : MonoBehaviour
                 RefreshCoinText();
                 _dialogue.MamagoThanks(); // 마마고 연출 시작
                 _SLGCanvas.SetActive(false);
-                bShowWnd = false;
             }
             else
             {
@@ -395,9 +412,9 @@ public class SLGActionComponent : MonoBehaviour
         if (_constructUI != null)
         {
             _constructUI.SetActive(false);
-            bShowWnd = false;
         }
     }
+
     private void OnClickConstructBtn()
     {
         if (_wood >= NeededAssetCount && _stone >= NeededAssetCount)
@@ -435,8 +452,8 @@ public class SLGActionComponent : MonoBehaviour
             RectTransform transform = animTargetImg.GetComponent<RectTransform>();
             if(transform != null)
             {
-                transform.localScale = new Vector3(1.0f,1.0f,1.0f);
-                transform.DOScale(1.2f, 0.5f).SetEase(Ease.Linear).SetLoops(2, LoopType.Yoyo);
+                transform.localScale = new Vector3(0.25f,0.25f,1.0f);
+                transform.DOScale(0.33f, 0.5f).SetEase(Ease.Linear).SetLoops(2, LoopType.Yoyo);
             }
         }
     }
@@ -447,6 +464,9 @@ public class SLGActionComponent : MonoBehaviour
         Managers.Data.SLGConstructionBeginTime = SLGConstructionBeginTime;
         Managers.Data.SLGWoodCount = _wood;
         Managers.Data.SLGStoneCount = _stone;
+        Managers.Data.SLGBridgeRebuild = _rebuildBridge;
+
+        Managers.Data.SaveGame();
     }
 
     public void MoveOnNextProgress()
@@ -455,7 +475,7 @@ public class SLGActionComponent : MonoBehaviour
 
         if (SLGProgressInfo < SLGProgress.EndConstruction)
         {
-            if (bShowWnd)
+            if (_buildingListUI.activeSelf)
             {
                 RefreshConstructionWnd();
             }
@@ -478,22 +498,41 @@ public class SLGActionComponent : MonoBehaviour
             EndSLGMode();
         }
 
-        WriteSLGData();
-
-        if (SLGProgressInfo != SLGProgress.ModeOpen)
-            Managers.Data.SaveGame();
         // SLG팩 획득 ~ 럭키 설명 다 듣기 안하면 SLG 팩 획득 이전으로 돌아가야함
+        if (SLGProgressInfo > SLGProgress.ModeOpen)
+        {
+            WriteSLGData();
+        }
     }
 
     private void EndSLGMode()
     {
         Debug.Log("건설 끝");
         SLGConstructionObject.SetActive(false);
+        SLGBridgeConstructionObject.SetActive(false);
         _sponSpots.SetActive(false);
         SLGConstructionSite.SetActive(false);
         SLGMaMagoGate.SetActive(true);
         SLGMaMagoGateColider.SetActive(true);
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         MoveOnNextProgress();
+    }
+
+    public void RebuildBridge()
+    {
+        Ch1DialogueController Ch1DC = GameObject.FindObjectOfType<Ch1DialogueController>();
+        if (Ch1DC != null)
+        {
+            Ch1DC.StartCh1MainDialogue("RebuildBridge");
+
+            _rebuildBridge = true;
+            _wood -= (int)BridgeNeededAssetCount.x;
+            _stone -= (int)BridgeNeededAssetCount.y;
+            WriteSLGData();
+
+            SLGBridgeConstructionObject.SetActive(false);
+
+            RefreshHudInfo();
+        }
     }
 }
