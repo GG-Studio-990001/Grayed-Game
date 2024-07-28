@@ -78,6 +78,16 @@ title: BlockCave
 
 title: RebuildBridge
 ---
-     :플로야드 다리를 다시 건설했다.
-     <<RebuildBridge>>
+	<<FadeOut>>
+	<<wait 1>>
+	:플로야드 다리를 다시 건설했다.
+     	<<RebuildBridge>>
+	<<wait 2>>
+
+	<<FadeIn>>
+	<<wait 1>>
+
+	<<CompleteSFX>>
+	<<wait 0.5>>
+
 ===
