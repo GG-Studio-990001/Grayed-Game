@@ -92,7 +92,7 @@ public class SLGActionComponent : MonoBehaviour
 
     void Start()
     {
-        Managers.Data.LoadGame();
+        // Managers.Data.LoadGame();
         SLGProgressInfo = Managers.Data.SLGProgressData;
         SLGConstructionBeginTime = Managers.Data.SLGConstructionBeginTime;
         _rebuildBridge = Managers.Data.SLGBridgeRebuild;

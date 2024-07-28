@@ -38,8 +38,7 @@ namespace Runtime.ETC
             Managers.Data.InGameKeyBinder.PlayerInputDisable();
 
             Managers.Sound.StopAllSound();
-            // TODO: 효과음 교체
-            Managers.Sound.Play(Sound.SFX, "Tmp_Escape");
+            Managers.Sound.Play(Sound.SFX, "[CH1] SFX_Escape_03");
 
             _middleScene = _escapeScene;
             _targetScene = targetScene;
@@ -71,6 +70,26 @@ namespace Runtime.ETC
             {
                 Managers.Data.InGameKeyBinder.PlayerInputEnable();
             }
+        }
+
+        public void ConnectDirection()
+        {
+            _middleScene = _connectionScene;
+            StartCoroutine(nameof(TranslateDirection));
+        }
+
+        private IEnumerator TranslateDirection()
+        {
+            // 중간 씬 로드
+            yield return SceneManager.LoadSceneAsync(_middleScene, LoadSceneMode.Additive);
+
+            // 대기
+            yield return new WaitForSeconds(_translationDuration);
+
+            // 중간 씬 언로드
+            yield return SceneManager.UnloadSceneAsync(_middleScene);
+
+            Managers.Data.InGameKeyBinder.PlayerInputEnable();
         }
     }
 }

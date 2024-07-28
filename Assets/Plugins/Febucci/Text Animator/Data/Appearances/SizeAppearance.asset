@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tagID: size
   baseDuration: 0.5
-  baseAmplitude: 2
+  baseAmplitude: 1.5

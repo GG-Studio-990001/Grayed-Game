@@ -21,8 +21,6 @@ namespace Runtime.CH1.Main.Dialogue
         [Header("=Else=")]
         [SerializeField] private GameObject _nameTag;
         [SerializeField] private SceneTransform _sceneTransform;
-        // [SerializeField] private Volume _volume;
-        // private LowRes _lowRes;
         [SerializeField] private GameObject _postProcessingVolume;
         private string _speaker;
         private bool _isR2MonSpeaking = false;
@@ -72,12 +70,6 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("MamagoEnter", _cutScene.MamagoEnter);
             // CutScene / R2mon
             _runner.AddCommandHandler("SetR2MonPosition", _cutScene.SetR2MonPosition);
-            // _runner.AddCommandHandler<string>("ChangeScene", ChangeScene);
-
-            //if (_volume != null)
-            //{
-            //    _volume.profile.TryGet(out _lowRes);
-            //}
         }
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
@@ -149,24 +141,6 @@ namespace Runtime.CH1.Main.Dialogue
         private void SceneChange(string sceneName)
         {
             StartCoroutine(nameof(ConnectToScene), sceneName);
-
-            //float startValue = 500f;
-            //float endValue = -75f;
-            //float duration = 2f;
-
-            //_lowRes.IsActive();
-
-            //Managers.Data.InGameKeyBinder.PlayerInputDisable();
-
-            //DOVirtual.Float(startValue, endValue, duration, currentValue =>
-            //{
-            //    _lowRes.height.value = (int)currentValue;
-            //}).SetEase(Ease.Linear).onComplete += () =>
-            //{
-            //    Managers.Data.InGameKeyBinder.PlayerInputEnable();
-            //    Managers.Sound.StopAllSound();
-            //    SceneManager.LoadScene("Pacmom");
-            //};
         }
 
         IEnumerator ConnectToScene(string sceneName)
@@ -208,7 +182,6 @@ namespace Runtime.CH1.Main.Dialogue
             if (_speaker == "R2-Mon")
             {
                 Managers.Sound.Play(Sound.Speech, "[CH1] R2-Mon_Text_SFX_04");
-                // Managers.Sound.PlayRandomSpeech("R2MonText");
             }
             else
             {
@@ -217,24 +190,6 @@ namespace Runtime.CH1.Main.Dialogue
         }
 
         /*
-        private void ChangeScene(string spriteName)
-        {
-            if (spriteName == "None")
-            {
-                _backgroundImage.color = Color.clear;
-                _backgroundImage.sprite = null;
-                return;
-            }
-            
-            _backgroundImage.color = Color.white;
-            
-            Sprite sprite = Fetch<Sprite>(spriteName);
-            if (sprite != null)
-            {
-                _backgroundImage.sprite = sprite;
-            }
-        }
-        
         T Fetch<T>(string spriteName) where T : UnityEngine.Object
         {
             if (typeof(T) == typeof(Sprite))
