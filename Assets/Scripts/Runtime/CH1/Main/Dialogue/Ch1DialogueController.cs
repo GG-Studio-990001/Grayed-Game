@@ -63,6 +63,7 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("NpcsMove", _cutScene.NpcsMove);
             _runner.AddCommandHandler("Scene4End", _cutScene.Scene4End);
             // CutScene / Mamago
+            _runner.AddCommandHandler("RebuildBridge", _cutScene.RebuildBridge);
             _runner.AddCommandHandler("BuildCompany", _cutScene.BuildCompany);
             _runner.AddCommandHandler("CompleteSFX", _cutScene.CompleteSFX);
             _runner.AddCommandHandler("MamagoJump", _cutScene.MamagoJump);
@@ -105,6 +106,15 @@ namespace Runtime.CH1.Main.Dialogue
                 _cutScene.NpcPos.SetNpcPosition(3);
                 _cutScene.SetPlayerPosition(1);
                 _runner.StartDialogue("S2");
+            }
+        }
+
+        public void StartCh1MainDialogue(string startNode)
+        {
+            // Runner 가 여러개가 되어 메인Runner 실행 함수 따로 생성
+            if(_runner != null)
+            {
+                _runner.StartDialogue(startNode);
             }
         }
 
