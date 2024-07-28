@@ -10,6 +10,7 @@ enum SLGBuildingType
     MamagoCompany,
     Bridge,
     R2Mon,
+    DollarStatue,
 }
 
 public class SLGBuildingListWindow : MonoBehaviour

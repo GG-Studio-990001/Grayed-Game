@@ -18,6 +18,7 @@ namespace SLGDefines
         ASSETMAX = 2,
         //Window
         ConstructWindow,
+        BridgeConstructWindow,
         MAX,
     }
 }

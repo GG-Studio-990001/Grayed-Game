@@ -6,6 +6,7 @@ using TMPro;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 enum BuildingState
@@ -16,11 +17,12 @@ enum BuildingState
     Constructed,
 }
 
-public class BuildingItem : MonoBehaviour
+public class BuildingItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("ItemValue")]
     [SerializeField] private SLGBuildingType _buildingtype;
     public Vector2 _reqAsset;
+    [TextArea]
     [SerializeField] private string _discrtiption;
 
     [Header("DisplayComponents")]
@@ -50,9 +52,9 @@ public class BuildingItem : MonoBehaviour
         OnDispFadeInOut(false);
     }
 
-    private void OnMouseEnter()
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        if(_dispVisible)
+        if (_dispVisible)
         {
             return;
         }
@@ -60,7 +62,7 @@ public class BuildingItem : MonoBehaviour
         OnDispFadeInOut(true);
     }
 
-    private void OnMouseExit()
+    public void OnPointerExit(PointerEventData eventData)
     {
         if (_dispVisible == false)
         {
@@ -115,6 +117,9 @@ public class BuildingItem : MonoBehaviour
                 break;
             case SLGBuildingType.R2Mon:
                 _buildingState = BuildingState.Locked;
+                return;
+            case SLGBuildingType.DollarStatue:
+                _buildingState = BuildingState.Impossible;
                 return;
         }
         if (_reqAsset.x <= Managers.Data.SLGWoodCount && _reqAsset.y <= Managers.Data.SLGStoneCount)
