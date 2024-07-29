@@ -1,10 +1,4 @@
-using Codice.Client.Common.GameUI;
-using Codice.CM.Client.Differences;
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
