@@ -67,13 +67,15 @@ public class BridgeConstructWindow : MonoBehaviour
     }
     void OnClickConstructButton()
     {
-        if (_contentParent)
-        {
-            _contentParent.SetActive(false);
-        }
         if (_SLGAction != null)
         {
-            _SLGAction.RebuildBridge();
+            if(_SLGAction.RebuildBridge())
+            {
+                if (_contentParent)
+                {
+                    _contentParent.SetActive(false);
+                }
+            }
         }
     }
 }
