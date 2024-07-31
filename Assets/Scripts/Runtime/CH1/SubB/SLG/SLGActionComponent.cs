@@ -128,6 +128,7 @@ public class SLGActionComponent : MonoBehaviour
             SLGMaMagoGate.SetActive(true);
             SLGMaMagoGateColider.SetActive(true);
             SLGTriggerObject.SetActive(false);
+            SLGConstructionObject.SetActive(false);
         }
         else
         {
@@ -176,18 +177,16 @@ public class SLGActionComponent : MonoBehaviour
                 }
             }
         }
-        if(SLGProgressInfo > SLGProgress.ModeOpen && SLGProgressInfo < SLGProgress.ModeClose)
-        {
-            if(Input.GetMouseButtonUp(0))
-            {
-                Managers.Sound.Play(Sound.SFX, "SLG/[Ch1] SLG_SFX_Click");
-            }
-        }
     }
 
     public bool IsInSLGMode()
     {
         return SLGProgressInfo > SLGProgress.None;
+    }
+
+    public bool CanInteract ()
+    {
+        return IsShowingWindow() == false && _luckyDialogue.IsDialogueRunning == false;
     }
 
     public bool IsShowingWindow()
@@ -262,11 +261,13 @@ public class SLGActionComponent : MonoBehaviour
                 {
                     _constructUI.SetActive(true);
                     RefreshConstructionWnd();
+                    Managers.Sound.Play(Sound.SFX, "SLG/[Ch1] SLG_SFX_Click");
                     break;
                 }
             case SLGObjectType.BridgeConstructWindow:
                 {
                     _bridgeConstructUI.SetActive(true);
+                    Managers.Sound.Play(Sound.SFX, "SLG/[Ch1] SLG_SFX_Click");
                 }
                 break;
             default: break;
@@ -499,10 +500,8 @@ public class SLGActionComponent : MonoBehaviour
             WriteSLGData();
         }
     }
-
     private void EndSLGMode()
     {
-        Debug.Log("건설 끝");
         SLGConstructionObject.SetActive(false);
         SLGBridgeConstructionObject.SetActive(false);
         _sponSpots.SetActive(false);
@@ -513,21 +512,31 @@ public class SLGActionComponent : MonoBehaviour
         MoveOnNextProgress();
     }
 
-    public void RebuildBridge()
+    public bool RebuildBridge()
     {
-        Ch1DialogueController Ch1DC = GameObject.FindObjectOfType<Ch1DialogueController>();
-        if (Ch1DC != null)
+        if (_wood >= (int)BridgeNeededAssetCount.x && _stone >= (int)BridgeNeededAssetCount.y)
         {
-            Ch1DC.StartCh1MainDialogue("RebuildBridge");
+            Ch1DialogueController Ch1DC = GameObject.FindObjectOfType<Ch1DialogueController>();
+            if (Ch1DC != null)
+            {
+                Ch1DC.StartCh1MainDialogue("RebuildBridge");
 
-            _rebuildBridge = true;
-            _wood -= (int)BridgeNeededAssetCount.x;
-            _stone -= (int)BridgeNeededAssetCount.y;
-            WriteSLGData();
+                _rebuildBridge = true;
+                _wood -= (int)BridgeNeededAssetCount.x;
+                _stone -= (int)BridgeNeededAssetCount.y;
+                WriteSLGData();
 
-            SLGBridgeConstructionObject.SetActive(false);
+                SLGBridgeConstructionObject.SetActive(false);
 
-            RefreshHudInfo();
+                RefreshHudInfo();
+                return true;
+            }
         }
+        else
+        {
+            Debug.Log("다리 건설 불가");
+            return false;
+        }
+        return false;
     }
 }
