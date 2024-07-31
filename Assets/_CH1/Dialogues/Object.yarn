@@ -80,14 +80,13 @@ title: RebuildBridge
 ---
 	<<FadeOut>>
 	<<wait 1>>
-	:플로야드 다리를 다시 건설했다.
      	<<RebuildBridge>>
 	<<wait 2>>
 
 	<<FadeIn>>
 	<<wait 1>>
-
 	<<CompleteSFX>>
+	:플로야드 다리를 다시 건설했다.
 	<<wait 0.5>>
 
 ===
