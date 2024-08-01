@@ -277,6 +277,7 @@ public class SLGActionComponent : MonoBehaviour
     public void GetSLGPack()
     {
         Managers.Sound.Play(Sound.SFX, "[CH1] SFX_SLG_Get");
+        SLGTriggerObject.SetActive(false);
     }
 
     public void OnSLGInit()
@@ -285,7 +286,7 @@ public class SLGActionComponent : MonoBehaviour
         _SLGCanvas.SetActive(true);
         _buildingListUI.SetActive(true);
         _sponSpots.SetActive(true);
-        SLGTriggerObject.SetActive(false);
+        // SLGTriggerObject.SetActive(false); // 위 함수로 이동했습니다 -우연
 
         Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
 

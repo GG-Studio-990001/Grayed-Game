@@ -7,5 +7,7 @@ title: SLG_Start
 ---
      <<GetSLGPack>>
      :SLG UI를 획득했다.
+     <<ReverseConnection>>
+     <<wait 1>>
      <<InitSLG>>
 ===
