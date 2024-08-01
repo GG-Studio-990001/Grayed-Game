@@ -89,13 +89,13 @@ namespace Runtime.CH1.Main.Dialogue
 
         public void RebuildBridge()
         {
-            Managers.Sound.Play(Sound.SFX, "[CH1] Mamago_Construction");
+            Managers.Sound.Play(Sound.SFX, "CH1/Mamago_Construction_SFX");
             _bridge.CheckBridge();
         }
 
         public void BuildCompany()
         {
-            Managers.Sound.Play(Sound.SFX, "[CH1] Mamago_Construction");
+            Managers.Sound.Play(Sound.SFX, "CH1/Mamago_Construction_SFX");
             SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
             if (slgAction != null)
             {
@@ -105,7 +105,7 @@ namespace Runtime.CH1.Main.Dialogue
 
         public void CompleteSFX()
         {
-            Managers.Sound.Play(Sound.SFX, "[CH1] Mamago_Complete");
+            Managers.Sound.Play(Sound.SFX, "CH1/Mamago_Complete_SFX");
         }
 
         public void MamagoJump()
@@ -149,7 +149,7 @@ namespace Runtime.CH1.Main.Dialogue
         public void BreakBridge()
         {
             Managers.Sound.StopSFX();
-            Managers.Sound.Play(Sound.SFX, "[Ch1] SFX_Explosion");
+            Managers.Sound.Play(Sound.SFX, "CH1/Explosion_SFX");
             _bridge.ActiveBrokenBridge();
         }
 
@@ -159,7 +159,7 @@ namespace Runtime.CH1.Main.Dialogue
             {
                 _shakeTween = DOTween.Sequence();
                 _shakeTween.Append(_stage2.transform.DOShakePosition(5000f, new Vector3(0.1f, 0.1f, 0)));
-                Managers.Sound.Play(Sound.SFX, "[Ch1] SFX_Before explosion");
+                Managers.Sound.Play(Sound.SFX, "CH1/BeforeExplosion_SFX");
             }
             else
             {
@@ -326,7 +326,7 @@ namespace Runtime.CH1.Main.Dialogue
         #region Else
         public void GetLucky()
         {
-            Managers.Sound.Play(Sound.SFX, "[Ch1] Lucky_SFX_Dog&Key");
+            Managers.Sound.Play(Sound.SFX, "CH1/Lucky_Dog&Key_SFX");
             _lucky.SetActive(false);
         }
 

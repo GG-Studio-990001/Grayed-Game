@@ -65,7 +65,7 @@ namespace Runtime.CH1.Lucky
             for (int i = 0; i < _luckys.Length; i++)
                 _luckys[i].SetActive(true);
 
-            Managers.Sound.Play(Sound.LuckyBGM, "[Ch1] Lucky_BGM_4");
+            Managers.Sound.Play(Sound.LuckyBGM, "Lucky_BGM_4");
         }
 
         private void LuckyExit()
@@ -146,14 +146,14 @@ namespace Runtime.CH1.Lucky
             Managers.Data.MeetLucky = true;
             Managers.Data.SaveGame();
 
-            Managers.Sound.Play(Sound.BGM, "[Ch1] Main_BGM", true);
+            Managers.Sound.Play(Sound.BGM, "CH1/Main_BGM", true);
         }
 
         private void Exit3Match()
         {
             LuckyExit();
 
-            Managers.Sound.Play(Sound.BGM, "[Ch1] Main(Cave)_BGM", true);
+            Managers.Sound.Play(Sound.BGM, "CH1/Main(Cave)_BGM", true);
         }
 
         private void ExitSLG()
@@ -166,7 +166,7 @@ namespace Runtime.CH1.Lucky
                 slgAction.MoveOnNextProgress();
             }
 
-            Managers.Sound.Play(Sound.BGM, "[Ch1] Main_BGM", true);
+            Managers.Sound.Play(Sound.BGM, "CH1/Main_BGM", true);
         }
         #endregion
 
@@ -177,7 +177,7 @@ namespace Runtime.CH1.Lucky
 
         private void ActiveFish()
         {
-            Managers.Sound.Play(Sound.SFX, "FishJelly");
+            Managers.Sound.Play(Sound.SFX, "CH1/FishJelly_SFX");
             
             var jewelry = _fish.GetComponent<Jewelry>();
             
@@ -197,7 +197,7 @@ namespace Runtime.CH1.Lucky
 
         IEnumerator ActiveGlitch()
         {
-            Managers.Sound.Play(Sound.SFX, "[CH1] SFX_Revers_Connection_01");
+            Managers.Sound.Play(Sound.SFX, "ReverseConnection_SFX_01");
             _postProcessingVolume.SetActive(true);
             yield return new WaitForSeconds(1f);
             _postProcessingVolume.SetActive(false);

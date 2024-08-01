@@ -18,6 +18,6 @@ public class SLGClickableButton : MonoBehaviour
 
     void PlayClickSound()
     {
-        Managers.Sound.Play(Sound.SFX, "SLG/[Ch1] SLG_SFX_Click");
+        Managers.Sound.Play(Sound.SFX, "SLG/SLG_Click_SFX");
     }
 }
