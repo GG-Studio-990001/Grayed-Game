@@ -18,7 +18,7 @@ MonoBehaviour:
     m_Value: 1
   speed:
     m_OverrideState: 1
-    m_Value: 24
+    m_Value: 30
   blockSize:
     m_OverrideState: 1
     m_Value: 0

@@ -6,6 +6,7 @@ namespace Runtime.CH2.Main
     public class CH2KeyBinder : MonoBehaviour
     {
         [SerializeField] private SettingsUIView _settingsUIView;
+        [SerializeField] private KeySetting _keySetting;
 
         private void Start()
         {
@@ -15,7 +16,7 @@ namespace Runtime.CH2.Main
         private void InitKeyBinding()
         {
             Managers.Data.InGameKeyBinder.GameControlReset();
-            Managers.Data.InGameKeyBinder.CH2KeyBinding(_settingsUIView);
+            Managers.Data.InGameKeyBinder.CH2KeyBinding(_settingsUIView, _keySetting);
         }
     }
 }

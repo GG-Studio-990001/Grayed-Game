@@ -14,7 +14,7 @@ namespace Runtime.CH1.Main.Stage
                 case 1:
                 case 2:
                 case 3:
-                    Managers.Sound.Play(Sound.BGM, "[Ch1] Main_BGM", true);
+                    Managers.Sound.Play(Sound.BGM, "CH1/Main_BGM", true);
                     break;
                 case 4:
                     Managers.Sound.Play(Sound.BGM, "Mamago_BGM_1");
@@ -22,7 +22,7 @@ namespace Runtime.CH1.Main.Stage
                 case 5:
                 case 6:
                 case 7:
-                    Managers.Sound.Play(Sound.BGM, "[Ch1] Main(Cave)_BGM", true);
+                    Managers.Sound.Play(Sound.BGM, "CH1/Main(Cave)_BGM", true);
                     break;
             }
         }

@@ -56,11 +56,11 @@ namespace Runtime.CH2.Main
         {
             if (_speaker == "R2-Mon")
             {
-                Managers.Sound.Play(Sound.Speech, "[CH1] R2-Mon_Text_SFX_04");
+                Managers.Sound.Play(Sound.Speech, "R2-Mon_Text_SFX_04");
             }
             else
             {
-                Managers.Sound.Play(Sound.Speech, "[CH1] Text SFX");
+                Managers.Sound.Play(Sound.Speech, "Text_SFX");
             }
         }
     }

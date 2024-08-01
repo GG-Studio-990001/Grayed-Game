@@ -43,6 +43,7 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("NewSceneStart", NewSceneStart);
             _runner.AddCommandHandler("NextSceneStart", NextSceneStart);
             _runner.AddCommandHandler("SceneEnd", SceneEnd);
+            _runner.AddCommandHandler("ReverseConnection", ReverseConnection);
 
             // CutScene
             _runner.AddCommandHandler("SetSpeakerR2Mon", SetSpeakerR2Mon);
@@ -153,6 +154,19 @@ namespace Runtime.CH1.Main.Dialogue
             _sceneTransform.ConnectToScene(sceneName);
         }
 
+        private void ReverseConnection()
+        {
+            StartCoroutine(nameof(ActiveGlitch));
+        }   
+        
+        IEnumerator ActiveGlitch()
+        {
+            Managers.Sound.Play(Sound.SFX, "ReverseConnection_SFX_01");
+            _postProcessingVolume.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            _postProcessingVolume.SetActive(false);
+        }
+
         public void SetDialogueData(string value)
         {
             var variableStorage = GameObject.FindObjectOfType<InMemoryVariableStorage>();
@@ -181,11 +195,11 @@ namespace Runtime.CH1.Main.Dialogue
         {
             if (_speaker == "R2-Mon")
             {
-                Managers.Sound.Play(Sound.Speech, "[CH1] R2-Mon_Text_SFX_04");
+                Managers.Sound.Play(Sound.Speech, "R2-Mon_Text_SFX_04");
             }
             else
             {
-                Managers.Sound.Play(Sound.Speech, "[CH1] Text SFX");
+                Managers.Sound.Play(Sound.Speech, "Text_SFX");
             }
         }
 

@@ -21,7 +21,7 @@ namespace Runtime.ETC
         {
             Managers.Data.InGameKeyBinder.PlayerInputDisable();
             Managers.Sound.StopAllSound();
-            Managers.Sound.Play(Sound.SFX, "[CH1] SFX_Connection");
+            Managers.Sound.Play(Sound.SFX, "Connection_SFX");
         }
 
         public void ConnectToScene(string targetScene, bool disablePlayerInput = false)
@@ -38,7 +38,7 @@ namespace Runtime.ETC
             Managers.Data.InGameKeyBinder.PlayerInputDisable();
 
             Managers.Sound.StopAllSound();
-            Managers.Sound.Play(Sound.SFX, "[CH1] SFX_Escape_03");
+            Managers.Sound.Play(Sound.SFX, "Escape_SFX_03");
 
             _middleScene = _escapeScene;
             _targetScene = targetScene;
