@@ -56,17 +56,17 @@ namespace Runtime.CH1.Pacmom
 
         public void PlayTimeline1SFX()
         {
-            Managers.Sound.Play(Sound.SFX, "Pacmom_SFX_14");
+            Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_14");
         }
 
         public void PlayTimeline2SFX()
         {
-            Managers.Sound.Play(Sound.SFX, "Pacmom_BGM_03");
+            Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_BGM_03");
         }
 
         public void PlayTimeline3SFX()
         {
-            Managers.Sound.Play(Sound.SFX, "Pacmom_BGM_04");
+            Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_BGM_04");
         }
     }
 }

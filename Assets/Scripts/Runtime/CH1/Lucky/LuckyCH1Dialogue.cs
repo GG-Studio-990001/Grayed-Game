@@ -1,6 +1,7 @@
 using DG.Tweening;
 using Runtime.CH1.SubB;
 using Runtime.ETC;
+using Runtime.InGameSystem;
 using Runtime.Lucky;
 using System;
 using System.Collections;
@@ -44,7 +45,7 @@ namespace Runtime.CH1.Lucky
 
             _runner.AddCommandHandler("RemoveLineText", RemoveLineText);
             _runner.AddCommandHandler("ActiveFish", ActiveFish);
-            _runner.AddCommandHandler("FirstMeet", FirstMeet);
+            _runner.AddCommandHandler("ReverseConnection", ReverseConnection);
         }
 
         private void Start()
@@ -64,7 +65,7 @@ namespace Runtime.CH1.Lucky
             for (int i = 0; i < _luckys.Length; i++)
                 _luckys[i].SetActive(true);
 
-            Managers.Sound.Play(Sound.LuckyBGM, "[Ch1] Lucky_BGM_4");
+            Managers.Sound.Play(Sound.LuckyBGM, "Lucky_BGM_4");
         }
 
         private void LuckyExit()
@@ -145,14 +146,14 @@ namespace Runtime.CH1.Lucky
             Managers.Data.MeetLucky = true;
             Managers.Data.SaveGame();
 
-            Managers.Sound.Play(Sound.BGM, "[Ch1] Main_BGM", true);
+            Managers.Sound.Play(Sound.BGM, "CH1/Main_BGM", true);
         }
 
         private void Exit3Match()
         {
             LuckyExit();
 
-            Managers.Sound.Play(Sound.BGM, "[Ch1] Main(Cave)_BGM", true);
+            Managers.Sound.Play(Sound.BGM, "CH1/Main(Cave)_BGM", true);
         }
 
         private void ExitSLG()
@@ -165,7 +166,7 @@ namespace Runtime.CH1.Lucky
                 slgAction.MoveOnNextProgress();
             }
 
-            Managers.Sound.Play(Sound.BGM, "[Ch1] Main_BGM", true);
+            Managers.Sound.Play(Sound.BGM, "CH1/Main_BGM", true);
         }
         #endregion
 
@@ -176,7 +177,7 @@ namespace Runtime.CH1.Lucky
 
         private void ActiveFish()
         {
-            Managers.Sound.Play(Sound.SFX, "FishJelly");
+            Managers.Sound.Play(Sound.SFX, "CH1/FishJelly_SFX");
             
             var jewelry = _fish.GetComponent<Jewelry>();
             
@@ -188,24 +189,18 @@ namespace Runtime.CH1.Lucky
             _fish.name = "Jewelry_B";
         }
 
-        private void FirstMeet()
+        // TODO: Ch1DalogueController에도 동일한 함수 있음 => 중복제거
+        private void ReverseConnection()
         {
-            // TODO: 역접속 연출로 교체
-            //StartCoroutine(nameof(ConnectDirection));
+            StartCoroutine(nameof(ActiveGlitch));
         }
 
-        //IEnumerator ConnectDirection()
-        //{
-        //    _sceneTransform.BeforeConnection();
-        //    _postProcessingVolume.SetActive(true);
-
-        //    yield return new WaitForSeconds(1f);
-
-        //    _sceneTransform.ConnectDirection();
-
-        //    // Before _translationDuration end
-        //    yield return new WaitForSeconds(1f);
-        //    _postProcessingVolume.SetActive(false);
-        //}
+        IEnumerator ActiveGlitch()
+        {
+            Managers.Sound.Play(Sound.SFX, "ReverseConnection_SFX_01");
+            _postProcessingVolume.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            _postProcessingVolume.SetActive(false);
+        }
     }
 }

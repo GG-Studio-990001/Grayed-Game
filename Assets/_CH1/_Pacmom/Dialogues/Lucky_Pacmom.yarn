@@ -9,7 +9,7 @@ title: Lucky_Pacmom
 
 <<ActiveBubble true>>
 <<Idle>>
-럭키: -rot=럭키님 등장이요~-/rot=
+럭키: 럭키님 등장이요~
 럭키: 도움이 필요해?
 럭키: 아하! 나 <slide>팩맘</slide> 알아!
 럭키: 먼지들이랑 같이<br><wave>팩맘을 잡으면 돼</wave>
@@ -29,7 +29,7 @@ title: Lucky_Pacmom
 <<ShowDrawing false>>
 <<Idle>>
 럭키: 휴, 말 다 했다
-럭키: -rot=럭키님 퇴장이요~-/rot=
+럭키: 럭키님 퇴장이요~
 
 <<ActiveBubble false>>
 <<WalkOut>>

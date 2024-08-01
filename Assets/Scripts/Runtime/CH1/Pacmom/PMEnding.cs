@@ -72,7 +72,7 @@ namespace Runtime.CH1.Pacmom
         IEnumerator PacmomGameOver()
         {
             Time.timeScale = 0;
-            Managers.Sound.Play(Sound.SFX, "Pacmom_SFX_Fail");
+            Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_Fail");
             _postProcessing.ChangeBleedAmount();
 
             yield return new WaitForSecondsRealtime(2f);

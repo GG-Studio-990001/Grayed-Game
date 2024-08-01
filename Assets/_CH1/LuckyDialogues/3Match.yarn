@@ -10,11 +10,11 @@ title: Lucky3Match
 <<ActiveBubble true>>
 <<Idle>>
 
-럭키: -rot=럭키님 등장~-/rot=
+럭키: 럭키님 등장~
 럭키: 뭐야, 이 쉬운 건!
 럭키: 딱 봐도 알겠구만.
 럭키: <wave>세 개 연결하면</wave> <shake>펑!</shake><br>오케이?
-럭키: -rot=럭키님 퇴장이요~-/rot=
+럭키: 럭키님 퇴장이요~
 
 <<ActiveBubble false>>
 <<WalkRight 1>>
@@ -61,7 +61,7 @@ title: Lucky_3Match_Done
 // 상황 : 3매치를 설명하는 럭키
 ---
 // 1라운드 이상 클리어 기록이 있을 때 (특수대사)
-럭키: -rot=럭키님 등장이요~-/rot=
+럭키: 럭키님 등장이요~
 럭키: 에휴, 나 없이 해버렸잖아!!
 럭키: 럭키님 아까비요~
 ===

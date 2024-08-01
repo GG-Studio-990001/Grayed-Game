@@ -1,6 +1,7 @@
 using Runtime.CH1.Main.Player;
 using Runtime.CH1.Pacmom;
 using Runtime.CH1.Title;
+using Runtime.CH2.Main;
 using Runtime.Common.View;
 using Yarn.Unity;
 
@@ -58,10 +59,14 @@ namespace Runtime.Input
         }
 
         // CH2
-        public void CH2KeyBinding(SettingsUIView settingsUIView)
+        public void CH2KeyBinding(SettingsUIView settingsUIView, KeySetting keySetting)
         {
             _gameOverControls.UI.Enable();
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
+            _gameOverControls.UI.Hide.performed += _ => keySetting.HideUI();
+            _gameOverControls.UI.Skip.performed += _ => keySetting.Skip();
+            _gameOverControls.UI.Auto.performed += _ => keySetting.AutoDialogue();
+            _gameOverControls.UI.Log.performed += _ => keySetting.ViewLog();
         }
 
         // ETC
