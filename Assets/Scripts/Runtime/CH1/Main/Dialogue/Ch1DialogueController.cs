@@ -161,7 +161,7 @@ namespace Runtime.CH1.Main.Dialogue
         
         IEnumerator ActiveGlitch()
         {
-            Managers.Sound.Play(Sound.SFX, "[CH1] SFX_Revers_Connection_01");
+            Managers.Sound.Play(Sound.SFX, "ReverseConnection_SFX_01");
             _postProcessingVolume.SetActive(true);
             yield return new WaitForSeconds(1f);
             _postProcessingVolume.SetActive(false);
@@ -195,11 +195,11 @@ namespace Runtime.CH1.Main.Dialogue
         {
             if (_speaker == "R2-Mon")
             {
-                Managers.Sound.Play(Sound.Speech, "[CH1] R2-Mon_Text_SFX_04");
+                Managers.Sound.Play(Sound.Speech, "R2-Mon_Text_SFX_04");
             }
             else
             {
-                Managers.Sound.Play(Sound.Speech, "[CH1] Text SFX");
+                Managers.Sound.Play(Sound.Speech, "Text_SFX");
             }
         }
 

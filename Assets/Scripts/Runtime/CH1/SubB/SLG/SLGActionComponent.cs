@@ -242,7 +242,7 @@ public class SLGActionComponent : MonoBehaviour
                     _wood += IncreaseAssetCount;
                     UI_WoodText.text = _wood.ToString();
                     _spawnCount--;
-                    Managers.Sound.Play(Sound.SFX, "SLG/[Ch1] SLG_SFX_Wood");
+                    Managers.Sound.Play(Sound.SFX, "SLG/SLG_Wood_SFX");
                     PlayGainAnim(InObjectType);
                     WriteSLGData();
                     break;
@@ -251,7 +251,7 @@ public class SLGActionComponent : MonoBehaviour
                 {
                     _stone += IncreaseAssetCount;
                     UI_StoneText.text = _stone.ToString();
-                    Managers.Sound.Play(Sound.SFX, "SLG/[Ch1] SLG_SFX_Stone");
+                    Managers.Sound.Play(Sound.SFX, "SLG/SLG_Stone_SFX");
                     _spawnCount--;
                     WriteSLGData();
                     PlayGainAnim(InObjectType);
@@ -261,13 +261,13 @@ public class SLGActionComponent : MonoBehaviour
                 {
                     _constructUI.SetActive(true);
                     RefreshConstructionWnd();
-                    Managers.Sound.Play(Sound.SFX, "SLG/[Ch1] SLG_SFX_Click");
+                    Managers.Sound.Play(Sound.SFX, "SLG/SLG_Click_SFX");
                     break;
                 }
             case SLGObjectType.BridgeConstructWindow:
                 {
                     _bridgeConstructUI.SetActive(true);
-                    Managers.Sound.Play(Sound.SFX, "SLG/[Ch1] SLG_SFX_Click");
+                    Managers.Sound.Play(Sound.SFX, "SLG/SLG_SFX_Click");
                 }
                 break;
             default: break;
@@ -276,7 +276,7 @@ public class SLGActionComponent : MonoBehaviour
 
     public void GetSLGPack()
     {
-        Managers.Sound.Play(Sound.SFX, "[CH1] SFX_SLG_Get");
+        Managers.Sound.Play(Sound.SFX, "SLG/SLG_Get_SFX");
         SLGTriggerObject.SetActive(false);
     }
 
