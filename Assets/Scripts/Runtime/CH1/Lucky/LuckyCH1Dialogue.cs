@@ -1,6 +1,7 @@
 using DG.Tweening;
 using Runtime.CH1.SubB;
 using Runtime.ETC;
+using Runtime.InGameSystem;
 using Runtime.Lucky;
 using System;
 using System.Collections;
@@ -188,6 +189,7 @@ namespace Runtime.CH1.Lucky
             _fish.name = "Jewelry_B";
         }
 
+        // TODO: Ch1DalogueController에도 동일한 함수 있음 => 중복제거
         private void ReverseConnection()
         {
             StartCoroutine(nameof(ActiveGlitch));
@@ -195,6 +197,7 @@ namespace Runtime.CH1.Lucky
 
         IEnumerator ActiveGlitch()
         {
+            Managers.Sound.Play(Sound.SFX, "[CH1] SFX_Revers_Connection_01");
             _postProcessingVolume.SetActive(true);
             yield return new WaitForSeconds(1f);
             _postProcessingVolume.SetActive(false);

@@ -161,6 +161,7 @@ namespace Runtime.CH1.Main.Dialogue
         
         IEnumerator ActiveGlitch()
         {
+            Managers.Sound.Play(Sound.SFX, "[CH1] SFX_Revers_Connection_01");
             _postProcessingVolume.SetActive(true);
             yield return new WaitForSeconds(1f);
             _postProcessingVolume.SetActive(false);
