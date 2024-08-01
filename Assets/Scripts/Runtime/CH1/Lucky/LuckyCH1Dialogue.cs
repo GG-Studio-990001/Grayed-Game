@@ -44,7 +44,7 @@ namespace Runtime.CH1.Lucky
 
             _runner.AddCommandHandler("RemoveLineText", RemoveLineText);
             _runner.AddCommandHandler("ActiveFish", ActiveFish);
-            _runner.AddCommandHandler("FirstMeet", FirstMeet);
+            _runner.AddCommandHandler("ReverseConnection", ReverseConnection);
         }
 
         private void Start()
@@ -188,24 +188,16 @@ namespace Runtime.CH1.Lucky
             _fish.name = "Jewelry_B";
         }
 
-        private void FirstMeet()
+        private void ReverseConnection()
         {
-            // TODO: 역접속 연출로 교체
-            //StartCoroutine(nameof(ConnectDirection));
+            StartCoroutine(nameof(ActiveGlitch));
         }
 
-        //IEnumerator ConnectDirection()
-        //{
-        //    _sceneTransform.BeforeConnection();
-        //    _postProcessingVolume.SetActive(true);
-
-        //    yield return new WaitForSeconds(1f);
-
-        //    _sceneTransform.ConnectDirection();
-
-        //    // Before _translationDuration end
-        //    yield return new WaitForSeconds(1f);
-        //    _postProcessingVolume.SetActive(false);
-        //}
+        IEnumerator ActiveGlitch()
+        {
+            _postProcessingVolume.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            _postProcessingVolume.SetActive(false);
+        }
     }
 }

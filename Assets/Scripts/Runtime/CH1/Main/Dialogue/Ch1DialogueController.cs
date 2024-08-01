@@ -43,6 +43,7 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("NewSceneStart", NewSceneStart);
             _runner.AddCommandHandler("NextSceneStart", NextSceneStart);
             _runner.AddCommandHandler("SceneEnd", SceneEnd);
+            _runner.AddCommandHandler("ReverseConnection", ReverseConnection);
 
             // CutScene
             _runner.AddCommandHandler("SetSpeakerR2Mon", SetSpeakerR2Mon);
@@ -151,6 +152,18 @@ namespace Runtime.CH1.Main.Dialogue
             yield return new WaitForSeconds(1f);
             
             _sceneTransform.ConnectToScene(sceneName);
+        }
+
+        private void ReverseConnection()
+        {
+            StartCoroutine(nameof(ActiveGlitch));
+        }   
+        
+        IEnumerator ActiveGlitch()
+        {
+            _postProcessingVolume.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            _postProcessingVolume.SetActive(false);
         }
 
         public void SetDialogueData(string value)

@@ -11,7 +11,7 @@
     <<endif>>
 <<elseif $progress == 40>>
     <<jump Farmer2>>
-<<elseif $progress == 50>>
+<<elseif $progress >= 50>>
     <<jump Farmer3>>
 <<else>>
     <<NpcDialogueFin 1>>
