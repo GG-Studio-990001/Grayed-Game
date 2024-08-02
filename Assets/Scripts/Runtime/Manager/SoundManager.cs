@@ -145,7 +145,7 @@ namespace Runtime.InGameSystem
         {
             if (BGM.isPlaying)
             {
-                if (BGM.clip.name.Equals("[Ch1] Main_BGM") || BGM.clip.name.Equals("[Ch1] Main(Cave)_BGM"))
+                if (BGM.clip.name.Equals("Main_BGM") || BGM.clip.name.Equals("Main(Cave)_BGM"))
                     _bgmPlayTime = BGM.time;
             }
         }
