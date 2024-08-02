@@ -49,14 +49,14 @@ jobs:
           targetPlatform: StandaloneWindows64
           allowDirtyBuild: true
 
-      # **Move and rename folders and files**
-      - name: Move and rename output folders and files
+      # **Rename folders and files**
+      - name: Rename output folders and files
         run: |
-          mv build/StandaloneWindows64 ./GrayedGame
-          mv ./GrayedGame/StandaloneWindows64.exe ./GrayedGame/GrayedGame.exe
+          mv build/StandaloneWindows64 build/GrayedGame
+          mv build/GrayedGame/StandaloneWindows64.exe build/GrayedGame/GrayedGame.exe
 
       # Output
       - uses: actions/upload-artifact@v4
         with:
           name: GG_Studio
-          path: GrayedGame
+          path: build/GrayedGame
