@@ -49,11 +49,11 @@ jobs:
           targetPlatform: StandaloneWindows64
           allowDirtyBuild: true
 
-      # **Rename folders and files**
-      - name: Rename output folders and files
+      # Move and rename folders and files with elevated permissions
+      - name: Move and rename output folders and files
         run: |
-          mv build/StandaloneWindows64 build/GrayedGame
-          mv build/GrayedGame/StandaloneWindows64.exe build/GrayedGame/GrayedGame.exe
+          sudo mv build/StandaloneWindows64 build/GrayedGame
+          sudo mv build/GrayedGame/StandaloneWindows64.exe build/GrayedGame/GrayedGame.exe
 
       # Output
       - uses: actions/upload-artifact@v4
