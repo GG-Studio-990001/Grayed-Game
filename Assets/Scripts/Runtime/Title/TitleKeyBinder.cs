@@ -24,6 +24,7 @@ namespace Runtime.CH1.Title
 
         public void ActiveTimeline()
         {
+            Managers.Data.SaveGame();
             _timeline.SetActive(true);
         }
 
