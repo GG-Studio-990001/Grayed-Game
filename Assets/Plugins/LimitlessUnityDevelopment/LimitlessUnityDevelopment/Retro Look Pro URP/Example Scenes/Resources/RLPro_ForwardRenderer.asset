@@ -149,11 +149,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f675543667ec4449873191513095fa3, type: 3}
+  m_Script: {fileID: 11500000, guid: 556568a008c5845c2b9aff7eeaa6e59a, type: 3}
   m_Name: NewGlitch20
   m_EditorClassIdentifier: 
   m_Active: 1
-  Event: 550
+  Event: 300
 --- !u!114 &-2287313264067407789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,10 +413,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35168bedc30ee49e08ebf6292d096794, type: 3}
+  m_Script: {fileID: 11500000, guid: a34f9733ef80345e782a33abcb47a1f7, type: 3}
   m_Name: NewGlitch1
   m_EditorClassIdentifier: 
-  Event: 300
+  m_Active: 1
+  Event: 550
 --- !u!114 &4722516017749643764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,7 +469,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72cb7e116a93d4ff0b78baa15ccecc05, type: 3}
+  m_Script: {fileID: 11500000, guid: a34f9733ef80345e782a33abcb47a1f7, type: 3}
   m_Name: NewGlitch1
   m_EditorClassIdentifier: 
   m_Active: 1
