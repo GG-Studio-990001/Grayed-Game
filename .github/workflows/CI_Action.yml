@@ -53,6 +53,7 @@ jobs:
       - name: Move and rename output folders and files
         run: |
           sudo mv build/StandaloneWindows64 build/GrayedGame
+          sudo mv build/GrayedGame/StandaloneWindows64_Data build/GrayedGame/GrayedGame_Data
           sudo mv build/GrayedGame/StandaloneWindows64.exe build/GrayedGame/GrayedGame.exe
 
       # Output
