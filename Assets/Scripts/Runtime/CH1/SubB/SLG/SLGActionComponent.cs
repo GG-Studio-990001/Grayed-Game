@@ -8,6 +8,7 @@ using Runtime.ETC;
 using Runtime.CH1.Main.Dialogue;
 using DG.Tweening;
 using Yarn.Unity;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace SLGDefines
 { 
@@ -109,6 +110,7 @@ public class SLGActionComponent : MonoBehaviour
         SLGMaMagoGate.SetActive(false);
         SLGMaMagoGateColider.SetActive(false);
         _sponSpots.SetActive(false);
+        SLGTriggerObject.SetActive(false);
 
         GameObject mainObject = FindObjectOfType<Ch1MainSystemController>().gameObject;
         if (mainObject != null)
@@ -116,28 +118,24 @@ public class SLGActionComponent : MonoBehaviour
             CH1Data = mainObject.GetComponent<CH1CommonData>();
         }
 
-        if (SLGProgressInfo == SLGProgress.None)
+         if (SLGProgressInfo == SLGProgress.None)
         {
             SLGTriggerObject.SetActive(true);
             _SLGCanvas.SetActive(false);
         }
-        else if (SLGProgressInfo >= SLGProgress.EndConstruction)
+        else if(SLGProgressInfo >= SLGProgress.ModeClose)
         {
-            _SLGCanvas.SetActive(false);
-            SLGConstructionSite.SetActive(false);
-            SLGMaMagoGate.SetActive(true);
-            SLGMaMagoGateColider.SetActive(true);
-            SLGTriggerObject.SetActive(false);
-            SLGConstructionObject.SetActive(false);
+            EndSLGMode();
         }
         else
         {
-            SLGTriggerObject.SetActive(false);
             SLGResume();
             InitMap();
-            if (SLGProgressInfo == SLGProgress.BeforeConstruction)
+            _sponSpots.SetActive(true);
+
+            if (SLGProgressInfo >= SLGProgress.EndConstruction)
             {
-                _sponSpots.SetActive(true);
+                EndMainConstruction();
             }
         }
     }
@@ -162,10 +160,11 @@ public class SLGActionComponent : MonoBehaviour
             }
             else
             {
-                EndSLGMode();
+                //연출이 나와야 할듯?
+                EndMainConstruction();
             }
         }
-        else if(SLGProgressInfo == SLGProgress.BeforeConstruction)
+        if(SLGProgressInfo >= SLGProgress.BeforeConstruction && SLGProgressInfo < SLGProgress.ModeClose)
         {
             if(_spawnCount < MaxSpawnCount)
             {
@@ -260,7 +259,15 @@ public class SLGActionComponent : MonoBehaviour
             case SLGObjectType.ConstructWindow:
                 {
                     _constructUI.SetActive(true);
-                    RefreshConstructionWnd();
+                    Managers.Data.InGameKeyBinder.PlayerInputDisable();
+                    if (SLGProgressInfo == SLGProgress.Constructing)
+                    {
+                        RefreshAccelerateWnd();
+                    }
+                    else if(SLGProgressInfo == SLGProgress.BeforeConstruction)
+                    {
+                        RefreshConstructionWnd();
+                    }
                     Managers.Sound.Play(Sound.SFX, "SLG/SLG_Click_SFX");
                     break;
                 }
@@ -286,7 +293,6 @@ public class SLGActionComponent : MonoBehaviour
         _SLGCanvas.SetActive(true);
         _buildingListUI.SetActive(true);
         _sponSpots.SetActive(true);
-        // SLGTriggerObject.SetActive(false); // 위 함수로 이동했습니다 -우연
 
         Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
 
@@ -304,7 +310,6 @@ public class SLGActionComponent : MonoBehaviour
         InitMap();
 
         _luckyDialogue.StartDialogue("LuckySlg");
-        // MoveOnNextProgress(); // 럭키로 이동
     }
 
     private void InitMap()
@@ -353,29 +358,30 @@ public class SLGActionComponent : MonoBehaviour
             BuildingWnd.RefreshBuildingInfo();
         }
     }
+
+    private void RefreshAccelerateWnd()
+    {
+        if (_constructUI != null && SLGProgressInfo == SLGProgress.Constructing)
+        {
+            Wnd_AccelerateSection.gameObject.SetActive(true);
+            Wnd_CostSection.gameObject.SetActive(false);
+
+            Wnd_CoinCostText.text = Managers.Data.PacmomCoin.ToString() + "/" + NeededCoinCount.ToString();
+            Wnd_CoinCostText.color = Managers.Data.PacmomCoin < NeededCoinCount ? Color.red : Color.black;
+        }
+    }
     private void RefreshConstructionWnd()
     {
-        if (_constructUI)
+        if (_constructUI != null && SLGProgressInfo == SLGProgress.BeforeConstruction)
         {
-            if (SLGProgressInfo == SLGProgress.BeforeConstruction)
-            {
-                Wnd_AccelerateSection.gameObject.SetActive(false);
-                Wnd_CostSection.gameObject.SetActive(true);
+            Wnd_AccelerateSection.gameObject.SetActive(false);
+            Wnd_CostSection.gameObject.SetActive(true);
 
-                Wnd_WoodText.text = _wood.ToString() + "/" + NeededAssetCount.ToString();
-                Wnd_StoneText.text = _stone.ToString() + "/" + NeededAssetCount.ToString();
+            Wnd_WoodText.text = _wood.ToString() + "/" + NeededAssetCount.ToString();
+            Wnd_StoneText.text = _stone.ToString() + "/" + NeededAssetCount.ToString();
 
-                Wnd_WoodText.color = _wood < NeededAssetCount? Color.red : Color.black;
-                Wnd_StoneText.color = _stone < NeededAssetCount? Color.red : Color.black;
-            }
-            else if (SLGProgressInfo == SLGProgress.Constructing)
-            {
-                Wnd_AccelerateSection.gameObject.SetActive(true);
-                Wnd_CostSection.gameObject.SetActive(false);
-
-                Wnd_CoinCostText.text = Managers.Data.PacmomCoin.ToString() + "/" + NeededCoinCount.ToString();
-                Wnd_CoinCostText.color = Managers.Data.PacmomCoin < NeededCoinCount ? Color.red : Color.black;
-            }
+            Wnd_WoodText.color = _wood < NeededAssetCount ? Color.red : Color.black;
+            Wnd_StoneText.color = _stone < NeededAssetCount ? Color.red : Color.black;
         }
     }
 
@@ -395,8 +401,10 @@ public class SLGActionComponent : MonoBehaviour
             {
                 Managers.Data.PacmomCoin -= NeededCoinCount;
                 RefreshCoinText();
+                _constructUI.SetActive(false);
+                Managers.Data.InGameKeyBinder.PlayerInputEnable();
+
                 _dialogue.MamagoThanks(); // 마마고 연출 시작
-                _SLGCanvas.SetActive(false);
             }
             else
             {
@@ -409,6 +417,7 @@ public class SLGActionComponent : MonoBehaviour
         if (_constructUI != null)
         {
             _constructUI.SetActive(false);
+            Managers.Data.InGameKeyBinder.PlayerInputEnable();
         }
     }
 
@@ -449,6 +458,7 @@ public class SLGActionComponent : MonoBehaviour
             RectTransform transform = animTargetImg.GetComponent<RectTransform>();
             if(transform != null)
             {
+                transform.DOComplete();
                 transform.localScale = new Vector3(0.25f,0.25f,1.0f);
                 transform.DOScale(0.33f, 0.5f).SetEase(Ease.Linear).SetLoops(2, LoopType.Yoyo);
             }
@@ -470,12 +480,8 @@ public class SLGActionComponent : MonoBehaviour
     {
         SLGProgressInfo++;
 
-        if (SLGProgressInfo < SLGProgress.EndConstruction)
+        if (SLGProgressInfo <= SLGProgress.ModeClose)
         {
-            if (_buildingListUI.activeSelf)
-            {
-                RefreshConstructionWnd();
-            }
             if (_buildingListUI != null)
             {
                 _buildingListUI.SetActive(true);
@@ -485,14 +491,25 @@ public class SLGActionComponent : MonoBehaviour
                     BuildingWnd.RefreshBuildingInfo();
                 }
             }
-            if (SLGProgressInfo == SLGProgress.Constructing)
-            {
-                SLGConstructionBeginTime = (long)((DateTime.Now - DateTime.MinValue).TotalSeconds);
-            }
         }
-        else if(SLGProgressInfo == SLGProgress.EndConstruction)
+
+        switch (SLGProgressInfo) 
         {
-            EndSLGMode();
+            case SLGProgress.None:
+                break;
+            case SLGProgress.BeforeConstruction:
+                RefreshConstructionWnd();
+                break;
+            case SLGProgress.Constructing:
+                SLGConstructionBeginTime = (long)((DateTime.Now - DateTime.MinValue).TotalSeconds);
+                RefreshAccelerateWnd();
+                break;
+            case SLGProgress.EndConstruction:
+                EndMainConstruction();
+                break;
+            case SLGProgress.ModeClose:
+                EndSLGMode();
+                break;  
         }
 
         // SLG팩 획득 ~ 럭키 설명 다 듣기 안하면 SLG 팩 획득 이전으로 돌아가야함
@@ -501,15 +518,35 @@ public class SLGActionComponent : MonoBehaviour
             WriteSLGData();
         }
     }
+
+    public void EndMainConstruction()
+    {
+        //함수를 공용으로 쓰고 있어서 기존의 함수 유지
+        SLGConstructionObject.SetActive(false);
+        SLGConstructionSite.SetActive(false);
+
+        SLGMaMagoGate.SetActive(true);
+        SLGMaMagoGateColider.SetActive(true);
+    }
+
+    public void SetBuildCutSceneObjects()
+    {
+        SLGConstructionObject.SetActive(false);
+        SLGConstructionSite.SetActive(false);
+
+        SLGMaMagoGate.SetActive(true);
+        SLGMaMagoGateColider.SetActive(false);
+    }
+
     private void EndSLGMode()
     {
         SLGConstructionObject.SetActive(false);
-        SLGBridgeConstructionObject.SetActive(false);
-        _sponSpots.SetActive(false);
         SLGConstructionSite.SetActive(false);
-        SLGMaMagoGate.SetActive(true);
-        SLGMaMagoGateColider.SetActive(true);
+        SLGBridgeConstructionObject.SetActive(false);
+
+        _sponSpots.SetActive(false);
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+
         MoveOnNextProgress();
     }
 
