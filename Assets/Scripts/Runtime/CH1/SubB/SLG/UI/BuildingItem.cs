@@ -20,7 +20,6 @@ public class BuildingItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     [SerializeField] private string _discrtiption;
 
     [Header("DisplayComponents")]
-    [SerializeField] private GameObject _contentParent = default;
     [SerializeField] private Image _dispArea = default;
     [SerializeField] private GameObject _dimImage = default;
     [SerializeField] private TextMeshProUGUI _discrtiptionText = default;
