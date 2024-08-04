@@ -25,10 +25,12 @@ public class BridgeConstructWindow : MonoBehaviour
     private void OnEnable()
     {
         RefreshWindowInfo();
+        Managers.Data.InGameKeyBinder.PlayerInputDisable();
     }
 
     private void OnDisable()
     {
+        Managers.Data.InGameKeyBinder.PlayerInputEnable();
     }
 
     void Start()
