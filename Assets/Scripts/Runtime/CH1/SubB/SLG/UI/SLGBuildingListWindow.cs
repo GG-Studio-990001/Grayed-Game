@@ -68,7 +68,7 @@ public class SLGBuildingListWindow : MonoBehaviour
         else 
         {
             transform.anchoredPosition = StartPos;
-            transform.DOLocalMove(EndPos, AnimTime).SetEase(Ease.OutBounce);
+            transform.DOLocalMove(EndPos, AnimTime);
         }
     }
 
