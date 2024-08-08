@@ -197,10 +197,12 @@ namespace Runtime.CH1.Lucky
 
         IEnumerator ActiveGlitch()
         {
+            Managers.Data.InGameKeyBinder.PlayerInputDisable();
             Managers.Sound.Play(Sound.SFX, "ReverseConnection_SFX_01");
             _postProcessingVolume.SetActive(true);
             yield return new WaitForSeconds(1f);
             _postProcessingVolume.SetActive(false);
+            Managers.Data.InGameKeyBinder.PlayerInputEnable();
         }
     }
 }
