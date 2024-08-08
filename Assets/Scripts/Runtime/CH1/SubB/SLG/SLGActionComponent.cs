@@ -8,7 +8,6 @@ using Runtime.ETC;
 using Runtime.CH1.Main.Dialogue;
 using DG.Tweening;
 using Yarn.Unity;
-using Microsoft.CodeAnalysis.Operations;
 
 namespace SLGDefines
 { 
