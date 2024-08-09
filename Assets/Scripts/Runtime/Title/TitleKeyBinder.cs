@@ -1,4 +1,5 @@
 using Runtime.Common.View;
+using Runtime.ETC;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,14 +7,11 @@ namespace Runtime.CH1.Title
 {
     public class TitleKeyBinder : MonoBehaviour
     {
-        [SerializeField]
-        private SettingsUIView _settingsUIView;
-        [SerializeField]
-        private GameObject _timeline;
+        [SerializeField] private SettingsUIView _settingsUIView;
+        [SerializeField] private GameObject _timeline;
 
         private void Start()
         {
-            Managers.Data.LoadGame();
             InitKeyBinding();
         }
 
