@@ -91,12 +91,12 @@ namespace Runtime.Manager
         public float BgmVolume
         {
             get { return _gameData.BgmVolume; }
-            set { Math.Clamp(value, 0, 1); _gameData.BgmVolume = value; Managers.Sound.BGM.volume = value; }
+            set { Mathf.Clamp(value, 0, 1); _gameData.BgmVolume = value; Managers.Sound.BGM.volume = value; }
         }
         public float SfxVolume
         {
             get { return _gameData.SfxVolume; }
-            set { Math.Clamp(value, 0, 1); _gameData.SfxVolume = value; Managers.Sound.SFX.volume = value; }
+            set { Mathf.Clamp(value, 0, 1); _gameData.SfxVolume = value; Managers.Sound.SFX.volume = value; }
         }
 
         // CH1
