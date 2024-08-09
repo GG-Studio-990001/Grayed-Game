@@ -15,7 +15,7 @@ namespace Runtime.ETC
         private void ReadVersion()
         {
             string projectVersion = Application.version;
-            _versionText.text = "ver" + projectVersion;
+            _versionText.text = "v" + projectVersion;
             Debug.Log("Project Version: " + projectVersion);
         }
     }
