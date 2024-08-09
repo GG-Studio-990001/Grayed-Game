@@ -3,6 +3,7 @@ using Runtime.Input;
 using System;
 using Runtime.ETC;
 using UnityEngine;
+using System.IO;
 
 namespace Runtime.Manager
 {
@@ -126,23 +127,23 @@ namespace Runtime.Manager
         
         public void SaveGame()
         {
-            string _path = Application.persistentDataPath + "/SaveData.json";
-            
+            string path = Path.Combine(Application.persistentDataPath, "saveData.json");
+
             string jsonStr = JsonUtility.ToJson(Managers.Data.SaveData);
-            System.IO.File.WriteAllText(_path, jsonStr);
-            Debug.Log($"Save Game Completed : {_path}");
+            System.IO.File.WriteAllText(path, jsonStr);
+            Debug.Log($"Save Game Completed : {path}");
         }
         
         public bool LoadGame()
         {
-            string _path = Application.persistentDataPath + "/SaveData.json";
-            
-            if (System.IO.File.Exists(_path) == false)
+            string path = Path.Combine(Application.persistentDataPath, "saveData.json");
+
+            if (System.IO.File.Exists(path) == false)
             {
                 return false;
             }
 
-            string jsonStr = System.IO.File.ReadAllText(_path);
+            string jsonStr = System.IO.File.ReadAllText(path);
             GameData data = JsonUtility.FromJson<GameData>(jsonStr);
             if (data == null)
             {
@@ -150,7 +151,7 @@ namespace Runtime.Manager
             }
             
             Managers.Data.SaveData = data;
-            Debug.Log($"Load Game Completed : {_path}");
+            Debug.Log($"Load Game Completed : {path}");
             Debug.Log(Managers.Data.Scene+"."+ Managers.Data.SceneDetail);
             return true;
         }
