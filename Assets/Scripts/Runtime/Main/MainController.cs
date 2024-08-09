@@ -14,10 +14,9 @@ namespace Runtime.Main
             Managers.Data.InGameKeyBinder.GameControlReset();
         }
 
-
         public void NewGame()
         {
-            Managers.Data.NewGame();
+            Managers.Data.NewGame(Application.version);
             _sceneSystem.LoadScene("CH1");
         }
         
@@ -33,19 +32,19 @@ namespace Runtime.Main
 
         public void GoPacmom()
         {
-            Managers.Data.NewGame();
+            Managers.Data.NewGame(Application.version);
             _sceneSystem.LoadScene("Pacmom");
         }
 
         public void GoCH2()
         {
-            Managers.Data.NewGame();
+            Managers.Data.NewGame(Application.version);
             _sceneSystem.LoadScene("CH2");
         }
 
         public void AfterIntro()
         {
-            Managers.Data.NewGame();
+            Managers.Data.NewGame(Application.version);
             _testData.DataAfterIntro();
             Managers.Data.SaveGame();
             LoadGame();
@@ -53,7 +52,7 @@ namespace Runtime.Main
 
         public void AfterPacmom()
         {
-            Managers.Data.NewGame();
+            Managers.Data.NewGame(Application.version);
             _testData.DataAfterPacmom();
             Managers.Data.SaveGame();
             LoadGame();
@@ -61,7 +60,7 @@ namespace Runtime.Main
 
         public void After3Match()
         {
-            Managers.Data.NewGame();
+            Managers.Data.NewGame(Application.version);
             _testData.DataAfter3Match();
             Managers.Data.SaveGame();
             LoadGame();
