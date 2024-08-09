@@ -3,6 +3,7 @@ using Runtime.Input;
 using System;
 using Runtime.ETC;
 using UnityEngine;
+using System.IO;
 
 namespace Runtime.Manager
 {
@@ -10,6 +11,7 @@ namespace Runtime.Manager
     [Serializable]
     public class GameData
     {
+        public string Version;
         // Progress
         public int Chapter;
         public int Stage;
@@ -37,6 +39,7 @@ namespace Runtime.Manager
 
         public GameData()
         {
+            Version = "";
             // Progress
             Chapter = 1;
             Stage = 1;
@@ -79,6 +82,7 @@ namespace Runtime.Manager
         private GameOverControls _gameOverControls;
 
         #region properties
+        public string Version { get { return _gameData.Version; } set { _gameData.Version = value; } }
         public int Chapter { get { return _gameData.Chapter; } set { _gameData.Chapter = value; } }
         public int Stage { get { return _gameData.Stage; } set { _gameData.Stage = value; } }
         public int Scene { get { return _gameData.Scene; } set { _gameData.Scene = value; } }
@@ -87,12 +91,12 @@ namespace Runtime.Manager
         public float BgmVolume
         {
             get { return _gameData.BgmVolume; }
-            set { Math.Clamp(value, 0, 1); _gameData.BgmVolume = value; Managers.Sound.BGM.volume = value; }
+            set { Mathf.Clamp(value, 0, 1); _gameData.BgmVolume = value; Managers.Sound.BGM.volume = value; }
         }
         public float SfxVolume
         {
             get { return _gameData.SfxVolume; }
-            set { Math.Clamp(value, 0, 1); _gameData.SfxVolume = value; Managers.Sound.SFX.volume = value; }
+            set { Mathf.Clamp(value, 0, 1); _gameData.SfxVolume = value; Managers.Sound.SFX.volume = value; }
         }
 
         // CH1
@@ -126,23 +130,23 @@ namespace Runtime.Manager
         
         public void SaveGame()
         {
-            string _path = Application.persistentDataPath + "/SaveData.json";
-            
+            string path = Path.Combine(Application.persistentDataPath, "saveData.json");
+
             string jsonStr = JsonUtility.ToJson(Managers.Data.SaveData);
-            System.IO.File.WriteAllText(_path, jsonStr);
-            Debug.Log($"Save Game Completed : {_path}");
+            System.IO.File.WriteAllText(path, jsonStr);
+            Debug.Log($"Save Game Completed : {path}");
         }
         
         public bool LoadGame()
         {
-            string _path = Application.persistentDataPath + "/SaveData.json";
-            
-            if (System.IO.File.Exists(_path) == false)
+            string path = Path.Combine(Application.persistentDataPath, "saveData.json");
+
+            if (System.IO.File.Exists(path) == false)
             {
                 return false;
             }
 
-            string jsonStr = System.IO.File.ReadAllText(_path);
+            string jsonStr = System.IO.File.ReadAllText(path);
             GameData data = JsonUtility.FromJson<GameData>(jsonStr);
             if (data == null)
             {
@@ -150,14 +154,14 @@ namespace Runtime.Manager
             }
             
             Managers.Data.SaveData = data;
-            Debug.Log($"Load Game Completed : {_path}");
+            Debug.Log($"Load Game Completed : {path}");
             Debug.Log(Managers.Data.Scene+"."+ Managers.Data.SceneDetail);
             return true;
         }
-        
-        public void NewGame()
+
+        public void NewGame(string version)
         {
-            _gameData = new GameData();
+            _gameData = new GameData { Version = version };
             SaveGame();
         }
     }

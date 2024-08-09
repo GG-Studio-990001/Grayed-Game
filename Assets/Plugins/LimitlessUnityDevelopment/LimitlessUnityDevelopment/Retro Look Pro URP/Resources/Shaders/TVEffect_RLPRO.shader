@@ -131,10 +131,11 @@ Shader "Hidden/Shader/TV_RLPRO"
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
         half2 positionSS = input.uv;
         float4 outColor = tex2D(_MainTex, positionSS);
+		resScale = 1.0; // 초기화
 		resScale*=_ScreenParams.zw;
 		res = _ScreenParams.xy / resScale;
 		float2 fragCoord = input.uv* _ScreenParams.xy;
-		float4 fragColor = 0;
+		float4 fragColor = float4(0.0, 0.0, 0.0, 0.0); // 초기화
 		float2 pos = Warp1(fragCoord.xy / _ScreenParams.xy);
 		fragColor.rgb = Tri(pos) * Mask(fragCoord);
 		fragColor.a = tex2D(_MainTex, pos).a;
