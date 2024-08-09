@@ -132,7 +132,7 @@ Shader "Hidden/Shader/TV_RLPRO"
         half2 positionSS = input.uv;
         float4 outColor = tex2D(_MainTex, positionSS);
 		resScale = 1.0; // 초기화
-		resScale*=_ScreenParams.zw;
+		resScale *= _ScreenParams.z * _ScreenParams.w;
 		res = _ScreenParams.xy / resScale;
 		float2 fragCoord = input.uv* _ScreenParams.xy;
 		float4 fragColor = float4(0.0, 0.0, 0.0, 0.0); // 초기화
