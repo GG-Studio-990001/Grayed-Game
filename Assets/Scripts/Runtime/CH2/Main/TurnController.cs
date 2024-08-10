@@ -5,40 +5,54 @@ using Yarn.Unity;
 public class TurnController : MonoBehaviour
 {
     [SerializeField] private DialogueRunner _dialogueRunner;
-    [SerializeField] private CH2UI _ch2Ui;
+    [SerializeField] private LocationSelectionUI _locationSelectionUI;
     private List<Dictionary<string, object>> _data = new();
-    [SerializeField] private int _turn = 0;
-    [SerializeField] string _location = null;
 
     private void Awake()
     {
         _data = CSVReader.Read("BIC_Move");
-        _ch2Ui.TurnController = this;
+        _locationSelectionUI.TurnController = this;
+    }
+
+    public void GetInitialLocation()
+    {
+        List<string> loc = GetAvailableLocations();
+        if (loc.Count != 1)
+        {
+            Debug.LogError("Location is not unique.");
+        }
+
+        Managers.Data.CH2.Turn++;
+        Managers.Data.CH2.Location = loc[0];
+
+        _locationSelectionUI.FadeIn();
+        InitiateDialogue();
     }
 
     public void AdvanceTurnAndMoveLocation(string location)
     {
-        _turn++;
-        _location = location;
-        _ch2Ui.SetLocationTxt(_location);
+        Managers.Data.CH2.Turn++;
+        Managers.Data.CH2.Location = location;
+
+        _locationSelectionUI.MoveLocation();
         InitiateDialogue();
     }
 
     private void InitiateDialogue()
     {
-        _dialogueRunner.StartDialogue(FetchDialogueName());
+        _dialogueRunner.StartDialogue(GetDialogueName());
     }
 
-    private string FetchDialogueName()
+    private string GetDialogueName()
     {
-        // 현재 턴수와 장소에 맞는 다이얼로그 출력
+        // 현재 턴수와 장소에 맞는 다이얼로그 이름 가져오기
         foreach (var row in _data)
         {
-            if (row.ContainsKey("턴수") && (int)row["턴수"] == _turn)
+            if (row.ContainsKey("Turn") && (int)row["Turn"] == Managers.Data.CH2.Turn)
             {
-                if (row.ContainsKey(_location))
+                if (row.ContainsKey(Managers.Data.CH2.Location))
                 {
-                    return row[_location].ToString();
+                    return row[Managers.Data.CH2.Location].ToString();
                 }
             }
         }
@@ -47,27 +61,27 @@ public class TurnController : MonoBehaviour
 
     private List<string> GetAvailableLocations()
     {
+        // 이동 가능한 장소 리스트 가져오기
         List<string> loc = new();
 
         foreach (var row in _data)
         {
-            if (row.ContainsKey("턴수") && (int)row["턴수"] == _turn + 1)
+            if (row.ContainsKey("Turn") && (int)row["Turn"] == Managers.Data.CH2.Turn + 1)
             {
                 foreach (var col in row)
                 {
-                    if (col.Value is string value && value != "이동 불가" && value != (_turn + 1).ToString())
+                    if (col.Value is string value && value != "X" && value != (Managers.Data.CH2.Turn + 1).ToString())
                     {
                         loc.Add((string)col.Key);
                     }
                 }
             }
         }
-
         return loc;
     }
 
     public void DisplayAvailableLocations()
     {
-        _ch2Ui.SetLocationOptions(GetAvailableLocations());
+        _locationSelectionUI.SetLocationOptions(GetAvailableLocations());
     }
 }

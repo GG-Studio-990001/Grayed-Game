@@ -7,19 +7,33 @@ using System.IO;
 
 namespace Runtime.Manager
 {
-    // 게임 데이터 CH별로 따로 클래스 만들어야 할 듯
+    // TODO: CH1Data 묶기
+
+    [Serializable]
+    public class CH2Data
+    {
+        public int Turn;
+        public string Location;
+
+        public CH2Data()
+        {
+            Turn = 0;
+            Location = "";
+        }
+    }
+
     [Serializable]
     public class GameData
     {
         public string Version;
-        // Progress
         public int Chapter;
+        public float BgmVolume;
+        public float SfxVolume;
+        #region CH1
+        // Progress
         public int Stage;
         public int Scene;
         public int SceneDetail; // 씬 세부 진행도
-        // Sound
-        public float BgmVolume;
-        public float SfxVolume;
         // CH1
         public bool MeetLucky; // have로 변경
         // 3match
@@ -36,18 +50,20 @@ namespace Runtime.Manager
         public int SLGWoodCount;
         public int SLGStoneCount;
         public bool SLGBridgeRebuild;
+        #endregion
+        public CH2Data CH2;
 
         public GameData()
         {
             Version = "";
-            // Progress
             Chapter = 1;
+            BgmVolume = 0.5f;
+            SfxVolume = 0.5f;
+            #region CH1
+            // Progress
             Stage = 1;
             Scene = 0;
             SceneDetail = 0;
-            // Sound
-            BgmVolume = 0.5f;
-            SfxVolume = 0.5f;
             // CH1
             MeetLucky = false;
             Is3MatchEntered = false;
@@ -70,6 +86,8 @@ namespace Runtime.Manager
             SLGWoodCount = 0;
             SLGStoneCount = 0;
             SLGBridgeRebuild = false;
+            #endregion
+            CH2 = new CH2Data();
         }
     }
     
@@ -84,10 +102,6 @@ namespace Runtime.Manager
         #region properties
         public string Version { get { return _gameData.Version; } set { _gameData.Version = value; } }
         public int Chapter { get { return _gameData.Chapter; } set { _gameData.Chapter = value; } }
-        public int Stage { get { return _gameData.Stage; } set { _gameData.Stage = value; } }
-        public int Scene { get { return _gameData.Scene; } set { _gameData.Scene = value; } }
-        public int SceneDetail { get { return _gameData.SceneDetail; } set { _gameData.SceneDetail = value; } }
-
         public float BgmVolume
         {
             get { return _gameData.BgmVolume; }
@@ -98,6 +112,11 @@ namespace Runtime.Manager
             get { return _gameData.SfxVolume; }
             set { Mathf.Clamp(value, 0, 1); _gameData.SfxVolume = value; Managers.Sound.SFX.volume = value; }
         }
+
+        #region CH1
+        public int Stage { get { return _gameData.Stage; } set { _gameData.Stage = value; } }
+        public int Scene { get { return _gameData.Scene; } set { _gameData.Scene = value; } }
+        public int SceneDetail { get { return _gameData.SceneDetail; } set { _gameData.SceneDetail = value; } }
 
         // CH1
         public bool MeetLucky { get { return _gameData.MeetLucky; } set { _gameData.MeetLucky = value; } }
@@ -115,11 +134,12 @@ namespace Runtime.Manager
         // SLG
         public long SLGConstructionBeginTime { get { return _gameData.SLGConstructionBeginTime; } set { _gameData.SLGConstructionBeginTime = value; } }
         public SLGProgress SLGProgressData { get { return _gameData.SLGProgressData; } set { _gameData.SLGProgressData = value; } }
-
         public int SLGWoodCount { get { return _gameData.SLGWoodCount; } set { _gameData.SLGWoodCount = value; } }
-
         public int SLGStoneCount { get { return _gameData.SLGStoneCount; } set { _gameData.SLGStoneCount = value; } }
         public bool SLGBridgeRebuild { get { return _gameData.SLGBridgeRebuild; } set { _gameData.SLGBridgeRebuild = value; } }
+        #endregion
+
+        public CH2Data CH2 { get { return _gameData.CH2; } set { _gameData.CH2 = value; } }
         #endregion
 
         public void Init()

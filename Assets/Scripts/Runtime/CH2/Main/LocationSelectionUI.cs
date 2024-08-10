@@ -1,20 +1,39 @@
+using Runtime.InGameSystem;
 using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static PlasticPipe.PlasticProtocol.Messages.Serialization.ItemHandlerMessagesSerialization;
 
-public class CH2UI : MonoBehaviour
+public class LocationSelectionUI : MonoBehaviour
 {
     [NonSerialized] public TurnController TurnController;
+    [SerializeField] private FadeController _fadeController;
     [SerializeField] private TextMeshProUGUI _locationTxt;
     [SerializeField] private Transform _locationOptions;
     [SerializeField] private GameObject _optionBtnPrefab;
 
-    public void SetLocationTxt(string text)
+    public void MoveLocation()
     {
-        _locationTxt.text = text;
+        FadeOut();
+        Invoke(nameof(FadeIn), 1f);
+    }
+
+    public void FadeIn()
+    {
+        SetLocationTxt();
+        _fadeController.StartFadeIn();
+    }
+
+    private void FadeOut()
+    {
+        _locationOptions.gameObject.SetActive(false);
+        _fadeController.StartFadeOut();
+    }
+
+    private void SetLocationTxt()
+    {
+        _locationTxt.text = Managers.Data.CH2.Location;
     }
 
     public void SetLocationOptions(List<string> loc)
@@ -34,6 +53,7 @@ public class CH2UI : MonoBehaviour
             btn.onClick.RemoveAllListeners();
             int index = i; // Local copy of i for the closure
             btn.onClick.AddListener(() => TurnController.AdvanceTurnAndMoveLocation(loc[index]));
+            btn.onClick.AddListener(() => _fadeController.StartFadeOut());
 
             TextMeshProUGUI btnTxt = btn.GetComponentInChildren<TextMeshProUGUI>();
             btnTxt.text = loc[index];
