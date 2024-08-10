@@ -16,12 +16,13 @@ namespace Runtime.CH2.Main
     {
         [SerializeField] private DialogueRunner _runner;
         [SerializeField] private Image[] _characters = new Image[2];
-        [SerializeField] private GameObject next;
+        [SerializeField] private GameObject _toBeContinued;
         private string _speaker;
 
         private void Awake()
         {
-            _runner.AddCommandHandler("DialogueFin", HighlightAll);
+            _runner.AddCommandHandler("DialogueFin", DialogueFin);
+            _runner.AddCommandHandler("Ending", Ending);
         }
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
@@ -36,11 +37,20 @@ namespace Runtime.CH2.Main
             onDialogueLineFinished();
         }
 
-        private void HighlightAll()
+        private void DialogueFin()
         {
-            for (int i = 0; i < _characters.Length; i++)
-                _characters[i].gameObject.SetActive(false);
-            next.SetActive(true);
+            // 라플리는 밝게 처리하고 NPC가 있다면 끈다
+            Color highlight = new Color32(255, 255, 255, 255);
+            _characters[0].color = highlight;
+            _characters[1].gameObject.SetActive(false);
+
+            // 오른쪽에는 이동 가능한 장소 목록을 띄운다
+        }
+
+        private void Ending()
+        {
+            // 개발한 부분까지 모두 출력 완료함
+            _toBeContinued.SetActive(true);
         }
 
         private void StandingHighlight(int num)
