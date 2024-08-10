@@ -1,4 +1,5 @@
 using Runtime.ETC;
+using Runtime.InGameSystem;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,11 +15,13 @@ namespace Runtime.CH2.Main
 
     public class CH2Dialogue : DialogueViewBase
     {
+        [Header("=Script=")]
         [SerializeField] private DialogueRunner _runner;
+        [SerializeField] private TurnController _turnController;
+        [Header("=Else=")]
         [SerializeField] private Image[] _characters = new Image[2];
         [SerializeField] private GameObject _nameTag;
         [SerializeField] private GameObject _toBeContinued;
-        [SerializeField] private TurnController _turnController;
         private string _speaker;
 
         private void Awake()

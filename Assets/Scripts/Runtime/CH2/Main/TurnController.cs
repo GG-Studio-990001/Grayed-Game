@@ -22,14 +22,19 @@ public class TurnController : MonoBehaviour
             Debug.LogError("Location is not unique.");
         }
 
-        AdvanceTurnAndMoveLocation(loc[0]);
+        Managers.Data.CH2.Turn++;
+        Managers.Data.CH2.Location = loc[0];
+
+        _locationSelectionUI.FadeIn();
+        InitiateDialogue();
     }
 
     public void AdvanceTurnAndMoveLocation(string location)
     {
         Managers.Data.CH2.Turn++;
         Managers.Data.CH2.Location = location;
-        _locationSelectionUI.SetLocationTxt(Managers.Data.CH2.Location);
+
+        _locationSelectionUI.MoveLocation();
         InitiateDialogue();
     }
 
