@@ -7,10 +7,10 @@ using Yarn.Unity;
 
 namespace Runtime.CH2.Main
 {
-    public enum Character
+    public enum Npc
     {
-        rapley = 0,
-        r2mon = 1,
+        r2mon = 0,
+        michael = 1,
     }
 
     public class CH2Dialogue : DialogueViewBase
@@ -20,14 +20,22 @@ namespace Runtime.CH2.Main
         [SerializeField] private TurnController _turnController;
         [Header("=Else=")]
         [SerializeField] private Image[] _characters = new Image[2];
+        [SerializeField] private Image[] _npcs = new Image[2];
         [SerializeField] private GameObject _nameTag;
         [SerializeField] private GameObject _toBeContinued;
         private string _speaker;
 
         private void Awake()
         {
+            _runner.AddCommandHandler<int>("SetPartner", SetPartner);
             _runner.AddCommandHandler("DialogueFin", DialogueFin);
             _runner.AddCommandHandler("Ending", Ending);
+        }
+
+        private void SetPartner(int idx)
+        {
+            _characters[1] = _npcs[idx];
+            _characters[1].gameObject.SetActive(true);
         }
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
@@ -36,9 +44,9 @@ namespace Runtime.CH2.Main
             SetNameTag(_speaker != "");
 
             if (_speaker.Equals("라플리"))
-                StandingHighlight((int)Character.rapley);
-            else if (_speaker.Equals("R2-Mon"))
-                StandingHighlight((int)Character.r2mon);
+                StandingHighlight(0);
+            else if (_speaker.Equals("R2-Mon") || (_speaker.Equals("미카엘")))
+                StandingHighlight(1);
             else
                 StandingHighlight(2);
 
