@@ -470,7 +470,7 @@ GameObject:
   - component: {fileID: 444606904}
   - component: {fileID: 444606903}
   m_Layer: 0
-  m_Name: CH2UI
+  m_Name: LocationSelectionUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1791,9 +1791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogueRunner: {fileID: 696216669}
-  _ch2Ui: {fileID: 444606903}
-  _turn: 0
-  _location: 
+  _locationSelectionUI: {fileID: 444606903}
 --- !u!4 &1755298183
 Transform:
   m_ObjectHideFlags: 0

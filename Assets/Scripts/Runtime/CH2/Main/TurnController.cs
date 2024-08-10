@@ -5,13 +5,13 @@ using Yarn.Unity;
 public class TurnController : MonoBehaviour
 {
     [SerializeField] private DialogueRunner _dialogueRunner;
-    [SerializeField] private CH2UI _ch2Ui;
+    [SerializeField] private LocationSelectionUI _locationSelectionUI;
     private List<Dictionary<string, object>> _data = new();
 
     private void Awake()
     {
         _data = CSVReader.Read("BIC_Move");
-        _ch2Ui.TurnController = this;
+        _locationSelectionUI.TurnController = this;
     }
 
     public void GetInitialLocation()
@@ -29,7 +29,7 @@ public class TurnController : MonoBehaviour
     {
         Managers.Data.CH2.Turn++;
         Managers.Data.CH2.Location = location;
-        _ch2Ui.SetLocationTxt(Managers.Data.CH2.Location);
+        _locationSelectionUI.SetLocationTxt(Managers.Data.CH2.Location);
         InitiateDialogue();
     }
 
@@ -72,12 +72,11 @@ public class TurnController : MonoBehaviour
                 }
             }
         }
-
         return loc;
     }
 
     public void DisplayAvailableLocations()
     {
-        _ch2Ui.SetLocationOptions(GetAvailableLocations());
+        _locationSelectionUI.SetLocationOptions(GetAvailableLocations());
     }
 }

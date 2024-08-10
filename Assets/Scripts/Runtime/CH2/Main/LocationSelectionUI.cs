@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CH2UI : MonoBehaviour
+public class LocationSelectionUI : MonoBehaviour
 {
     [NonSerialized] public TurnController TurnController;
     [SerializeField] private TextMeshProUGUI _locationTxt;
