@@ -5,9 +5,12 @@ namespace Runtime.CH2.Main
 {
     public class CH2Controller : MonoBehaviour
     {
-        void Start()
+        [SerializeField] private TurnController _turnController;
+
+        private void Start()
         {
             Managers.Sound.Play(Sound.BGM, "CH2/BGM_#1_02");
+            _turnController.AdvanceTurnAndMoveLocation("마마고 컴퍼니");
         }
     }
 }
