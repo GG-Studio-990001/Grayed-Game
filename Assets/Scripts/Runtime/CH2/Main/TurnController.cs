@@ -4,7 +4,8 @@ using Yarn.Unity;
 
 public class TurnController : MonoBehaviour
 {
-    [SerializeField] DialogueRunner _dialogueRunner;
+    [SerializeField] private DialogueRunner _dialogueRunner;
+    [SerializeField] private CH2UI _ch2Ui;
     private List<Dictionary<string, object>> _data = null;
     private int _turn = 0;
     private string _location = null;
@@ -18,6 +19,7 @@ public class TurnController : MonoBehaviour
     {
         _turn++;
         _location = location;
+        _ch2Ui.SetLocationTxt(_location);
         InitiateDialogue();
     }
 
