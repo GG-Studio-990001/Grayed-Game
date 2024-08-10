@@ -16,6 +16,17 @@ public class TurnController : MonoBehaviour
         _ch2Ui.TurnController = this;
     }
 
+    public void GetInitialLocation()
+    {
+        List<string> loc = GetAvailableLocations();
+        if (loc.Count != 1)
+        {
+            Debug.LogError("Location is not unique.");
+        }
+
+        AdvanceTurnAndMoveLocation(loc[0]);
+    }
+
     public void AdvanceTurnAndMoveLocation(string location)
     {
         _turn++;
@@ -26,15 +37,15 @@ public class TurnController : MonoBehaviour
 
     private void InitiateDialogue()
     {
-        _dialogueRunner.StartDialogue(FetchDialogueName());
+        _dialogueRunner.StartDialogue(GetDialogueName());
     }
 
-    private string FetchDialogueName()
+    private string GetDialogueName()
     {
-        // 현재 턴수와 장소에 맞는 다이얼로그 출력
+        // 현재 턴수와 장소에 맞는 다이얼로그 이름 가져오기
         foreach (var row in _data)
         {
-            if (row.ContainsKey("턴수") && (int)row["턴수"] == _turn)
+            if (row.ContainsKey("Turn") && (int)row["Turn"] == _turn)
             {
                 if (row.ContainsKey(_location))
                 {
@@ -47,15 +58,16 @@ public class TurnController : MonoBehaviour
 
     private List<string> GetAvailableLocations()
     {
+        // 이동 가능한 장소 리스트 가져오기
         List<string> loc = new();
 
         foreach (var row in _data)
         {
-            if (row.ContainsKey("턴수") && (int)row["턴수"] == _turn + 1)
+            if (row.ContainsKey("Turn") && (int)row["Turn"] == _turn + 1)
             {
                 foreach (var col in row)
                 {
-                    if (col.Value is string value && value != "이동 불가" && value != (_turn + 1).ToString())
+                    if (col.Value is string value && value != "X" && value != (_turn + 1).ToString())
                     {
                         loc.Add((string)col.Key);
                     }

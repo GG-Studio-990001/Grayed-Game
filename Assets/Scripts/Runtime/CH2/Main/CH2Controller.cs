@@ -10,7 +10,8 @@ namespace Runtime.CH2.Main
         private void Start()
         {
             Managers.Sound.Play(Sound.BGM, "CH2/BGM_#1_02");
-            _turnController.AdvanceTurnAndMoveLocation("마마고 컴퍼니");
+
+            _turnController.GetInitialLocation();
         }
     }
 }
