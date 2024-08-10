@@ -7,8 +7,6 @@ public class TurnController : MonoBehaviour
     [SerializeField] private DialogueRunner _dialogueRunner;
     [SerializeField] private CH2UI _ch2Ui;
     private List<Dictionary<string, object>> _data = new();
-    [SerializeField] private int _turn = 0;
-    [SerializeField] string _location = null;
 
     private void Awake()
     {
@@ -29,9 +27,9 @@ public class TurnController : MonoBehaviour
 
     public void AdvanceTurnAndMoveLocation(string location)
     {
-        _turn++;
-        _location = location;
-        _ch2Ui.SetLocationTxt(_location);
+        Managers.Data.CH2.Turn++;
+        Managers.Data.CH2.Location = location;
+        _ch2Ui.SetLocationTxt(Managers.Data.CH2.Location);
         InitiateDialogue();
     }
 
@@ -45,11 +43,11 @@ public class TurnController : MonoBehaviour
         // 현재 턴수와 장소에 맞는 다이얼로그 이름 가져오기
         foreach (var row in _data)
         {
-            if (row.ContainsKey("Turn") && (int)row["Turn"] == _turn)
+            if (row.ContainsKey("Turn") && (int)row["Turn"] == Managers.Data.CH2.Turn)
             {
-                if (row.ContainsKey(_location))
+                if (row.ContainsKey(Managers.Data.CH2.Location))
                 {
-                    return row[_location].ToString();
+                    return row[Managers.Data.CH2.Location].ToString();
                 }
             }
         }
@@ -63,11 +61,11 @@ public class TurnController : MonoBehaviour
 
         foreach (var row in _data)
         {
-            if (row.ContainsKey("Turn") && (int)row["Turn"] == _turn + 1)
+            if (row.ContainsKey("Turn") && (int)row["Turn"] == Managers.Data.CH2.Turn + 1)
             {
                 foreach (var col in row)
                 {
-                    if (col.Value is string value && value != "X" && value != (_turn + 1).ToString())
+                    if (col.Value is string value && value != "X" && value != (Managers.Data.CH2.Turn + 1).ToString())
                     {
                         loc.Add((string)col.Key);
                     }
