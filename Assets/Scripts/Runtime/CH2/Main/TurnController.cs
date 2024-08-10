@@ -6,13 +6,14 @@ public class TurnController : MonoBehaviour
 {
     [SerializeField] private DialogueRunner _dialogueRunner;
     [SerializeField] private CH2UI _ch2Ui;
-    private List<Dictionary<string, object>> _data = null;
-    private int _turn = 0;
-    private string _location = null;
+    private List<Dictionary<string, object>> _data = new();
+    [SerializeField] private int _turn = 0;
+    [SerializeField] string _location = null;
 
     private void Awake()
     {
         _data = CSVReader.Read("BIC_Move");
+        _ch2Ui.TurnController = this;
     }
 
     public void AdvanceTurnAndMoveLocation(string location)
@@ -44,8 +45,29 @@ public class TurnController : MonoBehaviour
         return null;
     }
 
-    private void DisplayAvailableLocations()
+    private List<string> GetAvailableLocations()
     {
-        // 현재 다이얼로그가 끝나고 이동 가능한 장소 출력
+        List<string> loc = new();
+
+        foreach (var row in _data)
+        {
+            if (row.ContainsKey("턴수") && (int)row["턴수"] == _turn + 1)
+            {
+                foreach (var col in row)
+                {
+                    if (col.Value is string value && value != "이동 불가" && value != (_turn + 1).ToString())
+                    {
+                        loc.Add((string)col.Key);
+                    }
+                }
+            }
+        }
+
+        return loc;
+    }
+
+    public void DisplayAvailableLocations()
+    {
+        _ch2Ui.SetLocationOptions(GetAvailableLocations());
     }
 }

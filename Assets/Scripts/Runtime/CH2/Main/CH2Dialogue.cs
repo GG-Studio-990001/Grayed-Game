@@ -18,6 +18,7 @@ namespace Runtime.CH2.Main
         [SerializeField] private Image[] _characters = new Image[2];
         [SerializeField] private GameObject _nameTag;
         [SerializeField] private GameObject _toBeContinued;
+        [SerializeField] private TurnController _turnController;
         private string _speaker;
 
         private void Awake()
@@ -53,6 +54,7 @@ namespace Runtime.CH2.Main
             _characters[1].gameObject.SetActive(false);
 
             // 오른쪽에는 이동 가능한 장소 목록을 띄운다
+            _turnController.DisplayAvailableLocations();
         }
 
         private void Ending()
