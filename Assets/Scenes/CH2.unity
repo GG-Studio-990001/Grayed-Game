@@ -408,6 +408,7 @@ MonoBehaviour:
   _characters:
   - {fileID: 2050412808}
   - {fileID: 1691260652}
+  _nameTag: {fileID: 789604149}
   _toBeContinued: {fileID: 2006747751}
 --- !u!4 &304034741
 Transform:
@@ -1112,6 +1113,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 789483964}
   m_CullTransparentMesh: 1
+--- !u!1 &789604149 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4729847748998756948, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+  m_PrefabInstance: {fileID: 1100803379}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &832304771
 PrefabInstance:
   m_ObjectHideFlags: 0

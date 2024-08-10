@@ -16,6 +16,7 @@ namespace Runtime.CH2.Main
     {
         [SerializeField] private DialogueRunner _runner;
         [SerializeField] private Image[] _characters = new Image[2];
+        [SerializeField] private GameObject _nameTag;
         [SerializeField] private GameObject _toBeContinued;
         private string _speaker;
 
@@ -28,20 +29,27 @@ namespace Runtime.CH2.Main
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
             _speaker = dialogueLine.CharacterName;
+            SetNameTag(_speaker != "");
 
             if (_speaker.Equals("라플리"))
                 StandingHighlight((int)Character.rapley);
             else if (_speaker.Equals("R2-Mon"))
                 StandingHighlight((int)Character.r2mon);
+            else
+                StandingHighlight(2);
 
             onDialogueLineFinished();
+        }
+
+        private void SetNameTag(bool hasName)
+        {
+            _nameTag.SetActive(hasName);
         }
 
         private void DialogueFin()
         {
             // 라플리는 밝게 처리하고 NPC가 있다면 끈다
-            Color highlight = new Color32(255, 255, 255, 255);
-            _characters[0].color = highlight;
+            StandingHighlight(0);
             _characters[1].gameObject.SetActive(false);
 
             // 오른쪽에는 이동 가능한 장소 목록을 띄운다
@@ -55,11 +63,22 @@ namespace Runtime.CH2.Main
 
         private void StandingHighlight(int num)
         {
-            Color speaker = new Color32(255, 255, 255, 255);
-            Color nonSpeaker = new Color32(157, 157, 157, 255);
+            // 0 라플리 1 NPC 2 둘 다 어둡게
+            Color bright = new Color32(255, 255, 255, 255);
+            Color dark = new Color32(157, 157, 157, 255);
 
-            _characters[num].color = speaker;
-            _characters[1 - num].color = nonSpeaker;
+            if (num <= 1)
+            {
+                _characters[num].color = bright;
+                _characters[1 - num].color = dark;
+            }
+            else
+            {
+                for (int i = 0; i < _characters.Length; i++)
+                {
+                    _characters[i].color = dark;
+                }
+            }
         }
 
         public void TextSFX()
