@@ -49,7 +49,7 @@ title: R2_Mon4
 <<NextSceneStart>>
 R2-Mon: 왜 그렇게 쳐다보시는 겁니까? 할 말 있으십니까?
 R2-Mon: 그럴 리가 없을 텐데...<br>만약... 제 말을 정말 알아듣는다면...
-R2-Mon: 저에게 다시 말을 걸어주십시오.
+R2-Mon: 저에게 <bounce>다시 말을 걸어주십시오.</bounce>
 <<SceneEnd>>
 <<NpcDialogueFin 2>>
 ===

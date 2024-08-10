@@ -12,7 +12,7 @@ title: S4
 <<wait 2>>
 <<NpcJump 0>>
 달러: 잠시, 거기 누구인가?
-달러: ...미카엘?
+달러: ...<wave>미카엘?</wave>
 
 // 미카엘 행동 멈춤
 <<MichaelAction 1>>
