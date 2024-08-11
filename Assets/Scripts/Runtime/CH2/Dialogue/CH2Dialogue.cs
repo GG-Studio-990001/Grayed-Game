@@ -1,5 +1,6 @@
 using Runtime.CH2.Main;
 using Runtime.ETC;
+using Runtime.Manager;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -70,6 +71,16 @@ namespace Runtime.CH2.Dialogue
         private void SetNameTag(bool hasName)
         {
             _nameTag.SetActive(hasName);
+        }
+
+        public void SkipDialogue()
+        {
+            Debug.Log("Skip");
+            _runner.Stop();
+            DialogueFin();
+
+            if (Managers.Data.CH2.Location == "미카엘의 신전")
+                Ending();
         }
 
         private void DialogueFin()

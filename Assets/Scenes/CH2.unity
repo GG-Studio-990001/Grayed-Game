@@ -284,7 +284,6 @@ GameObject:
   - component: {fileID: 129165721}
   - component: {fileID: 129165723}
   - component: {fileID: 129165722}
-  - component: {fileID: 129165724}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -325,7 +324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -408,18 +407,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 129165720}
   m_CullTransparentMesh: 1
---- !u!114 &129165724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 129165720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9d95d40742369941a60ca9d81eb6b31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &225816705
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,6 +928,8 @@ GameObject:
   - component: {fileID: 483775314}
   - component: {fileID: 483775313}
   - component: {fileID: 483775312}
+  - component: {fileID: 483775315}
+  - component: {fileID: 483775316}
   m_Layer: 5
   m_Name: CancelBtn
   m_TagString: Untagged
@@ -981,7 +970,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -992,7 +981,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
     m_DisabledColor: {r: 0, g: 0, b: 0, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -1012,6 +1001,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 483775316}
+        m_TargetAssemblyTypeName: BtnClickController, Scripts
+        m_MethodName: BtnClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 421610020}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -1062,6 +1063,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 483775310}
   m_CullTransparentMesh: 1
+--- !u!114 &483775315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483775310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9d95d40742369941a60ca9d81eb6b31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &483775316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483775310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02270cc9133f99e42b3ec54cb7833e90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &495576458
 GameObject:
   m_ObjectHideFlags: 0
@@ -3024,7 +3049,6 @@ GameObject:
   - component: {fileID: 1887591252}
   - component: {fileID: 1887591254}
   - component: {fileID: 1887591253}
-  - component: {fileID: 1887591255}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -3065,7 +3089,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3148,18 +3172,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1887591251}
   m_CullTransparentMesh: 1
---- !u!114 &1887591255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1887591251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9d95d40742369941a60ca9d81eb6b31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1941370660
 GameObject:
   m_ObjectHideFlags: 0
@@ -3556,6 +3568,8 @@ GameObject:
   - component: {fileID: 2071925111}
   - component: {fileID: 2071925110}
   - component: {fileID: 2071925109}
+  - component: {fileID: 2071925112}
+  - component: {fileID: 2071925113}
   m_Layer: 5
   m_Name: SkipBtn
   m_TagString: Untagged
@@ -3596,7 +3610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -3607,7 +3621,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
     m_DisabledColor: {r: 0, g: 0, b: 0, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -3627,6 +3641,30 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 304034740}
+        m_TargetAssemblyTypeName: Runtime.CH2.Dialogue.CH2Dialogue, Scripts
+        m_MethodName: SkipDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2071925113}
+        m_TargetAssemblyTypeName: BtnClickController, Scripts
+        m_MethodName: BtnClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 421610020}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -3677,6 +3715,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2071925107}
   m_CullTransparentMesh: 1
+--- !u!114 &2071925112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071925107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9d95d40742369941a60ca9d81eb6b31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2071925113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071925107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02270cc9133f99e42b3ec54cb7833e90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2074134821
 GameObject:
   m_ObjectHideFlags: 0
@@ -3827,6 +3889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0524b6a00d0fadf409c3eb950bdad838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _runner: {fileID: 696216669}
   _dialogueBox: {fileID: 1100803382}
   _skipPanel: {fileID: 421610020}
 --- !u!1660057539 &9223372036854775807

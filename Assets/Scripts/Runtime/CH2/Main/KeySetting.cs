@@ -1,9 +1,12 @@
+using Runtime.CH2.Dialogue;
 using UnityEngine;
+using Yarn.Unity;
 
 namespace Runtime.CH2.Main
 {
     public class KeySetting : MonoBehaviour
     {
+        [SerializeField] private DialogueRunner _runner;
         [SerializeField] private GameObject _dialogueBox;
         [SerializeField] private GameObject _skipPanel;
         // private bool isHidingUI = false;
@@ -13,8 +16,10 @@ namespace Runtime.CH2.Main
 
         public void Skip()
         {
-            // 스킵 패널 띄우기
-            // 스킵 시 다이얼로그 끝난 상태로 변경
+            if (!_runner.IsDialogueRunning)
+                return;
+
+            _skipPanel.SetActive(true);
         }
 
         public void HideUI()
