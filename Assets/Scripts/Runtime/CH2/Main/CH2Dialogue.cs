@@ -1,5 +1,4 @@
 using Runtime.ETC;
-using Runtime.InGameSystem;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,21 +20,35 @@ namespace Runtime.CH2.Main
         [Header("=Else=")]
         [SerializeField] private Image[] _characters = new Image[2];
         [SerializeField] private Image[] _npcs = new Image[2];
+        [SerializeField] private FaceSpriteSwitcher _michael;
         [SerializeField] private GameObject _nameTag;
         [SerializeField] private GameObject _toBeContinued;
         private string _speaker;
 
         private void Awake()
         {
-            _runner.AddCommandHandler<int>("SetPartner", SetPartner);
+            _runner.AddCommandHandler<int>("PartnerAppear", PartnerAppear);
+            _runner.AddCommandHandler("PartnerOut", PartnerOut);
+            _runner.AddCommandHandler<int>("NpcFace", NpcFace);
             _runner.AddCommandHandler("DialogueFin", DialogueFin);
             _runner.AddCommandHandler("Ending", Ending);
         }
 
-        private void SetPartner(int idx)
+        private void PartnerAppear(int idx)
         {
             _characters[1] = _npcs[idx];
             _characters[1].gameObject.SetActive(true);
+        }
+
+        private void PartnerOut()
+        {
+            _characters[1].gameObject.SetActive(false);
+        }
+
+        private void NpcFace(int idx)
+        {
+            // 현재는 미카엘뿐이지만 추후 확대
+            _michael.SetFace(idx);
         }
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
@@ -76,7 +89,7 @@ namespace Runtime.CH2.Main
 
         private void StandingHighlight(int num)
         {
-            // 0 라플리 1 NPC 2 둘 다 어둡게
+            // 0 라플리 1 NPC 2 모두 어둡게
             Color bright = new Color32(255, 255, 255, 255);
             Color dark = new Color32(157, 157, 157, 255);
 

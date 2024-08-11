@@ -337,6 +337,7 @@ MonoBehaviour:
   _npcs:
   - {fileID: 1691260652}
   - {fileID: 857216133}
+  _michael: {fileID: 857216135}
   _nameTag: {fileID: 789604149}
   _toBeContinued: {fileID: 2006747751}
 --- !u!4 &304034741
@@ -1148,6 +1149,7 @@ GameObject:
   - component: {fileID: 857216132}
   - component: {fileID: 857216134}
   - component: {fileID: 857216133}
+  - component: {fileID: 857216135}
   m_Layer: 5
   m_Name: Michael
   m_TagString: Untagged
@@ -1212,6 +1214,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 857216131}
   m_CullTransparentMesh: 1
+--- !u!114 &857216135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857216131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 671181343dd6a614fb7d9a3dc6e69259, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sprites:
+  - {fileID: 21300000, guid: 9c8b63a953c20b44095a70cc6f255b44, type: 3}
+  - {fileID: 21300000, guid: 9cba58c56b76802429e61c89b7105db7, type: 3}
+  - {fileID: 21300000, guid: f1b46b590c8f72048af9f5dd31befdfe, type: 3}
 --- !u!1 &963643449
 GameObject:
   m_ObjectHideFlags: 0
