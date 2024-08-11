@@ -189,15 +189,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Log",
-                    "type": "Button",
-                    "id": "b944f872-2e76-4c40-980c-0700ac909736",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Auto",
                     "type": "Button",
                     "id": "429d145c-e673-460d-8a8e-5ad74af22c8a",
@@ -278,17 +269,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Skip",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "be73e037-ac7c-4df4-b241-9d068ca86590",
-                    "path": "<Keyboard>/l",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Log",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

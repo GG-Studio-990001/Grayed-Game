@@ -1,87 +1,91 @@
+using Runtime.CH2.Location;
 using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
 
-public class TurnController : MonoBehaviour
+namespace Runtime.CH2.Main
 {
-    [SerializeField] private DialogueRunner _dialogueRunner;
-    [SerializeField] private LocationSelectionUI _locationSelectionUI;
-    private List<Dictionary<string, object>> _data = new();
-
-    private void Awake()
+    public class TurnController : MonoBehaviour
     {
-        _data = CSVReader.Read("BIC_Move");
-        _locationSelectionUI.TurnController = this;
-    }
+        [SerializeField] private DialogueRunner _dialogueRunner;
+        [SerializeField] private LocationSelectionUI _locationSelectionUI;
+        private List<Dictionary<string, object>> _data = new();
 
-    public void GetInitialLocation()
-    {
-        List<string> loc = GetAvailableLocations();
-        if (loc.Count != 1)
+        private void Awake()
         {
-            Debug.LogError("Location is not unique.");
+            _data = CSVReader.Read("BIC_Move");
+            _locationSelectionUI.TurnController = this;
         }
 
-        Managers.Data.CH2.Turn++;
-        Managers.Data.CH2.Location = loc[0];
-
-        _locationSelectionUI.FadeIn();
-        InitiateDialogue();
-    }
-
-    public void AdvanceTurnAndMoveLocation(string location)
-    {
-        Managers.Data.CH2.Turn++;
-        Managers.Data.CH2.Location = location;
-
-        _locationSelectionUI.MoveLocation();
-        InitiateDialogue();
-    }
-
-    private void InitiateDialogue()
-    {
-        _dialogueRunner.StartDialogue(GetDialogueName());
-    }
-
-    private string GetDialogueName()
-    {
-        // 현재 턴수와 장소에 맞는 다이얼로그 이름 가져오기
-        foreach (var row in _data)
+        public void GetInitialLocation()
         {
-            if (row.ContainsKey("Turn") && (int)row["Turn"] == Managers.Data.CH2.Turn)
+            List<string> loc = GetAvailableLocations();
+            if (loc.Count != 1)
             {
-                if (row.ContainsKey(Managers.Data.CH2.Location))
-                {
-                    return row[Managers.Data.CH2.Location].ToString();
-                }
+                Debug.LogError("Location is not unique.");
             }
+
+            Managers.Data.CH2.Turn++;
+            Managers.Data.CH2.Location = loc[0];
+
+            _locationSelectionUI.FadeIn();
+            InitiateDialogue();
         }
-        return null;
-    }
 
-    private List<string> GetAvailableLocations()
-    {
-        // 이동 가능한 장소 리스트 가져오기
-        List<string> loc = new();
-
-        foreach (var row in _data)
+        public void AdvanceTurnAndMoveLocation(string location)
         {
-            if (row.ContainsKey("Turn") && (int)row["Turn"] == Managers.Data.CH2.Turn + 1)
+            Managers.Data.CH2.Turn++;
+            Managers.Data.CH2.Location = location;
+
+            _locationSelectionUI.MoveLocation();
+            InitiateDialogue();
+        }
+
+        private void InitiateDialogue()
+        {
+            _dialogueRunner.StartDialogue(GetDialogueName());
+        }
+
+        private string GetDialogueName()
+        {
+            // 현재 턴수와 장소에 맞는 다이얼로그 이름 가져오기
+            foreach (var row in _data)
             {
-                foreach (var col in row)
+                if (row.ContainsKey("Turn") && (int)row["Turn"] == Managers.Data.CH2.Turn)
                 {
-                    if (col.Value is string value && value != "X" && value != (Managers.Data.CH2.Turn + 1).ToString())
+                    if (row.ContainsKey(Managers.Data.CH2.Location))
                     {
-                        loc.Add((string)col.Key);
+                        return row[Managers.Data.CH2.Location].ToString();
                     }
                 }
             }
+            return null;
         }
-        return loc;
-    }
 
-    public void DisplayAvailableLocations()
-    {
-        _locationSelectionUI.SetLocationOptions(GetAvailableLocations());
+        private List<string> GetAvailableLocations()
+        {
+            // 이동 가능한 장소 리스트 가져오기
+            List<string> loc = new();
+
+            foreach (var row in _data)
+            {
+                if (row.ContainsKey("Turn") && (int)row["Turn"] == Managers.Data.CH2.Turn + 1)
+                {
+                    foreach (var col in row)
+                    {
+                        if (col.Value is string value && value != "X" && value != (Managers.Data.CH2.Turn + 1).ToString())
+                        {
+                            loc.Add((string)col.Key);
+                        }
+                    }
+                }
+            }
+            return loc;
+        }
+
+        public void DisplayAvailableLocations()
+        {
+            _locationSelectionUI.SetLocationOptions(GetAvailableLocations());
+        }
     }
 }
