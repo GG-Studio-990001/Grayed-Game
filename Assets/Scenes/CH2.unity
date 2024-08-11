@@ -3890,7 +3890,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _runner: {fileID: 696216669}
-  _dialogueBox: {fileID: 1100803382}
+  _uis:
+  - {fileID: 1100803382}
+  - {fileID: 1962123606}
   _skipPanel: {fileID: 421610020}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
