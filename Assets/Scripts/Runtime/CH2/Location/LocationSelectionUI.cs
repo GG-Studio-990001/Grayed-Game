@@ -11,6 +11,7 @@ namespace Runtime.CH2.Location
     public class LocationSelectionUI : MonoBehaviour
     {
         [NonSerialized] public TurnController TurnController;
+        [SerializeField] private BGSpriteSwitcher _bgSpriteSwitcher;
         [SerializeField] private FadeController _fadeController;
         [SerializeField] private TextMeshProUGUI _locationTxt;
         [SerializeField] private Transform _locationOptions;
@@ -22,16 +23,17 @@ namespace Runtime.CH2.Location
             Invoke(nameof(FadeIn), 1f);
         }
 
-        public void FadeIn()
-        {
-            SetLocationTxt();
-            _fadeController.StartFadeIn();
-        }
-
         private void FadeOut()
         {
             _locationOptions.gameObject.SetActive(false);
             _fadeController.StartFadeOut();
+        }
+
+        public void FadeIn()
+        {
+            SetLocationTxt();
+            _bgSpriteSwitcher.SetBG();
+            _fadeController.StartFadeIn();
         }
 
         private void SetLocationTxt()
