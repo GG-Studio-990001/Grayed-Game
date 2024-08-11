@@ -1,7 +1,7 @@
 using Runtime.CH2.Main;
 using Runtime.ETC;
-using Runtime.Manager;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
@@ -25,6 +25,7 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private FaceSpriteSwitcher _michael;
         [SerializeField] private GameObject _nameTag;
         [SerializeField] private GameObject _toBeContinued;
+        [SerializeField] private bool _isAutoAdvanced = false;
         private string _speaker;
 
         private void Awake()
@@ -34,6 +35,60 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler<int>("NpcFace", NpcFace);
             _runner.AddCommandHandler("DialogueFin", DialogueFin);
             _runner.AddCommandHandler("Ending", Ending);
+        }
+
+        public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
+        {
+            // SetAuto(onDialogueLineFinished);
+
+            _speaker = dialogueLine.CharacterName;
+            SetNameTag(_speaker != "");
+
+            if (_speaker.Equals("라플리"))
+                StandingHighlight(0);
+            else if (_speaker.Equals("R2-Mon") || (_speaker.Equals("미카엘")))
+                StandingHighlight(1);
+            else
+                StandingHighlight(2);
+
+            onDialogueLineFinished();
+        }
+
+        public void AutoDialogueToggle()
+        {
+            _isAutoAdvanced = !_isAutoAdvanced;
+        }
+
+        /*
+        private void SetAuto(Action onDialogueLineFinished)
+        {
+            if (_isAutoAdvanced)
+            {
+                onDialogueLineFinished += () => StartAutoDialogue();
+            }
+            else
+            {
+                onDialogueLineFinished -= () => StartAutoDialogue();
+                StopCoroutine(nameof(AutoDialogue));
+            }
+        }
+
+        private void StartAutoDialogue()
+        {
+            StartCoroutine(nameof(AutoDialogue));
+        }
+
+        IEnumerator AutoDialogue()
+        {
+            Debug.Log("기달");
+            yield return new WaitForSeconds(1f);
+            Debug.Log("끗");
+            _runner.Dialogue.Continue();
+        }*/
+
+        private void SetNameTag(bool hasName)
+        {
+            _nameTag.SetActive(hasName);
         }
 
         private void PartnerAppear(int idx)
@@ -51,26 +106,6 @@ namespace Runtime.CH2.Dialogue
         {
             // 현재는 미카엘뿐이지만 추후 확대
             _michael.SetFace(idx);
-        }
-
-        public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
-        {
-            _speaker = dialogueLine.CharacterName;
-            SetNameTag(_speaker != "");
-
-            if (_speaker.Equals("라플리"))
-                StandingHighlight(0);
-            else if (_speaker.Equals("R2-Mon") || (_speaker.Equals("미카엘")))
-                StandingHighlight(1);
-            else
-                StandingHighlight(2);
-
-            onDialogueLineFinished();
-        }
-
-        private void SetNameTag(bool hasName)
-        {
-            _nameTag.SetActive(hasName);
         }
 
         public void SkipDialogue()
