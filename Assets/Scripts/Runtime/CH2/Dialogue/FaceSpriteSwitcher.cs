@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Runtime.CH2.Main
+namespace Runtime.CH2.Dialogue
 {
     [RequireComponent(typeof(Image))]
     public class FaceSpriteSwitcher : MonoBehaviour

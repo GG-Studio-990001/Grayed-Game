@@ -1,10 +1,11 @@
+using Runtime.CH2.Main;
 using Runtime.ETC;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 
-namespace Runtime.CH2.Main
+namespace Runtime.CH2.Dialogue
 {
     public enum Npc
     {
