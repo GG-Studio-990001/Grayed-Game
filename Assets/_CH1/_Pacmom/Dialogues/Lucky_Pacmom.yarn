@@ -9,27 +9,25 @@ title: Lucky_Pacmom
 
 <<ActiveBubble true>>
 <<Idle>>
-럭키: 럭키님 등장이요~
-럭키: 도움이 필요해?
-럭키: 아하! 나 <slide>팩맘</slide> 알아!
-럭키: 먼지들이랑 같이<br><wave>팩맘을 잡으면 돼</wave>
+럭키: 럭키가 왔어~<br>도움이 필요해?
+럭키: 아하, 나 <slide>팩맘</slide> 알아!
 
 <<Pointing>>
 // 먼지를 가리킨다.
-럭키: 먼지는 여기서<br>출발할 거야
-럭키: 팩맘을 잡으면<br><bounce>코인을 뺏을 수 있어</bounce>
-럭키: 총 <shake>3번</shake> 잡으면<br>게임 끝이래
-럭키: 팩맘보다 코인을<br>더 <wave>많이</wave> 모아봐!
+럭키: 여기 집중! 먼지랑 같이<br><bounce>팩맘을 세 번 잡아야 한다구</bounce>
+럭키: <wave>직접 잡으면</wave> 팩맘이 가진<br>코인 <wave>절반을 뺏을 수 있어</wave>
 
 <<Showing>>
 <<ShowDrawing true>>
 // 팩맘을 보여준다.
-럭키: 대신 청소기를 든<br>팩맘은 <bounce>조심</bounce>해야 해
-럭키: <bounce>청소시간</bounce>에 팩맘과 부딪히면<br><shake>코인을 빼앗긴대</shake>
+럭키: 대신 청소기를 든 팩맘은<br><bounce>조심</bounce>해야 해
+럭키: 청소시간에 마주치면 코인도<br>절반 뺏기고 원위치로 돌아간대
+럭키: 과연 먼지의 천적다운걸?
+
 <<ShowDrawing false>>
 <<Idle>>
-럭키: 휴, 말 다 했다
-럭키: 럭키님 퇴장이요~
+럭키: 어쨌거나 청소시간이 아닐 때<br><bounce>팩맘을 세 번 잡으면 끝!</bounce>
+럭키: 휴, 할 말 끝났으니까<br>럭키는 이만 갈게~
 
 <<ActiveBubble false>>
 <<WalkOut>>
