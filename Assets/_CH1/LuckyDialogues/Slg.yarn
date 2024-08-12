@@ -10,11 +10,20 @@ title: LuckySlg
 <<ActiveBubble true>>
 <<Idle>>
 
-럭키: 여기는 도움의 <wave>손길</wave>이<br>좀 필요하네?
-럭키: <wave>자원을 모아서</wave><br>멋진 건물을 지어주자!
-럭키: 부족하다 싶으면<br><bounce>잠깐 기다리면 돼</bounce>
+럭키: 와아, 건설할 시간이다!<br>근데 럭키 오면서 뭐 봤게~?
+
+// Showing으로 SLG포인트UI를 보여준다.
+<<Showing>>
+<<ShowDrawing true>>
+럭키: 짜자잔! 이걸로 원하는 걸<br><wave>누를 수 있대</wave>
+럭키: 잠깐 기다리면 다시 생기니까<br>필요한 만큼 자원을 모아보라구
 럭키: 자세한 건 아래의<br><wave>목록을 눌러서</wave> 확인해
-럭키: 그럼 됐지?<br>럭키님 퇴장이요~
+
+// Idle
+<<ShowDrawing false>>
+<<Idle>>
+럭키: 아, <bounce>코인</bounce> 모으는 곳 알지?<br><wave>부족하면 또 들어갔다 와야 해</wave>
+럭키: 그럼 뚝딱뚝딱 잘 해보라구~
 
 <<ActiveBubble false>>
 <<WalkRight 3>>
