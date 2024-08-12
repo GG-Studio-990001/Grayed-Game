@@ -45162,6 +45162,8 @@ GameObject:
   - component: {fileID: 1457857493}
   - component: {fileID: 1457857496}
   - component: {fileID: 1457857495}
+  - component: {fileID: 1457857497}
+  - component: {fileID: 1457857498}
   m_Layer: 5
   m_Name: LeftBottonUI
   m_TagString: Untagged
@@ -45227,6 +45229,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1457857492}
   m_CullTransparentMesh: 1
+--- !u!225 &1457857497
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457857492}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &1457857498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457857492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 449de2ff401a999438b90841de045088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bottomUI: {fileID: 1457857497}
+  _lineView: {fileID: 4747834864411408025}
 --- !u!1 &1458462182
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,4 @@
 using Runtime.Common.View;
-using Runtime.ETC;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +11,7 @@ namespace Runtime.CH1.Title
 
         private void Start()
         {
+            Managers.Data.LoadGame();
             InitKeyBinding();
         }
 
