@@ -46,7 +46,7 @@ namespace Runtime.CH2.Dialogue
                 ClearLineText();
         }
 
-        public void ClearLineText()
+        private void ClearLineText()
         {
             _lineTxt.text = "";
         }
