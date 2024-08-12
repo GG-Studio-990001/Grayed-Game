@@ -61,6 +61,11 @@ namespace Runtime.CH1.Lucky
             onDialogueLineFinished();
         }
 
+        private void ClearLineText()
+        {
+            _lineTxt.text = "";
+        }
+
         private void ShowDrawing(bool active)
         {
             if (active)
@@ -190,11 +195,6 @@ namespace Runtime.CH1.Lucky
             Managers.Sound.Play(Sound.BGM, "CH1/Main_BGM", true);
         }
         #endregion
-
-        private void ClearLineText()
-        {
-            _lineTxt.text = "";
-        }
 
         private void ActiveFish()
         {
