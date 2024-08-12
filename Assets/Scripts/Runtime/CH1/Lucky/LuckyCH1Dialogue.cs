@@ -1,7 +1,6 @@
 using DG.Tweening;
 using Runtime.CH1.SubB;
 using Runtime.ETC;
-using Runtime.InGameSystem;
 using Runtime.Lucky;
 using System;
 using System.Collections;
@@ -25,7 +24,8 @@ namespace Runtime.CH1.Lucky
         [SerializeField] private SceneTransform _sceneTransform;
         [SerializeField] private GameObject _postProcessingVolume;
         [SerializeField] private Transform _player;
-        [SerializeField] private TextMeshProUGUI _line;
+        [SerializeField] private TextMeshProUGUI _lineTxt;
+        [SerializeField] private GameObject _drawing;
 
         private void Awake()
         {
@@ -36,6 +36,9 @@ namespace Runtime.CH1.Lucky
             _runner.AddCommandHandler("Idle", Idle);
             _runner.AddCommandHandler<bool>("ActiveBubble", ActiveBubble);
 
+            _runner.AddCommandHandler("Showing", Showing);
+            _runner.AddCommandHandler<bool>("ShowDrawing", ShowDrawing);
+
             _runner.AddCommandHandler<int>("SetLuckyPos", SetLuckyPos);
             _runner.AddCommandHandler<int>("SetBubblePos", SetBubblePos);
 
@@ -43,19 +46,42 @@ namespace Runtime.CH1.Lucky
             _runner.AddCommandHandler("Exit3Match", Exit3Match);
             _runner.AddCommandHandler("ExitSLG", ExitSLG);
 
-            _runner.AddCommandHandler("RemoveLineText", RemoveLineText);
             _runner.AddCommandHandler("ActiveFish", ActiveFish);
             _runner.AddCommandHandler("ReverseConnection", ReverseConnection);
         }
 
-        private void Start()
+        private void Showing()
         {
-            //_fish.SetActive(false);
+            _lucky.Anim.SetAnimation("Showing");
         }
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
+            ClearLineText();
             onDialogueLineFinished();
+        }
+
+        private void ClearLineText()
+        {
+            _lineTxt.text = "";
+        }
+
+        private void ShowDrawing(bool active)
+        {
+            if (active)
+            {
+                Invoke(nameof(ActiveDrawing), 1f);
+            }
+            else
+            {
+                CancelInvoke(nameof(ActiveDrawing));
+                _drawing.SetActive(false);
+            }
+        }
+
+        private void ActiveDrawing()
+        {
+            _drawing.SetActive(true);
         }
 
         #region Common
@@ -169,11 +195,6 @@ namespace Runtime.CH1.Lucky
             Managers.Sound.Play(Sound.BGM, "CH1/Main_BGM", true);
         }
         #endregion
-
-        private void RemoveLineText()
-        {
-            _line.text = "";
-        }
 
         private void ActiveFish()
         {

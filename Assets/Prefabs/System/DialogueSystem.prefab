@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 7259338948998962598}
   - component: {fileID: 7764269882859183332}
   - component: {fileID: 4823240902458539357}
+  - component: {fileID: 7321773724009295106}
   m_Layer: 5
   m_Name: LineTxt
   m_TagString: Untagged
@@ -232,6 +233,37 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7321773724009295106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3055623911634139599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ace8ced0e81c847968cdca0aeda757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typewriterStartsAutomatically: 0
+  animationLoop: 0
+  timeScale: 0
+  _text: "\uB300\uD654 \uB0B4\uC6A9\uC785\uB2C8\uB2E4.\uB300\uD654 \uB0B4\uC6A9\uC785\uB2C8\uB2E4.\uB300\uD654
+    \uB0B4\uC6A9\uC785\uB2C8\uB2E4.\uB300\uD654 \uB0B4\uC6A9\uC785\uB2C8\uB2E4.\uB300\uD654
+    \uB0B4\uC6A9\uC785\uB2C8\uB2E4.\uB300\uD654 \uB0B4\uC6A9\uC785\uB2C8\uB2E4."
+  useDynamicScaling: 1
+  referenceFontSize: 10
+  isResettingTimeOnNewText: 1
+  useDefaultDatabases: 1
+  databaseBehaviors: {fileID: 11400000, guid: 272d3ec56a8c26249a296ec61d44d27e, type: 2}
+  databaseAppearances: {fileID: 11400000, guid: aa12e5c5c15eaa747874f3987f53d4cd, type: 2}
+  useDefaultStyleSheet: 1
+  styleSheet: {fileID: 0}
+  databaseActions: {fileID: 11400000, guid: 804df5312151a9a4b985eb361015b0df, type: 2}
+  defaultAppearancesTags: []
+  defaultDisappearancesTags: []
+  defaultBehaviorsTags: []
+  defaultTagsMode: 0
 --- !u!1 &4275146950738462450
 GameObject:
   m_ObjectHideFlags: 0

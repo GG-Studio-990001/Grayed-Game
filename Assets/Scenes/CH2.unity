@@ -623,6 +623,8 @@ MonoBehaviour:
   - {fileID: 857216133}
   _michael: {fileID: 857216135}
   _nameTag: {fileID: 789604149}
+  _lineViewCanvas: {fileID: 1100803384}
+  _lineTxt: {fileID: 1441580442}
   _toBeContinued: {fileID: 2006747751}
   _isAutoAdvanced: 0
 --- !u!4 &304034741
@@ -2321,6 +2323,10 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7321773724009295106, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8123031219815749483, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_Name
       value: DialogueSystem
@@ -2360,6 +2366,11 @@ GameObject:
 --- !u!224 &1100803383 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1439275508277110334, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+  m_PrefabInstance: {fileID: 1100803379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &1100803384 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 7345093029035327355, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
   m_PrefabInstance: {fileID: 1100803379}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1218595084
@@ -2650,6 +2661,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1441580442 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4823240902458539357, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+  m_PrefabInstance: {fileID: 1100803379}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1497275956
 GameObject:
   m_ObjectHideFlags: 0

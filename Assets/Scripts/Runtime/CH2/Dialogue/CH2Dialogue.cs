@@ -2,6 +2,7 @@ using Runtime.CH2.Main;
 using Runtime.ETC;
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
@@ -24,6 +25,8 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private Image[] _npcs = new Image[2];
         [SerializeField] private FaceSpriteSwitcher _michael;
         [SerializeField] private GameObject _nameTag;
+        [SerializeField] private CanvasGroup _lineViewCanvas;
+        [SerializeField] private TextMeshProUGUI _lineTxt;
         [SerializeField] private GameObject _toBeContinued;
         [SerializeField] private bool _isAutoAdvanced = false;
         private string _speaker;
@@ -35,6 +38,17 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler<int>("NpcFace", NpcFace);
             _runner.AddCommandHandler("DialogueFin", DialogueFin);
             _runner.AddCommandHandler("Ending", Ending);
+        }
+
+        private void Update()
+        {
+            if (_lineViewCanvas.alpha == 0)
+                ClearLineText();
+        }
+
+        private void ClearLineText()
+        {
+            _lineTxt.text = "";
         }
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)

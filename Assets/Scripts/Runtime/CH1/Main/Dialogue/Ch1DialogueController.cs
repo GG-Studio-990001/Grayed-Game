@@ -2,6 +2,7 @@ using Runtime.ETC;
 using Runtime.InGameSystem;
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using Yarn.Unity;
@@ -20,6 +21,8 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private FadeController _fadeController;
         [Header("=Else=")]
         [SerializeField] private GameObject _nameTag;
+        [SerializeField] private CanvasGroup _lineViewCanvas;
+        [SerializeField] private TextMeshProUGUI _lineTxt;
         [SerializeField] private SceneTransform _sceneTransform;
         [SerializeField] private GameObject _postProcessingVolume;
         private string _speaker;
@@ -44,6 +47,8 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("NextSceneStart", NextSceneStart);
             _runner.AddCommandHandler("SceneEnd", SceneEnd);
             _runner.AddCommandHandler("ReverseConnection", ReverseConnection);
+
+            _runner.AddCommandHandler("ClearLineText", ClearLineText);
 
             // CutScene
             _runner.AddCommandHandler("SetSpeakerR2Mon", SetSpeakerR2Mon);
@@ -73,6 +78,17 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("MamagoEnter", _cutScene.MamagoEnter);
             // CutScene / R2mon
             _runner.AddCommandHandler("SetR2MonPosition", _cutScene.SetR2MonPosition);
+        }
+
+        private void Update()
+        {
+            if (_lineViewCanvas.alpha == 0)
+                ClearLineText();
+        }
+
+        private void ClearLineText()
+        {
+            _lineTxt.text = "";
         }
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
