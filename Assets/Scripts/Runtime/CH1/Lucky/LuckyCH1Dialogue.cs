@@ -202,12 +202,13 @@ namespace Runtime.CH1.Lucky
             
             var jewelry = _fish.GetComponent<Jewelry>();
             
-            _fish.transform.localPosition = new(9.5f, -0.5f, 0);
+            _fish.transform.localPosition = new(12.5f, -3.5f, 0);
             jewelry.ChangeOriginalPosition(_fish.transform.position);
-            Debug.Log($"??????????? {jewelry.transform.position}");
             jewelry.JewelryType = JewelryType.B;
             jewelry.gameObject.SetActive(true);
             _fish.name = "Jewelry_B";
+            
+            jewelry.Controller.CheckMatching();
         }
 
         // TODO: Ch1DalogueController에도 동일한 함수 있음 => 중복제거
