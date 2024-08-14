@@ -1,3 +1,4 @@
+using Runtime.Middle;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,6 +12,7 @@ namespace Runtime.ETC
         private readonly float _translationDuration = 2f;
         private string _targetScene;
         private string _middleScene;
+        private EscapeController _escapeController;
 
         private void Awake()
         {
@@ -51,6 +53,25 @@ namespace Runtime.ETC
 
             // 중간 씬 로드
             yield return SceneManager.LoadSceneAsync(_middleScene, LoadSceneMode.Additive);
+
+            // 탈출 연출 시에는 비디오가 로드되는 동안 더 대기
+            if (_middleScene == _escapeScene)
+            {
+                _escapeController = FindObjectOfType<EscapeController>();
+                if (_escapeController is null)
+                {
+                    Debug.LogError("_escapeController 못찾음");
+                }
+                else
+                {
+                    Debug.Log("_escapeController 찾음");
+                }
+
+                while (!_escapeController.IsDirectionStarted)
+                {
+                    yield return null;
+                }
+            }
 
             // 대기
             yield return new WaitForSeconds(_translationDuration);

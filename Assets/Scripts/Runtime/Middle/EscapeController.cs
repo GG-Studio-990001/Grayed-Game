@@ -14,6 +14,7 @@ namespace Runtime.Middle
         [SerializeField] private Transform _light;
         private CinematicBars _cinematicBar;
         private Noise _noise;
+        public bool IsDirectionStarted { get; private set; }
 
         private void Start()
         {
@@ -22,10 +23,12 @@ namespace Runtime.Middle
                 _volume.profile.TryGet(out _cinematicBar);
                 _volume.profile.TryGet(out _noise);
             }
+            IsDirectionStarted = false;
         }
 
         public void StartEscapeDirecting()
         {
+            IsDirectionStarted = true;
             Managers.Sound.Play(Sound.SFX, "Escape_SFX_03");
             StartCoroutine(nameof(TurnOffTV));
         }
