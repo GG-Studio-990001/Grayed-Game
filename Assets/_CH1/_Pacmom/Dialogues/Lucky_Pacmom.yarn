@@ -14,8 +14,8 @@ title: Lucky_Pacmom
 
 <<Pointing>>
 // 먼지를 가리킨다.
-럭키: 럭키: 여기 집중! 먼지랑 같이<br>팩맘을 <bounce>세 번</bounce> 잡아야 한다구
-럭키: 럭키: 그러면 팩맘이 가진<br><wave>코인</wave>을 뺏을 수 있어
+럭키: 여기 집중! 먼지랑 같이<br>팩맘을 <bounce>세 번</bounce> 잡아야 한다구
+럭키: 그러면 팩맘이 가진<br><wave>코인</wave>을 뺏을 수 있어
 
 <<Showing>>
 <<ShowDrawing true>>
@@ -26,7 +26,7 @@ title: Lucky_Pacmom
 
 <<ShowDrawing false>>
 <<Idle>>
-럭키: 럭키: 어쨌거나 팩맘보다<br>코인을 <wave>많이</wave> 모아봐!
+럭키: 어쨌거나 팩맘보다<br>코인을 <wave>많이</wave> 모아봐!
 럭키: 럭키는 이만 갈게~
 
 <<ActiveBubble false>>
