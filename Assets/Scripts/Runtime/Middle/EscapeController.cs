@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Runtime.ETC;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -25,6 +26,7 @@ namespace Runtime.Middle
 
         public void StartEscapeDirecting()
         {
+            Managers.Sound.Play(Sound.SFX, "Escape_SFX_03");
             StartCoroutine(nameof(TurnOffTV));
         }
 

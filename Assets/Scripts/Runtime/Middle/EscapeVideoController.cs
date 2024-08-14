@@ -17,21 +17,20 @@ namespace Runtime.Middle
         private void Start()
         {
             _videoPlayer.prepareCompleted += OnPrepareCompleted;
-            _videoPlayer.frameReady += OnFrameReady;
+            _videoPlayer.started += OnVideoStarted;
             _videoPlayer.Prepare();
         }
 
         private void OnPrepareCompleted(VideoPlayer vp)
         {
+            Debug.Log("VideoReady");
             vp.Play();
         }
 
-        private void OnFrameReady(VideoPlayer vp, long frame)
+        private void OnVideoStarted(VideoPlayer vp)
         {
-            if (frame == 0)
-            {
-                _escapeController.StartEscapeDirecting();
-            }
+            Debug.Log("VideoStart");
+            _escapeController.StartEscapeDirecting();
         }
     }
 }

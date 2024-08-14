@@ -38,7 +38,6 @@ namespace Runtime.ETC
             Managers.Data.InGameKeyBinder.PlayerInputDisable();
 
             Managers.Sound.StopAllSound();
-            Managers.Sound.Play(Sound.SFX, "Escape_SFX_03");
 
             _middleScene = _escapeScene;
             _targetScene = targetScene;
