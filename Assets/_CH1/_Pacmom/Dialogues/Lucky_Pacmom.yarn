@@ -14,20 +14,20 @@ title: Lucky_Pacmom
 
 <<Pointing>>
 // 먼지를 가리킨다.
-럭키: 여기 집중! 먼지랑 같이<br><bounce>팩맘을 세 번 잡아야 한다구</bounce>
-럭키: <wave>직접 잡으면</wave> 팩맘이 가진<br>코인 <wave>절반을 뺏을 수 있어</wave>
+럭키: 여기 집중! 먼지랑 같이<br>팩맘을 <bounce>세 번</bounce> 잡아야 한다구
+럭키: 그러면 팩맘이 가진<br><wave>코인</wave>을 뺏을 수 있어
 
 <<Showing>>
 <<ShowDrawing true>>
 // 팩맘을 보여준다.
 럭키: 대신 청소기를 든 팩맘은<br><bounce>조심</bounce>해야 해
-럭키: 청소시간에 마주치면 코인도<br>절반 뺏기고 원위치로 돌아간대
+럭키: 청소시간에 마주치면 코인도<br>뺏기고 제자리로 돌아간대
 럭키: 과연 먼지의 천적다운걸?
 
 <<ShowDrawing false>>
 <<Idle>>
-럭키: 어쨌거나 청소시간이 아닐 때<br><bounce>팩맘을 세 번 잡으면 끝!</bounce>
-럭키: 휴, 할 말 끝났으니까<br>럭키는 이만 갈게~
+럭키: 어쨌거나 팩맘보다<br>코인을 <wave>많이</wave> 모아봐!
+럭키: 럭키는 이만 갈게~
 
 <<ActiveBubble false>>
 <<WalkOut>>

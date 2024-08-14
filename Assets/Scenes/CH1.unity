@@ -18278,7 +18278,7 @@ MonoBehaviour:
   m_IsGlobal: 1
   priority: 0
   blendDistance: 0
-  weight: 0.7
+  weight: 1
   sharedProfile: {fileID: 11400000, guid: 4621564cf325b1b40a5975001cf41700, type: 2}
 --- !u!4 &674618126
 Transform:
@@ -52783,7 +52783,7 @@ Camera:
   far clip plane: 1000
   field of view: 70
   orthographic: 0
-  orthographic size: 16.875
+  orthographic size: 11.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
