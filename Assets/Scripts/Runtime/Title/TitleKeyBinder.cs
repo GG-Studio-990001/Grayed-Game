@@ -11,7 +11,7 @@ namespace Runtime.CH1.Title
 
         private void Start()
         {
-            Managers.Data.LoadGame();
+            Managers.Data.NewGame();
             InitKeyBinding();
         }
 

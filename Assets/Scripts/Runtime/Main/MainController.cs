@@ -16,7 +16,7 @@ namespace Runtime.Main
 
         public void NewGame()
         {
-            Managers.Data.NewGame(Application.version);
+            Managers.Data.NewGame();
             _sceneSystem.LoadScene("CH1");
         }
         
@@ -32,19 +32,19 @@ namespace Runtime.Main
 
         public void GoPacmom()
         {
-            Managers.Data.NewGame(Application.version);
+            Managers.Data.NewGame();
             _sceneSystem.LoadScene("Pacmom");
         }
 
         public void GoCH2()
         {
-            Managers.Data.NewGame(Application.version);
+            Managers.Data.NewGame();
             _sceneSystem.LoadScene("CH2");
         }
 
         public void AfterIntro()
         {
-            Managers.Data.NewGame(Application.version);
+            Managers.Data.NewGame();
             _testData.DataAfterIntro();
             Managers.Data.SaveGame();
             LoadGame();
@@ -52,7 +52,7 @@ namespace Runtime.Main
 
         public void AfterPacmom()
         {
-            Managers.Data.NewGame(Application.version);
+            Managers.Data.NewGame();
             _testData.DataAfterPacmom();
             Managers.Data.SaveGame();
             LoadGame();
@@ -60,7 +60,7 @@ namespace Runtime.Main
 
         public void After3Match()
         {
-            Managers.Data.NewGame(Application.version);
+            Managers.Data.NewGame();
             _testData.DataAfter3Match();
             Managers.Data.SaveGame();
             LoadGame();

@@ -9,8 +9,8 @@ namespace Runtime.ETC
 
         void Start()
         {
-            _dataPath = Path.Combine(Application.persistentDataPath, "saveData.json");
-            CheckGameData();
+            _dataPath = Application.persistentDataPath + "/saveData.json";
+            // CheckGameData();
         }
 
         void CheckGameData()
@@ -34,7 +34,7 @@ namespace Runtime.ETC
             }
             else
             {
-                Managers.Data.NewGame(Application.version);
+                Managers.Data.NewGame();
             }
         }
     }
