@@ -18,6 +18,11 @@ namespace Runtime.CH1.Pacmom
             Movement.ResetState();
         }
 
+        public void InitRapleyPos()
+        {
+            transform.position = new(0, -0.45f, -5);
+        }
+
         private void SetSpriteRotation()
         {
             Movement.SpriteRotation.SetCanRotate(false);
