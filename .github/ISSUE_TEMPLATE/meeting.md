@@ -11,6 +11,7 @@ assignees: fkdl0048, Songkihwa, wooyn730, Sumindd, roweclaw, jeongopo, JIJI037
 
 ## 목차
 - 진행상황 공유
-- 다음 마일스톤 설정
+- 빌딩 테스트
+- 다음 작업 생성
 
 ## 회의록
