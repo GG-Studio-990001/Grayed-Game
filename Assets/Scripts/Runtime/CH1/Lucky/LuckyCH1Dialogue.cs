@@ -2,6 +2,7 @@ using DG.Tweening;
 using Runtime.CH1.SubB;
 using Runtime.ETC;
 using Runtime.Lucky;
+using Runtime.Middle;
 using System;
 using System.Collections;
 using TMPro;
@@ -21,11 +22,10 @@ namespace Runtime.CH1.Lucky
         [SerializeField] private Vector3[] _rightPositions;
         [SerializeField] private Vector3[] _bubblePositions;
         [SerializeField] private GameObject _fish;
-        [SerializeField] private SceneTransform _sceneTransform;
-        [SerializeField] private GameObject _postProcessingVolume;
         [SerializeField] private Transform _player;
         [SerializeField] private TextMeshProUGUI _lineTxt;
         [SerializeField] private GameObject _drawing;
+        [SerializeField] private ConnectionController _connectionController;
 
         private void Awake()
         {
@@ -47,7 +47,7 @@ namespace Runtime.CH1.Lucky
             _runner.AddCommandHandler("ExitSLG", ExitSLG);
 
             _runner.AddCommandHandler("ActiveFish", ActiveFish);
-            _runner.AddCommandHandler("ReverseConnection", ReverseConnection);
+            _runner.AddCommandHandler("ReverseConnection", _connectionController.ReverseConnection);
         }
 
         private void Showing()
@@ -209,22 +209,6 @@ namespace Runtime.CH1.Lucky
             _fish.name = "Jewelry_B";
             
             jewelry.Controller.CheckMatching();
-        }
-
-        // TODO: Ch1DalogueController에도 동일한 함수 있음 => 중복제거
-        private void ReverseConnection()
-        {
-            StartCoroutine(nameof(ActiveGlitch));
-        }
-
-        IEnumerator ActiveGlitch()
-        {
-            Managers.Data.InGameKeyBinder.PlayerInputDisable();
-            Managers.Sound.Play(Sound.SFX, "ReverseConnection_SFX_01");
-            _postProcessingVolume.SetActive(true);
-            yield return new WaitForSeconds(1f);
-            _postProcessingVolume.SetActive(false);
-            Managers.Data.InGameKeyBinder.PlayerInputEnable();
         }
     }
 }

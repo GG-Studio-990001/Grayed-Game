@@ -2818,11 +2818,10 @@ MonoBehaviour:
   - {x: 214, y: 260, z: 0}
   - {x: 180, y: -217, z: 0}
   _fish: {fileID: 572122668}
-  _sceneTransform: {fileID: 1522664182}
-  _postProcessingVolume: {fileID: 674618124}
   _player: {fileID: 669133899}
   _lineTxt: {fileID: 213274875}
   _drawing: {fileID: 1665241391}
+  _connectionController: {fileID: 674618127}
 --- !u!4 &102153461 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1368314908901170753, guid: 57796641bda70d147805b66c9dd59d1e, type: 3}
@@ -18256,6 +18255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 674618126}
   - component: {fileID: 674618125}
+  - component: {fileID: 674618127}
   m_Layer: 4
   m_Name: Post-processing volume
   m_TagString: Untagged
@@ -18295,6 +18295,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &674618127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 674618124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653f05b954d5cfc4284c5b8c29633590, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _volume: {fileID: 674618125}
+  _sceneTransform: {fileID: 1522664182}
 --- !u!1 &676890459
 GameObject:
   m_ObjectHideFlags: 0
@@ -68404,11 +68418,10 @@ MonoBehaviour:
   SLGAction: {fileID: 326335558}
   _npcDialogue: {fileID: 1908934229}
   _fadeController: {fileID: 1311836793}
+  _connectionController: {fileID: 674618127}
   _nameTag: {fileID: 2767304435330884164}
   _lineViewCanvas: {fileID: 4747834864411408025}
   _lineTxt: {fileID: 4747834864411408024}
-  _sceneTransform: {fileID: 1522664182}
-  _postProcessingVolume: {fileID: 674618124}
 --- !u!1001 &7488145944220657431
 PrefabInstance:
   m_ObjectHideFlags: 0

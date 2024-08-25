@@ -19,17 +19,8 @@ namespace Runtime.ETC
             DontDestroyOnLoad(gameObject);
         }
 
-        public void BeforeConnection()
-        {
-            Managers.Data.InGameKeyBinder.PlayerInputDisable();
-            Managers.Sound.StopAllSound();
-            Managers.Sound.Play(Sound.SFX, "Connection_SFX");
-        }
-
         public void ConnectToScene(string targetScene, bool disablePlayerInput = false)
         {
-            // ConnectToScene 전에 BeforeConnection() 호출 필수
-
             _middleScene = _connectionScene;
             _targetScene = targetScene;
             StartCoroutine(nameof(TranslateScene), disablePlayerInput);
