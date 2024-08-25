@@ -76,7 +76,7 @@ public class SLGActionComponent : MonoBehaviour
     const int NeededAssetCount = 30;
     const int NeededConstrcutionTimeSec = 60 * 60 * 24;
     const float SpawnTime = 3.0f;
-    const int NeededCoinCount = 200;
+    const int NeededCoinCount = 100;
     [SerializeField] public Vector2 BridgeNeededAssetCount;
 
     // 럭키 등장용
