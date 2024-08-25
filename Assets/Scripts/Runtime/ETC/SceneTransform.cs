@@ -13,9 +13,17 @@ namespace Runtime.ETC
         private string _targetScene;
         private string _middleScene;
         private EscapeController _escapeController;
+        private static bool _isInitialized = false;
 
         private void Awake()
         {
+            if (_isInitialized)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            _isInitialized = true;
             DontDestroyOnLoad(gameObject);
         }
 

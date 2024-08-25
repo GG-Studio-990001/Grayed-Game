@@ -8,16 +8,14 @@ namespace Runtime.Middle
     public class ConnectionController : MonoBehaviour
     {
         [SerializeField] private Volume _volume;
-        [SerializeField] private SceneTransform _sceneTransform;
-        private LimitlessGlitch3 _glitch;
+        private SceneTransform _sceneTransform;
         private string _sceneName;
 
         private void Start()
         {
-            if (_volume != null)
-            {
-                _volume.profile.TryGet(out _glitch);
-            }
+            _sceneTransform = FindObjectOfType<SceneTransform>();
+            if (_sceneTransform == null)
+                Debug.Log("_sceneTransform is null");
         }
 
         public void ConnectScene(string sceneName)
@@ -35,29 +33,19 @@ namespace Runtime.Middle
 
         IEnumerator ActiveGlitch(bool isConnection)
         {
-            CheckGlitch();
-
             if (isConnection)
                 Managers.Sound.Play(Sound.SFX, "Connection_SFX");
             else
                 Managers.Sound.Play(Sound.SFX, "ReverseConnection_SFX_01");
 
             Managers.Data.InGameKeyBinder.PlayerInputDisable();
-            _glitch.enable.value = true;
+            _volume.weight = 0.59f;
             yield return new WaitForSeconds(1f);
-            _glitch.enable.value = false;
+            _volume.weight = 0;
             Managers.Data.InGameKeyBinder.PlayerInputEnable();
 
             if (isConnection)
                 _sceneTransform.ConnectToScene(_sceneName);
-        }
-
-        private void CheckGlitch()
-        {
-            if (_glitch == null)
-                Debug.Log("없음");
-            else
-                Debug.Log(_glitch);
         }
     }
 }
