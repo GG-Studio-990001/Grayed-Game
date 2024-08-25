@@ -1,10 +1,12 @@
 using Runtime.ETC;
 using Runtime.InGameSystem;
+using Runtime.Middle;
 using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 using Yarn.Unity;
 using Sound = Runtime.ETC.Sound;
 
@@ -19,12 +21,11 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private SLGActionComponent SLGAction;
         [SerializeField] private NpcDialogueController _npcDialogue;
         [SerializeField] private FadeController _fadeController;
+        [SerializeField] private ConnectionController _connectionController;
         [Header("=Else=")]
         [SerializeField] private GameObject _nameTag;
         [SerializeField] private CanvasGroup _lineViewCanvas;
         [SerializeField] private TextMeshProUGUI _lineTxt;
-        [SerializeField] private SceneTransform _sceneTransform;
-        [SerializeField] private GameObject _postProcessingVolume;
         private string _speaker;
         private bool _isR2MonSpeaking = false;
 
@@ -46,7 +47,7 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("NewSceneStart", NewSceneStart);
             _runner.AddCommandHandler("NextSceneStart", NextSceneStart);
             _runner.AddCommandHandler("SceneEnd", SceneEnd);
-            _runner.AddCommandHandler("ReverseConnection", ReverseConnection);
+            _runner.AddCommandHandler("ReverseConnection", _connectionController.ReverseConnection);
 
             _runner.AddCommandHandler("ClearLineText", ClearLineText);
 
@@ -159,30 +160,8 @@ namespace Runtime.CH1.Main.Dialogue
 
         private void SceneChange(string sceneName)
         {
-            StartCoroutine(nameof(ConnectToScene), sceneName);
-        }
-
-        IEnumerator ConnectToScene(string sceneName)
-        {
-            _sceneTransform.BeforeConnection();
-            _postProcessingVolume.SetActive(true);
-
-            yield return new WaitForSeconds(1f);
-            
-            _sceneTransform.ConnectToScene(sceneName);
-        }
-
-        private void ReverseConnection()
-        {
-            StartCoroutine(nameof(ActiveGlitch));
-        }   
-        
-        IEnumerator ActiveGlitch()
-        {
-            Managers.Sound.Play(Sound.SFX, "ReverseConnection_SFX_01");
-            _postProcessingVolume.SetActive(true);
-            yield return new WaitForSeconds(1f);
-            _postProcessingVolume.SetActive(false);
+            // 접속
+            _connectionController.ConnectScene(sceneName);
         }
 
         public void SetDialogueData(string value)

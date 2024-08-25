@@ -13,23 +13,22 @@ namespace Runtime.ETC
         private string _targetScene;
         private string _middleScene;
         private EscapeController _escapeController;
+        private static bool _isInitialized = false;
 
         private void Awake()
         {
-            DontDestroyOnLoad(gameObject);
-        }
+            if (_isInitialized)
+            {
+                Destroy(gameObject);
+                return;
+            }
 
-        public void BeforeConnection()
-        {
-            Managers.Data.InGameKeyBinder.PlayerInputDisable();
-            Managers.Sound.StopAllSound();
-            Managers.Sound.Play(Sound.SFX, "Connection_SFX");
+            _isInitialized = true;
+            DontDestroyOnLoad(gameObject);
         }
 
         public void ConnectToScene(string targetScene, bool disablePlayerInput = false)
         {
-            // ConnectToScene 전에 BeforeConnection() 호출 필수
-
             _middleScene = _connectionScene;
             _targetScene = targetScene;
             StartCoroutine(nameof(TranslateScene), disablePlayerInput);

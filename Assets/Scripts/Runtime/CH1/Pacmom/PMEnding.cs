@@ -18,8 +18,14 @@ namespace Runtime.CH1.Pacmom
         private SpriteControl[] _spriteControls = new SpriteControl[6];
         [SerializeField]
         private TextMeshProUGUI _resultCoinTxt;
-        [SerializeField]
         private SceneTransform _sceneTransform;
+
+        private void Start()
+        {
+            _sceneTransform = FindObjectOfType<SceneTransform>();
+            if (_sceneTransform == null)
+                Debug.Log("_sceneTransform is null");
+        }
 
         public void RapleyWin(int reward)
         {
