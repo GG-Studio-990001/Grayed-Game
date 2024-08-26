@@ -136,7 +136,7 @@ namespace Runtime.CH1.Pacmom
 
             foreach (Vector2 availableDirection in step.AvailableDirections)
             {
-                if (availableDirection == -1 * Movement.Direction)
+                if (availableDirection == -1 * Movement.Direction && step.AvailableDirections.Count > 1)
                     continue;
 
                 Vector3 newPosition = transform.position + new Vector3(availableDirection.x, availableDirection.y);
