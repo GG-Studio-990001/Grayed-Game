@@ -3,7 +3,7 @@ name: Meeting
 about: 회의록 템플릿
 title: 온라인 정기 회의, 2024-MM-DD [21:00]
 labels: Meeting
-assignees: fkdl0048, Songkihwa, wooyn730, Sumindd, roweclaw, jeongopo, JIJI037
+assignees: fkdl0048, Songkihwa, wooyn730, Sumindd, roweclaw, jeongopo, JIJI037, vprwolf
 
 ---
 
