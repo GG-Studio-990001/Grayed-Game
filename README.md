@@ -2,11 +2,9 @@
 
 Grayed Game는 여러가지 장르가 결합된 게임으로 다양한 연출과 스토리가 핵심입니다.
 
-프로젝트 시작 23-09 ~ ing..
-
 *Grayed Game에 관한 문의사항은 아래 이메일을 통해 연락해주시면 됩니다.*
 
-이메일 링크: <fkdl000048@gmail.com>
+이메일 링크: <fkdl000048@gmail.com>  
 Grayed Game X: https://x.com/GrayedGame
 
 [2024 BIC 루키 부분 오프라인 전시작]
@@ -22,16 +20,22 @@ Grayed Game X: https://x.com/GrayedGame
 | [남현정](https://github.com/jeongopo) | 프로그래머 | 24-03 |
 | [한수빈](https://github.com/roweclaw) | 기획 | 24-03 |
 | [지수민](https://github.com/Sumindd) | 기획 | 24-03 |
-| [서민지](https://github.com/royalbluesm) | 아트 | 23-09 |
-| [유이우](https://github.com/gomgom172) | 아트 | 24-03 |
 | [송기화](https://github.com/Songkihwa) | 사운드 | 23-09 |
+| [김지은](https://github.com/JIJI037) | 아트 | 24-08 |
+| [김보민](https://github.com/vprwolf) | 아트 | 24-08 |
 
-### 명예의 전당
+<details><summary>명예의 전당</summary>
+<p>
 
 | 이름 | 포지션 | 작업 기간 |
 |--------|--------|--------|  
 | [이동호](https://github.com/CreatorLDH) | 기획 | 23-09 ~ 24-02 |
 | [송세화](https://github.com/yanggang3) | 아트 | 23-09 ~ 24-03 |
+| [서민지](https://github.com/royalbluesm) | 아트 | 23-09 ~ 24-08 |
+| [유이우](https://github.com/gomgom172) | 아트 | 24-03 ~ 24-08 |
+
+</p>
+</details> 
 
 ## 진행사항
 
