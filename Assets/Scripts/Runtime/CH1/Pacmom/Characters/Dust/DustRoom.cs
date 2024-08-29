@@ -49,6 +49,7 @@ namespace Runtime.CH1.Pacmom
 
         private IEnumerator ExitTransition(float afterTime)
         {
+            // TODO: 다 나가지 못했는데 청소모드가 시작됐다면 방에 갇히기
             Vector3 position = transform.position;
 
             _movement.GetEyeSpriteByPosition();
@@ -69,6 +70,7 @@ namespace Runtime.CH1.Pacmom
 
             elapsed = 0.0f;
             _movement.GetEyeSprites(Vector2.up);
+            IsInRoom = false;
 
             while (elapsed < duration)
             {
@@ -95,7 +97,6 @@ namespace Runtime.CH1.Pacmom
             _movement.enabled = true;
 
             _movement.SetCanMove(true);
-            IsInRoom = false;
         }
     }
 }

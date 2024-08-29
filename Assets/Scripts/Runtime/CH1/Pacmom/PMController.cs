@@ -122,6 +122,7 @@ namespace Runtime.CH1.Pacmom
 
         private IEnumerator VacuumTime()
         {
+            StopCoroutine(nameof(DustExitRoomSoon));
             VacuumModeOn();
 
             yield return new WaitForSeconds(_vacuumDuration - _vacuumEndDuration);
@@ -240,6 +241,18 @@ namespace Runtime.CH1.Pacmom
             dust.GetComponent<DustRoom>().SetInRoom(true);
 
             _dialogue.BeCaughtDialogue(dust.DustID);
+
+            // TODO: 청소모드가 시작되면 이 코루틴은 취소
+            if (!_isVacuumMode)
+            {
+                StartCoroutine(nameof(DustExitRoomSoon), dust);
+            }
+        }
+
+        IEnumerator DustExitRoomSoon(Dust dust)
+        {
+            yield return new WaitForSeconds(2f);
+            dust.GetComponent<DustRoom>().ExitRoom(dust.DustID);
         }
 
         public void DialogueStop()
