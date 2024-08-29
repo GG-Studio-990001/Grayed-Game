@@ -183,10 +183,8 @@ namespace Runtime.CH1.Pacmom
         {
             this._isVacuumMode = isVacuumMode;
             _pacmom.VacuumMode(isVacuumMode);
-            _pacmom.SetStronger(isVacuumMode);
             for (int i = 0; i < GlobalConst.DustCnt; i++)
             {
-                _dusts[i].SetStronger(!isVacuumMode);
                 _dusts[i].Movement.SetEyeNormal(!isVacuumMode);
             }
 
@@ -244,51 +242,9 @@ namespace Runtime.CH1.Pacmom
             _dialogue.BeCaughtDialogue(dust.DustID);
         }
 
-        public void PacmomEatenByRapley()
-        {
-            Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_11");
-
-            _dataController.TakeHalfCoins(true);
-            LoseLife();
-        }
-
-        public void PacmomEatenByDust(int ID)
-        {
-            Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_11");
-
-            _dialogue.CatchDialogue(ID);
-            SetCharacterMove(false);
-
-            StartCoroutine(_dataController.ReleaseHalfCoins());
-        }
-
-        public void AfterPacmomEatenByDust()
-        {
-            DialogueStop();
-            SetCharacterMove(true);
-            LoseLife();
-        }
-
         public void DialogueStop()
         {
             _dialogue.StopDialogue();
-        }
-
-        public void LoseLife()
-        {
-            _dataController.LosePacmomLife();
-
-            if (_dataController.IsPacmomAlive())
-            {
-                ResetStates();
-            }
-            else
-            {
-                _pacmom.Movement.SetRotateZ();
-                _spriteController.SetPacmomDieSprite();
-
-                GameOver();
-            }
         }
 
         public Vector3 GetPacmomPos()

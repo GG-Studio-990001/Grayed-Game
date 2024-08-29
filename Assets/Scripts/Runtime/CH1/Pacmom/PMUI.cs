@@ -8,16 +8,9 @@ namespace Runtime.CH1.Pacmom
     {
         public PMData DataController;
         [SerializeField]
-        private GameObject[] _pacmomLives = new GameObject[3];
-        [SerializeField]
         private TextMeshProUGUI _pacmomScoreTxt;
         [SerializeField]
         private TextMeshProUGUI _rapleyScoreTxt;
-
-        public void LosePacmomLife(int nowLives)
-        {
-            _pacmomLives[nowLives].SetActive(false);
-        }
 
         public void ShowPacmomScore(int newScore)
         {

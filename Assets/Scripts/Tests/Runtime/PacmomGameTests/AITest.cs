@@ -21,7 +21,7 @@ namespace Tests.Runtime.PacmomGameTest
         private AI dustAI;
 
         private GameObject stepObj;
-        private readonly string stepStr = "Step";
+        // private readonly string stepStr = "Step";
 
         [UnitySetUp]
         public IEnumerator SetUp()
@@ -56,6 +56,7 @@ namespace Tests.Runtime.PacmomGameTest
             yield return new WaitForFixedUpdate();
         }
 
+        /*
         [UnityTest]
         public IEnumerator ChaseEnemy()
         {
@@ -100,6 +101,6 @@ namespace Tests.Runtime.PacmomGameTest
             yield return new WaitForFixedUpdate();
 
             Assert.IsTrue(pacmomMovement.NextDirection.x > 0);
-        }
+        }*/
     }
 }

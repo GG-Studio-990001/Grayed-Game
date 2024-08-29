@@ -23,7 +23,6 @@ namespace Runtime.CH1.Pacmom
 
         private int _rapleyScore;
         private int _pacmomScore;
-        private int _pacmomLives;
         private readonly float _normalWaitTime = 0.03f;
         private readonly float _fasterWaitTime = 0.02f;
         #endregion
@@ -49,7 +48,6 @@ namespace Runtime.CH1.Pacmom
         {
             SetRapleyScore(0);
             SetPacmomScore(0);
-            SetPacmomLives(3);
         }
         #endregion
 
@@ -66,14 +64,6 @@ namespace Runtime.CH1.Pacmom
             _uiController.ShowPacmomScore(score);
         }
 
-        private void SetPacmomLives(int lives)
-        {
-            if (lives < 0)
-                return;
-
-            _pacmomLives = lives;
-        }
-
         public void RapleyScore1Up()
         {
             SetRapleyScore(_rapleyScore + 1);
@@ -82,17 +72,6 @@ namespace Runtime.CH1.Pacmom
         public void PacmomScore1Up()
         {
             SetPacmomScore(_pacmomScore + 1);
-        }
-
-        public void LosePacmomLife()
-        {
-            SetPacmomLives(_pacmomLives - 1);
-            _uiController.LosePacmomLife(_pacmomLives);
-        }
-
-        public bool IsPacmomAlive()
-        {
-            return (_pacmomLives > 0);
         }
         #endregion
 
@@ -129,33 +108,6 @@ namespace Runtime.CH1.Pacmom
                 return _fasterWaitTime;
             else
                 return _normalWaitTime;
-        }
-
-        public IEnumerator ReleaseHalfCoins()
-        {
-            // 방에서 나오는 먼지 예외처리
-            StopAllCoroutines();
-
-            int score = _pacmomScore / 2;
-            SetPacmomScore(_pacmomScore - score);
-
-            float releaseTime = GetCoinTime(score);
-
-            while (score > 0)
-            {
-                int rand = Random.Range(0, _coins.childCount);
-                Transform childCoin = _coins.transform.GetChild(rand);
-                Coin coin = childCoin.GetComponent<Coin>();
-
-                if (!coin.gameObject.activeSelf)
-                {
-                    coin.ResetCoin();
-                    score--;
-                    yield return new WaitForSeconds(releaseTime);
-                }
-            }
-
-            _gameController.AfterPacmomEatenByDust();
         }
 
         public IEnumerator GetRemaningCoins()
