@@ -1,11 +1,10 @@
 using Runtime.ETC;
-using Runtime.Interface.Pacmom;
 using System;
 using UnityEngine;
 
 namespace Runtime.CH1.Pacmom
 {
-    public class Pacmom : MonoBehaviour, IFoodChain
+    public class Pacmom : MonoBehaviour
     {
         [NonSerialized]
         public PMController GameController;
@@ -23,14 +22,7 @@ namespace Runtime.CH1.Pacmom
         private void Start()
         {
             SetSpriteRotation();
-            SetStronger(false);
             Movement.ResetState();
-        }
-
-        public void SetStronger(bool isStrong)
-        {
-            if (_ai != null)
-                _ai.SetAIStronger(isStrong);
         }
 
         private void SetSpriteRotation()
@@ -47,7 +39,6 @@ namespace Runtime.CH1.Pacmom
         {
             Movement.SetRotateZ();
 
-            _ai.SetAIStronger(isVacuum);
             Movement.SpriteRotation.SetCanRotate(!isVacuum);
             _vacuum.SetActive(isVacuum);
         }
@@ -59,10 +50,7 @@ namespace Runtime.CH1.Pacmom
                 if (GameController == null)
                     return;
 
-                if (_ai.IsStronger)
-                    GameController.RapleyEaten();
-                else
-                    GameController.PacmomEatenByRapley();
+                GameController.RapleyEaten();
             }
         }
     }

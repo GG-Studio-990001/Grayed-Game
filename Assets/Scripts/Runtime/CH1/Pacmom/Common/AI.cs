@@ -6,16 +6,9 @@ namespace Runtime.CH1.Pacmom
     {
         public Movement Movement;
         public Transform[] Enemys;
-        [SerializeField]
-        private bool _doCoinMatter;
-        [field: SerializeField]
-        public bool IsStronger { get; private set; }
+        [SerializeField] private bool _doCoinMatter;
+        [SerializeField] private bool _isStronger;
         private readonly float[] _roomPos = { -2.5f, 2.5f, -1.5f, 1f };
-
-        public void SetAIStronger(bool isStronger)
-        {
-            IsStronger = isStronger;
-        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -49,7 +42,7 @@ namespace Runtime.CH1.Pacmom
 
             if (nearestEnemy != null)
             {
-                if (IsStronger)
+                if (_isStronger)
                     direction = ChaseEnemy(nearestEnemy, step);
                 else
                     direction = RunAwayFromEnemy(nearestEnemy, step);

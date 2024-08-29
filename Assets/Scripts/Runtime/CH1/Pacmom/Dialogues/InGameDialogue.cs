@@ -149,7 +149,8 @@ namespace Runtime.CH1.Pacmom
         #region Time
         private void CheckTime()
         {
-            if (!GameController.IsGameOver && _dustA.GetComponent<AI>().IsStronger)
+            // TODO: 청소모드가 아니라면
+            if (!GameController.IsGameOver)
                 _currentTime += Time.deltaTime;
 
             if (_targetTime < _currentTime)

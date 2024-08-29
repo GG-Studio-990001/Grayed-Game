@@ -29,9 +29,9 @@ namespace Runtime.CH1.Pacmom
                 _reachTime += Time.deltaTime;
             }
 
-            if (!_dustTalked && _reachTime > 1.2f)
+            if (!_dustTalked && _reachTime > 1f)
             {
-                if (!_room.IsInRoom && _dust.IsStronger())
+                if (!_room.IsInRoom)
                     _dialogue.BlockedDialogue(_dust.DustID);
                 _dustTalked = true;
             }
