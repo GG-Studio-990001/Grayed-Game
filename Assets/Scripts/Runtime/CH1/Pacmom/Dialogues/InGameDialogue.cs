@@ -174,13 +174,6 @@ namespace Runtime.CH1.Pacmom
             _runner.StartDialogue("PMBlocked");
         }
 
-        public void CatchDialogue(int ID)
-        {
-            _dustID = ID;
-            _runner.Stop();
-            _runner.StartDialogue("PMCatch");
-        }
-
         public void BeCaughtDialogue(int ID)
         {
             _dustID = ID;

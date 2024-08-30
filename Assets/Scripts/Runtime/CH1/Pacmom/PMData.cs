@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using Sound = Runtime.ETC.Sound;
 
 namespace Runtime.CH1.Pacmom
 {
@@ -76,23 +75,14 @@ namespace Runtime.CH1.Pacmom
         #endregion
 
         #region About Coins
-        public void TakeHalfCoins(bool isRapleyTake)
+        public void TakeHalfCoins()
         {
-            if (isRapleyTake)
-            {
-                int score = _pacmomScore / 2;
-                SetRapleyScore(_rapleyScore + score);
-                SetPacmomScore(_pacmomScore - score);
-            }
-            else
-            {
-                int score = _rapleyScore / 2;
-                SetPacmomScore(_pacmomScore + score);
-                SetRapleyScore(_rapleyScore - score);
-            }
+            int score = _rapleyScore / 2;
+            SetRapleyScore(_rapleyScore - score);
+            SetPacmomScore(_pacmomScore + score);
         }
 
-        public float GetChangeTime(int diff)
+        public float GetChangeScoreTime(int diff)
         {
             diff = Mathf.Abs(diff);
 
@@ -102,32 +92,15 @@ namespace Runtime.CH1.Pacmom
                 return _normalWaitTime;
         }
 
-        private float GetCoinTime(int score)
+        public void ChooseAWinner()
         {
-            if (score >= 100)
-                return _fasterWaitTime;
-            else
-                return _normalWaitTime;
+            StartCoroutine(nameof(VictoryOrDefeat));
         }
 
-        public IEnumerator GetRemaningCoins()
+        private IEnumerator VictoryOrDefeat()
         {
-            foreach (Transform coin in _coins)
-            {
-                if (coin.gameObject.activeSelf)
-                {
-                    Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_10");
+            yield return new WaitForSeconds(1f);
 
-                    SetRapleyScore(_rapleyScore + 1);
-                    coin.gameObject.SetActive(false);
-                    yield return new WaitForSeconds(_normalWaitTime);
-                }
-            }
-            Invoke(nameof(ChooseAWinner), 1.5f);
-        }
-
-        private void ChooseAWinner()
-        {
             Managers.Sound.StopSFX();
             _gameController.DialogueStop();
 
