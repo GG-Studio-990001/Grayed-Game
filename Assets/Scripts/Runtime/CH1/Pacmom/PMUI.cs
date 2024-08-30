@@ -26,7 +26,7 @@ namespace Runtime.CH1.Pacmom
         {
             string scoreStr = _pacmomScoreTxt.text[1..];
             int score = int.Parse(scoreStr);
-            float changeTime = DataController.GetChangeTime(newScore - score);
+            float changeTime = DataController.GetChangeScoreTime(newScore - score);
 
             while (score != newScore)
             {
@@ -40,7 +40,7 @@ namespace Runtime.CH1.Pacmom
         {
             string scoreStr = _rapleyScoreTxt.text[1..];
             int score = int.Parse(scoreStr);
-            float changeTime = DataController.GetChangeTime(newScore - score);
+            float changeTime = DataController.GetChangeScoreTime(newScore - score);
 
             while (score != newScore)
             {

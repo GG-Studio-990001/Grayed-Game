@@ -162,7 +162,7 @@ namespace Runtime.CH1.Pacmom
             RandomDialogue();
 
             _currentTime = 0;
-            _targetTime = UnityEngine.Random.Range(15f, 20f);
+            _targetTime = UnityEngine.Random.Range(20f, 30f);
         }
         #endregion
 
@@ -172,13 +172,6 @@ namespace Runtime.CH1.Pacmom
             _dustID = ID;
             _runner.Stop();
             _runner.StartDialogue("PMBlocked");
-        }
-
-        public void CatchDialogue(int ID)
-        {
-            _dustID = ID;
-            _runner.Stop();
-            _runner.StartDialogue("PMCatch");
         }
 
         public void BeCaughtDialogue(int ID)

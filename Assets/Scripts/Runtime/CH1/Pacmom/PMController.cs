@@ -93,10 +93,8 @@ namespace Runtime.CH1.Pacmom
 
             SetCharacterMove(false);
 
-            if (_dataController.HasRemainingCoins())
-                _dialogue.GameOverDialogue();
-
-            StartCoroutine(_dataController.GetRemaningCoins());
+            _dialogue.GameOverDialogue();
+            _dataController.ChooseAWinner();
         }
         #endregion
 
@@ -228,7 +226,7 @@ namespace Runtime.CH1.Pacmom
         {
             Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_06");
 
-            _dataController.TakeHalfCoins(false);
+            _dataController.TakeHalfCoins();
             _rapley.Movement.ResetState();
         }
 
