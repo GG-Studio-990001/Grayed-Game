@@ -162,7 +162,7 @@ namespace Runtime.CH1.Pacmom
             RandomDialogue();
 
             _currentTime = 0;
-            _targetTime = UnityEngine.Random.Range(15f, 20f);
+            _targetTime = UnityEngine.Random.Range(20f, 30f);
         }
         #endregion
 

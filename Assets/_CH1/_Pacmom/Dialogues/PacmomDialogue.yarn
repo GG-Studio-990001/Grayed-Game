@@ -6,23 +6,26 @@ title: PMStart
 <<DustASpeak>>
 DustA: 뭐야, 여기에는<br>어떻게 들어온 거야?
 <<DustBSpeak>>
-DustB: 너도 팩맘 몰래<br><wave>코인</wave> 모으러 온 거야?
+DustB: 팩맘이 너한테도<br>모욕감을 줬어?
 <<RapleySpeak>>
 Player: 
+<<DustBSpeak>>
+DustB: 얘는 아직 모르나 봐!
 <<DustASpeak>>
-DustA: 팩맘이 우리 보고<br>더러운 먼지들이래
+DustA: 팩맘이 우리 보고<br>드~러운 먼지들이래
 <<DustBSpeak>>
 DustB: 정말 미워!
 <<DustASpeak>>
-DustA: 코인을 싹 쓸어서<br>복수해 주마!
+DustA: 여기서 나가면 <wave>코인</wave>을<br>싹 쓸어서 복수해 줘!
 <<DustBSpeak>>
-DustB: 잔뜩 쓸어주마!
+DustB: 잔뜩 복수해 줘!
 <<DustASpeak>>
-DustA: 하지만 청소 시간에는<br>꼭 <shake>도망</shake>가야 해
+DustA: 그리고 청소 시간은<br>꼭 <shake>조심</shake>해
+DustA: 팩맘이 빨라지고<br>코인도 휩쓸어 가거든
 <<DustBSpeak>>
-DustB: 으으, 끔찍한 청소기
+DustB: 청소기 소리도 싫어!<br>움직이기 힘들다고
 <<DustASpeak>>
-DustA: 아무튼 파이팅이야
+DustA: 아무튼 파이팅이야!
 <<DustBSpeak>>
 DustB: 이제 곧 시작한다!
 <<OpeningDialogueFin>>
@@ -34,9 +37,9 @@ title: PMRetry
 DustA: 역시 다시 왔구나!
 DustA: 아까는 정말 아까웠어
 <<DustBSpeak>>
-DustB: 이번엔 제대로<br><wave>코인</wave>을 쓸어가 주마!
+DustB: 이번엔 제대로 복수해 줘!
 <<DustASpeak>>
-DustA: 한 번 더 파이팅이야!
+DustA: <wave>코인</wave>을 싹 쓸어버려!
 <<DustBSpeak>>
 DustB: 다시 시작이다!
 <<OpeningDialogueFin>>
@@ -50,7 +53,7 @@ DustA: 대단해!
 <<DustBSpeak>>
 DustB: 대단해, 대단해!
 <<DustASpeak>>
-DustA: 한 번 더 <wave>코인</wave>을 모아보자!
+DustA: 한 번 더 <wave>코인</wave>을 모아봐!
 <<DustBSpeak>>
 DustB: 모으는 거다!
 <<OpeningDialogueFin>>
@@ -61,18 +64,14 @@ position: 163,31
 ---
 // 자주 나오지 않으며, 구분 없이 사용됨
 <<declare $RandomInt = 0>>
-<<set $RandomInt = dice(6)>>
+<<set $RandomInt = dice(4)>>
 
 <<if $RandomInt is 1>>
     Dust: 어딨지?
 <<elseif $RandomInt is 2>>
-    Dust: (덜덜)
+    Dust: (쒸익쒸익)
 <<elseif $RandomInt is 3>>
     Dust: (두리번)
-<<elseif $RandomInt is 4>>
-    Dust: 오지마..
-<<elseif $RandomInt is 5>>
-    Dust: 무서워..
 <<else>>
     Dust: (살금살금)
 <<endif>>
