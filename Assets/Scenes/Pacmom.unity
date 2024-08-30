@@ -24947,7 +24947,10 @@ MonoBehaviour:
   _bubble: {fileID: 2130668678}
   _outPosition: {x: 773, y: -201, z: 0}
   _inPosition: {x: 475, y: -201, z: 0}
-  _drawing: {fileID: 513051065}
+  _drawing: {fileID: 513051067}
+  _drawingSprites:
+  - {fileID: 1957713918, guid: 624604c3a324b01478b135343c65f064, type: 3}
+  - {fileID: -1633829432, guid: 624604c3a324b01478b135343c65f064, type: 3}
   _luckyObjs:
   - {fileID: 1143825153}
   - {fileID: 1574099396}

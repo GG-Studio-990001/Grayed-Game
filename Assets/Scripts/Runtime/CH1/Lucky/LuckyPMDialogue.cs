@@ -13,7 +13,8 @@ namespace Runtime.CH1.Lucky
         [SerializeField] private GameObject _bubble;
         [SerializeField] private Vector3 _outPosition;
         [SerializeField] private Vector3 _inPosition;
-        [SerializeField] private GameObject _drawing;
+        [SerializeField] private SpriteRenderer _drawing;
+        [SerializeField] private Sprite[] _drawingSprites;
         [SerializeField] private GameObject[] _luckyObjs;
         [SerializeField] private GameObject _timeline;
 
@@ -28,9 +29,9 @@ namespace Runtime.CH1.Lucky
             _runner.AddCommandHandler("WalkOut", WalkOut);
             _runner.AddCommandHandler<bool>("ActiveBubble", ActiveBubble);
             _runner.AddCommandHandler("Idle", Idle);
-            _runner.AddCommandHandler("Pointing", Pointing);
+            //_runner.AddCommandHandler("Pointing", Pointing);
             _runner.AddCommandHandler("Showing", Showing);
-            _runner.AddCommandHandler<bool>("ShowDrawing", ShowDrawing);
+            _runner.AddCommandHandler<int>("ShowDrawing", ShowDrawing);
         }
 
         private void Start()
@@ -52,22 +53,30 @@ namespace Runtime.CH1.Lucky
             _timeline.SetActive(true);
         }
 
-        private void ShowDrawing(bool active)
+        private void ShowDrawing(int num)
         {
-            if (active)
+            switch(num)
             {
-                Invoke(nameof(ActiveDrawing), 1f);
+                case 0:
+                    CancelInvoke(nameof(ActiveDrawing));
+                    _drawing.gameObject.SetActive(false);
+                    break;
+                case 1:
+                case 2:
+                    SetDrawing(num);
+                    Invoke(nameof(ActiveDrawing), 0.6f);
+                    break;
             }
-            else
-            {
-                CancelInvoke(nameof(ActiveDrawing));
-                _drawing.SetActive(false);
-            }
+        }
+
+        private void SetDrawing(int num)
+        {
+            _drawing.sprite = _drawingSprites[num - 1];
         }
 
         private void ActiveDrawing()
         {
-            _drawing.SetActive(true);
+            _drawing.gameObject.SetActive(true);
         }
 
         private void WalkIn()
@@ -91,10 +100,10 @@ namespace Runtime.CH1.Lucky
             Debug.Log("Idle");
         }
 
-        private void Pointing()
-        {
-            _lucky.Anim.SetAnimation("Pointing");
-        }
+        //private void Pointing()
+        //{
+        //    _lucky.Anim.SetAnimation("Pointing");
+        //}
 
         private void Showing()
         {
