@@ -32,8 +32,6 @@ namespace Runtime.CH1.Pacmom
         [SerializeField]
         private float _targetTime = 15f;
         private int _dustID = 0;
-        private readonly float _minTime = 5;
-        private readonly float _delayTime = 5;
 
         private void Awake()
         {
@@ -153,15 +151,7 @@ namespace Runtime.CH1.Pacmom
                 _currentTime += Time.deltaTime;
 
             if (_targetTime < _currentTime)
-                ShowRandomDialogue();
-        }
-
-        private void ShowRandomDialogue()
-        {
-            RandomDialogue();
-
-            _currentTime = 0;
-            _targetTime = UnityEngine.Random.Range(20f, 30f);
+                RandomDialogue();
         }
         #endregion
 
@@ -169,15 +159,13 @@ namespace Runtime.CH1.Pacmom
         public void BlockedDialogue(int ID)
         {
             _dustID = ID;
-            _runner.Stop();
-            _runner.StartDialogue("PMBlocked");
+            InGameDialogueStart("PMBlocked");
         }
 
         public void BeCaughtDialogue(int ID)
         {
             _dustID = ID;
-            _runner.Stop();
-            _runner.StartDialogue("PMBeCaught");
+            InGameDialogueStart("PMBeCaught");
         }
 
         private void RandomDialogue()
@@ -194,29 +182,31 @@ namespace Runtime.CH1.Pacmom
             else if (_dustID == 2 && dustBBloked)
                 _dustID = 1;
 
-            _runner.Stop();
-            _runner.StartDialogue("PMRandom");
+            InGameDialogueStart("PMRandom");
+
+            _targetTime = UnityEngine.Random.Range(20f, 30f);
         }
         #endregion
 
         #region Dialogue Both
         public void VacuumDialogue(bool WasVaccumMode)
         {
-            _runner.Stop();
-
             if (!WasVaccumMode)
-                _runner.StartDialogue("PMVacuumMode");
+                InGameDialogueStart("PMVacuumMode");
             else
-                _runner.StartDialogue("PMVacuumModeAgain");
-
-            if (_targetTime < _minTime)
-                _targetTime += _delayTime;
+                InGameDialogueStart("PMVacuumModeAgain");
         }
 
         public void GameOverDialogue()
         {
+            InGameDialogueStart("PMGameClear");
+        }
+
+        private void InGameDialogueStart(string dialogueName)
+        {
             _runner.Stop();
-            _runner.StartDialogue("PMGameClear");
+            _runner.StartDialogue(dialogueName);
+            _currentTime = 0;
         }
         #endregion
     }
