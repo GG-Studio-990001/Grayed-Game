@@ -149,8 +149,7 @@ namespace Runtime.CH1.Pacmom
         #region Time
         private void CheckTime()
         {
-            // TODO: 청소모드가 아니라면
-            if (!GameController.IsGameOver)
+            if (!GameController.IsGameOver && !GameController.IsVacuumMode)
                 _currentTime += Time.deltaTime;
 
             if (_targetTime < _currentTime)
