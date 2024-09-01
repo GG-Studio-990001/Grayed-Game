@@ -1741,6 +1741,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7973223429997886583, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
+      propertyPath: _enemy
+      value: 
+      objectReference: {fileID: 1861729284}
+    - target: {fileID: 7973223429997886583, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
+      propertyPath: _dialogue
+      value: 
+      objectReference: {fileID: 945587687}
+    - target: {fileID: 7973223429997886583, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
+      propertyPath: Enemys.Array.data[0]
+      value: 
+      objectReference: {fileID: 1861729284}
     - target: {fileID: 8159136489922289943, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
       propertyPath: dialogue
       value: 
@@ -1793,6 +1805,10 @@ PrefabInstance:
       propertyPath: vacuumModeSprites.Array.data[1]
       value: 
       objectReference: {fileID: -686159391, guid: 1c1fc1d82a5a37942ba9937a303a3a8e, type: 3}
+    - target: {fileID: 8707921396640555539, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
+      propertyPath: _dialogue
+      value: 
+      objectReference: {fileID: 945587687}
     - target: {fileID: 8866573521413798028, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 2
@@ -1803,6 +1819,7 @@ PrefabInstance:
       objectReference: {fileID: 92227687, guid: e48202bc45cce2146932707e0ee993a9, type: 3}
     m_RemovedComponents:
     - {fileID: 0}
+    - {fileID: 8707921396640555539, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
     m_RemovedGameObjects:
     - {fileID: 9074200449494484364, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
     - {fileID: 8974470889113537919, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
@@ -26327,7 +26344,7 @@ GameObject:
   - component: {fileID: 1861729281}
   - component: {fileID: 1861729285}
   - component: {fileID: 1861729289}
-  - component: {fileID: 1861729288}
+  - component: {fileID: 1861729290}
   - component: {fileID: 1861729287}
   m_Layer: 6
   m_Name: Pacmom
@@ -26503,25 +26520,6 @@ MonoBehaviour:
   - {fileID: -31350341, guid: 624604c3a324b01478b135343c65f064, type: 3}
   - {fileID: -722194990, guid: 624604c3a324b01478b135343c65f064, type: 3}
   - {fileID: -1681543061, guid: 624604c3a324b01478b135343c65f064, type: 3}
---- !u!114 &1861729288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1861729278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e686847b23f620448c1c7bc0afef7fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Movement: {fileID: 1861729289}
-  Enemys:
-  - {fileID: 133942948}
-  - {fileID: 1412902989}
-  - {fileID: 155197200}
-  _doCoinMatter: 1
-  _isStronger: 1
 --- !u!114 &1861729289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26537,6 +26535,23 @@ MonoBehaviour:
   _speed: 6
   _speedMultiplier: 1
   _initialDirection: {x: -1, y: 0}
+--- !u!114 &1861729290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861729278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a040d098258ac42469384da22ac76b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Movement: {fileID: 1861729289}
+  _enemys:
+  - {fileID: 133942948}
+  - {fileID: 1412902989}
+  - {fileID: 155197200}
 --- !u!1 &1865427655
 GameObject:
   m_ObjectHideFlags: 0
@@ -27071,6 +27086,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7973223429997886583, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
+      propertyPath: _enemy
+      value: 
+      objectReference: {fileID: 1861729284}
+    - target: {fileID: 7973223429997886583, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
+      propertyPath: _dialogue
+      value: 
+      objectReference: {fileID: 945587687}
+    - target: {fileID: 7973223429997886583, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
+      propertyPath: Enemys.Array.data[0]
+      value: 
+      objectReference: {fileID: 1861729284}
     - target: {fileID: 8159136489922289943, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
       propertyPath: dialogue
       value: 
@@ -27139,6 +27166,10 @@ PrefabInstance:
       propertyPath: vacuumModeSprites.Array.data[1]
       value: 
       objectReference: {fileID: -1844423135, guid: 1c1fc1d82a5a37942ba9937a303a3a8e, type: 3}
+    - target: {fileID: 8707921396640555539, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
+      propertyPath: _dialogue
+      value: 
+      objectReference: {fileID: 945587687}
     - target: {fileID: 8866573521413798028, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 2
@@ -27150,6 +27181,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6346998529763604019, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
     - {fileID: 4733386059249401347, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
+    - {fileID: 8707921396640555539, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
     m_RemovedGameObjects:
     - {fileID: 9074200449494484364, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}
     - {fileID: 8974470889113537919, guid: 60885ee87633ff6428833e5ff9b154a9, type: 3}

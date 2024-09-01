@@ -18,12 +18,16 @@ DustB: 정말 미워!
 <<DustASpeak>>
 DustA: 여기서 나가면 <wave>코인</wave>을<br>싹 쓸어서 복수해 줘!
 <<DustBSpeak>>
-DustB: 잔뜩 복수해 줘!
+DustB: 마구마구 복수해 줘!
 <<DustASpeak>>
 DustA: 그리고 청소 시간은<br>꼭 <shake>조심</shake>해
 DustA: 팩맘이 빨라지고<br>코인도 휩쓸어 가거든
 <<DustBSpeak>>
-DustB: 청소기 소리도 싫어!<br>움직이기 힘들다고
+DustB: 청소기 소리도 싫어!<br>움직이기 힘들단 말야
+<<DustASpeak>>
+DustA: 그래도 잡히지 않게<br>도망가야 돼
+<<DustBSpeak>>
+DustB: 잡히면 코인 빼앗겨!
 <<DustASpeak>>
 DustA: 아무튼 파이팅이야!
 <<DustBSpeak>>
@@ -37,7 +41,7 @@ title: PMRetry
 DustA: 역시 다시 왔구나!
 DustA: 아까는 정말 아까웠어
 <<DustBSpeak>>
-DustB: 이번엔 제대로 복수해 줘!
+DustB: 이번엔 제대로<br>복수해 줘!
 <<DustASpeak>>
 DustA: <wave>코인</wave>을 싹 쓸어버려!
 <<DustBSpeak>>
@@ -53,7 +57,7 @@ DustA: 대단해!
 <<DustBSpeak>>
 DustB: 대단해, 대단해!
 <<DustASpeak>>
-DustA: 한 번 더 <wave>코인</wave>을 모아봐!
+DustA: 한 번 더<br><wave>코인</wave>을 모아봐!
 <<DustBSpeak>>
 DustB: 모으는 거다!
 <<OpeningDialogueFin>>
@@ -127,6 +131,23 @@ title: PMBlocked
     Dust: 저리가
 <<else>>
     Dust: 뭐야
+<<endif>>
+===
+
+
+title: PMChased
+---
+<<declare $RandomInt4 = 0>>
+<<set $RandomInt4 = dice(4)>>
+
+<<if $RandomInt4 is 1>>
+    Dust: 오지 마!
+<<elseif $RandomInt4 is 2>>
+    Dust: 튀어!
+<<elseif $RandomInt4 is 3>>
+    Dust: (내적비명)
+<<else>>
+    Dust: 들켰다!
 <<endif>>
 ===
 

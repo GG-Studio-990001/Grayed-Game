@@ -9,14 +9,12 @@ namespace Runtime.CH1.Pacmom
         [NonSerialized]
         public PMController GameController;
         public MovementWithFlipAndRotate Movement { get; set; }
-        private AI _ai;
         [SerializeField]
         private GameObject _vacuum;
 
         private void Awake()
         {
             Movement = GetComponent<MovementWithFlipAndRotate>();
-            _ai = GetComponent<AI>();
         }
 
         private void Start()
