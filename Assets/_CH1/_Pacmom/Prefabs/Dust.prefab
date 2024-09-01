@@ -253,8 +253,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Movement: {fileID: 8324175502395817452}
-  Enemys:
-  - {fileID: 0}
+  _enemy: {fileID: 0}
+  _dialogue: {fileID: 0}
 --- !u!114 &5522138042445295253
 MonoBehaviour:
   m_ObjectHideFlags: 0

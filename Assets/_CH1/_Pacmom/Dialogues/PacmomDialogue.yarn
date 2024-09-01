@@ -41,7 +41,7 @@ title: PMRetry
 DustA: 역시 다시 왔구나!
 DustA: 아까는 정말 아까웠어
 <<DustBSpeak>>
-DustB: 이번엔 제대로 복수해 줘!
+DustB: 이번엔 제대로<br>복수해 줘!
 <<DustASpeak>>
 DustA: <wave>코인</wave>을 싹 쓸어버려!
 <<DustBSpeak>>
@@ -57,7 +57,7 @@ DustA: 대단해!
 <<DustBSpeak>>
 DustB: 대단해, 대단해!
 <<DustASpeak>>
-DustA: 한 번 더 <wave>코인</wave>을 모아봐!
+DustA: 한 번 더<br><wave>코인</wave>을 모아봐!
 <<DustBSpeak>>
 DustB: 모으는 거다!
 <<OpeningDialogueFin>>
@@ -135,7 +135,7 @@ title: PMBlocked
 ===
 
 
-title: PMRunAway
+title: PMChased
 ---
 <<declare $RandomInt4 = 0>>
 <<set $RandomInt4 = dice(4)>>

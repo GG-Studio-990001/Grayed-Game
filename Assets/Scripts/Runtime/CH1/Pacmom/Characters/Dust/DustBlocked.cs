@@ -7,10 +7,8 @@ namespace Runtime.CH1.Pacmom
     {
         private Dust _dust;
         private DustRoom _room;
-        [SerializeField]
-        private InGameDialogue _dialogue;
-        [SerializeField]
-        private float _reachTime = 0f;
+        [SerializeField] private InGameDialogue _dialogue;
+        [SerializeField] private float _reachTime = 0f;
         private bool _dustTalked = false;
         public bool IsBlocked { get; private set; } = false;
 

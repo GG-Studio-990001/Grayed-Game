@@ -168,6 +168,12 @@ namespace Runtime.CH1.Pacmom
             InGameDialogueStart("PMBeCaught");
         }
 
+        public void ChasedDialogue(int ID)
+        {
+            _dustID = ID;
+            InGameDialogueStart("PMChased");
+        }
+
         private void RandomDialogue()
         {
             _dustID = UnityEngine.Random.Range(1, 3);
