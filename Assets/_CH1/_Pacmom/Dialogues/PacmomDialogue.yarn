@@ -135,7 +135,7 @@ title: PMBlocked
 ===
 
 
-title: PMChased
+title: PMRunAway
 ---
 <<declare $RandomInt4 = 0>>
 <<set $RandomInt4 = dice(4)>>

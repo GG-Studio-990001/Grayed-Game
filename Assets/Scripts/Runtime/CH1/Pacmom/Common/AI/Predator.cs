@@ -2,12 +2,9 @@ using UnityEngine;
 
 namespace Runtime.CH1.Pacmom
 {
-    public class AI : MonoBehaviour
+    public class Predator : AI
     {
-        public Movement Movement;
-        public Transform[] Enemys;
-        [SerializeField] private bool _doCoinMatter;
-        [SerializeField] private bool _isStronger;
+        [SerializeField] private Transform[] _enemys;
         private readonly float[] _roomPos = { -2.5f, 2.5f, -1.5f, 1f };
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -20,7 +17,7 @@ namespace Runtime.CH1.Pacmom
             float shortestDistance = float.MaxValue;
             Transform nearestEnemy = null;
 
-            foreach (Transform enemy in Enemys)
+            foreach (Transform enemy in _enemys)
             {
                 float distanceFromEnemy = (enemy.position - transform.position).sqrMagnitude;
 
@@ -42,26 +39,21 @@ namespace Runtime.CH1.Pacmom
 
             if (nearestEnemy != null)
             {
-                if (_isStronger)
-                    direction = ChaseEnemy(nearestEnemy, step);
-                else
-                    direction = RunAwayFromEnemy(nearestEnemy, step);
+                direction = ChaseEnemy(nearestEnemy, step);
             }
             else
             {
-                if (_doCoinMatter)
-                    direction = FindCoin(step);
-                else
-                    direction = MoveRandomly(step);
+                direction = FindCoin(step);
             }
-            
+
             Movement.SetNextDirection(direction);
         }
 
         private Vector2 FindCoin(Step step)
         {
-            if (step.AvailableDirections.Contains(Movement.Direction)) // 가던 방향에 코인이 있으면 그대로
+            if (step.AvailableDirections.Contains(Movement.Direction))
             {
+                // 가던 방향에 코인이 있으면 그대로
                 if (DetectCoin(Movement.Direction))
                     return Movement.Direction;
             }
@@ -85,41 +77,6 @@ namespace Runtime.CH1.Pacmom
             RaycastHit2D hit = Physics2D.BoxCast(newPos, Vector2.one * 2f, 0, direction, 3f, LayerMask.GetMask("Coin"));
 
             return hit.collider != null;
-        }
-
-        private Vector2 MoveRandomly(Step step)
-        {
-            int index = Random.Range(0, step.AvailableDirections.Count);
-
-            if (step.AvailableDirections[index] == -1 * Movement.Direction && step.AvailableDirections.Count > 1)
-            {
-                index++;
-
-                if (index >= step.AvailableDirections.Count)
-                    index = 0;
-            }
-
-            return step.AvailableDirections[index];
-        }
-
-        private Vector2 RunAwayFromEnemy(Transform enemy, Step step)
-        {
-            Vector2 direction = Vector2.zero;
-            float maxDistance = float.MinValue;
-
-            foreach (Vector2 availableDirection in step.AvailableDirections)
-            {
-                Vector3 newPosition = transform.position + new Vector3(availableDirection.x, availableDirection.y);
-                float newDistance = (enemy.position - newPosition).sqrMagnitude;
-
-                if (newDistance > maxDistance)
-                {
-                    maxDistance = newDistance;
-                    direction = availableDirection;
-                }
-            }
-
-            return direction;
         }
 
         private Vector2 ChaseEnemy(Transform enemy, Step step)

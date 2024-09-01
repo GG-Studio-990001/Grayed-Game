@@ -9,14 +9,12 @@ namespace Runtime.CH1.Pacmom
         [NonSerialized]
         public PMController GameController;
         public MovementWithEyes Movement { get; set; }
-        private AI _ai;
         [field:SerializeField]
         public int DustID { get; private set; }
 
         private void Awake()
         {
             Movement = GetComponent<MovementWithEyes>();
-            _ai = GetComponent<AI>();
         }
 
         private void Start()
