@@ -2,16 +2,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using SLGDefines;
 
-enum BuildingState
-{
-    Able,
-    Impossible,
-    Locked,
-    Constructed,
-}
-
-public class BuildingItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class BuildingItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     [Header("ItemValue")]
     [SerializeField] private SLGBuildingType _buildingtype;
@@ -63,6 +56,18 @@ public class BuildingItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
 
         OnDispFadeInOut(false);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        SLGActionComponent SLGAction = FindAnyObjectByType<SLGActionComponent>();
+        if(SLGAction != null)
+        {
+            if(_buildingState != BuildingState.Constructed && _buildingState != BuildingState.Locked)
+            {
+                SLGAction.ShowArrowObject(_buildingtype);
+            }
+        }
     }
 
     void OnDispFadeInOut(bool bVisible)

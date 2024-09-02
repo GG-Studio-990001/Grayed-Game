@@ -4,14 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-
-enum SLGBuildingType
-{
-    MamagoCompany,
-    Bridge,
-    R2Mon,
-    DollarStatue,
-}
+using SLGDefines;
 
 public class SLGBuildingListWindow : MonoBehaviour
 {

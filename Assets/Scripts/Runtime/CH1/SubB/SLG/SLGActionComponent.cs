@@ -21,12 +21,29 @@ namespace SLGDefines
         BridgeConstructWindow,
         MAX,
     }
+
+    enum BuildingState
+    {
+        Able,
+        Impossible,
+        Locked,
+        Constructed,
+    }
+
+    public enum SLGBuildingType
+    {
+        MamagoCompany = 0,
+        Bridge =1,
+        R2Mon =2,
+        DollarStatue=3,
+    }
 }
 
 public class SLGActionComponent : MonoBehaviour
 {
     public List<Sprite> SLGPopupSprites;
     [SerializeField] private Texture2D cursorTexture;
+    [SerializeField] private Sprite ArrowTexture;
 
     [SerializeField] private GameObject _SLGCanvas;
     [SerializeField] private GameObject _constructUI;
@@ -57,6 +74,9 @@ public class SLGActionComponent : MonoBehaviour
     [SerializeField] private GameObject SLGMaMagoGate;
     [SerializeField] private GameObject SLGMaMagoGateColider;
 
+    [SerializeField] private GameObject _player;
+    private GameObject _arrowObject;
+    [SerializeField] Vector2[] _buildingPos;
 
     private SLGInteractionObject[] _cachedObjects;
     private int _spawnCount = 0;
@@ -575,5 +595,46 @@ public class SLGActionComponent : MonoBehaviour
             return false;
         }
         return false;
+    }
+    public void ShowArrowObject(SLGBuildingType type)
+    {
+        if(_buildingPos.Length < (int)type)
+        {
+            return;
+        }
+        CreateArrowObject();
+        if(_arrowObject)
+        {
+            SLGArrowObject ArrowAction = _arrowObject.GetComponent<SLGArrowObject>();
+
+            if(ArrowAction != null)
+            {
+                ArrowAction.SetTargetPos(_buildingPos[(int)type]);
+            }
+        }
+    }
+
+    private void CreateArrowObject()
+    {
+        if(_arrowObject)
+        {
+            Destroy(_arrowObject);
+        }
+
+        _arrowObject = new GameObject();
+        SpriteRenderer Renderer = _arrowObject.AddComponent<SpriteRenderer>();
+
+        if (ArrowTexture)
+        {
+            Renderer.sprite = ArrowTexture;
+        }
+
+        Renderer.sortingLayerName = "UI";
+        SLGArrowObject ArrowAction = _arrowObject.AddComponent<SLGArrowObject>();
+        if (_player)
+        {
+            _arrowObject.transform.parent = _player.transform;
+            _arrowObject.transform.localPosition = new Vector3(0, 1, 0);
+        }
     }
 }
