@@ -1,40 +1,25 @@
 using Runtime.ETC;
-using Runtime.Interface.Pacmom;
 using System;
 using UnityEngine;
 
 namespace Runtime.CH1.Pacmom
 {
-    public class Dust : MonoBehaviour, IFoodChain
+    public class Dust : MonoBehaviour
     {
         [NonSerialized]
         public PMController GameController;
         public MovementWithEyes Movement { get; set; }
-        private AI _ai;
         [field:SerializeField]
         public int DustID { get; private set; }
 
         private void Awake()
         {
             Movement = GetComponent<MovementWithEyes>();
-            _ai = GetComponent<AI>();
         }
 
         private void Start()
         {
-            SetStronger(true);
             Movement.ResetState();
-        }
-
-        public bool IsStronger()
-        {
-            return _ai.IsStronger;
-        }
-
-        public void SetStronger(bool isStrong)
-        {
-            if (_ai != null)
-                _ai.SetAIStronger(isStrong);
         }
 
         private void FixedUpdate()
@@ -49,17 +34,7 @@ namespace Runtime.CH1.Pacmom
                 if (GameController == null)
                     return;
 
-                if (_ai.IsStronger)
-                {
-                    if (collision.gameObject.CompareTag(GlobalConst.VacuumStr))
-                        return;
-                    
-                    GameController.PacmomEatenByDust(DustID);
-                }
-                else
-                {
-                    GameController.DustEaten(this);
-                }
+                GameController.DustEaten(this);
             }
         }
     }

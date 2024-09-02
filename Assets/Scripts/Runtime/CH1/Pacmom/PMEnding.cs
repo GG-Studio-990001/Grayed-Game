@@ -30,8 +30,7 @@ namespace Runtime.CH1.Pacmom
         public void RapleyWin(int reward)
         {
             GetRewardCoin(reward);
-            Managers.Data.IsPacmomCleared = true;
-            GamePlayed();
+            SaveGameClear(true);
 
             Debug.Log("라플리 승리");
             _timeline3.SetActive(true);
@@ -45,16 +44,18 @@ namespace Runtime.CH1.Pacmom
 
         public void PacmomWin()
         {
-            GamePlayed();
-
+            SaveGameClear(false);
+            
             Debug.Log("팩맘 승리");
             StartCoroutine(nameof(PacmomGameOver));
         }
 
-        private void GamePlayed()
+        private void SaveGameClear(bool clear)
         {
             if (!Managers.Data.IsPacmomPlayed)
                 Managers.Data.IsPacmomPlayed = true;
+
+            Managers.Data.IsPacmomCleared = clear;
 
             Managers.Data.SaveGame();
         }

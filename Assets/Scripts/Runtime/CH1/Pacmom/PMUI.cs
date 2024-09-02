@@ -8,16 +8,9 @@ namespace Runtime.CH1.Pacmom
     {
         public PMData DataController;
         [SerializeField]
-        private GameObject[] _pacmomLives = new GameObject[3];
-        [SerializeField]
         private TextMeshProUGUI _pacmomScoreTxt;
         [SerializeField]
         private TextMeshProUGUI _rapleyScoreTxt;
-
-        public void LosePacmomLife(int nowLives)
-        {
-            _pacmomLives[nowLives].SetActive(false);
-        }
 
         public void ShowPacmomScore(int newScore)
         {
@@ -33,7 +26,7 @@ namespace Runtime.CH1.Pacmom
         {
             string scoreStr = _pacmomScoreTxt.text[1..];
             int score = int.Parse(scoreStr);
-            float changeTime = DataController.GetChangeTime(newScore - score);
+            float changeTime = DataController.GetChangeScoreTime(newScore - score);
 
             while (score != newScore)
             {
@@ -47,7 +40,7 @@ namespace Runtime.CH1.Pacmom
         {
             string scoreStr = _rapleyScoreTxt.text[1..];
             int score = int.Parse(scoreStr);
-            float changeTime = DataController.GetChangeTime(newScore - score);
+            float changeTime = DataController.GetChangeScoreTime(newScore - score);
 
             while (score != newScore)
             {

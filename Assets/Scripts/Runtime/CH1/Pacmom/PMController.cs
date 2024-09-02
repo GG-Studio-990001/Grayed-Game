@@ -27,10 +27,10 @@ namespace Runtime.CH1.Pacmom
         private readonly DustRoom[] _dustRooms = new DustRoom[GlobalConst.DustCnt];
 
         public bool IsGameOver { get; private set; } = false;
+        public bool IsVacuumMode { get; private set; } = false;
         private readonly float _vacuumDuration = 10f;
         private readonly float _vacuumEndDuration = 3f;
         private bool _isMoving;
-        private bool _isVacuumMode = false;
         #endregion
 
         #region Awake
@@ -93,19 +93,17 @@ namespace Runtime.CH1.Pacmom
 
             SetCharacterMove(false);
 
-            if (_dataController.HasRemainingCoins())
-                _dialogue.GameOverDialogue();
-
-            StartCoroutine(_dataController.GetRemaningCoins());
+            _dialogue.GameOverDialogue();
+            _dataController.ChooseAWinner();
         }
         #endregion
 
         #region Vacuum Mode
         public void UseVacuum()
         {
-            _dialogue.VacuumDialogue(_isVacuumMode);
+            _dialogue.VacuumDialogue(IsVacuumMode);
 
-            if (!_isVacuumMode)
+            if (!IsVacuumMode)
             {
                 Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_BGM_02");
             }
@@ -122,6 +120,7 @@ namespace Runtime.CH1.Pacmom
 
         private IEnumerator VacuumTime()
         {
+            StopCoroutine(nameof(DustExitRoomSoon));
             VacuumModeOn();
 
             yield return new WaitForSeconds(_vacuumDuration - _vacuumEndDuration);
@@ -181,12 +180,10 @@ namespace Runtime.CH1.Pacmom
 
         private void SetVacuumMode(bool isVacuumMode)
         {
-            this._isVacuumMode = isVacuumMode;
+            IsVacuumMode = isVacuumMode;
             _pacmom.VacuumMode(isVacuumMode);
-            _pacmom.SetStronger(isVacuumMode);
             for (int i = 0; i < GlobalConst.DustCnt; i++)
             {
-                _dusts[i].SetStronger(!isVacuumMode);
                 _dusts[i].Movement.SetEyeNormal(!isVacuumMode);
             }
 
@@ -229,7 +226,7 @@ namespace Runtime.CH1.Pacmom
         {
             Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_06");
 
-            _dataController.TakeHalfCoins(false);
+            _dataController.TakeHalfCoins();
             _rapley.Movement.ResetState();
         }
 
@@ -242,53 +239,23 @@ namespace Runtime.CH1.Pacmom
             dust.GetComponent<DustRoom>().SetInRoom(true);
 
             _dialogue.BeCaughtDialogue(dust.DustID);
+
+            // TODO: 청소모드가 시작되면 이 코루틴은 취소
+            if (!IsVacuumMode)
+            {
+                StartCoroutine(nameof(DustExitRoomSoon), dust);
+            }
         }
 
-        public void PacmomEatenByRapley()
+        IEnumerator DustExitRoomSoon(Dust dust)
         {
-            Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_11");
-
-            _dataController.TakeHalfCoins(true);
-            LoseLife();
-        }
-
-        public void PacmomEatenByDust(int ID)
-        {
-            Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_11");
-
-            _dialogue.CatchDialogue(ID);
-            SetCharacterMove(false);
-
-            StartCoroutine(_dataController.ReleaseHalfCoins());
-        }
-
-        public void AfterPacmomEatenByDust()
-        {
-            DialogueStop();
-            SetCharacterMove(true);
-            LoseLife();
+            yield return new WaitForSeconds(2f);
+            dust.GetComponent<DustRoom>().ExitRoom(dust.DustID);
         }
 
         public void DialogueStop()
         {
             _dialogue.StopDialogue();
-        }
-
-        public void LoseLife()
-        {
-            _dataController.LosePacmomLife();
-
-            if (_dataController.IsPacmomAlive())
-            {
-                ResetStates();
-            }
-            else
-            {
-                _pacmom.Movement.SetRotateZ();
-                _spriteController.SetPacmomDieSprite();
-
-                GameOver();
-            }
         }
 
         public Vector3 GetPacmomPos()

@@ -7,10 +7,8 @@ namespace Runtime.CH1.Pacmom
     {
         private Dust _dust;
         private DustRoom _room;
-        [SerializeField]
-        private InGameDialogue _dialogue;
-        [SerializeField]
-        private float _reachTime = 0f;
+        [SerializeField] private InGameDialogue _dialogue;
+        [SerializeField] private float _reachTime = 0f;
         private bool _dustTalked = false;
         public bool IsBlocked { get; private set; } = false;
 
@@ -29,9 +27,9 @@ namespace Runtime.CH1.Pacmom
                 _reachTime += Time.deltaTime;
             }
 
-            if (!_dustTalked && _reachTime > 1.2f)
+            if (!_dustTalked && _reachTime > 1f)
             {
-                if (!_room.IsInRoom && _dust.IsStronger())
+                if (!_room.IsInRoom)
                     _dialogue.BlockedDialogue(_dust.DustID);
                 _dustTalked = true;
             }
