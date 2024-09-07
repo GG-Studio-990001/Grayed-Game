@@ -6,11 +6,9 @@ namespace Runtime.CH1.Pacmom
 {
     public class Pacmom : MonoBehaviour
     {
-        [NonSerialized]
-        public PMController GameController;
+        [NonSerialized] public PMController Controller;
         public MovementWithFlipAndRotate Movement { get; set; }
-        [SerializeField]
-        private GameObject _vacuum;
+        [SerializeField] private GameObject _vacuum;
 
         private void Awake()
         {
@@ -45,10 +43,10 @@ namespace Runtime.CH1.Pacmom
         {
             if (collision.gameObject.layer == LayerMask.NameToLayer(GlobalConst.PlayerStr))
             {
-                if (GameController == null)
+                if (Controller == null)
                     return;
 
-                GameController.RapleyEaten();
+                Controller.RapleyEaten();
             }
         }
     }

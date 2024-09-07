@@ -6,7 +6,7 @@ namespace Runtime.CH1.Pacmom
 {
     public class Dust : MonoBehaviour
     {
-        [NonSerialized] public PMController GameController;
+        [NonSerialized] public PMController Controller;
         public MovementWithEyes Movement { get; set; }
         [field:SerializeField] public int DustID { get; private set; }
 
@@ -29,10 +29,10 @@ namespace Runtime.CH1.Pacmom
         {
             if (collision.gameObject.layer == LayerMask.NameToLayer(GlobalConst.PacmomStr))
             {
-                if (GameController == null)
+                if (Controller == null)
                     return;
 
-                GameController.DustEaten(this);
+                Controller.DustEaten(this);
             }
         }
     }

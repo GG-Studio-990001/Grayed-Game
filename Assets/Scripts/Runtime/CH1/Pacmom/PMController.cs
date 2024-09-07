@@ -51,13 +51,13 @@ namespace Runtime.CH1.Pacmom
 
         private void AssignController()
         {
-            _dialogue.GameController = this;
-            _pacmom.GameController = this;
+            _dialogue.Controller = this;
+            _pacmom.Controller = this;
 
             for (int i = 0; i < GlobalConst.DustCnt; i++)
             {
-                _dusts[i].GameController = this;
-                _dustRooms[i].GameController = this;
+                _dusts[i].Controller = this;
+                _dustRooms[i].Controller = this;
             }
         }
         #endregion

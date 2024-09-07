@@ -9,7 +9,7 @@ namespace Runtime.CH1.Pacmom
     public class InGameDialogue : DialogueViewBase
     {
         private DialogueRunner _runner;
-        [NonSerialized] public PMController GameController;
+        [NonSerialized] public PMController Controller;
 
         [Header("=DustA=")]
         [SerializeField] private GameObject _dustA;
@@ -103,7 +103,7 @@ namespace Runtime.CH1.Pacmom
 
             CancelInvoke(nameof(HideBubbleA));
 
-            if (!GameController.IsGameOver)
+            if (!Controller.IsGameOver)
                 Invoke(nameof(HideBubbleA), 3f);
         }
 
@@ -113,7 +113,7 @@ namespace Runtime.CH1.Pacmom
 
             CancelInvoke(nameof(HideBubbleB));
 
-            if (!GameController.IsGameOver)
+            if (!Controller.IsGameOver)
                 Invoke(nameof(HideBubbleB), 3f);
         }
 
@@ -138,7 +138,7 @@ namespace Runtime.CH1.Pacmom
         #region Time
         private void CheckTime()
         {
-            if (!GameController.IsGameOver && !GameController.IsVacuumMode)
+            if (!Controller.IsGameOver && !Controller.IsVacuumMode)
                 _currentTime += Time.deltaTime;
 
             if (_targetTime < _currentTime)

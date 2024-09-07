@@ -6,15 +6,11 @@ namespace Runtime.CH1.Pacmom
 {
     public class DustRoom : MonoBehaviour
     {
-        [NonSerialized]
-        public PMController GameController;
+        [NonSerialized] public PMController Controller;
         private MovementWithEyes _movement;
-        [SerializeField]
-        private Transform _inside;
-        [SerializeField]
-        private Transform _outside;
-        [SerializeField]
-        private Transform _crossRoad;
+        [SerializeField] private Transform _inside;
+        [SerializeField] private Transform _outside;
+        [SerializeField] private Transform _crossRoad;
         public bool IsInRoom { get; private set; }
 
         private void Awake()
@@ -34,7 +30,7 @@ namespace Runtime.CH1.Pacmom
 
         private void Update()
         {
-            if (GameController.IsGameOver)
+            if (Controller.IsGameOver)
             {
                 StopCoroutine(nameof(ExitTransition));
             }
