@@ -7,10 +7,9 @@ namespace Runtime.CH1.Pacmom
     public class PMUI : MonoBehaviour
     {
         public PMData DataController;
-        [SerializeField]
-        private TextMeshProUGUI _pacmomScoreTxt;
-        [SerializeField]
-        private TextMeshProUGUI _rapleyScoreTxt;
+        [SerializeField] private TextMeshProUGUI _remainingCoinTxt;
+        [SerializeField] private TextMeshProUGUI _pacmomScoreTxt;
+        [SerializeField] private TextMeshProUGUI _rapleyScoreTxt;
 
         public void ShowPacmomScore(int newScore)
         {

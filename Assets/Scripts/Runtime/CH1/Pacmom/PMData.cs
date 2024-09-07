@@ -9,16 +9,12 @@ namespace Runtime.CH1.Pacmom
         private PMController _gameController;
 
         [Header("=Contoller=")]
-        [SerializeField]
-        private PMUI _uiController;
-        [SerializeField]
-        private PMEnding _ending;
+        [SerializeField] private PMUI _ui;
+        [SerializeField] private PMEnding _ending;
 
         [Header("=Item=")]
-        [SerializeField]
-        private Transform _coins;
-        [SerializeField]
-        private Transform _vacuums;
+        [SerializeField] private Transform _coins;
+        [SerializeField] private Transform _vacuums;
 
         private int _rapleyScore;
         private int _pacmomScore;
@@ -30,7 +26,7 @@ namespace Runtime.CH1.Pacmom
         private void Awake()
         {
             _gameController = GetComponent<PMController>();
-            _uiController.DataController = this;
+            _ui.DataController = this;
 
             foreach (Transform coin in _coins)
             {
@@ -54,13 +50,13 @@ namespace Runtime.CH1.Pacmom
         private void SetRapleyScore(int score)
         {
             _rapleyScore = score;
-            _uiController.ShowRapleyScore(score);
+            _ui.ShowRapleyScore(score);
         }
 
         private void SetPacmomScore(int score)
         {
             _pacmomScore = score;
-            _uiController.ShowPacmomScore(score);
+            _ui.ShowPacmomScore(score);
         }
 
         public void RapleyScore1Up()

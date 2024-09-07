@@ -6,11 +6,9 @@ namespace Runtime.CH1.Pacmom
 {
     public class Dust : MonoBehaviour
     {
-        [NonSerialized]
-        public PMController GameController;
+        [NonSerialized] public PMController GameController;
         public MovementWithEyes Movement { get; set; }
-        [field:SerializeField]
-        public int DustID { get; private set; }
+        [field:SerializeField] public int DustID { get; private set; }
 
         private void Awake()
         {

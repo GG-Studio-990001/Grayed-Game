@@ -8,24 +8,20 @@ namespace Runtime.CH1.Pacmom
     public class PMController : MonoBehaviour
     {
         #region 선언
-        private PMSprite _spriteController;
-        private PMData _dataController;
-        [SerializeField]
-        private InGameDialogue _dialogue;
-        [SerializeField]
-        private Door _door;
+        private PMSprite _sprite;
+        private PMData _data;
+        [SerializeField] private InGameDialogue _dialogue;
+        [SerializeField] private Door _door;
 
         [Header("=Character=")]
-        [SerializeField]
-        private Rapley _rapley;
-        [SerializeField]
-        private Pacmom _pacmom;
-        [SerializeField]
-        private Dust[] _dusts = new Dust[GlobalConst.DustCnt];
+        [SerializeField] private Rapley _rapley;
+        [SerializeField] private Pacmom _pacmom;
+        [SerializeField] private Dust[] _dusts = new Dust[GlobalConst.DustCnt];
         private readonly DustRoom[] _dustRooms = new DustRoom[GlobalConst.DustCnt];
 
         public bool IsGameOver { get; private set; } = false;
         public bool IsVacuumMode { get; private set; } = false;
+        public int RemainingCoins { get; private set; }
         private readonly float _vacuumDuration = 10f;
         private readonly float _vacuumEndDuration = 3f;
         private bool _isMoving;
@@ -44,8 +40,8 @@ namespace Runtime.CH1.Pacmom
 
         private void AssignComponent()
         {
-            _spriteController = GetComponent<PMSprite>();
-            _dataController = GetComponent<PMData>();
+            _sprite = GetComponent<PMSprite>();
+            _data = GetComponent<PMData>();
 
             for (int i = 0; i < GlobalConst.DustCnt; i++)
             {
@@ -88,7 +84,7 @@ namespace Runtime.CH1.Pacmom
             SetCharacterMove(false);
 
             _dialogue.GameOverDialogue();
-            _dataController.ChooseAWinner();
+            _data.ChooseAWinner();
         }
         #endregion
 
@@ -120,7 +116,7 @@ namespace Runtime.CH1.Pacmom
             yield return new WaitForSeconds(_vacuumDuration - _vacuumEndDuration);
             if (IsGameOver) yield break;
 
-            _spriteController.SetPacmomBlinkSprite();
+            _sprite.SetPacmomBlinkSprite();
 
             yield return new WaitForSeconds(_vacuumEndDuration);
             if (IsGameOver) yield break;
@@ -130,14 +126,14 @@ namespace Runtime.CH1.Pacmom
 
         private void VacuumModeOn()
         {
-            _spriteController.SetVacuumModeSprites();
+            _sprite.SetVacuumModeSprites();
             SetVacuumSpeed();
             SetVacuumMode(true);
         }
 
         private void VacuumModeOff()
         {
-            _spriteController.SetNormalSprites();
+            _sprite.SetNormalSprites();
             SetNormalSpeed();
             SetVacuumMode(false);
 
@@ -148,7 +144,7 @@ namespace Runtime.CH1.Pacmom
         #region Common
         private void ResetStates()
         {
-            _spriteController.SetNormalSprites();
+            _sprite.SetNormalSprites();
 
             _rapley.Movement.ResetState();
             _pacmom.Movement.ResetState();
@@ -220,7 +216,7 @@ namespace Runtime.CH1.Pacmom
         {
             Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_06");
 
-            _dataController.TakeHalfCoins();
+            _data.TakeHalfCoins();
             _rapley.Movement.ResetState();
         }
 
@@ -264,9 +260,9 @@ namespace Runtime.CH1.Pacmom
 
             Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_10");
 
-            _dataController.RapleyScore1Up();
+            _data.RapleyScore1Up();
 
-            if (!_dataController.HasRemainingCoins())
+            if (!_data.HasRemainingCoins())
             {
                 GameOver();
             }
@@ -279,9 +275,9 @@ namespace Runtime.CH1.Pacmom
 
             Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_12");
 
-            _dataController.PacmomScore1Up();
+            _data.PacmomScore1Up();
 
-            if (!_dataController.HasRemainingCoins())
+            if (!_data.HasRemainingCoins())
             {
                 GameOver();
             }

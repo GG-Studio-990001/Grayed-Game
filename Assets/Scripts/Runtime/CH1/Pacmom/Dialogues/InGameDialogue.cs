@@ -9,28 +9,19 @@ namespace Runtime.CH1.Pacmom
     public class InGameDialogue : DialogueViewBase
     {
         private DialogueRunner _runner;
-        [NonSerialized]
-        public PMController GameController;
+        [NonSerialized] public PMController GameController;
 
         [Header("=DustA=")]
-        [SerializeField]
-        private GameObject _dustA;
-        [SerializeField]
-        private GameObject _bubbleA;
-        [SerializeField]
-        private TextMeshProUGUI _textA;
+        [SerializeField] private GameObject _dustA;
+        [SerializeField] private GameObject _bubbleA;
+        [SerializeField] private TextMeshProUGUI _textA;
         [Header("=DustB=")]
-        [SerializeField]
-        private GameObject _dustB;
-        [SerializeField]
-        private GameObject _bubbleB;
-        [SerializeField]
-        private TextMeshProUGUI _textB;
+        [SerializeField] private GameObject _dustB;
+        [SerializeField] private GameObject _bubbleB;
+        [SerializeField] private TextMeshProUGUI _textB;
         [Header("=Else=")]
-        [SerializeField]
-        private float _currentTime = 0f;
-        [SerializeField]
-        private float _targetTime = 15f;
+        [SerializeField] private float _currentTime = 0f;
+        [SerializeField] private float _targetTime = 15f;
         private int _dustID = 0;
 
         private void Awake()
