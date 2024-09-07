@@ -13,8 +13,6 @@ namespace Runtime.CH1.Pacmom
         [SerializeField]
         private InGameDialogue _dialogue;
         [SerializeField]
-        private Timer _timer;
-        [SerializeField]
         private Door _door;
 
         [Header("=Character=")]
@@ -58,7 +56,6 @@ namespace Runtime.CH1.Pacmom
         private void AssignController()
         {
             _dialogue.GameController = this;
-            _timer.GameController = this;
             _pacmom.GameController = this;
 
             for (int i = 0; i < GlobalConst.DustCnt; i++)
@@ -79,8 +76,6 @@ namespace Runtime.CH1.Pacmom
         {
             ResetStates();
             SetCharacterMove(true);
-
-            _timer.SetTimer(true);
         }
         #endregion
 
@@ -88,7 +83,6 @@ namespace Runtime.CH1.Pacmom
         public void GameOver()
         {
             Managers.Sound.StopSFX();
-            _timer.SetTimer(false);
             IsGameOver = true;
 
             SetCharacterMove(false);
