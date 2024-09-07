@@ -6,11 +6,15 @@ namespace Runtime.CH1.Pacmom
 {
     public class PMUI : MonoBehaviour
     {
-        public PMData DataController;
-        [SerializeField]
-        private TextMeshProUGUI _pacmomScoreTxt;
-        [SerializeField]
-        private TextMeshProUGUI _rapleyScoreTxt;
+        public PMData Data;
+        [SerializeField] private TextMeshProUGUI _feildCoinTxt;
+        [SerializeField] private TextMeshProUGUI _pacmomScoreTxt;
+        [SerializeField] private TextMeshProUGUI _rapleyScoreTxt;
+
+        public void ShowRemainingCoins(int coins)
+        {
+            _feildCoinTxt.text = coins + " coins left";
+        }    
 
         public void ShowPacmomScore(int newScore)
         {
@@ -26,7 +30,7 @@ namespace Runtime.CH1.Pacmom
         {
             string scoreStr = _pacmomScoreTxt.text[1..];
             int score = int.Parse(scoreStr);
-            float changeTime = DataController.GetChangeScoreTime(newScore - score);
+            float changeTime = Data.GetChangeScoreTime(newScore - score);
 
             while (score != newScore)
             {
@@ -40,7 +44,7 @@ namespace Runtime.CH1.Pacmom
         {
             string scoreStr = _rapleyScoreTxt.text[1..];
             int score = int.Parse(scoreStr);
-            float changeTime = DataController.GetChangeScoreTime(newScore - score);
+            float changeTime = Data.GetChangeScoreTime(newScore - score);
 
             while (score != newScore)
             {

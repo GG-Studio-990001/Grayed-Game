@@ -6,20 +6,17 @@ namespace Runtime.CH1.Pacmom
     public class PMData : MonoBehaviour
     {
         #region 선언
-        private PMController _gameController;
+        private PMController _controller;
 
         [Header("=Contoller=")]
-        [SerializeField]
-        private PMUI _uiController;
-        [SerializeField]
-        private PMEnding _ending;
+        [SerializeField] private PMUI _ui;
+        [SerializeField] private PMEnding _ending;
 
         [Header("=Item=")]
-        [SerializeField]
-        private Transform _coins;
-        [SerializeField]
-        private Transform _vacuums;
+        [SerializeField] private Transform _coins;
+        [SerializeField] private Transform _vacuums;
 
+        private int _totalCoins;
         private int _rapleyScore;
         private int _pacmomScore;
         private readonly float _normalWaitTime = 0.03f;
@@ -29,48 +26,57 @@ namespace Runtime.CH1.Pacmom
         #region Awake & Start
         private void Awake()
         {
-            _gameController = GetComponent<PMController>();
-            _uiController.DataController = this;
+            _controller = GetComponent<PMController>();
+            _ui.Data = this;
 
             foreach (Transform coin in _coins)
             {
-                coin.GetComponent<Coin>().GameController = _gameController;
+                coin.GetComponent<Coin>().Controller = _controller;
             }
 
             foreach (Transform vacuum in _vacuums)
             {
-                vacuum.GetComponent<Vacuum>().GameController = _gameController;
+                vacuum.GetComponent<Vacuum>().Controller = _controller;
             }
         }
 
         private void Start()
         {
+            _totalCoins = GetFieldCoins();
             SetRapleyScore(0);
             SetPacmomScore(0);
         }
         #endregion
 
-        #region Score & Lives
+        #region Score
+        private void SetFeildCoin(int coins)
+        {
+            _totalCoins = coins;
+            _ui.ShowRemainingCoins(coins);
+        }
+
         private void SetRapleyScore(int score)
         {
             _rapleyScore = score;
-            _uiController.ShowRapleyScore(score);
+            _ui.ShowRapleyScore(score);
         }
 
         private void SetPacmomScore(int score)
         {
             _pacmomScore = score;
-            _uiController.ShowPacmomScore(score);
+            _ui.ShowPacmomScore(score);
         }
 
         public void RapleyScore1Up()
         {
             SetRapleyScore(_rapleyScore + 1);
+            SetFeildCoin(_totalCoins - 1);
         }
 
         public void PacmomScore1Up()
         {
             SetPacmomScore(_pacmomScore + 1);
+            SetFeildCoin(_totalCoins - 1);
         }
         #endregion
 
@@ -102,7 +108,7 @@ namespace Runtime.CH1.Pacmom
             yield return new WaitForSeconds(1f);
 
             Managers.Sound.StopSFX();
-            _gameController.DialogueStop();
+            _controller.DialogueStop();
 
             if (_rapleyScore > _pacmomScore)
             {
@@ -112,6 +118,19 @@ namespace Runtime.CH1.Pacmom
             {
                 _ending.PacmomWin();
             }
+        }
+
+        public int GetFieldCoins()
+        {
+            int coins = 0;
+            foreach (Transform coin in _coins)
+            {
+                if (coin.gameObject.activeSelf)
+                {
+                    coins++;
+                }
+            }
+            return coins;
         }
 
         public bool HasRemainingCoins()

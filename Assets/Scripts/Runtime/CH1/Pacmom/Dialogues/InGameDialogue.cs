@@ -9,28 +9,19 @@ namespace Runtime.CH1.Pacmom
     public class InGameDialogue : DialogueViewBase
     {
         private DialogueRunner _runner;
-        [NonSerialized]
-        public PMController GameController;
+        [NonSerialized] public PMController Controller;
 
         [Header("=DustA=")]
-        [SerializeField]
-        private GameObject _dustA;
-        [SerializeField]
-        private GameObject _bubbleA;
-        [SerializeField]
-        private TextMeshProUGUI _textA;
+        [SerializeField] private GameObject _dustA;
+        [SerializeField] private GameObject _bubbleA;
+        [SerializeField] private TextMeshProUGUI _textA;
         [Header("=DustB=")]
-        [SerializeField]
-        private GameObject _dustB;
-        [SerializeField]
-        private GameObject _bubbleB;
-        [SerializeField]
-        private TextMeshProUGUI _textB;
+        [SerializeField] private GameObject _dustB;
+        [SerializeField] private GameObject _bubbleB;
+        [SerializeField] private TextMeshProUGUI _textB;
         [Header("=Else=")]
-        [SerializeField]
-        private float _currentTime = 0f;
-        [SerializeField]
-        private float _targetTime = 15f;
+        [SerializeField] private float _currentTime = 0f;
+        [SerializeField] private float _targetTime = 15f;
         private int _dustID = 0;
 
         private void Awake()
@@ -112,7 +103,7 @@ namespace Runtime.CH1.Pacmom
 
             CancelInvoke(nameof(HideBubbleA));
 
-            if (!GameController.IsGameOver)
+            if (!Controller.IsGameOver)
                 Invoke(nameof(HideBubbleA), 3f);
         }
 
@@ -122,7 +113,7 @@ namespace Runtime.CH1.Pacmom
 
             CancelInvoke(nameof(HideBubbleB));
 
-            if (!GameController.IsGameOver)
+            if (!Controller.IsGameOver)
                 Invoke(nameof(HideBubbleB), 3f);
         }
 
@@ -147,7 +138,7 @@ namespace Runtime.CH1.Pacmom
         #region Time
         private void CheckTime()
         {
-            if (!GameController.IsGameOver && !GameController.IsVacuumMode)
+            if (!Controller.IsGameOver && !Controller.IsVacuumMode)
                 _currentTime += Time.deltaTime;
 
             if (_targetTime < _currentTime)
