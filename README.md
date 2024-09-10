@@ -1,6 +1,10 @@
 # Grayed-Game
 
+![CutSene gif](https://github.com/user-attachments/assets/c66db4e4-e75d-4350-8168-768db4800578)
+
 Grayed Game는 여러가지 장르가 결합된 게임으로 다양한 연출과 스토리가 핵심입니다.
+
+## 프로젝트 내역
 
 *Grayed Game에 관한 문의사항은 아래 이메일을 통해 연락해주시면 됩니다.*
 
@@ -55,6 +59,7 @@ Grayed Game X: https://x.com/GrayedGame
 [개발 일지 [3]](https://fkdl0048.github.io/game/game_14/)  
 [개발 일지 [4]](https://fkdl0048.github.io/game/game_15/)  
 [개발 일지 [5]](https://fkdl0048.github.io/game/game_16/)  
+[개발 일지 [6]](https://fkdl0048.github.io/game/game_17/)  
 
 </p>
 </details> 
