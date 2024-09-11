@@ -68,7 +68,7 @@ namespace Runtime.Manager
             Is3MatchEntered = false;
             // 3match
             Is3MatchCleared = false;
-            ThreeMatchPuzzleStageData = new ThreeMatchPuzzleStageData[3];
+            ThreeMatchPuzzleStageData = new ThreeMatchPuzzleStageData[4];
             for (int i = 0; i < ThreeMatchPuzzleStageData.Length; i++)
             {
                 ThreeMatchPuzzleStageData[i] = new ThreeMatchPuzzleStageData();
