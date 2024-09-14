@@ -62,6 +62,7 @@ title: PacmomGamePack
 ---
      :'팩맘'으로 접속된다!
      <<SceneChange Pacmom>>
+     <<wait 3>>
 ===
 
 title: LuckyPack
