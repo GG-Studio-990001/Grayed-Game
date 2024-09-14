@@ -9801,9 +9801,9 @@ MonoBehaviour:
             m_BoolArgument: 1
           m_CallState: 2
         - m_Target: {fileID: 1861729285}
-          m_TargetAssemblyTypeName: Runtime.CH1.Pacmom.Pacmom, Scripts
-          m_MethodName: InitPacmomPos
-          m_Mode: 1
+          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+          m_MethodName: set_enabled
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -25506,7 +25506,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1861729278}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79ed6df6db7172144b2bc3c47f356ac3, type: 3}
   m_Name: 
@@ -25548,7 +25548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba9badf88412aa4fb2a67e5461e47a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 6
+  _speed: 5.5
   _speedMultiplier: 1
   _initialDirection: {x: -1, y: 0}
 --- !u!114 &1861729290
