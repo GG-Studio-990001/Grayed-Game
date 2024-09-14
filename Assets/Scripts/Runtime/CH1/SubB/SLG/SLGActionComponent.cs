@@ -386,7 +386,7 @@ public class SLGActionComponent : MonoBehaviour
             Wnd_CostSection.gameObject.SetActive(false);
 
             Wnd_CoinCostText.text = Managers.Data.PacmomCoin.ToString() + "/" + NeededCoinCount.ToString();
-            Wnd_CoinCostText.color = Managers.Data.PacmomCoin < NeededCoinCount ? Color.red : Color.black;
+            Wnd_CoinCostText.color = Managers.Data.PacmomCoin < NeededCoinCount ? Color.red : Color.blue;
         }
     }
     private void RefreshConstructionWnd()
@@ -399,8 +399,8 @@ public class SLGActionComponent : MonoBehaviour
             Wnd_WoodText.text = _wood.ToString() + "/" + NeededAssetCount.ToString();
             Wnd_StoneText.text = _stone.ToString() + "/" + NeededAssetCount.ToString();
 
-            Wnd_WoodText.color = _wood < NeededAssetCount ? Color.red : Color.black;
-            Wnd_StoneText.color = _stone < NeededAssetCount ? Color.red : Color.black;
+            Wnd_WoodText.color = _wood < NeededAssetCount ? Color.red : Color.blue;
+            Wnd_StoneText.color = _stone < NeededAssetCount ? Color.red : Color.blue;
         }
     }
 
@@ -602,6 +602,15 @@ public class SLGActionComponent : MonoBehaviour
         {
             return;
         }
+        if (_buildingListUI)
+        {
+            SLGBuildingListWindow BuildingWnd = _buildingListUI.GetComponent<SLGBuildingListWindow>();
+            if (BuildingWnd != null)
+            {
+                BuildingWnd.HideWindow();
+            }
+        }
+
         CreateArrowObject();
         if(_arrowObject)
         {
