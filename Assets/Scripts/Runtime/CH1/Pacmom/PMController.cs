@@ -260,7 +260,7 @@ namespace Runtime.CH1.Pacmom
 
             Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_10");
 
-            _data.RapleyScore1Up();
+            _data.RapleyCoin1Up();
 
             if (!_data.HasRemainingCoins())
             {
@@ -275,7 +275,7 @@ namespace Runtime.CH1.Pacmom
 
             Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_12");
 
-            _data.PacmomScore1Up();
+            _data.PacmomCoin1Up();
 
             if (!_data.HasRemainingCoins())
             {

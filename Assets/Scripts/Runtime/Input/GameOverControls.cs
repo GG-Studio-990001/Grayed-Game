@@ -236,6 +236,15 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""eeaac61e-e53d-4063-ada3-0af5966e905a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -315,6 +324,17 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""action"": ""Hide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b7a6e876-e2ac-442d-ab97-eabcc4bcaa43"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -334,6 +354,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         m_UI_Auto = m_UI.FindAction("Auto", throwIfNotFound: true);
         m_UI_Skip = m_UI.FindAction("Skip", throwIfNotFound: true);
         m_UI_Hide = m_UI.FindAction("Hide", throwIfNotFound: true);
+        m_UI_Restart = m_UI.FindAction("Restart", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -456,6 +477,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Auto;
     private readonly InputAction m_UI_Skip;
     private readonly InputAction m_UI_Hide;
+    private readonly InputAction m_UI_Restart;
     public struct UIActions
     {
         private @GameOverControls m_Wrapper;
@@ -467,6 +489,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         public InputAction @Auto => m_Wrapper.m_UI_Auto;
         public InputAction @Skip => m_Wrapper.m_UI_Skip;
         public InputAction @Hide => m_Wrapper.m_UI_Hide;
+        public InputAction @Restart => m_Wrapper.m_UI_Restart;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -497,6 +520,9 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
             @Hide.started += instance.OnHide;
             @Hide.performed += instance.OnHide;
             @Hide.canceled += instance.OnHide;
+            @Restart.started += instance.OnRestart;
+            @Restart.performed += instance.OnRestart;
+            @Restart.canceled += instance.OnRestart;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -522,6 +548,9 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
             @Hide.started -= instance.OnHide;
             @Hide.performed -= instance.OnHide;
             @Hide.canceled -= instance.OnHide;
+            @Restart.started -= instance.OnRestart;
+            @Restart.performed -= instance.OnRestart;
+            @Restart.canceled -= instance.OnRestart;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -553,5 +582,6 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         void OnAuto(InputAction.CallbackContext context);
         void OnSkip(InputAction.CallbackContext context);
         void OnHide(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
     }
 }

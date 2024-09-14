@@ -1,3 +1,4 @@
+using Runtime.ETC;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -7,9 +8,15 @@ namespace Runtime.CH1.Pacmom
     public class PMUI : MonoBehaviour
     {
         public PMData Data;
+        [SerializeField] private Blink _blink;
         [SerializeField] private TextMeshProUGUI _feildCoinTxt;
         [SerializeField] private TextMeshProUGUI _pacmomScoreTxt;
         [SerializeField] private TextMeshProUGUI _rapleyScoreTxt;
+
+        public void ShowRestartTxt()
+        {
+            _blink.enabled = true;
+        }
 
         public void ShowRemainingCoins(int coins)
         {
