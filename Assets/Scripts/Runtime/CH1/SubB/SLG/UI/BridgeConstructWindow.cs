@@ -51,13 +51,13 @@ public class BridgeConstructWindow : MonoBehaviour
         if (woodText != null)
         {
             woodText.text = _wood.ToString() + "/" + BridgeAssetCost.x;
-            woodText.color = _wood < BridgeAssetCost.x ? Color.red : Color.black;
+            woodText.color = _wood < BridgeAssetCost.x ? Color.red : Color.blue;
         }
 
         if (stoneText)
         {
             stoneText.text = _stone.ToString() + "/" + BridgeAssetCost.y;
-            stoneText.color = _stone < BridgeAssetCost.y ? Color.red : Color.black;
+            stoneText.color = _stone < BridgeAssetCost.y ? Color.red : Color.blue; 
         }
     }
     private void OnClickCloseButton()

@@ -2826,7 +2826,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 25
+  m_text: 20
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 94026959aaa5c994ebf1ee77d30f9fbb, type: 2}
   m_sharedMaterial: {fileID: -373988886366029061, guid: 94026959aaa5c994ebf1ee77d30f9fbb, type: 2}
@@ -4637,7 +4637,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &174604446
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9317,7 +9317,7 @@ MonoBehaviour:
   - {x: 39, y: -10}
   - {x: 0, y: 0}
   - {x: 105, y: -17}
-  BridgeNeededAssetCount: {x: 25, y: 20}
+  BridgeNeededAssetCount: {x: 20, y: 10}
   _luckyDialogue: {fileID: 101260564}
   _dialogue: {fileID: 7390379506314505000}
 --- !u!1001 &327543772
@@ -26738,7 +26738,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 20
+  m_text: 10
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 94026959aaa5c994ebf1ee77d30f9fbb, type: 2}
   m_sharedMaterial: {fileID: -373988886366029061, guid: 94026959aaa5c994ebf1ee77d30f9fbb, type: 2}
@@ -33831,7 +33831,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1101770663
 RectTransform:
   m_ObjectHideFlags: 0
@@ -56478,7 +56478,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1709039471
 RectTransform:
   m_ObjectHideFlags: 0

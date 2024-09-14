@@ -36,6 +36,13 @@ public class SLGBuildingListWindow : MonoBehaviour
     {
         _windowVisible = false;
     }
+    public void HideWindow()
+    {
+        if (_windowVisible)
+        {
+            ChangeWindowVisiblity(false);
+        }
+    }
 
     private void OnClickHUDButton()
     {

@@ -1,13 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using SLGDefines;
-using Runtime.CH1.Main.Interface;
-using System.Transactions;
-using Yarn.Unity;
-using Runtime.CH1.Main.Controller;
 using Runtime.CH1.Main.Object;
-using UnityEngine.Experimental.Rendering.Universal;
 
 public class SLGInteractionObject : InteractionObject
 {
