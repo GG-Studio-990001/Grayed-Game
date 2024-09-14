@@ -84,16 +84,42 @@ position: 163,31
 title: PMVacuumMode
 ---
 // 팩맘이 청소기를 획득한 후 바로 메시지 발생
-// TODO: 랜덤 대사 출력
-DustA: 청소기다!
-DustB: 으악!
+<<set $RandomInt = dice(4)>>
+
+<<if $RandomInt is 1>>
+    DustA: 청소기다!
+    DustB: 으악!
+<<elseif $RandomInt is 2>>
+    DustA: 청소기야
+    DustB: 으아아
+<<elseif $RandomInt is 3>>
+    DustA: 청소시간?
+    DustB: 싫어!
+<<else>>
+    DustA: 청소기?
+    DustB: 안돼..
+<<endif>>
+
 ===
 
 title: PMVacuumModeAgain
 ---
-// TODO: 랜덤 대사 출력
-DustA: 또 청소기?
-DustB: 이제 그만..
+<<set $RandomInt = dice(4)>>
+
+<<if $RandomInt is 1>>
+    DustA: 또 청소기?
+    DustB: 이제 그만..
+<<elseif $RandomInt is 2>>
+    DustA: 또야?
+    DustB: 싫어..
+<<elseif $RandomInt is 3>>
+    DustA: 그만해!
+    DustB: 으아아
+<<else>>
+    DustA: 이럴수가
+    DustB: 으악!
+<<endif>>
+
 ===
 
 title: PMBeCaught
