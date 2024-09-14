@@ -61,8 +61,8 @@ namespace Runtime.Middle
 
         private void HorizontalCinematicBar()
         {
-            _blackLeft.DOMoveX(-62.5f, 0.2f);
-            _blackRight.DOMoveX(62.5f, 0.2f);
+            _blackLeft.DOMoveX(-62f, 0.2f);
+            _blackRight.DOMoveX(62f, 0.2f);
         }
 
         private void LightAppear()

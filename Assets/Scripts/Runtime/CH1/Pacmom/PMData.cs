@@ -11,14 +11,16 @@ namespace Runtime.CH1.Pacmom
         [Header("=Contoller=")]
         [SerializeField] private PMUI _ui;
         [SerializeField] private PMEnding _ending;
+        [SerializeField] private PMKeyBinder _keyBinder;
 
         [Header("=Item=")]
         [SerializeField] private Transform _coins;
         [SerializeField] private Transform _vacuums;
 
-        private int _totalCoins;
-        private int _rapleyScore;
-        private int _pacmomScore;
+        public bool CanRapleyWin { get; private set; } = true;
+        private int _remainingCoin;
+        private int _rapleyCoin;
+        private int _pacmomCoin;
         private readonly float _normalWaitTime = 0.03f;
         private readonly float _fasterWaitTime = 0.02f;
         #endregion
@@ -42,50 +44,59 @@ namespace Runtime.CH1.Pacmom
 
         private void Start()
         {
-            _totalCoins = GetFieldCoins();
-            SetRapleyScore(0);
-            SetPacmomScore(0);
+            _remainingCoin = GetFieldCoins();
+            SetRapleyCoin(0);
+            SetPacmomCoin(0);
         }
         #endregion
 
-        #region Score
         private void SetFeildCoin(int coins)
         {
-            _totalCoins = coins;
+            _remainingCoin = coins;
             _ui.ShowRemainingCoins(coins);
         }
 
-        private void SetRapleyScore(int score)
+        private void SetRapleyCoin(int coins)
         {
-            _rapleyScore = score;
-            _ui.ShowRapleyScore(score);
+            _rapleyCoin = coins;
+            _ui.ShowRapleyScore(coins);
         }
 
-        private void SetPacmomScore(int score)
+        private void SetPacmomCoin(int coins)
         {
-            _pacmomScore = score;
-            _ui.ShowPacmomScore(score);
+            _pacmomCoin = coins;
+            _ui.ShowPacmomScore(coins);
+
+            if (CanRapleyWin && !CanWin())
+            {
+                CanRapleyWin = false;
+                _ui.ShowRestartTxt();
+                _keyBinder.ActiveRestart();
+            }
         }
 
-        public void RapleyScore1Up()
+        public void RapleyCoin1Up()
         {
-            SetRapleyScore(_rapleyScore + 1);
-            SetFeildCoin(_totalCoins - 1);
+            SetRapleyCoin(_rapleyCoin + 1);
+            SetFeildCoin(_remainingCoin - 1);
         }
 
-        public void PacmomScore1Up()
+        public void PacmomCoin1Up()
         {
-            SetPacmomScore(_pacmomScore + 1);
-            SetFeildCoin(_totalCoins - 1);
+            SetPacmomCoin(_pacmomCoin + 1);
+            SetFeildCoin(_remainingCoin - 1);
         }
-        #endregion
 
-        #region About Coins
+        public bool CanWin()
+        {
+            return (_rapleyCoin + _remainingCoin) > _pacmomCoin;
+        }
+
         public void TakeHalfCoins()
         {
-            int score = _rapleyScore / 2;
-            SetRapleyScore(_rapleyScore - score);
-            SetPacmomScore(_pacmomScore + score);
+            int coins = _rapleyCoin / 2;
+            SetRapleyCoin(_rapleyCoin - coins);
+            SetPacmomCoin(_pacmomCoin + coins);
         }
 
         public float GetChangeScoreTime(int diff)
@@ -110,9 +121,9 @@ namespace Runtime.CH1.Pacmom
             Managers.Sound.StopSFX();
             _controller.DialogueStop();
 
-            if (_rapleyScore > _pacmomScore)
+            if (_rapleyCoin > _pacmomCoin)
             {
-                _ending.RapleyWin(_rapleyScore);
+                _ending.RapleyWin(_rapleyCoin);
             }
             else
             {
@@ -144,6 +155,5 @@ namespace Runtime.CH1.Pacmom
             }
             return false;
         }
-        #endregion
     }
 }

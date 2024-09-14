@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Runtime.CH1.Title
+namespace Runtime.ETC
 {
     public class Blink : MonoBehaviour
     {

@@ -29,16 +29,17 @@ namespace Runtime.Input
         }
 
         // Pacmom
-        public void PMKeyBinding(SettingsUIView settingsUIView, LineView line, Rapley rapley )
+        public void PMKeyBinding(PMKeyBinder keyBinder, SettingsUIView settingsUIView)
         {
             _gameOverControls.UI.Enable();
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
-            _gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
+            _gameOverControls.UI.DialogueInput.performed += _ => keyBinder.LineView.OnContinueClicked();
+            _gameOverControls.UI.Restart.performed += _ => keyBinder.RestartPacmom();
 
             _gameOverControls.Player.Enable();
-            _gameOverControls.Player.Move.performed += rapley.OnMove;
-            _gameOverControls.Player.Move.started += rapley.OnMove;
-            _gameOverControls.Player.Move.canceled += rapley.OnMove;
+            _gameOverControls.Player.Move.performed += keyBinder.Rapley.OnMove;
+            _gameOverControls.Player.Move.started += keyBinder.Rapley.OnMove;
+            _gameOverControls.Player.Move.canceled += keyBinder.Rapley.OnMove;
         }
 
         // CH1

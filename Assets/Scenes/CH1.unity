@@ -2752,17 +2752,17 @@ MonoBehaviour:
   _leftPositions:
   - {x: -0.9, y: -12.57, z: 0}
   - {x: -2, y: -6.11, z: 0}
-  - {x: 19.51, y: 1.9, z: 0}
+  - {x: 5.06, y: 1.9, z: 0}
   - {x: 78.96, y: -20, z: 0}
   _rightPositions:
   - {x: 6, y: -12.57, z: 0}
   - {x: 4.9, y: -6.11, z: 0}
-  - {x: 26, y: 1.9, z: 0}
+  - {x: 11.55, y: 1.9, z: 0}
   - {x: 84.8, y: -20, z: 0}
   _bubblePositions:
   - {x: -93, y: -210, z: 0}
   - {x: 134, y: -225, z: 0}
-  - {x: 214, y: 260, z: 0}
+  - {x: 214, y: 205, z: 0}
   - {x: 180, y: -217, z: 0}
   _fish: {fileID: 500188722}
   _player: {fileID: 669133899}
@@ -54119,7 +54119,7 @@ Camera:
   far clip plane: 1000
   field of view: 70
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 11.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -67901,6 +67901,21 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4823240902458539357, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_text
+      value: "\uB300\uD654 \uB0B4\uC6A9\uC785\uB2C8\uB2E4.\uB300\uD654 \uB0B4\uC6A9\uC785\uB2C8\uB2E4.\uB300\uD654
+        \uB0B4\uC6A9\uC785\uB2C8\uB2E4.\uB300\uD654 \uB0B4\uC6A9\uC785\uB2C8\uB2E4.\uB300\uD654
+        \uB0B4\uC6A9\uC785\uB2C8\uB2E4.\uB300\uD654 \uB0B4\uC6A9\uC785\uB2C8\uB2E4.\uB300\uD654
+        \uB0B4\uC6A9\uC785\uB2C8\uB2E4."
+      objectReference: {fileID: 0}
+    - target: {fileID: 4823240902458539357, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_fontSize
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 4823240902458539357, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 33
+      objectReference: {fileID: 0}
     - target: {fileID: 5709054019036521375, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: autoAdvance
       value: 0
@@ -67917,6 +67932,14 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1674432337}
+    - target: {fileID: 6878389466185448365, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_fontSize
+      value: 62
+      objectReference: {fileID: 0}
+    - target: {fileID: 6878389466185448365, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 62
+      objectReference: {fileID: 0}
     - target: {fileID: 7259338948998962598, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
