@@ -20,13 +20,6 @@ namespace Runtime.CH1.Pacmom
         private TextMeshProUGUI _resultCoinTxt;
         private SceneTransform _sceneTransform;
 
-        private void Start()
-        {
-            _sceneTransform = FindObjectOfType<SceneTransform>();
-            if (_sceneTransform == null)
-                Debug.Log("_sceneTransform is null");
-        }
-
         public void RapleyWin(int reward)
         {
             GetRewardCoin(reward);
@@ -94,6 +87,8 @@ namespace Runtime.CH1.Pacmom
         {
             CancelInvoke();
             _postProcessing.gameObject.SetActive(false);
+
+            _sceneTransform = FindObjectOfType<SceneTransform>();
             _sceneTransform.EscapeFromScene("CH1", true);
         }
     }
