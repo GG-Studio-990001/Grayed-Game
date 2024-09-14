@@ -2752,17 +2752,17 @@ MonoBehaviour:
   _leftPositions:
   - {x: -0.9, y: -12.57, z: 0}
   - {x: -2, y: -6.11, z: 0}
-  - {x: 19.51, y: 1.9, z: 0}
+  - {x: 5.06, y: 1.9, z: 0}
   - {x: 78.96, y: -20, z: 0}
   _rightPositions:
   - {x: 6, y: -12.57, z: 0}
   - {x: 4.9, y: -6.11, z: 0}
-  - {x: 26, y: 1.9, z: 0}
+  - {x: 11.55, y: 1.9, z: 0}
   - {x: 84.8, y: -20, z: 0}
   _bubblePositions:
   - {x: -93, y: -210, z: 0}
   - {x: 134, y: -225, z: 0}
-  - {x: 214, y: 260, z: 0}
+  - {x: 214, y: 205, z: 0}
   - {x: 180, y: -217, z: 0}
   _fish: {fileID: 500188722}
   _player: {fileID: 669133899}
@@ -54119,7 +54119,7 @@ Camera:
   far clip plane: 1000
   field of view: 70
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 11.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
