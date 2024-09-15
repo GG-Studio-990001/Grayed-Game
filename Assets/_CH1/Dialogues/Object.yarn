@@ -68,7 +68,9 @@ title: PacmomGamePack
 title: LuckyPack
 ---
      <<GetLucky>>
+     <<GetPack 0>>
      :'만능게임설명팩'을 획득했다.
+     <<FinishPack>>
      <<MeetLucky>>
 ===
 
