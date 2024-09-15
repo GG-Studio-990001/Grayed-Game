@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b1f465a9f5cc09e4cb8aa6b8839bb79d
+guid: 7a33baea1b5490243a9653e554d93852
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -94,6 +94,19 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -110,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FloyardBackground (1)_0
+      name: 0914FloyardBackground_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04fca8a19114fcb4c8295c6e7af972e2
-      internalID: 233922770
+      spriteID: 09e770f14689d9b47bf894e6ea4cf489
+      internalID: -823644199
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FloyardBackground (1)_1
+      name: 0914FloyardBackground_1
       rect:
         serializedVersion: 2
         x: 923
@@ -145,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b236fee429274224b85da4e6fd2ebd95
-      internalID: 1098441013
+      spriteID: 432cf90c497b7d541a931c375fa77873
+      internalID: 1898884532
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FloyardBackground (1)_2
+      name: 0914FloyardBackground_2
       rect:
         serializedVersion: 2
         x: 1737
@@ -160,14 +173,14 @@ TextureImporter:
         width: 1063
         height: 769
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7986242829756943b5091d50649585d
-      internalID: -31812392
+      spriteID: 1ac7fd1347d90f340bf6f5455a02b6ba
+      internalID: 2061876392
       vertices: []
       indices: 
       edges: []
@@ -175,7 +188,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 620c674487f26b4488bb407ff1065a76
     internalID: 0
     vertices: []
     indices: 
@@ -183,9 +196,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      FloyardBackground (1)_0: 233922770
-      FloyardBackground (1)_1: 1098441013
-      FloyardBackground (1)_2: -31812392
+      0914FloyardBackground_0: -823644199
+      0914FloyardBackground_1: 1898884532
+      0914FloyardBackground_2: 2061876392
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
