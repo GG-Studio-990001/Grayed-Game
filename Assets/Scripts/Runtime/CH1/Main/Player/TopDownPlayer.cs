@@ -35,7 +35,7 @@ namespace Runtime.CH1.Main.Player
         
         private void Update()
         {
-            if (!IsDirecting)
+            //if (!IsDirecting)
                 Animation.SetAnimation(_state.ToString(), _lastInput);
         }
 
@@ -47,14 +47,20 @@ namespace Runtime.CH1.Main.Player
 
         private void FixedUpdate()
         {
+            if (_state == PlayerState.Get)
+                return;
+
             bool isMove = _movement.Move(_movementInput);
             _state = isMove ? PlayerState.Move : PlayerState.Idle;
         }
         
         public void OnInteraction()
         {
-             bool isInteract = _interaction.Interact(_movement.Direction);
-            _state = isInteract ? PlayerState.Interact : PlayerState.Idle;
+            _interaction.Interact(_movement.Direction);
+            //bool isInteract = _interaction.Interact(_movement.Direction);
+            //if (isInteract)
+            //    _state = PlayerState.Idle;
+            //_state = isInteract ? PlayerState.Interact : PlayerState.Idle;
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -62,6 +68,17 @@ namespace Runtime.CH1.Main.Player
             _movementInput = context.ReadValue<Vector2>();
             if (context.ReadValue<Vector2>() != Vector2.zero)
                 _lastInput = context.ReadValue<Vector2>();
+        }
+
+        public void OnGet()
+        {
+            _state = PlayerState.Get;
+        }
+
+        public void Idle()
+        {
+            _state = PlayerState.Idle;
+            _lastInput = Vector2.down;
         }
     }
 }

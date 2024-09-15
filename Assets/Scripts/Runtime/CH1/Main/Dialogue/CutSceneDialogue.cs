@@ -25,6 +25,7 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private GameObject _stage2;
         [SerializeField] private BridgeController _bridge;
         [SerializeField] private DialogueRunner _luckyDialogue;
+        [SerializeField] private GameObject _visualNovel;
         private Sequence _shakeTween;
 
         public void NpcsMove()
@@ -70,8 +71,32 @@ namespace Runtime.CH1.Main.Dialogue
             _michael.GetComponent<Animator>().SetTrigger("Stop");
         }
 
+        public void R2MonRun()
+        {
+            _npc[2].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
+            _npc[2].transform.DOMove(new Vector3(101.08f, _r2monLocation.y, 0), 2.5f).SetEase(Ease.Linear);
+
+            // 비켜주기
+            float posX = Player.transform.localPosition.x;
+            if (posX >= 90.9f)
+            {
+                if (Player.transform.localPosition.y < 15.4f)
+                {
+                    Player.Animation.SetAnimation(GlobalConst.MoveStr, Vector2.up);
+                    Player.transform.DOMove(new Vector3(posX, -14.24f, 0), 0.3f).SetEase(Ease.Linear);
+                }
+                else
+                {
+                    Player.Animation.SetAnimation(GlobalConst.MoveStr, Vector2.down);
+                    Player.transform.DOMove(new Vector3(posX, -16.37f, 0), 0.3f).SetEase(Ease.Linear);
+                }
+            }
+            
+        }
+
         private void MichaelRun()
         {
+            // TODO: 매직넘버 리팩터링...
             _michael.Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
             _michael.transform.DOMove(new Vector3(89.5400009f, -15.5799999f, 0), 3.5f).SetEase(Ease.Linear);
         }
@@ -342,6 +367,21 @@ namespace Runtime.CH1.Main.Dialogue
         #endregion
 
         #region Else
+        public void ActiveVisualNovel()
+        {
+            Invoke(nameof(ActivePack), 1.2f);
+        }
+
+        private void ActivePack()
+        {
+            _visualNovel.SetActive(true);
+        }
+
+        public void GetVisualNovel()
+        {
+            _visualNovel.SetActive(false);
+        }
+
         public void GetLucky()
         {
             Managers.Sound.Play(Sound.SFX, "CH1/Lucky_Dog&Key_SFX");

@@ -4,7 +4,7 @@ namespace Runtime.ETC
     {
         Idle,
         Move,
-        Interact,
+        Get,
     }
 
     public enum JewelryType
