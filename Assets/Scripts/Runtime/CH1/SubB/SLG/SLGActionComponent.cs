@@ -69,10 +69,11 @@ public class SLGActionComponent : MonoBehaviour
     [SerializeField] private GameObject _sponSpots;
     [SerializeField] private GameObject SLGConstructionObject;
     [SerializeField] private GameObject SLGBridgeConstructionObject;
-    [SerializeField] private GameObject SLGTriggerObject;
     [SerializeField] private GameObject SLGConstructionSite;
     [SerializeField] private GameObject SLGMaMagoGate;
     [SerializeField] private GameObject SLGMaMagoGateColider;
+    public GameObject[] SLGSubObjects;
+    public GameObject SLGTriggerObject;
 
     [SerializeField] private GameObject _player;
     private GameObject _arrowObject;
@@ -131,6 +132,8 @@ public class SLGActionComponent : MonoBehaviour
         _sponSpots.SetActive(false);
         SLGTriggerObject.SetActive(false);
 
+        PreInitSubObject();
+
         GameObject mainObject = FindObjectOfType<Ch1MainSystemController>().gameObject;
         if (mainObject != null)
         {
@@ -139,7 +142,8 @@ public class SLGActionComponent : MonoBehaviour
 
          if (SLGProgressInfo == SLGProgress.None)
         {
-            SLGTriggerObject.SetActive(true);
+            //오브젝트 표시 타이밍 제어가 필요해보임. 조건이 너무 많음
+            SLGTriggerObject.SetActive(Managers.Data.Scene >= 4);
             _SLGCanvas.SetActive(false);
         }
         else if(SLGProgressInfo >= SLGProgress.ModeClose)
@@ -329,6 +333,15 @@ public class SLGActionComponent : MonoBehaviour
         InitMap();
 
         _luckyDialogue.StartDialogue("LuckySlg");
+    }
+
+    public void PreInitSubObject()
+    {
+        bool bEnable = Managers.Data.Scene >= 4;
+        foreach (GameObject _subObject in SLGSubObjects)
+        {
+            _subObject.SetActive(bEnable);
+        }
     }
 
     private void InitMap()
