@@ -4,6 +4,8 @@ using DG.Tweening;
 using Runtime.ETC;
 using Runtime.CH1.Main.Npc;
 using Yarn.Unity;
+using Runtime.CH1.Pacmom;
+using System.Collections;
 
 namespace Runtime.CH1.Main.Dialogue
 {
@@ -51,11 +53,13 @@ namespace Runtime.CH1.Main.Dialogue
             {
                 case 0:
                     ShowMichael();
+                    ShowSubObjectDropAnim();
                     break;
                 case 1:
                     MichaelStop();
                     break;
                 case 2:
+                    ShowPackDropAnim();
                     MichaelRun();
                     break;
             }
@@ -64,6 +68,52 @@ namespace Runtime.CH1.Main.Dialogue
         private void ShowMichael()
         {
             _michael.gameObject.SetActive(true);
+        }
+
+        private void ShowSubObjectDropAnim()
+        {
+            StartCoroutine(nameof(SubObjectDrop));
+        }
+
+        private void ShowPackDropAnim()
+        {
+            SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
+            if (slgAction != null)
+            {
+                GameObject _packObject = slgAction.SLGTriggerObject;
+                _packObject.SetActive(true);
+                Vector3 _cachedPos = _packObject.transform.position;
+                Vector3 _startPos = _michael.gameObject.transform.position;
+                _startPos.y += 1;
+                _packObject.transform.position = _startPos;
+                _packObject.transform.DOMove(_cachedPos, 0.5f).SetEase(Ease.Linear);
+            }
+        }
+
+        IEnumerator SubObjectDrop()
+        {
+            SubObjectDropAnim(0);
+            yield return new WaitForSeconds(1.0f);
+
+            SubObjectDropAnim(1);
+        }
+
+        private void SubObjectDropAnim(int InObjectIndex)
+        {
+            SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
+            if (slgAction != null)
+            {
+                if (slgAction.SLGSubObjects.Length > InObjectIndex)
+                {
+                    GameObject _subObject = slgAction.SLGSubObjects[InObjectIndex];
+                    _subObject.SetActive(true);
+                    Vector3 cachedPos = _subObject.transform.position;
+                    Vector3 _startPos = _michael.gameObject.transform.position;
+                    _startPos.y += 0.5f;
+                    _subObject.transform.position = _startPos;
+                    _subObject.transform.DOMove(cachedPos, 0.5f).SetEase(Ease.Linear);
+                }
+            }
         }
 
         private void MichaelStop()
