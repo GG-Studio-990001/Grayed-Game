@@ -82,7 +82,7 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("GetVisualNovel", _cutScene.GetVisualNovel);
 
             // Pack
-            _runner.AddCommandHandler<int>("GetPack", _pack.GetPack);
+            // _runner.AddCommandHandler<int>("GetPack", _pack.GetPack);
             _runner.AddCommandHandler("FinishPack", _pack.FinishPack);
         }
 
