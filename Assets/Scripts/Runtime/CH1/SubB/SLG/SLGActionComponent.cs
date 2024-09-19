@@ -19,6 +19,7 @@ namespace SLGDefines
         //Window
         ConstructWindow,
         BridgeConstructWindow,
+        MamagoConstructWindow,
         MAX,
     }
 
@@ -48,6 +49,7 @@ public class SLGActionComponent : MonoBehaviour
     [SerializeField] private GameObject _SLGCanvas;
     [SerializeField] private GameObject _constructUI;
     [SerializeField] private GameObject _bridgeConstructUI;
+    [SerializeField] private GameObject _MamagoConstructUI;
     [SerializeField] private GameObject _buildingListUI;
     [SerializeField] private TextMeshProUGUI UI_WoodText;
     [SerializeField] private TextMeshProUGUI UI_StoneText;
@@ -297,7 +299,13 @@ public class SLGActionComponent : MonoBehaviour
             case SLGObjectType.BridgeConstructWindow:
                 {
                     _bridgeConstructUI.SetActive(true);
-                    Managers.Sound.Play(Sound.SFX, "SLG/SLG_SFX_Click");
+                    Managers.Sound.Play(Sound.SFX, "SLG/SLG_Click_SFX");
+                }
+                break;
+            case SLGObjectType.MamagoConstructWindow:
+                {
+                    _MamagoConstructUI.SetActive(true);
+                    Managers.Sound.Play(Sound.SFX, "SLG/SLG_Click_SFX");
                 }
                 break;
             default: break;
@@ -417,7 +425,7 @@ public class SLGActionComponent : MonoBehaviour
         }
     }
 
-    private void RefreshCoinText()
+    public void RefreshCoinText()
     {
         if (UI_CoinText != null)
         {

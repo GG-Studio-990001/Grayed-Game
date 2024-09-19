@@ -1,3 +1,4 @@
+using Codice.CM.Common.Merge;
 using DG.Tweening;
 using Runtime.CH1.SubB;
 using Runtime.ETC;
@@ -26,6 +27,7 @@ namespace Runtime.CH1.Lucky
         [SerializeField] private TextMeshProUGUI _lineTxt;
         [SerializeField] private GameObject _drawing;
         [SerializeField] private ConnectionController _connectionController;
+        [SerializeField] private DialogueRunner _ch1Runner;
 
         private void Awake()
         {
@@ -42,6 +44,7 @@ namespace Runtime.CH1.Lucky
             _runner.AddCommandHandler<int>("SetLuckyPos", SetLuckyPos);
             _runner.AddCommandHandler<int>("SetBubblePos", SetBubblePos);
 
+            _runner.AddCommandHandler("ExitTranslator", ExitTranslator);
             _runner.AddCommandHandler("ExitFirstMeet", ExitFirstMeet);
             _runner.AddCommandHandler("Exit3Match", Exit3Match);
             _runner.AddCommandHandler("ExitSLG", ExitSLG);
@@ -136,16 +139,13 @@ namespace Runtime.CH1.Lucky
         #region 상황 따라 다르게
         private void SetLuckyPos(int idx)
         {
-            switch (idx)
+            if (idx == 0)
             {
-                case 0:
-                    _lucky.transform.position = _leftPositions[0];
-                    break;
-                case 1:
-                case 2:
-                case 3:
-                    _lucky.transform.position = _rightPositions[idx];
-                    break;
+                _lucky.transform.position = _leftPositions[idx];
+            }
+            else
+            {
+                _lucky.transform.position = _rightPositions[idx];
             }
         }
 
@@ -164,6 +164,16 @@ namespace Runtime.CH1.Lucky
 
         #region Exit
         // LuckyExit() 호출 필수
+        private void ExitTranslator()
+        {
+            LuckyExit();
+
+            _ch1Runner.StartDialogue("S6");
+
+            Managers.Data.SaveGame();
+
+            Managers.Sound.Play(Sound.BGM, "Mamago_BGM_1", true);
+        }
 
         private void ExitFirstMeet()
         {

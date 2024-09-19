@@ -4,7 +4,6 @@ using Runtime.CH1.Main.Player;
 using Runtime.CH1.Main.Stage;
 using Runtime.Common.View;
 using Runtime.InGameSystem;
-using Runtime.Manager;
 using UnityEngine;
 using Yarn.Unity;
 
@@ -21,11 +20,12 @@ namespace Runtime.CH1.Main.Controller
         [Header("Player")]
         [SerializeField] private TopDownPlayer _player;
 
-        [Header("Else")] // 맵에서 초기화해줘야 하는 것 / 클래스 따로 빼기
+        [Header("Init")] // 맵에서 초기화해줘야 하는 것 / 클래스 따로 빼기
         [SerializeField] private NpcPosition _npcPosition;
         [SerializeField] private LuckyPack _luckyPack;
-        [SerializeField] private BridgeController _bridge;
-        [SerializeField] private MamagoController _mamago;
+        [SerializeField] private Bridge _bridge;
+        [SerializeField] private Mamago _mamago;
+        [SerializeField] private MamagoBubble _mamagoBubble;
         [SerializeField] private LineView _luckyDialogue;
 
         private void Start()
@@ -70,6 +70,7 @@ namespace Runtime.CH1.Main.Controller
             _luckyPack.ActiveLuckyPack();
             _bridge.CheckBridge();
             _mamago.CheckMamago();
+            _mamagoBubble.CheckMamagoBubble();
         }
 
         // 각 컨트롤러 초기화

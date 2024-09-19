@@ -1,0 +1,36 @@
+title: LuckyTranslator
+// 시점 : 컷씬 5.2
+// 상황 : 럭키의 번역탭, 번역팩 튜토리얼
+---
+<<ReverseConnection>>
+<<wait 1>>
+
+<<SetLuckyPos 4>>
+<<SetBubblePos 4>>
+<<LuckyEnter>>
+
+<<WalkLeft 4>>
+<<wait 3>>
+<<ActiveBubble true>>
+<<Idle>>
+
+럭키: 하이~ 내 도움 필요하지?
+럭키: 번역팩을 설정 방법은<br>ESC로 설정창 켜기!
+럭키: 완전 두말하면 잔소리라구<br>빨리 해 봐
+
+// 유저 클릭 인식 (설정창)
+럭키: 여기서 '번역'탭을 눌러봐
+
+// 유저 클릭 인식 (번역탭)
+럭키: 이제 버튼을 눌러서<br>활성화 하면 끝!
+
+// 유저 클릭 인식 (기계어 번역팩 활성화)
+럭키: 앞으로 기계의 언어가<br>자동으로 번역된대
+럭키: 그럼 럭키는 이만~
+
+<<ActiveBubble false>>
+<<WalkRight 4>>
+<<wait 3>>
+
+<<ExitTranslator>>
+===
