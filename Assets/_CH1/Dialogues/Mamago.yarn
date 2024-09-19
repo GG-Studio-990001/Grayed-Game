@@ -13,8 +13,12 @@ title: Mamago
     <<jump Mamago2>>
 <<elseif $progress == 51>>
     <<jump Mamago3>>
-<<elseif $progress == 52>>
-    <<jump Mamago4>>
+<<else>>
+    <<if not visited("Mamago4")>>
+        <<jump Mamago4>>
+    <<else>>
+        <<jump Mamago5>>
+    <<endif>>
 <<endif>>
 ===
 
@@ -67,14 +71,21 @@ title: Mamago2
 title: Mamago3
 // 상황: 기계어 번역팩 획득 전
 ---
-마마고: 초특가로 겟 할 수 있는 절호의 기회!
+마마고: 날이면 날마다 오는 혜택이 아닙니다~
+마마고: 오직 우리 은인만을 위하여 제공하는 초특가!<br>놓치지 마세요~
 //<<NpcDialogueFin 3>>
 ===
 
 title: Mamago4
 // 상황: 기계어 번역팩 획득 이후
 ---
+마마고: 굿 초이스~<br>역시 은인이라면 좋은 결정할 줄 알았답니다.
 마마고: 앞으로 모르는 언어를 번역하고 싶다면<br>저희 마마고 컴퍼니를 꼭 찾아주세요~
-마마고: 그럼 다시 만날 때까지, 굿바이!
 //<<NpcDialogueFin 3>>
+===
+
+title: Mamago5
+// 상황: Mamago4 이후 상호작용 시 반복 출력
+---
+마마고: 그럼 다시 만날 때까지, 굿바이!
 ===

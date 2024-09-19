@@ -343,6 +343,7 @@ public class SLGActionComponent : MonoBehaviour
     public void AfterAssetInput()
     {
         _waitAssetInput = false;
+        _luckyDialogue.Stop();
         _luckyDialogue.StartDialogue("LuckySlgAfterAssetInput");
     }
 
@@ -376,6 +377,7 @@ public class SLGActionComponent : MonoBehaviour
             }
         }
         _waitWindowInput = false;
+        _luckyDialogue.Stop();
         _luckyDialogue.StartDialogue("LuckySlgAfterWindowInput");
     }
 
