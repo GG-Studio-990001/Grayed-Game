@@ -36,8 +36,8 @@ title: LuckyFish
 <<ActiveBubble true>>
 <<Idle>>
 
-럭키: 아차차~ 여기에 조금<br><bounce>문제</bounce>가 있는데 깜빡했네!
-럭키: 이럴 때일수록 침착하게...<br><incr>럭키 효과 발동!</incr>
+럭키: 왜 그러나 했더니만<br>길이 막혔잖아!
+럭키: 잠깐 기다려 봐<br><incr>럭키 효과 발동~!</incr>
 
 <<wait 0.5>>
 // 물고기 생성
@@ -46,7 +46,7 @@ title: LuckyFish
 
 // 물고기 물고 가져온다
 // 럭키가 젤리를 가져다 둔다.
-럭키: 휴, 이러면 지나갈 수 있겠지?
+럭키: 이제 지나갈 수 있겠지?
 럭키: 그럼 다시<br>밖으로 나가야지~
 
 <<ActiveBubble false>>

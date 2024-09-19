@@ -11,16 +11,14 @@ title: LuckySlg
 <<Idle>>
 
 럭키: 와아- <bounce>건설</bounce>할 시간이다!
-럭키: 근데 이거이거<br>모아둔 자원도 없고
-럭키: 멍 때렸구만!
-럭키: 그럴 줄 알고 가져왔지
+럭키: 우선 필요한 자원부터<br>모아 보자
 <<ActiveBubble false>>
 <<ShowCursor true>>
 <<wait 2>>
 <<ShowCursor false>>
 <<ActiveBubble true>>
 <<WaitAssetInput>>
-럭키: 어때, 간지나지?
+럭키: 짜자잔~ 이걸로 원하는 걸<br>누를 수 있대
 럭키: 지금 목재나 석재<br>하나 <bounce>클릭</bounce>해 봐
 
 ===
@@ -35,9 +33,9 @@ title: LuckySlgAfterAssetInput
 title: LuckySlgAfterWindowInput
 ---
 <<Idle>>
-럭키: 그걸로 개수랑 방향<br>알 수 있대
-럭키: 아, <bounce>코인</bounce>은 부족하면<br>다시 팩맘으로 가면 돼
-럭키: 그럼 뚝딱뚝딱 잘 해보라구~
+럭키: 필요한 개수 보이지?<br>누르면 건물 위치도 알려준대
+럭키: 아 맞다! 건설 기다리는 거<br>지루한데 먼저 가야지~
+럭키: 럭키의 시간은 금이니까!<br>그럼 뚝딱뚝딱 잘 해보라구~
 
 <<ActiveBubble false>>
 <<WalkRight 3>>
