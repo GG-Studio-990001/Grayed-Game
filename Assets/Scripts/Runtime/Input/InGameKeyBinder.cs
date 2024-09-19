@@ -1,3 +1,4 @@
+using Runtime.CH1.Main.Controller;
 using Runtime.CH1.Main.Player;
 using Runtime.CH1.Pacmom;
 using Runtime.CH1.Title;
@@ -52,10 +53,10 @@ namespace Runtime.Input
             _gameOverControls.Player.Interaction.performed += _ => player.OnInteraction();
         }
         
-        public void CH1UIKeyBinding(SettingsUIView settingsUIView, LineView line)
+        public void CH1UIKeyBinding(Ch1MainSystemController controller, LineView line)
         {
             _gameOverControls.UI.Enable();
-            _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
+            _gameOverControls.UI.GameSetting.performed += _ => controller.GameSettingToggle();
             _gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
         }
 

@@ -41,6 +41,7 @@ namespace Runtime.CH1.Main.Dialogue
 
         private void StartPackDialogue()
         {
+            _runner.Stop();
             _runner.StartDialogue("TranslatorPack");
         }
     }

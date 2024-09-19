@@ -49,6 +49,8 @@ namespace Runtime.Manager
         public int SLGWoodCount;
         public int SLGStoneCount;
         public bool SLGBridgeRebuild;
+        // Else
+        public int TranslatorCount;
         #endregion
         public CH2Data CH2;
 
@@ -85,6 +87,8 @@ namespace Runtime.Manager
             SLGWoodCount = 0;
             SLGStoneCount = 0;
             SLGBridgeRebuild = false;
+            // Else
+            TranslatorCount = 0;
             #endregion
             CH2 = new CH2Data();
         }
@@ -136,6 +140,9 @@ namespace Runtime.Manager
         public int SLGWoodCount { get { return _gameData.SLGWoodCount; } set { _gameData.SLGWoodCount = value; } }
         public int SLGStoneCount { get { return _gameData.SLGStoneCount; } set { _gameData.SLGStoneCount = value; } }
         public bool SLGBridgeRebuild { get { return _gameData.SLGBridgeRebuild; } set { _gameData.SLGBridgeRebuild = value; } }
+
+        // Else
+        public int TranslatorCount { get { return _gameData.TranslatorCount; } set { _gameData.TranslatorCount = value; } }
         #endregion
 
         public CH2Data CH2 { get { return _gameData.CH2; } set { _gameData.CH2 = value; } }

@@ -25,9 +25,8 @@ title: LuckySlg
 title: LuckySlgAfterAssetInput
 ---
 럭키: 좋아, 그렇게 모으면 돼
-럭키: 왼쪽 아래에 있는<br>탭도 눌러봐
-
 <<WaitWindowInput>>
+럭키: 왼쪽 아래에 있는<br>탭도 눌러봐
 
 ===
 title: LuckySlgAfterWindowInput
