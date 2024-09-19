@@ -5,16 +5,15 @@ namespace Runtime.CH1.Main.Dialogue
 {
     public class PackController : MonoBehaviour
     {
+        // 기계어 번역팩 Only
         [SerializeField] private TopDownPlayer _player;
         [SerializeField] private SpriteRenderer _pack;
-        [SerializeField] private Sprite[] _packSprites = new Sprite[4];
 
-        public void GetPack(int idx)
+        public void GetPack()
         {
-            // 0 lucky / 1 slg / 2 translation / 3 visualNovel
             _player.OnGet();
-            _pack.sprite = _packSprites[idx];
             _pack.gameObject.SetActive(true);
+            Managers.Sound.Play(ETC.Sound.SFX, "CH1/GetItem_SFX");
         }
 
         public void FinishPack()

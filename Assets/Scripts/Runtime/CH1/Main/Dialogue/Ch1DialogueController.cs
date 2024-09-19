@@ -75,6 +75,7 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("MamagoMove1", _cutScene.MamagoMove1);
             _runner.AddCommandHandler("MamagoMove2", _cutScene.MamagoMove2);
             _runner.AddCommandHandler("MamagoEnter", _cutScene.MamagoEnter);
+            _runner.AddCommandHandler("ActiveMamagoBubble", _cutScene.ActiveMamagoBubble);
             // CutScene / R2mon
             _runner.AddCommandHandler("SetR2MonPosition", _cutScene.SetR2MonPosition);
             _runner.AddCommandHandler("R2MonRun", _cutScene.R2MonRun);
@@ -82,7 +83,7 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("GetVisualNovel", _cutScene.GetVisualNovel);
 
             // Pack
-            // _runner.AddCommandHandler<int>("GetPack", _pack.GetPack);
+            _runner.AddCommandHandler("GetPack", _pack.GetPack);
             _runner.AddCommandHandler("FinishPack", _pack.FinishPack);
         }
 

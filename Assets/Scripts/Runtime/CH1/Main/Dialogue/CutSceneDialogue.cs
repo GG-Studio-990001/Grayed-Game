@@ -28,6 +28,7 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private BridgeController _bridge;
         [SerializeField] private DialogueRunner _luckyDialogue;
         [SerializeField] private GameObject _visualNovel;
+        [SerializeField] private GameObject _mamagoBubble;
         private Sequence _shakeTween;
 
         public void NpcsMove()
@@ -196,6 +197,12 @@ namespace Runtime.CH1.Main.Dialogue
             }
         }
 
+        #region Mamago
+        public void ActiveMamagoBubble()
+        {
+            _mamagoBubble.SetActive(true);
+        }
+
         public void CompleteSFX()
         {
             Managers.Sound.Play(Sound.SFX, "CH1/Mamago_Complete_SFX");
@@ -223,7 +230,9 @@ namespace Runtime.CH1.Main.Dialogue
         {
             _mamago.gameObject.SetActive(false);
         }
+        #endregion
 
+        #region 3Match
         public void SetNpcPosition(int i)
         {
             switch(i)
@@ -259,6 +268,7 @@ namespace Runtime.CH1.Main.Dialogue
                 _shakeTween.Kill();
             }
         }
+        #endregion
 
         #region Character Anim
         public void NpcJump(int idx)
