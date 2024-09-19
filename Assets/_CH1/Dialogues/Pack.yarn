@@ -1,15 +1,22 @@
 ﻿title: LuckyPack
 ---
      <<GetLucky>>
-     :'만능게임설명팩'을 획득했다.
+     : '만능게임설명팩'을 획득했다.
      <<MeetLucky>>
 ===
 
 title: PacmomGamePack
 ---
-     :'팩맘'으로 접속된다!
+     : '팩맘'으로 접속된다!
      <<SceneChange Pacmom>>
      <<wait 3>>
+===
+
+title: TranslatorPack
+---
+     : '마마고 번역기'를 획득했다.
+     // 럭키 설명 시작
+     <<StartLuckyDialogue>>
 ===
 
 title: VisualNovelPack

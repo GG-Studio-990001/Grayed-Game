@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Runtime.CH1.Main
 {
-    public class BridgeController : MonoBehaviour
+    public class Bridge : MonoBehaviour
     {
         [SerializeField] private GameObject[] _bridges;
 

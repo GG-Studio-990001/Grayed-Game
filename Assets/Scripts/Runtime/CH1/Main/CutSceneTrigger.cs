@@ -32,10 +32,6 @@ namespace Runtime.CH1
                     if (Managers.Data.Scene == 3 && Managers.Data.SceneDetail == 1)
                         dialogueRunner.StartDialogue("S4");
                     break;
-                //case 6:
-                //    if (Managers.Data.Scene == 5 && Managers.Data.SceneDetail == 1)
-                //        dialogueRunner.StartDialogue("S6");
-                //    break;
                 default:
                     Debug.LogError("Invalid CutSceneTrigger Idx");
                     break;

@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace Runtime.CH1.Main
 {
-    public class MamagoController : MonoBehaviour
+    public class MamagoBubble : MonoBehaviour
     {
-        public void CheckMamago()
+        public void CheckMamagoBubble()
         {
-            if (Managers.Data.Scene <= 4)
+            if (Managers.Data.Scene == 5 && Managers.Data.SceneDetail == 1)
             {
                 gameObject.SetActive(true);
             }

@@ -39,11 +39,8 @@ namespace Runtime.CH1.Main.Player
                     _animator.SetFloat(Vertical1, direction.y);
                     break;
                 case nameof(PlayerState.Get):
-                    Debug.Log("겟");
                     _animator.SetBool(Moving, false);
                     _animator.SetBool(Getting, true);
-                    _animator.SetFloat(Horizontal1, 0);
-                    _animator.SetFloat(Vertical1, 0);
                     break;
                 default:
                     Debug.LogError("Invalid PlayerState");

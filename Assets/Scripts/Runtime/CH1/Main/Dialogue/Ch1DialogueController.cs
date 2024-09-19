@@ -14,7 +14,7 @@ namespace Runtime.CH1.Main.Dialogue
     {
         private CutSceneDialogue _cutScene;
         [Header("=Script=")]
-        [SerializeField] private PackController _pack;
+        [SerializeField] private TranslatorPack _pack;
         [SerializeField] private DialogueRunner _runner;
         [SerializeField] private SLGActionComponent SLGAction;
         [SerializeField] private NpcDialogueController _npcDialogue;
@@ -76,6 +76,7 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("MamagoMove2", _cutScene.MamagoMove2);
             _runner.AddCommandHandler("MamagoEnter", _cutScene.MamagoEnter);
             _runner.AddCommandHandler("ActiveMamagoBubble", _cutScene.ActiveMamagoBubble);
+            _runner.AddCommandHandler("StartLuckyDialogue", _cutScene.StartLuckyDialogue);
             // CutScene / R2mon
             _runner.AddCommandHandler("SetR2MonPosition", _cutScene.SetR2MonPosition);
             _runner.AddCommandHandler("R2MonRun", _cutScene.R2MonRun);
