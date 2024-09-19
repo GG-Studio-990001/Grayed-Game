@@ -1,11 +1,11 @@
-using Codice.CM.Common.Merge;
 using DG.Tweening;
+using Runtime.CH1.Main.Controller;
 using Runtime.CH1.SubB;
+using Runtime.Common;
 using Runtime.ETC;
 using Runtime.Lucky;
 using Runtime.Middle;
 using System;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using Yarn.Unity;
@@ -29,6 +29,9 @@ namespace Runtime.CH1.Lucky
         [SerializeField] private ConnectionController _connectionController;
         [SerializeField] private DialogueRunner _ch1Runner;
         [SerializeField] private GameObject _cursorImage;
+        [SerializeField] private Ch1MainSystemController _ch1Controller;
+        [SerializeField] private SettingUITab _settingUITab;
+        [SerializeField] private GameObject[] _transBlocks;
 
         private void Awake()
         {
@@ -56,6 +59,9 @@ namespace Runtime.CH1.Lucky
 
             _runner.AddCommandHandler("ActiveFish", ActiveFish);
             _runner.AddCommandHandler("ReverseConnection", _connectionController.ReverseConnection);
+
+            _runner.AddCommandHandler("ActiveSettingUI", ActiveSettingUI);
+            _runner.AddCommandHandler<int>("TransBlock", TransBlock);
         }
 
         private void Showing()
@@ -126,6 +132,8 @@ namespace Runtime.CH1.Lucky
                 _luckys[i].SetActive(true);
 
             Managers.Sound.Play(Sound.LuckyBGM, "Lucky_BGM_4");
+
+            _ch1Controller.IsLuckyOn = true;
         }
 
         private void LuckyExit()
@@ -135,6 +143,8 @@ namespace Runtime.CH1.Lucky
                 _luckys[i].SetActive(false);
 
             Managers.Data.SaveGame();
+
+            _ch1Controller.IsLuckyOn = false;
         }
 
         private void WalkLeft(int idx)
@@ -250,6 +260,42 @@ namespace Runtime.CH1.Lucky
             _fish.name = "Jewelry_B";
             
             jewelry.Controller.CheckMatching();
+        }
+
+        private void ActiveSettingUI()
+        {
+            Managers.Data.TranslatorCount = 1;
+            _settingUITab.ShowTransTab();
+            _settingUITab.gameObject.SetActive(true);
+        }
+
+        private void TransBlock(int val)
+        {
+            switch(val)
+            {
+                case 0:
+                    _transBlocks[0].SetActive(true);
+                    break;
+                case 1:
+                    _transBlocks[1].SetActive(true);
+                    break;
+                case 2:
+                    _transBlocks[1].SetActive(false);
+                    _transBlocks[2].SetActive(true);
+                    break;
+                case 3:
+                    _transBlocks[0].SetActive(false);
+                    break;
+            }
+        }
+
+        public void NextTransDialogue(int val)
+        {
+            if (!(val == 2 || val == 3))
+                Debug.LogError("Invalid NextTransDialogue Value");
+
+            _runner.Stop();
+            _runner.StartDialogue($"LuckyTranslator{val}");
         }
     }
 }

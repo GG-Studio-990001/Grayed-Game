@@ -6,9 +6,19 @@ namespace Runtime.Common
     public class SettingUITab : MonoBehaviour
     {
         [SerializeField] private Image[] _tabs;
-        [SerializeField] private Sprite[] _tabSprites;
+        [SerializeField] private Sprite[] _tabSprs;
         [SerializeField] private GameObject[] _panels;
         private bool _isSoundSelected = true;
+
+        private void Start()
+        {
+            _tabs[1].gameObject.SetActive(Managers.Data.TranslatorCount != 0);
+        }
+
+        public void ShowTransTab()
+        {
+            _tabs[1].gameObject.SetActive(true);
+        }
 
         public void ActiveSound()
         {
@@ -35,14 +45,14 @@ namespace Runtime.Common
 
         private void ActiveTab(int idx)
         {
-            _tabs[idx].sprite = _tabSprites[1];
+            _tabs[idx].sprite = _tabSprs[1];
             SetPos(idx, true);
             _panels[idx].SetActive(true);
         }
 
         private void InactiveTab(int idx)
         {
-            _tabs[idx].sprite = _tabSprites[0];
+            _tabs[idx].sprite = _tabSprs[0];
             SetPos(idx, false);
             _panels[idx].SetActive(false);
         }
