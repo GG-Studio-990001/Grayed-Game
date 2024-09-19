@@ -16,17 +16,20 @@ public class SLGInteractionObject : InteractionObject
     private void Update()
     {
         //따로 클릭 가능한 UI들을 빼야할까?
-        if (_SLGAction != null && _SLGAction.CanInteract() && Input.GetMouseButtonDown(0))
+        if (_SLGAction != null && Input.GetMouseButtonDown(0))
         {
-            Vector3 startPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z);
-            Vector3 pos = Camera.main.ScreenToWorldPoint(startPoint);
-            RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 10, LayerMask.GetMask("UI"));
-
-            if (hit.collider != null)
+            if (_SLGAction.CanInteract() || (_SLGAction.IsInInputTutorial() && type < SLGObjectType.ASSETMAX))
             {
-                if (hit.transform.gameObject == this.gameObject)
+                Vector3 startPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z);
+                Vector3 pos = Camera.main.ScreenToWorldPoint(startPoint);
+                RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 10, LayerMask.GetMask("UI"));
+
+                if (hit.collider != null)
                 {
-                    Interact();
+                    if (hit.transform.gameObject == this.gameObject)
+                    {
+                        Interact();
+                    }
                 }
             }
         }
