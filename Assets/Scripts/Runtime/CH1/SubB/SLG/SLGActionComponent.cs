@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using Runtime.CH1.Main.Controller;
 using Runtime.ETC;
+using UnityEngine.UI;
 using Runtime.CH1.Main.Dialogue;
 using DG.Tweening;
 using Yarn.Unity;
@@ -42,10 +43,12 @@ namespace SLGDefines
 
 public class SLGActionComponent : MonoBehaviour
 {
+    [Header("SLGSprites")]
     public List<Sprite> SLGPopupSprites;
     [SerializeField] private Texture2D cursorTexture;
     [SerializeField] private Sprite ArrowTexture;
 
+    [Header("UICanvas")]
     [SerializeField] private GameObject _SLGCanvas;
     [SerializeField] private GameObject _constructUI;
     [SerializeField] private GameObject _bridgeConstructUI;
@@ -68,6 +71,7 @@ public class SLGActionComponent : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button Wnd_AccelerateBtn;
     [SerializeField] private UnityEngine.UI.Button Wnd_CloseBtn;
 
+    [Header("SLGRelatedObjects")]
     [SerializeField] private GameObject _sponSpots;
     [SerializeField] private GameObject SLGConstructionObject;
     [SerializeField] private GameObject SLGBridgeConstructionObject;
@@ -76,12 +80,19 @@ public class SLGActionComponent : MonoBehaviour
     [SerializeField] private GameObject SLGMaMagoGateColider;
     public GameObject[] SLGSubObjects;
     public GameObject SLGTriggerObject;
-
+    private Button _buildingButton;
     [SerializeField] private GameObject _player;
+    private SLGInteractionObject[] _cachedObjects;
+
+    // 럭키 등장용
+    [SerializeField] private DialogueRunner _luckyDialogue;
+    // 마마고 상호작용용
+    [SerializeField] private Ch1DialogueController _dialogue;
+
+    [Header("SLGData")]
     private GameObject _arrowObject;
     [SerializeField] Vector2[] _buildingPos;
 
-    private SLGInteractionObject[] _cachedObjects;
     private int _spawnCount = 0;
     private SLGProgress SLGProgressInfo;
     private long SLGConstructionBeginTime;
@@ -93,6 +104,12 @@ public class SLGActionComponent : MonoBehaviour
     private float _spawnTime = 0.0f;
     private bool _rebuildBridge = false;
 
+    [Header("ForTutorial")]
+    private bool _waitAssetInput = false;
+    private bool _waitWindowInput = false;
+    [SerializeField] private GameObject _luckyBlocker;
+
+    [Header("SLGConstData")]
     //CONST Value 
     const int IncreaseAssetCount = 10;
     const int MaxSpawnCount = 3;
@@ -101,11 +118,6 @@ public class SLGActionComponent : MonoBehaviour
     const float SpawnTime = 3.0f;
     const int NeededCoinCount = 100;
     [SerializeField] public Vector2 BridgeNeededAssetCount;
-
-    // 럭키 등장용
-    [SerializeField] private DialogueRunner _luckyDialogue;
-    // 마마고 상호작용용
-    [SerializeField] private Ch1DialogueController _dialogue;
 
     private void Awake()
     {
@@ -210,7 +222,12 @@ public class SLGActionComponent : MonoBehaviour
 
     public bool CanInteract ()
     {
-        return IsShowingWindow() == false && _luckyDialogue.IsDialogueRunning == false;
+        return IsShowingWindow() == false && _luckyDialogue.IsDialogueRunning == false && _waitAssetInput == false && _waitWindowInput == false;
+    }
+
+    public bool IsInInputTutorial()
+    {
+        return _waitAssetInput;
     }
 
     public bool IsShowingWindow()
@@ -310,6 +327,56 @@ public class SLGActionComponent : MonoBehaviour
                 break;
             default: break;
         }
+        if(IsInInputTutorial())
+        {
+            AfterAssetInput();
+        }
+    }
+
+
+    public void WaitAssetInput()
+    {
+        Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
+        _waitAssetInput = true;
+    }
+
+    public void AfterAssetInput()
+    {
+        _waitAssetInput = false;
+        _luckyDialogue.StartDialogue("LuckySlgAfterAssetInput");
+    }
+
+    public void WaitWindowInput()
+    {
+        SLGBuildingListWindow _buildingListWindow = _buildingListUI.GetComponent<SLGBuildingListWindow>();
+        if (_buildingListWindow!= null && _buildingListWindow._HUDButton != null)
+        {
+            _waitWindowInput = true;
+            _buildingButton = _buildingListWindow._HUDButton;
+            _buildingButton.onClick.AddListener(AfterWindowInput);
+            if(_luckyBlocker)
+            {
+                _luckyBlocker.SetActive(false);
+            }
+        }
+        else
+        {
+            Debug.LogError("Can't Find Button ! Can't Progress Tutorial.");
+        }
+    }
+
+    public void AfterWindowInput()
+    {
+        if (_buildingButton != null)
+        {
+            _buildingButton.onClick.RemoveListener(AfterWindowInput);
+            if (_luckyBlocker)
+            {
+                _luckyBlocker.SetActive(true);
+            }
+        }
+        _waitWindowInput = false;
+        _luckyDialogue.StartDialogue("LuckySlgAfterWindowInput");
     }
 
     public void GetSLGPack()
@@ -324,8 +391,6 @@ public class SLGActionComponent : MonoBehaviour
         _SLGCanvas.SetActive(true);
         _buildingListUI.SetActive(true);
         _sponSpots.SetActive(true);
-
-        Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
 
         if (SLGConstructionObject != null)
         {
