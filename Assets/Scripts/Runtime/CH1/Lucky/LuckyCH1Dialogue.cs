@@ -28,6 +28,7 @@ namespace Runtime.CH1.Lucky
         [SerializeField] private GameObject _drawing;
         [SerializeField] private ConnectionController _connectionController;
         [SerializeField] private DialogueRunner _ch1Runner;
+        [SerializeField] private GameObject _cursorImage;
 
         private void Awake()
         {
@@ -43,6 +44,10 @@ namespace Runtime.CH1.Lucky
 
             _runner.AddCommandHandler<int>("SetLuckyPos", SetLuckyPos);
             _runner.AddCommandHandler<int>("SetBubblePos", SetBubblePos);
+
+            _runner.AddCommandHandler<bool>("ShowCursor", ShowCursor);
+            _runner.AddCommandHandler("WaitAssetInput", WaitAssetInput);
+            _runner.AddCommandHandler("WaitWindowInput", WaitWindowInput);
 
             _runner.AddCommandHandler("ExitTranslator", ExitTranslator);
             _runner.AddCommandHandler("ExitFirstMeet", ExitFirstMeet);
@@ -85,6 +90,32 @@ namespace Runtime.CH1.Lucky
         private void ActiveDrawing()
         {
             _drawing.SetActive(true);
+        }
+
+        private void ShowCursor(bool InFlag)
+        {
+            if(_cursorImage)
+            {
+                _cursorImage.SetActive(InFlag);
+            }
+        }
+
+        private void WaitAssetInput()
+        {
+            SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
+            if (slgAction != null)
+            {
+                slgAction.WaitAssetInput();
+            }
+        }
+
+        private void WaitWindowInput()
+        {
+            SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
+            if (slgAction != null)
+            {
+                slgAction.WaitWindowInput();
+            }
         }
 
         #region Common

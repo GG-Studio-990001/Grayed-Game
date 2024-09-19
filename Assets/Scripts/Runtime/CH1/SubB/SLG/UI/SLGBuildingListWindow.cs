@@ -10,7 +10,7 @@ public class SLGBuildingListWindow : MonoBehaviour
 {
     [Header("DisplayComponents")]
     [SerializeField] private GameObject _contentParent = default;
-    [SerializeField] private Button _HUDButton = default;
+    public Button _HUDButton = default;
     [SerializeField] List<BuildingItem> _buildingItems = new List<BuildingItem>();
 
     [Header("AnimationValue")]
