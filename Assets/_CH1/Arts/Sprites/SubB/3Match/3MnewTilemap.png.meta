@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 118e83fd7f686994b8fa7528172a5981
+guid: bbdef418a5e78cf43b301ed62f74a728
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 3matchtilemap_0
+      name: 3MnewTilemap_0
       rect:
         serializedVersion: 2
         x: 0
@@ -131,20 +131,25 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -9, y: 13}
+        - {x: -13, y: 10}
+        - {x: -13, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 13}
       tessellationDetail: 0
       bones: []
-      spriteID: 7449df1cc65d81b44bbede99e5c15c04
-      internalID: -1114094099
+      spriteID: 1112c73fe2cd16248938792c5abc34a4
+      internalID: -67084122
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 3matchtilemap_1
+      name: 3MnewTilemap_1
       rect:
         serializedVersion: 2
         x: 32
@@ -152,20 +157,25 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -12, y: 13}
+        - {x: -16, y: 12}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 13}
       tessellationDetail: 0
       bones: []
-      spriteID: a7012b5b351c9d54f878454b51851965
-      internalID: -413657233
+      spriteID: 316f68f6c35c269488824ff70615f829
+      internalID: -1478799365
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 3matchtilemap_2
+      name: 3MnewTilemap_2
       rect:
         serializedVersion: 2
         x: 64
@@ -173,20 +183,25 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
-      tessellationDetail: 0
+      physicsShape:
+      - - {x: -13, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 5}
+        - {x: -6, y: 5}
+        - {x: -13, y: 4}
+      tessellationDetail: 0.08
       bones: []
-      spriteID: 0145ef73be5702441853187cb09d6932
-      internalID: 234345453
+      spriteID: b92b4481f8f12334db1ed3457f8f9a7c
+      internalID: 949036862
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 3matchtilemap_3
+      name: 3MnewTilemap_3
       rect:
         serializedVersion: 2
         x: 96
@@ -194,20 +209,25 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -12, y: 16}
+        - {x: -16, y: 5}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
       tessellationDetail: 0
       bones: []
-      spriteID: b3993189e5d7273409c51efdff2e46f9
-      internalID: -934807578
+      spriteID: 71799b0170ecfd04f8f4e6af10728d21
+      internalID: 1133442838
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 3matchtilemap_4
+      name: 3MnewTilemap_4
       rect:
         serializedVersion: 2
         x: 128
@@ -215,20 +235,24 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -16, y: 5}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 5}
       tessellationDetail: 0
       bones: []
-      spriteID: 1707c970c2c35844889214a40db46f56
-      internalID: 1990949249
+      spriteID: fb2b928c451348443bb810bffeb236b1
+      internalID: -1079189881
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 3matchtilemap_5
+      name: 3MnewTilemap_5
       rect:
         serializedVersion: 2
         x: 160
@@ -236,20 +260,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 50aebff06e7eab644bd0482cf5db16f3
-      internalID: -124450468
+      spriteID: 5d91734b4ceb069409d3050291a26879
+      internalID: -1088755948
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 3matchtilemap_6
+      name: 3MnewTilemap_6
       rect:
         serializedVersion: 2
         x: 192
@@ -257,35 +281,14 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d49ad02ac750c3a49b781a685742a902
-      internalID: 1331956861
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 3matchtilemap_7
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 35f5c854322ed4d4caaf0541427de0fd
-      internalID: -1093820116
+      spriteID: 396e65144071c9847ae8cb94ce98f9bc
+      internalID: 359750748
       vertices: []
       indices: 
       edges: []
@@ -293,7 +296,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: b6bc2d8a8ccd1b5478ffd64452a62f49
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -301,14 +304,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      3matchtilemap_0: -1114094099
-      3matchtilemap_1: -413657233
-      3matchtilemap_2: 234345453
-      3matchtilemap_3: -934807578
-      3matchtilemap_4: 1990949249
-      3matchtilemap_5: -124450468
-      3matchtilemap_6: 1331956861
-      3matchtilemap_7: -1093820116
+      3MnewTilemap_0: -67084122
+      3MnewTilemap_1: -1478799365
+      3MnewTilemap_2: 949036862
+      3MnewTilemap_3: 1133442838
+      3MnewTilemap_4: -1079189881
+      3MnewTilemap_5: -1088755948
+      3MnewTilemap_6: 359750748
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
