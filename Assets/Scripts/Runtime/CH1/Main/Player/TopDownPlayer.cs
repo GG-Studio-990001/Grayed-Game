@@ -35,7 +35,7 @@ namespace Runtime.CH1.Main.Player
         
         private void Update()
         {
-            //if (!IsDirecting)
+            if (!IsDirecting)
                 Animation.SetAnimation(_state.ToString(), _lastInput);
         }
 

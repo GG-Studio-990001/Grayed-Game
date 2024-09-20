@@ -434,7 +434,7 @@ namespace Runtime.CH1.Main.Dialogue
         #region Else
         public void ActiveVisualNovel()
         {
-            Invoke(nameof(ActivePack), 1f);
+            Invoke(nameof(ActivePack), 1.45f);
         }
 
         private void ActivePack()
