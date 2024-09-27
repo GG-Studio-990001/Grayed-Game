@@ -188,6 +188,7 @@ namespace Runtime.Manager
         public void ChangeData(GameData data)
         {
             Managers.Data.SaveData = data;
+            SaveGame();
         }
 
         public void NewGame()
