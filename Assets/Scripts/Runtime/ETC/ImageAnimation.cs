@@ -1,31 +1,34 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
-public class ImageAnimation : MonoBehaviour
+namespace Runtime.ETC
 {
-    private Image _image;
-    public Sprite[] Sprites;
-    private int _animFrame = -1;
-    [SerializeField]
-    private float _animTime = 0.25f;
-
-    public void Awake()
+    [RequireComponent(typeof(Image))]
+    public class ImageAnimation : MonoBehaviour
     {
-        _image = GetComponent<Image>();
-    }
+        private Image _image;
+        public Sprite[] Sprites;
+        private int _animFrame = -1;
+        [SerializeField]
+        private float _animTime = 0.25f;
 
-    private void Start()
-    {
-        InvokeRepeating(nameof(NextSprite), _animTime, _animTime);
-    }
-
-    public void NextSprite()
-    {
-        if (Sprites.Length != 0)
+        public void Awake()
         {
-            _animFrame = ++_animFrame % Sprites.Length;
-            _image.sprite = Sprites[_animFrame];
+            _image = GetComponent<Image>();
+        }
+
+        private void Start()
+        {
+            InvokeRepeating(nameof(NextSprite), _animTime, _animTime);
+        }
+
+        public void NextSprite()
+        {
+            if (Sprites.Length != 0)
+            {
+                _animFrame = ++_animFrame % Sprites.Length;
+                _image.sprite = Sprites[_animFrame];
+            }
         }
     }
 }

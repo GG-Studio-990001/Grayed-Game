@@ -185,6 +185,12 @@ namespace Runtime.Manager
             return true;
         }
 
+        public void ChangeData(GameData data)
+        {
+            Managers.Data.SaveData = data;
+            SaveGame();
+        }
+
         public void NewGame()
         {
             _gameData = new GameData { Version = Application.version };

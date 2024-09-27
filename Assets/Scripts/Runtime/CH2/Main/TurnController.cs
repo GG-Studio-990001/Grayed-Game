@@ -1,4 +1,5 @@
 using Runtime.CH2.Location;
+using Runtime.ETC;
 using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
