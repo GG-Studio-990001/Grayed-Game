@@ -27,14 +27,15 @@ namespace Runtime.ETC
             DontDestroyOnLoad(gameObject);
         }
 
-        public void ConnectToScene(string targetScene, bool disablePlayerInput = false)
+        public void ConnectToScene(string targetScene)
         {
+            // 함수 호출 전 효과음 출력, 인풋 막기 필요
             _middleScene = _connectionScene;
             _targetScene = targetScene;
-            StartCoroutine(nameof(TranslateScene), disablePlayerInput);
+            StartCoroutine(nameof(TranslateScene));
         }
 
-        public void EscapeFromScene(string targetScene, bool disablePlayerInput = false)
+        public void EscapeFromScene(string targetScene)
         {
             Managers.Data.InGameKeyBinder.PlayerInputDisable();
 
@@ -42,10 +43,10 @@ namespace Runtime.ETC
 
             _middleScene = _escapeScene;
             _targetScene = targetScene;
-            StartCoroutine(nameof(TranslateScene), disablePlayerInput);
+            StartCoroutine(nameof(TranslateScene));
         }
 
-        private IEnumerator TranslateScene(bool disablePlayerInput = false)
+        private IEnumerator TranslateScene()
         {
             // 비동기 방식을 쓰지 않으면 씬 로드나 언로드 중에 게임이 멈출 수 있다고 함
             Debug.Log("_targetScene: " + _targetScene);
@@ -85,10 +86,7 @@ namespace Runtime.ETC
             // 중간 씬 언로드
             yield return SceneManager.UnloadSceneAsync(_middleScene);
 
-            if (!disablePlayerInput)
-            {
-                Managers.Data.InGameKeyBinder.PlayerInputEnable();
-            }
+            Managers.Data.InGameKeyBinder.PlayerInputEnable();
         }
 
         public void ConnectDirection()
