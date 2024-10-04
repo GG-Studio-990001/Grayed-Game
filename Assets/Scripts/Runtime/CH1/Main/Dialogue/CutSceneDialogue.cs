@@ -141,11 +141,11 @@ namespace Runtime.CH1.Main.Dialogue
             float posX = Player.transform.localPosition.x;
             if (posX >= 90.9f)
             {
-                StartCoroutine(nameof(RapleyGetOut), (Player.transform.localPosition.y > -15.4f));
+                StartCoroutine(nameof(RapleyGetOutR2Mon), (Player.transform.localPosition.y > -15.4f));
             }
         }
 
-        IEnumerator RapleyGetOut(bool isUp)
+        private IEnumerator RapleyGetOutR2Mon(bool isUp)
         {
             float posX = Player.transform.localPosition.x;
             Vector2 direction = isUp ? Vector2.up : Vector2.down;
@@ -233,6 +233,27 @@ namespace Runtime.CH1.Main.Dialogue
         {
             _mamago.Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
             _mamago.transform.DOMove(_mamagoLocation[0], 2f).SetEase(Ease.Linear);
+
+            StartCoroutine(nameof(RapleyGetOutMamago));
+        }
+
+        private IEnumerator RapleyGetOutMamago()
+        {
+            float posX = Player.transform.localPosition.x;
+            float posY = Player.transform.localPosition.y;
+
+            Debug.Log(Player.transform.localPosition);
+            if (posX >= 90.2f && posX <= 94.5f && posY >= -15.5f && posY <= -14.6f)
+            {
+                Debug.Log("비켜!");
+                Player.Animation.SetAnimation(GlobalConst.MoveStr, Vector2.down);
+                Player.transform.DOMove(new Vector3(posX, -15.6f, 0), 0.3f).SetEase(Ease.Linear);
+
+                yield return new WaitForSeconds(0.3f);
+
+                Player.SetLastInput(Vector2.down);
+                Player.Animation.SetAnimation(GlobalConst.IdleStr, Vector2.down);
+            }
         }
 
         public void MamagoMove2()
