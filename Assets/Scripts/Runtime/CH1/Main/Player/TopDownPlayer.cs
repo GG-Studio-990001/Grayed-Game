@@ -37,13 +37,8 @@ namespace Runtime.CH1.Main.Player
         {
             if (!IsDirecting)
                 Animation.SetAnimation(_state.ToString(), _lastInput);
+            // 연출 중 애니메이션 교체는 수동으로 SetAnimation 호출
         }
-
-        //void OnDrawGizmos()
-        //{
-        //    Gizmos.color = Color.red;
-        //    Gizmos.DrawWireSphere(this.transform.position, 0.7f);
-        //}
 
         private void FixedUpdate()
         {
@@ -70,15 +65,10 @@ namespace Runtime.CH1.Main.Player
                 _lastInput = context.ReadValue<Vector2>();
         }
 
-        public void OnGet()
-        {
-            _state = PlayerState.Get;
-        }
-
-        public void Idle()
+        public void PlayerIdle()
         {
             _state = PlayerState.Idle;
-            _lastInput = Vector2.down;
+            Animation.SetAnimation(_state.ToString(), _lastInput);
         }
     }
 }
