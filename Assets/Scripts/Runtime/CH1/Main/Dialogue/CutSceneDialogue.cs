@@ -141,18 +141,23 @@ namespace Runtime.CH1.Main.Dialogue
             float posX = Player.transform.localPosition.x;
             if (posX >= 90.9f)
             {
-                if (Player.transform.localPosition.y < 15.4f)
-                {
-                    Player.Animation.SetAnimation(GlobalConst.MoveStr, Vector2.up);
-                    Player.transform.DOMove(new Vector3(posX, -14.24f, 0), 0.3f).SetEase(Ease.Linear);
-                }
-                else
-                {
-                    Player.Animation.SetAnimation(GlobalConst.MoveStr, Vector2.down);
-                    Player.transform.DOMove(new Vector3(posX, -16.37f, 0), 0.3f).SetEase(Ease.Linear);
-                }
+                StartCoroutine(nameof(RapleyGetOut), (Player.transform.localPosition.y > -15.4f));
             }
-            
+        }
+
+        IEnumerator RapleyGetOut(bool isUp)
+        {
+            float posX = Player.transform.localPosition.x;
+            Vector2 direction = isUp ? Vector2.up : Vector2.down;
+            float posY = isUp ? -14.24f : -16.37f;
+
+            Player.Animation.SetAnimation(GlobalConst.MoveStr, direction);
+            Player.transform.DOMove(new Vector3(posX, posY, 0), 0.3f).SetEase(Ease.Linear);
+
+            yield return new WaitForSeconds(0.3f);
+
+            Player.SetLastInput(Vector2.right); // 오른쪽을 보게끔
+            Player.Animation.SetAnimation(GlobalConst.IdleStr, Vector2.right);
         }
 
         private void MichaelRun()

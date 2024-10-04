@@ -70,5 +70,10 @@ namespace Runtime.CH1.Main.Player
             _state = PlayerState.Idle;
             Animation.SetAnimation(_state.ToString(), _lastInput);
         }
+
+        public void SetLastInput(Vector2 direction)
+        {
+            _lastInput = direction;
+        }
     }
 }
