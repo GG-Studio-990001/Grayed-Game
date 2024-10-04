@@ -50,9 +50,13 @@ namespace Runtime.CH1.Main.Npc
             }
             else
             {
-                // TODO: 9 지정 필요 (달러는 맵 바깥)
                 SetNpcPosition(9);
-                Debug.Log("맵3");
+
+                if (Managers.Data.Scene == 6 && Managers.Data.SceneDetail == 0)
+                {
+                    // 알투몬에게 말 걸어야하는 시기
+                    _npcs[2].transform.position = NpcLocations[2].Locations[10];
+                }
             }
         }
 

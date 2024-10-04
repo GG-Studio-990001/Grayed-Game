@@ -16,7 +16,7 @@ namespace Runtime.CH1.Main.Dialogue
         [Header("=Npc=")]
         public NpcPosition NpcPos;
         [SerializeField] private NpcBody[] _npc = new NpcBody[3];
-        [SerializeField] private Vector3 _r2monLocation;
+        private Vector3 _r2monLocation;
         [SerializeField] private NpcBody _mamago;
         [SerializeField] private Vector3[] _mamagoLocation;
         [SerializeField] private NpcBody _michael;
@@ -30,6 +30,11 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private GameObject _mamagoBubble;
         [SerializeField] private DialogueRunner _luckyRunner;
         private Sequence _shakeTween;
+
+        private void Start()
+        {
+            _r2monLocation = NpcPos.NpcLocations[2].Locations[10];
+        }
 
         public void StartLuckyDialogue()
         {

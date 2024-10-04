@@ -56235,7 +56235,7 @@ Camera:
   far clip plane: 1000
   field of view: 70
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 11.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -63578,6 +63578,7 @@ MonoBehaviour:
     - {x: 62.97, y: -13.86, z: 0}
     - {x: 64.03, y: -13.56, z: 0}
     - {x: 74.21, y: -14.38, z: 0}
+    - {x: 90.2, y: -15.2, z: 0}
 --- !u!114 &1908934229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71929,7 +71930,6 @@ MonoBehaviour:
   - {fileID: 290311369}
   - {fileID: 100080073}
   - {fileID: 360165081}
-  _r2monLocation: {x: 90.2, y: -15.2, z: 0}
   _mamago: {fileID: 1232625328}
   _mamagoLocation:
   - {x: 93.38, y: -14.75, z: 0}
