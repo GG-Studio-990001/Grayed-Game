@@ -42,7 +42,6 @@ namespace Runtime.Middle
             _volume.weight = 0.59f;
             yield return new WaitForSeconds(1f);
             _volume.weight = 0;
-            Managers.Data.InGameKeyBinder.PlayerInputEnable();
 
             if (isConnection)
                 _sceneTransform.ConnectToScene(_sceneName);

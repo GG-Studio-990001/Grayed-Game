@@ -3,6 +3,7 @@ using Runtime.CH1.Main.Npc;
 using Runtime.CH1.Main.Player;
 using Runtime.CH1.Main.Stage;
 using Runtime.Common.View;
+using Runtime.ETC;
 using Runtime.InGameSystem;
 using System;
 using UnityEngine;
@@ -89,7 +90,10 @@ namespace Runtime.CH1.Main.Controller
             Managers.Data.InGameKeyBinder.CH1PlayerKeyBinding(_player);
             Managers.Data.InGameKeyBinder.CH1UIKeyBinding(this, _luckyDialogue);
 
-            _ch1DialogueController.OnDialogueStart.AddListener(() => Managers.Data.InGameKeyBinder.PlayerInputDisable());
+            _ch1DialogueController.OnDialogueStart.AddListener(() => {
+                Managers.Data.InGameKeyBinder.PlayerInputDisable();
+                _player.PlayerIdle();
+            });
             _ch1DialogueController.OnDialogueEnd.AddListener(() => Managers.Data.InGameKeyBinder.PlayerInputEnable());
 
             _settingsUIView.OnSettingsOpen += () => Managers.Data.InGameKeyBinder.PlayerInputDisable();

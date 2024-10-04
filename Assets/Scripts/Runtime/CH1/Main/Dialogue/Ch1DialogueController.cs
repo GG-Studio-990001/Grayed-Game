@@ -45,10 +45,11 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("NewSceneStart", NewSceneStart);
             _runner.AddCommandHandler("NextSceneStart", NextSceneStart);
             _runner.AddCommandHandler("SceneEnd", SceneEnd);
+            _runner.AddCommandHandler<bool>("SetIsDirecting", SetIsDirecting);
+
             _runner.AddCommandHandler("ReverseConnection", _connectionController.ReverseConnection);
-
             _runner.AddCommandHandler("ClearLineText", ClearLineText);
-
+            
             // CutScene
             _runner.AddCommandHandler("SetSpeakerR2Mon", SetSpeakerR2Mon);
             _runner.AddCommandHandler<int>("ShowIllustration", _cutScene.ShowIllustration);
@@ -143,6 +144,11 @@ namespace Runtime.CH1.Main.Dialogue
             {
                 _runner.StartDialogue("S5");
             }
+        }
+
+        private void SetIsDirecting(bool isDirecting)
+        {
+            _cutScene.Player.IsDirecting = isDirecting;
         }
 
         private void NewSceneStart()

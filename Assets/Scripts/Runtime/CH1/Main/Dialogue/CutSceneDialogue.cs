@@ -16,7 +16,7 @@ namespace Runtime.CH1.Main.Dialogue
         [Header("=Npc=")]
         public NpcPosition NpcPos;
         [SerializeField] private NpcBody[] _npc = new NpcBody[3];
-        [SerializeField] private Vector3 _r2monLocation;
+        private Vector3 _r2monLocation;
         [SerializeField] private NpcBody _mamago;
         [SerializeField] private Vector3[] _mamagoLocation;
         [SerializeField] private NpcBody _michael;
@@ -30,6 +30,11 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private GameObject _mamagoBubble;
         [SerializeField] private DialogueRunner _luckyRunner;
         private Sequence _shakeTween;
+
+        private void Start()
+        {
+            _r2monLocation = NpcPos.NpcLocations[2].Locations[10];
+        }
 
         public void StartLuckyDialogue()
         {
@@ -136,18 +141,23 @@ namespace Runtime.CH1.Main.Dialogue
             float posX = Player.transform.localPosition.x;
             if (posX >= 90.9f)
             {
-                if (Player.transform.localPosition.y < 15.4f)
-                {
-                    Player.Animation.SetAnimation(GlobalConst.MoveStr, Vector2.up);
-                    Player.transform.DOMove(new Vector3(posX, -14.24f, 0), 0.3f).SetEase(Ease.Linear);
-                }
-                else
-                {
-                    Player.Animation.SetAnimation(GlobalConst.MoveStr, Vector2.down);
-                    Player.transform.DOMove(new Vector3(posX, -16.37f, 0), 0.3f).SetEase(Ease.Linear);
-                }
+                StartCoroutine(nameof(RapleyGetOutR2Mon), (Player.transform.localPosition.y > -15.4f));
             }
-            
+        }
+
+        private IEnumerator RapleyGetOutR2Mon(bool isUp)
+        {
+            float posX = Player.transform.localPosition.x;
+            Vector2 direction = isUp ? Vector2.up : Vector2.down;
+            float posY = isUp ? -14.24f : -16.37f;
+
+            Player.Animation.SetAnimation(GlobalConst.MoveStr, direction);
+            Player.transform.DOMove(new Vector3(posX, posY, 0), 0.3f).SetEase(Ease.Linear);
+
+            yield return new WaitForSeconds(0.3f);
+
+            Player.SetLastInput(Vector2.right); // 오른쪽을 보게끔
+            Player.Animation.SetAnimation(GlobalConst.IdleStr, Vector2.right);
         }
 
         private void MichaelRun()
@@ -223,6 +233,27 @@ namespace Runtime.CH1.Main.Dialogue
         {
             _mamago.Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
             _mamago.transform.DOMove(_mamagoLocation[0], 2f).SetEase(Ease.Linear);
+
+            StartCoroutine(nameof(RapleyGetOutMamago));
+        }
+
+        private IEnumerator RapleyGetOutMamago()
+        {
+            float posX = Player.transform.localPosition.x;
+            float posY = Player.transform.localPosition.y;
+
+            Debug.Log(Player.transform.localPosition);
+            if (posX >= 90.2f && posX <= 94.5f && posY >= -15.5f && posY <= -14.6f)
+            {
+                Debug.Log("비켜!");
+                Player.Animation.SetAnimation(GlobalConst.MoveStr, Vector2.down);
+                Player.transform.DOMove(new Vector3(posX, -15.6f, 0), 0.3f).SetEase(Ease.Linear);
+
+                yield return new WaitForSeconds(0.3f);
+
+                Player.SetLastInput(Vector2.down);
+                Player.Animation.SetAnimation(GlobalConst.IdleStr, Vector2.down);
+            }
         }
 
         public void MamagoMove2()
