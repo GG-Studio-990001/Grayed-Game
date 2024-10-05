@@ -6,7 +6,7 @@ namespace Runtime.CH1.Main
     {
         public void CheckMamagoBubble()
         {
-            if (Managers.Data.Scene == 5 && Managers.Data.SceneDetail == 1)
+            if (Managers.Data.CH1.Scene == 5 && Managers.Data.CH1.SceneDetail == 1)
             {
                 gameObject.SetActive(true);
             }

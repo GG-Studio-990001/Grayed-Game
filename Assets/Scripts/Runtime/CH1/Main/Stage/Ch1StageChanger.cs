@@ -79,7 +79,7 @@ namespace Runtime.CH1.Main.Stage
             _currentStage.Enable();
             _confiner2D.m_BoundingShape2D = _currentStage.GetStageCollider();
 
-            Managers.Data.Stage = moveStageNumber;
+            Managers.Data.CH1.Stage = moveStageNumber;
             Managers.Data.SaveGame();
         }
     }

@@ -41,7 +41,7 @@ namespace Runtime.CH1.Main.Stage
                 stage.StageSettings(StageChanger);
             }
 
-            _ = StageChanger.SetStage(Managers.Data.Stage, _stageDefaultPosition[Managers.Data.Stage - 1]);
+            _ = StageChanger.SetStage(Managers.Data.CH1.Stage, _stageDefaultPosition[Managers.Data.CH1.Stage - 1]);
 
             #region
             //#if UNITY_EDITOR

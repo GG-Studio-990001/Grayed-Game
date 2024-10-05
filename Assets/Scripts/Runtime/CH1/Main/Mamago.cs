@@ -6,7 +6,7 @@ namespace Runtime.CH1.Main
     {
         public void CheckMamago()
         {
-            if (Managers.Data.Scene <= 4)
+            if (Managers.Data.CH1.Scene <= 4)
             {
                 gameObject.SetActive(true);
             }

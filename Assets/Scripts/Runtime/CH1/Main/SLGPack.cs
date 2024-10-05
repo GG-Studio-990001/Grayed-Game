@@ -7,7 +7,7 @@ namespace Runtime.CH1.Main
     {
         public void ActiveLuckyPack()
         {
-            gameObject.SetActive(Managers.Data.SLGProgressData == SLGProgress.None);
+            gameObject.SetActive(Managers.Data.CH1.SLGProgressData == SLGProgress.None);
         }
     }
 }

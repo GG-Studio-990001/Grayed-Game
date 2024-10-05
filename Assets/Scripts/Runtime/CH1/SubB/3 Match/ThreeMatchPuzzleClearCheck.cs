@@ -8,7 +8,7 @@ namespace Runtime.CH1.SubB._3_Match
         {
             if (other.CompareTag("Player"))
             {
-                Managers.Data.Is3MatchCleared = true;
+                Managers.Data.CH1.Is3MatchCleared = true;
                 Managers.Data.SaveGame();
             }
         }

@@ -45,17 +45,17 @@ namespace Runtime.CH1.Main.Controller
             // 진행도에 따른 플레이어 위치 재지정
             // TO DO: 클래스 따로 빼기?
 
-            switch(Managers.Data.Stage)
+            switch(Managers.Data.CH1.Stage)
             {
                 case 1:
-                    if (Managers.Data.Scene > 1)
+                    if (Managers.Data.CH1.Scene > 1)
                     {
                         // 팩맘 앞
                         _player.transform.position = new Vector3(22.07f, -6.94f, 0);
                     }
                     break;
                 case 2:
-                    if ((Managers.Data.Scene == 3 && Managers.Data.SceneDetail == 1) || Managers.Data.Scene > 3)
+                    if ((Managers.Data.CH1.Scene == 3 && Managers.Data.CH1.SceneDetail == 1) || Managers.Data.CH1.Scene > 3)
                     {
                         // 3Match 끝냈으면 오른쪽에 위치
                         _player.transform.position = new Vector3(50.4f, -11.6f, 0);

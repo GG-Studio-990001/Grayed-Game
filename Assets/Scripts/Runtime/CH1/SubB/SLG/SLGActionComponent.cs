@@ -127,9 +127,9 @@ public class SLGActionComponent : MonoBehaviour
     void Start()
     {
         // Managers.Data.LoadGame();
-        SLGProgressInfo = Managers.Data.SLGProgressData;
-        SLGConstructionBeginTime = Managers.Data.SLGConstructionBeginTime;
-        _rebuildBridge = Managers.Data.SLGBridgeRebuild;
+        SLGProgressInfo = Managers.Data.CH1.SLGProgressData;
+        SLGConstructionBeginTime = Managers.Data.CH1.SLGConstructionBeginTime;
+        _rebuildBridge = Managers.Data.CH1.SLGBridgeRebuild;
 
         _cachedObjects = _sponSpots.GetComponentsInChildren<SLGInteractionObject>();
         Wnd_ConstructionBtn.onClick.AddListener(OnClickConstructBtn);
@@ -157,7 +157,7 @@ public class SLGActionComponent : MonoBehaviour
          if (SLGProgressInfo == SLGProgress.None)
         {
             //오브젝트 표시 타이밍 제어가 필요해보임. 조건이 너무 많음
-            SLGTriggerObject.SetActive(Managers.Data.Scene >= 4);
+            SLGTriggerObject.SetActive(Managers.Data.CH1.Scene >= 4);
             _SLGCanvas.SetActive(false);
         }
         else if(SLGProgressInfo >= SLGProgress.ModeClose)
@@ -249,7 +249,7 @@ public class SLGActionComponent : MonoBehaviour
     {
         _SLGCanvas.SetActive(false);
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
-        Managers.Data.SLGProgressData = SLGProgressInfo;
+        Managers.Data.CH1.SLGProgressData = SLGProgressInfo;
     }
 
     public void SLGResume()
@@ -259,13 +259,13 @@ public class SLGActionComponent : MonoBehaviour
         _sponSpots.SetActive(true);
         SLGConstructionObject.SetActive(true);
 
-        if(Managers.Data.SLGBridgeRebuild == false)
+        if(Managers.Data.CH1.SLGBridgeRebuild == false)
         {
             SLGBridgeConstructionObject.SetActive(true);
         }
         _buildingListUI.SetActive(true);
-        _wood = Managers.Data.SLGWoodCount;
-        _stone = Managers.Data.SLGStoneCount;
+        _wood = Managers.Data.CH1.SLGWoodCount;
+        _stone = Managers.Data.CH1.SLGStoneCount;
 
         Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
         RefreshHudInfo();
@@ -399,7 +399,7 @@ public class SLGActionComponent : MonoBehaviour
             SLGConstructionObject.SetActive(true);
         }
 
-        SLGBridgeConstructionObject.SetActive(!Managers.Data.SLGBridgeRebuild);
+        SLGBridgeConstructionObject.SetActive(!Managers.Data.CH1.SLGBridgeRebuild);
 
         _constructUI.SetActive(false);
         _bridgeConstructUI.SetActive(false);
@@ -412,7 +412,7 @@ public class SLGActionComponent : MonoBehaviour
 
     public void PreInitSubObject()
     {
-        bool bEnable = Managers.Data.Scene >= 4;
+        bool bEnable = Managers.Data.CH1.Scene >= 4;
         foreach (GameObject _subObject in SLGSubObjects)
         {
             _subObject.SetActive(bEnable);
@@ -473,8 +473,8 @@ public class SLGActionComponent : MonoBehaviour
             Wnd_AccelerateSection.gameObject.SetActive(true);
             Wnd_CostSection.gameObject.SetActive(false);
 
-            Wnd_CoinCostText.text = Managers.Data.PacmomCoin.ToString() + "/" + NeededCoinCount.ToString();
-            Wnd_CoinCostText.color = Managers.Data.PacmomCoin < NeededCoinCount ? Color.red : Color.blue;
+            Wnd_CoinCostText.text = Managers.Data.CH1.PacmomCoin.ToString() + "/" + NeededCoinCount.ToString();
+            Wnd_CoinCostText.color = Managers.Data.CH1.PacmomCoin < NeededCoinCount ? Color.red : Color.blue;
         }
     }
     private void RefreshConstructionWnd()
@@ -496,7 +496,7 @@ public class SLGActionComponent : MonoBehaviour
     {
         if (UI_CoinText != null)
         {
-            UI_CoinText.text = Managers.Data.PacmomCoin.ToString();
+            UI_CoinText.text = Managers.Data.CH1.PacmomCoin.ToString();
         }
     }
     private void OnClickAccelerateBtn()
@@ -504,9 +504,9 @@ public class SLGActionComponent : MonoBehaviour
         GameObject mainObject = FindObjectOfType<Ch1MainSystemController>().gameObject;
         if (mainObject != null)
         {
-            if (Managers.Data.PacmomCoin >= NeededCoinCount)
+            if (Managers.Data.CH1.PacmomCoin >= NeededCoinCount)
             {
-                Managers.Data.PacmomCoin -= NeededCoinCount;
+                Managers.Data.CH1.PacmomCoin -= NeededCoinCount;
                 RefreshCoinText();
                 _constructUI.SetActive(false);
                 Managers.Data.InGameKeyBinder.PlayerInputEnable();
@@ -574,11 +574,11 @@ public class SLGActionComponent : MonoBehaviour
 
     private void WriteSLGData()
     {
-        Managers.Data.SLGProgressData = SLGProgressInfo;
-        Managers.Data.SLGConstructionBeginTime = SLGConstructionBeginTime;
-        Managers.Data.SLGWoodCount = _wood;
-        Managers.Data.SLGStoneCount = _stone;
-        Managers.Data.SLGBridgeRebuild = _rebuildBridge;
+        Managers.Data.CH1.SLGProgressData = SLGProgressInfo;
+        Managers.Data.CH1.SLGConstructionBeginTime = SLGConstructionBeginTime;
+        Managers.Data.CH1.SLGWoodCount = _wood;
+        Managers.Data.CH1.SLGStoneCount = _stone;
+        Managers.Data.CH1.SLGBridgeRebuild = _rebuildBridge;
 
         Managers.Data.SaveGame();
     }

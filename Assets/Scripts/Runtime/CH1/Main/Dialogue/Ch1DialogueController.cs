@@ -117,11 +117,11 @@ namespace Runtime.CH1.Main.Dialogue
 
         private void Start()
         {
-            if (Managers.Data.Scene == 0)
+            if (Managers.Data.CH1.Scene == 0)
             {
                 _runner.StartDialogue("S1");
             }
-            else if (Managers.Data.Scene == 1 && Managers.Data.IsPacmomCleared)
+            else if (Managers.Data.CH1.Scene == 1 && Managers.Data.CH1.IsPacmomCleared)
             {
                 _cutScene.NpcPos.SetNpcPosition(3);
                 _cutScene.SetPlayerPosition(1);
@@ -140,7 +140,7 @@ namespace Runtime.CH1.Main.Dialogue
 
         public void MamagoThanks()
         {
-            if (Managers.Data.Scene == 4)
+            if (Managers.Data.CH1.Scene == 4)
             {
                 _runner.StartDialogue("S5");
             }
@@ -153,14 +153,14 @@ namespace Runtime.CH1.Main.Dialogue
 
         private void NewSceneStart()
         {
-            Managers.Data.Scene++;
-            Managers.Data.SceneDetail = 0;
+            Managers.Data.CH1.Scene++;
+            Managers.Data.CH1.SceneDetail = 0;
             _cutScene.Player.IsDirecting = true;
         }
 
         private void NextSceneStart()
         {
-            Managers.Data.SceneDetail++;
+            Managers.Data.CH1.SceneDetail++;
             _cutScene.Player.IsDirecting = true;
         }
 
@@ -168,7 +168,7 @@ namespace Runtime.CH1.Main.Dialogue
         {
             _cutScene.Player.IsDirecting = false;
             Managers.Data.SaveGame();
-            Debug.Log(Managers.Data.Scene + " " + Managers.Data.SceneDetail);
+            Debug.Log(Managers.Data.CH1.Scene + " " + Managers.Data.CH1.SceneDetail);
         }
 
         private void SceneChange(string sceneName)

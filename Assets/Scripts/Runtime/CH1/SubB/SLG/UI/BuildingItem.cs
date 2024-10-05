@@ -100,14 +100,14 @@ public class BuildingItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         switch (_buildingtype)
         {
             case SLGBuildingType.MamagoCompany:
-                if (Managers.Data.SLGProgressData >= Runtime.ETC.SLGProgress.EndConstruction)
+                if (Managers.Data.CH1.SLGProgressData >= Runtime.ETC.SLGProgress.EndConstruction)
                 {
                     _buildingState = BuildingState.Constructed;
                     return;
                 }
                 break;
             case SLGBuildingType.Bridge:
-                if (Managers.Data.SLGBridgeRebuild)
+                if (Managers.Data.CH1.SLGBridgeRebuild)
                 {
                     _buildingState = BuildingState.Constructed;
                     return;
@@ -120,7 +120,7 @@ public class BuildingItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 _buildingState = BuildingState.Impossible;
                 return;
         }
-        if (_reqAsset.x <= Managers.Data.SLGWoodCount && _reqAsset.y <= Managers.Data.SLGStoneCount)
+        if (_reqAsset.x <= Managers.Data.CH1.SLGWoodCount && _reqAsset.y <= Managers.Data.CH1.SLGStoneCount)
         {
             _buildingState = BuildingState.Able;
         }

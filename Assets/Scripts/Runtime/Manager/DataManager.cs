@@ -7,28 +7,9 @@ using UnityEngine;
 namespace Runtime.Manager
 {
     // TODO: CH1Data 묶기
-
     [Serializable]
-    public class CH2Data
+    public class CH1Data
     {
-        public int Turn;
-        public string Location;
-
-        public CH2Data()
-        {
-            Turn = 0;
-            Location = "";
-        }
-    }
-
-    [Serializable]
-    public class GameData
-    {
-        public string Version;
-        public int Chapter;
-        public float BgmVolume;
-        public float SfxVolume;
-        #region CH1
         // Progress
         public int Stage;
         public int Scene;
@@ -51,16 +32,9 @@ namespace Runtime.Manager
         public bool SLGBridgeRebuild;
         // Else
         public int TranslatorCount;
-        #endregion
-        public CH2Data CH2;
 
-        public GameData()
+        public CH1Data()
         {
-            Version = "";
-            Chapter = 1;
-            BgmVolume = 0.5f;
-            SfxVolume = 0.5f;
-            #region CH1
             // Progress
             Stage = 1;
             Scene = 0;
@@ -89,7 +63,39 @@ namespace Runtime.Manager
             SLGBridgeRebuild = false;
             // Else
             TranslatorCount = 0;
-            #endregion
+        }
+    }
+
+    [Serializable]
+    public class CH2Data
+    {
+        public int Turn;
+        public string Location;
+
+        public CH2Data()
+        {
+            Turn = 0;
+            Location = "";
+        }
+    }
+
+    [Serializable]
+    public class GameData
+    {
+        public string Version;
+        public int Chapter;
+        public float BgmVolume;
+        public float SfxVolume;
+        public CH1Data CH1;
+        public CH2Data CH2;
+
+        public GameData()
+        {
+            Version = "";
+            Chapter = 1;
+            BgmVolume = 0.5f;
+            SfxVolume = 0.5f;
+            CH1 = new CH1Data();
             CH2 = new CH2Data();
         }
     }
@@ -116,34 +122,7 @@ namespace Runtime.Manager
             set { Mathf.Clamp(value, 0, 1); _gameData.SfxVolume = value; Managers.Sound.SFX.volume = value; }
         }
 
-        #region CH1
-        public int Stage { get { return _gameData.Stage; } set { _gameData.Stage = value; } }
-        public int Scene { get { return _gameData.Scene; } set { _gameData.Scene = value; } }
-        public int SceneDetail { get { return _gameData.SceneDetail; } set { _gameData.SceneDetail = value; } }
-
-        // CH1
-        public bool MeetLucky { get { return _gameData.MeetLucky; } set { _gameData.MeetLucky = value; } }
-        public bool Is3MatchEntered { get { return _gameData.Is3MatchEntered; } set { _gameData.Is3MatchEntered = value; } }
-        
-        // 3match
-        public bool Is3MatchCleared { get { return _gameData.Is3MatchCleared; } set { _gameData.Is3MatchCleared = value; } }
-        public ThreeMatchPuzzleStageData[] ThreeMatchPuzzleStageData { get { return _gameData.ThreeMatchPuzzleStageData; } set { _gameData.ThreeMatchPuzzleStageData = value; } }
-
-        // Pacmom
-        public bool IsPacmomPlayed { get { return _gameData.IsPacmomPlayed; } set { _gameData.IsPacmomPlayed = value; } }
-        public bool IsPacmomCleared { get { return _gameData.IsPacmomCleared; } set { _gameData.IsPacmomCleared = value; } }
-        public int PacmomCoin { get { return _gameData.PacmomCoin; } set { _gameData.PacmomCoin = value; } }
-
-        // SLG
-        public long SLGConstructionBeginTime { get { return _gameData.SLGConstructionBeginTime; } set { _gameData.SLGConstructionBeginTime = value; } }
-        public SLGProgress SLGProgressData { get { return _gameData.SLGProgressData; } set { _gameData.SLGProgressData = value; } }
-        public int SLGWoodCount { get { return _gameData.SLGWoodCount; } set { _gameData.SLGWoodCount = value; } }
-        public int SLGStoneCount { get { return _gameData.SLGStoneCount; } set { _gameData.SLGStoneCount = value; } }
-        public bool SLGBridgeRebuild { get { return _gameData.SLGBridgeRebuild; } set { _gameData.SLGBridgeRebuild = value; } }
-
-        // Else
-        public int TranslatorCount { get { return _gameData.TranslatorCount; } set { _gameData.TranslatorCount = value; } }
-        #endregion
+        public CH1Data CH1 { get { return _gameData.CH1; } set { _gameData.CH1 = value; } }
 
         public CH2Data CH2 { get { return _gameData.CH2; } set { _gameData.CH2 = value; } }
         #endregion
@@ -181,7 +160,7 @@ namespace Runtime.Manager
             
             Managers.Data.SaveData = data;
             Debug.Log($"Load Game Completed : {path}");
-            Debug.Log(Managers.Data.Scene+"."+ Managers.Data.SceneDetail);
+            Debug.Log(Managers.Data.CH1.Scene+"."+ Managers.Data.CH1.SceneDetail);
             return true;
         }
 
