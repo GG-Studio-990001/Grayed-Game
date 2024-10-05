@@ -10,7 +10,7 @@ namespace Runtime.CH1.Main
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (Managers.Data.Scene >= 2)
+            if (Managers.Data.CH1.Scene >= 2)
             {
                 gameObject.SetActive(false);
                 return;

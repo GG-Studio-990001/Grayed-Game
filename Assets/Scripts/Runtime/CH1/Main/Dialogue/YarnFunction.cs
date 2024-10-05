@@ -9,7 +9,7 @@ namespace Runtime.CH1.Main.Dialogue
         [YarnFunction("GetProgress")]
         public static int GetProgress()
         {
-            return Managers.Data.Scene * 10 + Managers.Data.SceneDetail;
+            return Managers.Data.CH1.Scene * 10 + Managers.Data.CH1.SceneDetail;
         }
     }
 }

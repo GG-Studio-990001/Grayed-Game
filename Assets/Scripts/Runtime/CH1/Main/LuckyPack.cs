@@ -6,7 +6,7 @@ namespace Runtime.CH1.Main
     {
         public void ActiveLuckyPack()
         {
-            gameObject.SetActive(!Managers.Data.MeetLucky);
+            gameObject.SetActive(!Managers.Data.CH1.MeetLucky);
         }
     }
 }

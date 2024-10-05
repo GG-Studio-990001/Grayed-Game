@@ -31,8 +31,8 @@ namespace Runtime.CH1.Pacmom
         private void Awake()
         {
             Managers.Data.LoadGame();
-            Debug.Log("IsPacmomPlayed: " + Managers.Data.IsPacmomPlayed);
-            Debug.Log("IsPacmomCleared: " + Managers.Data.IsPacmomCleared);
+            Debug.Log("IsPacmomPlayed: " + Managers.Data.CH1.IsPacmomPlayed);
+            Debug.Log("IsPacmomCleared: " + Managers.Data.CH1.IsPacmomCleared);
 
             AssignComponent();
             AssignController();

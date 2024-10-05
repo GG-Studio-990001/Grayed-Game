@@ -220,7 +220,7 @@ namespace Runtime.CH1.Lucky
         {
             LuckyExit();
 
-            Managers.Data.MeetLucky = true;
+            Managers.Data.CH1.MeetLucky = true;
             Managers.Data.SaveGame();
 
             Managers.Sound.Play(Sound.BGM, "CH1/Main_BGM", true);
@@ -264,7 +264,7 @@ namespace Runtime.CH1.Lucky
 
         private void ActiveSettingUI()
         {
-            Managers.Data.TranslatorCount = 1;
+            Managers.Data.CH1.TranslatorCount = 1;
             _settingUITab.ShowTransTab();
             _settingUITab.gameObject.SetActive(true);
         }

@@ -36,8 +36,8 @@ namespace Runtime.CH1.Pacmom
 
             Managers.Sound.StopAllSound();
 
-            Managers.Data.IsPacmomPlayed = true;
-            Managers.Data.IsPacmomCleared = false;
+            Managers.Data.CH1.IsPacmomPlayed = true;
+            Managers.Data.CH1.IsPacmomCleared = false;
             Managers.Data.SaveGame();
 
             SceneManager.LoadScene("Pacmom");

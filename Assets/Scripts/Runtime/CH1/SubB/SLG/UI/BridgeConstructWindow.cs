@@ -43,8 +43,8 @@ public class BridgeConstructWindow : MonoBehaviour
 
     private void RefreshWindowInfo()
     {
-        int _wood = Managers.Data.SLGWoodCount;
-        int _stone = Managers.Data.SLGStoneCount;
+        int _wood = Managers.Data.CH1.SLGWoodCount;
+        int _stone = Managers.Data.CH1.SLGStoneCount;
 
         Vector2 BridgeAssetCost = _SLGAction.BridgeNeededAssetCount;
 

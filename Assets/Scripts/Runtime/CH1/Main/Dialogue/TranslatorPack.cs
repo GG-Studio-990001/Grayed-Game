@@ -29,10 +29,10 @@ namespace Runtime.CH1.Main.Dialogue
 
         public void BuyTranslator()
         {
-            if (Managers.Data.PacmomCoin < 10)
+            if (Managers.Data.CH1.PacmomCoin < 10)
                 return;
 
-            Managers.Data.PacmomCoin -= 10;
+            Managers.Data.CH1.PacmomCoin -= 10;
             _slg.RefreshCoinText();
             StartPackDialogue();
 

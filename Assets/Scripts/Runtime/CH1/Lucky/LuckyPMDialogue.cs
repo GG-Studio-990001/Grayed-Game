@@ -36,7 +36,7 @@ namespace Runtime.CH1.Lucky
 
         private void Start()
         {
-            if (Managers.Data.IsPacmomPlayed)
+            if (Managers.Data.CH1.IsPacmomPlayed)
                 LuckyExit();
         }
 

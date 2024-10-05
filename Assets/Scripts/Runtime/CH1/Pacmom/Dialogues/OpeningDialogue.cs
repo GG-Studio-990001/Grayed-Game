@@ -34,9 +34,9 @@ namespace Runtime.CH1.Pacmom
 
         public void StartDialogue()
         {
-            if (!Managers.Data.IsPacmomPlayed)
+            if (!Managers.Data.CH1.IsPacmomPlayed)
                 _runner.StartDialogue("PMStart");
-            else if (Managers.Data.IsPacmomCleared)
+            else if (Managers.Data.CH1.IsPacmomCleared)
                 _runner.StartDialogue("PMStartAgain");
             else
                 _runner.StartDialogue("PMRetry");

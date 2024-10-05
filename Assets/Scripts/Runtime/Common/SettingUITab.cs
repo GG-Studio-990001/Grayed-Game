@@ -12,7 +12,7 @@ namespace Runtime.Common
 
         private void Start()
         {
-            _tabs[1].gameObject.SetActive(Managers.Data.TranslatorCount != 0);
+            _tabs[1].gameObject.SetActive(Managers.Data.CH1.TranslatorCount != 0);
         }
 
         public void ShowTransTab()
