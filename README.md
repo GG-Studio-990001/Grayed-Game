@@ -23,6 +23,7 @@ Grayed Game X: https://x.com/GrayedGame
 | [이정안](https://github.com/fkdl0048) | 팀장, 디렉터 | 23-09 |
 | [정우연](https://github.com/wooyn730) | PM, 프로그래머 | 23-09 |
 | [남현정](https://github.com/jeongopo) | 프로그래머 | 24-03 |
+| [이시원](https://github.com/NearthYou) | 프로그래머 | 24-10 |
 | [한수빈](https://github.com/roweclaw) | 기획 | 24-03 |
 | [지수민](https://github.com/Sumindd) | 기획 | 24-03 |
 | [송기화](https://github.com/Songkihwa) | 사운드 | 23-09 |
