@@ -11,8 +11,8 @@ Grayed Game는 여러가지 장르가 결합된 게임으로 다양한 연출과
 이메일 링크: <fkdl000048@gmail.com>  
 Grayed Game X: https://x.com/GrayedGame
 
-- [2024 BIC 루키 부분 오프라인 전시작]  
-- LOGIN(대학생 연합 발표회) 기획 우수상  
+- 2024 BIC 루키 부분 온·오프라인 전시작
+- LOGIN(대학생 연합 발표회) 기획 우수상
 
 ## 팀원
 
