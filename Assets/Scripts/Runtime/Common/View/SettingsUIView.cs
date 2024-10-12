@@ -14,6 +14,11 @@ namespace Runtime.Common.View
         [field:SerializeField] public Button ExitButton { get; set; }
         [field:SerializeField] public Button GameExitButton { get; set; }
         
+        [field:SerializeField] public Toggle FullScreenToggle { get; set; }
+        
+        [field:SerializeField] public Toggle WindowScreenToggle { get; set; }
+
+        
         private SettingsUIPresenter _presenter;
 
         public event Action OnSettingsOpen;
