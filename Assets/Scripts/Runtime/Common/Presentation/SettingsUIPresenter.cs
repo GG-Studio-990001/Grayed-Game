@@ -15,6 +15,9 @@ namespace Runtime.Common.Presentation
             _settingsUIView.BgmVolumeSlider.onValueChanged.AddListener(SetBgmVolume);
             _settingsUIView.SfxVolumeSlider.onValueChanged.AddListener(SetSfxVolume);
             
+            _settingsUIView.FullScreenToggle.onValueChanged.AddListener(SetFullScreenMode);
+            _settingsUIView.WindowScreenToggle.onValueChanged.AddListener(SetWindowScreenMode);
+            
             _settingsUIView.GameExitButton.onClick.AddListener(OnGameExitButtonClicked);
             _settingsUIView.ExitButton.onClick.AddListener(_settingsUIView.GameSettingToggle);
         }
@@ -36,6 +39,16 @@ namespace Runtime.Common.Presentation
         {
             Managers.Data.SfxVolume = volume;
             Managers.Sound.SFX.volume = volume;
+        }
+
+        private void SetFullScreenMode(bool isOn)
+        {
+            Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+        }
+        
+        private void SetWindowScreenMode(bool isOn)
+        {
+            Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);
         }
         
         private void OnGameExitButtonClicked()

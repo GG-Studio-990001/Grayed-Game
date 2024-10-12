@@ -20,7 +20,7 @@ namespace Runtime.Common
             _tabs[1].gameObject.SetActive(true);
         }
 
-        public void ActiveSound()
+        public void ActiveOption()
         {
             if (_isSoundSelected)
                 return;
