@@ -3029,7 +3029,7 @@ MonoBehaviour:
   yarnProject: {fileID: 7545569452688597077, guid: e5d1e309050f98443aba26af350ffc5e, type: 3}
   _variableStorage: {fileID: 0}
   dialogueViews:
-  - {fileID: 101260566}
+  - {fileID: 0}
   - {fileID: 1307555727}
   startNode: Lucky_FirstMeet
   startAutomatically: 0
@@ -71750,7 +71750,7 @@ MonoBehaviour:
   _variableStorage: {fileID: 512497962955350157}
   dialogueViews:
   - {fileID: 8996533694900382337}
-  - {fileID: 7390379506314505000}
+  - {fileID: 0}
   startNode: S1
   startAutomatically: 0
   runSelectedOptionAsLine: 0
