@@ -17,6 +17,7 @@ namespace Runtime.CH2.Dialogue
 
     public class CH2Dialogue2 : DialogueViewBase
     {
+        // 클래스명 서로 바뀜...
         [Header("=Script=")]
         [SerializeField] private DialogueRunner _runner;
         [SerializeField] private TurnController2 _turnController;
@@ -71,7 +72,7 @@ namespace Runtime.CH2.Dialogue
 
         public void NextProgress()
         {
-
+            Managers.Data.CH2.Progress++;
         }
 
         public void AutoDialogueToggle()

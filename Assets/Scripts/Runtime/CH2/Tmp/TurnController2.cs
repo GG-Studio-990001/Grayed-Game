@@ -1,3 +1,4 @@
+using Codice.CM.Client.Differences.Merge;
 using Runtime.CH2.Location;
 using Runtime.ETC;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace Runtime.CH2.Main
             // CH2 시작시 최초 1회 호출
             // 현재는 Progress 0 기준, 추후 진행도에 따라 변경되도록
 
-            Managers.Data.CH2.Progress = -1;
+            Managers.Data.CH2.Progress = 0;
 
             List<string> loc = GetAvailableLocations();
             if (loc.Count != 1)
@@ -54,8 +55,9 @@ namespace Runtime.CH2.Main
 
         private string GetDialogueName()
         {
-            if (Managers.Data.CH2.Progress == -1)
-                Managers.Data.CH2.Progress = 0;
+            int progress = Managers.Data.CH2.Progress;
+            //if (progress == -1)
+            //    progress = 0;
 
             Debug.Log(Managers.Data.CH2.Progress);
             // 현재 턴수와 장소에 맞는 다이얼로그 이름 가져오기
@@ -70,7 +72,7 @@ namespace Runtime.CH2.Main
                 if (location == Managers.Data.CH2.Location)
                 {
                     // 진행도에 해당하는 셀 값을 가져와 반환
-                    string progressState = row[$"{Managers.Data.CH2.Progress}"].ToString();
+                    string progressState = row[$"{progress}"].ToString();
                     return progressState;
                 }
             }
@@ -81,7 +83,7 @@ namespace Runtime.CH2.Main
 
         private List<string> GetAvailableLocations()
         {
-            int nextProgress = Managers.Data.CH2.Progress + 1;
+            int nextProgress = Managers.Data.CH2.Progress;
             // 이동 가능한 장소 리스트 가져오기
             List<string> loc = new();
 
