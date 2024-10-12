@@ -8,9 +8,9 @@ using UnityEngine.UI;
 
 namespace Runtime.CH2.Location
 {
-    public class LocationSelectionUI : MonoBehaviour
+    public class LocationSelectionUI2 : MonoBehaviour
     {
-        [NonSerialized] public TurnController TurnController;
+        [NonSerialized] public TurnController2 TurnController;
         [SerializeField] private BGSpriteSwitcher _bgSpriteSwitcher;
         [SerializeField] private FadeController _fadeController;
         [SerializeField] private TextMeshProUGUI _locationTxt;

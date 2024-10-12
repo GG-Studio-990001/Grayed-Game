@@ -15,11 +15,12 @@ namespace Runtime.CH2.Dialogue
         michael = 1,
     }
 
-    public class CH2Dialogue : DialogueViewBase
+    public class CH2Dialogue2 : DialogueViewBase
     {
+        // 클래스명 서로 바뀜...
         [Header("=Script=")]
         [SerializeField] private DialogueRunner _runner;
-        [SerializeField] private TurnController _turnController;
+        [SerializeField] private TurnController2 _turnController;
         [Header("=Else=")]
         [SerializeField] private Image[] _characters = new Image[2];
         [SerializeField] private Image[] _npcs = new Image[2];
@@ -33,6 +34,7 @@ namespace Runtime.CH2.Dialogue
 
         private void Awake()
         {
+            _runner.AddCommandHandler("NextProgress", NextProgress);
             _runner.AddCommandHandler<int>("PartnerAppear", PartnerAppear);
             _runner.AddCommandHandler("PartnerOut", PartnerOut);
             _runner.AddCommandHandler<int>("NpcFace", NpcFace);
@@ -66,6 +68,11 @@ namespace Runtime.CH2.Dialogue
                 StandingHighlight(2);
 
             onDialogueLineFinished();
+        }
+
+        public void NextProgress()
+        {
+            Managers.Data.CH2.Progress++;
         }
 
         public void AutoDialogueToggle()

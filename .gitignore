@@ -80,3 +80,4 @@ crashlytics-build.properties
 
 # Assets
 /Assets/Plugins/
+Assets/Google Sheets to Unity/Resources/GSTU_Config.asset
