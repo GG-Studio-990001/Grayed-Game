@@ -33,6 +33,7 @@ namespace Runtime.CH2.Dialogue
 
         private void Awake()
         {
+            _runner.AddCommandHandler("NextProgress", NextProgress);
             _runner.AddCommandHandler<int>("PartnerAppear", PartnerAppear);
             _runner.AddCommandHandler("PartnerOut", PartnerOut);
             _runner.AddCommandHandler<int>("NpcFace", NpcFace);
@@ -66,6 +67,11 @@ namespace Runtime.CH2.Dialogue
                 StandingHighlight(2);
 
             onDialogueLineFinished();
+        }
+
+        public void NextProgress()
+        {
+
         }
 
         public void AutoDialogueToggle()
