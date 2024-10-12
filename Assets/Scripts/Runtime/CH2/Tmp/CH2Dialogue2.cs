@@ -9,13 +9,7 @@ using Yarn.Unity;
 
 namespace Runtime.CH2.Dialogue
 {
-    public enum Npc
-    {
-        r2mon = 0,
-        michael = 1,
-    }
-
-    public class CH2Dialogue2 : DialogueViewBase
+    public class CH2Dialogue : DialogueViewBase
     {
         [Header("=Script=")]
         [SerializeField] private DialogueRunner _runner;
@@ -71,7 +65,7 @@ namespace Runtime.CH2.Dialogue
 
         public void NextProgress()
         {
-
+            Managers.Data.CH2.Progress++;
         }
 
         public void AutoDialogueToggle()

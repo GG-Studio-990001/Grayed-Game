@@ -614,10 +614,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _runner: {fileID: 696216669}
-  _turnController: {fileID: 1755298182}
+  _turnController: {fileID: 1755298184}
   _characters:
   - {fileID: 2050412808}
-  - {fileID: 0}
+  - {fileID: 1691260652}
   _npcs:
   - {fileID: 1691260652}
   - {fileID: 857216133}
@@ -1092,7 +1092,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &495576459
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2054,10 +2054,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1037746159}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fca31c22b06ef74fa2204c4dde43a85, type: 3}
+  m_Script: {fileID: 11500000, guid: 595b935d4adffdf4cb852c046cfaea9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _turnController: {fileID: 1755298182}
+  _turnController: {fileID: 1755298184}
 --- !u!1 &1060999293
 GameObject:
   m_ObjectHideFlags: 0
@@ -3028,28 +3028,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1755298183}
-  - component: {fileID: 1755298182}
+  - component: {fileID: 1755298184}
   m_Layer: 0
-  m_Name: TurnController
+  m_Name: TurnController2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1755298182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1755298181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 464792f9df394fa4e831e89a2c620df3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dialogueRunner: {fileID: 696216669}
-  _locationSelectionUI: {fileID: 444606903}
 --- !u!4 &1755298183
 Transform:
   m_ObjectHideFlags: 0
@@ -3065,6 +3051,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1755298184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755298181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1cb04e82dec35248875155ba7eb7d63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogueRunner: {fileID: 696216669}
+  _locationSelectionUI: {fileID: 444606903}
 --- !u!1 &1876918679
 GameObject:
   m_ObjectHideFlags: 0
@@ -3935,7 +3935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _runner: {fileID: 696216669}
-  _dialogue: {fileID: 304034740}
+  _dialogue: {fileID: 0}
   _uis:
   - {fileID: 1100803382}
   - {fileID: 1962123606}
