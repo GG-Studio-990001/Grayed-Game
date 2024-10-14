@@ -3,6 +3,7 @@ using Runtime.Input;
 using System;
 using Runtime.ETC;
 using UnityEngine;
+using SLGDefines;
 
 namespace Runtime.Manager
 {
@@ -44,11 +45,11 @@ namespace Runtime.Manager
         public bool IsPacmomCleared;
         public int PacmomCoin;
         // SLG
-        public long SLGConstructionBeginTime;
+        public long[] SLGConstructionBeginTime;
         public SLGProgress SLGProgressData;
+        public SLGBuildingProgress[] SLGBuildingProgressData;
         public int SLGWoodCount;
         public int SLGStoneCount;
-        public bool SLGBridgeRebuild;
         // Else
         public int TranslatorCount;
         #endregion
@@ -82,11 +83,11 @@ namespace Runtime.Manager
             IsPacmomCleared = false;
             PacmomCoin = 0;
             // SLG
-            SLGConstructionBeginTime = 0;
             SLGProgressData = SLGProgress.None;
             SLGWoodCount = 0;
             SLGStoneCount = 0;
-            SLGBridgeRebuild = false;
+            SLGConstructionBeginTime = new long[(int)SLGBuildingType.Max];
+            SLGBuildingProgressData = new SLGBuildingProgress[(int)SLGBuildingType.Max];
             // Else
             TranslatorCount = 0;
             #endregion
@@ -135,11 +136,11 @@ namespace Runtime.Manager
         public int PacmomCoin { get { return _gameData.PacmomCoin; } set { _gameData.PacmomCoin = value; } }
 
         // SLG
-        public long SLGConstructionBeginTime { get { return _gameData.SLGConstructionBeginTime; } set { _gameData.SLGConstructionBeginTime = value; } }
+        public long[] SLGConstructionBeginTime { get { return _gameData.SLGConstructionBeginTime; } set { _gameData.SLGConstructionBeginTime = value; } }
         public SLGProgress SLGProgressData { get { return _gameData.SLGProgressData; } set { _gameData.SLGProgressData = value; } }
+        public SLGBuildingProgress[] SLGBuildingProgressData { get { return _gameData.SLGBuildingProgressData; } set { _gameData.SLGBuildingProgressData = value; } }
         public int SLGWoodCount { get { return _gameData.SLGWoodCount; } set { _gameData.SLGWoodCount = value; } }
         public int SLGStoneCount { get { return _gameData.SLGStoneCount; } set { _gameData.SLGStoneCount = value; } }
-        public bool SLGBridgeRebuild { get { return _gameData.SLGBridgeRebuild; } set { _gameData.SLGBridgeRebuild = value; } }
 
         // Else
         public int TranslatorCount { get { return _gameData.TranslatorCount; } set { _gameData.TranslatorCount = value; } }

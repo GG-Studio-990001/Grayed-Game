@@ -68,12 +68,22 @@ title: BlockCave
      :별로 들어가고 싶지 않다...
 ===
 
-title: MamagoCompany1
+title: MamagoBeforeConstruct
 ---
      :무너져 내린 마마고 컴퍼니의 흔적이다.
 ===
 
-title: MamagoCompany2
+title: MamagoConstructing
 ---
      :마마고 컴퍼니가 다시 지어지는 중이다.
+===
+
+title: Joystick
+---
+     :손때가 탄 조이스틱이 더 이상 움직이지 않는다.
+===
+
+title: Tamagotchi
+---
+     :배터리가 오래되어 방전된 게임기다.
 ===

@@ -8,7 +8,8 @@ public class BuildingItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 {
     [Header("ItemValue")]
     [SerializeField] private SLGBuildingType _buildingtype;
-    public Vector2 _reqAsset;
+    SLGBuildingObject _building;
+
     [TextArea]
     [SerializeField] private string _discrtiption;
 
@@ -24,12 +25,14 @@ public class BuildingItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private void Start()
     {
         _discrtiptionText.text = _discrtiption;
-    }
-
-    private void OnEnable()
-    {
         _dispVisible = false;
         OnDispFadeInOut(false);
+
+        SLGActionComponent _actionComponent = FindAnyObjectByType<SLGActionComponent>();
+        if (_actionComponent != null)
+        {
+            _building = _actionComponent.GetBuildingObject(_buildingtype);
+        }
         RefreshItem();
     }
     private void OnDisable()
@@ -83,8 +86,11 @@ public class BuildingItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     
     public void RefreshItem ()
     {
-        RefreshBuildingState();
-
+        if(_building == null)
+        {
+            return;
+        }
+        _buildingState = _building.GetBuildingState();
         bool bInActive = _buildingState == BuildingState.Constructed || _buildingState == BuildingState.Locked;
         if (_dimImage != null)
         {
@@ -94,40 +100,5 @@ public class BuildingItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         {
             _buildingStateImg.gameObject.SetActive(bInActive);
         }
-    }
-    private void RefreshBuildingState()
-    {
-        switch (_buildingtype)
-        {
-            case SLGBuildingType.MamagoCompany:
-                if (Managers.Data.SLGProgressData >= Runtime.ETC.SLGProgress.EndConstruction)
-                {
-                    _buildingState = BuildingState.Constructed;
-                    return;
-                }
-                break;
-            case SLGBuildingType.Bridge:
-                if (Managers.Data.SLGBridgeRebuild)
-                {
-                    _buildingState = BuildingState.Constructed;
-                    return;
-                }
-                break;
-            case SLGBuildingType.R2Mon:
-                _buildingState = BuildingState.Locked;
-                return;
-            case SLGBuildingType.DollarStatue:
-                _buildingState = BuildingState.Impossible;
-                return;
-        }
-        if (_reqAsset.x <= Managers.Data.SLGWoodCount && _reqAsset.y <= Managers.Data.SLGStoneCount)
-        {
-            _buildingState = BuildingState.Able;
-        }
-        else
-        {
-            _buildingState = BuildingState.Impossible;
-        }
-
     }
 }

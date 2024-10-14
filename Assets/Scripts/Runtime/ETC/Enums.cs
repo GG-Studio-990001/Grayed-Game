@@ -44,15 +44,4 @@ namespace Runtime.ETC
         CHAP2 = 200,
         Max
     }
-
-    public enum SLGProgress
-    {
-        None = 0,
-        ModeOpen, //SLG 처음 모드 오픈
-        BeforeConstruction, //건설 시작 전
-        Constructing, //건설중 (가속 가능)
-        EndConstruction,
-        ModeClose, //SLG 모드 끝남
-        Max
-    }
 }
