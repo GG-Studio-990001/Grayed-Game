@@ -44,7 +44,9 @@ namespace Runtime.Middle
             _volume.weight = 0;
 
             if (isConnection)
+            {
                 _sceneTransform.ConnectToScene(_sceneName);
+            }
         }
     }
 }

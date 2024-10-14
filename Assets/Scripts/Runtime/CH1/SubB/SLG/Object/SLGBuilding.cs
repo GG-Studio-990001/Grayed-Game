@@ -51,8 +51,8 @@ public class SLGBuildingObject
 
     public void SaveBuildingData()
     {
-        Managers.Data.SLGConstructionBeginTime.SetValue(_constructionBeginTime, (int)_buildingData.GetBuildingType());
-        Managers.Data.SLGBuildingProgressData.SetValue(_buildingProgress, (int)_buildingData.GetBuildingType());
+        Managers.Data.CH1.SLGConstructionBeginTime.SetValue(_constructionBeginTime, (int)_buildingData.GetBuildingType());
+        Managers.Data.CH1.SLGBuildingProgressData.SetValue(_buildingProgress, (int)_buildingData.GetBuildingType());
     }
 
     public BuildingState GetBuildingState()
@@ -71,7 +71,7 @@ public class SLGBuildingObject
             case SLGBuildingType.DollarStatue:
                 return BuildingState.Impossible;
         }
-        if (_buildingData.GetReqAsset().x <= Managers.Data.SLGWoodCount && _buildingData.GetReqAsset().y <= Managers.Data.SLGStoneCount)
+        if (_buildingData.GetReqAsset().x <= Managers.Data.CH1.SLGWoodCount && _buildingData.GetReqAsset().y <= Managers.Data.CH1.SLGStoneCount)
         {
             return BuildingState.Able;
         }

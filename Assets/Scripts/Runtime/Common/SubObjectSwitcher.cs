@@ -5,7 +5,7 @@ using UnityEngine;
 public class SubObjectSwitcher : MonoBehaviour
 {
     private List<GameObject> _childObjects;
-    void OnEnable()
+    void Start()
     {
         InitChildObjects();
     }

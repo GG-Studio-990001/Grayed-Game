@@ -30,16 +30,6 @@ public class BuildingDetailViewWindow : MonoBehaviour
     SLGActionComponent _SLGAction;
     bool _bTimeSpending = false;
 
-    private void OnEnable()
-    {
-        Managers.Data.InGameKeyBinder.PlayerInputDisable();
-    }
-
-    private void OnDisable()
-    {
-        Managers.Data.InGameKeyBinder.PlayerInputEnable();
-    }
-
     void Update()
     {
         if (_bTimeSpending)
@@ -121,8 +111,8 @@ public class BuildingDetailViewWindow : MonoBehaviour
             return;
         }
 
-        int _wood = Managers.Data.SLGWoodCount;
-        int _stone = Managers.Data.SLGStoneCount;
+        int _wood = Managers.Data.CH1.SLGWoodCount;
+        int _stone = Managers.Data.CH1.SLGStoneCount;
 
         Vector2 _targetAssetCost = _currentDisplayBuilding.GetBuildingData().GetReqAsset();
         if (woodText != null)
@@ -157,8 +147,8 @@ public class BuildingDetailViewWindow : MonoBehaviour
             CloseWindow();
         }
 
-        coinCostText.text = Managers.Data.PacmomCoin.ToString() + "/" + _currentDisplayBuilding.GetBuildingData().GetReqCoin().ToString();
-        coinCostText.color = Managers.Data.PacmomCoin < _currentDisplayBuilding.GetBuildingData().GetReqCoin() ? Color.red : Color.blue;
+        coinCostText.text = Managers.Data.CH1.PacmomCoin.ToString() + "/" + _currentDisplayBuilding.GetBuildingData().GetReqCoin().ToString();
+        coinCostText.color = Managers.Data.CH1.PacmomCoin < _currentDisplayBuilding.GetBuildingData().GetReqCoin() ? Color.red : Color.blue;
     }
 
     private void OnClickCloseButton()
@@ -189,11 +179,17 @@ public class BuildingDetailViewWindow : MonoBehaviour
         }
     }
 
+    public void OpenWindow()
+    {
+        Managers.Data.InGameKeyBinder.PlayerInputDisable();
+    }
+
     void CloseWindow()
     {
         if (_contentParent)
         {
             _contentParent.SetActive(false);
+            Managers.Data.InGameKeyBinder.PlayerInputEnable();
         }
     }
 }
