@@ -56,6 +56,12 @@ namespace Runtime.CH1.Main.Dialogue
             _npc[0].transform.localPosition = NpcPos.GetSingeNpcPos(0, 9);
             _npc[0].gameObject.SetActive(false);
             _michael.gameObject.SetActive(false);
+
+            SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
+            if (slgAction != null)
+            {
+                slgAction.MoveOnNextProgress();
+            }
         }
 
         public void MichaelAction(int i)
@@ -164,13 +170,13 @@ namespace Runtime.CH1.Main.Dialogue
         {
             // TODO: 매직넘버 리팩터링...
             _michael.Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
-            _michael.transform.DOMove(new Vector3(89.5400009f, -15.5799999f, 0), 3.5f).SetEase(Ease.Linear);
+            _michael.transform.DOMove(new Vector3(89.5400009f, -16.0f, 0), 3.5f).SetEase(Ease.Linear);
         }
 
         public void DallarRun()
         {
             _npc[0].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
-            _npc[0].transform.DOMove(new Vector3(89.5400009f, -15.5799999f, 0), 6f).SetEase(Ease.Linear);
+            _npc[0].transform.DOMove(new Vector3(89.5400009f, -16.0f, 0), 6f).SetEase(Ease.Linear);
         }
 
         public void SetR2MonPosition()
@@ -181,7 +187,11 @@ namespace Runtime.CH1.Main.Dialogue
         public void RebuildBridge()
         {
             Managers.Sound.Play(Sound.SFX, "CH1/Mamago_Construction_SFX");
-            _bridge.CheckBridge();
+            SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
+            if (slgAction != null)
+            {
+                slgAction.MoveOnNextBuildingState(SLGDefines.SLGBuildingType.Bridge);
+            }
         }
 
         public void BuildCompany()
@@ -190,7 +200,7 @@ namespace Runtime.CH1.Main.Dialogue
             SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
             if (slgAction != null)
             {
-                slgAction.SetBuildCutSceneObjects();
+                slgAction.MoveOnNextBuildingState(SLGDefines.SLGBuildingType.MamagoCompany);
             }
         }
         
@@ -231,7 +241,7 @@ namespace Runtime.CH1.Main.Dialogue
 
         public void MamagoMove1()
         {
-            _mamago.Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
+            _mamago.Anim.SetAnimation(GlobalConst.MoveStr, Vector2.left);
             _mamago.transform.DOMove(_mamagoLocation[0], 2f).SetEase(Ease.Linear);
 
             StartCoroutine(nameof(RapleyGetOutMamago));

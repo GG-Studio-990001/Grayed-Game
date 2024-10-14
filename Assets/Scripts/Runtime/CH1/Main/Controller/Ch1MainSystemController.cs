@@ -71,7 +71,6 @@ namespace Runtime.CH1.Main.Controller
             // TODO: Check나 Load로 용어 통일
             _npcPosition.LoadNpcPosition();
             _luckyPack.ActiveLuckyPack();
-            _bridge.CheckBridge();
             _mamago.CheckMamago();
             _mamagoBubble.CheckMamagoBubble();
         }

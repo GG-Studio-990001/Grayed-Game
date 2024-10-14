@@ -1,5 +1,6 @@
 using Runtime.ETC;
 using UnityEngine;
+using SLGDefines;
 
 namespace Runtime.CH1.Main
 {
