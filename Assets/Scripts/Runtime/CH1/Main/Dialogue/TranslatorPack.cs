@@ -1,4 +1,5 @@
 using Runtime.CH1.Main.Player;
+using Runtime.ETC;
 using UnityEngine;
 using Yarn.Unity;
 
@@ -15,7 +16,7 @@ namespace Runtime.CH1.Main.Dialogue
 
         public void GetPack()
         {
-            _player.OnGet();
+            _player.Animation.SetAnimation(PlayerState.Get.ToString(), Vector2.down);
             _pack.SetActive(true);
             Managers.Sound.Play(ETC.Sound.SFX, "CH1/GetItem_SFX");
         }
@@ -23,15 +24,15 @@ namespace Runtime.CH1.Main.Dialogue
         public void FinishPack()
         {
             _pack.SetActive(false);
-            _player.Idle();
+            _player.Animation.SetAnimation(PlayerState.Idle.ToString(), Vector2.down);
         }
 
         public void BuyTranslator()
         {
-            if (Managers.Data.PacmomCoin < 10)
+            if (Managers.Data.CH1.PacmomCoin < 10)
                 return;
 
-            Managers.Data.PacmomCoin -= 10;
+            Managers.Data.CH1.PacmomCoin -= 10;
             _slg.RefreshCoinText();
             StartPackDialogue();
 

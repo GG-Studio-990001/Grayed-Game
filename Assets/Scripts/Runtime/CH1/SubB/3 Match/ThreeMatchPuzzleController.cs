@@ -13,8 +13,8 @@ namespace Runtime.CH1.SubB
 
         public bool IsClear
         {
-            get { return Managers.Data.ThreeMatchPuzzleStageData[PuzzleNumber].isClear; }
-            set { Managers.Data.ThreeMatchPuzzleStageData[PuzzleNumber].isClear = value; }
+            get { return Managers.Data.CH1.ThreeMatchPuzzleStageData[PuzzleNumber].isClear; }
+            set { Managers.Data.CH1.ThreeMatchPuzzleStageData[PuzzleNumber].isClear = value; }
         }
 
         private ThreeMatchPuzzleLogic _logic;
@@ -40,7 +40,7 @@ namespace Runtime.CH1.SubB
         {
             if (IsClear)
             {
-                var puzzleData = Managers.Data.ThreeMatchPuzzleStageData[PuzzleNumber];
+                var puzzleData = Managers.Data.CH1.ThreeMatchPuzzleStageData[PuzzleNumber];
                 
                 for (int i = 0; i < Jewelries.Count; i++)
                 {
@@ -68,7 +68,7 @@ namespace Runtime.CH1.SubB
             onClear?.Invoke();
             
             // save puzzle data
-            var puzzleData = Managers.Data.ThreeMatchPuzzleStageData[PuzzleNumber];
+            var puzzleData = Managers.Data.CH1.ThreeMatchPuzzleStageData[PuzzleNumber];
             puzzleData.jewelryPositions.Clear();
             
             foreach (var jewelry in Jewelries)

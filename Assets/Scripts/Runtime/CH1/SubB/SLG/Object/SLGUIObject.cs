@@ -17,7 +17,7 @@ namespace Runtime.CH1.SubB.SLG
             Ch1DialogueController Ch1DC = GameObject.FindObjectOfType<Ch1DialogueController>();
             if (Ch1DC != null)
             {
-                if (Managers.Data.Scene < 4)
+                if (Managers.Data.CH1.Scene < 4)
                 {
                     // 임시로 막아두기
                     Ch1DC.StartCh1MainDialogue("SLG_Block");

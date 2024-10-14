@@ -17,19 +17,19 @@ namespace Runtime.CH1
             switch (_idx)
             {
                 case 1:
-                    if (Managers.Data.Scene == 1 && Managers.Data.SceneDetail == 0)
+                    if (Managers.Data.CH1.Scene == 1 && Managers.Data.CH1.SceneDetail == 0)
                         dialogueRunner.StartDialogue("S1_1");
                     break;
                 case 2:
-                    if (Managers.Data.Scene == 2)
+                    if (Managers.Data.CH1.Scene == 2)
                         dialogueRunner.StartDialogue("S3");
                     break;
                 case 3:
-                    if (Managers.Data.Scene == 3 && Managers.Data.SceneDetail == 0)
+                    if (Managers.Data.CH1.Scene == 3 && Managers.Data.CH1.SceneDetail == 0)
                         dialogueRunner.StartDialogue("S3_1");
                     break;
                 case 4:
-                    if (Managers.Data.Scene == 3 && Managers.Data.SceneDetail == 1)
+                    if (Managers.Data.CH1.Scene == 3 && Managers.Data.CH1.SceneDetail == 1)
                         dialogueRunner.StartDialogue("S4");
                     break;
                 default:

@@ -4,30 +4,33 @@
 
 Grayed Game는 여러가지 장르가 결합된 게임으로 다양한 연출과 스토리가 핵심입니다.
 
-## 프로젝트 내역
+## 문의 및 소통
 
-*Grayed Game에 관한 문의사항은 아래 이메일을 통해 연락해주시면 됩니다.*
+*Grayed Game에 관한 문의사항은 아래 이메일 또는 X를 통해 연락해주시면 됩니다.*
 
-이메일 링크: <fkdl000048@gmail.com>  
-Grayed Game X: https://x.com/GrayedGame
+이메일: <fkdl000048@gmail.com>  
+X (구 트위터): https://x.com/GrayedGame
 
-- [2024 BIC 루키 부분 오프라인 전시작]  
-- LOGIN(대학생 연합 발표회) 기획 우수상  
+## 주요 성과
+
+- 2024 BIC 루키 부분 온·오프라인 전시작
+- LOGIN(대학생 연합 발표회) 기획 우수상
 
 ## 팀원
 
-### 현재 진행중인 팀원
+### 현재 함께하는 팀원
 
 | 이름 | 포지션 | 작업 기간 |
 |--------|--------|--------|
-| [이정안](https://github.com/fkdl0048) | 팀장, 디렉터 | 23-09 |
-| [정우연](https://github.com/wooyn730) | PM, 프로그래머 | 23-09 |
-| [남현정](https://github.com/jeongopo) | 프로그래머 | 24-03 |
-| [한수빈](https://github.com/roweclaw) | 기획 | 24-03 |
-| [지수민](https://github.com/Sumindd) | 기획 | 24-03 |
-| [송기화](https://github.com/Songkihwa) | 사운드 | 23-09 |
-| [김지은](https://github.com/JIJI037) | 아트 | 24-08 |
-| [김보민](https://github.com/vprwolf) | 아트 | 24-08 |
+| [이정안](https://github.com/fkdl0048) | 팀장, 디렉터 | 23-09 ~ |
+| [정우연](https://github.com/wooyn730) | PM, 프로그래머 | 23-09 ~ |
+| [남현정](https://github.com/jeongopo) | 프로그래머 | 24-03 ~ |
+| [이시원](https://github.com/NearthYou) | 프로그래머 | 24-10 ~ |
+| [한수빈](https://github.com/roweclaw) | 기획 | 24-03 ~ |
+| [지수민](https://github.com/Sumindd) | 기획 | 24-03 ~ |
+| [송기화](https://github.com/Songkihwa) | 사운드 | 23-09 ~ |
+| [김지은](https://github.com/JIJI037) | 아트 | 24-08 ~ |
+| [김보민](https://github.com/vprwolf) | 아트 | 24-08 ~ |
 
 <details><summary>명예의 전당</summary>
 <p>

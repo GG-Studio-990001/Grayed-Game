@@ -32,7 +32,7 @@ namespace Runtime.CH1.Pacmom
         private void GetRewardCoin(int finalScore)
         {
             _resultCoinTxt.text = "x" + finalScore.ToString();
-            Managers.Data.PacmomCoin += finalScore;
+            Managers.Data.CH1.PacmomCoin += finalScore;
         }
 
         public void PacmomWin()
@@ -45,10 +45,10 @@ namespace Runtime.CH1.Pacmom
 
         private void SaveGameClear(bool clear)
         {
-            if (!Managers.Data.IsPacmomPlayed)
-                Managers.Data.IsPacmomPlayed = true;
+            if (!Managers.Data.CH1.IsPacmomPlayed)
+                Managers.Data.CH1.IsPacmomPlayed = true;
 
-            Managers.Data.IsPacmomCleared = clear;
+            Managers.Data.CH1.IsPacmomCleared = clear;
 
             Managers.Data.SaveGame();
         }
@@ -89,7 +89,7 @@ namespace Runtime.CH1.Pacmom
             _postProcessing.gameObject.SetActive(false);
 
             _sceneTransform = FindObjectOfType<SceneTransform>();
-            _sceneTransform.EscapeFromScene("CH1", true);
+            _sceneTransform.EscapeFromScene("CH1");
         }
     }
 }

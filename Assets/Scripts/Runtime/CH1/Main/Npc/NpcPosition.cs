@@ -24,35 +24,39 @@ namespace Runtime.CH1.Main.Npc
         public void LoadNpcPosition()
         {
             Debug.Log("NpcPosition:");
-            if (Managers.Data.Scene == 0)
+            if (Managers.Data.CH1.Scene == 0)
             {
                 SetNpcPosition(0);
                 Debug.Log("초기 세팅");
             }
-            else if (Managers.Data.Scene == 1)
+            else if (Managers.Data.CH1.Scene == 1)
             {
                 SetNpcPosition(2);
                 Debug.Log("씬1 후");
             }
-            else if (Managers.Data.Scene == 2)
+            else if (Managers.Data.CH1.Scene == 2)
             {
                 SetNpcPosition(4);
                 Debug.Log("씬2 후 이동");
             }
-            else if (Managers.Data.Scene == 3 && Managers.Data.SceneDetail == 0)
+            else if (Managers.Data.CH1.Scene == 3 && Managers.Data.CH1.SceneDetail == 0)
             {
                 SetNpcPosition(6);
                 Debug.Log("동굴 출구 앞");
             }
-            else if (Managers.Data.Scene == 3 && Managers.Data.SceneDetail == 1)
+            else if (Managers.Data.CH1.Scene == 3 && Managers.Data.CH1.SceneDetail == 1)
             {
                 SetNpcPosition(8);
             }
             else
             {
-                // TODO: 9 지정 필요 (달러는 맵 바깥)
                 SetNpcPosition(9);
-                Debug.Log("맵3");
+
+                if (Managers.Data.CH1.Scene == 6 && Managers.Data.CH1.SceneDetail == 0)
+                {
+                    // 알투몬에게 말 걸어야하는 시기
+                    _npcs[2].transform.position = NpcLocations[2].Locations[10];
+                }
             }
         }
 
