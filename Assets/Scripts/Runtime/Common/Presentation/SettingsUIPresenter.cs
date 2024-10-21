@@ -1,5 +1,8 @@
 using Runtime.Common.View;
+using Runtime.ETC;
+using Runtime.InGameSystem;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Runtime.Common.Presentation
 {
@@ -12,6 +15,7 @@ namespace Runtime.Common.Presentation
             _settingsUIView = settingsUIView;
 
             InitVolume();
+            InitScreenMode();
             _settingsUIView.BgmVolumeSlider.onValueChanged.AddListener(SetBgmVolume);
             _settingsUIView.SfxVolumeSlider.onValueChanged.AddListener(SetSfxVolume);
             
@@ -28,6 +32,17 @@ namespace Runtime.Common.Presentation
             _settingsUIView.SfxVolumeSlider.value = Managers.Data.SfxVolume;
         }
 
+        private void InitScreenMode()
+        {
+            if(Managers.Data.IsFullscreen)
+                SetFullScreenMode(true);
+            else
+            {
+                SetWindowScreenMode(true);
+            }
+        }
+        
+
         private void SetBgmVolume(float volume)
         {
             Managers.Data.BgmVolume = volume;
@@ -43,12 +58,22 @@ namespace Runtime.Common.Presentation
 
         private void SetFullScreenMode(bool isOn)
         {
-            Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+            if (isOn == false)
+            {
+                Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+                _settingsUIView.WindowScreenToggle.isOn = false;
+                Managers.Data.IsFullscreen = true;
+            }
         }
         
         private void SetWindowScreenMode(bool isOn)
         {
-            Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);
+            if (isOn == false)
+            {
+                Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
+                _settingsUIView.FullScreenToggle.isOn = false;
+                Managers.Data.IsFullscreen = false;
+            }
         }
         
         private void OnGameExitButtonClicked()

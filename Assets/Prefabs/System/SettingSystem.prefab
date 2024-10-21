@@ -885,7 +885,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 325, y: 88}
+  m_AnchoredPosition: {x: 127, y: 88}
   m_SizeDelta: {x: 360, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2676726580588217903
@@ -2893,6 +2893,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7427133140673661764}
   - component: {fileID: 6154748035360889642}
+  - component: {fileID: 335110141899180257}
   m_Layer: 5
   m_Name: SFXSlider
   m_TagString: Untagged
@@ -2974,6 +2975,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &335110141899180257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6482141921439642028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aa69005081197948ba9d97ffb482252, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6584498748132185721
 GameObject:
   m_ObjectHideFlags: 0
