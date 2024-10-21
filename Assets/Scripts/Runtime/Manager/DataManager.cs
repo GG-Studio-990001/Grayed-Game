@@ -13,6 +13,7 @@ namespace Runtime.Manager
         public int Chapter;
         public float BgmVolume;
         public float SfxVolume;
+        public bool isFullScreen;
         public CH1Data CH1;
         public CH2Data CH2;
 
@@ -22,6 +23,7 @@ namespace Runtime.Manager
             Chapter = 1;
             BgmVolume = 0.5f;
             SfxVolume = 0.5f;
+            isFullScreen = true;
             CH1 = new CH1Data();
             CH2 = new CH2Data();
         }
@@ -47,6 +49,12 @@ namespace Runtime.Manager
         {
             get { return _gameData.SfxVolume; }
             set { Mathf.Clamp(value, 0, 1); _gameData.SfxVolume = value; Managers.Sound.SFX.volume = value; }
+        }
+
+        public bool IsFullscreen
+        {
+            get { return _gameData.isFullScreen; }
+            set { _gameData.isFullScreen = value; }
         }
 
         public CH1Data CH1 { get { return _gameData.CH1; } set { _gameData.CH1 = value; } }
