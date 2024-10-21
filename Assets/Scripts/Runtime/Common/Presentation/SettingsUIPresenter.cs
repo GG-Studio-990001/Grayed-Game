@@ -34,10 +34,14 @@ namespace Runtime.Common.Presentation
 
         private void InitScreenMode()
         {
-            if(Managers.Data.IsFullscreen)
+            if (Managers.Data.IsFullscreen)
+            {
+                _settingsUIView.FullScreenToggle.isOn = true;
                 SetFullScreenMode(true);
+            }
             else
             {
+                _settingsUIView.FullScreenToggle.isOn = true;
                 SetWindowScreenMode(true);
             }
         }
@@ -58,21 +62,25 @@ namespace Runtime.Common.Presentation
 
         private void SetFullScreenMode(bool isOn)
         {
-            if (isOn == false)
+            if (isOn)
             {
-                Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+                _settingsUIView.FullScreenToggle.interactable = false;
                 _settingsUIView.WindowScreenToggle.isOn = false;
+                _settingsUIView.WindowScreenToggle.interactable = true;
                 Managers.Data.IsFullscreen = true;
+                Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
             }
         }
         
         private void SetWindowScreenMode(bool isOn)
         {
-            if (isOn == false)
+            if (isOn)
             {
-                Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
+                _settingsUIView.WindowScreenToggle.interactable = false;
                 _settingsUIView.FullScreenToggle.isOn = false;
+                _settingsUIView.FullScreenToggle.interactable = true;
                 Managers.Data.IsFullscreen = false;
+                Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
             }
         }
         
