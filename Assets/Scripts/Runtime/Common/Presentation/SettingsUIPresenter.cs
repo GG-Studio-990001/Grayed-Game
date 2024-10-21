@@ -41,7 +41,7 @@ namespace Runtime.Common.Presentation
             }
             else
             {
-                _settingsUIView.FullScreenToggle.isOn = true;
+                _settingsUIView.WindowScreenToggle.isOn = true;
                 SetWindowScreenMode(true);
             }
         }
