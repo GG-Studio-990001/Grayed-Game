@@ -57,7 +57,7 @@ namespace Runtime.CH2.Location
 
                 Button btn = _locationOptions.GetChild(i).GetComponent<Button>();
                 btn.onClick.RemoveAllListeners();
-                int index = i; // Local copy of i for the closure
+                int index = i;  // Closure 문제 해결
                 btn.onClick.AddListener(() => TurnController.AdvanceTurnAndMoveLocation(loc[index]));
                 btn.onClick.AddListener(() => _fadeController.StartFadeOut());
 
@@ -68,23 +68,23 @@ namespace Runtime.CH2.Location
 
         private void MakeOptions(int cnt)
         {
-            int child = _locationOptions.childCount;
+            int currentCount = _locationOptions.childCount;
 
-            if (child == cnt)
+            if (currentCount == cnt)
                 return;
 
-            if (child > cnt)
+            if (currentCount > cnt)
             {
-                for (int i = 0; i < child - cnt; i++)
+                for (int i = currentCount - 1; i >= cnt; i--)
                 {
                     Destroy(_locationOptions.GetChild(i).gameObject);
                 }
             }
             else
             {
-                for (int i = 0; i < cnt - child; i++)
+                for (int i = 0; i < cnt - currentCount; i++)
                 {
-                    Instantiate(_optionBtnPrefab, _locationOptions.position, _locationOptions.rotation, _locationOptions);
+                    Instantiate(_optionBtnPrefab, _locationOptions);
                 }
             }
         }
