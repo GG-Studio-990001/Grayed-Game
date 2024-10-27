@@ -1,4 +1,10 @@
-﻿title: Tmp1_1
+﻿title: ShowLocations
+---
+<<wait 1>>
+<<DialogueFin>>
+===
+
+title: Tmp1_1
 ---
 <<wait 1>>
 라플리: 턴1 프로그래스1

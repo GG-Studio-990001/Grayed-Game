@@ -12,6 +12,7 @@ namespace Runtime.CH2.Main
         [SerializeField] private DialogueRunner _dialogueRunner;
         [SerializeField] private LocationSelectionUI2 _locationSelectionUI;
         private List<Dictionary<string, object>> _data = new();
+        private List<string> _visitedLocations = new();
 
         private void Awake()
         {
@@ -24,7 +25,7 @@ namespace Runtime.CH2.Main
             // CH2 시작시 최초 1회 호출
             // 현재는 Progress 0 기준, 추후 진행도에 따라 변경되도록
 
-            Managers.Data.CH2.Progress = 0;
+            Managers.Data.CH2.Progress = 6;
 
             List<string> loc = GetAvailableLocations();
             if (loc.Count != 1)
@@ -35,7 +36,7 @@ namespace Runtime.CH2.Main
             Managers.Data.CH2.Location = loc[0];
 
             _locationSelectionUI.FadeIn();
-            InitiateDialogue();
+            StartDialogue();
         }
 
         public void AdvanceTurnAndMoveLocation(string location)
@@ -43,12 +44,29 @@ namespace Runtime.CH2.Main
             Managers.Data.CH2.Location = location;
 
             _locationSelectionUI.MoveLocation();
-            InitiateDialogue();
+            StartDialogue();
         }
 
-        private void InitiateDialogue()
+        private void StartDialogue()
         {
-            _dialogueRunner.StartDialogue(GetDialogueName());
+            string showLocations = "ShowLocations"; // 리팩터링 필요 (옮기기)
+            string dialogueName;
+
+            if (_visitedLocations.Contains(Managers.Data.CH2.Location))
+            {
+                Debug.Log("이미 방문함");
+                dialogueName = showLocations;
+            }
+            else
+            {
+                dialogueName = GetDialogueName();
+                _visitedLocations.Add(Managers.Data.CH2.Location);
+            }
+
+            if (dialogueName == "O")
+                dialogueName = showLocations;
+
+            _dialogueRunner.StartDialogue(dialogueName);
         }
 
         private string GetDialogueName()
@@ -69,8 +87,8 @@ namespace Runtime.CH2.Main
                 if (location == Managers.Data.CH2.Location)
                 {
                     // 진행도에 해당하는 셀 값을 가져와 반환
-                    string progressState = row[$"{progress}"].ToString();
-                    return progressState;
+                    string dialogueName = row[$"{progress}"].ToString();
+                    return dialogueName;
                 }
             }
 
@@ -108,6 +126,13 @@ namespace Runtime.CH2.Main
         public void DisplayAvailableLocations()
         {
             _locationSelectionUI.SetLocationOptions(GetAvailableLocations());
+        }
+
+        public void NextProgress()
+        {
+            Managers.Data.CH2.Progress++;
+            _visitedLocations.Clear();
+            Debug.Log("초기화");
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Runtime.CH2.Location
 {
     public class LocationSelectionUI2 : MonoBehaviour
     {
+        // 클래스명 서로 바뀜...
         [NonSerialized] public TurnController2 TurnController;
         [SerializeField] private BGSpriteSwitcher _bgSpriteSwitcher;
         [SerializeField] private FadeController _fadeController;

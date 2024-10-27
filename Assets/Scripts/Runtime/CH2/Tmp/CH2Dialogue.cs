@@ -35,11 +35,11 @@ namespace Runtime.CH2.Dialogue
         private void Awake()
         {
             _runner.AddCommandHandler("NextProgress", NextProgress);
-            _runner.AddCommandHandler<int>("PartnerAppear", PartnerAppear);
-            _runner.AddCommandHandler("PartnerOut", PartnerOut);
-            _runner.AddCommandHandler<int>("NpcFace", NpcFace);
             _runner.AddCommandHandler("DialogueFin", DialogueFin);
-            _runner.AddCommandHandler("Ending", Ending);
+            //_runner.AddCommandHandler<int>("PartnerAppear", PartnerAppear);
+            //_runner.AddCommandHandler("PartnerOut", PartnerOut);
+            //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
+            //_runner.AddCommandHandler("Ending", Ending);
         }
 
         private void Update()
@@ -56,7 +56,7 @@ namespace Runtime.CH2.Dialogue
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
             // SetAuto(onDialogueLineFinished);
-
+            /*
             _speaker = dialogueLine.CharacterName;
             SetNameTag(_speaker != "");
 
@@ -66,18 +66,40 @@ namespace Runtime.CH2.Dialogue
                 StandingHighlight(1);
             else
                 StandingHighlight(2);
-
+            */
             onDialogueLineFinished();
         }
 
         public void NextProgress()
         {
-            Managers.Data.CH2.Progress++;
+            _turnController.NextProgress();
+        }
+
+        private void DialogueFin()
+        {
+            // 라플리는 밝게 처리하고 NPC가 있다면 끈다
+            // StandingHighlight(0);
+            // _characters[1].gameObject.SetActive(false);
+
+            // 오른쪽에는 이동 가능한 장소 목록을 띄운다
+            _turnController.DisplayAvailableLocations();
         }
 
         public void AutoDialogueToggle()
         {
             _isAutoAdvanced = !_isAutoAdvanced;
+        }
+
+        public void TextSFX()
+        {
+            if (_speaker == "R2-Mon")
+            {
+                Managers.Sound.Play(Sound.Speech, "R2-Mon_Text_SFX_04");
+            }
+            else
+            {
+                Managers.Sound.Play(Sound.Speech, "Text_SFX");
+            }
         }
 
         /*
@@ -105,7 +127,7 @@ namespace Runtime.CH2.Dialogue
             yield return new WaitForSeconds(1f);
             Debug.Log("끗");
             _runner.Dialogue.Continue();
-        }*/
+        }
 
         private void SetNameTag(bool hasName)
         {
@@ -139,16 +161,6 @@ namespace Runtime.CH2.Dialogue
                 Ending();
         }
 
-        private void DialogueFin()
-        {
-            // 라플리는 밝게 처리하고 NPC가 있다면 끈다
-            StandingHighlight(0);
-            _characters[1].gameObject.SetActive(false);
-
-            // 오른쪽에는 이동 가능한 장소 목록을 띄운다
-            _turnController.DisplayAvailableLocations();
-        }
-
         private void Ending()
         {
             // 개발한 부분까지 모두 출력 완료함
@@ -173,18 +185,7 @@ namespace Runtime.CH2.Dialogue
                     _characters[i].color = dark;
                 }
             }
-        }
+        }*/
 
-        public void TextSFX()
-        {
-            if (_speaker == "R2-Mon")
-            {
-                Managers.Sound.Play(Sound.Speech, "R2-Mon_Text_SFX_04");
-            }
-            else
-            {
-                Managers.Sound.Play(Sound.Speech, "Text_SFX");
-            }
-        }
     }
 }
