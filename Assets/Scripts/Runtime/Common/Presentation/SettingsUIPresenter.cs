@@ -1,5 +1,8 @@
 using Runtime.Common.View;
+using Runtime.ETC;
+using Runtime.InGameSystem;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Runtime.Common.Presentation
 {
@@ -12,6 +15,7 @@ namespace Runtime.Common.Presentation
             _settingsUIView = settingsUIView;
 
             InitVolume();
+            InitScreenMode();
             _settingsUIView.BgmVolumeSlider.onValueChanged.AddListener(SetBgmVolume);
             _settingsUIView.SfxVolumeSlider.onValueChanged.AddListener(SetSfxVolume);
             
@@ -28,6 +32,21 @@ namespace Runtime.Common.Presentation
             _settingsUIView.SfxVolumeSlider.value = Managers.Data.SfxVolume;
         }
 
+        private void InitScreenMode()
+        {
+            if (Managers.Data.IsFullscreen)
+            {
+                _settingsUIView.FullScreenToggle.isOn = true;
+                SetFullScreenMode(true);
+            }
+            else
+            {
+                _settingsUIView.WindowScreenToggle.isOn = true;
+                SetWindowScreenMode(true);
+            }
+        }
+        
+
         private void SetBgmVolume(float volume)
         {
             Managers.Data.BgmVolume = volume;
@@ -43,12 +62,26 @@ namespace Runtime.Common.Presentation
 
         private void SetFullScreenMode(bool isOn)
         {
-            Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+            if (isOn)
+            {
+                _settingsUIView.FullScreenToggle.interactable = false;
+                _settingsUIView.WindowScreenToggle.isOn = false;
+                _settingsUIView.WindowScreenToggle.interactable = true;
+                Managers.Data.IsFullscreen = true;
+                Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+            }
         }
         
         private void SetWindowScreenMode(bool isOn)
         {
-            Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);
+            if (isOn)
+            {
+                _settingsUIView.WindowScreenToggle.interactable = false;
+                _settingsUIView.FullScreenToggle.isOn = false;
+                _settingsUIView.FullScreenToggle.interactable = true;
+                Managers.Data.IsFullscreen = false;
+                Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
+            }
         }
         
         private void OnGameExitButtonClicked()
