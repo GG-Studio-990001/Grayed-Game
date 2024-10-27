@@ -2088,7 +2088,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 80, y: 130}
+  m_AnchoredPosition: {x: 130, y: 130}
   m_SizeDelta: {x: 200, y: 84.6133}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &1767295622917427692
@@ -2119,7 +2119,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD654\uBA74\uBAA8\uB4DC"
+  m_text: "\uD654\uBA74"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 20df6cf4e3969cc46a9e547f18e066d3, type: 2}
   m_sharedMaterial: {fileID: 8267675722650998094, guid: 20df6cf4e3969cc46a9e547f18e066d3, type: 2}
@@ -2153,7 +2153,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2783,7 +2783,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 80, y: 130}
+  m_AnchoredPosition: {x: 130, y: 130}
   m_SizeDelta: {x: 200, y: 84.6133}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &6156808254248267116
@@ -2814,7 +2814,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC0AC\uC6B4\uB4DC"
+  m_text: "\uC18C\uB9AC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 20df6cf4e3969cc46a9e547f18e066d3, type: 2}
   m_sharedMaterial: {fileID: 8267675722650998094, guid: 20df6cf4e3969cc46a9e547f18e066d3, type: 2}
@@ -2848,7 +2848,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -5166,7 +5166,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 80, y: 130}
+  m_AnchoredPosition: {x: 130, y: 130}
   m_SizeDelta: {x: 200, y: 84.6133}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &9060029179700398446
@@ -5231,7 +5231,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
