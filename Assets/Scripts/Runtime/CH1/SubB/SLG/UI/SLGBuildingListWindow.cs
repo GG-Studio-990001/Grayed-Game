@@ -23,8 +23,6 @@ public class SLGBuildingListWindow : MonoBehaviour
     private void OnEnable()
     {
         _HUDButton.onClick.AddListener(OnClickHUDButton);
-        RefreshBuildingInfo();
-        ChangeWindowVisiblity(false, true);
     }
 
     private void OnDisable()
@@ -35,6 +33,8 @@ public class SLGBuildingListWindow : MonoBehaviour
     void Start()
     {
         _windowVisible = false;
+        RefreshBuildingInfo();
+        ChangeWindowVisiblity(false, true);
     }
     public void HideWindow()
     {

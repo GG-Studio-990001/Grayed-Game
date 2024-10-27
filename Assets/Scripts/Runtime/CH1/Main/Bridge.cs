@@ -10,7 +10,8 @@ namespace Runtime.CH1.Main
         {
             if (Managers.Data.CH1.Scene >= 3)
             {
-                if (Managers.Data.CH1.SLGBridgeRebuild == false)
+                SLGActionComponent _actionComponent = FindAnyObjectByType<SLGActionComponent>();
+                if (_actionComponent != null && _actionComponent.GetCurrentBuildingState(SLGDefines.SLGBuildingType.Bridge) < SLGDefines.SLGBuildingProgress.EndConstruct)
                 {
                     ActiveBrokenBridge();
                 }

@@ -2,6 +2,7 @@ using Runtime.CH1.SubB._3_Match;
 using Runtime.ETC;
 using System;
 using UnityEngine;
+using SLGDefines;
 
 namespace Runtime.Data.Original
 {
@@ -23,11 +24,11 @@ namespace Runtime.Data.Original
         public bool IsPacmomCleared;
         public int PacmomCoin;
         // SLG
-        public long SLGConstructionBeginTime;
+        public long[] SLGConstructionBeginTime;
         public SLGProgress SLGProgressData;
+        public SLGBuildingProgress[] SLGBuildingProgressData;
         public int SLGWoodCount;
         public int SLGStoneCount;
-        public bool SLGBridgeRebuild;
         // Else
         public int TranslatorCount;
 
@@ -54,11 +55,11 @@ namespace Runtime.Data.Original
             IsPacmomCleared = false;
             PacmomCoin = 0;
             // SLG
-            SLGConstructionBeginTime = 0;
             SLGProgressData = SLGProgress.None;
             SLGWoodCount = 0;
             SLGStoneCount = 0;
-            SLGBridgeRebuild = false;
+            SLGConstructionBeginTime = new long[(int)SLGBuildingType.Max];
+            SLGBuildingProgressData = new SLGBuildingProgress[(int)SLGBuildingType.Max];
             // Else
             TranslatorCount = 0;
         }
