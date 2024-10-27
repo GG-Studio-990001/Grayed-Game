@@ -53,11 +53,12 @@ namespace Runtime.CH2.Main
 
         private string GetDialogueName()
         {
-            int progress = Managers.Data.CH2.Progress;
-
-            Debug.Log(Managers.Data.CH2.Progress);
             // 현재 턴수와 장소에 맞는 다이얼로그 이름 가져오기
-            for (int i = 1; i < _data.Count; i++)  // 첫 번째 행(헤더)은 제외
+
+            int progress = Managers.Data.CH2.Progress;
+            Debug.Log(Managers.Data.CH2.Progress);
+
+            for (int i = 0; i < _data.Count; i++)
             {
                 var row = _data[i];
 
@@ -83,8 +84,7 @@ namespace Runtime.CH2.Main
             // 이동 가능한 장소 리스트 가져오기
             List<string> loc = new();
 
-            // 첫 번째 행(header)을 제외하고 탐색
-            for (int i = 1; i < _data.Count; i++)
+            for (int i = 0; i < _data.Count; i++)
             {
                 var row = _data[i];
 
