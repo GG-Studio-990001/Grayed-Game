@@ -36,10 +36,10 @@ namespace Runtime.CH2.Dialogue
         {
             _runner.AddCommandHandler("NextProgress", NextProgress);
             _runner.AddCommandHandler("DialogueFin", DialogueFin);
+            _runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("PartnerAppear", PartnerAppear);
             //_runner.AddCommandHandler("PartnerOut", PartnerOut);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
-            //_runner.AddCommandHandler("Ending", Ending);
         }
 
         private void Update()
@@ -102,6 +102,12 @@ namespace Runtime.CH2.Dialogue
             }
         }
 
+        private void Ending()
+        {
+            // 개발한 부분까지 모두 출력 완료함
+            _toBeContinued.SetActive(true);
+        }
+
         /*
         private void SetAuto(Action onDialogueLineFinished)
         {
@@ -159,12 +165,6 @@ namespace Runtime.CH2.Dialogue
 
             if (Managers.Data.CH2.Location == "미카엘의 신전")
                 Ending();
-        }
-
-        private void Ending()
-        {
-            // 개발한 부분까지 모두 출력 완료함
-            _toBeContinued.SetActive(true);
         }
 
         private void StandingHighlight(int num)

@@ -39,6 +39,5 @@ title: Tmp3_3
 ---
 <<wait 1>>
 라플리: 턴3 프로그래스3
-<<NextProgress>>
-<<DialogueFin>>
+<<Ending>>
 ===
