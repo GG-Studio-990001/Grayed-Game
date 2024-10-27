@@ -1,4 +1,3 @@
-using Codice.CM.Client.Differences.Merge;
 using Runtime.CH2.Location;
 using Runtime.ETC;
 using System.Collections.Generic;
@@ -41,7 +40,6 @@ namespace Runtime.CH2.Main
 
         public void AdvanceTurnAndMoveLocation(string location)
         {
-            //Managers.Data.CH2.Progress++;
             Managers.Data.CH2.Location = location;
 
             _locationSelectionUI.MoveLocation();
@@ -56,8 +54,6 @@ namespace Runtime.CH2.Main
         private string GetDialogueName()
         {
             int progress = Managers.Data.CH2.Progress;
-            //if (progress == -1)
-            //    progress = 0;
 
             Debug.Log(Managers.Data.CH2.Progress);
             // 현재 턴수와 장소에 맞는 다이얼로그 이름 가져오기
@@ -99,7 +95,8 @@ namespace Runtime.CH2.Main
                 string progressState = row[$"{nextProgress}"].ToString();
 
                 // 진행도에서 x가 아닌 값이면 이동 가능 장소로 리스트에 추가
-                if (progressState != "x")
+                // 현재 있는 위치도 아니어야 함
+                if (progressState != "x" && location != Managers.Data.CH2.Location)
                 {
                     loc.Add(location);
                 }

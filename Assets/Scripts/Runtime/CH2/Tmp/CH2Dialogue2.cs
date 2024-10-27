@@ -1,7 +1,6 @@
 using Runtime.CH2.Main;
 using Runtime.ETC;
 using System;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
