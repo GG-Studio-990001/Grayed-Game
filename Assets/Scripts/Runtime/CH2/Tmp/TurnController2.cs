@@ -16,7 +16,7 @@ namespace Runtime.CH2.Main
 
         private void Awake()
         {
-            _data = CSVReader.Read("StoryBranch");
+            _data = CSVReader.Read("CH2Branch");
             _locationSelectionUI.TurnController = this;
         }
 
