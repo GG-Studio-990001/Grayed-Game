@@ -56,10 +56,10 @@ namespace Runtime.CH2.Dialogue
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
             // SetAuto(onDialogueLineFinished);
-            /*
             _speaker = dialogueLine.CharacterName;
             SetNameTag(_speaker != "");
 
+            /*
             if (_speaker.Equals("라플리"))
                 StandingHighlight(0);
             else if (_speaker.Equals("R2-Mon") || (_speaker.Equals("미카엘")))
@@ -108,6 +108,11 @@ namespace Runtime.CH2.Dialogue
             _toBeContinued.SetActive(true);
         }
 
+        private void SetNameTag(bool hasName)
+        {
+            _nameTag.SetActive(hasName);
+        }
+
         /*
         private void SetAuto(Action onDialogueLineFinished)
         {
@@ -133,11 +138,6 @@ namespace Runtime.CH2.Dialogue
             yield return new WaitForSeconds(1f);
             Debug.Log("끗");
             _runner.Dialogue.Continue();
-        }
-
-        private void SetNameTag(bool hasName)
-        {
-            _nameTag.SetActive(hasName);
         }
 
         private void PartnerAppear(int idx)
@@ -186,6 +186,5 @@ namespace Runtime.CH2.Dialogue
                 }
             }
         }*/
-
     }
 }
