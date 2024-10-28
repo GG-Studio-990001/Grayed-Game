@@ -1,6 +1,6 @@
 using System;
 
-namespace Runtime.Data.Original
+namespace Runtime.Data
 {
     [Serializable]
     public class CH2Data
