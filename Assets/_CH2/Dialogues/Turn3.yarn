@@ -2,6 +2,7 @@ title: Turn3_1_S
 // 시점 : Turn 3의 1번 S이벤트
 // 상황 : R2-Mon이 떨군 명함에 적힌 약도에 기지가 위치가 있다.
 ---
+<<IsSpecialDialogue true>>
 <<wait 1>>
 // 골목길 도착
 
@@ -22,6 +23,7 @@ title: Turn3_1_N_TempleOutside
 // 시점 : Turn 3의 1번 N이벤트_신전 외관, 미카엘
 // 상황 : 기지에서 새 링을 만들지 않고 방문시, 미카엘이 문전박대 한다.
 ---
+<<IsSpecialDialogue false>>
 <<wait 1>>
 //  신전 외관 도착
 
@@ -44,6 +46,7 @@ title: Turn3_1_N_Square
 // 시점 : Turn 3의 1번 N이벤트_광장
 // 상황 : 아무도 없다.
 ---
+<<IsSpecialDialogue false>>
 <<wait 1>>
 //  광장 도착
 
@@ -57,6 +60,7 @@ title: Turn3_1_N_Entrance
 // 시점 : Turn 3의 1번 N이벤트_마을 입구, 진도/비글
 // 상황 : 동굴로 가는 길을 알려준다.
 ---
+<<IsSpecialDialogue false>>
 <<wait 1>>
 //  마을 입구 도착
 
@@ -76,6 +80,7 @@ title: Turn3_2_S
 // 시점 : Turn 3의 2번 S이벤트
 // 상황 : 동굴을 지나 기지로 간다.
 ---
+<<IsSpecialDialogue true>>
 <<wait 1>>
 // 동굴 도착
  
@@ -90,6 +95,7 @@ title: Turn3_3_S
 // 시점 : Turn 3의 3번 S이벤트, R2-Mon
 // 상황 : 재료를 조합해 새 링으로 만들어준다.
 ---
+<<IsSpecialDialogue true>>
 <<wait 1>>
 // 기지 외관 도착
  

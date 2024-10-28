@@ -34,6 +34,7 @@ namespace Runtime.CH2.Dialogue
 
         private void Awake()
         {
+            _runner.AddCommandHandler<bool>("IsSpecialDialogue", IsSpecialDialogue);
             _runner.AddCommandHandler("NextProgress", NextProgress);
             _runner.AddCommandHandler("DialogueFin", DialogueFin);
             _runner.AddCommandHandler("Ending", Ending);
@@ -102,6 +103,11 @@ namespace Runtime.CH2.Dialogue
             }
         }
 
+        private void IsSpecialDialogue(bool special)
+        {
+            Managers.Data.CH2.IsSpecialDialogue = special;
+        }
+
         private void Ending()
         {
             // 개발한 부분까지 모두 출력 완료함
@@ -111,6 +117,24 @@ namespace Runtime.CH2.Dialogue
         private void SetNameTag(bool hasName)
         {
             _nameTag.SetActive(hasName);
+        }
+
+        public void SkipDialogue()
+        {
+            Debug.Log("Skip");
+            _runner.Stop();
+
+            if (Managers.Data.CH2.IsSpecialDialogue)
+            {
+                _runner.StartDialogue("EndS");
+            }
+            else
+            {
+                _runner.StartDialogue("EndN");
+            }
+
+            if (Managers.Data.CH2.Progress == 10)
+                Ending();
         }
 
         /*
@@ -155,16 +179,6 @@ namespace Runtime.CH2.Dialogue
         {
             // 현재는 미카엘뿐이지만 추후 확대
             _michael.SetFace(idx);
-        }
-
-        public void SkipDialogue()
-        {
-            Debug.Log("Skip");
-            _runner.Stop();
-            DialogueFin();
-
-            if (Managers.Data.CH2.Location == "미카엘의 신전")
-                Ending();
         }
 
         private void StandingHighlight(int num)

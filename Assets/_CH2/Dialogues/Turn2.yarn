@@ -2,6 +2,7 @@ title: Turn2_1_S
 // 시점 : Turn 2의 1번 S이벤트, R2-Mon
 // 상황 : 갑자기 튀어나온 R2-Mon이 자기소개를 하고 뭔가 만들어야 하면 찾아오라고 한 뒤 사라진다.
 ---
+<<IsSpecialDialogue true>>
 <<wait 1>>
 // 골목길 도착
 
@@ -26,6 +27,7 @@ title: Turn2_2_S
 // 시점 : Turn 2의 2번 S이벤트, 파머
 // 상황 : 물품을 줄 수 없어 미안해 하는 파머. 남은 것들을 옮기려고 창고로 간다.
 ---
+<<IsSpecialDialogue true>>
 <<wait 1>>
 // 광장 도착
 
@@ -51,6 +53,7 @@ title: Turn2_3_S
 // 시점 : Turn 2의 3번 S이벤트, 파머
 // 상황 : 같이 물건을 옮겨와준 것에 고마워하며 몰래 창고에 들여 보내준다.
 ---
+<<IsSpecialDialogue true>>
 <<wait 1>>
 // 창고 외관 도착
 
@@ -73,6 +76,7 @@ title: Turn2_4_S
 // 시점 : Turn 2의 4번 S이벤트
 // 상황 : 여러 물건을 획득하고, TCG 팩에 역접속되며 럭키가 등장한다.
 ---
+<<IsSpecialDialogue true>>
 <<wait 1>>
 // 창고 내부 도착
 
@@ -99,6 +103,7 @@ title: Turn2_4_N_Square
 // 시점 : Turn 2의 4번 N이벤트_광장, 주민들
 // 상황 : 마을 주민들이 웜홀에 관련된 소문을 화제로 잡담을 나눈다.
 ---
+<<IsSpecialDialogue false>>
 <<wait 1>>
 // 광장 도착
 
@@ -122,6 +127,7 @@ title: Turn2_4_N_Entrance
 // 시점 : Turn 2의 4번 N이벤트_마을 입구, 진도/비글
 // 상황 : 비글이 시비를 건다.
 ---
+<<IsSpecialDialogue false>>
 <<wait 1>>
 // 마을 입구 도착
 
