@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Runtime.Data.Original
+namespace Runtime.Data
 {
     [Serializable]
     public class Sound

@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using SLGDefines;
 
-namespace Runtime.Data.Original
+namespace Runtime.Data
 {
     [Serializable]
     public class CH1Data

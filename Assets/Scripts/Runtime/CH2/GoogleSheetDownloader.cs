@@ -4,6 +4,7 @@ using System.Net;
 using System.IO;
 using System.Text;
 
+#if UNITY_EDITOR
 public class GoogleSheetDownloader : EditorWindow
 {
     private string googleSheetUrl = "https://docs.google.com/spreadsheets/d/1mGlB8XE1-GcuMlUllwEH7tyCogMa6JkliMVS2Uw6AWI/export?format=csv&gid=0";
@@ -54,3 +55,4 @@ public class GoogleSheetDownloader : EditorWindow
         }
     }
 }
+#endif

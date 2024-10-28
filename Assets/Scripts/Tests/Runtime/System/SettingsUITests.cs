@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using Runtime.Common.Presentation;
 using Runtime.Common.View;
-using Runtime.Data.Original;
+using Runtime.Data;
 using Runtime.InGameSystem;
 using System.Collections;
 using UnityEngine;

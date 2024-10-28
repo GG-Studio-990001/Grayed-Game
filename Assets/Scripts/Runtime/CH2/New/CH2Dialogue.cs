@@ -34,6 +34,7 @@ namespace Runtime.CH2.Dialogue
 
         private void Awake()
         {
+            _runner.AddCommandHandler<bool>("IsSpecialDialogue", IsSpecialDialogue);
             _runner.AddCommandHandler("NextProgress", NextProgress);
             _runner.AddCommandHandler("DialogueFin", DialogueFin);
             _runner.AddCommandHandler("Ending", Ending);
@@ -56,10 +57,10 @@ namespace Runtime.CH2.Dialogue
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
             // SetAuto(onDialogueLineFinished);
-            /*
             _speaker = dialogueLine.CharacterName;
             SetNameTag(_speaker != "");
 
+            /*
             if (_speaker.Equals("라플리"))
                 StandingHighlight(0);
             else if (_speaker.Equals("R2-Mon") || (_speaker.Equals("미카엘")))
@@ -102,10 +103,38 @@ namespace Runtime.CH2.Dialogue
             }
         }
 
+        private void IsSpecialDialogue(bool special)
+        {
+            Managers.Data.CH2.IsSpecialDialogue = special;
+        }
+
         private void Ending()
         {
             // 개발한 부분까지 모두 출력 완료함
             _toBeContinued.SetActive(true);
+        }
+
+        private void SetNameTag(bool hasName)
+        {
+            _nameTag.SetActive(hasName);
+        }
+
+        public void SkipDialogue()
+        {
+            Debug.Log("Skip");
+            _runner.Stop();
+
+            if (Managers.Data.CH2.IsSpecialDialogue)
+            {
+                _runner.StartDialogue("EndS");
+            }
+            else
+            {
+                _runner.StartDialogue("EndN");
+            }
+
+            if (Managers.Data.CH2.Progress == 10)
+                Ending();
         }
 
         /*
@@ -135,11 +164,6 @@ namespace Runtime.CH2.Dialogue
             _runner.Dialogue.Continue();
         }
 
-        private void SetNameTag(bool hasName)
-        {
-            _nameTag.SetActive(hasName);
-        }
-
         private void PartnerAppear(int idx)
         {
             _characters[1] = _npcs[idx];
@@ -155,16 +179,6 @@ namespace Runtime.CH2.Dialogue
         {
             // 현재는 미카엘뿐이지만 추후 확대
             _michael.SetFace(idx);
-        }
-
-        public void SkipDialogue()
-        {
-            Debug.Log("Skip");
-            _runner.Stop();
-            DialogueFin();
-
-            if (Managers.Data.CH2.Location == "미카엘의 신전")
-                Ending();
         }
 
         private void StandingHighlight(int num)
@@ -186,6 +200,5 @@ namespace Runtime.CH2.Dialogue
                 }
             }
         }*/
-
     }
 }
