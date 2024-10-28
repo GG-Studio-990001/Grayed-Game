@@ -1,0 +1,16 @@
+﻿title: Stop
+---
+===
+
+title: SkipS
+---
+// 스탠딩 처리
+<<NextProgress>>
+<<DialogueFin>>
+===
+
+title: SkipN
+---
+// 스탠딩 처리
+<<DialogueFin>>
+===

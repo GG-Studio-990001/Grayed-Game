@@ -1,13 +1,13 @@
 ﻿Progress,0,1,2,3,4,5,6,7,8,9,10
-동굴,x,x,x,x,x,x,x,x,x,Tmp3_2,O
-기지 외관,x,x,x,x,x,x,x,x,x,x,Tmp3_3
+동굴,x,x,x,x,x,x,x,x,x,Turn3_2_S,O
+기지 외관,x,x,x,x,x,x,x,x,x,x,Turn3_3_S
 기지 내부,x,x,x,x,x,x,x,x,x,x,x
-마을 입구,Tmp1_1,x,x,x,x,x,x,Tmp2_4_1,Tmp3_1_1,x,O
-광장,x,Tmp1_2,x,x,x,Tmp2_2,x,Tmp2_4_2,Tmp3_1_2,x,O
-창고 외관,x,x,x,x,x,x,Tmp2_3,O,x,x,x
-창고 내부,x,x,x,x,x,x,x,Tmp2_4,x,x,x
-골목길,x,x,Tmp1_3,x,Tmp2_1,x,x,x,Tmp3_1,x,O
-신전 외관,x,x,x,Tmp1_4,x,x,x,x,Tmp3_1_3,x,x
+마을 입구,Turn1_1_S,x,x,x,x,x,x,Turn2_4_N_Entrance,Turn3_1_N_Entrance,x,O
+광장,x,Turn1_2_S,x,x,x,Turn2_2_S,x,Turn2_4_N_Square,Turn3_1_N_Square,x,O
+창고 외관,x,x,x,x,x,x,Turn2_3_S,O,x,x,x
+창고 내부,x,x,x,x,x,x,x,Turn2_4_S,x,x,x
+골목길,x,x,Turn1_3_S,x,Turn2_1_S,x,x,x,Turn3_1_S,x,O
+신전 외관,x,x,x,Turn1_4_S,x,x,x,x,Turn3_1_N_TempleOutside,x,x
 신전 내부,x,x,x,x,x,x,x,x,x,x,x
 신전 방,x,x,x,x,x,x,x,x,x,x,x
 통로,x,x,x,x,x,x,x,x,x,x,x
