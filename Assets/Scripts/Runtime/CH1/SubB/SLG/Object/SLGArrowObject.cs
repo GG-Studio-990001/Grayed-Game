@@ -8,31 +8,63 @@ public class SLGArrowObject : MonoBehaviour
 
     const float ArrowDisplayTime = 2.0f;
     GameObject _player;
-    void Start()
+    ObjectFadeInOutComponent _fadeInOutComp;
+
+    const float FadeInOutTime = 0.5f;
+    bool bFadeIn = false;
+    bool bFadeOut = false;
+
+    void Awake()
     {
         _deltaTime = 0;
         _player = FindAnyObjectByType<TopDownPlayer>().gameObject;
     }
 
+    private void Start()
+    {
+        _fadeInOutComp = this.gameObject.GetComponent<ObjectFadeInOutComponent>();
+    }
     void Update()
     {
-        if (_deltaTime < ArrowDisplayTime)
+        if (_deltaTime < FadeInOutTime)
         {
-            float angle = Mathf.Atan2(_player.transform.position.y - _TargetPos.y, _player.transform.position.x - _TargetPos.x) * Mathf.Rad2Deg;
-            this.transform.rotation = Quaternion.AngleAxis(angle + 180, Vector3.forward);
-            this.transform.localPosition = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad) * (-1), Mathf.Sin(angle * Mathf.Deg2Rad) * (-1), 0);
-
-            _deltaTime += Time.deltaTime;
+            if (bFadeOut == false)
+            {
+                if (_fadeInOutComp != null)
+                {
+                    _fadeInOutComp.PlayFadeOut(FadeInOutTime);
+                    bFadeOut = true;
+                }
+            }
         }
-        else
+        else if(ArrowDisplayTime - FadeInOutTime <= _deltaTime  && _deltaTime < ArrowDisplayTime)
+        {
+            if (bFadeIn == false)
+            {
+                if (_fadeInOutComp != null)
+                {
+                    _fadeInOutComp.PlayFadeIn(FadeInOutTime);
+                    bFadeIn = true;
+                }
+            }
+        }
+        if(_deltaTime > ArrowDisplayTime)
         {
             _deltaTime = 0;
+            bFadeIn = false;
+            bFadeOut = false;
+
             Destroy(this.gameObject);
         }
+        _deltaTime += Time.deltaTime;
     }
     public void SetTargetPos(Vector3 TargetPos)
     {
         _deltaTime = 0;
         _TargetPos = TargetPos;
+        
+        float angle = Mathf.Atan2(_player.transform.position.y - _TargetPos.y, _player.transform.position.x - _TargetPos.x) * Mathf.Rad2Deg;
+        this.transform.rotation = Quaternion.AngleAxis(angle + 180, Vector3.forward);
+        this.transform.localPosition = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad) * (-1), Mathf.Sin(angle * Mathf.Deg2Rad) * (-1), 0);
     }
 }

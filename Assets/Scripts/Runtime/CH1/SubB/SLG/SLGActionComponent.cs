@@ -814,11 +814,17 @@ public class SLGActionComponent : MonoBehaviour
         }
 
         Renderer.sortingLayerName = "UI";
+        
         SLGArrowObject ArrowAction = _arrowObject.AddComponent<SLGArrowObject>();
         if (_player)
         {
             _arrowObject.transform.parent = _player.transform;
             _arrowObject.transform.localPosition = new Vector3(0, 1, 0);
+        }
+        ObjectFadeInOutComponent FadeInOutAction = _arrowObject.AddComponent<ObjectFadeInOutComponent>();
+        if(FadeInOutAction != null)
+        {
+            FadeInOutAction.SetTargetComponent(_arrowObject);
         }
     }
     #endregion
