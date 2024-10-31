@@ -1,18 +1,7 @@
-﻿Progress,0,1,2,3,4,5,6,7,8,9,10
-동굴,x,x,x,x,x,x,x,x,x,Turn3_2_S,O
-기지 외관,x,x,x,x,x,x,x,x,x,x,Turn3_3_S
-기지 내부,x,x,x,x,x,x,x,x,x,x,x
-마을 입구,Turn1_1_S,x,x,x,x,x,x,Turn2_4_N_Entrance,Turn3_1_N_Entrance,x,O
-광장,x,Turn1_2_S,x,x,x,Turn2_2_S,x,Turn2_4_N_Square,Turn3_1_N_Square,x,O
-창고 외관,x,x,x,x,x,x,Turn2_3_S,O,x,x,x
-창고 내부,x,x,x,x,x,x,x,Turn2_4_S,x,x,x
-골목길,x,x,Turn1_3_S,x,Turn2_1_S,x,x,x,Turn3_1_S,x,O
-신전 외관,x,x,x,Turn1_4_S,x,x,x,x,Turn3_1_N_TempleOutside,x,x
-신전 내부,x,x,x,x,x,x,x,x,x,x,x
-신전 방,x,x,x,x,x,x,x,x,x,x,x
-통로,x,x,x,x,x,x,x,x,x,x,x
-달러 동상 외관,x,x,x,x,x,x,x,x,x,x,x
-달러 동상 틈새,x,x,x,x,x,x,x,x,x,x,x
-달러 동상 내부,x,x,x,x,x,x,x,x,x,x,x
-달러의 집,x,x,x,x,x,x,x,x,x,x,x
-접속 게임,x,x,x,x,x,x,x,x,x,x,x
+﻿Turn,0,1,2,3,4,5,6,7
+마을입구,Turn0,Turn1_N_Entrance,,,Turn4_N_Entrance,,Turn6_S,
+광장,,Turn1_N_Square,Turn2_N_Square,,,,Turn6_N_Square,
+신전,,Turn1_S,Turn2_S,,Turn4_N_Temple,,,
+달러 동상 내부,,,,Turn3,,,,
+달러 동상,,,,,Turn4_S,,,
+기지,,,,,,Turn5,,Turn7
