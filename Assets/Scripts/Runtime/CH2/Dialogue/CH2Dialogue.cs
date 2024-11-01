@@ -11,8 +11,11 @@ namespace Runtime.CH2.Dialogue
 {
     public enum Npc
     {
-        r2mon = 0,
-        michael = 1,
+        Michael = 0,
+        R2mon = 1,
+        Dollar = 2,
+        Farmer = 3,
+        JindoBeagle = 4,
     }
 
     public class CH2Dialogue : DialogueViewBase
@@ -26,7 +29,7 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _nameTag;
         [SerializeField] private TextMeshProUGUI _lineTxt;
         [SerializeField] private Image[] _characters = new Image[2];
-        [SerializeField] private Image[] _npcs = new Image[2];
+        [SerializeField] private Image[] _npcs = new Image[5];
         [SerializeField] private FaceSpriteSwitcher _michael;
         [SerializeField] private GameObject _toBeContinued;
         [SerializeField] private bool _isAutoAdvanced = false;
@@ -38,9 +41,10 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler<string>("SetLocation", SetLocation);
             _runner.AddCommandHandler("NextTurn", NextTurn);
             _runner.AddCommandHandler("ShowOptions", ShowOptions);
-            _runner.AddCommandHandler("Ending", Ending);
-            //_runner.AddCommandHandler<int>("PartnerAppear", PartnerAppear);
-            //_runner.AddCommandHandler("PartnerOut", PartnerOut);
+            _runner.AddCommandHandler<string>("PartnerAppear", PartnerAppear);
+            _runner.AddCommandHandler("PartnerOut", PartnerOut);
+            _runner.AddCommandHandler("DialogueFin", DialogueFin);
+            //_runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
 
@@ -70,6 +74,29 @@ namespace Runtime.CH2.Dialogue
                 StandingHighlight(2);
             */
             onDialogueLineFinished();
+        }
+
+        private void PartnerAppear(string partner)
+        {
+            if (Enum.TryParse(partner, true, out Npc npc)) // Parse the string to enum
+            {
+                int idx = (int)npc; // Convert enum to int
+                _characters[1] = _npcs[idx];
+                _characters[1].gameObject.SetActive(true);
+            }
+        }
+
+        private void PartnerOut()
+        {
+            _characters[1].gameObject.SetActive(false);
+        }
+
+        private void DialogueFin()
+        {
+            // 라플리는 밝게 처리
+            // StandingHighlight(0);
+            // NPC가 있다면 끈다
+            _characters[1].gameObject.SetActive(false);
         }
 
         public void StartLocation(string location)
@@ -107,11 +134,9 @@ namespace Runtime.CH2.Dialogue
             }
         }
 
-        private void DialogueFin()
+        private void SetNameTag(bool hasName)
         {
-            // 라플리는 밝게 처리하고 NPC가 있다면 끈다
-            // StandingHighlight(0);
-            // _characters[1].gameObject.SetActive(false);
+            _nameTag.SetActive(hasName);
         }
 
         public void AutoDialogueToggle()
@@ -119,18 +144,13 @@ namespace Runtime.CH2.Dialogue
             _isAutoAdvanced = !_isAutoAdvanced;
         }
 
+        /*
         private void Ending()
         {
             // 개발한 부분까지 모두 출력 완료함
             _toBeContinued.SetActive(true);
         }
 
-        private void SetNameTag(bool hasName)
-        {
-            _nameTag.SetActive(hasName);
-        }
-
-        /*
         public void SkipDialogue()
         {
             Debug.Log("Skip");
@@ -173,17 +193,6 @@ namespace Runtime.CH2.Dialogue
             yield return new WaitForSeconds(1f);
             Debug.Log("끗");
             _runner.Dialogue.Continue();
-        }
-
-        private void PartnerAppear(int idx)
-        {
-            _characters[1] = _npcs[idx];
-            _characters[1].gameObject.SetActive(true);
-        }
-
-        private void PartnerOut()
-        {
-            _characters[1].gameObject.SetActive(false);
         }
 
         private void NpcFace(int idx)
