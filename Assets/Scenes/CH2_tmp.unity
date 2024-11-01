@@ -882,7 +882,7 @@ GameObject:
   - component: {fileID: 444606904}
   - component: {fileID: 444606903}
   m_Layer: 0
-  m_Name: LocationSelectionUI
+  m_Name: LocationTransitionUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3031,7 +3031,7 @@ GameObject:
   - component: {fileID: 1723448195}
   - component: {fileID: 1723448193}
   m_Layer: 0
-  m_Name: BGSwitcher
+  m_Name: LocationBackgroundController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3104,7 +3104,7 @@ GameObject:
   - component: {fileID: 1755298183}
   - component: {fileID: 1755298184}
   m_Layer: 0
-  m_Name: TurnController2
+  m_Name: TurnController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3981,7 +3981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _runner: {fileID: 696216669}
-  _dialogue: {fileID: 0}
+  _dialogue: {fileID: 304034740}
   _uis:
   - {fileID: 1100803382}
   - {fileID: 1962123606}
@@ -3998,12 +3998,12 @@ SceneRoots:
   - {fileID: 1037746160}
   - {fileID: 1755298183}
   - {fileID: 444606904}
-  - {fileID: 374415887}
   - {fileID: 1723448196}
   - {fileID: 715090536}
   - {fileID: 696216670}
   - {fileID: 304034741}
   - {fileID: 2042471881}
+  - {fileID: 374415887}
   - {fileID: 1100803379}
   - {fileID: 225816706}
   - {fileID: 832304771}

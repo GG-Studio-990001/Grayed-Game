@@ -142,7 +142,7 @@ R2-Mon: 아무튼 무언가 만들어야 한다면 내 기지로 오세요!<br>�
     :파머가 창고 문을 열어주었다. 안으로 들어가 보자.
 
 // 장소: 창고 내부
-<<SetLocation In Storage>>
+<<SetLocation InStorage>>
 <<wait 2>>
 
     :창고 안으로 들어왔다. 여기저기 물건이 쌓여 있다.

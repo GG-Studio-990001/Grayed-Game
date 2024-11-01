@@ -8,37 +8,42 @@ using UnityEngine.UI;
 
 namespace Runtime.CH2.Location
 {
-    public class LocationSelectionUI : MonoBehaviour
+    public class LocationTransitionUI : MonoBehaviour
     {
+        // 클래스명 서로 바뀜...
         [NonSerialized] public TurnController TurnController;
-        [SerializeField] private BGSpriteSwitcher _bgSpriteSwitcher;
+        [SerializeField] private LocationBgController _bgSpriteSwitcher;
         [SerializeField] private FadeController _fadeController;
-        [SerializeField] private TextMeshProUGUI _locationTxt;
         [SerializeField] private Transform _locationOptions;
         [SerializeField] private GameObject _optionBtnPrefab;
 
-        public void MoveLocation()
+        public void MoveLocation() // FadeIn&Out
         {
             FadeOut();
+            StartLocation();
+        }
+
+        public void StartLocation() // Only FadeIn
+        {
+            Invoke(nameof(SetLocation), 1f);
             Invoke(nameof(FadeIn), 1f);
         }
 
         private void FadeOut()
         {
-            _locationOptions.gameObject.SetActive(false);
             _fadeController.StartFadeOut();
         }
 
         public void FadeIn()
         {
-            SetLocationTxt();
-            _bgSpriteSwitcher.SetBG();
             _fadeController.StartFadeIn();
         }
 
-        private void SetLocationTxt()
+        private void SetLocation()
         {
-            _locationTxt.text = Managers.Data.CH2.Location;
+            _locationOptions.gameObject.SetActive(false);
+            _bgSpriteSwitcher.SetLocationUI();
+            _bgSpriteSwitcher.SetBG();
         }
 
         public void SetLocationOptions(List<string> loc)
@@ -56,7 +61,7 @@ namespace Runtime.CH2.Location
 
                 Button btn = _locationOptions.GetChild(i).GetComponent<Button>();
                 btn.onClick.RemoveAllListeners();
-                int index = i; // Local copy of i for the closure
+                int index = i;  // Closure 문제 해결
                 btn.onClick.AddListener(() => TurnController.AdvanceTurnAndMoveLocation(loc[index]));
                 btn.onClick.AddListener(() => _fadeController.StartFadeOut());
 
@@ -67,23 +72,23 @@ namespace Runtime.CH2.Location
 
         private void MakeOptions(int cnt)
         {
-            int child = _locationOptions.childCount;
+            int currentCount = _locationOptions.childCount;
 
-            if (child == cnt)
+            if (currentCount == cnt)
                 return;
 
-            if (child > cnt)
+            if (currentCount > cnt)
             {
-                for (int i = 0; i < child - cnt; i++)
+                for (int i = currentCount - 1; i >= cnt; i--)
                 {
                     Destroy(_locationOptions.GetChild(i).gameObject);
                 }
             }
             else
             {
-                for (int i = 0; i < cnt - child; i++)
+                for (int i = 0; i < cnt - currentCount; i++)
                 {
-                    Instantiate(_optionBtnPrefab, _locationOptions.position, _locationOptions.rotation, _locationOptions);
+                    Instantiate(_optionBtnPrefab, _locationOptions);
                 }
             }
         }

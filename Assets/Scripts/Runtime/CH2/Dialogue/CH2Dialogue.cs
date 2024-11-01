@@ -16,13 +16,12 @@ namespace Runtime.CH2.Dialogue
         michael = 1,
     }
 
-    public class CH2Dialogue2 : DialogueViewBase
+    public class CH2Dialogue : DialogueViewBase
     {
-        // 클래스명 서로 바뀜...
         [Header("=Script=")]
         [SerializeField] private DialogueRunner _runner;
-        [SerializeField] private TurnController2 _turnController;
-        [SerializeField] private LocationSelectionUI2 _locationSelectionUI;
+        [SerializeField] private TurnController _turnController;
+        [SerializeField] private LocationTransitionUI _locationSelectionUI;
         [Header("=Else=")]
         [SerializeField] private CanvasGroup _lineViewCanvas;
         [SerializeField] private GameObject _nameTag;
