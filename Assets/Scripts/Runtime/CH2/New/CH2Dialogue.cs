@@ -1,3 +1,4 @@
+using Runtime.CH2.Location;
 using Runtime.CH2.Main;
 using Runtime.ETC;
 using System;
@@ -21,22 +22,25 @@ namespace Runtime.CH2.Dialogue
         [Header("=Script=")]
         [SerializeField] private DialogueRunner _runner;
         [SerializeField] private TurnController2 _turnController;
+        [SerializeField] private LocationSelectionUI2 _locationSelectionUI;
         [Header("=Else=")]
+        [SerializeField] private CanvasGroup _lineViewCanvas;
+        [SerializeField] private GameObject _nameTag;
+        [SerializeField] private TextMeshProUGUI _lineTxt;
         [SerializeField] private Image[] _characters = new Image[2];
         [SerializeField] private Image[] _npcs = new Image[2];
         [SerializeField] private FaceSpriteSwitcher _michael;
-        [SerializeField] private GameObject _nameTag;
-        [SerializeField] private CanvasGroup _lineViewCanvas;
-        [SerializeField] private TextMeshProUGUI _lineTxt;
         [SerializeField] private GameObject _toBeContinued;
         [SerializeField] private bool _isAutoAdvanced = false;
         private string _speaker;
 
         private void Awake()
         {
+            _runner.AddCommandHandler<string>("StartLocation", StartLocation);
+            _runner.AddCommandHandler<string>("SetLocation", SetLocation);
+            _runner.AddCommandHandler("NextTurn", NextTurn);
+            _runner.AddCommandHandler("ShowOptions", ShowOptions);
             _runner.AddCommandHandler<bool>("IsSpecialDialogue", IsSpecialDialogue);
-            _runner.AddCommandHandler("NextProgress", NextProgress);
-            _runner.AddCommandHandler("DialogueFin", DialogueFin);
             _runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("PartnerAppear", PartnerAppear);
             //_runner.AddCommandHandler("PartnerOut", PartnerOut);
@@ -71,24 +75,27 @@ namespace Runtime.CH2.Dialogue
             onDialogueLineFinished();
         }
 
-        public void NextProgress()
+        public void StartLocation(string location)
+        {
+            Managers.Data.CH2.Location = location;
+            _locationSelectionUI.StartLocation();
+        }
+
+        public void SetLocation(string location)
+        {
+            Managers.Data.CH2.Location = location;
+            _locationSelectionUI.MoveLocation();
+        }
+
+        public void NextTurn()
         {
             _turnController.NextProgress();
         }
 
-        private void DialogueFin()
+        private void ShowOptions()
         {
-            // 라플리는 밝게 처리하고 NPC가 있다면 끈다
-            // StandingHighlight(0);
-            // _characters[1].gameObject.SetActive(false);
-
-            // 오른쪽에는 이동 가능한 장소 목록을 띄운다
+            // 이동 가능한 장소 목록을 띄운다
             _turnController.DisplayAvailableLocations();
-        }
-
-        public void AutoDialogueToggle()
-        {
-            _isAutoAdvanced = !_isAutoAdvanced;
         }
 
         public void TextSFX()
@@ -101,6 +108,18 @@ namespace Runtime.CH2.Dialogue
             {
                 Managers.Sound.Play(Sound.Speech, "Text_SFX");
             }
+        }
+
+        private void DialogueFin()
+        {
+            // 라플리는 밝게 처리하고 NPC가 있다면 끈다
+            // StandingHighlight(0);
+            // _characters[1].gameObject.SetActive(false);
+        }
+
+        public void AutoDialogueToggle()
+        {
+            _isAutoAdvanced = !_isAutoAdvanced;
         }
 
         private void IsSpecialDialogue(bool special)
@@ -133,7 +152,7 @@ namespace Runtime.CH2.Dialogue
                 _runner.StartDialogue("EndN");
             }
 
-            if (Managers.Data.CH2.Progress == 10)
+            if (Managers.Data.CH2.Turn == 7)
                 Ending();
         }
 

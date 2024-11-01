@@ -25,19 +25,18 @@ namespace Runtime.CH2.Main
             // CH2 시작시 최초 1회 호출
             // 현재는 Turn 0 기준, 추후 진행도에 따라 변경되도록
             Managers.Data.CH2.Turn = 0;
+            _dialogueRunner.StartDialogue("Turn0");
 
             // 중간부터 이어하려면 Turn뿐만 아니라 위치도 알아야함
             // 이 부분은 임시
-            List<string> loc = GetAvailableLocations();
-            if (loc.Count != 1)
-            {
-                Debug.LogError("Location is not unique.");
-            }
-
-            Managers.Data.CH2.Location = loc[0];
-
-            _locationSelectionUI.FadeIn();
-            StartDialogue();
+            //List<string> loc = GetAvailableLocations();
+            //if (loc.Count != 1)
+            //{
+            //    Debug.LogError("Location is not unique.");
+            //}
+            //Managers.Data.CH2.Location = loc[0];
+            // _locationSelectionUI.FadeIn();
+            // StartDialogue();
         }
 
         public void AdvanceTurnAndMoveLocation(string location)
