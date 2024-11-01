@@ -23,10 +23,10 @@ namespace Runtime.CH2.Main
         public void GetInitialLocation()
         {
             // CH2 시작시 최초 1회 호출
-            // 현재는 Progress 0 기준, 추후 진행도에 따라 변경되도록
-            Managers.Data.CH2.Progress = 0;
+            // 현재는 Turn 0 기준, 추후 진행도에 따라 변경되도록
+            Managers.Data.CH2.Turn = 0;
 
-            // 중간부터 이어하려면 Progress뿐만 아니라 위치도 알아야함
+            // 중간부터 이어하려면 Turn뿐만 아니라 위치도 알아야함
             // 이 부분은 임시
             List<string> loc = GetAvailableLocations();
             if (loc.Count != 1)
@@ -74,8 +74,8 @@ namespace Runtime.CH2.Main
         {
             // 현재 턴수와 장소에 맞는 다이얼로그 이름 가져오기
 
-            int progress = Managers.Data.CH2.Progress;
-            Debug.Log(Managers.Data.CH2.Progress+" 시작");
+            int progress = Managers.Data.CH2.Turn;
+            Debug.Log(Managers.Data.CH2.Turn + " 시작");
 
             for (int i = 0; i < _data.Count; i++)
             {
@@ -99,8 +99,8 @@ namespace Runtime.CH2.Main
 
         private List<string> GetAvailableLocations()
         {
-            int progress = Managers.Data.CH2.Progress;
-            Debug.Log(Managers.Data.CH2.Progress + "에서 갈 수 있는 곳");
+            int progress = Managers.Data.CH2.Turn;
+            Debug.Log(Managers.Data.CH2.Turn + "에서 갈 수 있는 곳");
             // 이동 가능한 장소 리스트 가져오기
             List<string> loc = new();
 
@@ -131,7 +131,7 @@ namespace Runtime.CH2.Main
 
         public void NextProgress()
         {
-            Managers.Data.CH2.Progress++;
+            Managers.Data.CH2.Turn++;
             _visitedLocations.Clear();
         }
     }

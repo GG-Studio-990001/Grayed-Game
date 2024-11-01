@@ -65,7 +65,7 @@ namespace Runtime.CH2.Dialogue
 
         public void NextProgress()
         {
-            Managers.Data.CH2.Progress++;
+            Managers.Data.CH2.Turn++;
         }
 
         public void AutoDialogueToggle()
