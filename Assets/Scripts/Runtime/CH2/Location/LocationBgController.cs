@@ -10,7 +10,7 @@ namespace Runtime.CH2.Location
         [SerializeField] private Image _bgImg;
         [SerializeField] private TextMeshProUGUI _locationTxt;
         [SerializeField] private Sprite[] _bgSprites;
-        private Dictionary<string, string> _locationTexts = new Dictionary<string, string>
+        public Dictionary<string, string> LocationTexts = new Dictionary<string, string>
         {
             { "Entrance", "마을 입구" },
             { "Square", "광장" },
@@ -50,7 +50,7 @@ namespace Runtime.CH2.Location
         {
             string loc = Managers.Data.CH2.Location;
 
-            if (_locationTexts.TryGetValue(loc, out string locationText))
+            if (LocationTexts.TryGetValue(loc, out string locationText))
             {
                 _locationTxt.text = locationText;
             }

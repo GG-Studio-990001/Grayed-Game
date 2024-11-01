@@ -10,45 +10,32 @@ namespace Runtime.CH2.Main
     public class TurnController : MonoBehaviour
     {
         [SerializeField] private DialogueRunner _dialogueRunner;
-        [SerializeField] private LocationTransitionUI _locationSelectionUI;
+        [SerializeField] private LocationTransitionUI _locationTransitionUI;
         private List<Dictionary<string, object>> _data = new();
         private List<string> _visitedLocations = new();
 
         private void Awake()
         {
             _data = CSVReader.Read("CH2Branch");
-            _locationSelectionUI.TurnController = this;
+            _locationTransitionUI.TurnController = this;
         }
 
         public void GetInitialLocation()
         {
             // CH2 시작시 최초 1회 호출
-            // 현재는 Turn 0 기준, 추후 진행도에 따라 변경되도록
+            // 현재는 Turn 0 기준, 추후 진행도에 따라 시작 다이얼로그 변경되도록 코드 추가
             Managers.Data.CH2.Turn = 0;
             _dialogueRunner.StartDialogue("Turn0");
-
-            // 중간부터 이어하려면 Turn뿐만 아니라 위치도 알아야함
-            // 이 부분은 임시
-            //List<string> loc = GetAvailableLocations();
-            //if (loc.Count != 1)
-            //{
-            //    Debug.LogError("Location is not unique.");
-            //}
-            //Managers.Data.CH2.Location = loc[0];
-            // _locationSelectionUI.FadeIn();
-            // StartDialogue();
         }
 
-        public void AdvanceTurnAndMoveLocation(string location)
+        public void SetLocation(string loc)
         {
-            Managers.Data.CH2.Location = location;
-
-            _locationSelectionUI.MoveLocation();
-            StartDialogue();
+            Managers.Data.CH2.Location = loc;
         }
 
-        private void StartDialogue()
+        public void StartDialogue()
         {
+            /*
             string showLocations = "ShowLocations"; // 리팩터링 필요 (옮기기)
             string dialogueName;
 
@@ -65,7 +52,9 @@ namespace Runtime.CH2.Main
 
             if (dialogueName == "O")
                 dialogueName = showLocations;
-
+            _dialogueRunner.StartDialogue(dialogueName);
+            */
+            string dialogueName = GetDialogueName();
             _dialogueRunner.StartDialogue(dialogueName);
         }
 
@@ -73,7 +62,7 @@ namespace Runtime.CH2.Main
         {
             // 현재 턴수와 장소에 맞는 다이얼로그 이름 가져오기
 
-            int progress = Managers.Data.CH2.Turn;
+            int turn = Managers.Data.CH2.Turn;
             Debug.Log(Managers.Data.CH2.Turn + " 시작");
 
             for (int i = 0; i < _data.Count; i++)
@@ -87,7 +76,7 @@ namespace Runtime.CH2.Main
                 if (location == Managers.Data.CH2.Location)
                 {
                     // 진행도에 해당하는 셀 값을 가져와 반환
-                    string dialogueName = row[$"{progress}"].ToString();
+                    string dialogueName = row[$"{turn}"].ToString();
                     return dialogueName;
                 }
             }
@@ -98,10 +87,31 @@ namespace Runtime.CH2.Main
 
         private List<string> GetAvailableLocations()
         {
+            // 기본적으로 4개의 위치이며, 여기서 현재 위치를 제거하고 Turn이 4보다 작다면 '달러 동상'도 제거
+            List<string> loc = new()
+            {
+                "Entrance",
+                "Square",
+                "Temple",
+                "Statue"
+            };
+
+            for (int i = loc.Count - 1; i >= 0; i--)
+            {
+                if (Managers.Data.CH2.Turn < 4 && i == 3)
+                {
+                    loc.RemoveAt(3);
+                }
+                else if (loc[i] == Managers.Data.CH2.Location)
+                {
+                    loc.RemoveAt(i);
+                    break;
+                }
+            }
+            /*
             int progress = Managers.Data.CH2.Turn;
             Debug.Log(Managers.Data.CH2.Turn + "에서 갈 수 있는 곳");
             // 이동 가능한 장소 리스트 가져오기
-            List<string> loc = new();
 
             foreach (var row in _data)
             {
@@ -118,17 +128,17 @@ namespace Runtime.CH2.Main
                 {
                     loc.Add(location);
                 }
-            }
+            }*/
 
             return loc; // 이동 가능한 장소 리스트 반환
         }
 
         public void DisplayAvailableLocations()
         {
-            _locationSelectionUI.SetLocationOptions(GetAvailableLocations());
+            _locationTransitionUI.SetLocationOptions(GetAvailableLocations());
         }
 
-        public void NextProgress()
+        public void NextTurn()
         {
             Managers.Data.CH2.Turn++;
             _visitedLocations.Clear();

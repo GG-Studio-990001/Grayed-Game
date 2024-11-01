@@ -1,7 +1,7 @@
 ﻿Turn,0,1,2,3,4,5,6,7
-마을입구,Turn0,Turn1_N_Entrance,,,Turn4_N_Entrance,,Turn6_S,
-광장,,Turn1_N_Square,Turn2_N_Square,,,,Turn6_N_Square,
-신전,,Turn1_S,Turn2_S,,Turn4_N_Temple,,,
-달러 동상 내부,,,,Turn3,,,,
-달러 동상,,,,,Turn4_S,,,
-기지,,,,,,Turn5,,Turn7
+Entrance,Turn0,Turn1_N_Entrance,,,Turn4_N_Entrance,,Turn6_S,
+Square,,Turn1_N_Square,Turn2_N_Square,,,,Turn6_N_Square,
+Temple,,Turn1_S,Turn2_S,,Turn4_N_Temple,,,
+InStatue,,,,Turn3,,,,
+Statue,,,,,Turn4_S,,,
+Base,,,,,,Turn5,,Turn7

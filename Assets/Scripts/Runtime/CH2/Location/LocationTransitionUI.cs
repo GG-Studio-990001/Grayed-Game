@@ -12,7 +12,7 @@ namespace Runtime.CH2.Location
     {
         // 클래스명 서로 바뀜...
         [NonSerialized] public TurnController TurnController;
-        [SerializeField] private LocationBgController _bgSpriteSwitcher;
+        [SerializeField] private LocationBgController _locationBgController;
         [SerializeField] private FadeController _fadeController;
         [SerializeField] private Transform _locationOptions;
         [SerializeField] private GameObject _optionBtnPrefab;
@@ -42,8 +42,8 @@ namespace Runtime.CH2.Location
         private void SetLocation()
         {
             _locationOptions.gameObject.SetActive(false);
-            _bgSpriteSwitcher.SetLocationUI();
-            _bgSpriteSwitcher.SetBG();
+            _locationBgController.SetLocationUI();
+            _locationBgController.SetBG();
         }
 
         public void SetLocationOptions(List<string> loc)
@@ -62,11 +62,15 @@ namespace Runtime.CH2.Location
                 Button btn = _locationOptions.GetChild(i).GetComponent<Button>();
                 btn.onClick.RemoveAllListeners();
                 int index = i;  // Closure 문제 해결
-                btn.onClick.AddListener(() => TurnController.AdvanceTurnAndMoveLocation(loc[index]));
-                btn.onClick.AddListener(() => _fadeController.StartFadeOut());
 
                 TextMeshProUGUI btnTxt = btn.GetComponentInChildren<TextMeshProUGUI>();
-                btnTxt.text = loc[index];
+                if (_locationBgController.LocationTexts.TryGetValue(loc[index], out string locationText))
+                {
+                    btnTxt.text = locationText;
+                }
+
+                btn.onClick.AddListener(() => TurnController.SetLocation(loc[index]));
+                btn.onClick.AddListener(() => TurnController.StartDialogue());
             }
         }
 

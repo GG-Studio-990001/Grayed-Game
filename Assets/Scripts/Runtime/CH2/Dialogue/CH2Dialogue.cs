@@ -2,7 +2,6 @@ using Runtime.CH2.Location;
 using Runtime.CH2.Main;
 using Runtime.ETC;
 using System;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -88,7 +87,7 @@ namespace Runtime.CH2.Dialogue
 
         public void NextTurn()
         {
-            _turnController.NextProgress();
+            _turnController.NextTurn();
         }
 
         private void ShowOptions()
