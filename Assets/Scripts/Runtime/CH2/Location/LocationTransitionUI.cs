@@ -71,6 +71,7 @@ namespace Runtime.CH2.Location
 
                 btn.onClick.AddListener(() => TurnController.SetLocation(loc[index]));
                 btn.onClick.AddListener(() => TurnController.StartDialogue());
+                // Nobody를 위해 여기에서 장소세팅...??
             }
         }
 
