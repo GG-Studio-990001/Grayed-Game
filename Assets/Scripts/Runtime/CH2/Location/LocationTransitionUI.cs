@@ -8,38 +8,42 @@ using UnityEngine.UI;
 
 namespace Runtime.CH2.Location
 {
-    public class LocationSelectionUI2 : MonoBehaviour
+    public class LocationTransitionUI : MonoBehaviour
     {
         // 클래스명 서로 바뀜...
-        [NonSerialized] public TurnController2 TurnController;
-        [SerializeField] private BGSpriteSwitcher _bgSpriteSwitcher;
+        [NonSerialized] public TurnController TurnController;
+        [SerializeField] private LocationBgController _locationBgController;
         [SerializeField] private FadeController _fadeController;
-        [SerializeField] private TextMeshProUGUI _locationTxt;
         [SerializeField] private Transform _locationOptions;
         [SerializeField] private GameObject _optionBtnPrefab;
 
-        public void MoveLocation()
+        public void MoveLocation() // FadeIn&Out
         {
             FadeOut();
+            StartLocation();
+        }
+
+        public void StartLocation() // Only FadeIn
+        {
+            Invoke(nameof(SetLocation), 1f);
             Invoke(nameof(FadeIn), 1f);
         }
 
         private void FadeOut()
         {
-            _locationOptions.gameObject.SetActive(false);
             _fadeController.StartFadeOut();
         }
 
         public void FadeIn()
         {
-            SetLocationTxt();
-            _bgSpriteSwitcher.SetBG();
             _fadeController.StartFadeIn();
         }
 
-        private void SetLocationTxt()
+        private void SetLocation()
         {
-            _locationTxt.text = Managers.Data.CH2.Location;
+            _locationOptions.gameObject.SetActive(false);
+            _locationBgController.SetLocationUI();
+            _locationBgController.SetBG();
         }
 
         public void SetLocationOptions(List<string> loc)
@@ -58,11 +62,16 @@ namespace Runtime.CH2.Location
                 Button btn = _locationOptions.GetChild(i).GetComponent<Button>();
                 btn.onClick.RemoveAllListeners();
                 int index = i;  // Closure 문제 해결
-                btn.onClick.AddListener(() => TurnController.AdvanceTurnAndMoveLocation(loc[index]));
-                btn.onClick.AddListener(() => _fadeController.StartFadeOut());
 
                 TextMeshProUGUI btnTxt = btn.GetComponentInChildren<TextMeshProUGUI>();
-                btnTxt.text = loc[index];
+                if (_locationBgController.LocationTexts.TryGetValue(loc[index], out string locationText))
+                {
+                    btnTxt.text = locationText;
+                }
+
+                btn.onClick.AddListener(() => TurnController.SetLocation(loc[index]));
+                btn.onClick.AddListener(() => TurnController.StartDialogue());
+                // Nobody를 위해 여기에서 장소세팅...??
             }
         }
 
