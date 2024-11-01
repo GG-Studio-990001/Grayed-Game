@@ -65,14 +65,13 @@ namespace Runtime.CH2.Dialogue
             _speaker = dialogueLine.CharacterName;
             SetNameTag(_speaker != "");
 
-            /*
             if (_speaker.Equals("라플리"))
                 StandingHighlight(0);
-            else if (_speaker.Equals("R2-Mon") || (_speaker.Equals("미카엘")))
-                StandingHighlight(1);
-            else
+            else if (_speaker.Equals(""))
                 StandingHighlight(2);
-            */
+            else
+                StandingHighlight(1);
+
             onDialogueLineFinished();
         }
 
@@ -94,9 +93,30 @@ namespace Runtime.CH2.Dialogue
         private void DialogueFin()
         {
             // 라플리는 밝게 처리
-            // StandingHighlight(0);
+            StandingHighlight(0);
+            
             // NPC가 있다면 끈다
             _characters[1].gameObject.SetActive(false);
+        }
+
+        private void StandingHighlight(int num)
+        {
+            // 0 라플리 1 NPC 2 모두 어둡게
+            Color bright = new Color32(255, 255, 255, 255);
+            Color dark = new Color32(157, 157, 157, 255);
+
+            if (num <= 1)
+            {
+                _characters[num].color = bright;
+                _characters[1 - num].color = dark;
+            }
+            else
+            {
+                for (int i = 0; i < _characters.Length; i++)
+                {
+                    _characters[i].color = dark;
+                }
+            }
         }
 
         public void StartLocation(string location)
@@ -200,25 +220,6 @@ namespace Runtime.CH2.Dialogue
             // 현재는 미카엘뿐이지만 추후 확대
             _michael.SetFace(idx);
         }
-
-        private void StandingHighlight(int num)
-        {
-            // 0 라플리 1 NPC 2 모두 어둡게
-            Color bright = new Color32(255, 255, 255, 255);
-            Color dark = new Color32(157, 157, 157, 255);
-
-            if (num <= 1)
-            {
-                _characters[num].color = bright;
-                _characters[1 - num].color = dark;
-            }
-            else
-            {
-                for (int i = 0; i < _characters.Length; i++)
-                {
-                    _characters[i].color = dark;
-                }
-            }
-        }*/
+        */
     }
 }

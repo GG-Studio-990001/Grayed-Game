@@ -38,6 +38,7 @@ title: Turn0
 <<SetLocation Square>>
 <<wait 2>>
 
+<<PartnerAppear Farmer>>
     :파머와 함께 광장에 도착했다.<br>주위에는 마을 주민들이 모여 있었다.
 
 파머: 여기가 바로 광장이야. 우리 마을의 중심이라고도 할 수 있지.
