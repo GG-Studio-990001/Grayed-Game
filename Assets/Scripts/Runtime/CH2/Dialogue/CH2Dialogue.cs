@@ -38,7 +38,6 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler<string>("SetLocation", SetLocation);
             _runner.AddCommandHandler("NextTurn", NextTurn);
             _runner.AddCommandHandler("ShowOptions", ShowOptions);
-            _runner.AddCommandHandler<bool>("IsSpecialDialogue", IsSpecialDialogue);
             _runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("PartnerAppear", PartnerAppear);
             //_runner.AddCommandHandler("PartnerOut", PartnerOut);
@@ -120,11 +119,6 @@ namespace Runtime.CH2.Dialogue
             _isAutoAdvanced = !_isAutoAdvanced;
         }
 
-        private void IsSpecialDialogue(bool special)
-        {
-            Managers.Data.CH2.IsSpecialDialogue = special;
-        }
-
         private void Ending()
         {
             // 개발한 부분까지 모두 출력 완료함
@@ -136,6 +130,7 @@ namespace Runtime.CH2.Dialogue
             _nameTag.SetActive(hasName);
         }
 
+        /*
         public void SkipDialogue()
         {
             Debug.Log("Skip");
@@ -154,7 +149,6 @@ namespace Runtime.CH2.Dialogue
                 Ending();
         }
 
-        /*
         private void SetAuto(Action onDialogueLineFinished)
         {
             if (_isAutoAdvanced)

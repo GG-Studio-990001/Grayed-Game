@@ -35,14 +35,13 @@ namespace Runtime.CH2.Main
 
         public void StartDialogue()
         {
-            /*
-            string showLocations = "ShowLocations"; // 리팩터링 필요 (옮기기)
+            string Nobody = "Nobody"; // 리팩터링 필요 (옮기기)
             string dialogueName;
 
             if (_visitedLocations.Contains(Managers.Data.CH2.Location))
             {
                 Debug.Log("이미 방문함");
-                dialogueName = showLocations;
+                dialogueName = Nobody;
             }
             else
             {
@@ -50,11 +49,8 @@ namespace Runtime.CH2.Main
                 _visitedLocations.Add(Managers.Data.CH2.Location);
             }
 
-            if (dialogueName == "O")
-                dialogueName = showLocations;
-            _dialogueRunner.StartDialogue(dialogueName);
-            */
-            string dialogueName = GetDialogueName();
+            if (dialogueName == "")
+                dialogueName = Nobody;
             _dialogueRunner.StartDialogue(dialogueName);
         }
 

@@ -1,6 +1,8 @@
 title: Turn1_N_Square
 ---
 // 장소: 광장
+<<SetLocation Square>>
+<<wait 2>>
 
     :광장에는 주민들이 모여 있다. 한 번 이야기를 들어보자.
 
@@ -15,11 +17,14 @@ title: Turn1_N_Square
     :이야기를 마친 그들이 광장을 벗어났다.
 
 // 장소 선택지 On
+<<ShowOptions>>
 ===
 
 title: Turn1_N_Entrance
 ---
 // 장소: 마을 입구
+<<SetLocation Entrance>>
+<<wait 2>>
 
     :마을 입구에 진도와 비글이 서 있었다.
 
@@ -33,11 +38,14 @@ title: Turn1_N_Entrance
     :비글이 떠나라는 손짓을 한다. 다른 곳으로 가 보자.
 
 // 장소 선택지 On
+<<ShowOptions>>
 ===
 
 title: Turn1_S
 ---
 // 장소: 신전
+<<SetLocation Temple>>
+<<wait 2>>
 
     :신전에 도착했다. 줄을 잡아당겨 종을 울렸다.
     :작은 창을 내린 미카엘이 그 자리에서 소리를 쳤다.
@@ -51,6 +59,8 @@ title: Turn1_S
     :환심을 살 만한 선물이라도 있으면 좋을 텐데...
 
 // 장소: 골목길
+<<SetLocation Backstreet>>
+<<wait 2>>
 
     :골목길에 들어섰다. 바닥을 보니 무언가가 떨어져 있었다.
 
@@ -61,6 +71,8 @@ title: Turn1_S
     :플로야드 동굴 안쪽인 것 같다. 한 번 가볼까?
 
 // 장소: 마을 입구
+<<SetLocation Entrance>>
+<<wait 2>>
 
     :마을 입구로 가니 어김없이 진도와 비글이 있었다.<br>이들에게 명함을 내밀었다.
 
@@ -71,10 +83,14 @@ title: Turn1_S
     :비글이 가리킨 방향을 확인하니 동굴이 보이는 것 같다.<br>이동해 보자.
 
 // 장소: 동굴
+<<SetLocation Cave>>
+<<wait 2>>
  
     :동굴에 깊숙한 곳에 R2-Mon의 기지가 있다. 안으로 들어가면 될 것 같다.
 
 // 장소: 기지
+<<SetLocation Base>>
+<<wait 2>>
  
     :안으로 들어가자 기다렸다는 듯 R2-Mon이 말을 걸었다.
 
@@ -94,6 +110,8 @@ R2-Mon: 다음에도 또 찾아오시면 만들어 드릴게요! 그럼 안녕�
     :R2-Mon이 배웅을 한다.<br>새롭게 만든 링을 미카엘에게 주면 좋아하겠지?
 
 // 장소: 마을 입구
+<<SetLocation Entrance>>
+<<wait 2>>
 
     :마을 입구로 가자 비글이 길을 막아섰다.
 
@@ -102,4 +120,7 @@ R2-Mon: 다음에도 또 찾아오시면 만들어 드릴게요! 그럼 안녕�
 비글: 쳇... 장난도 못치냐? 너 얼른 지나가!
 
     :비글이 물러나주었다. 안으로 들어가자.
+
+<<NextTurn>>
+<<ShowOptions>>
 ===
