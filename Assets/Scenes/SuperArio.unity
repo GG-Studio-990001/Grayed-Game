@@ -875,6 +875,7 @@ MonoBehaviour:
   obstacles:
   - {fileID: 4802087884916030990, guid: 2538ffc73ec492b4aa6a59b4986a7b18, type: 3}
   - {fileID: 4802087884916030990, guid: 79e93bcb81905414cbd494f53c1c8bc9, type: 3}
+  - {fileID: 4802087884916030990, guid: 9ddd5785e158ba34d8024be3e7786d31, type: 3}
 --- !u!4 &680378200
 Transform:
   m_ObjectHideFlags: 0
