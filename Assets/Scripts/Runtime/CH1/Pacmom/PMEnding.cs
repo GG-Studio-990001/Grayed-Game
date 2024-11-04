@@ -89,7 +89,7 @@ namespace Runtime.CH1.Pacmom
             _postProcessing.gameObject.SetActive(false);
 
             _sceneTransform = FindObjectOfType<SceneTransform>();
-            _sceneTransform.EscapeFromScene("CH1");
+            _sceneTransform.EscapeFromScene("CH1", true);
         }
     }
 }

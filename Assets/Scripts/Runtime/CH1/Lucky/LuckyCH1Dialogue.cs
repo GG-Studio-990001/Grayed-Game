@@ -100,6 +100,10 @@ namespace Runtime.CH1.Lucky
 
         private void ShowCursor(bool InFlag)
         {
+            if(InFlag)
+            {
+                Managers.Sound.Play(Sound.SFX, "SLG/SLG_Cursor_Showup_SFX");
+            }
             if(_cursorImage)
             {
                 _cursorImage.SetActive(InFlag);
