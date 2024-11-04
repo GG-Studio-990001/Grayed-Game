@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ff224a6785ade748b8ba08d0e039dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {x: 5, y: -0.75}
+  startPos: {x: 5, y: -0.4}
   isSitObstacle: 0
 --- !u!70 &4723753940166534253
 CapsuleCollider2D:
@@ -134,7 +134,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.6, y: 0.0001}
+  m_Size: {x: 0.51, y: 0.0001}
   m_Direction: 0
 --- !u!95 &7323379573010489525
 Animator:
@@ -146,7 +146,7 @@ Animator:
   m_GameObject: {fileID: 4802087884916030990}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6b76614c3c9d4f04ebfa3cf28455a98b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

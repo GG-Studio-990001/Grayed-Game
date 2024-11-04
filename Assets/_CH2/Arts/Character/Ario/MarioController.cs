@@ -23,7 +23,7 @@ public class MarioController : MonoBehaviour
         spr = GetComponent<SpriteRenderer>();
         initSprite = spr.sprite;
         startPos = transform.position;
-        ArioManager.instance.onPlay += InitPos;
+        ArioManager.instance.onPlay += InitData;
     }
 
     private void Update()
@@ -65,7 +65,7 @@ public class MarioController : MonoBehaviour
         spr.sprite = initSprite;
     }
 
-    private void InitPos(bool isPlay)
+    private void InitData(bool isPlay)
     {
         if (isPlay)
         {
