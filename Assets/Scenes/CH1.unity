@@ -2955,13 +2955,13 @@ MonoBehaviour:
   - {x: -0.9, y: -12.57, z: 0}
   - {x: -1.46, y: -6.56, z: 0}
   - {x: 5.06, y: 1.9, z: 0}
-  - {x: 80.3, y: -15.3, z: 0}
+  - {x: 85.3, y: -15.3, z: 0}
   - {x: 100.79, y: 8.92, z: 0}
   _rightPositions:
   - {x: 6, y: -12.57, z: 0}
   - {x: 5.44, y: -6.56, z: 0}
   - {x: 11.55, y: 1.9, z: 0}
-  - {x: 85, y: -15.3, z: 0}
+  - {x: 93, y: -15.3, z: 0}
   - {x: 106.12, y: 8.92, z: 0}
   _bubblePositions:
   - {x: -93, y: -210, z: 0}
@@ -4269,7 +4269,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 48.28, y: -6.82, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1508567983}
@@ -4310,7 +4310,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.66, y: 1.66}
+    oldSize: {x: 7.12, y: 5.64}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -9634,8 +9634,8 @@ MonoBehaviour:
     _buildingName: "\uD50C\uB85C\uC57C\uB4DC \uBE0C\uB9BF\uC9C0"
     _buildingPos: {x: 39, y: -10}
     _reqAsset: {x: 20, y: 10}
-    _reqCoin: 10
-    NeededConstrcutionTimeSec: 86400
+    _reqCoin: 25
+    NeededConstrcutionTimeSec: 21600
     _detailViewImage: {fileID: 21300000, guid: 4729eae96505ef041b365017fdf41149, type: 3}
     _fieldObj: {fileID: 614787940}
   - _buildingType: 2
@@ -49761,7 +49761,7 @@ Transform:
   m_GameObject: {fileID: 1508567982}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 45.1, y: -7.1700006, z: 0}
+  m_LocalPosition: {x: 45.14, y: -7.1700006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -71398,7 +71398,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4462915879690929843, guid: fabd929830e0d48429c6e047af57dd53, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4608043662008113249, guid: fabd929830e0d48429c6e047af57dd53, type: 3}
       propertyPath: m_LocalPosition.x
