@@ -62,9 +62,10 @@ public class SLGArrowObject : MonoBehaviour
     {
         _deltaTime = 0;
         _TargetPos = TargetPos;
-        
-        float angle = Mathf.Atan2(_player.transform.position.y - _TargetPos.y, _player.transform.position.x - _TargetPos.x) * Mathf.Rad2Deg;
-        this.transform.rotation = Quaternion.AngleAxis(angle + 180, Vector3.forward);
-        this.transform.localPosition = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad) * (-1), Mathf.Sin(angle * Mathf.Deg2Rad) * (-1), 0);
+
+        float angle = _player.transform.position.y
+            > _TargetPos.y ? 0.0F : 180.0F;
+        this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        this.transform.localPosition = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad), 0);
     }
 }
