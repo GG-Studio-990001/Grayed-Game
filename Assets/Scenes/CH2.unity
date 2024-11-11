@@ -503,8 +503,6 @@ MonoBehaviour:
   _runner: {fileID: 696216669}
   _turnController: {fileID: 1755298184}
   _locationSelectionUI: {fileID: 444606903}
-  _keySetting: {fileID: 2138864458}
-  _lineView: {fileID: 1100803380}
   _lineViewCanvas: {fileID: 1100803384}
   _nameTag: {fileID: 789604149}
   _lineTxt: {fileID: 1441580442}
@@ -2002,7 +2000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2432,6 +2430,10 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7187332589160518558, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7321773724009295106, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -2480,7 +2482,8 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7187332589160518558, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4219,7 +4222,8 @@ MonoBehaviour:
   _uis:
   - {fileID: 1484800585}
   - {fileID: 1962123606}
-  _lineView: {fileID: 1100803384}
+  _lineView: {fileID: 1100803380}
+  _lineTxt: {fileID: 1441580442}
   _skipPanel: {fileID: 421610020}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
