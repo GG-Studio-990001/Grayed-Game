@@ -10,7 +10,7 @@ namespace Runtime.CH2.Main
         [SerializeField] private CH2Dialogue _dialogue;
         [SerializeField] private GameObject[] _uis;
         [SerializeField] private GameObject _skipPanel;
-        // private bool isHidingUI = false;
+        private bool isHidingUI = false;
 
         // TODO: _runner.IsDialogueRunning 말고 직접 다이얼로그 시작과 끝 설정
         public void Skip()
@@ -23,12 +23,12 @@ namespace Runtime.CH2.Main
 
         public void HideUI()
         {
-            //if (!_runner.IsDialogueRunning)
-            //    return;
+            if (!_runner.IsDialogueRunning)
+                return;
 
-            //isHidingUI = !isHidingUI;
-            //foreach (GameObject ui in _uis)
-            //    ui.SetActive(!isHidingUI);
+            isHidingUI = !isHidingUI;
+            foreach (GameObject ui in _uis)
+                ui.SetActive(!isHidingUI);
         }
 
         public void AutoDialogue()

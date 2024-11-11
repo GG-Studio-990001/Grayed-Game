@@ -2,6 +2,7 @@ using Runtime.CH2.Location;
 using Runtime.CH2.Main;
 using Runtime.ETC;
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -165,30 +166,6 @@ namespace Runtime.CH2.Dialogue
         }
 
         /*
-        private void Ending()
-        {
-            // 개발한 부분까지 모두 출력 완료함
-            _toBeContinued.SetActive(true);
-        }
-
-        public void SkipDialogue()
-        {
-            Debug.Log("Skip");
-            _runner.Stop();
-
-            if (Managers.Data.CH2.IsSpecialDialogue)
-            {
-                _runner.StartDialogue("EndS");
-            }
-            else
-            {
-                _runner.StartDialogue("EndN");
-            }
-
-            if (Managers.Data.CH2.Turn == 7)
-                Ending();
-        }
-
         private void SetAuto(Action onDialogueLineFinished)
         {
             if (_isAutoAdvanced)
@@ -213,6 +190,31 @@ namespace Runtime.CH2.Dialogue
             yield return new WaitForSeconds(1f);
             Debug.Log("끗");
             _runner.Dialogue.Continue();
+        }*/
+
+        /*
+        public void SkipDialogue()
+        {
+            Debug.Log("Skip");
+            _runner.Stop();
+
+            if (Managers.Data.CH2.IsSpecialDialogue)
+            {
+                _runner.StartDialogue("EndS");
+            }
+            else
+            {
+                _runner.StartDialogue("EndN");
+            }
+
+            if (Managers.Data.CH2.Turn == 7)
+                Ending();
+        }
+
+        private void Ending()
+        {
+            // 개발한 부분까지 모두 출력 완료함
+            _toBeContinued.SetActive(true);
         }
 
         private void NpcFace(int idx)
