@@ -1,113 +1,129 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Transactions;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class Ario : MonoBehaviour
+namespace Runtime.CH2.SuperArio
 {
-    [SerializeField] private float jumpHeight;
-    [SerializeField] private float jumpSpeed;
-    [SerializeField] private Sprite sit;
-    
-    private bool isJump;
-    private bool isTop;
-    private Vector2 startPos;
-    private CapsuleCollider2D col;
-    private Animator animator;
-    private SpriteRenderer spr;
-    private Sprite initSprite;
-    private int life = 1;
-    
-    private void Start()
+    public class Ario : MonoBehaviour
     {
-        spr = GetComponent<SpriteRenderer>();
-        col = GetComponent<CapsuleCollider2D>();
-        animator = GetComponent<Animator>();
-        initSprite = spr.sprite;
-        startPos = transform.position;
-        ArioManager.instance.onPlay += InitData;
-    }
+        [SerializeField] private float _jumpHeight;
+        [SerializeField] private float _jumpSpeed;
+        [SerializeField] private Sprite sitSprite;
 
-    private void Update()
-    {
-        if (ArioManager.instance.isPlay)
+        private bool _isJump;
+        private bool _isTop;
+        private bool _isPause;
+
+        private Vector2 _startPos;
+        private CapsuleCollider2D _col;
+        private Animator _animator;
+        private SpriteRenderer _spr;
+        private Sprite _initSprite;
+        private int _life = 1;
+
+        private void Start()
         {
-            KeyEvent();
-            
-            if (isJump)
+            _spr = GetComponent<SpriteRenderer>();
+            _col = GetComponent<CapsuleCollider2D>();
+            _animator = GetComponent<Animator>();
+            _initSprite = _spr.sprite;
+            _startPos = transform.position;
+            ArioManager.instance.onPlay += InitData;
+        }
+
+        private void FixedUpdate()
+        {
+            if (!ArioManager.instance.isPlay) return;
+
+            if (_isJump)
             {
-                if (transform.position.y <= jumpHeight - 0.1f && !isTop)
+                if (transform.position.y <= _jumpHeight - 0.1f && !_isTop)
                 {
                     transform.position = Vector2.Lerp(transform.position,
-                        new Vector2(transform.position.x, jumpHeight), jumpSpeed * Time.deltaTime);
+                        new Vector2(transform.position.x, _jumpHeight), _jumpSpeed * Time.fixedDeltaTime);
                 }
                 else
                 {
-                    isTop = true;
+                    _isTop = true;
                 }
 
-                if (transform.position.y > startPos.y && isTop)
+                if (transform.position.y > _startPos.y && _isTop)
                 {
-                    transform.position = Vector2.MoveTowards(transform.position, startPos, jumpSpeed * Time.deltaTime);
+                    transform.position = Vector2.MoveTowards(transform.position, _startPos, _jumpSpeed * Time.fixedDeltaTime);
                 }
             }
-        }
-    }
 
-    private void KeyEvent()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isJump = true;
+            // 땅에 닿았을 때 점프 관련 상태만 초기화
+            if (transform.position.y <= _startPos.y)
+            {
+                _isJump = false;
+                _isTop = false;
+                transform.position = _startPos;
+            }
         }
-        else if (Input.GetKey(KeyCode.DownArrow) && !isJump)
-        {
-            if(col.offset.y == 0)
-                col.offset = new Vector2(0, -0.1f);
-            animator.enabled = false;
-            spr.sprite = sit;
-        }
-        else if (transform.position.y <= startPos.y)
-        {
-            animator.enabled = true;
-            spr.sprite = initSprite;
-            isJump = false;
-            isTop = false;
-            transform.position = startPos;
-            if(col.offset.y != 0)
-                col.offset = new Vector2(0, 0);
-        }
-    }
-    
-    private void InitData(bool isPlay)
-    {
-        if (isPlay)
-        {
-            transform.position = startPos;
-            isJump = false;
-            isTop = false;
-            animator.enabled = true;
-        }
-        else
-        {
-            life = 1;
-            animator.enabled = false;
-            isJump = false;
-        }
-    }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Obstacle") && ArioManager.instance.isPlay)
+        public void OnMove(InputAction.CallbackContext context)
         {
-            life--;
-            ArioManager.instance.ChangeHeartUI(life);
+            if (!ArioManager.instance.isPlay || _isPause) return;
+
+            Vector2 moveInput = context.ReadValue<Vector2>();
+
+            if (context.performed)
+            {
+                if (moveInput.y > 0 && transform.position.y <= _startPos.y && !_isJump) // 위쪽 (점프)
+                {
+                    _isJump = true;
+                }
+                else if (moveInput.y < 0 && !_isJump) // 아래쪽
+                {
+                    if (_col.offset.y == 0)
+                        _col.offset = new Vector2(0, -0.1f);
+                    _animator.enabled = false;
+                    _spr.sprite = sitSprite;
+                }
+            }
+            else if (context.canceled) // 아래 방향키를 뗐을 때
+            {
+                _animator.enabled = true;
+                _spr.sprite = _initSprite;
+                if (_col.offset.y != 0)
+                    _col.offset = new Vector2(0, 0);
+            }
         }
-        else if (other.CompareTag("Coin") && ArioManager.instance.isPlay)
+
+        private void InitData(bool isPlay)
         {
-            ArioManager.instance.GetCoin();
-            other.gameObject.SetActive(false);
+            if (isPlay)
+            {
+                transform.position = _startPos;
+                _isJump = false;
+                _isTop = false;
+                _animator.enabled = true;
+            }
+            else
+            {
+                _life = 1;
+                _animator.enabled = false;
+                _isJump = false;
+            }
+        }
+
+        public void PauseKeyInput()
+        {
+            _isPause = !_isPause;
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.CompareTag("Obstacle") && ArioManager.instance.isPlay)
+            {
+                _life--;
+                ArioManager.instance.ChangeHeartUI(_life);
+            }
+            else if (other.CompareTag("Coin") && ArioManager.instance.isPlay)
+            {
+                ArioManager.instance.GetCoin();
+                other.gameObject.SetActive(false);
+            }
         }
     }
 }

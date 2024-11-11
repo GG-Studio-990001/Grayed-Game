@@ -49,13 +49,14 @@ namespace Runtime.Input
         {
             _gameOverControls.UI.Enable();
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
-            _gameOverControls.UI.DialogueInput.performed += _ => keyBinder.LineView.OnContinueClicked();
-            // _gameOverControls.UI.Restart.performed += _ => keyBinder.RestartPacmom();
+            _gameOverControls.UI.GameSetting.performed += _ => keyBinder.PauseKeyInput();
+            //_gameOverControls.UI.DialogueInput.performed += _ => keyBinder.LineView.OnContinueClicked();
+            _gameOverControls.UI.Restart.performed += _ => keyBinder.RestartSuperArio();
 
             _gameOverControls.Player.Enable();
-            // _gameOverControls.Player.Move.performed += keyBinder.Rapley.OnMove;
-            // _gameOverControls.Player.Move.started += keyBinder.Rapley.OnMove;
-            // _gameOverControls.Player.Move.canceled += keyBinder.Rapley.OnMove;
+            _gameOverControls.Player.Move.performed += keyBinder.Ario.OnMove;
+            _gameOverControls.Player.Move.started += keyBinder.Ario.OnMove;
+            _gameOverControls.Player.Move.canceled += keyBinder.Ario.OnMove;
         }
 
         // CH1
