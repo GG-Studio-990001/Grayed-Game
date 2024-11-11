@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Transactions;
 using UnityEngine;
 
-public class ArioController : MonoBehaviour
+public class Ario : MonoBehaviour
 {
     [SerializeField] private float jumpHeight;
     [SerializeField] private float jumpSpeed;
