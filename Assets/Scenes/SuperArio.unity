@@ -452,8 +452,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 719c75f5c2b3079419c570289ed4ac7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpHeight: 0
-  _jumpSpeed: 0
+  _jumpHeight: 1
+  _jumpSpeed: 7
   sitSprite: {fileID: 1441689112, guid: 646b6d960c3f85d428eb30e7d9e5caa4, type: 3}
 --- !u!1 &97672310
 GameObject:
@@ -4292,7 +4292,8 @@ PrefabInstance:
       value: 0.486
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6347440992739952066, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
