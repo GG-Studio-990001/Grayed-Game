@@ -3,6 +3,7 @@ using Runtime.CH1.Main.Player;
 using Runtime.CH1.Pacmom;
 using Runtime.CH1.Title;
 using Runtime.CH2.Main;
+using Runtime.CH2.SuperArio;
 using Runtime.Common.View;
 using Yarn.Unity;
 
@@ -41,6 +42,21 @@ namespace Runtime.Input
             _gameOverControls.Player.Move.performed += keyBinder.Rapley.OnMove;
             _gameOverControls.Player.Move.started += keyBinder.Rapley.OnMove;
             _gameOverControls.Player.Move.canceled += keyBinder.Rapley.OnMove;
+        }
+        
+        // SuperArio
+        public void SAKeyBinding(SAKeyBinder keyBinder, SettingsUIView settingsUIView)
+        {
+            _gameOverControls.UI.Enable();
+            _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
+            _gameOverControls.UI.GameSetting.performed += _ => keyBinder.PauseKeyInput();
+            //_gameOverControls.UI.DialogueInput.performed += _ => keyBinder.LineView.OnContinueClicked();
+            _gameOverControls.UI.Restart.performed += _ => keyBinder.RestartSuperArio();
+
+            _gameOverControls.Player.Enable();
+            _gameOverControls.Player.Move.performed += keyBinder.Ario.OnMove;
+            _gameOverControls.Player.Move.started += keyBinder.Ario.OnMove;
+            _gameOverControls.Player.Move.canceled += keyBinder.Ario.OnMove;
         }
 
         // CH1
