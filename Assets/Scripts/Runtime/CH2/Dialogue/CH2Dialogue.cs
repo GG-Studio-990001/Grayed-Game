@@ -1,3 +1,4 @@
+using PlasticGui;
 using Runtime.CH2.Location;
 using Runtime.CH2.Main;
 using Runtime.ETC;
@@ -35,6 +36,8 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _toBeContinued;
         [SerializeField] private bool _isAutoAdvanced = false;
         private string _speaker;
+        private string _dialogueText;
+        private int currentMaxVisibleCharacters;
 
         private void Awake()
         {
@@ -53,8 +56,10 @@ namespace Runtime.CH2.Dialogue
         {
             if (_lineViewCanvas.alpha == 0)
                 ClearLineText();
+            // 원래는 새로운 다이얼로그 시작하면 비워주는 용도로 쓴 코드...
+            // 알파값 건들일 시 주의
         }
-
+        
         private void ClearLineText()
         {
             _lineTxt.text = "";
