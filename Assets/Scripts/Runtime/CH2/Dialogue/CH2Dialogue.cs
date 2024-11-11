@@ -1,7 +1,9 @@
+using PlasticGui;
 using Runtime.CH2.Location;
 using Runtime.CH2.Main;
 using Runtime.ETC;
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,6 +36,8 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _toBeContinued;
         [SerializeField] private bool _isAutoAdvanced = false;
         private string _speaker;
+        private string _dialogueText;
+        private int currentMaxVisibleCharacters;
 
         private void Awake()
         {
@@ -52,8 +56,10 @@ namespace Runtime.CH2.Dialogue
         {
             if (_lineViewCanvas.alpha == 0)
                 ClearLineText();
+            // 원래는 새로운 다이얼로그 시작하면 비워주는 용도로 쓴 코드...
+            // 알파값 건들일 시 주의
         }
-
+        
         private void ClearLineText()
         {
             _lineTxt.text = "";
@@ -165,30 +171,6 @@ namespace Runtime.CH2.Dialogue
         }
 
         /*
-        private void Ending()
-        {
-            // 개발한 부분까지 모두 출력 완료함
-            _toBeContinued.SetActive(true);
-        }
-
-        public void SkipDialogue()
-        {
-            Debug.Log("Skip");
-            _runner.Stop();
-
-            if (Managers.Data.CH2.IsSpecialDialogue)
-            {
-                _runner.StartDialogue("EndS");
-            }
-            else
-            {
-                _runner.StartDialogue("EndN");
-            }
-
-            if (Managers.Data.CH2.Turn == 7)
-                Ending();
-        }
-
         private void SetAuto(Action onDialogueLineFinished)
         {
             if (_isAutoAdvanced)
@@ -213,6 +195,31 @@ namespace Runtime.CH2.Dialogue
             yield return new WaitForSeconds(1f);
             Debug.Log("끗");
             _runner.Dialogue.Continue();
+        }*/
+
+        /*
+        public void SkipDialogue()
+        {
+            Debug.Log("Skip");
+            _runner.Stop();
+
+            if (Managers.Data.CH2.IsSpecialDialogue)
+            {
+                _runner.StartDialogue("EndS");
+            }
+            else
+            {
+                _runner.StartDialogue("EndN");
+            }
+
+            if (Managers.Data.CH2.Turn == 7)
+                Ending();
+        }
+
+        private void Ending()
+        {
+            // 개발한 부분까지 모두 출력 완료함
+            _toBeContinued.SetActive(true);
         }
 
         private void NpcFace(int idx)

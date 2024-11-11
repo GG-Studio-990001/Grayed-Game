@@ -20,12 +20,13 @@ namespace Runtime.CH2.Location
             { "Base", "기지" },
             { "Storage", "창고" },
             { "InStorage", "창고 내부" },
+            { "InTemple", "신전 내부" },
             { "TempleRoom", "신전 방" },
             { "Backstreet", "골목길" },
             { "DallorHouse", "달러의 집" },
             { "Passage", "통로" },
-            { "InStatue", "달러 동상 내부" },
-            { "StatueCrack", "달러 동상 틈새" }
+            { "InStatue", "달러 동상 안" },
+            { "StatueCrack", "달러 동상 틈" }
         };
 
         private Dictionary<string, int> _locationSprites = new Dictionary<string, int>
@@ -38,12 +39,13 @@ namespace Runtime.CH2.Location
             { "Base", 5 },            // 기지
             { "Storage", 6 },         // 창고
             { "InStorage", 7 },      // 창고 내부
-            { "TempleRoom", 8 },     // 신전 방
-            { "Backstreet", 9 },      // 골목길
-            { "DallorHouse", 10 },    // 달러의 집
-            { "Passage", 11 },        // 통로
-            { "InStatue", 12 },      // 달러 동상 내부
-            { "StatueCrack", 13 }     // 달러 동상 틈새
+            { "InTemple", 8 },
+            { "TempleRoom", 9 },     // 신전 방
+            { "Backstreet", 10 },      // 골목길
+            { "DallorHouse", 11 },    // 달러의 집
+            { "Passage", 12 },        // 통로
+            { "InStatue", 13 },      // 달러 동상 내부
+            { "StatueCrack", 14 }     // 달러 동상 틈새
         };
 
         public void SetLocationUI()
