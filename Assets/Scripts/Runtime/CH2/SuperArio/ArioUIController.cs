@@ -1,42 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ArioUIController : MonoBehaviour
+namespace Runtime.CH2.SuperArio
 {
-    [SerializeField] private TMP_Text restartText;
-    [SerializeField] private TMP_Text stageText;
-    [SerializeField] private TMP_Text coinText;
-    [SerializeField] private Image itemImg;
-    [SerializeField] private ArioHeartsUI hearts;
-
-    public void ActiveRestartText(bool isRestart)
+    public class ArioUIController : MonoBehaviour
     {
-        if(isRestart)
-            restartText.gameObject.SetActive(true);
-        else
-            restartText.gameObject.SetActive(false);
-    }
+        [SerializeField] private TMP_Text _restartText;
+        [SerializeField] private TMP_Text _stageText;
+        [SerializeField] private TMP_Text _coinText;
+        [SerializeField] private Image _itemImg;
+        [SerializeField] private ArioHeartsUI _hearts;
+
+        public void ActiveRestartText(bool isRestart)
+        {
+            if(isRestart)
+                _restartText.gameObject.SetActive(true);
+            else
+                _restartText.gameObject.SetActive(false);
+        }
     
-    public void ChangeHeartUI(int count)
-    {
-        hearts.ChangeHeartUI(count);
-    }
+        public void ChangeHeartUI(int count)
+        {
+            _hearts.ChangeHeartUI(count);
+        }
 
-    public void ChangeStageText(string text)
-    {
-        stageText.text = text;
-    }
+        public void ChangeStageText(string text)
+        {
+            _stageText.text = text;
+        }
 
-    public void ChangeCoinText(string text)
-    {
-        coinText.text = text;
-    }
+        public void ChangeCoinText(string text)
+        {
+            _coinText.text = text;
+        }
 
-    public void ChangeItemSprite(bool isUse)
-    {
-        itemImg.enabled = !isUse;
+        public void ChangeItemSprite(bool isUse)
+        {
+            _itemImg.enabled = !isUse;
+        }
     }
 }
+

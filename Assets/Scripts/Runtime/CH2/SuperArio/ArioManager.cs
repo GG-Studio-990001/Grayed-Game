@@ -1,85 +1,85 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
-public class ArioManager : MonoBehaviour
+namespace Runtime.CH2.SuperArio
 {
-    #region instance
-
-    public static ArioManager instance;
-
-    private void Awake()
+    public class ArioManager : MonoBehaviour
     {
-        if (instance != null)
+        #region instance
+
+        public static ArioManager instance;
+
+        private void Awake()
         {
-            Destroy(gameObject);
-            return;
+            if (instance != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            instance = this;
         }
 
-        instance = this;
-    }
+        #endregion
 
-    #endregion
+        public delegate void OnPlay(bool isPlay);
 
-    public delegate void OnPlay(bool isPlay);
-    public OnPlay onPlay;
-    [SerializeField] private ArioUIController ui;
+        public OnPlay onPlay;
+        [SerializeField] private ArioUIController ui;
 
-    public float gameSpeed = 1;
-    public bool isPlay;
-    private GameObject startText;
-    private string stageInfo;
-    private int coinCnt;
+        public float gameSpeed = 1;
+        public bool isPlay;
+        private GameObject _startText;
+        private string _stageInfo;
+        private int _coinCnt;
 
-    private void Start()
-    {
-        StartCoroutine(WaitStart());
-    }
+        private void Start()
+        {
+            StartCoroutine(WaitStart());
+        }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R) && !isPlay)
+        public void RestartSuperArio()
+        {
+            if (!isPlay)
+                StartGame();
+        }
+
+        private IEnumerator WaitStart()
+        {
+            yield return new WaitForSeconds(0.5f);
             StartGame();
-    }
-    
-    private IEnumerator WaitStart()
-    {
-        yield return new WaitForSeconds(0.5f);
-        StartGame();
-    }
+        }
 
-    private void StartGame()
-    {
-        stageInfo = "WORLD\n1-1";
-        ui.ChangeCoinText("RAPLEY\n" + coinCnt);
-        ui.ChangeStageText(stageInfo);
-        ui.ActiveRestartText(false);
-        ui.ChangeItemSprite(false);
-        ChangeHeartUI(1);
-        isPlay = true;
-        onPlay.Invoke(isPlay);
-    }
+        private void StartGame()
+        {
+            _stageInfo = "WORLD\n1-1";
+            ui.ChangeCoinText("RAPLEY\n" + _coinCnt);
+            ui.ChangeStageText(_stageInfo);
+            ui.ActiveRestartText(false);
+            ui.ChangeItemSprite(false);
+            ChangeHeartUI(1);
+            isPlay = true;
+            onPlay.Invoke(isPlay);
+        }
 
-    private void GameOver()
-    {
-        ui.ActiveRestartText(true);
-        isPlay = false;
-        onPlay.Invoke(isPlay);
-    }
+        private void GameOver()
+        {
+            ui.ActiveRestartText(true);
+            isPlay = false;
+            onPlay.Invoke(isPlay);
+        }
 
-    public void ChangeHeartUI(int life)
-    {
-        ui.ChangeHeartUI(life);
-        if(life == 0)
-            GameOver();
-    }
+        public void ChangeHeartUI(int life)
+        {
+            ui.ChangeHeartUI(life);
+            if (life == 0)
+                GameOver();
+        }
 
-    public void GetCoin()
-    {
-        coinCnt++;
-        ui.ChangeCoinText("RAPLEY\n" + coinCnt);
+        public void GetCoin()
+        {
+            _coinCnt++;
+            ui.ChangeCoinText("RAPLEY\n" + _coinCnt);
+        }
     }
 }
