@@ -2967,7 +2967,7 @@ MonoBehaviour:
   - {x: -93, y: -210, z: 0}
   - {x: 134, y: -225, z: 0}
   - {x: 214, y: 205, z: 0}
-  - {x: 189, y: 49.3, z: 0}
+  - {x: 134, y: 17, z: 0}
   - {x: 178.2, y: -238.7, z: 0}
   _fish: {fileID: 500188722}
   _player: {fileID: 669133899}
@@ -55165,7 +55165,7 @@ Camera:
   far clip plane: 1000
   field of view: 70
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 11.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -55190,7 +55190,7 @@ Transform:
   m_GameObject: {fileID: 1674432335}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 92.4, y: 11.77, z: -10}
+  m_LocalPosition: {x: -2.817482, y: 0.5195503, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
