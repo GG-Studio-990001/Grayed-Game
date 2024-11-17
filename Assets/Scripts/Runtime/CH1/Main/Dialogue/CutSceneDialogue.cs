@@ -204,14 +204,6 @@ namespace Runtime.CH1.Main.Dialogue
             }
         }
         
-        public void EndMainConstruction()
-        {
-            SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
-            if (slgAction != null)
-            {
-                //slgAction.MoveOnNextProgress();
-            }
-        }
 
         public void EndSLGMode()
         {
