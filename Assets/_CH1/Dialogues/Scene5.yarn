@@ -25,6 +25,5 @@ title: S5
 <<wait 1>>
 <<MamagoEnter>>
 
-<<EndMainConstruction>>
 <<SceneEnd>>
 ===

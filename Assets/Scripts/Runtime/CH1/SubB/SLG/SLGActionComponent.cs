@@ -214,6 +214,7 @@ public class SLGActionComponent : MonoBehaviour
             //TODO Flow 
             case SLGProgress.ModeClose:
                 EndSLGMode();
+                RefreshAllUI();
                 break;
         }
 
@@ -552,7 +553,7 @@ public class SLGActionComponent : MonoBehaviour
     #region UIHandle
     public bool IsInSLGMode()
     {
-        return _SLGProgressInfo >= SLGProgress.ModeOpen && _SLGProgressInfo <= SLGProgress.ModeClose;
+        return _SLGProgressInfo >= SLGProgress.ModeOpen && _SLGProgressInfo < SLGProgress.ModeClose;
     }
 
     public bool CanInteract ()

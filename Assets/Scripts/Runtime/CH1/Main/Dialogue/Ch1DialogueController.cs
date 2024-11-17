@@ -69,7 +69,6 @@ namespace Runtime.CH1.Main.Dialogue
             // CutScene / Mamago
             _runner.AddCommandHandler("RebuildBridge", _cutScene.RebuildBridge);
             _runner.AddCommandHandler("BuildCompany", _cutScene.BuildCompany);
-            _runner.AddCommandHandler("EndMainConstruction", _cutScene.EndMainConstruction);
             _runner.AddCommandHandler("EndSLGMode", _cutScene.EndSLGMode);
             _runner.AddCommandHandler("CompleteSFX", _cutScene.CompleteSFX);
             _runner.AddCommandHandler("MamagoJump", _cutScene.MamagoJump);

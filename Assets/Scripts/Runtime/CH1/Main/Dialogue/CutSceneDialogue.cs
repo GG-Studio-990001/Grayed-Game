@@ -209,7 +209,7 @@ namespace Runtime.CH1.Main.Dialogue
             SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
             if (slgAction != null)
             {
-                slgAction.MoveOnNextProgress();
+                //slgAction.MoveOnNextProgress();
             }
         }
 
