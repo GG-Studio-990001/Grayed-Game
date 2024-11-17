@@ -333,10 +333,10 @@ public class SLGActionComponent : MonoBehaviour
                                 _subObjectSwitcher.SetActiveSubObject(0);
                                 break;
                             case SLGBuildingProgress.Constructing:
+                            case SLGBuildingProgress.PlayCutScene:
                                 _subObjectSwitcher.SetActiveSubObject(1);
                                 break;
                             case SLGBuildingProgress.EndConstruct:
-                            case SLGBuildingProgress.PlayCutScene:
                                 _subObjectSwitcher.SetActiveSubObject(2);
                                 break;
                         }
