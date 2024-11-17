@@ -11498,7 +11498,7 @@ GameObject:
   m_Component:
   - component: {fileID: 399678925}
   m_Layer: 0
-  m_Name: ---Dialogue---
+  m_Name: ---Controller---
   m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26561,7 +26561,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 1546151723
-  m_SortingOrder: 4
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!1 &901798306
 GameObject:
@@ -55254,7 +55254,7 @@ Camera:
   far clip plane: 1000
   field of view: 70
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 11.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -55279,7 +55279,7 @@ Transform:
   m_GameObject: {fileID: 1674432335}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.32, y: -5.56, z: -10}
+  m_LocalPosition: {x: -3.925093, y: -0.4651599, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -68814,9 +68814,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: SettingSystem
       objectReference: {fileID: 0}
+    - target: {fileID: 5074715087603293082, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1674432337}
     - target: {fileID: 5678979071786669097, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347440992739952066, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6584498748132185721, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
       propertyPath: m_IsActive
@@ -68846,6 +68854,14 @@ PrefabInstance:
       propertyPath: m_UiScaleMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7607472912886499478, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -46.799988
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607472912886499478, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -43.899994
+      objectReference: {fileID: 0}
     - target: {fileID: 8333262551354297480, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
       propertyPath: m_Name
       value: BGMSlider
@@ -68855,7 +68871,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6347440992739952066, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2556870853252807087, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
       insertIndex: -1
@@ -71905,7 +71922,6 @@ SceneRoots:
   - {fileID: 1051889806}
   - {fileID: 2511279292538436685}
   - {fileID: 342591944}
-  - {fileID: 326335555}
   - {fileID: 901641455}
   - {fileID: 1311836792}
   - {fileID: 200716017}
@@ -71914,6 +71930,7 @@ SceneRoots:
   - {fileID: 101260565}
   - {fileID: 594261035}
   - {fileID: 399678925}
+  - {fileID: 326335555}
   - {fileID: 8470899940852173831}
   - {fileID: 1651610314298150028}
   - {fileID: 1496251486}
