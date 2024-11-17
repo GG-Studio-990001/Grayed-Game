@@ -83,8 +83,8 @@ namespace Runtime.Input
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
             _gameOverControls.UI.DialogueInput.performed += _ => keySetting.DialogueInput();
             _gameOverControls.UI.Hide.performed += _ => keySetting.HideUI();
+            _gameOverControls.UI.Auto.performed += _ => keySetting.AutoDialogue();
             //_gameOverControls.UI.Skip.performed += _ => keySetting.Skip();
-            //_gameOverControls.UI.Auto.performed += _ => keySetting.AutoDialogue();
         }
 
         // ETC

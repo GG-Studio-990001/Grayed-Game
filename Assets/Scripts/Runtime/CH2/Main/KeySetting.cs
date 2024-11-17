@@ -10,7 +10,6 @@ namespace Runtime.CH2.Main
         [SerializeField] private DialogueRunner _runner;
         [SerializeField] private CH2Dialogue _dialogue;
         [SerializeField] private GameObject[] _uis;
-        // [SerializeField] private CanvasGroup _lineViewCanvas;
         [SerializeField] private LineView _lineView;
         [SerializeField] private TextMeshProUGUI _lineTxt;
         [SerializeField] private GameObject _skipPanel;
@@ -43,6 +42,15 @@ namespace Runtime.CH2.Main
             foreach (GameObject ui in _uis)
                 ui.SetActive(!_isHidingUI);
         }
+
+        public void AutoDialogue()
+        {
+            if (!_runner.IsDialogueRunning)
+                return;
+
+            _dialogue.AutoDialogueToggle();
+            // 대사를 치고 1초 뒤에 다음 대사로 넘김
+        }
         /*
         //TODO: _runner.IsDialogueRunning 말고 직접 다이얼로그 시작과 끝 설정
         public void Skip()
@@ -51,18 +59,6 @@ namespace Runtime.CH2.Main
                 return;
 
             _skipPanel.SetActive(true);
-        }
-
-        public void AutoDialogue()
-        {
-            //if (!_runner.IsDialogueRunning)
-            //    return;
-
-            //_dialogue.AutoDialogueToggle();
-            // 대화 자동 진행 활성화
-            // 직접 넘길 수 없음
-            // 2초 뒤에 다음 대사로 넘김
-            // 현재 Auto
         }
         */
     }
