@@ -214,6 +214,7 @@ public class SLGActionComponent : MonoBehaviour
             //TODO Flow 
             case SLGProgress.ModeClose:
                 EndSLGMode();
+                RefreshAllUI();
                 break;
         }
 
@@ -333,10 +334,10 @@ public class SLGActionComponent : MonoBehaviour
                                 _subObjectSwitcher.SetActiveSubObject(0);
                                 break;
                             case SLGBuildingProgress.Constructing:
+                            case SLGBuildingProgress.PlayCutScene:
                                 _subObjectSwitcher.SetActiveSubObject(1);
                                 break;
                             case SLGBuildingProgress.EndConstruct:
-                            case SLGBuildingProgress.PlayCutScene:
                                 _subObjectSwitcher.SetActiveSubObject(2);
                                 break;
                         }
@@ -552,7 +553,7 @@ public class SLGActionComponent : MonoBehaviour
     #region UIHandle
     public bool IsInSLGMode()
     {
-        return _SLGProgressInfo >= SLGProgress.ModeOpen && _SLGProgressInfo <= SLGProgress.ModeClose;
+        return _SLGProgressInfo >= SLGProgress.ModeOpen && _SLGProgressInfo < SLGProgress.ModeClose;
     }
 
     public bool CanInteract ()
