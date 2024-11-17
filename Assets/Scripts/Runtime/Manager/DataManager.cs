@@ -109,6 +109,7 @@ namespace Runtime.Manager
         {
             _gameData = new GameData { Version = Application.version };
             SaveGame();
+            Managers.Sound.ResetPlayTime();
         }
     }
 }

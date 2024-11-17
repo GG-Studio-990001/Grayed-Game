@@ -172,6 +172,11 @@ namespace Runtime.InGameSystem
             return audioClip;
         }
 
+        public void ResetPlayTime()
+        {
+            _bgmPlayTime = 0f;
+        }
+
         public void StopAllSound()
         {
             StopBGM();
