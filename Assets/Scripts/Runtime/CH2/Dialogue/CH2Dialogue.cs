@@ -27,6 +27,7 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private LocationTransitionUI _locationSelectionUI;
         [Header("=Else=")]
         [SerializeField] private CanvasGroup _lineViewCanvas;
+        [SerializeField] private LineView _lineView;
         [SerializeField] private GameObject _nameTag;
         [SerializeField] private TextMeshProUGUI _lineTxt;
         [SerializeField] private Image[] _characters = new Image[2];
@@ -35,8 +36,8 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _toBeContinued;
         [SerializeField] private bool _isAutoAdvanced = false;
         private string _speaker;
-        private string _dialogueText;
-        private int currentMaxVisibleCharacters;
+        // private string _dialogueText;
+        // private int currentMaxVisibleCharacters;
 
         private void Awake()
         {
@@ -66,7 +67,6 @@ namespace Runtime.CH2.Dialogue
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
-            // SetAuto(onDialogueLineFinished);
             _speaker = dialogueLine.CharacterName;
             SetNameTag(_speaker != "");
 
@@ -164,28 +164,22 @@ namespace Runtime.CH2.Dialogue
             _nameTag.SetActive(hasName);
         }
 
+        #region Auto Dialgue
         public void AutoDialogueToggle()
         {
             _isAutoAdvanced = !_isAutoAdvanced;
+            Debug.Log("_isAutoAdvanced: " + _isAutoAdvanced);
         }
 
-        /*
-        private void SetAuto(Action onDialogueLineFinished)
+        public void StartAutoDialogue()
         {
+            Debug.Log("어");
             if (_isAutoAdvanced)
             {
-                onDialogueLineFinished += () => StartAutoDialogue();
+                StartCoroutine(nameof(AutoDialogue));
+                Debug.Log("기다료");
             }
-            else
-            {
-                onDialogueLineFinished -= () => StartAutoDialogue();
-                StopCoroutine(nameof(AutoDialogue));
-            }
-        }
-
-        private void StartAutoDialogue()
-        {
-            StartCoroutine(nameof(AutoDialogue));
+                
         }
 
         IEnumerator AutoDialogue()
@@ -193,8 +187,9 @@ namespace Runtime.CH2.Dialogue
             Debug.Log("기달");
             yield return new WaitForSeconds(1f);
             Debug.Log("끗");
-            _runner.Dialogue.Continue();
-        }*/
+            _lineView.OnContinueClicked();
+        }
+        #endregion
 
         /*
         public void SkipDialogue()

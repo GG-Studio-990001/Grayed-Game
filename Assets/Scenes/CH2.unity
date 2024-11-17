@@ -504,6 +504,7 @@ MonoBehaviour:
   _turnController: {fileID: 1755298184}
   _locationSelectionUI: {fileID: 444606903}
   _lineViewCanvas: {fileID: 1100803384}
+  _lineView: {fileID: 1100803380}
   _nameTag: {fileID: 789604149}
   _lineTxt: {fileID: 1441580442}
   _characters:
@@ -1324,6 +1325,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 659401537}
   m_CullTransparentMesh: 1
+--- !u!1 &696121908 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4848254361678375663, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+  m_PrefabInstance: {fileID: 832304771}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &696216668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,6 +1668,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: b64f6b2d324457f4190ca23aee698d3a, type: 3}
+    - target: {fileID: 4848254361678375663, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: m_Name
+      value: SettingBtnImg
+      objectReference: {fileID: 0}
     - target: {fileID: 5025059340301348446, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
       propertyPath: m_Name
       value: SettingSystem
@@ -1681,6 +1691,14 @@ PrefabInstance:
     - target: {fileID: 7212133344884426793, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607472912886499478, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -46.799988
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607472912886499478, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -43.899994
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -2394,10 +2412,6 @@ PrefabInstance:
     - target: {fileID: 5709054019036521375, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: holdTime
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709054019036521375, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
-      propertyPath: autoAdvance
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5709054019036521375, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: onCharacterTyped.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -3215,6 +3229,7 @@ GameObject:
   - component: {fileID: 1749894940}
   - component: {fileID: 1749894939}
   - component: {fileID: 1749894941}
+  - component: {fileID: 1749894942}
   m_Layer: 5
   m_Name: AutoBtn
   m_TagString: Untagged
@@ -3286,7 +3301,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1749894937}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -3335,6 +3350,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1749894942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749894937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4caf6a91ac77a6747aa1c3320b2c444f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogue: {fileID: 304034740}
 --- !u!1 &1755298181
 GameObject:
   m_ObjectHideFlags: 0
@@ -4227,6 +4255,8 @@ MonoBehaviour:
   _uis:
   - {fileID: 1484800585}
   - {fileID: 1962123606}
+  - {fileID: 1749894937}
+  - {fileID: 696121908}
   _lineView: {fileID: 1100803380}
   _lineTxt: {fileID: 1441580442}
   _skipPanel: {fileID: 421610020}
