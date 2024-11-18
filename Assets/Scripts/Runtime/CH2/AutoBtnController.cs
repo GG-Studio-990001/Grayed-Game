@@ -9,7 +9,6 @@ namespace Runtime.CH2
 
         void OnEnable()
         {
-            Debug.Log("일어남");
             _dialogue.StartAutoDialogue();
         }
     }

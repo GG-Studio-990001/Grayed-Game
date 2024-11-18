@@ -34,10 +34,11 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private Image[] _npcs = new Image[5];
         [SerializeField] private FaceSpriteSwitcher _michael;
         [SerializeField] private GameObject _toBeContinued;
+        [SerializeField] private GameObject _autoTxt;
+        [SerializeField] private GameObject _continueBtn;
         [SerializeField] private bool _isAutoAdvanced = false;
         private string _speaker;
-        // private string _dialogueText;
-        // private int currentMaxVisibleCharacters;
+        private Coroutine _autoDialogueCoroutine;
 
         private void Awake()
         {
@@ -97,6 +98,9 @@ namespace Runtime.CH2.Dialogue
 
         private void DialogueFin()
         {
+            // 자동진행 끄기
+            _isAutoAdvanced = false;
+
             // 라플리는 밝게 처리
             StandingHighlight(0);
             
@@ -168,26 +172,37 @@ namespace Runtime.CH2.Dialogue
         public void AutoDialogueToggle()
         {
             _isAutoAdvanced = !_isAutoAdvanced;
-            Debug.Log("_isAutoAdvanced: " + _isAutoAdvanced);
+            _autoTxt.SetActive(_isAutoAdvanced);
+
+            // 대사 출력 마치고 토글이 켜졌다면 넘겨주기
+            if (_continueBtn.activeSelf && _isAutoAdvanced)
+            {
+                StartAutoDialogue();
+            }
         }
 
         public void StartAutoDialogue()
         {
-            Debug.Log("어");
-            if (_isAutoAdvanced)
+            if (_isAutoAdvanced && _autoDialogueCoroutine is null)
             {
-                StartCoroutine(nameof(AutoDialogue));
-                Debug.Log("기다료");
+                _autoDialogueCoroutine = StartCoroutine(AutoDialogue());
             }
-                
         }
 
-        IEnumerator AutoDialogue()
+        private IEnumerator AutoDialogue()
         {
-            Debug.Log("기달");
-            yield return new WaitForSeconds(1f);
-            Debug.Log("끗");
+            Debug.Log("오토 코루틴 시작");
+            yield return new WaitForSeconds(1.5f);
             _lineView.OnContinueClicked();
+        }
+
+        public void CancelDialogueCoroutine()
+        {
+            if (_autoDialogueCoroutine is not null)
+            {
+                StopCoroutine(_autoDialogueCoroutine);
+                _autoDialogueCoroutine = null; // 인스턴스 초기화
+            }
         }
         #endregion
 
