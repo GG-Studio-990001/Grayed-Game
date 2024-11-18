@@ -67,14 +67,6 @@ public class Managers : MonoBehaviour
             _soundManager.Init();
             _resourceManager.Init();
             _dataManager.Init();
-
-            // 전체화면 전환 비활성화
-            Screen.fullScreenMode = FullScreenMode.Windowed;
-            Application.wantsToQuit += () =>
-            {
-                Screen.fullScreenMode = FullScreenMode.Windowed;
-                return true;
-            };
         }
     }
 }
