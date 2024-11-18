@@ -1,3 +1,4 @@
+using Runtime.ETC;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -172,13 +173,13 @@ namespace Runtime.CH2.SuperArio
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Obstacle") && ArioManager.instance.isPlay && !_isInvincible)
+            if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.instance.isPlay && !_isInvincible)
             {
                 _life--;
                 ArioManager.instance.ChangeHeartUI(_life);
                 StartCoroutine(InvincibilityCoroutine());
             }
-            else if (other.CompareTag("Coin") && ArioManager.instance.isPlay)
+            else if (other.CompareTag(GlobalConst.CoinStr) && ArioManager.instance.isPlay)
             {
                 ArioManager.instance.GetCoin();
                 other.gameObject.SetActive(false);

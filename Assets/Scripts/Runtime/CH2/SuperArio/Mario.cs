@@ -1,3 +1,4 @@
+using Runtime.ETC;
 using System.Collections;
 using UnityEngine;
 
@@ -84,7 +85,7 @@ namespace Runtime.CH2.SuperArio
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Obstacle") && ArioManager.instance.isPlay)
+            if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.instance.isPlay)
             {
                 var isSit = other.GetComponent<ObstacleBase>().isSitObstacle;
                 StartCoroutine(!isSit ? Jump() : Sit());
