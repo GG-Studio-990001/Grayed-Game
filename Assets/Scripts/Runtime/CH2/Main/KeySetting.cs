@@ -25,6 +25,7 @@ namespace Runtime.CH2.Main
 
         public void DialogueInput()
         {
+            _dialogue.CancelAutoDialogue();
             OnContinueClicked();
         }
 

@@ -482,7 +482,7 @@ GameObject:
   - component: {fileID: 304034741}
   - component: {fileID: 304034740}
   m_Layer: 0
-  m_Name: DialogueController
+  m_Name: CH2Dialogue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -518,6 +518,8 @@ MonoBehaviour:
   - {fileID: 565989938}
   _michael: {fileID: 857216135}
   _toBeContinued: {fileID: 2006747751}
+  _autoTxt: {fileID: 1212478163}
+  _continueBtn: {fileID: 1929022656}
   _isAutoAdvanced: 0
 --- !u!4 &304034741
 Transform:
@@ -2476,7 +2478,7 @@ PrefabInstance:
     - target: {fileID: 9109430010097559557, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1100803380}
+      objectReference: {fileID: 2138864458}
     - target: {fileID: 9109430010097559557, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -2487,11 +2489,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9109430010097559557, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnContinueClicked
+      value: DialogueInput
       objectReference: {fileID: 0}
     - target: {fileID: 9109430010097559557, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Yarn.Unity.LineView, YarnSpinner.Unity
+      value: Runtime.CH2.Main.KeySetting, Scripts
       objectReference: {fileID: 0}
     - target: {fileID: 9109430010097559557, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -2555,7 +2557,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1212478164
 RectTransform:
   m_ObjectHideFlags: 0

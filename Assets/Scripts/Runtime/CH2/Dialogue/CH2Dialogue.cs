@@ -35,8 +35,10 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private FaceSpriteSwitcher _michael;
         [SerializeField] private GameObject _toBeContinued;
         [SerializeField] private GameObject _autoTxt;
+        [SerializeField] private GameObject _continueBtn;
         [SerializeField] private bool _isAutoAdvanced = false;
         private string _speaker;
+        private Coroutine _autoDialogueCoroutine;
 
         private void Awake()
         {
@@ -171,21 +173,35 @@ namespace Runtime.CH2.Dialogue
         {
             _isAutoAdvanced = !_isAutoAdvanced;
             _autoTxt.SetActive(_isAutoAdvanced);
+
+            // 대사 출력 마치고 토글이 켜졌다면 넘겨주기
+            if (_continueBtn.activeSelf && _isAutoAdvanced)
+            {
+                StartAutoDialogue();
+            }
         }
 
         public void StartAutoDialogue()
         {
-            if (_isAutoAdvanced)
+            if (_isAutoAdvanced && _autoDialogueCoroutine is null)
             {
-                StartCoroutine(nameof(AutoDialogue));
+                _autoDialogueCoroutine = StartCoroutine(AutoDialogue());
             }
-                
         }
 
-        IEnumerator AutoDialogue()
+        private IEnumerator AutoDialogue()
         {
             yield return new WaitForSeconds(1.5f);
             _lineView.OnContinueClicked();
+        }
+
+        public void CancelAutoDialogue()
+        {
+            if (_autoDialogueCoroutine is not null)
+            {
+                StopCoroutine(_autoDialogueCoroutine);
+                _autoDialogueCoroutine = null; // 인스턴스 초기화
+            }
         }
         #endregion
 
