@@ -57,6 +57,8 @@ namespace Runtime.Input
             _gameOverControls.Player.Move.performed += keyBinder.Ario.OnMove;
             _gameOverControls.Player.Move.started += keyBinder.Ario.OnMove;
             _gameOverControls.Player.Move.canceled += keyBinder.Ario.OnMove;
+            _gameOverControls.Player.Interaction.performed += _ => keyBinder.ItemKeyInput();
+
         }
 
         // CH1

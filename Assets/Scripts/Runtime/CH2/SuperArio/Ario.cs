@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,8 +19,13 @@ namespace Runtime.CH2.SuperArio
         private Animator _animator;
         private SpriteRenderer _spr;
         private Sprite _initSprite;
+        
         private int _life = 1;
-
+        private bool _isInvincible = false; // 무적 상태 여부
+        private float _invincibleDuration = 1.0f; // 무적 지속 시간
+        private float _blinkInterval = 0.1f; // 깜빡이는 간격
+        private Color _originalColor; // 원래 색상 저장
+        
         private void Start()
         {
             _spr = GetComponent<SpriteRenderer>();
@@ -111,13 +117,66 @@ namespace Runtime.CH2.SuperArio
         {
             _isPause = !_isPause;
         }
+        
+        private IEnumerator UseItemCoroutine()
+        {
+            _invincibleDuration = 20f;
+            _isInvincible = true; // 무적 상태 활성화
+            _originalColor = _spr.color; // 원래 색상 저장
 
+            float elapsedTime = 0f;
+
+            while (elapsedTime < _invincibleDuration)
+            {
+                // 무지개 색상을 계산
+                float hue = (elapsedTime % 1f) / 1f; // 0~1 사이의 값을 사용
+                _spr.color = Color.HSVToRGB(hue, 1f, 1f); // HSV로 색상 변경
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            // 무적 상태 종료 후 원래 색상 복구
+            _spr.color = _originalColor;
+            _isInvincible = false;
+        }
+        
+        public void UseInvincibleItem()
+        {
+            if (_isInvincible && !ArioManager.instance.GetItem) return; // 이미 무적 상태라면 무시
+
+            ArioManager.instance.ChangeItemSprite(true);
+            StartCoroutine(UseItemCoroutine());
+        }
+
+        private IEnumerator InvincibilityCoroutine()
+        {
+            _invincibleDuration = 1f;
+            _isInvincible = true; // 무적 상태 시작
+
+            float elapsedTime = 0f;
+
+            while (elapsedTime < _invincibleDuration)
+            {
+                // 스프라이트 깜빡임 (비활성화 / 활성화)
+                _spr.enabled = !_spr.enabled;
+
+                elapsedTime += _blinkInterval;
+                yield return new WaitForSeconds(_blinkInterval);
+            }
+
+            // 깜빡임 종료 후 원래 상태로 복구
+            _spr.enabled = true;
+            _isInvincible = false; // 무적 상태 종료
+        }
+        
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Obstacle") && ArioManager.instance.isPlay)
+            if (other.CompareTag("Obstacle") && ArioManager.instance.isPlay && !_isInvincible)
             {
                 _life--;
                 ArioManager.instance.ChangeHeartUI(_life);
+                StartCoroutine(InvincibilityCoroutine());
             }
             else if (other.CompareTag("Coin") && ArioManager.instance.isPlay)
             {
