@@ -36,8 +36,6 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _toBeContinued;
         [SerializeField] private bool _isAutoAdvanced = false;
         private string _speaker;
-        // private string _dialogueText;
-        // private int currentMaxVisibleCharacters;
 
         private void Awake()
         {
@@ -97,6 +95,9 @@ namespace Runtime.CH2.Dialogue
 
         private void DialogueFin()
         {
+            // 자동진행 끄기
+            _isAutoAdvanced = false;
+
             // 라플리는 밝게 처리
             StandingHighlight(0);
             
