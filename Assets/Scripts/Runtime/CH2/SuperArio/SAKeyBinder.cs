@@ -24,6 +24,11 @@ namespace Runtime.CH2.SuperArio
         {
             Ario.PauseKeyInput();
         }
+
+        public void ItemKeyInput()
+        {
+            Ario.UseInvincibleItem();
+        }
         
         public void RestartSuperArio()
         {

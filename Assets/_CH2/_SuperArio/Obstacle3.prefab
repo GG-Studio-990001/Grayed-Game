@@ -99,8 +99,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ff224a6785ade748b8ba08d0e039dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {x: 5, y: -0.4}
   isSitObstacle: 0
+  _isChild: 0
+  _startPos: {x: 5, y: -0.4}
+  _endPos: -6
 --- !u!70 &4723753940166534253
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
