@@ -34,6 +34,7 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private Image[] _npcs = new Image[5];
         [SerializeField] private FaceSpriteSwitcher _michael;
         [SerializeField] private GameObject _toBeContinued;
+        [SerializeField] private GameObject _autoTxt;
         [SerializeField] private bool _isAutoAdvanced = false;
         private string _speaker;
 
@@ -169,25 +170,21 @@ namespace Runtime.CH2.Dialogue
         public void AutoDialogueToggle()
         {
             _isAutoAdvanced = !_isAutoAdvanced;
-            Debug.Log("_isAutoAdvanced: " + _isAutoAdvanced);
+            _autoTxt.SetActive(_isAutoAdvanced);
         }
 
         public void StartAutoDialogue()
         {
-            Debug.Log("어");
             if (_isAutoAdvanced)
             {
                 StartCoroutine(nameof(AutoDialogue));
-                Debug.Log("기다료");
             }
                 
         }
 
         IEnumerator AutoDialogue()
         {
-            Debug.Log("기달");
-            yield return new WaitForSeconds(1f);
-            Debug.Log("끗");
+            yield return new WaitForSeconds(1.5f);
             _lineView.OnContinueClicked();
         }
         #endregion
