@@ -13,7 +13,9 @@ namespace Runtime.CH2.Main
         [SerializeField] private LineView _lineView;
         [SerializeField] private TextMeshProUGUI _lineTxt;
         [SerializeField] private GameObject _skipPanel;
+        [SerializeField] private GameObject _continueBtn;
         private bool _isHidingUI = false;
+        // TODO: CH2Dialogue와 겹치는 변수는 직접 가져오기?
 
         private void OnContinueClicked()
         {
@@ -25,21 +27,27 @@ namespace Runtime.CH2.Main
 
         public void DialogueInput()
         {
-            _dialogue.CancelAutoDialogue();
+            _dialogue.CancelDialogueCoroutine();
             OnContinueClicked();
         }
 
-        public void HideUI()
+        public void HideUIToggle()
         {
             if (!_runner.IsDialogueRunning)
                 return;
 
+            if (_isHidingUI)
+            {
+                // 출력하던 중에 숨겨야 한다
+                if (_lineTxt.maxVisibleCharacters != _lineTxt.text.Length)
+                {
+                    _lineTxt.maxVisibleCharacters = _lineTxt.text.Length;
+                    _continueBtn.SetActive(true);
+                }
+            }
+
             _isHidingUI = !_isHidingUI;
 
-            if (!_isHidingUI)
-            {
-                _lineTxt.maxVisibleCharacters = _lineTxt.text.Length;
-            }
             foreach (GameObject ui in _uis)
                 ui.SetActive(!_isHidingUI);
         }

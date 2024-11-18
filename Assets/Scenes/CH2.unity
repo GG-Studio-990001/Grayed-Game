@@ -4429,6 +4429,7 @@ MonoBehaviour:
   _lineView: {fileID: 1100803380}
   _lineTxt: {fileID: 1441580442}
   _skipPanel: {fileID: 421610020}
+  _continueBtn: {fileID: 1929022656}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

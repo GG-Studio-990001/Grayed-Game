@@ -191,11 +191,12 @@ namespace Runtime.CH2.Dialogue
 
         private IEnumerator AutoDialogue()
         {
+            Debug.Log("오토 코루틴 시작");
             yield return new WaitForSeconds(1.5f);
             _lineView.OnContinueClicked();
         }
 
-        public void CancelAutoDialogue()
+        public void CancelDialogueCoroutine()
         {
             if (_autoDialogueCoroutine is not null)
             {
