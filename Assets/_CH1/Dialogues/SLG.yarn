@@ -11,6 +11,7 @@ title: RebuildBridge
 ---
 	<<FadeOut>>
 	<<wait 1>>
+	<<ConstructSFX>>
      	<<RebuildBridge>>
 	<<wait 2>>
 

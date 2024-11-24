@@ -5,6 +5,7 @@ using Runtime.ETC;
 using Runtime.CH1.Main.Npc;
 using Yarn.Unity;
 using System.Collections;
+using SLGDefines;
 
 namespace Runtime.CH1.Main.Dialogue
 {
@@ -186,24 +187,30 @@ namespace Runtime.CH1.Main.Dialogue
 
         public void RebuildBridge()
         {
-            Managers.Sound.Play(Sound.SFX, "CH1/Mamago_Construction_SFX");
             SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
             if (slgAction != null)
             {
-                slgAction.MoveOnNextBuildingState(SLGDefines.SLGBuildingType.Bridge);
+                slgAction.MoveOnNextBuildingState(SLGBuildingType.Bridge, SLGBuildingProgress.EndCutScene);
             }
         }
 
         public void BuildCompany()
         {
-            Managers.Sound.Play(Sound.SFX, "CH1/Mamago_Construction_SFX");
             SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
             if (slgAction != null)
             {
-                slgAction.MoveOnNextBuildingState(SLGDefines.SLGBuildingType.MamagoCompany);
+                slgAction.MoveOnNextBuildingState(SLGBuildingType.MamagoCompany, SLGBuildingProgress.PlayCutScene);
             }
         }
         
+        public void EndMamagoCutScene()
+        {
+            SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
+            if (slgAction != null)
+            {
+                slgAction.MoveOnNextBuildingState(SLGBuildingType.MamagoCompany, SLGBuildingProgress.EndCutScene);
+            }
+        }
 
         public void EndSLGMode()
         {
@@ -218,6 +225,11 @@ namespace Runtime.CH1.Main.Dialogue
         public void ActiveMamagoBubble()
         {
             _mamagoBubble.SetActive(true);
+        }
+
+        public void ConstructSFX()
+        {
+            Managers.Sound.Play(Sound.SFX, "CH1/Mamago_Construction_SFX");
         }
 
         public void CompleteSFX()
