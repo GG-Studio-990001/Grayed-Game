@@ -6,9 +6,9 @@ title: S5
 
 <<FadeOut>>
 <<wait 1>>
-<<BuildCompany>>
+<<ConstructSFX>>
 <<wait 2>>
-
+<<BuildCompany>>
 <<FadeIn>>
 <<wait 1>>
 
@@ -24,6 +24,6 @@ title: S5
 <<MamagoMove2>>
 <<wait 1>>
 <<MamagoEnter>>
-
+<<EndMamagoCutScene>>
 <<SceneEnd>>
 ===

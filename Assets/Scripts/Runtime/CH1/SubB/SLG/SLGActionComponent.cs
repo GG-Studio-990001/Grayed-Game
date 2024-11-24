@@ -40,6 +40,7 @@ namespace SLGDefines
         BeforeConstruct,
         Constructing, //Can Acceleate
         PlayCutScene,
+        EndCutScene,
         EndConstruct
     }
 
@@ -160,7 +161,7 @@ public class SLGActionComponent : MonoBehaviour
                 if (RemainedTimeSec < 1)
                 {
                     //연출이 나와야 할듯?
-                    MoveOnNextBuildingState(_building.GetBuildingData().GetBuildingType());
+                    MoveOnNextBuildingState(_building.GetBuildingData().GetBuildingType(), SLGBuildingProgress.PlayCutScene);
                 }
             }
         }
@@ -238,7 +239,7 @@ public class SLGActionComponent : MonoBehaviour
         }
     }
 
-    public void MoveOnNextBuildingState(SLGBuildingType InType)
+    public void MoveOnNextBuildingState(SLGBuildingType InType, SLGBuildingProgress InProgress)
     {
         if (_SLGBuildingObjects.Length < (int)InType)
         {
@@ -250,10 +251,14 @@ public class SLGActionComponent : MonoBehaviour
         {
             return;
         }
-        SLGBuildingProgress _nextProgress = _targetBuilding.GetProgress() +1;
-        _targetBuilding.ChangeBuildingState(_nextProgress);
+        if (_targetBuilding.GetProgress() == InProgress)
+        {
+            return;
+        }
 
-        switch (_nextProgress)
+        _targetBuilding.ChangeBuildingState(InProgress);
+
+        switch (InProgress)
         {
             case SLGBuildingProgress.BeforeConstruct:
                 break;
@@ -267,6 +272,8 @@ public class SLGActionComponent : MonoBehaviour
                     Managers.Data.CH1.PacmomCoin -= _targetBuilding.GetBuildingData().GetReqCoin();
                 }
                 PlayCutScene(InType);
+                break;
+            case SLGBuildingProgress.EndCutScene:
                 break;
             case SLGBuildingProgress.EndConstruct:
                 EndConstruction(InType);
@@ -320,7 +327,7 @@ public class SLGActionComponent : MonoBehaviour
             {
                 bool _mamagoConstructed = _mamagoBuilding.GetProgress() >= SLGBuildingProgress.EndConstruct;
                 SLGConstructionInteractionObject.SetActive(IsInSLGMode() && _mamagoConstructed == false);
-                SLGMaMagoGateColider.SetActive(_mamagoBuilding.GetProgress() > SLGBuildingProgress.PlayCutScene);
+                SLGMaMagoGateColider.SetActive(_mamagoBuilding.GetProgress() > SLGBuildingProgress.EndCutScene);
 
                 if (_mamagoBuilding.GetBuildingData().GetFieldObject() != null)
                 {
@@ -334,9 +341,10 @@ public class SLGActionComponent : MonoBehaviour
                                 _subObjectSwitcher.SetActiveSubObject(0);
                                 break;
                             case SLGBuildingProgress.Constructing:
-                            case SLGBuildingProgress.PlayCutScene:
                                 _subObjectSwitcher.SetActiveSubObject(1);
                                 break;
+                            case SLGBuildingProgress.PlayCutScene:
+                            case SLGBuildingProgress.EndCutScene:
                             case SLGBuildingProgress.EndConstruct:
                                 _subObjectSwitcher.SetActiveSubObject(2);
                                 break;
@@ -367,10 +375,11 @@ public class SLGActionComponent : MonoBehaviour
                                 break;
                             case SLGBuildingProgress.BeforeConstruct:
                             case SLGBuildingProgress.Constructing:
+                            case SLGBuildingProgress.PlayCutScene:
                                 _subObjectSwitcher.SetActiveSubObject(1);
                                 break;
                             case SLGBuildingProgress.EndConstruct:
-                            case SLGBuildingProgress.PlayCutScene:
+                            case SLGBuildingProgress.EndCutScene:
                                 _subObjectSwitcher.SetActiveSubObject(0);
                                 break;
 

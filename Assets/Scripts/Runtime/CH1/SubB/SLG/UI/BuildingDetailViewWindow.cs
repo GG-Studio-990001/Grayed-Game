@@ -162,7 +162,7 @@ public class BuildingDetailViewWindow : MonoBehaviour
             if(_SLGAction.CanConstructBuilding(_currentBuildingType))
             {
                 CloseWindow();
-                _SLGAction.MoveOnNextBuildingState(_currentBuildingType);
+                _SLGAction.MoveOnNextBuildingState(_currentBuildingType, SLGBuildingProgress.Constructing);
             }
         }
     }
@@ -174,7 +174,7 @@ public class BuildingDetailViewWindow : MonoBehaviour
             if (_SLGAction.CanAccelerateBuilding(_currentBuildingType))
             {
                 CloseWindow();
-                _SLGAction.MoveOnNextBuildingState(_currentBuildingType);
+                _SLGAction.PlayCutScene(_currentBuildingType);
             }
         }
     }
