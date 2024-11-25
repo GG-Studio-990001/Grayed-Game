@@ -3,9 +3,9 @@ using Runtime.ETC;
 using UnityEngine;
 using Yarn.Unity;
 
-namespace Runtime.CH1.Main.Dialogue
+namespace Runtime.CH1.Main
 {
-    public class TranslatorPack : MonoBehaviour
+    public class PackController : MonoBehaviour
     {
         // 기계어 번역팩 관련
         [SerializeField] private TopDownPlayer _player;
@@ -13,6 +13,7 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private DialogueRunner _runner;
         [SerializeField] private SLGActionComponent _slg;
         [SerializeField] private GameObject[] _mamagoUIs;
+        [SerializeField] private GameObject _newImg;
 
         public void GetPack()
         {
@@ -34,16 +35,18 @@ namespace Runtime.CH1.Main.Dialogue
 
             Managers.Data.CH1.PacmomCoin -= 10;
             _slg.RefreshCoinText();
-            StartPackDialogue();
+            EquipTranslator();
 
             foreach (GameObject go in _mamagoUIs)
                 go.SetActive(false);
         }
 
-        private void StartPackDialogue()
+        private void EquipTranslator()
         {
-            _runner.Stop();
-            _runner.StartDialogue("TranslatorPack");
+            // _runner.Stop();
+            // _runner.StartDialogue("TranslatorPack");
+            // new 깜빡이기 시작
+            // 번역탭 활성화
         }
     }
 }

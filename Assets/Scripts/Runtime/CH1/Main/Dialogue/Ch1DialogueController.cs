@@ -14,7 +14,7 @@ namespace Runtime.CH1.Main.Dialogue
     {
         private CutSceneDialogue _cutScene;
         [Header("=Script=")]
-        [SerializeField] private TranslatorPack _pack;
+        [SerializeField] private PackController _pack;
         [SerializeField] private DialogueRunner _runner;
         [SerializeField] private SLGActionComponent SLGAction;
         [SerializeField] private NpcDialogueController _npcDialogue;
