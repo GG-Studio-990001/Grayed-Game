@@ -1290,7 +1290,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 355, y: -44.252}
-  m_SizeDelta: {x: 760, y: 1263}
+  m_SizeDelta: {x: 947, y: 1396}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &659401539
 MonoBehaviour:
@@ -1328,9 +1328,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0480739000cf80247b9689f84ccf0857, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b6dcb3bc6ce2bf84e8ec0e913dab51a0, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -2486,6 +2486,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueSystem
       objectReference: {fileID: 0}
+    - target: {fileID: 8123031219815749483, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9109430010097559557, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -3294,7 +3298,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7d4cac7530459f74f8342cc292d338cf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 79d29960c1e0e6744b630a4e7a62cd7f, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -3828,7 +3832,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -20}
+  m_AnchoredPosition: {x: -0.9000244, y: -20}
   m_SizeDelta: {x: 366.74, y: 130.76}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1962123608

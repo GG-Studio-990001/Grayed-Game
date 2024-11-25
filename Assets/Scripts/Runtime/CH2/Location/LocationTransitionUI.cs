@@ -10,7 +10,6 @@ namespace Runtime.CH2.Location
 {
     public class LocationTransitionUI : MonoBehaviour
     {
-        // 클래스명 서로 바뀜...
         [NonSerialized] public TurnController TurnController;
         [SerializeField] private LocationBgController _locationBgController;
         [SerializeField] private FadeController _fadeController;
