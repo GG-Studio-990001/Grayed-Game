@@ -17,7 +17,6 @@ namespace Runtime.CH1.Main.Dialogue
         [Header("=Npc=")]
         public NpcPosition NpcPos;
         [SerializeField] private NpcBody[] _npc = new NpcBody[3];
-        private Vector3 _r2monLocation;
         [SerializeField] private NpcBody _mamago;
         [SerializeField] private Vector3[] _mamagoLocation;
         [SerializeField] private NpcBody _michael;
@@ -31,16 +30,6 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private GameObject _mamagoBubble;
         [SerializeField] private DialogueRunner _luckyRunner;
         private Sequence _shakeTween;
-
-        private void Start()
-        {
-            _r2monLocation = NpcPos.NpcLocations[2].Locations[10];
-        }
-
-        public void StartLuckyDialogue()
-        {
-            _luckyRunner.StartDialogue("LuckyTranslator");
-        }
 
         public void NpcsMove()
         {
@@ -142,7 +131,7 @@ namespace Runtime.CH1.Main.Dialogue
         public void R2MonRun()
         {
             _npc[2].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
-            _npc[2].transform.DOMove(new Vector3(101.08f, _r2monLocation.y, 0), 2.5f).SetEase(Ease.Linear);
+            _npc[2].transform.DOMove(new Vector3(101.08f, -15f, 0), 2.5f).SetEase(Ease.Linear);
 
             // 비켜주기
             float posX = Player.transform.localPosition.x;
@@ -178,11 +167,6 @@ namespace Runtime.CH1.Main.Dialogue
         {
             _npc[0].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
             _npc[0].transform.DOMove(new Vector3(89.5400009f, -16.0f, 0), 6f).SetEase(Ease.Linear);
-        }
-
-        public void SetR2MonPosition()
-        {
-            _npc[2].transform.position = _r2monLocation;
         }
 
         public void RebuildBridge()

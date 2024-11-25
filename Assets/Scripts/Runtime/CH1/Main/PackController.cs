@@ -13,7 +13,8 @@ namespace Runtime.CH1.Main
         [SerializeField] private DialogueRunner _runner;
         [SerializeField] private SLGActionComponent _slg;
         [SerializeField] private GameObject[] _mamagoUIs;
-        [SerializeField] private GameObject _newImg;
+        [SerializeField] private NewBlink[] newBlinks;
+        [SerializeField] private GameObject[] _transBtns;
 
         public void GetPack()
         {
@@ -35,18 +36,52 @@ namespace Runtime.CH1.Main
 
             Managers.Data.CH1.PacmomCoin -= 10;
             _slg.RefreshCoinText();
+
+            _runner.Stop();
+            _runner.StartDialogue("TranslatorPack");
+            Managers.Data.CH1.TranslatorCount = 1;
+
             EquipTranslator();
 
             foreach (GameObject go in _mamagoUIs)
                 go.SetActive(false);
         }
 
-        private void EquipTranslator()
+        public void EquipTranslator(int step = 0)
         {
-            // _runner.Stop();
-            // _runner.StartDialogue("TranslatorPack");
-            // new 깜빡이기 시작
-            // 번역탭 활성화
+            switch (step)
+            {
+                case 0:
+                    // new 깜빡이기 시작
+                    newBlinks[0].StartBlinking();
+                    break;
+                case 1:
+                    // 설정창 누름
+                    newBlinks[0].StopBlinking();
+                    newBlinks[1].StartBlinking();
+                    break;
+                case 2:
+                    // 번역탭 누름
+                    newBlinks[1].StopBlinking();
+                    newBlinks[2].StartBlinking();
+                    break;
+                case 3:
+                    // 번역기 누름
+                    newBlinks[2].StopBlinking();
+
+                    _runner.Stop();
+                    _runner.StartDialogue("EquipTranslator");
+                    break;
+            }
+
+            if (step < 3)
+                ActiveStepBtn(step);
+        }
+
+        private void ActiveStepBtn(int step)
+        {
+            _transBtns[step].SetActive(true);
+            // 버튼0=설정창>EquipTranslator1, 버튼1=번역탭>EquipTranslator2, 버튼2=번역기>EquipTranslator3
         }
     }
 }
