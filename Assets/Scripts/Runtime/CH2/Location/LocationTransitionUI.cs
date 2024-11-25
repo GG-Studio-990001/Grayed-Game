@@ -16,6 +16,7 @@ namespace Runtime.CH2.Location
         [SerializeField] private FadeController _fadeController;
         [SerializeField] private Transform _locationOptions;
         [SerializeField] private GameObject _optionBtnPrefab;
+        [SerializeField] private LocationUIAnimation _locationUIAnimation;
 
         public void MoveLocation() // FadeIn&Out
         {
@@ -44,6 +45,7 @@ namespace Runtime.CH2.Location
             _locationOptions.gameObject.SetActive(false);
             _locationBgController.SetLocationUI();
             _locationBgController.SetBG();
+            _locationUIAnimation.AnimateUI();
         }
 
         public void SetLocationOptions(List<string> loc)

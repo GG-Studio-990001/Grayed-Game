@@ -774,6 +774,7 @@ GameObject:
   m_Component:
   - component: {fileID: 444606904}
   - component: {fileID: 444606903}
+  - component: {fileID: 444606905}
   m_Layer: 0
   m_Name: LocationTransitionUI
   m_TagString: Untagged
@@ -797,6 +798,7 @@ MonoBehaviour:
   _fadeController: {fileID: 374415883}
   _locationOptions: {fileID: 1031363445}
   _optionBtnPrefab: {fileID: 2057533439495899081, guid: 33941124ff934ab4a97045f7f624f10f, type: 3}
+  _locationUIAnimation: {fileID: 444606905}
 --- !u!4 &444606904
 Transform:
   m_ObjectHideFlags: 0
@@ -812,6 +814,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &444606905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444606902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fffa1256a7a100c4993b7ea75ce1d763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiElement: {fileID: 1962123607}
+  animationDuration: 0.5
+  stayDuration: 2
+  offScreenPos: {x: 0, y: 0, z: 0}
+  onScreenPos: {x: 0, y: 0, z: 0}
 --- !u!1 &483775310
 GameObject:
   m_ObjectHideFlags: 0
