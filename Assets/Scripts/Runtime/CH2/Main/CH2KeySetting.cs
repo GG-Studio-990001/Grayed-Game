@@ -5,7 +5,7 @@ using Yarn.Unity;
 
 namespace Runtime.CH2.Main
 {
-    public class KeySetting : MonoBehaviour
+    public class CH2KeySetting : MonoBehaviour
     {
         [SerializeField] private DialogueRunner _runner;
         [SerializeField] private CH2Dialogue _dialogue;

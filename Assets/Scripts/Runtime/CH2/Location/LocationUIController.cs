@@ -8,14 +8,14 @@ using UnityEngine.UI;
 
 namespace Runtime.CH2.Location
 {
-    public class LocationTransitionUI : MonoBehaviour
+    public class LocationUIController : MonoBehaviour
     {
-        // 클래스명 서로 바뀜...
         [NonSerialized] public TurnController TurnController;
         [SerializeField] private LocationBgController _locationBgController;
         [SerializeField] private FadeController _fadeController;
         [SerializeField] private Transform _locationOptions;
         [SerializeField] private GameObject _optionBtnPrefab;
+        [SerializeField] private LocationUIAnimator _locationUIAnimator;
 
         public void MoveLocation() // FadeIn&Out
         {
@@ -44,6 +44,7 @@ namespace Runtime.CH2.Location
             _locationOptions.gameObject.SetActive(false);
             _locationBgController.SetLocationUI();
             _locationBgController.SetBG();
+            _locationUIAnimator.AnimateUI();
         }
 
         public void SetLocationOptions(List<string> loc)

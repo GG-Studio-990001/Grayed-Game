@@ -6,7 +6,7 @@ namespace Runtime.CH2.Main
     public class CH2KeyBinder : MonoBehaviour
     {
         [SerializeField] private SettingsUIView _settingsUIView;
-        [SerializeField] private KeySetting _keySetting;
+        [SerializeField] private CH2KeySetting _keySetting;
 
         private void Start()
         {
