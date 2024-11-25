@@ -10,14 +10,14 @@ namespace Runtime.CH2.Main
     public class TurnController : MonoBehaviour
     {
         [SerializeField] private DialogueRunner _dialogueRunner;
-        [SerializeField] private LocationTransitionUI _locationTransitionUI;
+        [SerializeField] private LocationUIController _locationUiController;
         private List<Dictionary<string, object>> _data = new();
         private List<string> _visitedLocations = new();
 
         private void Awake()
         {
             _data = CSVReader.Read("CH2Branch");
-            _locationTransitionUI.TurnController = this;
+            _locationUiController.TurnController = this;
         }
 
         public void GetInitialLocation()
@@ -131,7 +131,7 @@ namespace Runtime.CH2.Main
 
         public void DisplayAvailableLocations()
         {
-            _locationTransitionUI.SetLocationOptions(GetAvailableLocations());
+            _locationUiController.SetLocationOptions(GetAvailableLocations());
         }
 
         public void NextTurn()

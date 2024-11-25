@@ -22,7 +22,7 @@ namespace Runtime.CH1.Main
                 StopCoroutine(_blinkingCoroutine);
                 _blinkingCoroutine = null;
             }
-            _target.SetActive(false); // 오브젝트를 숨기기
+            _target.SetActive(false);
         }
 
         private IEnumerator BlinkTarget()

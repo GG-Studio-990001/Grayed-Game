@@ -502,7 +502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _runner: {fileID: 696216669}
   _turnController: {fileID: 1755298184}
-  _locationSelectionUI: {fileID: 444606903}
+  _locationUiController: {fileID: 444606903}
   _lineViewCanvas: {fileID: 1100803384}
   _lineView: {fileID: 1100803380}
   _nameTag: {fileID: 789604149}
@@ -776,7 +776,7 @@ GameObject:
   - component: {fileID: 444606903}
   - component: {fileID: 444606905}
   m_Layer: 0
-  m_Name: LocationTransitionUI
+  m_Name: LocationUIController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -798,7 +798,7 @@ MonoBehaviour:
   _fadeController: {fileID: 374415883}
   _locationOptions: {fileID: 1031363445}
   _optionBtnPrefab: {fileID: 2057533439495899081, guid: 33941124ff934ab4a97045f7f624f10f, type: 3}
-  _locationUIAnimation: {fileID: 444606905}
+  _locationUIAnimator: {fileID: 444606905}
 --- !u!4 &444606904
 Transform:
   m_ObjectHideFlags: 0
@@ -826,11 +826,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fffa1256a7a100c4993b7ea75ce1d763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiElement: {fileID: 1962123607}
-  animationDuration: 0.5
-  stayDuration: 2
-  offScreenPos: {x: 0, y: 0, z: 0}
-  onScreenPos: {x: 0, y: 0, z: 0}
+  _locationUI: {fileID: 1962123607}
+  _animationDuration: 0.5
+  _stayDuration: 1
+  _offScreenPos: {x: 0, y: 0, z: 0}
+  _onScreenPos: {x: 0, y: 0, z: 0}
 --- !u!1 &483775310
 GameObject:
   m_ObjectHideFlags: 0
@@ -3582,7 +3582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogueRunner: {fileID: 696216669}
-  _locationTransitionUI: {fileID: 444606903}
+  _locationUiController: {fileID: 444606903}
 --- !u!1 &1876918679
 GameObject:
   m_ObjectHideFlags: 0

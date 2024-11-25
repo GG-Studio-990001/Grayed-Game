@@ -24,7 +24,7 @@ namespace Runtime.CH2.Dialogue
         [Header("=Script=")]
         [SerializeField] private DialogueRunner _runner;
         [SerializeField] private TurnController _turnController;
-        [SerializeField] private LocationTransitionUI _locationSelectionUI;
+        [SerializeField] private LocationUIController _locationUiController;
         [Header("=Else=")]
         [SerializeField] private CanvasGroup _lineViewCanvas;
         [SerializeField] private LineView _lineView;
@@ -131,13 +131,13 @@ namespace Runtime.CH2.Dialogue
         public void StartLocation(string location)
         {
             Managers.Data.CH2.Location = location;
-            _locationSelectionUI.StartLocation();
+            _locationUiController.StartLocation();
         }
 
         public void SetLocation(string location)
         {
             Managers.Data.CH2.Location = location;
-            _locationSelectionUI.MoveLocation();
+            _locationUiController.MoveLocation();
         }
 
         public void NextTurn()
@@ -183,6 +183,7 @@ namespace Runtime.CH2.Dialogue
 
         public void StartAutoDialogue()
         {
+            // 자동진행 코루틴 호출
             if (_isAutoAdvanced)
             {
                 _autoDialogueCoroutine = StartCoroutine(AutoDialogue());
@@ -191,7 +192,6 @@ namespace Runtime.CH2.Dialogue
 
         private IEnumerator AutoDialogue()
         {
-            Debug.Log("오토 코루틴 시작");
             yield return new WaitForSeconds(1.5f);
             _lineView.OnContinueClicked();
         }

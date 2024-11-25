@@ -79,7 +79,7 @@ namespace Runtime.Input
         }
 
         // CH2
-        public void CH2KeyBinding(SettingsUIView settingsUIView, KeySetting keySetting)
+        public void CH2KeyBinding(SettingsUIView settingsUIView, CH2KeySetting keySetting)
         {
             _gameOverControls.UI.Enable();
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
