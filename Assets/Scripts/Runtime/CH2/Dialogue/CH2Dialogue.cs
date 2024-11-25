@@ -174,7 +174,7 @@ namespace Runtime.CH2.Dialogue
             _isAutoAdvanced = !_isAutoAdvanced;
             _autoTxt.SetActive(_isAutoAdvanced);
 
-            // 대사 출력 마치고 토글이 켜졌다면 넘겨주기
+            // 토글 켰을 때 대사가 다 출력된 상태라면 바로 자동진행 시작
             if (_continueBtn.activeSelf && _isAutoAdvanced)
             {
                 StartAutoDialogue();
@@ -183,7 +183,7 @@ namespace Runtime.CH2.Dialogue
 
         public void StartAutoDialogue()
         {
-            if (_isAutoAdvanced && _autoDialogueCoroutine is null)
+            if (_isAutoAdvanced)
             {
                 _autoDialogueCoroutine = StartCoroutine(AutoDialogue());
             }
