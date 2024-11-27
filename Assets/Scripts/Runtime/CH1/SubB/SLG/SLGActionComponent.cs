@@ -40,7 +40,6 @@ namespace SLGDefines
         BeforeConstruct,
         Constructing, //Can Acceleate
         PlayCutScene,
-        EndCutScene,
         EndConstruct
     }
 
@@ -273,8 +272,6 @@ public class SLGActionComponent : MonoBehaviour
                 }
                 PlayCutScene(InType);
                 break;
-            case SLGBuildingProgress.EndCutScene:
-                break;
             case SLGBuildingProgress.EndConstruct:
                 EndConstruction(InType);
                 break;
@@ -327,7 +324,7 @@ public class SLGActionComponent : MonoBehaviour
             {
                 bool _mamagoConstructed = _mamagoBuilding.GetProgress() >= SLGBuildingProgress.EndConstruct;
                 SLGConstructionInteractionObject.SetActive(IsInSLGMode() && _mamagoConstructed == false);
-                SLGMaMagoGateColider.SetActive(_mamagoBuilding.GetProgress() > SLGBuildingProgress.EndCutScene);
+                SLGMaMagoGateColider.SetActive(_mamagoConstructed);
 
                 if (_mamagoBuilding.GetBuildingData().GetFieldObject() != null)
                 {
@@ -344,7 +341,6 @@ public class SLGActionComponent : MonoBehaviour
                                 _subObjectSwitcher.SetActiveSubObject(1);
                                 break;
                             case SLGBuildingProgress.PlayCutScene:
-                            case SLGBuildingProgress.EndCutScene:
                             case SLGBuildingProgress.EndConstruct:
                                 _subObjectSwitcher.SetActiveSubObject(2);
                                 break;
@@ -379,7 +375,6 @@ public class SLGActionComponent : MonoBehaviour
                                 _subObjectSwitcher.SetActiveSubObject(1);
                                 break;
                             case SLGBuildingProgress.EndConstruct:
-                            case SLGBuildingProgress.EndCutScene:
                                 _subObjectSwitcher.SetActiveSubObject(0);
                                 break;
 

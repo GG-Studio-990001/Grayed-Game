@@ -174,7 +174,7 @@ namespace Runtime.CH1.Main.Dialogue
             SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
             if (slgAction != null)
             {
-                slgAction.MoveOnNextBuildingState(SLGBuildingType.Bridge, SLGBuildingProgress.EndCutScene);
+                slgAction.MoveOnNextBuildingState(SLGBuildingType.Bridge, SLGBuildingProgress.EndConstruct);
             }
         }
 
@@ -192,7 +192,7 @@ namespace Runtime.CH1.Main.Dialogue
             SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
             if (slgAction != null)
             {
-                slgAction.MoveOnNextBuildingState(SLGBuildingType.MamagoCompany, SLGBuildingProgress.EndCutScene);
+                slgAction.MoveOnNextBuildingState(SLGBuildingType.MamagoCompany, SLGBuildingProgress.EndConstruct);
             }
         }
 
