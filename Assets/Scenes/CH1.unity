@@ -11526,7 +11526,7 @@ GameObject:
   - component: {fileID: 397390414}
   - component: {fileID: 397390413}
   m_Layer: 5
-  m_Name: NewImg1
+  m_Name: NewBlink1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11541,14 +11541,14 @@ RectTransform:
   m_GameObject: {fileID: 397390411}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.6666663, y: 1.6666663, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2125951502}
+  m_Father: {fileID: 1284326281653811849}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -442, y: 62.7}
+  m_AnchoredPosition: {x: -736.6666, y: 59.499977}
   m_SizeDelta: {x: 73, y: 34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &397390413
@@ -25994,7 +25994,7 @@ GameObject:
   - component: {fileID: 871264539}
   - component: {fileID: 871264538}
   m_Layer: 5
-  m_Name: NewImg2
+  m_Name: NewBlink2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26008,15 +26008,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 871264536}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.41994604}
+  m_LocalScale: {x: 1.6666664, y: 1.6666664, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2125951502}
+  m_Father: {fileID: 1284326281653811851}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -263, y: 49}
+  m_AnchoredPosition: {x: -438.33334, y: 47.666637}
   m_SizeDelta: {x: 73, y: 34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &871264538
@@ -44017,7 +44017,7 @@ Canvas:
   m_GameObject: {fileID: 1311836788}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1674432337}
   m_PlaneDistance: 100
   m_PixelPerfect: 1
@@ -44029,7 +44029,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 1546151723
-  m_SortingOrder: 5
+  m_SortingOrder: 12
   m_TargetDisplay: 0
 --- !u!224 &1311836792
 RectTransform:
@@ -55161,7 +55161,7 @@ GameObject:
   - component: {fileID: 1660906442}
   - component: {fileID: 1660906441}
   m_Layer: 5
-  m_Name: NewImg0
+  m_Name: NewBlink0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55179,7 +55179,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2125951502}
+  m_Father: {fileID: 1363458852}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -55764,7 +55764,7 @@ Camera:
   far clip plane: 1000
   field of view: 70
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 11.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -55789,7 +55789,7 @@ Transform:
   m_GameObject: {fileID: 1674432335}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.32, y: -5.56, z: -10}
+  m_LocalPosition: {x: -3.925093, y: -0.4651599, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -68449,44 +68449,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2117398952}
   m_CullTransparentMesh: 1
---- !u!1 &2125951501
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2125951502}
-  m_Layer: 5
-  m_Name: New
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2125951502
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2125951501}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1660906440}
-  - {fileID: 397390412}
-  - {fileID: 871264537}
-  m_Father: {fileID: 1363458852}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2130742835
 GameObject:
   m_ObjectHideFlags: 0
@@ -69367,10 +69329,16 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2556870853252807087, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2125951502}
+      addedObject: {fileID: 1660906440}
     - targetCorrespondingSourceObject: {fileID: 2556870853252807087, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1888634992}
+    - targetCorrespondingSourceObject: {fileID: 1892143496958034403, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 397390412}
+    - targetCorrespondingSourceObject: {fileID: 5219671536812632069, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 871264537}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
 --- !u!114 &1284326281653811847 stripped
@@ -69395,6 +69363,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b8b8bac8ca621747808db72ccbf056f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &1284326281653811849 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1892143496958034403, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+  m_PrefabInstance: {fileID: 1284326281653811846}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1284326281653811851 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5219671536812632069, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+  m_PrefabInstance: {fileID: 1284326281653811846}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1410988163392067464
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70076,12 +70054,20 @@ PrefabInstance:
         \uB0B4\uC6A9\uC785\uB2C8\uB2E4."
       objectReference: {fileID: 0}
     - target: {fileID: 4823240902458539357, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
-      propertyPath: m_fontSize
-      value: 33
-      objectReference: {fileID: 0}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 1452dd602895f7449930e1bb19972b51, type: 2}
     - target: {fileID: 4823240902458539357, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_fontSizeBase
-      value: 33
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 4823240902458539357, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -281216424612694139, guid: 1452dd602895f7449930e1bb19972b51, type: 2}
+    - target: {fileID: 4823240902458539357, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5709054019036521375, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: autoAdvance
@@ -70100,12 +70086,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1674432337}
     - target: {fileID: 6878389466185448365, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
-      propertyPath: m_fontSize
-      value: 62
-      objectReference: {fileID: 0}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 1452dd602895f7449930e1bb19972b51, type: 2}
     - target: {fileID: 6878389466185448365, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_fontSizeBase
-      value: 62
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 6878389466185448365, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -281216424612694139, guid: 1452dd602895f7449930e1bb19972b51, type: 2}
+    - target: {fileID: 6878389466185448365, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7259338948998962598, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_AnchorMax.y

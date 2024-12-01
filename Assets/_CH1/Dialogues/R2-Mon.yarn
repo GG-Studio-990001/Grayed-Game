@@ -10,6 +10,8 @@
     <<jump R2_Mon2>>
 <<elseif $progress == 50>>
     <<jump R2_Mon3>>
+<<elseif $progress == 51>>
+    <<jump R2_Mon3>>
 <<elseif $progress == 60>>
     <<jump R2_Mon4>>
 <<elseif $progress == 61>>
