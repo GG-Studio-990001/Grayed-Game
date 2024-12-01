@@ -55764,7 +55764,7 @@ Camera:
   far clip plane: 1000
   field of view: 70
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 11.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -55789,7 +55789,7 @@ Transform:
   m_GameObject: {fileID: 1674432335}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.32, y: -5.56, z: -10}
+  m_LocalPosition: {x: -3.925093, y: -0.4651599, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -70080,8 +70080,20 @@ PrefabInstance:
       value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 4823240902458539357, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 1452dd602895f7449930e1bb19972b51, type: 2}
+    - target: {fileID: 4823240902458539357, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_fontSizeBase
       value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 4823240902458539357, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -281216424612694139, guid: 1452dd602895f7449930e1bb19972b51, type: 2}
+    - target: {fileID: 4823240902458539357, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5709054019036521375, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: autoAdvance
@@ -70104,8 +70116,20 @@ PrefabInstance:
       value: 62
       objectReference: {fileID: 0}
     - target: {fileID: 6878389466185448365, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 1452dd602895f7449930e1bb19972b51, type: 2}
+    - target: {fileID: 6878389466185448365, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_fontSizeBase
       value: 62
+      objectReference: {fileID: 0}
+    - target: {fileID: 6878389466185448365, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -281216424612694139, guid: 1452dd602895f7449930e1bb19972b51, type: 2}
+    - target: {fileID: 6878389466185448365, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7259338948998962598, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_AnchorMax.y
