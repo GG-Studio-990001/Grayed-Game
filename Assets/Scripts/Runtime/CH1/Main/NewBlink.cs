@@ -29,10 +29,11 @@ namespace Runtime.CH1.Main
         {
             while (true)
             {
+                // 설정창이 켜졌을 때도 작동해야 하니 타임스케일에 영향 안받도록 수정
                 _target.SetActive(true);
-                yield return new WaitForSeconds(_showTime);
+                yield return new WaitForSecondsRealtime(_showTime);
                 _target.SetActive(false);
-                yield return new WaitForSeconds(_hideTime);
+                yield return new WaitForSecondsRealtime(_hideTime);
             }
         }
     }
