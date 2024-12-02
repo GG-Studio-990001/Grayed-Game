@@ -18,8 +18,8 @@ namespace Runtime.CH2.Main
         private List<Dictionary<string, object>> _responses = new(); // 캐릭터 반응 파일
         private List<Dictionary<string, object>> _scores = new(); // 호감도 점수 파일
         private int _currentQuestionIndex = 0; // 현재 질문 인덱스
-        private int _heartScore = 0; // 현재 호감도 점수
-        private List<int> _usedAnswers = new(); // 사용된 답변 인덱스 기록
+        private int _currentScore = 0; // 현재 호감도 점수
+        private readonly List<int> _usedAnswers = new(); // 사용된 답변 인덱스 기록
 
         private void Start()
         {
@@ -31,8 +31,8 @@ namespace Runtime.CH2.Main
             DisplayQuestionAndAnswers(_currentQuestionIndex);
 
             // 텍스트 초기 설정
-            _questionNumTxt.text = $"{_currentQuestionIndex + 1}번 질문";
-            _scoreTxt.text = $"호감도: {_heartScore}";
+            UpdateQuestionIndexUI();
+            UpdateScoreUI();
         }
 
         private void DisplayQuestionAndAnswers(int questionIndex)
@@ -98,8 +98,8 @@ namespace Runtime.CH2.Main
             _usedAnswers.Add(answerIndex);
 
             // 점수 텍스트 업데이트
-            _heartScore += scoreChange;
-            _scoreTxt.text = $"호감도: {_heartScore}";
+            _currentScore += scoreChange;
+            UpdateScoreUI();
 
             // 디버그 출력
             Debug.Log($"선택된 답변: {answer}\n반응: {response} ({scoreChange})");
@@ -121,7 +121,7 @@ namespace Runtime.CH2.Main
             _currentQuestionIndex++;
             if (_currentQuestionIndex < _responses[0].Count - 1) // 질문이 남아있으면
             {
-                _questionNumTxt.text = $"{_currentQuestionIndex + 1}번 질문";
+                UpdateQuestionIndexUI();
                 DisplayQuestionAndAnswers(_currentQuestionIndex);
             }
             else
@@ -136,6 +136,16 @@ namespace Runtime.CH2.Main
 
                 Debug.Log("게임 종료");
             }
+        }
+
+        private void UpdateScoreUI()
+        {
+            _scoreTxt.text = $"호감도: {_currentScore}";
+        }
+
+        private void UpdateQuestionIndexUI()
+        {
+            _questionNumTxt.text = $"{_currentQuestionIndex + 1}번 질문";
         }
     }
 }
