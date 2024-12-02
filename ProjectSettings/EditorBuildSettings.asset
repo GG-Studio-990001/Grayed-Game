@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SuperArio.unity
     guid: 1a47ec3f9f2b2a84eb7240046f128a0f
+  - enabled: 1
+    path: Assets/Scenes/TCG.unity
+    guid: 9d4a64c6f1442254590dd4dbf4cb5ec0
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: f3e6a5ed471769d4aabb8105f74f71fa, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: ddc15bbc1419fef4cbf8bc7636cf3ba4, type: 2}
