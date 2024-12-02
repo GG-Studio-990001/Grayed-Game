@@ -63,19 +63,19 @@ namespace Runtime.CH2.SuperArio
 
             while (ArioManager.instance.isPlay && _remainingSpawnCount > 0)
             {
-                ArioManager.instance.ChangeObstacleCnt(_remainingSpawnCount);
                 // 비활성화된 장애물 중에서 하나를 활성화
                 int obstacleIndex = DeactiveObstacle();
                 if (obstacleIndex != -1)
                 {
                     _obstaclePool[obstacleIndex].SetActive(true);
                     _remainingSpawnCount--; // 스폰 카운트 감소
+                    ArioManager.instance.ChangeObstacleCnt(_remainingSpawnCount);
                 }
 
                 // 남은 스폰 카운트가 0이면 코루틴 종료
                 if (_remainingSpawnCount <= 0)
                 {
-                    yield return new WaitForSeconds(1.0f);
+                    yield return new WaitForSeconds(5.0f);
 
                     string nextStage = ArioManager.instance.CalculateNextStage(ArioManager.instance._currentStage);
                     ArioManager.instance.NextStage(nextStage); // 다음 스테이지 이동
@@ -84,6 +84,7 @@ namespace Runtime.CH2.SuperArio
 
                 // 다음 장애물을 생성하기 전에 대기 (스폰 딜레이 적용)
                 yield return new WaitForSeconds(_spawnDelay);
+                ArioManager.instance.GetCoin();
             }
         }
 

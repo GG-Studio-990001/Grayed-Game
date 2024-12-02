@@ -1,4 +1,5 @@
 using Runtime.ETC;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,13 +14,13 @@ namespace Runtime.CH2.SuperArio
 
         private bool _isJump;
         private bool _isTop;
-        private bool _isPause;
 
         private Vector2 _startPos;
         private CapsuleCollider2D _col;
         private Animator _animator;
         private SpriteRenderer _spr;
         private Sprite _initSprite;
+        private GameObject _pipe;
         
         private int _life = 1;
         private bool _isInvincible = false; // 무적 상태 여부
@@ -29,12 +30,18 @@ namespace Runtime.CH2.SuperArio
         
         private void Start()
         {
+            _pipe = transform.GetChild(0).gameObject;
             _spr = GetComponent<SpriteRenderer>();
             _col = GetComponent<CapsuleCollider2D>();
             _animator = GetComponent<Animator>();
             _initSprite = _spr.sprite;
             _startPos = transform.position;
-            ArioManager.instance.onPlay += InitData;
+            ArioManager.instance.OnPlay += InitData;
+        }
+
+        private void OnDestroy()
+        {
+            ArioManager.instance.OnPlay -= InitData;
         }
 
         private void FixedUpdate()
@@ -70,7 +77,8 @@ namespace Runtime.CH2.SuperArio
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (!ArioManager.instance.isPlay || _isPause) return;
+            if (!ArioManager.instance.isPlay || ArioManager.instance.isPause)
+                return;
 
             Vector2 moveInput = context.ReadValue<Vector2>();
 
@@ -99,39 +107,35 @@ namespace Runtime.CH2.SuperArio
 
         private void InitData(bool isPlay)
         {
+            transform.position = _startPos;
+            _isJump = false;
+            _isTop = false;
             if (isPlay)
             {
-                transform.position = _startPos;
-                _isJump = false;
-                _isTop = false;
+                _life = 1;
                 _animator.enabled = true;
+                _pipe.SetActive(false);
             }
             else
             {
-                _life = 1;
                 _animator.enabled = false;
-                _isJump = false;
+                _pipe.SetActive(true);
             }
-        }
-
-        public void PauseKeyInput()
-        {
-            _isPause = !_isPause;
         }
         
         private IEnumerator UseItemCoroutine()
         {
             _invincibleDuration = 20f;
-            _isInvincible = true; // 무적 상태 활성화
-            _originalColor = _spr.color; // 원래 색상 저장
+            _isInvincible = true;
+            _originalColor = _spr.color;
 
             float elapsedTime = 0f;
 
             while (elapsedTime < _invincibleDuration)
             {
                 // 무지개 색상을 계산
-                float hue = (elapsedTime % 1f) / 1f; // 0~1 사이의 값을 사용
-                _spr.color = Color.HSVToRGB(hue, 1f, 1f); // HSV로 색상 변경
+                float hue = (elapsedTime % 1f) / 1f;
+                _spr.color = Color.HSVToRGB(hue, 1f, 1f);
 
                 elapsedTime += Time.deltaTime;
                 yield return null;
@@ -144,9 +148,10 @@ namespace Runtime.CH2.SuperArio
         
         public void UseInvincibleItem()
         {
-            if (_isInvincible && !ArioManager.instance.GetItem) return; // 이미 무적 상태라면 무시
-
-            ArioManager.instance.ChangeItemSprite(true);
+            if (_isInvincible || !ArioManager.instance.GetItem || !ArioManager.instance.isPlay)
+                return;
+            
+            ArioManager.instance.ChangeItemSprite();
             StartCoroutine(UseItemCoroutine());
         }
 
@@ -166,9 +171,8 @@ namespace Runtime.CH2.SuperArio
                 yield return new WaitForSeconds(_blinkInterval);
             }
 
-            // 깜빡임 종료 후 원래 상태로 복구
             _spr.enabled = true;
-            _isInvincible = false; // 무적 상태 종료
+            _isInvincible = false;
         }
         
         private void OnTriggerEnter2D(Collider2D other)

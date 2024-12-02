@@ -10,7 +10,7 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private TMP_Text _stageText;
         [SerializeField] private TMP_Text _coinText;
         [SerializeField] private TMP_Text _obstacleText;
-        [SerializeField] private Image _itemImg;
+        [SerializeField] private ArioStarUI _itemImg;
         [SerializeField] private ArioHeartsUI _hearts;
 
         public void ActiveRestartText(bool isRestart)
@@ -41,9 +41,14 @@ namespace Runtime.CH2.SuperArio
             _obstacleText.text = count.ToString();
         }
 
-        public void ChangeItemSprite(bool isUse)
+        public void ChangeItemSprite()
         {
-            _itemImg.enabled = !isUse;
+            _itemImg.StartCount();
+        }
+
+        public void GetItemSprite()
+        {
+            _itemImg.ResetImageColor();
         }
     }
 }

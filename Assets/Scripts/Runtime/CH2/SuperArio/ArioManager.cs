@@ -1,3 +1,5 @@
+using Cinemachine;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -19,18 +21,21 @@ namespace Runtime.CH2.SuperArio
 
             instance = this;
         }
-
         #endregion
 
-        public delegate void OnPlay(bool isPlay);
-        public OnPlay onPlay;
+        public Action<bool> OnPlay;
+        public Action<bool> OnEnterStore;
 
         [SerializeField] private ArioUIController ui; // UI 컨트롤러
         [SerializeField] private ObstacleManager obstacleManager; // 장애물 매니저
         [SerializeField] private ObstacleSpawnDataSet dataSet; // ScriptableObject 데이터셋
-
+        [SerializeField] private CinemachineVirtualCamera stageCamera;
+        [SerializeField] private CinemachineVirtualCamera storeCamera;
+        
+        
         public float gameSpeed = 1; // 현재 게임 속도
         public bool isPlay;
+        public bool isPause = true;
 
         private int _coinCnt;
         public string _currentStage = "1-1"; // 초기 스테이지 설정
@@ -44,8 +49,17 @@ namespace Runtime.CH2.SuperArio
 
         public void RestartSuperArio()
         {
+            storeCamera.Priority = 10;
             if (!isPlay)
                 StartGame();
+        }
+
+        public void EnterStore()
+        {
+            // 카메라 변경
+            storeCamera.Priority = 12;
+            OnEnterStore.Invoke(true);
+            // 입장 연출
         }
 
         private IEnumerator WaitStart()
@@ -58,20 +72,22 @@ namespace Runtime.CH2.SuperArio
         {
             ui.ChangeCoinText("RAPLEY\n" + _coinCnt);
             ui.ActiveRestartText(false);
-            ui.ChangeItemSprite(false);
             ui.ChangeObstacleText(0);
             ChangeHeartUI(1);
             isPlay = true;
+            isPause = false;
             GetItem = true;
-            onPlay.Invoke(isPlay);
+            OnPlay.Invoke(isPlay);
             UpdateStage(_currentStage);
         }
 
         private void GameOver()
         {
+            ui.ChangeObstacleText(0);
+            UpdateStage(_currentStage);
             ui.ActiveRestartText(true);
             isPlay = false;
-            onPlay.Invoke(isPlay);
+            OnPlay.Invoke(isPlay);
         }
 
         public void ChangeHeartUI(int life)
@@ -87,11 +103,16 @@ namespace Runtime.CH2.SuperArio
             ui.ChangeCoinText("RAPLEY\n" + _coinCnt);
         }
 
-        public void ChangeItemSprite(bool isUse)
+        public void ChangeItemSprite()
         {
-            if (isUse)
-                GetItem = false;
-            ui.ChangeItemSprite(isUse);
+            GetItem = false;
+            ui.ChangeItemSprite();
+        }
+
+        public void GetItemSprite()
+        {
+            GetItem = true;
+            ui.GetItemSprite();
         }
 
         public void ChangeObstacleCnt(int count)
@@ -128,7 +149,7 @@ namespace Runtime.CH2.SuperArio
             {
                 UpdateStage(nextStage); // 일반 스테이지 업데이트
                 isPlay = true;
-                onPlay.Invoke(isPlay);
+                OnPlay.Invoke(isPlay);
             }
         }
         
@@ -136,7 +157,7 @@ namespace Runtime.CH2.SuperArio
         {
             // 보상 방으로 이동하는 로직
             isPlay = false;
-            onPlay.Invoke(isPlay); // 게임 상태 정지
+            OnPlay.Invoke(isPlay); // 게임 상태 정지
         }
         
         public string CalculateNextStage(string currentStage)
