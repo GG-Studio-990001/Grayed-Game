@@ -1,15 +1,18 @@
 using UnityEngine;
 
-public class ArioCoin : MonoBehaviour
+namespace Runtime.CH2.SuperArio
 {
-    private System.Random random = new System.Random();
-
-    public void RandomCoin()
+    public class ArioCoin : MonoBehaviour
     {
-        // random 객체를 사용하여 값을 추출
-        if (random.Next(0, 100) <= 10)
+        private System.Random random = new System.Random();
+
+        public void RandomCoin()
         {
-            gameObject.SetActive(true);
+            // random 객체를 사용하여 값을 추출
+            if (random.Next(0, 100) <= 10)
+            {
+                gameObject.SetActive(true);
+            }
         }
     }
 }
