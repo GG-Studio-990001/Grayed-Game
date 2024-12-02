@@ -1,5 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Runtime.CH2.SuperArio
 {
@@ -10,11 +12,27 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private Vector2 _startPos;
         [SerializeField] private float _endPos;
 
+        private List<ArioCoin> _coins;
+
+        private void Awake()
+        {
+            _coins = GetComponentsInChildren<ArioCoin>(true).ToList();
+        }
 
         private void OnEnable()
         {
+            _coins.ForEach(x => x.RandomCoin());
             if (!_isChild)
                 transform.position = _startPos;
+        }
+
+        private void OnDisable()
+        {
+            _coins.ForEach(x =>
+            {
+                if(x.gameObject.activeSelf)
+                    x.gameObject.SetActive(false);
+            });
         }
 
         private void Update()

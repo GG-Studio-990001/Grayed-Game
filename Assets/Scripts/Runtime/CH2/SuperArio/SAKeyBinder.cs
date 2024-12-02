@@ -1,5 +1,6 @@
 using Runtime.Common.View;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Runtime.CH2.SuperArio
 {
@@ -22,7 +23,7 @@ namespace Runtime.CH2.SuperArio
 
         public void PauseKeyInput()
         {
-            Ario.PauseKeyInput();
+            ArioManager.instance.isPause = !ArioManager.instance.isPause;
         }
 
         public void ItemKeyInput()
@@ -33,6 +34,24 @@ namespace Runtime.CH2.SuperArio
         public void RestartSuperArio()
         {
             ArioManager.instance.RestartSuperArio();
+        }
+
+        public void EnterStoreKeyInput(InputAction.CallbackContext context)
+        {
+            // 아래 방향키
+            if (ArioManager.instance.isPlay || ArioManager.instance.isPause)
+                return;
+
+            Vector2 moveInput = context.ReadValue<Vector2>();
+
+            if (context.performed)
+            { 
+                if (moveInput.y < 0) // 아래쪽
+                {
+                    //EnterStore
+                    ArioManager.instance.EnterStore();
+                }
+            }
         }
     }
 }

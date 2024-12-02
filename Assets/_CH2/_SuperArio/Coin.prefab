@@ -11,14 +11,14 @@ GameObject:
   - component: {fileID: 5710510885713394476}
   - component: {fileID: 1781636905255250483}
   - component: {fileID: 6413834778702806888}
-  - component: {fileID: 118162271573338903}
+  - component: {fileID: 1118300747039225058}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Coin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5710510885713394476
 Transform:
   m_ObjectHideFlags: 0
@@ -121,7 +121,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.21875
---- !u!114 &118162271573338903
+--- !u!114 &1118300747039225058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,10 +130,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5916263930928044613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ff224a6785ade748b8ba08d0e039dc4, type: 3}
+  m_Script: {fileID: 11500000, guid: e4940d2a1c4a3e945af53f766102b710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSitObstacle: 0
-  _isChild: 0
-  _startPos: {x: 5, y: 0}
-  _endPos: -6
