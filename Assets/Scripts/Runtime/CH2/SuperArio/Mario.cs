@@ -23,7 +23,12 @@ namespace Runtime.CH2.SuperArio
             _spr = GetComponent<SpriteRenderer>();
             initSprite = _spr.sprite;
             _startPos = transform.position;
-            ArioManager.instance.onPlay += InitData;
+            ArioManager.instance.OnPlay += InitData;
+        }
+        
+        private void OnDestroy()
+        {
+            ArioManager.instance.OnPlay -= InitData;
         }
 
         private void Update()
@@ -67,18 +72,18 @@ namespace Runtime.CH2.SuperArio
 
         private void InitData(bool isPlay)
         {
+            transform.position = _startPos;
+            _spr.sprite = initSprite;
+            _isJump = false;
+            _isTop = false;
+            
             if (isPlay)
             {
-                transform.position = _startPos;
-                _isJump = false;
-                _isTop = false;
                 _ani.enabled = true;
-                _spr.sprite = initSprite;
             }
             else
             {
                 _ani.enabled = false;
-                _isJump = false;
                 StopAllCoroutines();
             }
         }
