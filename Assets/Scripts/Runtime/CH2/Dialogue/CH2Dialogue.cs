@@ -25,6 +25,7 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private DialogueRunner _runner;
         [SerializeField] private TurnController _turnController;
         [SerializeField] private LocationUIController _locationUiController;
+        [SerializeField] private TcgController _tcgController;
         [Header("=Else=")]
         [SerializeField] private CanvasGroup _lineViewCanvas;
         [SerializeField] private LineView _lineView;
@@ -49,10 +50,12 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler<string>("PartnerAppear", PartnerAppear);
             _runner.AddCommandHandler("PartnerOut", PartnerOut);
             _runner.AddCommandHandler("DialogueFin", DialogueFin);
+            _runner.AddCommandHandler("StartTcg", _tcgController.StartTcg);
             //_runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
 
+        #region 기본
         private void Update()
         {
             if (_lineViewCanvas.alpha == 0)
@@ -80,6 +83,8 @@ namespace Runtime.CH2.Dialogue
 
             onDialogueLineFinished();
         }
+
+        #endregion
 
         private void PartnerAppear(string partner)
         {

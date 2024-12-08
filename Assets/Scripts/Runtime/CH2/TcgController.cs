@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using Runtime.ETC;
 using System.Linq;
-using System.Collections;
+using Yarn.Unity;
 
 namespace Runtime.CH2.Main
 {
     public class TcgController : MonoBehaviour
     {
+        [Header("=Connect=")]
+        [SerializeField] private DialogueRunner _runner;
+        [SerializeField] private GameObject _character;
+        [SerializeField] private GameObject _tcgObject;
+        [Header("=TCG=")]
         [SerializeField] private TextMeshProUGUI _questionNumTxt; // 질문 번호 텍스트
         [SerializeField] private TextMeshProUGUI _michaelBubble; // 미카엘 대화창 텍스트
         [SerializeField] private TextMeshProUGUI _scoreTxt; // 호감도 텍스트
@@ -26,13 +31,67 @@ namespace Runtime.CH2.Main
             // 데이터 로드
             _responses = CSVReader.Read("Tcg - Responses");
             _scores = CSVReader.Read("Tcg - Scores");
+        }
 
-            // 첫 번째 질문과 답변 초기화
-            DisplayQuestionAndAnswers(_currentQuestionIndex);
+        #region Dialogue
+        public void StartTcg()
+        {
+            ActiveTcgUi(true);
+            ShowQuestion();
+        }
 
-            // 텍스트 초기 설정
-            UpdateQuestionIndexUI();
-            UpdateScoreUI();
+        private void EndTcg()
+        {
+            // TODO: 호감도 UI 적용 (3초? 보여주기)
+
+            ActiveTcgUi(false);
+            StartNextDialogue();
+        }
+
+        private void ActiveTcgUi(bool active)
+        {
+            _character.SetActive(!active);
+            _tcgObject.SetActive(active);
+        }
+
+        private void StartNextDialogue()
+        {
+            switch(_currentQuestionIndex)
+            {
+                case 0:
+                    _runner.StartDialogue("Turn2_S_1");
+                    break;
+                case 1:
+                    _runner.StartDialogue("Turn2_S_2");
+                    break;
+            }
+
+            // 질문 인덱스 증가 (여기서 세이브?)
+            _currentQuestionIndex++;
+        }
+        #endregion
+
+        #region TCG
+        private void ShowQuestion()
+        {
+            // 질문 표시
+            if (_currentQuestionIndex < _responses[0].Count - 1) // 질문이 남아있으면
+            {
+                UpdateQuestionIndexUI();
+                DisplayQuestionAndAnswers(_currentQuestionIndex);
+            }
+            else
+            {
+                _michaelBubble.text = "(질문 끝)";
+
+                // 모든 카드 비활성화
+                foreach (var card in _cards)
+                {
+                    card.SetActive(false);
+                }
+
+                Debug.Log("게임 종료");
+            }
         }
 
         private void DisplayQuestionAndAnswers(int questionIndex)
@@ -104,38 +163,7 @@ namespace Runtime.CH2.Main
             // 디버그 출력
             Debug.Log($"선택된 답변: {answer}\n반응: {response} ({scoreChange})");
 
-            // 다음 질문으로 이동 준비
-            StartCoroutine(ShowNextQuestion());
-        }
-
-        private IEnumerator ShowNextQuestion()
-        {
-            // 3초 카운트다운 출력
-            for (int i = 3; i > 0; i--)
-            {
-                Debug.Log(i);
-                yield return new WaitForSeconds(1);
-            }
-
-            // 다음 질문 표시
-            _currentQuestionIndex++;
-            if (_currentQuestionIndex < _responses[0].Count - 1) // 질문이 남아있으면
-            {
-                UpdateQuestionIndexUI();
-                DisplayQuestionAndAnswers(_currentQuestionIndex);
-            }
-            else
-            {
-                _michaelBubble.text = "(질문 끝)";
-
-                // 모든 카드 비활성화
-                foreach (var card in _cards)
-                {
-                    card.SetActive(false);
-                }
-
-                Debug.Log("게임 종료");
-            }
+            Invoke(nameof(EndTcg), 3f);
         }
 
         private void UpdateScoreUI()
@@ -147,5 +175,6 @@ namespace Runtime.CH2.Main
         {
             _questionNumTxt.text = $"{_currentQuestionIndex + 1}번 질문";
         }
+        #endregion
     }
 }
