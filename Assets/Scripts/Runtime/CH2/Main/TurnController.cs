@@ -1,3 +1,4 @@
+using Runtime.CH2.Dialogue;
 using Runtime.CH2.Location;
 using Runtime.ETC;
 using System.Collections.Generic;
@@ -41,6 +42,7 @@ namespace Runtime.CH2.Main
             if (_visitedLocations.Contains(Managers.Data.CH2.Location))
             {
                 Debug.Log("이미 방문함");
+                _locationUiController.MoveLocation();
                 dialogueName = Nobody;
             }
             else
