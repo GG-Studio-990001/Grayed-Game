@@ -1,4 +1,3 @@
-using Runtime.CH2.Dialogue;
 using Runtime.CH2.Location;
 using Runtime.ETC;
 using System.Collections.Generic;
@@ -146,8 +145,9 @@ namespace Runtime.CH2.Main
 
         public void NextTurn()
         {
-            Managers.Data.CH2.Turn++;
+            Managers.Data.SaveGame();
             _visitedLocations.Clear();
+            Managers.Data.CH2.Turn++;
         }
     }
 }
