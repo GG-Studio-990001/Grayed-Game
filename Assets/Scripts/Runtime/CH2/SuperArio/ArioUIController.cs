@@ -41,7 +41,7 @@ namespace Runtime.CH2.SuperArio
             _obstacleText.text = count.ToString();
         }
 
-        public void ChangeItemSprite()
+        public void UseItemSprite()
         {
             _itemImg.StartCount();
         }

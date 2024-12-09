@@ -1,8 +1,7 @@
 using Runtime.ETC;
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 namespace Runtime.CH2.SuperArio
 {
@@ -21,13 +20,17 @@ namespace Runtime.CH2.SuperArio
         private SpriteRenderer _spr;
         private Sprite _initSprite;
         private GameObject _pipe;
-        
-        private int _life = 1;
+
+        public int _life;
         private bool _isInvincible = false; // 무적 상태 여부
         private float _invincibleDuration = 1.0f; // 무적 지속 시간
         private float _blinkInterval = 0.1f; // 깜빡이는 간격
         private Color _originalColor; // 원래 색상 저장
         
+        // 점프 버퍼 관련 변수
+        private float _jumpBufferTime = 0.2f; // 점프 입력 대기 시간
+        private float _jumpBufferTimeRemaining = 0f; // 남은 점프 대기 시간
+
         private void Start()
         {
             _pipe = transform.GetChild(0).gameObject;
@@ -46,7 +49,16 @@ namespace Runtime.CH2.SuperArio
 
         private void FixedUpdate()
         {
-            if (!ArioManager.instance.isPlay) return;
+            if (!ArioManager.instance.IsPlay) return;
+
+            // 점프 대기 시간 동안 점프를 실행할지 여부 결정
+            if (_jumpBufferTimeRemaining > 0)
+            {
+                _jumpBufferTimeRemaining -= Time.fixedDeltaTime;
+            }
+
+            // 점프 처리
+            TryJump();
 
             if (_isJump)
             {
@@ -77,33 +89,38 @@ namespace Runtime.CH2.SuperArio
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (!ArioManager.instance.isPlay || ArioManager.instance.isPause)
+            if (!ArioManager.instance.IsPlay || ArioManager.instance.IsPause)
                 return;
 
             Vector2 moveInput = context.ReadValue<Vector2>();
 
             if (context.performed)
             {
-                if (moveInput.y > 0 && transform.position.y <= _startPos.y && !_isJump) // 위쪽 (점프)
-                {
-                    _isJump = true;
-                }
-                else if (moveInput.y < 0 && !_isJump) // 아래쪽
+                // 점프 중일 때 아래 방향키를 눌렀을 때 앉기 상태로 전환
+                if (moveInput.y < 0) // 아래쪽
                 {
                     if (_col.offset.y == 0)
                         _col.offset = new Vector2(0, -0.1f);
+                    // 점프 중에도 앉기 상태로 변경
                     _animator.enabled = false;
                     _spr.sprite = sitSprite;
+                }
+                else if (moveInput.y > 0 && transform.position.y <= _startPos.y && !_isJump) // 위쪽 (점프)
+                {
+                    _jumpBufferTimeRemaining = _jumpBufferTime; // 점프 입력을 버퍼에 저장
                 }
             }
             else if (context.canceled) // 아래 방향키를 뗐을 때
             {
                 _animator.enabled = true;
                 _spr.sprite = _initSprite;
+
+                // 아래 방향키를 뗀 후, 앉기 상태를 원래 상태로 되돌림
                 if (_col.offset.y != 0)
                     _col.offset = new Vector2(0, 0);
             }
         }
+
 
         private void InitData(bool isPlay)
         {
@@ -112,7 +129,6 @@ namespace Runtime.CH2.SuperArio
             _isTop = false;
             if (isPlay)
             {
-                _life = 1;
                 _animator.enabled = true;
                 _pipe.SetActive(false);
             }
@@ -122,7 +138,7 @@ namespace Runtime.CH2.SuperArio
                 _pipe.SetActive(true);
             }
         }
-        
+
         private IEnumerator UseItemCoroutine()
         {
             _invincibleDuration = 20f;
@@ -145,12 +161,12 @@ namespace Runtime.CH2.SuperArio
             _spr.color = _originalColor;
             _isInvincible = false;
         }
-        
+
         public void UseInvincibleItem()
         {
-            if (_isInvincible || !ArioManager.instance.GetItem || !ArioManager.instance.isPlay)
+            if (_isInvincible || !ArioManager.instance.HasItem || !ArioManager.instance.IsPlay)
                 return;
-            
+
             ArioManager.instance.ChangeItemSprite();
             StartCoroutine(UseItemCoroutine());
         }
@@ -174,19 +190,29 @@ namespace Runtime.CH2.SuperArio
             _spr.enabled = true;
             _isInvincible = false;
         }
-        
+
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.instance.isPlay && !_isInvincible)
+            if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.instance.IsPlay && !_isInvincible)
             {
                 _life--;
                 ArioManager.instance.ChangeHeartUI(_life);
                 StartCoroutine(InvincibilityCoroutine());
             }
-            else if (other.CompareTag(GlobalConst.CoinStr) && ArioManager.instance.isPlay)
+            else if (other.CompareTag(GlobalConst.CoinStr) && ArioManager.instance.IsPlay)
             {
                 ArioManager.instance.GetCoin();
                 other.gameObject.SetActive(false);
+            }
+        }
+
+        // 점프 버퍼를 처리하는 함수
+        private void TryJump()
+        {
+            if (_jumpBufferTimeRemaining > 0 && transform.position.y <= _startPos.y)
+            {
+                _isJump = true;
+                _jumpBufferTimeRemaining = 0f; // 점프 실행 후 버퍼를 리셋
             }
         }
     }

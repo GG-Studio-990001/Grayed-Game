@@ -61,7 +61,7 @@ namespace Runtime.CH2.SuperArio
         {
             yield return new WaitForSeconds(0.5f); // 시작 대기 시간
 
-            while (ArioManager.instance.isPlay && _remainingSpawnCount > 0)
+            while (ArioManager.instance.IsPlay && _remainingSpawnCount > 0)
             {
                 // 비활성화된 장애물 중에서 하나를 활성화
                 int obstacleIndex = DeactiveObstacle();
@@ -77,7 +77,7 @@ namespace Runtime.CH2.SuperArio
                 {
                     yield return new WaitForSeconds(5.0f);
 
-                    string nextStage = ArioManager.instance.CalculateNextStage(ArioManager.instance._currentStage);
+                    string nextStage = ArioManager.instance.CalculateNextStage(ArioManager.instance.CurrentStage);
                     ArioManager.instance.NextStage(nextStage); // 다음 스테이지 이동
                     yield break;
                 }
