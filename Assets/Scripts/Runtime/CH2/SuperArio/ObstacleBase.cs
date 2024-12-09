@@ -39,8 +39,8 @@ namespace Runtime.CH2.SuperArio
         {
             if (!_isChild)
             {
-                if (ArioManager.instance.isPlay)
-                    transform.Translate(Vector2.left * Time.deltaTime * ArioManager.instance.gameSpeed);
+                if (ArioManager.instance.IsPlay)
+                    transform.Translate(Vector2.left * Time.deltaTime * ArioManager.instance.GameSpeed);
 
                 if (transform.position.x < _endPos)
                     gameObject.SetActive(false);

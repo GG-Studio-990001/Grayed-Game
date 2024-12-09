@@ -8,6 +8,7 @@ namespace Runtime.CH2.SuperArio
     {
         //[field:SerializeField] public LineView LineView { get; private set; }
         [field:SerializeField] public Ario Ario { get; private set; }
+        [field:SerializeField] public ArioStore ArioStore { get; private set; }
         [SerializeField] private SettingsUIView _settingsUIView;
     
         private void Start()
@@ -23,7 +24,7 @@ namespace Runtime.CH2.SuperArio
 
         public void PauseKeyInput()
         {
-            ArioManager.instance.isPause = !ArioManager.instance.isPause;
+            ArioManager.instance.PauseKey();
         }
 
         public void ItemKeyInput()
@@ -38,17 +39,14 @@ namespace Runtime.CH2.SuperArio
 
         public void EnterStoreKeyInput(InputAction.CallbackContext context)
         {
-            // 아래 방향키
-            if (ArioManager.instance.isPlay || ArioManager.instance.isPause)
+            if (ArioManager.instance.IsPlay || ArioManager.instance.IsPause)
                 return;
 
             Vector2 moveInput = context.ReadValue<Vector2>();
-
             if (context.performed)
             { 
-                if (moveInput.y < 0) // 아래쪽
+                if (moveInput.y < 0) // 아래 방향키
                 {
-                    //EnterStore
                     ArioManager.instance.EnterStore();
                 }
             }

@@ -13,9 +13,9 @@ namespace Runtime.CH2.SuperArio
 
         private void Update()
         {
-            if (ArioManager.instance.isPlay)
+            if (ArioManager.instance.IsPlay)
             {
-                float move = Time.deltaTime * (ArioManager.instance.gameSpeed / 50);
+                float move = Time.deltaTime * (ArioManager.instance.GameSpeed / 50);
                 _renderer.material.mainTextureOffset += Vector2.right * move;
             }
         }

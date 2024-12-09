@@ -90,7 +90,7 @@ namespace Runtime.CH2.SuperArio
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.instance.isPlay)
+            if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.instance.IsPlay)
             {
                 var isSit = other.GetComponent<ObstacleBase>().isSitObstacle;
                 StartCoroutine(!isSit ? Jump() : Sit());
