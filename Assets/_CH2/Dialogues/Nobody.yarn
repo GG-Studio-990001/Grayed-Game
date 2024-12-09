@@ -1,4 +1,7 @@
 title: Nobody
 ---
+<<wait 2>>
     :이곳에는 아무도 없다. 다른 곳으로 가 보자.
+<<DialogueFin>>
+<<ShowOptions>>
 ===
