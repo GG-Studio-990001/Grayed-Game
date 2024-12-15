@@ -279,6 +279,9 @@ namespace Runtime.CH1.Main.Dialogue
                     // 씬4에서 맵3 처음 같이 갔을 때
                     NpcPos.SetNpcPosition(8);
                     break;
+                default:
+                    NpcPos.SetNpcPosition(i);
+                    break;
             }
         }
 
