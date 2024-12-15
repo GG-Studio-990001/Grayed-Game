@@ -29,7 +29,6 @@ namespace Runtime.CH1.Main.Controller
         [SerializeField] private Mamago _mamago;
         [SerializeField] private MamagoBubble _mamagoBubble;
         [SerializeField] private LineView _luckyDialogue;
-        [NonSerialized] public bool IsLuckyOn = false;
 
         private void Start()
         {
@@ -101,9 +100,6 @@ namespace Runtime.CH1.Main.Controller
 
         public void GameSettingToggle()
         {
-            if (IsLuckyOn)
-                return;
-
             _settingsUIView.GameSettingToggle();
         }
 
