@@ -59,6 +59,7 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
             _runner.AddCommandHandler("SetTcgPack", SetTcgPack);
             _runner.AddCommandHandler("SetSuperArioPack", SetSuperArioPack);
+            _runner.AddCommandHandler<int>("PlayBGM", PlayBGM);
             //_runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
@@ -93,6 +94,28 @@ namespace Runtime.CH2.Dialogue
         }
 
         #endregion
+
+        private void PlayBGM(int idx)
+        {
+            switch(idx)
+            {
+                case 1:
+                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_01_Normal");
+                    break;
+                case 2:
+                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_02_Serious");
+                    break;
+                case 3:
+                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_03_Exciting");
+                    break;
+                case 4:
+                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_04_Wariness");
+                    break;
+                case 5:
+                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_05_Faint");
+                    break;
+            }
+        }
 
         private void SetSuperArioPack()
         {

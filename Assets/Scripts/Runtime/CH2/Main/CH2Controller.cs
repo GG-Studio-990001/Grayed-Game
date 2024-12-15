@@ -9,7 +9,7 @@ namespace Runtime.CH2.Main
 
         private void Start()
         {
-            Managers.Sound.Play(Sound.BGM, "CH2/BGM_#1_02");
+            Managers.Sound.Play(Sound.BGM, "CH2/BGM_01_Normal");
 
             // TODO: 슈아브 다녀온 후 처리
             _turnController.GetInitialLocation();
