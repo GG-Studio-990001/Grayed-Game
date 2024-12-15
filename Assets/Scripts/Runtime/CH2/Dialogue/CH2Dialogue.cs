@@ -58,6 +58,7 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler<int>("ShowIllerstration", ShowIllerstration);
             _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
             _runner.AddCommandHandler("SetTcgPack", SetTcgPack);
+            _runner.AddCommandHandler("SetSuperArioPack", SetSuperArioPack);
             //_runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
@@ -95,6 +96,7 @@ namespace Runtime.CH2.Dialogue
 
         private void SetSuperArioPack()
         {
+            Managers.Sound.StopBGM();
             _SuperArioPack.SetActive(true);
         }
 
