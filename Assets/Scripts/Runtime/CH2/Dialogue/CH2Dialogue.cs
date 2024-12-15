@@ -38,6 +38,7 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _autoTxt;
         [SerializeField] private GameObject _continueBtn;
         [SerializeField] private bool _isAutoAdvanced = false;
+        [SerializeField] private GameObject[] _illerstrations = new GameObject[1];
         private string _speaker;
         private Coroutine _autoDialogueCoroutine;
 
@@ -51,6 +52,8 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("PartnerOut", PartnerOut);
             _runner.AddCommandHandler("DialogueFin", DialogueFin);
             _runner.AddCommandHandler("StartTcg", _tcgController.StartTcg);
+            _runner.AddCommandHandler<int>("ShowIllerstration", ShowIllerstration);
+            _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
             //_runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
@@ -85,6 +88,17 @@ namespace Runtime.CH2.Dialogue
         }
 
         #endregion
+
+        private void ShowIllerstration(int val)
+        {
+            _illerstrations[val].SetActive(true);
+        }
+
+        private void HideIllerstration()
+        {
+            foreach (var o in _illerstrations)
+                o.SetActive(false);
+        }
 
         private void PartnerAppear(string partner)
         {
