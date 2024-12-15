@@ -2,6 +2,19 @@ title : LuckyTCG_pack
 // 창고에서 TCG팩 획득 후 등장
 // 스킵 유도
 ---
+<<ReverseConnection>>
+<<wait 1>>
+
+<<SetLuckyProgress 0>>
+<<SetLuckyPos 0>>
+<<SetBubblePos 0>>
+<<LuckyEnter>>
+
+<<WalkLeft 0>>
+<<wait 3>>
+<<ActiveBubble true>>
+<<Idle>>
+
 // 럭키가 맵 밖에서 안으로 걸어와 우측 하단에 위치한다.
 럭키: 하이하이 럭키 왔어~
 럭키: 근데 여기 <slide>위자드 스톤</slide> 아니야?<br>아무것도 없어
@@ -10,6 +23,7 @@ title : LuckyTCG_pack
 럭키: 그럼 지금은 다른 얘기 해볼까?
 
 // 사담을 시작하자 스킵버튼이 등장한다.
+<<ActiveSkipBtn>>
 럭키: 저 이상한 <bounce>버튼</bounce>같은 건<br>신경 쓰지 마~
 럭키: 럭키 얘기도<br>좀 하고 싶다구!
 럭키: 그동안 근질근질 했는데<br>꾹 참았어
@@ -26,6 +40,11 @@ title : LuckyTCG_pack
 
 // 스킵버튼 누르면 그 즉시 럭키가 사라진다.
 // 마지막 대사까지 스킵하지 않으면 들어온 동선대로 밖으로 걸어나간다.
+<<ActiveBubble false>>
+<<WalkRight 0>>
+<<wait 3>>
+
+<<ExitTcgPack>>
 ===
 
 title : LuckyTCG_explain

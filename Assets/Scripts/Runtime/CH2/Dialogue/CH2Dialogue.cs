@@ -39,6 +39,8 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _continueBtn;
         [SerializeField] private bool _isAutoAdvanced = false;
         [SerializeField] private GameObject[] _illerstrations = new GameObject[1];
+        [SerializeField] private DialogueRunner _luckyDialogueRunner;
+        [SerializeField] private GameObject _tcgPack;
         private string _speaker;
         private Coroutine _autoDialogueCoroutine;
 
@@ -54,6 +56,7 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("StartTcg", _tcgController.StartTcg);
             _runner.AddCommandHandler<int>("ShowIllerstration", ShowIllerstration);
             _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
+            _runner.AddCommandHandler("SetTcgPack", SetTcgPack);
             //_runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
@@ -88,6 +91,11 @@ namespace Runtime.CH2.Dialogue
         }
 
         #endregion
+        
+        private void SetTcgPack()
+        {
+            _tcgPack.SetActive(true);
+        }
 
         private void ShowIllerstration(int val)
         {
