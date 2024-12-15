@@ -148,7 +148,7 @@ namespace Runtime.CH2.Lucky
             LuckyExit();
 
             Managers.Data.SaveGame();
-            Managers.Sound.Play(Sound.BGM, "CH2/BGM_#1_02", true);
+            Managers.Sound.Play(Sound.BGM, "CH2/BGM_01_Normal", true);
 
             _ch2DialogueRunner.StartDialogue("Turn0_1");
         }
