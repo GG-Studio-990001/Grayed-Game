@@ -38,6 +38,10 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _autoTxt;
         [SerializeField] private GameObject _continueBtn;
         [SerializeField] private bool _isAutoAdvanced = false;
+        [SerializeField] private GameObject[] _illerstrations = new GameObject[1];
+        [SerializeField] private DialogueRunner _luckyDialogueRunner;
+        [SerializeField] private GameObject _tcgPack;
+        [SerializeField] private GameObject _SuperArioPack;
         private string _speaker;
         private Coroutine _autoDialogueCoroutine;
 
@@ -51,6 +55,11 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("PartnerOut", PartnerOut);
             _runner.AddCommandHandler("DialogueFin", DialogueFin);
             _runner.AddCommandHandler("StartTcg", _tcgController.StartTcg);
+            _runner.AddCommandHandler<int>("ShowIllerstration", ShowIllerstration);
+            _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
+            _runner.AddCommandHandler("SetTcgPack", SetTcgPack);
+            _runner.AddCommandHandler("SetSuperArioPack", SetSuperArioPack);
+            _runner.AddCommandHandler<int>("PlayBGM", PlayBGM);
             //_runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
@@ -85,6 +94,50 @@ namespace Runtime.CH2.Dialogue
         }
 
         #endregion
+
+        private void PlayBGM(int idx)
+        {
+            switch(idx)
+            {
+                case 1:
+                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_01_Normal");
+                    break;
+                case 2:
+                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_02_Serious");
+                    break;
+                case 3:
+                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_03_Exciting");
+                    break;
+                case 4:
+                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_04_Wariness");
+                    break;
+                case 5:
+                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_05_Faint");
+                    break;
+            }
+        }
+
+        private void SetSuperArioPack()
+        {
+            Managers.Sound.StopBGM();
+            _SuperArioPack.SetActive(true);
+        }
+
+        private void SetTcgPack()
+        {
+            _tcgPack.SetActive(true);
+        }
+
+        private void ShowIllerstration(int val)
+        {
+            _illerstrations[val].SetActive(true);
+        }
+
+        private void HideIllerstration()
+        {
+            foreach (var o in _illerstrations)
+                o.SetActive(false);
+        }
 
         private void PartnerAppear(string partner)
         {

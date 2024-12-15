@@ -1,7 +1,6 @@
 using DG.Tweening;
 using Runtime.CH1.Main.Controller;
 using Runtime.CH1.SubB;
-using Runtime.Common;
 using Runtime.ETC;
 using Runtime.Lucky;
 using Runtime.Middle;
@@ -130,8 +129,6 @@ namespace Runtime.CH1.Lucky
                 _luckys[i].SetActive(true);
 
             Managers.Sound.Play(Sound.LuckyBGM, "Lucky_BGM_4");
-
-            _ch1Controller.IsLuckyOn = true;
         }
 
         private void LuckyExit()
@@ -141,8 +138,6 @@ namespace Runtime.CH1.Lucky
                 _luckys[i].SetActive(false);
 
             Managers.Data.SaveGame();
-
-            _ch1Controller.IsLuckyOn = false;
         }
 
         private void WalkLeft(int idx)
@@ -178,6 +173,7 @@ namespace Runtime.CH1.Lucky
         #region 상황 따라 다르게
         private void SetLuckyPos(int idx)
         {
+            // TODO: 모두 다 오른쪽에서 등장으로 수정
             if (idx == 0)
             {
                 _lucky.transform.position = _leftPositions[idx];
