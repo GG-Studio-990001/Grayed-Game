@@ -41,6 +41,7 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject[] _illerstrations = new GameObject[1];
         [SerializeField] private DialogueRunner _luckyDialogueRunner;
         [SerializeField] private GameObject _tcgPack;
+        [SerializeField] private GameObject _SuperArioPack;
         private string _speaker;
         private Coroutine _autoDialogueCoroutine;
 
@@ -91,7 +92,12 @@ namespace Runtime.CH2.Dialogue
         }
 
         #endregion
-        
+
+        private void SetSuperArioPack()
+        {
+            _SuperArioPack.SetActive(true);
+        }
+
         private void SetTcgPack()
         {
             _tcgPack.SetActive(true);
