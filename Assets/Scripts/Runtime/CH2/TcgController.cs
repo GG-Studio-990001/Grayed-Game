@@ -157,7 +157,7 @@ namespace Runtime.CH2.Main
             _usedAnswers.Add(answerIndex);
 
             // 점수 텍스트 업데이트
-            _currentScore += scoreChange;
+            _currentScore = Mathf.Clamp(_currentScore + scoreChange, 0, int.MaxValue);
             UpdateScoreUI();
 
             // 디버그 출력
