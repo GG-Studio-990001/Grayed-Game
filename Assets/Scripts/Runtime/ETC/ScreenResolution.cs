@@ -10,11 +10,11 @@ namespace Runtime.ETC
         public int _windowedPPU;
         public int _fullScreenPPU;
 
-        private readonly int _maxWidth = 1920;
-        private readonly int _maxHeight = 1080;
+        //private readonly int _maxWidth = 1920;
+        //private readonly int _maxHeight = 1080;
 
-        private readonly int _windowedWidth = 1280;
-        private readonly int _windowedHeight = 720;
+        //private readonly int _windowedWidth = 1280;
+        //private readonly int _windowedHeight = 720;
 
         private bool _fullScreenFixed = false;
         private bool _windowedFixed = false;
