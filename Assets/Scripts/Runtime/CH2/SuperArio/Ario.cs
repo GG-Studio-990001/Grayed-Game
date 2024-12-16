@@ -146,7 +146,6 @@ namespace Runtime.CH2.SuperArio
             _originalColor = _spr.color;
 
             float elapsedTime = 0f;
-
             while (elapsedTime < _invincibleDuration)
             {
                 // 무지개 색상을 계산

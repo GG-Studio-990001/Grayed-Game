@@ -3,25 +3,25 @@ using UnityEngine;
 
 namespace Runtime.CH2.SuperArio
 {
-    public class HeartBox : MonoBehaviour, IStoreBox
+    public class StarBox : MonoBehaviour, IStoreBox
     {
         private SpriteRenderer _spr;
         private Color _originalColor;
         private BoxCollider2D _col;
-
+    
         private void Start()
         {
             _spr = GetComponent<SpriteRenderer>();
             _col = GetComponent<BoxCollider2D>();
             _originalColor = _spr.color;
         }
-
+    
         public bool IsUsed { get; set; }
         
         public void Check()
         {
             StartCoroutine(Delay());
-            if (!ArioManager.instance.LifeCheck())
+            if (ArioManager.instance.HasItem)
             {
                 SetColorGray();
                 IsUsed = true;
@@ -32,7 +32,7 @@ namespace Runtime.CH2.SuperArio
                 IsUsed = false;
             }
         }
-
+        
         private IEnumerator Delay()
         {
             _col.enabled = false;
@@ -44,7 +44,8 @@ namespace Runtime.CH2.SuperArio
         {
             if (IsUsed)
                 return;
-            ArioManager.instance.PlusLife();
+            
+            ArioManager.instance.GetItem();
             IsUsed = true;
             SetColorGray();
         }
@@ -53,7 +54,7 @@ namespace Runtime.CH2.SuperArio
         {
             if (_spr != null)
             {
-                _spr.color = Color.gray; // 회색으로 설정
+                _spr.color = Color.gray;
             }
         }
 
@@ -61,10 +62,10 @@ namespace Runtime.CH2.SuperArio
         {
             if (_spr != null)
             {
-                _spr.color = _originalColor; // 원래 색상으로 복구
+                _spr.color = _originalColor;
             }
         }
-        
+
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.TryGetComponent(out ArioStore ario))

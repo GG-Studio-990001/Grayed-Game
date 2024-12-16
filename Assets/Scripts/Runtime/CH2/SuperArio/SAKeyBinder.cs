@@ -39,7 +39,7 @@ namespace Runtime.CH2.SuperArio
 
         public void EnterStoreKeyInput(InputAction.CallbackContext context)
         {
-            if (ArioManager.instance.IsPlay || ArioManager.instance.IsPause)
+            if (ArioManager.instance.IsPlay || ArioManager.instance.IsPause || ArioManager.instance.IsStore)
                 return;
 
             Vector2 moveInput = context.ReadValue<Vector2>();

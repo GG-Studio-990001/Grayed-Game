@@ -16,6 +16,7 @@ namespace Runtime.CH2.SuperArio
             _image = GetComponent<Image>();
             _count.gameObject.SetActive(false);
             _originalColor = _image.color;
+            SetImageColorGray();
         }
     
         public void StartCount()
@@ -28,7 +29,6 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator ItemCount()
         {
             int num = 20;
-    
             while (num >= 0)
             {
                 _count.text = num.ToString();
