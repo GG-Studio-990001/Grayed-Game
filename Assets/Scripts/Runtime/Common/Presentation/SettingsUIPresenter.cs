@@ -36,12 +36,10 @@ namespace Runtime.Common.Presentation
         {
             if (Managers.Data.IsFullscreen)
             {
-                _settingsUIView.FullScreenToggle.isOn = true;
                 SetFullScreenMode(true);
             }
             else
             {
-                _settingsUIView.WindowScreenToggle.isOn = true;
                 SetWindowScreenMode(true);
             }
         }

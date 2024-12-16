@@ -29,6 +29,7 @@ namespace Runtime.Manager
         }
     }
     
+    [DefaultExecutionOrder(-100)]
     public class DataManager
     {
         private GameData SaveData { get { return _gameData; } set { _gameData = value; } }
@@ -43,12 +44,23 @@ namespace Runtime.Manager
         public float BgmVolume
         {
             get { return _gameData.BgmVolume; }
-            set { Mathf.Clamp(value, 0, 1); _gameData.BgmVolume = value; Managers.Sound.BGM.volume = value; }
+            set
+            {
+                value = Mathf.Clamp(value, 0, 1);
+                _gameData.BgmVolume = value;
+                Managers.Sound.BGM.volume = value;
+            }
         }
+        
         public float SfxVolume
         {
             get { return _gameData.SfxVolume; }
-            set { Mathf.Clamp(value, 0, 1); _gameData.SfxVolume = value; Managers.Sound.SFX.volume = value; }
+            set 
+            { 
+                value = Mathf.Clamp(value, 0, 1);
+                _gameData.SfxVolume = value;
+                Managers.Sound.SFX.volume = value;
+            }
         }
 
         public bool IsFullscreen
@@ -94,6 +106,9 @@ namespace Runtime.Manager
             }
             
             Managers.Data.SaveData = data;
+            Screen.fullScreen = data.isFullScreen;
+            Managers.Sound.BGM.volume = data.BgmVolume;
+            Managers.Sound.SFX.volume = data.SfxVolume;
             Debug.Log($"Load Game Completed : {path}");
             Debug.Log(Managers.Data.CH1.Scene+"."+ Managers.Data.CH1.SceneDetail);
             return true;

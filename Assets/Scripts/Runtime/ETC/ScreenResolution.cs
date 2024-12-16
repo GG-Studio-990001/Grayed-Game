@@ -32,7 +32,7 @@ namespace Runtime.ETC
 
         private void LateUpdate()
         {
-            if (Screen.fullScreen == true)
+            if (Screen.fullScreen)
             {
                 if (_fullScreenPPU != 0)
                     _pixCam.assetsPPU = _fullScreenPPU;
@@ -44,7 +44,7 @@ namespace Runtime.ETC
                 {
                     _fullScreenFixed = true;
 
-                    Screen.SetResolution(_maxWidth, _maxHeight, true);
+                    //Screen.SetResolution(_maxWidth, _maxHeight, true);
                 }
             }
             else
@@ -59,7 +59,7 @@ namespace Runtime.ETC
                     if (_windowedFixed == false)
                     {
                         _windowedFixed = true;
-                        Screen.SetResolution(_windowedWidth, _windowedHeight, false);
+                        //Screen.SetResolution(_windowedWidth, _windowedHeight, false);
                     }
                 }
 

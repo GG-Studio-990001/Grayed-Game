@@ -24,49 +24,58 @@ namespace Runtime.CH2.SuperArio
             IsPause = true;
             CurrentStage = "1-1";
         }
+
         #endregion
 
         public Action<bool> OnPlay;
         public Action<bool> OnEnterStore;
+        public Action<bool> OnExitStore;
+        public Action OpenStore;
 
-        [SerializeField] private ArioUIController ui;
-        [SerializeField] private ObstacleManager obstacleManager;
-        [SerializeField] private ObstacleSpawnDataSet dataSet;
-        [SerializeField] private CinemachineVirtualCamera storeCamera;
+
+        [SerializeField] private ObstacleSpawnDataSet _dataSet;
+        [SerializeField] private CinemachineVirtualCamera _storeCam;
         [SerializeField] private Ario _ario;
-        
+        [SerializeField] private ArioUIController _ui;
+
         public float GameSpeed { get; private set; }
-        public bool IsPlay {  get; private set; }
+        public bool IsPlay { get; private set; }
         public bool IsPause { get; private set; }
         public bool HasItem { get; private set; }
         public string CurrentStage { get; private set; }
-        
+
         private int _coinCnt;
-        private bool _isStore;
-        
+        public bool IsStore { get; private set; }
+        private ObstacleManager _obstacleManager;
+
         private void Start()
         {
+            _obstacleManager = GetComponent<ObstacleManager>();
             StartCoroutine(WaitStart());
         }
 
         public void RestartSuperArio()
         {
-            if (IsPlay || _isStore)
+            if (IsPlay || IsStore)
                 return;
-            
-            storeCamera.Priority = 10;
+            _storeCam.Priority = 10;
             StartGame();
         }
 
         public void EnterStore()
         {
-            // 카메라 변경
-            storeCamera.Priority = 12;
-            ui.ActiveRestartText(false);
+            _storeCam.Priority = 12;
+            _ui.ActiveRestartText(false);
             ChangeHeartUI(1);
 
-            _isStore = true;
-            OnEnterStore.Invoke(_isStore);
+            IsStore = true;
+            OnEnterStore.Invoke(IsStore);
+        }
+
+        public void ExitStore()
+        {
+            IsStore = false;
+            RestartSuperArio();
         }
 
         private IEnumerator WaitStart()
@@ -84,6 +93,7 @@ namespace Runtime.CH2.SuperArio
         {
             InitData();
             UpdateStage(CurrentStage);
+            
             IsPlay = true;
             OnPlay.Invoke(IsPlay);
         }
@@ -97,39 +107,32 @@ namespace Runtime.CH2.SuperArio
 
         public void PlusLife()
         {
-            ChangeHeartUI(_ario._life+1);
+            ChangeHeartUI(_ario._life + 1);
         }
 
-        public bool ItemCheck()
-        {
-            if (HasItem)
-                return false;
-            return true;
-        }
-        
         private void InitData()
         {
-            ui.ChangeCoinText("RAPLEY\n" + _coinCnt);
-            ui.ActiveRestartText(false);
-            ui.ChangeObstacleText(0);
-            if(_ario._life <= 1)
+            _ui.ChangeCoinText("RAPLEY\n" + _coinCnt);
+            _ui.ActiveRestartText(false);
+            _ui.ChangeObstacleText(0);
+            if (_ario._life <= 1)
                 ChangeHeartUI(1);
             IsPause = false; // 시작 시 입력 방지
-            HasItem = true; // 테스트 용 아이템 지급
+            //HasItem = true; // 테스트 용 아이템 지급
         }
 
         private void GameOver()
         {
-            ui.ChangeObstacleText(0);
+            _ui.ActiveRestartText(true);
+            _ui.ChangeObstacleText(0);
             UpdateStage(CurrentStage);
-            ui.ActiveRestartText(true);
             IsPlay = false;
             OnPlay.Invoke(IsPlay);
         }
 
         public void ChangeHeartUI(int life)
         {
-            ui.ChangeHeartUI(life);
+            _ui.ChangeHeartUI(life);
             if (life == 0)
                 GameOver();
             _ario._life = life;
@@ -138,50 +141,48 @@ namespace Runtime.CH2.SuperArio
         public void GetCoin()
         {
             _coinCnt++;
-            ui.ChangeCoinText("RAPLEY\n" + _coinCnt);
+            _ui.ChangeCoinText("RAPLEY\n" + _coinCnt);
         }
-
-        public void ChangeItemSprite()
-        {
-            HasItem = false;
-            ui.UseItemSprite();
-        }
-
+        
         public void GetItem()
         {
             HasItem = true;
-            ui.GetItemSprite();
+            _ui.GetItemSprite();
         }
-
+        
+        public void ChangeItemSprite()
+        {
+            HasItem = false;
+            _ui.UseItemSprite();
+        }
+        
         public void ChangeObstacleCnt(int count)
         {
-            ui.ChangeObstacleText(count);
+            _ui.ChangeObstacleText(count);
         }
-
-        // 스테이지 업데이트
-        public void UpdateStage(string stage)
+        
+        private void UpdateStage(string stage)
         {
-            var stageData = dataSet.DataList.Find(data => data.Stage == stage);
+            var stageData = _dataSet.DataList.Find(data => data.Stage == stage);
             if (stageData == null)
             {
                 return;
             }
-            
+
             CurrentStage = stage; // 현재 스테이지 갱신
             GameSpeed = stageData.Speed + 4; // 게임 속도 갱신
-            ui.ChangeStageText($"WORLD\n{CurrentStage}"); // UI에 스테이지 정보 갱신
+            _ui.ChangeStageText($"WORLD\n{CurrentStage}"); // UI에 스테이지 정보 갱신
 
             // 장애물 매니저에 스테이지 데이터 전달
-            obstacleManager.ChangeStage(CurrentStage, dataSet);
+            _obstacleManager.ChangeStage(CurrentStage, _dataSet);
         }
 
-        // 스테이지 변경 후 게임 재시작
         public void NextStage(string nextStage)
         {
             // 특정 스테이지 조건 체크
             if (nextStage.EndsWith("-3"))
             {
-                EnterRewardRoom(); // 보상 방으로 이동
+                SpawnBuilding();
             }
             else
             {
@@ -190,14 +191,22 @@ namespace Runtime.CH2.SuperArio
                 OnPlay.Invoke(IsPlay);
             }
         }
-        
-        private void EnterRewardRoom()
+
+        private void SpawnBuilding()
         {
-            // 보상 방으로 이동하는 로직
+            Debug.Log("예아");
+            
+            // 1. 장애물 대신 깃발, 건물이 다가오게 하기
+            //
+            // 2. 깃발 닿으면 배경, 바닥 움직이는 것 멈춤 -> isPlay false, 연출 시작
+            //
+            // 3. 깃발 닿은 위치 계산 내려오고 건물로 자동 이동
+            //
+            // 5. 다음 스테이지
             IsPlay = false;
             OnPlay.Invoke(IsPlay);
         }
-        
+
         public string CalculateNextStage(string currentStage)
         {
             var parts = currentStage.Split('-');
@@ -209,10 +218,16 @@ namespace Runtime.CH2.SuperArio
                     world++;
                     stage = 1;
                 }
+
                 return $"{world}-{stage}";
             }
-            
+
             return currentStage; // 기본적으로 변경 없이 반환
+        }
+
+        public void StoreOpenEvent()
+        {
+            OpenStore.Invoke();
         }
     }
 }

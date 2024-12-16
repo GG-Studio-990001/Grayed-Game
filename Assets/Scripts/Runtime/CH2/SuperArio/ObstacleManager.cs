@@ -7,6 +7,7 @@ namespace Runtime.CH2.SuperArio
     public class ObstacleManager : MonoBehaviour
     {
         [SerializeField] private GameObject[] obstacles; // 장애물 프리팹 배열
+        [SerializeField] private GameObject building;
         private List<GameObject> _obstaclePool = new List<GameObject>();
         private int _poolObjCnt = 3;
         
