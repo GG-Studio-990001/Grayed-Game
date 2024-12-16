@@ -6,10 +6,10 @@ namespace Runtime.CH2.Location
     public class LocationUIAnimator : MonoBehaviour
     {
         [SerializeField] private RectTransform _locationUI;
-        [SerializeField] private float _animationDuration = 0.5f; // 이동 시간
-        [SerializeField] private float _stayDuration = 1f; // 멈춤 시간
         [SerializeField] private Vector2 _offScreenPos;
         [SerializeField] private Vector2 _onScreenPos;
+        private readonly float _animationDuration = 0.5f; // 이동 시간
+        private readonly float _stayDuration = 2f; // 멈춤 시간
 
         private void Start()
         {

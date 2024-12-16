@@ -1463,7 +1463,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _locationUI: {fileID: 1962123607}
   _animationDuration: 0.5
-  _stayDuration: 1
+  _stayDuration: 2
   _offScreenPos: {x: 0, y: 0}
   _onScreenPos: {x: 0, y: 0}
 --- !u!1 &483775310
