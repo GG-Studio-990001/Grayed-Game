@@ -22,10 +22,18 @@ namespace Runtime.CH2.Main
 
         public void GetInitialLocation()
         {
-            // CH2 시작시 최초 1회 호출
-            // 현재는 Turn 0 기준, 추후 진행도에 따라 시작 다이얼로그 변경되도록 코드 추가
-            Managers.Data.CH2.Turn = 0;
-            _dialogueRunner.StartDialogue("Turn0");
+            switch (Managers.Data.CH2.Turn)
+            {
+                case 0:
+                    _dialogueRunner.StartDialogue("Turn0");
+                    break;
+                case 1:
+                    _dialogueRunner.StartDialogue("Turn1_S");
+                    break;
+                case 2:
+                    _dialogueRunner.StartDialogue("Turn2_S");
+                    break;
+            }
         }
 
         public void SetLocation(string loc)
@@ -41,6 +49,7 @@ namespace Runtime.CH2.Main
             if (_visitedLocations.Contains(Managers.Data.CH2.Location))
             {
                 Debug.Log("이미 방문함");
+                _locationUiController.MoveLocation();
                 dialogueName = Nobody;
             }
             else
@@ -136,8 +145,9 @@ namespace Runtime.CH2.Main
 
         public void NextTurn()
         {
-            Managers.Data.CH2.Turn++;
+            Managers.Data.SaveGame();
             _visitedLocations.Clear();
+            Managers.Data.CH2.Turn++;
         }
     }
 }

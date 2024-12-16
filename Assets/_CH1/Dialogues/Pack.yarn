@@ -31,6 +31,7 @@ title: EquipTranslator
      <<NewSceneStart>>
      : 이상한 기분이 든다.
      <<ReverseConnection>>
+     <<SetNpcPosition 10>>
      <<wait 1>>
      <<SceneEnd>>
 ===

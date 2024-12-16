@@ -62,7 +62,8 @@ namespace Runtime.CH2.Location
 
                 Button btn = _locationOptions.GetChild(i).GetComponent<Button>();
                 btn.onClick.RemoveAllListeners();
-                int index = i;  // Closure 문제 해결
+                btn.interactable = true; // 비활 풀기
+                int index = i; // Closure 문제 해결
 
                 TextMeshProUGUI btnTxt = btn.GetComponentInChildren<TextMeshProUGUI>();
                 if (_locationBgController.LocationTexts.TryGetValue(loc[index], out string locationText))
@@ -70,9 +71,26 @@ namespace Runtime.CH2.Location
                     btnTxt.text = locationText;
                 }
 
-                btn.onClick.AddListener(() => TurnController.SetLocation(loc[index]));
-                btn.onClick.AddListener(() => TurnController.StartDialogue());
-                // Nobody를 위해 여기에서 장소세팅...??
+                btn.onClick.AddListener(() =>
+                {
+                    DisableAllButtons(); // 클릭 시 모든 버튼 비활성화
+
+                    TurnController.SetLocation(loc[index]);
+                    TurnController.StartDialogue();
+                });
+            }
+        }
+
+
+        private void DisableAllButtons()
+        {
+            foreach (Transform child in _locationOptions)
+            {
+                Button btn = child.GetComponent<Button>();
+                if (btn != null)
+                {
+                    btn.interactable = false; // 버튼 비활성화
+                }
             }
         }
 
