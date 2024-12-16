@@ -15,6 +15,7 @@ title: PacmomGamePack
 title: TranslatorPack
 ---
      : '마마고 번역기'를 획득했다.
+    <<SetNpcPosition 10>>
 ===
 
 title: VisualNovelPack
@@ -31,7 +32,6 @@ title: EquipTranslator
      <<NewSceneStart>>
      : 이상한 기분이 든다.
      <<ReverseConnection>>
-     <<SetNpcPosition 10>>
      <<wait 1>>
      <<SceneEnd>>
 ===
