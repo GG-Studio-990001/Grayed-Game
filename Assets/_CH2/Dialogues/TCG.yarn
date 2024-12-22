@@ -1,0 +1,12 @@
+title: TCG_SetAnswer
+---
+<<declare $answer = "">>
+<<declare $response = "">>
+
+<<set $answer = GetAnswer()>>
+라플리: {$answer}
+<<set $response = GetResponse()>>
+미카엘: {$response}
+
+<<DialogueAfterTCG>>
+===

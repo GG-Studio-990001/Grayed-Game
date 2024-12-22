@@ -3224,8 +3224,9 @@ MonoBehaviour:
   _runner: {fileID: 696216669}
   _character: {fileID: 495576458}
   _tcgObject: {fileID: 1746762859}
-  _questionNumTxt: {fileID: 0}
-  _michaelBubble: {fileID: 1360221319}
+  _ch2Ui: {fileID: 206873124}
+  _michaelBubble: {fileID: 2113508330}
+  _michaelBubbleTxt: {fileID: 1360221319}
   _scoreTxt: {fileID: 579337079}
   _cards:
   - {fileID: 118156699}

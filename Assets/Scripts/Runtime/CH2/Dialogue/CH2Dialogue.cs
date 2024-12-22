@@ -3,6 +3,7 @@ using Runtime.CH2.Main;
 using Runtime.ETC;
 using System;
 using System.Collections;
+using System.Net;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -60,6 +61,9 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("SetTcgPack", SetTcgPack);
             _runner.AddCommandHandler("SetSuperArioPack", SetSuperArioPack);
             _runner.AddCommandHandler<int>("ChangeBGM", ChangeBGM);
+
+            // Yarn Spinner 함수 등록
+            _runner.AddCommandHandler("DialogueAfterTCG", _tcgController.DialogueAfterTCG);
             //_runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
