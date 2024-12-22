@@ -80,7 +80,7 @@ title: Turn0
 
     :방문을 알리는 종소리가 신전에 울려 퍼지자<br>작은 창을 내려 바깥을 확인한 미카엘이 문을 열고 나왔다.
 
-<<PlayBGM 4>>
+<<ChangeBGM 4>>
 <<PartnerAppear Michael>>
 미카엘: 오... 새로운 방문자?
 미카엘: 어떻게 알고 여기로 왔는지 모르겠지만, 미안하게 됐어.
@@ -109,12 +109,13 @@ title: Turn0
 // 장소: 골목길
 <<SetLocation Backstreet>>
 <<wait 2>>
-<<PlayBGM 1>>
+<<ChangeBGM>>
 
     :다시 광장으로 돌아가기 위해 골목길에 들어섰는데, 갑자기 누군가 튀어나와 부딪혔다. 
 
 // 대사창 없다가, 콰당! + 아파하는 기계음 sfx 출력하면서 같이 다음 대사 진행
 
+<<ChangeBGM 7>>
 <<PartnerAppear R2mon>>
 R2-Mon: 아야얏-! 머리가 비잉 비잉 돈 다아...
 R2-Mon: ... 잠깐 ... 
@@ -127,6 +128,7 @@ R2-Mon: 아무튼 무언가 만들어야 한다면 내 기지로 오세요!<br>�
 
     :R2-Mon이 달려가 버렸다.<br>이제 다시 골목길을 지나가도 될 것 같다.
 
+<<ChangeBGM>>
 // 장소: 광장
 <<SetLocation Square>>
 <<wait 2>>

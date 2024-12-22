@@ -59,7 +59,7 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
             _runner.AddCommandHandler("SetTcgPack", SetTcgPack);
             _runner.AddCommandHandler("SetSuperArioPack", SetSuperArioPack);
-            _runner.AddCommandHandler<int>("PlayBGM", PlayBGM);
+            _runner.AddCommandHandler<int>("ChangeBGM", ChangeBGM);
             //_runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
@@ -95,7 +95,7 @@ namespace Runtime.CH2.Dialogue
 
         #endregion
 
-        private void PlayBGM(int idx)
+        private void ChangeBGM(int idx = 1)
         {
             switch(idx)
             {
@@ -113,6 +113,12 @@ namespace Runtime.CH2.Dialogue
                     break;
                 case 5:
                     Managers.Sound.Play(Sound.BGM, "CH2/BGM_05_Faint");
+                    break;
+                case 6:
+                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_06_Micael's Riddle");
+                    break;
+                case 7:
+                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_07_R2IsComing");
                     break;
             }
         }
