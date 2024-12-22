@@ -1462,8 +1462,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _locationUI: {fileID: 1962123607}
-  _animationDuration: 0.5
-  _stayDuration: 2
   _offScreenPos: {x: 0, y: 0}
   _onScreenPos: {x: 0, y: 0}
 --- !u!1 &483775310
@@ -1949,7 +1947,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 369778fb84172b148bc41eb9862d93a7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bf48ba44439c337448d351ce34dc6acf, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -6602,7 +6600,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d1a52b8f3186fb74ebe59a683144c495, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2cdf66270e631cc4ea45c6ca564d8e74, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
