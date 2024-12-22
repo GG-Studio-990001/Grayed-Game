@@ -6,7 +6,9 @@ title: TCG_SetAnswer
 <<set $answer = GetAnswer()>>
 라플리: {$answer}
 <<set $response = GetResponse()>>
+<<ShowScore>>
 미카엘: {$response}
 
+<<HideScore>>
 <<DialogueAfterTCG>>
 ===

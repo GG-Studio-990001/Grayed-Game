@@ -64,6 +64,8 @@ namespace Runtime.CH2.Dialogue
 
             // Yarn Spinner 함수 등록
             _runner.AddCommandHandler("DialogueAfterTCG", _tcgController.DialogueAfterTCG);
+            _runner.AddCommandHandler("ShowScore", _tcgController.ShowScore);
+            _runner.AddCommandHandler("HideScore", _tcgController.HideScore);
             //_runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }

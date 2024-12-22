@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.Linq;
 using Yarn.Unity;
 using Runtime.ETC;
+using DG.Tweening;
 
 namespace Runtime.CH2.Main
 {
@@ -16,17 +17,22 @@ namespace Runtime.CH2.Main
         [SerializeField] private GameObject _tcgObject;
         [Header("=TCG=")]
         [SerializeField] private GameObject _ch2Ui;
+        [SerializeField] private GameObject _michael;
         [SerializeField] private GameObject _michaelBubble; // 미카엘 버블
         [SerializeField] private TextMeshProUGUI _michaelBubbleTxt; // 미카엘 대화창 텍스트
         [SerializeField] private TextMeshProUGUI _scoreTxt; // 호감도 텍스트
         [SerializeField] private GameObject[] _cards = new GameObject[4]; // 답변 카드
         [SerializeField] private TextMeshProUGUI[] _cardsTxt = new TextMeshProUGUI[4]; // 답변 카드 텍스트
-
+        [Header("=ScoreBoard=")]
+        [SerializeField] private GameObject _scoreBoard;
+        [SerializeField] private Slider _scoreSlider;
+        [SerializeField] private RectTransform _heart;
         private List<Dictionary<string, object>> _responses = new(); // 캐릭터 반응 파일
         private List<Dictionary<string, object>> _scores = new(); // 호감도 점수 파일
         private int _currentQuestionIndex = 0; // 현재 질문 인덱스
         private int _currentScore = 0; // 현재 호감도 점수
         private readonly List<int> _usedAnswers = new(); // 사용된 답변 인덱스 기록
+        private int _scoreChange;
 
         private void Start()
         {
@@ -38,28 +44,41 @@ namespace Runtime.CH2.Main
         #region Dialogue
         public void StartTcg()
         {
-            ActiveTcgUi(true);
+            ActiveCh2Ui(false);
+
+            // _michael을 중앙으로 이동
+            _michael.transform.DOLocalMove(new Vector3(38.9999886f, -70f, 0f), 1f).SetEase(Ease.InOutQuad)
+                .OnComplete(() =>
+                {
+                    ActiveTcgUi(true);
+                });
+
             ShowQuestion();
         }
 
         private void EndTcg()
         {
-            // 호감도 UI를 잠시 보여준 뒤 종료
-            Invoke(nameof(DeactivateTcgUi), 3f);
+            ActiveTcgUi(false);
+
+            // _michael을 오른쪽으로 이동
+            _michael.transform.DOLocalMove(new Vector3(355f, -70f, 0f), 1f).SetEase(Ease.InOutQuad)
+                .OnComplete(() =>
+                {
+                    ActiveCh2Ui(true);
+                    AnswerDialogue();
+                });
+        }
+
+        private void ActiveCh2Ui(bool active)
+        {
+            _ch2Ui.SetActive(active);
+            _character.SetActive(active);
         }
 
         private void ActiveTcgUi(bool active)
         {
-            _ch2Ui.SetActive(!active);
-            _character.SetActive(!active);
             _tcgObject.SetActive(active);
             _michaelBubble.SetActive(active);
-        }
-
-        private void DeactivateTcgUi()
-        {
-            ActiveTcgUi(false);
-            AnswerDialogue();
         }
 
         private void AnswerDialogue()
@@ -72,6 +91,36 @@ namespace Runtime.CH2.Main
             _runner.Stop();
             _runner.StartDialogue($"AfterTcg{_currentQuestionIndex}");
             _currentQuestionIndex++;
+        }
+
+        public void ShowScore()
+        {
+            _scoreBoard.SetActive(true);
+
+            // 새로운 점수 계산
+            float newScore = Mathf.Clamp(_currentScore + _scoreChange, 0, 100);
+
+            // 슬라이더 값을 1초 동안 변화
+            _scoreSlider.DOValue(newScore / 100, 1f).SetEase(Ease.InOutQuad);
+
+            // _currentScore 업데이트
+            _currentScore = (int)newScore;
+            Debug.Log($"현재 점수: {_currentScore}");
+
+            HeartAnim();
+        }
+
+        private void HeartAnim()
+        {
+            // 심장 뛰는 애니메이션
+            _heart.DOScale(1.2f, 0.3f) // 1.25배로 키움
+                .SetEase(Ease.InOutBack)
+                .SetLoops(8, LoopType.Yoyo);   // 2번 반복하며 원래 크기로 돌아감
+        }
+
+        public void HideScore()
+        {
+            _scoreBoard.SetActive(false);
         }
         #endregion
 
@@ -140,10 +189,8 @@ namespace Runtime.CH2.Main
             string scoreValue = _scores[answerIndex][_responses[0].Keys.ToArray()[questionIndex + 1]].ToString();
 
             // 점수 처리
-            int.TryParse(scoreValue, out int scoreChange);
-            _currentScore = Mathf.Clamp(_currentScore + scoreChange, 0, int.MaxValue);
-            _scoreTxt.text = $"+{scoreChange}";
-            Debug.Log($"현재 점수: {_currentScore}");
+            int.TryParse(scoreValue, out _scoreChange);
+            _scoreTxt.text = $"+{_scoreChange}";
 
             // 미카엘 대화창 비활성화 / TODO: 호감도 띄우기
             _michaelBubble.SetActive(false);
@@ -163,8 +210,8 @@ namespace Runtime.CH2.Main
             // 사용된 답변 기록
             _usedAnswers.Add(answerIndex);
 
-            Debug.Log($"선택된 답변: {answer}, 반응: {response}, 점수 변화: {scoreChange}");
-            Invoke(nameof(EndTcg), 1f);
+            Debug.Log($"선택된 답변: {answer}, 반응: {response}, 점수 변화: {_scoreChange}");
+            Invoke(nameof(EndTcg), 2f);
         }
         #endregion
 
