@@ -1,6 +1,7 @@
 using Runtime.CH2.Dialogue;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Yarn.Unity;
 
 namespace Runtime.CH2.Main
@@ -14,7 +15,12 @@ namespace Runtime.CH2.Main
         [SerializeField] private TextMeshProUGUI _lineTxt;
         [SerializeField] private GameObject _skipPanel;
         [SerializeField] private GameObject _continueBtn;
+        [SerializeField] private Image _hideImg;
+        [SerializeField] private Sprite[] _hideSpr;
+        [SerializeField] private Image _autoImg;
+        [SerializeField] private Sprite[] _autoSpr;
         private bool _isHidingUI = false;
+        private bool _isAutoAdvanced = false;
         // TODO: CH2Dialogue와 겹치는 변수는 직접 가져오기?
 
         private void OnContinueClicked()
@@ -47,6 +53,7 @@ namespace Runtime.CH2.Main
             }
 
             _isHidingUI = !_isHidingUI;
+            SetHideUISprite(_isHidingUI);
 
             foreach (GameObject ui in _uis)
                 ui.SetActive(!_isHidingUI);
@@ -57,8 +64,21 @@ namespace Runtime.CH2.Main
             if (!_runner.IsDialogueRunning)
                 return;
 
-            _dialogue.AutoDialogueToggle();
+            _isAutoAdvanced = !_isAutoAdvanced;
+            SetAutoSprite(_isAutoAdvanced);
+
+            _dialogue.AutoDialogueToggle(_isAutoAdvanced);
             // 대사를 치고 1초 뒤에 다음 대사로 넘김
+        }
+
+        private void SetHideUISprite(bool isActive)
+        {
+            _hideImg.sprite = _hideSpr[isActive ? 1 : 0];
+        }
+
+        private void SetAutoSprite(bool isActive)
+        {
+            _autoImg.sprite = _autoSpr[isActive ? 1 : 0];
         }
         /*
         //TODO: _runner.IsDialogueRunning 말고 직접 다이얼로그 시작과 끝 설정

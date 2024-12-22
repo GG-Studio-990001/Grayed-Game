@@ -3,6 +3,7 @@ using Runtime.CH2.Main;
 using Runtime.ETC;
 using System;
 using System.Collections;
+using System.Net;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,12 +38,12 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _toBeContinued;
         [SerializeField] private GameObject _autoTxt;
         [SerializeField] private GameObject _continueBtn;
-        [SerializeField] private bool _isAutoAdvanced = false;
         [SerializeField] private GameObject[] _illerstrations = new GameObject[1];
         [SerializeField] private DialogueRunner _luckyDialogueRunner;
         [SerializeField] private GameObject _tcgPack;
         [SerializeField] private GameObject _SuperArioPack;
         private string _speaker;
+        private bool _isAutoAdvanced = false;
         private Coroutine _autoDialogueCoroutine;
 
         private void Awake()
@@ -59,7 +60,12 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
             _runner.AddCommandHandler("SetTcgPack", SetTcgPack);
             _runner.AddCommandHandler("SetSuperArioPack", SetSuperArioPack);
-            _runner.AddCommandHandler<int>("PlayBGM", PlayBGM);
+            _runner.AddCommandHandler<int>("ChangeBGM", ChangeBGM);
+
+            // Yarn Spinner 함수 등록
+            _runner.AddCommandHandler("DialogueAfterTCG", _tcgController.DialogueAfterTCG);
+            _runner.AddCommandHandler("ShowScore", _tcgController.ShowScore);
+            _runner.AddCommandHandler("HideScore", _tcgController.HideScore);
             //_runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
@@ -95,7 +101,7 @@ namespace Runtime.CH2.Dialogue
 
         #endregion
 
-        private void PlayBGM(int idx)
+        private void ChangeBGM(int idx = 1)
         {
             switch(idx)
             {
@@ -113,6 +119,12 @@ namespace Runtime.CH2.Dialogue
                     break;
                 case 5:
                     Managers.Sound.Play(Sound.BGM, "CH2/BGM_05_Faint");
+                    break;
+                case 6:
+                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_06_Micael's Riddle");
+                    break;
+                case 7:
+                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_07_R2IsComing");
                     break;
             }
         }
@@ -227,9 +239,9 @@ namespace Runtime.CH2.Dialogue
         }
 
         #region Auto Dialgue
-        public void AutoDialogueToggle()
+        public void AutoDialogueToggle(bool isAutoAdvanced)
         {
-            _isAutoAdvanced = !_isAutoAdvanced;
+            _isAutoAdvanced = isAutoAdvanced;
             _autoTxt.SetActive(_isAutoAdvanced);
 
             // 토글 켰을 때 대사가 다 출력된 상태라면 바로 자동진행 시작
