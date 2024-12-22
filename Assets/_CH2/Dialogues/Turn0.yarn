@@ -109,7 +109,7 @@ title: Turn0
 // 장소: 골목길
 <<SetLocation Backstreet>>
 <<wait 2>>
-<<ChangeBGM>>
+// <<ChangeBGM>> // 너무 잠깐이라 생략
 
     :다시 광장으로 돌아가기 위해 골목길에 들어섰는데, 갑자기 누군가 튀어나와 부딪혔다. 
 
