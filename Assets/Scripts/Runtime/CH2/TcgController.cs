@@ -23,27 +23,45 @@ namespace Runtime.CH2.Main
         [SerializeField] private TextMeshProUGUI _scoreTxt; // 호감도 텍스트
         [SerializeField] private GameObject[] _cards = new GameObject[4]; // 답변 카드
         [SerializeField] private TextMeshProUGUI[] _cardsTxt = new TextMeshProUGUI[4]; // 답변 카드 텍스트
+        [SerializeField] private GameObject _cardBack;
+        [SerializeField] private CanvasGroup _cardsCanvasGroup;
         [Header("=ScoreBoard=")]
         [SerializeField] private GameObject _scoreBoard;
         [SerializeField] private Slider _scoreSlider;
         [SerializeField] private RectTransform _heart;
+        private Vector3[] _cardInitialPositions; // 카드의 초기 위치를 저장
+        private Vector3 _cardBackInitialPosition; // 카드 뒷면의 초기 위치
         private List<Dictionary<string, object>> _responses = new(); // 캐릭터 반응 파일
         private List<Dictionary<string, object>> _scores = new(); // 호감도 점수 파일
         private int _currentQuestionIndex = 0; // 현재 질문 인덱스
         private int _currentScore = 0; // 현재 호감도 점수
         private readonly List<int> _usedAnswers = new(); // 사용된 답변 인덱스 기록
         private int _scoreChange;
+        public bool IsCardSelected { get; private set; }
 
         private void Start()
         {
             // 데이터 로드
             _responses = CSVReader.Read("Tcg - Responses");
             _scores = CSVReader.Read("Tcg - Scores");
+
+            // 카드 초기 위치 저장
+            _cardInitialPositions = new Vector3[_cards.Length];
+            for (int i = 0; i < _cards.Length; i++)
+            {
+                _cardInitialPositions[i] = _cards[i].transform.localPosition;
+            }
+
+            if (_cardBack != null)
+            {
+                _cardBackInitialPosition = _cardBack.transform.localPosition;
+            }
         }
 
         #region Dialogue
         public void StartTcg()
         {
+            ResetCardPositions();
             ActiveCh2Ui(false);
 
             // _michael을 중앙으로 이동
@@ -51,6 +69,7 @@ namespace Runtime.CH2.Main
                 .OnComplete(() =>
                 {
                     ActiveTcgUi(true);
+                    MoveCardsUp();
                 });
 
             ShowQuestion();
@@ -122,6 +141,57 @@ namespace Runtime.CH2.Main
         {
             _scoreBoard.SetActive(false);
         }
+
+        private void ResetCardPositions()
+        {
+            IsCardSelected = false;
+
+            _cardsCanvasGroup.alpha = 1f;
+
+            for (int i = 0; i < _cards.Length; i++)
+            {
+                _cards[i].transform.localPosition = _cardInitialPositions[i];
+            }
+
+            if (_cardBack != null)
+            {
+                _cardBack.transform.localPosition = _cardBackInitialPosition;
+            }
+        }
+
+        private void MoveCardsUp()
+        {
+            foreach (var card in _cards)
+            {
+                Vector3 targetPosition = card.transform.localPosition + new Vector3(0, 300, 0);
+                card.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.OutQuad);
+            }
+
+            // 카드 뒷면도 Y축으로 300만큼 올라감
+            if (_cardBack != null)
+            {
+                Vector3 targetPosition = _cardBack.transform.localPosition + new Vector3(0, 300, 0);
+                _cardBack.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.OutQuad);
+            }
+        }
+
+        private void MoveCardsDown()
+        {
+            foreach (var card in _cards)
+            {
+                // 카드 앞면의 현재 위치에서 Y축으로 300만큼 내려감
+                Vector3 targetPosition = card.transform.localPosition - new Vector3(0, 300, 0);
+                card.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.InQuad);
+            }
+
+            // 카드 뒷면도 Y축으로 300만큼 내려감
+            if (_cardBack != null)
+            {
+                Vector3 targetPosition = _cardBack.transform.localPosition - new Vector3(0, 300, 0);
+                _cardBack.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.InQuad);
+            }
+        }
+
         #endregion
 
         #region TCG
@@ -183,6 +253,11 @@ namespace Runtime.CH2.Main
 
         private void OnAnswerSelected(int questionIndex, int answerIndex)
         {
+            if (IsCardSelected)
+                return;
+
+            IsCardSelected = true;
+
             // 선택된 답변 및 반응, 점수 가져오기
             string answer = _responses[answerIndex][""].ToString();
             string response = _responses[answerIndex][_responses[0].Keys.ToArray()[questionIndex + 1]].ToString();
@@ -192,27 +267,55 @@ namespace Runtime.CH2.Main
             int.TryParse(scoreValue, out _scoreChange);
             _scoreTxt.text = $"+{_scoreChange}";
 
-            // 미카엘 대화창 비활성화 / TODO: 호감도 띄우기
+            // 미카엘 대화창 비활성화
             _michaelBubble.SetActive(false);
 
-            // 답변 카드 비활성화
+            // 선택되지 않은 카드와 _cardBack 처리
+            Sequence cardsSequence = DOTween.Sequence();
             for (int i = 0; i < _cards.Length; i++)
             {
-                var button = _cards[i].GetComponent<Button>();
-                button.interactable = false;
-
                 if (_cardsTxt[i].text != answer)
                 {
-                    _cards[i].SetActive(false);
+                    // 선택되지 않은 카드는 아래로 이동
+                    Vector3 downPosition = _cards[i].transform.localPosition - new Vector3(0, 300, 0);
+                    cardsSequence.Join(_cards[i].transform.DOLocalMove(downPosition, 1f).SetEase(Ease.InQuad));
                 }
             }
+
+            if (_cardBack != null)
+            {
+                // _cardBack도 아래로 이동
+                Vector3 cardBackDownPosition = _cardBack.transform.localPosition - new Vector3(0, 300, 0);
+                cardsSequence.Join(_cardBack.transform.DOLocalMove(cardBackDownPosition, 1f).SetEase(Ease.InQuad));
+            }
+
+            // 선택된 카드 처리 (선택되지 않은 카드가 모두 내려간 후 시작)
+            cardsSequence.OnComplete(() =>
+            {
+                for (int i = 0; i < _cards.Length; i++)
+                {
+                    if (_cardsTxt[i].text == answer)
+                    {
+                        // 선택된 카드의 x값만 0으로 설정하고 이동
+                        Vector3 centerPosition = _cards[i].transform.localPosition;
+                        centerPosition.x = 0; // x값만 0으로 변경
+                        _cards[i].transform.DOLocalMove(centerPosition, 1f).SetEase(Ease.OutQuad)
+                            .OnComplete(() =>
+                            {
+                                // 이동 후 부모의 투명도 0으로 줄임
+                                _cardsCanvasGroup.DOFade(0f, 1f);
+                            });
+                    }
+                }
+            });
 
             // 사용된 답변 기록
             _usedAnswers.Add(answerIndex);
 
             Debug.Log($"선택된 답변: {answer}, 반응: {response}, 점수 변화: {_scoreChange}");
-            Invoke(nameof(EndTcg), 2f);
+            Invoke(nameof(EndTcg), 3f); // 애니메이션이 끝난 후 진행
         }
+
         #endregion
 
         #region Yarn Functions
