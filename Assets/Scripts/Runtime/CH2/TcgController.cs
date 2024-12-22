@@ -77,7 +77,7 @@ namespace Runtime.CH2.Main
             // 질문 표시
             if (_currentQuestionIndex < _responses[0].Count - 1) // 질문이 남아있으면
             {
-                UpdateQuestionIndexUI();
+                Debug.Log($"{_currentQuestionIndex + 1}번 질문");
                 DisplayQuestionAndAnswers(_currentQuestionIndex);
             }
             else
@@ -169,11 +169,6 @@ namespace Runtime.CH2.Main
         private void UpdateScoreUI()
         {
             _scoreTxt.text = $"호감도: {_currentScore}";
-        }
-
-        private void UpdateQuestionIndexUI()
-        {
-            _questionNumTxt.text = $"{_currentQuestionIndex + 1}번 질문";
         }
         #endregion
     }
