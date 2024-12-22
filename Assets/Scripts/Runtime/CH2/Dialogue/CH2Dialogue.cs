@@ -37,12 +37,12 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _toBeContinued;
         [SerializeField] private GameObject _autoTxt;
         [SerializeField] private GameObject _continueBtn;
-        [SerializeField] private bool _isAutoAdvanced = false;
         [SerializeField] private GameObject[] _illerstrations = new GameObject[1];
         [SerializeField] private DialogueRunner _luckyDialogueRunner;
         [SerializeField] private GameObject _tcgPack;
         [SerializeField] private GameObject _SuperArioPack;
         private string _speaker;
+        private bool _isAutoAdvanced = false;
         private Coroutine _autoDialogueCoroutine;
 
         private void Awake()
@@ -233,9 +233,9 @@ namespace Runtime.CH2.Dialogue
         }
 
         #region Auto Dialgue
-        public void AutoDialogueToggle()
+        public void AutoDialogueToggle(bool isAutoAdvanced)
         {
-            _isAutoAdvanced = !_isAutoAdvanced;
+            _isAutoAdvanced = isAutoAdvanced;
             _autoTxt.SetActive(_isAutoAdvanced);
 
             // 토글 켰을 때 대사가 다 출력된 상태라면 바로 자동진행 시작
