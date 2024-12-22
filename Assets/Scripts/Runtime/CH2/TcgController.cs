@@ -1,6 +1,7 @@
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Runtime.ETC;
 using System.Linq;
 using Yarn.Unity;
@@ -119,8 +120,10 @@ namespace Runtime.CH2.Main
                     // 버튼 클릭 이벤트 설정
                     int cardIndex = answerIndex; // 현재 카드의 실제 인덱스 저장
                     _cards[i].SetActive(true); // 답변 카드 활성화
-                    _cards[i].GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
-                    _cards[i].GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OnAnswerSelected(questionIndex, cardIndex));
+                    var button = _cards[i].GetComponent<Button>();
+                    button.interactable = true; // 버튼 활성화
+                    button.onClick.RemoveAllListeners();
+                    button.onClick.AddListener(() => OnAnswerSelected(questionIndex, cardIndex));
 
                     answerIndex++;
                 }
@@ -130,6 +133,7 @@ namespace Runtime.CH2.Main
                 }
             }
         }
+
 
         private void OnAnswerSelected(int questionIndex, int answerIndex)
         {
@@ -144,9 +148,13 @@ namespace Runtime.CH2.Main
             // 미카엘 대화창 업데이트
             _michaelBubble.text = response;
 
-            // 답변 카드 비활성화
+            // 답변 카드 비활성화 (연속 클릭 방지)
             for (int i = 0; i < _cards.Length; i++)
             {
+                var button = _cards[i].GetComponent<Button>();
+                button.interactable = false; // 버튼 비활성화
+
+                // 선택되지 않은 카드는 비활성화
                 if (_cardsTxt[i].text != answer)
                 {
                     _cards[i].SetActive(false);
@@ -158,7 +166,8 @@ namespace Runtime.CH2.Main
 
             // 점수 텍스트 업데이트
             _currentScore = Mathf.Clamp(_currentScore + scoreChange, 0, int.MaxValue);
-            UpdateScoreUI();
+            _scoreTxt.text = $"+{scoreChange}";
+            //UpdateScoreUI();
 
             // 디버그 출력
             Debug.Log($"선택된 답변: {answer}\n반응: {response} ({scoreChange})");
@@ -166,10 +175,10 @@ namespace Runtime.CH2.Main
             Invoke(nameof(EndTcg), 3f);
         }
 
-        private void UpdateScoreUI()
-        {
-            _scoreTxt.text = $"호감도: {_currentScore}";
-        }
+        //private void UpdateScoreUI()
+        //{
+        //    _scoreTxt.text = $"호감도: {_currentScore}";
+        //}
         #endregion
     }
 }
