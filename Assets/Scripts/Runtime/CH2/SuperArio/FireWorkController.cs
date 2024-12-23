@@ -35,6 +35,8 @@ namespace Runtime.CH2.SuperArio
 
         private IEnumerator FireworkSequence(int repeatCount)
         {
+            yield return new WaitForSeconds(1.5f);
+            
             for (int i = 0; i < repeatCount; i++)
             {
                 // 4개의 자식 오브젝트를 순환하면서 활성화
@@ -42,7 +44,7 @@ namespace Runtime.CH2.SuperArio
             
                 _fireworks[fireworkIndex].gameObject.SetActive(true);
             
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.5f);
             }
 
             yield return new WaitForSeconds(1f);
@@ -51,11 +53,13 @@ namespace Runtime.CH2.SuperArio
             {
                 firework.gameObject.SetActive(false);
             }
+            
+            // 보상방 이동
+            ArioManager.instance.EnterReward();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            Debug.Log("dd");
             if (other.TryGetComponent(out Ario ario))
             {
                 PlayFireworks();

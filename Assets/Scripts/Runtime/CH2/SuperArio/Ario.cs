@@ -131,6 +131,7 @@ namespace Runtime.CH2.SuperArio
             {
                 _animator.enabled = true;
                 _pipe.SetActive(false);
+                gameObject.SetActive(true);
             }
             else
             {
@@ -215,7 +216,7 @@ namespace Runtime.CH2.SuperArio
             }
         }
 
-        public IEnumerator RewardAnimation(Transform door)
+        public IEnumerator RewardEnterAnimation(Transform door)
         {
             // 바닥까지 이동
             yield return new WaitForSeconds(1f);
@@ -227,10 +228,6 @@ namespace Runtime.CH2.SuperArio
             yield return transform.DOMove(door.position, 1.5f).SetEase(Ease.Linear).WaitForCompletion();
             yield return new WaitForSeconds(1f);
             gameObject.SetActive(false);
-            
-            // 스테이지 초기화
-            // 폭죽
-            // 보상방 입장
         }
     }
 }

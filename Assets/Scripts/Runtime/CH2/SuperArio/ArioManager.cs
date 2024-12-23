@@ -29,23 +29,23 @@ namespace Runtime.CH2.SuperArio
 
         public Action<bool> OnPlay;
         public Action<bool> OnEnterStore;
-        public Action<bool> OnExitStore;
+        public Action<bool> OnEnterReward;
         public Action OpenStore;
-
-
+        
         [SerializeField] private ObstacleSpawnDataSet _dataSet;
         [SerializeField] private CinemachineVirtualCamera _storeCam;
+        [SerializeField] private CinemachineVirtualCamera _rewardCam;
         [SerializeField] private Ario _ario;
         [SerializeField] private ArioUIController _ui;
 
+        public string CurrentStage { get; private set; }
         public float GameSpeed { get; private set; }
         public bool IsPlay { get; private set; }
         public bool IsPause { get; private set; }
-        public bool HasItem { get; private set; }
-        public string CurrentStage { get; private set; }
-
-        public int CoinCnt { get; private set; }
         public bool IsStore { get; private set; }
+        public bool IsReward { get; private set; }
+        public bool HasItem { get; private set; }
+        public int CoinCnt { get; private set; }
         private ObstacleManager _obstacleManager;
 
         private void Start()
@@ -75,6 +75,24 @@ namespace Runtime.CH2.SuperArio
         public void ExitStore()
         {
             IsStore = false;
+            RestartSuperArio();
+        }
+
+        public void EnterReward()
+        {
+            _storeCam.Priority = 10;
+            _rewardCam.Priority = 12;
+            IsStore = false;
+            IsPlay = false;
+            OnPlay.Invoke(IsPlay);
+            
+            IsReward = true;
+            OnEnterReward.Invoke(IsReward);
+        }
+
+        public void ExitReward()
+        {
+            IsReward = false;
             RestartSuperArio();
         }
 
@@ -193,22 +211,13 @@ namespace Runtime.CH2.SuperArio
         public void TouchFlag()
         {
             IsPlay = false;
+            IsStore = false;
+            IsReward = true;
         }
 
         private void SpawnBuilding()
         {
-            Debug.Log("예아");
-            
-            // 1. 장애물 대신 깃발, 건물이 다가오게 하기
             _obstacleManager.CreateBuilding();
-            // 2. 깃발 닿으면 배경, 바닥 움직이는 것 멈춤 -> isPlay false, 연출 시작
-            //
-            // 3. 깃발 닿은 위치 계산 내려오고 건물로 자동 이동
-            //
-            // 5. 다음 스테이지
-            //IsPlay = false;
-            
-            //OnPlay.Invoke(IsPlay);
         }
 
         public string CalculateNextStage(string currentStage)

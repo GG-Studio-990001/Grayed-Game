@@ -8,10 +8,13 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private GameObject otherTrigger;
         [SerializeField] private Transform doorTr;
 
+        private bool _once;
+
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.TryGetComponent(out Ario ario))
+            if (other.TryGetComponent(out Ario ario) && !_once)
             {
+                _once = true;
                 otherTrigger.SetActive(false);
                 if (isTop)
                 {
@@ -20,7 +23,7 @@ namespace Runtime.CH2.SuperArio
                 
                 // isplay 멈춤
                 ArioManager.instance.TouchFlag();
-                StartCoroutine(ario.RewardAnimation(doorTr));
+                StartCoroutine(ario.RewardEnterAnimation(doorTr));
             }
         }
     }
