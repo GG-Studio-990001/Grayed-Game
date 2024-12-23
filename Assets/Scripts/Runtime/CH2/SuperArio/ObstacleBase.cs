@@ -21,13 +21,17 @@ namespace Runtime.CH2.SuperArio
 
         private void OnEnable()
         {
-            _coins.ForEach(x => x.RandomCoin());
             if (!_isChild)
                 transform.position = _startPos;
+            if (_coins.Count == 0)
+                return;
+            _coins.ForEach(x => x.RandomCoin());
         }
 
         private void OnDisable()
         {
+            if (_coins.Count == 0)
+                return;
             _coins.ForEach(x =>
             {
                 if(x.gameObject.activeSelf)

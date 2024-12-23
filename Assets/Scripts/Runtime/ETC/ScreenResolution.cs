@@ -10,11 +10,11 @@ namespace Runtime.ETC
         public int _windowedPPU;
         public int _fullScreenPPU;
 
-        //private readonly int _maxWidth = 1920;
-        //private readonly int _maxHeight = 1080;
+        private readonly int _maxWidth = 1920;
+        private readonly int _maxHeight = 1080;
 
-        //private readonly int _windowedWidth = 1280;
-        //private readonly int _windowedHeight = 720;
+        private readonly int _windowedWidth = 1280;
+        private readonly int _windowedHeight = 720;
 
         private bool _fullScreenFixed = false;
         private bool _windowedFixed = false;
@@ -44,7 +44,7 @@ namespace Runtime.ETC
                 {
                     _fullScreenFixed = true;
 
-                    //Screen.SetResolution(_maxWidth, _maxHeight, true);
+                    Screen.SetResolution(_maxWidth, _maxHeight, true);
                 }
             }
             else
@@ -59,7 +59,7 @@ namespace Runtime.ETC
                     if (_windowedFixed == false)
                     {
                         _windowedFixed = true;
-                        //Screen.SetResolution(_windowedWidth, _windowedHeight, false);
+                        Screen.SetResolution(_windowedWidth, _windowedHeight, false);
                     }
                 }
 

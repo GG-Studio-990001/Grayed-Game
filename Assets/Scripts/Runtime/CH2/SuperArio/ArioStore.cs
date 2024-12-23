@@ -48,9 +48,14 @@ namespace Runtime.CH2.SuperArio
 
         public void ExitStore()
         {
+            if (_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+                _coroutine = null;
+            }
+            
             _rb.isKinematic = true;
             transform.position = _initPos;
-            gameObject.SetActive(false);
             // 벽 복구
             foreach (StoreWall storeWall in _storeWalls)
             {
@@ -63,6 +68,7 @@ namespace Runtime.CH2.SuperArio
             }
             
             ArioManager.instance.ExitStore();
+            gameObject.SetActive(false);
         }
 
         private void FixedUpdate()
@@ -163,6 +169,8 @@ namespace Runtime.CH2.SuperArio
 
         private void OnCollisionExit2D(Collision2D other)
         {
+            if (!gameObject.activeInHierarchy) return;
+            
             if (other.gameObject.TryGetComponent(out StoreGround ground))
             {
                 _coroutine = StartCoroutine(GroundedBufferRoutine());
@@ -181,7 +189,10 @@ namespace Runtime.CH2.SuperArio
         private void OnDisable()
         {
             if(_coroutine != null)
+            {
                 StopCoroutine(_coroutine);
+                _coroutine = null;
+            }
         }
 
         private void OpenWalls()

@@ -14,6 +14,7 @@ namespace Runtime.CH2.SuperArio
         private int _obstacleTypeCnt = 3;
         private float _spawnDelay = 1.5f; // 스폰 간격 (기본값)
         private int _remainingSpawnCount = 20; // 남은 스폰 카운트
+        private GameObject _buildingObj;
 
         private void SetStageData(string stage, ObstacleSpawnDataSet dataSet)
         {
@@ -113,6 +114,12 @@ namespace Runtime.CH2.SuperArio
             copy.transform.SetParent(parent);
             copy.SetActive(false);
             return copy;
+        }
+
+        public void CreateBuilding()
+        {
+            _buildingObj = Instantiate(building);
+            _buildingObj.transform.SetParent(transform);
         }
 
         public void ChangeStage(string newStage, ObstacleSpawnDataSet dataSet)

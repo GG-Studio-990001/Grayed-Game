@@ -62,6 +62,8 @@ namespace Runtime.Common.Presentation
         {
             if (isOn)
             {
+                _settingsUIView.FullScreenToggle.SetIsOnWithoutNotify(true);
+                _settingsUIView.WindowScreenToggle.SetIsOnWithoutNotify(false);
                 _settingsUIView.FullScreenToggle.interactable = false;
                 _settingsUIView.WindowScreenToggle.isOn = false;
                 _settingsUIView.WindowScreenToggle.interactable = true;
@@ -74,6 +76,8 @@ namespace Runtime.Common.Presentation
         {
             if (isOn)
             {
+                _settingsUIView.FullScreenToggle.SetIsOnWithoutNotify(false);
+                _settingsUIView.WindowScreenToggle.SetIsOnWithoutNotify(true);
                 _settingsUIView.WindowScreenToggle.interactable = false;
                 _settingsUIView.FullScreenToggle.isOn = false;
                 _settingsUIView.FullScreenToggle.interactable = true;
