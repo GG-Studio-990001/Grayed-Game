@@ -44,7 +44,7 @@ namespace Runtime.CH2.SuperArio
         public bool HasItem { get; private set; }
         public string CurrentStage { get; private set; }
 
-        private int _coinCnt;
+        public int CoinCnt { get; private set; }
         public bool IsStore { get; private set; }
         private ObstacleManager _obstacleManager;
 
@@ -100,22 +100,22 @@ namespace Runtime.CH2.SuperArio
 
         public bool LifeCheck()
         {
-            if (_ario._life >= 3)
+            if (_ario.life >= 3)
                 return false;
             return true;
         }
 
         public void PlusLife()
         {
-            ChangeHeartUI(_ario._life + 1);
+            ChangeHeartUI(_ario.life + 1);
         }
 
         private void InitData()
         {
-            _ui.ChangeCoinText("RAPLEY\n" + _coinCnt);
+            _ui.ChangeCoinText("RAPLEY\n" + CoinCnt);
             _ui.ActiveRestartText(false);
             _ui.ChangeObstacleText(0);
-            if (_ario._life <= 1)
+            if (_ario.life <= 1)
                 ChangeHeartUI(1);
             IsPause = false; // 시작 시 입력 방지
             //HasItem = true; // 테스트 용 아이템 지급
@@ -135,13 +135,13 @@ namespace Runtime.CH2.SuperArio
             _ui.ChangeHeartUI(life);
             if (life == 0)
                 GameOver();
-            _ario._life = life;
+            _ario.life = life;
         }
 
         public void GetCoin()
         {
-            _coinCnt++;
-            _ui.ChangeCoinText("RAPLEY\n" + _coinCnt);
+            CoinCnt++;
+            _ui.ChangeCoinText("RAPLEY\n" + CoinCnt);
         }
         
         public void GetItem()
@@ -187,9 +187,12 @@ namespace Runtime.CH2.SuperArio
             else
             {
                 UpdateStage(nextStage); // 일반 스테이지 업데이트
-                IsPlay = true;
-                OnPlay.Invoke(IsPlay);
             }
+        }
+
+        public void TouchFlag()
+        {
+            IsPlay = false;
         }
 
         private void SpawnBuilding()
@@ -197,14 +200,15 @@ namespace Runtime.CH2.SuperArio
             Debug.Log("예아");
             
             // 1. 장애물 대신 깃발, 건물이 다가오게 하기
-            //
+            _obstacleManager.CreateBuilding();
             // 2. 깃발 닿으면 배경, 바닥 움직이는 것 멈춤 -> isPlay false, 연출 시작
             //
             // 3. 깃발 닿은 위치 계산 내려오고 건물로 자동 이동
             //
             // 5. 다음 스테이지
-            IsPlay = false;
-            OnPlay.Invoke(IsPlay);
+            //IsPlay = false;
+            
+            //OnPlay.Invoke(IsPlay);
         }
 
         public string CalculateNextStage(string currentStage)

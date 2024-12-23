@@ -2,6 +2,7 @@ using Runtime.ETC;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using DG.Tweening;
 
 namespace Runtime.CH2.SuperArio
 {
@@ -10,6 +11,7 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private float _jumpHeight;
         [SerializeField] private float _jumpSpeed;
         [SerializeField] private Sprite sitSprite;
+        public int life;
 
         private bool _isJump;
         private bool _isTop;
@@ -21,15 +23,14 @@ namespace Runtime.CH2.SuperArio
         private Sprite _initSprite;
         private GameObject _pipe;
 
-        public int _life;
         private bool _isInvincible = false; // 무적 상태 여부
         private float _invincibleDuration = 1.0f; // 무적 지속 시간
-        private float _blinkInterval = 0.1f; // 깜빡이는 간격
+        private float _jumpBufferTimeRemaining = 0f; // 남은 점프 대기 시간
         private Color _originalColor; // 원래 색상 저장
         
         // 점프 버퍼 관련 변수
-        private float _jumpBufferTime = 0.2f; // 점프 입력 대기 시간
-        private float _jumpBufferTimeRemaining = 0f; // 남은 점프 대기 시간
+        private readonly float _blinkInterval = 0.1f; // 깜빡이는 간격
+        private readonly float _jumpBufferTime = 0.2f; // 점프 입력 대기 시간
 
         private void Start()
         {
@@ -121,7 +122,6 @@ namespace Runtime.CH2.SuperArio
             }
         }
 
-
         private void InitData(bool isPlay)
         {
             transform.position = _startPos;
@@ -194,8 +194,8 @@ namespace Runtime.CH2.SuperArio
         {
             if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.instance.IsPlay && !_isInvincible)
             {
-                _life--;
-                ArioManager.instance.ChangeHeartUI(_life);
+                life--;
+                ArioManager.instance.ChangeHeartUI(life);
                 StartCoroutine(InvincibilityCoroutine());
             }
             else if (other.CompareTag(GlobalConst.CoinStr) && ArioManager.instance.IsPlay)
@@ -213,6 +213,24 @@ namespace Runtime.CH2.SuperArio
                 _isJump = true;
                 _jumpBufferTimeRemaining = 0f; // 점프 실행 후 버퍼를 리셋
             }
+        }
+
+        public IEnumerator RewardAnimation(Transform door)
+        {
+            // 바닥까지 이동
+            yield return new WaitForSeconds(1f);
+            float duration = Vector2.Distance(transform.position, _startPos) / 2f;
+            yield return transform.DOMove(_startPos, duration).SetEase(Ease.Linear).WaitForCompletion();
+            yield return new WaitForSeconds(1f);
+            
+            // 입구까지 이동
+            yield return transform.DOMove(door.position, 1.5f).SetEase(Ease.Linear).WaitForCompletion();
+            yield return new WaitForSeconds(1f);
+            gameObject.SetActive(false);
+            
+            // 스테이지 초기화
+            // 폭죽
+            // 보상방 입장
         }
     }
 }

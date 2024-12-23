@@ -693,7 +693,7 @@ Transform:
   m_GameObject: {fileID: 87311203}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.4810002, y: -0.9, z: 0}
+  m_LocalPosition: {x: -3.1000001, y: -0.9, z: 0}
   m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -715,7 +715,7 @@ MonoBehaviour:
   _jumpHeight: 1
   _jumpSpeed: 7
   sitSprite: {fileID: 1441689112, guid: 646b6d960c3f85d428eb30e7d9e5caa4, type: 3}
-  _life: 1
+  life: 0
 --- !u!1 &93829310
 GameObject:
   m_ObjectHideFlags: 0
@@ -1876,7 +1876,7 @@ MonoBehaviour:
   - {fileID: 4802087884916030990, guid: 0f299cf751568474290946e80dfc5013, type: 3}
   - {fileID: 4802087884916030990, guid: 5ec46e19a4374f549b39f6e4b5ab4308, type: 3}
   - {fileID: 4802087884916030990, guid: 055ccda31fc00814b810cff8d85e3fe4, type: 3}
-  building: {fileID: 0}
+  building: {fileID: 8845514182808340542, guid: 3b78baa7336ce824b8990cc3418f9e88, type: 3}
 --- !u!114 &310571481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3060,7 +3060,7 @@ Transform:
   m_GameObject: {fileID: 759164875}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.341, y: -0.76, z: 0}
+  m_LocalPosition: {x: -3.96, y: -0.76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
