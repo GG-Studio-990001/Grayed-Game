@@ -110,16 +110,20 @@ namespace Runtime.CH2.SuperArio
 
         private GameObject CreateObj(GameObject obj, Transform parent)
         {
-            GameObject copy = Instantiate(obj);
-            copy.transform.SetParent(parent);
+            GameObject copy = Instantiate(obj, parent);
             copy.SetActive(false);
             return copy;
         }
 
         public void CreateBuilding()
         {
-            _buildingObj = Instantiate(building);
-            _buildingObj.transform.SetParent(transform);
+            _buildingObj = Instantiate(building, transform);
+        }
+
+        public void DeleteBuilding()
+        {
+            Destroy(_buildingObj);
+            _buildingObj = null;
         }
 
         public void ChangeStage(string newStage, ObstacleSpawnDataSet dataSet)

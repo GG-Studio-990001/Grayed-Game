@@ -85,6 +85,7 @@ namespace Runtime.CH2.SuperArio
             IsStore = false;
             IsPlay = false;
             OnPlay.Invoke(IsPlay);
+            _obstacleManager.DeleteBuilding();
             
             IsReward = true;
             OnEnterReward.Invoke(IsReward);
@@ -92,6 +93,7 @@ namespace Runtime.CH2.SuperArio
 
         public void ExitReward()
         {
+            _rewardCam.Priority = 10;
             IsReward = false;
             RestartSuperArio();
         }
