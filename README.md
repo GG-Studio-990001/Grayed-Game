@@ -18,19 +18,19 @@ X (구 트위터): https://x.com/GrayedGame
 
 ## 팀원
 
+- [GG STUDIO 팀원 모집](https://spotty-paradox-c26.notion.site/GG-STUDIO-Grayed-Game-73066b3d217c4b4d802c0ae04b7495f3)
+
 ### 현재 함께하는 팀원
 
 | 이름 | 포지션 | 작업 기간 |
 |--------|--------|--------|
 | [이정안](https://github.com/fkdl0048) | 팀장, 디렉터 | 23-09 ~ |
 | [정우연](https://github.com/wooyn730) | PM, 프로그래머 | 23-09 ~ |
-| [남현정](https://github.com/jeongopo) | 프로그래머 | 24-03 ~ |
 | [이시원](https://github.com/NearthYou) | 프로그래머 | 24-10 ~ |
 | [한수빈](https://github.com/roweclaw) | 기획 | 24-03 ~ |
 | [지수민](https://github.com/Sumindd) | 기획 | 24-03 ~ |
 | [송기화](https://github.com/Songkihwa) | 사운드 | 23-09 ~ |
 | [김지은](https://github.com/JIJI037) | 아트 | 24-08 ~ |
-| [김보민](https://github.com/vprwolf) | 아트 | 24-08 ~ |
 
 <details><summary>명예의 전당</summary>
 <p>
@@ -41,6 +41,8 @@ X (구 트위터): https://x.com/GrayedGame
 | [송세화](https://github.com/yanggang3) | 아트 | 23-09 ~ 24-03 |
 | [서민지](https://github.com/royalbluesm) | 아트 | 23-09 ~ 24-08 |
 | [유이우](https://github.com/gomgom172) | 아트 | 24-03 ~ 24-08 |
+| [김보민](https://github.com/vprwolf) | 아트 | 24-08 ~ 24-12 |
+| [남현정](https://github.com/jeongopo) | 프로그래머 | 24-03 ~ 24-12 |
 
 </p>
 </details> 
