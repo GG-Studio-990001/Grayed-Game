@@ -148,7 +148,6 @@ R2-Mon: 혹시 휴먼이 나랑 같이 가주면 안 될까요?
 R2-Mon: 어차피 벌써 출구니까, 일단 밖으로 나가서 차차 고민해요!
 
 <<PartnerOut>>
-<<ChangeBGM>>
 
 // 장소: 달러 동상
 <<SetLocation Statue>>

@@ -288,7 +288,7 @@ namespace Runtime.CH2.Main
 
             // 점수 처리
             int.TryParse(scoreValue, out _scoreChange);
-            _scoreTxt.text = $"+{_scoreChange}";
+            _scoreTxt.text = $"{(_scoreChange >= 0 ? "+" : "")}{_scoreChange}";
 
             // 사용된 답변 기록
             _usedAnswers.Add(answerIndex);
