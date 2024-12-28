@@ -18,7 +18,7 @@ namespace Runtime.CH2.Main
         [Header("=TCG=")]
         [SerializeField] private GameObject _ch2Ui;
         [SerializeField] private GameObject _michael;
-        [SerializeField] private GameObject _michaelBubble; // 미카엘 버블
+        [SerializeField] private CanvasGroup _michaelBubble; // 미카엘 버블
         [SerializeField] private TextMeshProUGUI _michaelBubbleTxt; // 미카엘 대화창 텍스트
         [SerializeField] private TextMeshProUGUI _scoreTxt; // 호감도 텍스트
         [SerializeField] private GameObject[] _cards = new GameObject[4]; // 답변 카드
@@ -98,8 +98,12 @@ namespace Runtime.CH2.Main
 
         private void ActiveTcgUi(bool active)
         {
+            if (active)
+            {
+                _michaelBubble.gameObject.SetActive(true);
+                _michaelBubble.DOFade(1f, 0.5f);
+            }
             _tcgObject.SetActive(active);
-            _michaelBubble.SetActive(active);
         }
 
         private void AnswerDialogue()
@@ -274,8 +278,11 @@ namespace Runtime.CH2.Main
 
             Debug.Log($"선택된 답변: {answer}, 반응: {response}, 점수 변화: {_scoreChange}");
 
-            // 미카엘 대화창 비활성화
-            _michaelBubble.SetActive(false);
+            // 미카엘 대화창 페이드 아웃
+            _michaelBubble.DOFade(0f, 0.5f).OnComplete(() =>
+            {
+                _michaelBubble.gameObject.SetActive(false);
+            });
 
             // 선택되지 않은 카드와 _cardBack 처리
             Sequence cardsSequence = DOTween.Sequence();

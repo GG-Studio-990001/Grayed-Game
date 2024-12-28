@@ -3272,7 +3272,7 @@ MonoBehaviour:
   _tcgObject: {fileID: 1746762859}
   _ch2Ui: {fileID: 206873124}
   _michael: {fileID: 857216131}
-  _michaelBubble: {fileID: 2113508330}
+  _michaelBubble: {fileID: 2113508334}
   _michaelBubbleTxt: {fileID: 1360221319}
   _scoreTxt: {fileID: 579337079}
   _cards:
@@ -8422,13 +8422,14 @@ GameObject:
   - component: {fileID: 2113508331}
   - component: {fileID: 2113508333}
   - component: {fileID: 2113508332}
+  - component: {fileID: 2113508334}
   m_Layer: 5
   m_Name: MichaelBubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2113508331
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8487,6 +8488,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2113508330}
   m_CullTransparentMesh: 1
+--- !u!225 &2113508334
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113508330}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2138864455
 GameObject:
   m_ObjectHideFlags: 0
