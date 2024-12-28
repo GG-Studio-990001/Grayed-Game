@@ -77,12 +77,14 @@ namespace Runtime.CH2.Main
 
         private void EndTcg()
         {
-            ActiveTcgUi(false);
+            // 카드 페이드 아웃
+            _cardsCanvasGroup.DOFade(0f, 1f);
 
-            // _michael을 오른쪽으로 이동
+            // _michael 오른쪽으로 이동
             _michael.transform.DOLocalMove(new Vector3(355f, -70f, 0f), 1f).SetEase(Ease.InOutQuad)
                 .OnComplete(() =>
                 {
+                    ActiveTcgUi(false);
                     ActiveCh2Ui(true);
                     AnswerDialogue();
                 });
@@ -205,12 +207,12 @@ namespace Runtime.CH2.Main
             {
                 // 질문이 끝났을 경우
                 _michaelBubbleTxt.text = "(질문 끝)";
-                foreach (var card in _cards)
-                {
-                    card.SetActive(false);
-                }
-                Debug.Log("게임 종료");
-                EndTcg();
+                //foreach (var card in _cards)
+                //{
+                //    card.SetActive(false);
+                //}
+                //Debug.Log("게임 종료");
+                //EndTcg();
             }
         }
 
@@ -267,6 +269,11 @@ namespace Runtime.CH2.Main
             int.TryParse(scoreValue, out _scoreChange);
             _scoreTxt.text = $"+{_scoreChange}";
 
+            // 사용된 답변 기록
+            _usedAnswers.Add(answerIndex);
+
+            Debug.Log($"선택된 답변: {answer}, 반응: {response}, 점수 변화: {_scoreChange}");
+
             // 미카엘 대화창 비활성화
             _michaelBubble.SetActive(false);
 
@@ -288,7 +295,7 @@ namespace Runtime.CH2.Main
                 Vector3 cardBackDownPosition = _cardBack.transform.localPosition - new Vector3(0, 300, 0);
                 cardsSequence.Join(_cardBack.transform.DOLocalMove(cardBackDownPosition, 1f).SetEase(Ease.InQuad));
             }
-
+            
             // 선택된 카드 처리 (선택되지 않은 카드가 모두 내려간 후 시작)
             cardsSequence.OnComplete(() =>
             {
@@ -302,18 +309,12 @@ namespace Runtime.CH2.Main
                         _cards[i].transform.DOLocalMove(centerPosition, 1f).SetEase(Ease.OutQuad)
                             .OnComplete(() =>
                             {
-                                // 이동 후 부모의 투명도 0으로 줄임
-                                _cardsCanvasGroup.DOFade(0f, 1f);
+                                EndTcg();
                             });
                     }
                 }
             });
 
-            // 사용된 답변 기록
-            _usedAnswers.Add(answerIndex);
-
-            Debug.Log($"선택된 답변: {answer}, 반응: {response}, 점수 변화: {_scoreChange}");
-            Invoke(nameof(EndTcg), 3f); // 애니메이션이 끝난 후 진행
         }
 
         #endregion
