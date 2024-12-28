@@ -35,13 +35,18 @@ namespace Runtime.CH2.Main
         private List<Dictionary<string, object>> _scores = new(); // 호감도 점수 파일
         private int _currentQuestionIndex = 0; // 현재 질문 인덱스
         private int _currentScore = 0; // 현재 호감도 점수
-        private readonly List<int> _usedAnswers = new(); // 사용된 답변 인덱스 기록
+        private List<int> _usedAnswers = new(); // 사용된 답변 인덱스 기록
         private int _scoreChange;
         public bool IsCardSelected { get; private set; }
 
         private void Start()
         {
             // 데이터 로드
+            _currentQuestionIndex = Managers.Data.CH2.TcgNum;
+            _currentScore = Managers.Data.CH2.TcgScore;
+            _usedAnswers = Managers.Data.CH2.UsedTcgAnswers;
+
+            // CSV 읽어오기
             _responses = CSVReader.Read("Tcg - Responses");
             _scores = CSVReader.Read("Tcg - Scores");
 
@@ -109,6 +114,7 @@ namespace Runtime.CH2.Main
         private void AnswerDialogue()
         {
             _runner.StartDialogue("TCG_SetAnswer");
+            Managers.Data.SaveGame();
         }
 
         public void DialogueAfterTCG()
@@ -116,6 +122,7 @@ namespace Runtime.CH2.Main
             _runner.Stop();
             _runner.StartDialogue($"AfterTcg{_currentQuestionIndex}");
             _currentQuestionIndex++;
+            Managers.Data.CH2.TcgNum = _currentQuestionIndex;
         }
 
         public void ShowScore()
@@ -130,6 +137,7 @@ namespace Runtime.CH2.Main
 
             // _currentScore 업데이트
             _currentScore = (int)newScore;
+            Managers.Data.CH2.TcgScore = _currentScore;
             Debug.Log($"현재 점수: {_currentScore}");
 
             HeartAnim();
@@ -275,6 +283,7 @@ namespace Runtime.CH2.Main
 
             // 사용된 답변 기록
             _usedAnswers.Add(answerIndex);
+            Managers.Data.CH2.UsedTcgAnswers = _usedAnswers;
 
             Debug.Log($"선택된 답변: {answer}, 반응: {response}, 점수 변화: {_scoreChange}");
 

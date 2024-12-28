@@ -98,7 +98,7 @@ namespace Runtime.InGameSystem
             // 이미 틀고 있는 브금 또 틀기 방지
             if (type == Sound.BGM || type == Sound.LuckyBGM)
             {
-                if (_currentBGM == audioClip)
+                if (_currentBGM == audioClip && BGM.isPlaying)
                 {
                     Debug.Log("IsPlaying");
                     return false;

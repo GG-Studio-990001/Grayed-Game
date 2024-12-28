@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Runtime.Data
 {
@@ -7,13 +8,19 @@ namespace Runtime.Data
     {
         public int Turn;
         public string Location;
-        public bool IsSpecialDialogue;
+        public int TcgNum;
+        public int TcgScore;
+        public List<int> UsedTcgAnswers;
 
         public CH2Data()
         {
+            // 비주얼 노벨
             Turn = 0;
             Location = "";
-            IsSpecialDialogue = false;
+            // TCG
+            TcgNum = 0;
+            TcgScore = 0;
+            UsedTcgAnswers = new List<int>();
         }
     }
 }

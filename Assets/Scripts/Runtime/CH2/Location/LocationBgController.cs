@@ -23,7 +23,7 @@ namespace Runtime.CH2.Location
             { "InTemple", "신전 내부" },
             { "TempleRoom", "신전 방" },
             { "Backstreet", "골목길" },
-            { "DallorHouse", "달러의 집" },
+            { "DollarHouse", "달러의 집" },
             { "Passage", "통로" },
             { "InStatue", "달러 동상 안" },
             { "StatueCrack", "달러 동상 틈" }
@@ -42,7 +42,7 @@ namespace Runtime.CH2.Location
             { "InTemple", 8 },
             { "TempleRoom", 9 },     // 신전 방
             { "Backstreet", 10 },      // 골목길
-            { "DallorHouse", 11 },    // 달러의 집
+            { "DollarHouse", 11 },    // 달러의 집
             { "Passage", 12 },        // 통로
             { "InStatue", 13 },      // 달러 동상 내부
             { "StatueCrack", 14 }     // 달러 동상 틈새

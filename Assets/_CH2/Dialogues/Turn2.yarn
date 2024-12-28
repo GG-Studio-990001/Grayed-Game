@@ -185,6 +185,6 @@ R2-Mon: 어디서 다른 열쇠를 가지고 올 수도 없을테고...<br>어�
 
 // UI 숨김 기믹으로 R2-Mon뒤의 게임팩 발견 후 스테이지1로 접속
 <<SetSuperArioPack>>
-// <<DialogueFin>>
-// <<NextTurn>>
+<<DialogueFin>>
+<<NextTurn>>
 ===
