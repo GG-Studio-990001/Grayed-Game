@@ -94,7 +94,7 @@ namespace Runtime.CH2.Dialogue
                 StandingHighlight(0);
             else if (_speaker.Equals(""))
                 StandingHighlight(2);
-            else
+            else // TODO: NPC 여러명일 때 처리
                 StandingHighlight(1);
 
             onDialogueLineFinished();
