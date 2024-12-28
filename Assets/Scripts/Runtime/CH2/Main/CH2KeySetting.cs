@@ -15,8 +15,6 @@ namespace Runtime.CH2.Main
         [SerializeField] private TextMeshProUGUI _lineTxt;
         [SerializeField] private GameObject _skipPanel;
         [SerializeField] private GameObject _continueBtn;
-        [SerializeField] private Image _hideImg;
-        [SerializeField] private Sprite[] _hideSpr;
         [SerializeField] private Image _autoImg;
         [SerializeField] private Sprite[] _autoSpr;
         private bool _isHidingUI = false;
@@ -53,7 +51,6 @@ namespace Runtime.CH2.Main
             }
 
             _isHidingUI = !_isHidingUI;
-            SetHideUISprite(_isHidingUI);
 
             foreach (GameObject ui in _uis)
                 ui.SetActive(!_isHidingUI);
@@ -69,11 +66,6 @@ namespace Runtime.CH2.Main
 
             _dialogue.AutoDialogueToggle(_isAutoAdvanced);
             // 대사를 치고 1초 뒤에 다음 대사로 넘김
-        }
-
-        private void SetHideUISprite(bool isActive)
-        {
-            _hideImg.sprite = _hideSpr[isActive ? 1 : 0];
         }
 
         private void SetAutoSprite(bool isActive)

@@ -1,5 +1,4 @@
 using UnityEngine;
-using Sound = Runtime.ETC.Sound;
 
 namespace Runtime.CH2.Main
 {
@@ -9,9 +8,9 @@ namespace Runtime.CH2.Main
 
         private void Start()
         {
-            Managers.Sound.Play(Sound.BGM, "CH2/BGM_01_Normal");
+            if (Managers.Data.Chapter == 1)
+                Managers.Data.Chapter = 2;
 
-            // TODO: 슈아브 다녀온 후 처리
             _turnController.GetInitialLocation();
         }
     }

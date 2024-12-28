@@ -18,7 +18,7 @@ namespace Runtime.CH2.Main
         [Header("=TCG=")]
         [SerializeField] private GameObject _ch2Ui;
         [SerializeField] private GameObject _michael;
-        [SerializeField] private GameObject _michaelBubble; // 미카엘 버블
+        [SerializeField] private CanvasGroup _michaelBubble; // 미카엘 버블
         [SerializeField] private TextMeshProUGUI _michaelBubbleTxt; // 미카엘 대화창 텍스트
         [SerializeField] private TextMeshProUGUI _scoreTxt; // 호감도 텍스트
         [SerializeField] private GameObject[] _cards = new GameObject[4]; // 답변 카드
@@ -35,13 +35,18 @@ namespace Runtime.CH2.Main
         private List<Dictionary<string, object>> _scores = new(); // 호감도 점수 파일
         private int _currentQuestionIndex = 0; // 현재 질문 인덱스
         private int _currentScore = 0; // 현재 호감도 점수
-        private readonly List<int> _usedAnswers = new(); // 사용된 답변 인덱스 기록
+        private List<int> _usedAnswers = new(); // 사용된 답변 인덱스 기록
         private int _scoreChange;
         public bool IsCardSelected { get; private set; }
 
         private void Start()
         {
             // 데이터 로드
+            _currentQuestionIndex = Managers.Data.CH2.TcgNum;
+            _currentScore = Managers.Data.CH2.TcgScore;
+            _usedAnswers = Managers.Data.CH2.UsedTcgAnswers;
+
+            // CSV 읽어오기
             _responses = CSVReader.Read("Tcg - Responses");
             _scores = CSVReader.Read("Tcg - Scores");
 
@@ -61,11 +66,12 @@ namespace Runtime.CH2.Main
         #region Dialogue
         public void StartTcg()
         {
+            ArrangeCardsInFan();
             ResetCardPositions();
             ActiveCh2Ui(false);
 
             // _michael을 중앙으로 이동
-            _michael.transform.DOLocalMove(new Vector3(38.9999886f, -70f, 0f), 1f).SetEase(Ease.InOutQuad)
+            _michael.transform.DOLocalMove(new Vector3(39f, -70f, 0f), 1f).SetEase(Ease.InOutQuad)
                 .OnComplete(() =>
                 {
                     ActiveTcgUi(true);
@@ -77,12 +83,14 @@ namespace Runtime.CH2.Main
 
         private void EndTcg()
         {
-            ActiveTcgUi(false);
+            // 카드 페이드 아웃
+            _cardsCanvasGroup.DOFade(0f, 1f);
 
-            // _michael을 오른쪽으로 이동
+            // _michael 오른쪽으로 이동
             _michael.transform.DOLocalMove(new Vector3(355f, -70f, 0f), 1f).SetEase(Ease.InOutQuad)
                 .OnComplete(() =>
                 {
+                    ActiveTcgUi(false);
                     ActiveCh2Ui(true);
                     AnswerDialogue();
                 });
@@ -96,13 +104,18 @@ namespace Runtime.CH2.Main
 
         private void ActiveTcgUi(bool active)
         {
+            if (active)
+            {
+                _michaelBubble.gameObject.SetActive(true);
+                _michaelBubble.DOFade(1f, 0.5f);
+            }
             _tcgObject.SetActive(active);
-            _michaelBubble.SetActive(active);
         }
 
         private void AnswerDialogue()
         {
             _runner.StartDialogue("TCG_SetAnswer");
+            Managers.Data.SaveGame();
         }
 
         public void DialogueAfterTCG()
@@ -110,6 +123,7 @@ namespace Runtime.CH2.Main
             _runner.Stop();
             _runner.StartDialogue($"AfterTcg{_currentQuestionIndex}");
             _currentQuestionIndex++;
+            Managers.Data.CH2.TcgNum = _currentQuestionIndex;
         }
 
         public void ShowScore()
@@ -124,6 +138,7 @@ namespace Runtime.CH2.Main
 
             // _currentScore 업데이트
             _currentScore = (int)newScore;
+            Managers.Data.CH2.TcgScore = _currentScore;
             Debug.Log($"현재 점수: {_currentScore}");
 
             HeartAnim();
@@ -175,20 +190,28 @@ namespace Runtime.CH2.Main
             }
         }
 
-        private void MoveCardsDown()
+        private void ArrangeCardsInFan()
         {
-            foreach (var card in _cards)
-            {
-                // 카드 앞면의 현재 위치에서 Y축으로 300만큼 내려감
-                Vector3 targetPosition = card.transform.localPosition - new Vector3(0, 300, 0);
-                card.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.InQuad);
-            }
+            // TODO: 카드가 3장 이하일 때 처리
 
-            // 카드 뒷면도 Y축으로 300만큼 내려감
-            if (_cardBack != null)
+            int cardCount = _cards.Length;
+
+            if (cardCount <= 0) return; // 카드가 없으면 종료
+
+            // 카드 배치의 기본 설정
+            float[] xPositions = { -234f, -80f, 80f, 234f }; // X 좌표
+            float[] yPositions = { -521f, -496f, -496f, -521f }; // Y 좌표
+            float[] zRotations = { 15f, 5f, -5f, -15f }; // Z축 각도
+
+            for (int i = 0; i < cardCount; i++)
             {
-                Vector3 targetPosition = _cardBack.transform.localPosition - new Vector3(0, 300, 0);
-                _cardBack.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.InQuad);
+                // 카드의 위치 및 회전 설정
+                Vector3 cardPosition = new(xPositions[i], yPositions[i], 0f);
+                Quaternion cardRotation = Quaternion.Euler(0f, 0f, zRotations[i]);
+
+                // 카드 위치와 회전 적용
+                _cards[i].transform.DOLocalMove(cardPosition, 0.5f).SetEase(Ease.OutQuad);
+                _cards[i].transform.DOLocalRotate(cardRotation.eulerAngles, 0.5f, RotateMode.Fast).SetEase(Ease.OutQuad);
             }
         }
 
@@ -205,12 +228,12 @@ namespace Runtime.CH2.Main
             {
                 // 질문이 끝났을 경우
                 _michaelBubbleTxt.text = "(질문 끝)";
-                foreach (var card in _cards)
-                {
-                    card.SetActive(false);
-                }
-                Debug.Log("게임 종료");
-                EndTcg();
+                //foreach (var card in _cards)
+                //{
+                //    card.SetActive(false);
+                //}
+                //Debug.Log("게임 종료");
+                //EndTcg();
             }
         }
 
@@ -265,11 +288,21 @@ namespace Runtime.CH2.Main
 
             // 점수 처리
             int.TryParse(scoreValue, out _scoreChange);
-            _scoreTxt.text = $"+{_scoreChange}";
+            _scoreTxt.text = $"{(_scoreChange >= 0 ? "+" : "")}{_scoreChange}";
 
-            // 미카엘 대화창 비활성화
-            _michaelBubble.SetActive(false);
+            // 사용된 답변 기록
+            _usedAnswers.Add(answerIndex);
+            Managers.Data.CH2.UsedTcgAnswers = _usedAnswers;
 
+            Debug.Log($"선택된 답변: {answer}, 반응: {response}, 점수 변화: {_scoreChange}");
+
+            // 미카엘 대화창 페이드 아웃
+            _michaelBubble.DOFade(0f, 0.5f).OnComplete(() =>
+            {
+                _michaelBubble.gameObject.SetActive(false);
+            });
+
+            // CardsMoveDown
             // 선택되지 않은 카드와 _cardBack 처리
             Sequence cardsSequence = DOTween.Sequence();
             for (int i = 0; i < _cards.Length; i++)
@@ -299,23 +332,25 @@ namespace Runtime.CH2.Main
                         // 선택된 카드의 x값만 0으로 설정하고 이동
                         Vector3 centerPosition = _cards[i].transform.localPosition;
                         centerPosition.x = 0; // x값만 0으로 변경
-                        _cards[i].transform.DOLocalMove(centerPosition, 1f).SetEase(Ease.OutQuad)
-                            .OnComplete(() =>
-                            {
-                                // 이동 후 부모의 투명도 0으로 줄임
-                                _cardsCanvasGroup.DOFade(0f, 1f);
-                            });
+
+                        Sequence moveAndRotateSequence = DOTween.Sequence();
+
+                        // 위치 이동
+                        moveAndRotateSequence.Append(_cards[i].transform.DOLocalMove(centerPosition, 1f).SetEase(Ease.OutQuad));
+
+                        // Z각도 0으로 회전
+                        moveAndRotateSequence.Join(_cards[i].transform.DOLocalRotate(Vector3.zero, 1f, RotateMode.Fast).SetEase(Ease.OutQuad));
+
+                        // 완료 시 EndTcg 호출
+                        moveAndRotateSequence.OnComplete(() =>
+                        {
+                            EndTcg();
+                        });
                     }
                 }
             });
 
-            // 사용된 답변 기록
-            _usedAnswers.Add(answerIndex);
-
-            Debug.Log($"선택된 답변: {answer}, 반응: {response}, 점수 변화: {_scoreChange}");
-            Invoke(nameof(EndTcg), 3f); // 애니메이션이 끝난 후 진행
         }
-
         #endregion
 
         #region Yarn Functions

@@ -33,6 +33,10 @@ namespace Runtime.CH2.Main
                 case 2:
                     _dialogueRunner.StartDialogue("Turn2_S");
                     break;
+                case 3:
+                    _dialogueRunner.StartDialogue("Turn3");
+                    // TODO: 슈아브 다녀온 후로는 Turn3~ 치트로 넘기기
+                    break;
             }
         }
 
