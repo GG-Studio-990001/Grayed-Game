@@ -5,7 +5,7 @@ using Runtime.CH2.Main;
 
 namespace Runtime.CH2
 {
-    public class CardHoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class CardHoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         [SerializeField] private TcgController _tcgController;
         [SerializeField] private float _scaleMultiplier = 1.2f; // 확대 배율
@@ -30,6 +30,12 @@ namespace Runtime.CH2
         public void OnPointerExit(PointerEventData eventData)
         {
             // 마우스가 벗어나면 축소
+            transform.DOScale(_originalScale, _duration).SetEase(Ease.OutQuad);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            // 마우스 클릭 시 축소
             transform.DOScale(_originalScale, _duration).SetEase(Ease.OutQuad);
         }
     }
