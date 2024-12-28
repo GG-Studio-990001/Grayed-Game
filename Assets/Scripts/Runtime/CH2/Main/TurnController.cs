@@ -33,6 +33,10 @@ namespace Runtime.CH2.Main
                 case 2:
                     _dialogueRunner.StartDialogue("Turn2_S");
                     break;
+                case 3:
+                    // TODO: 슈아브 다녀온 후 처리 => 슈아브 스테이지 1 깼는지 체크?
+                    _dialogueRunner.StartDialogue("Turn3");
+                    break;
             }
         }
 
