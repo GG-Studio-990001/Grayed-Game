@@ -66,11 +66,12 @@ namespace Runtime.CH2.Main
         #region Dialogue
         public void StartTcg()
         {
+            ArrangeCardsInFan();
             ResetCardPositions();
             ActiveCh2Ui(false);
 
             // _michael을 중앙으로 이동
-            _michael.transform.DOLocalMove(new Vector3(38.9999886f, -70f, 0f), 1f).SetEase(Ease.InOutQuad)
+            _michael.transform.DOLocalMove(new Vector3(39f, -70f, 0f), 1f).SetEase(Ease.InOutQuad)
                 .OnComplete(() =>
                 {
                     ActiveTcgUi(true);
@@ -189,20 +190,28 @@ namespace Runtime.CH2.Main
             }
         }
 
-        private void MoveCardsDown()
+        private void ArrangeCardsInFan()
         {
-            foreach (var card in _cards)
-            {
-                // 카드 앞면의 현재 위치에서 Y축으로 300만큼 내려감
-                Vector3 targetPosition = card.transform.localPosition - new Vector3(0, 300, 0);
-                card.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.InQuad);
-            }
+            // TODO: 카드가 3장 이하일 때 처리
 
-            // 카드 뒷면도 Y축으로 300만큼 내려감
-            if (_cardBack != null)
+            int cardCount = _cards.Length;
+
+            if (cardCount <= 0) return; // 카드가 없으면 종료
+
+            // 카드 배치의 기본 설정
+            float[] xPositions = { -234f, -80f, 80f, 234f }; // X 좌표
+            float[] yPositions = { -521f, -496f, -496f, -521f }; // Y 좌표
+            float[] zRotations = { 15f, 5f, -5f, -15f }; // Z축 각도
+
+            for (int i = 0; i < cardCount; i++)
             {
-                Vector3 targetPosition = _cardBack.transform.localPosition - new Vector3(0, 300, 0);
-                _cardBack.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.InQuad);
+                // 카드의 위치 및 회전 설정
+                Vector3 cardPosition = new(xPositions[i], yPositions[i], 0f);
+                Quaternion cardRotation = Quaternion.Euler(0f, 0f, zRotations[i]);
+
+                // 카드 위치와 회전 적용
+                _cards[i].transform.DOLocalMove(cardPosition, 0.5f).SetEase(Ease.OutQuad);
+                _cards[i].transform.DOLocalRotate(cardRotation.eulerAngles, 0.5f, RotateMode.Fast).SetEase(Ease.OutQuad);
             }
         }
 
@@ -293,6 +302,7 @@ namespace Runtime.CH2.Main
                 _michaelBubble.gameObject.SetActive(false);
             });
 
+            // CardsMoveDown
             // 선택되지 않은 카드와 _cardBack 처리
             Sequence cardsSequence = DOTween.Sequence();
             for (int i = 0; i < _cards.Length; i++)
@@ -311,7 +321,7 @@ namespace Runtime.CH2.Main
                 Vector3 cardBackDownPosition = _cardBack.transform.localPosition - new Vector3(0, 300, 0);
                 cardsSequence.Join(_cardBack.transform.DOLocalMove(cardBackDownPosition, 1f).SetEase(Ease.InQuad));
             }
-            
+
             // 선택된 카드 처리 (선택되지 않은 카드가 모두 내려간 후 시작)
             cardsSequence.OnComplete(() =>
             {
@@ -322,17 +332,25 @@ namespace Runtime.CH2.Main
                         // 선택된 카드의 x값만 0으로 설정하고 이동
                         Vector3 centerPosition = _cards[i].transform.localPosition;
                         centerPosition.x = 0; // x값만 0으로 변경
-                        _cards[i].transform.DOLocalMove(centerPosition, 1f).SetEase(Ease.OutQuad)
-                            .OnComplete(() =>
-                            {
-                                EndTcg();
-                            });
+
+                        Sequence moveAndRotateSequence = DOTween.Sequence();
+
+                        // 위치 이동
+                        moveAndRotateSequence.Append(_cards[i].transform.DOLocalMove(centerPosition, 1f).SetEase(Ease.OutQuad));
+
+                        // Z각도 0으로 회전
+                        moveAndRotateSequence.Join(_cards[i].transform.DOLocalRotate(Vector3.zero, 1f, RotateMode.Fast).SetEase(Ease.OutQuad));
+
+                        // 완료 시 EndTcg 호출
+                        moveAndRotateSequence.OnComplete(() =>
+                        {
+                            EndTcg();
+                        });
                     }
                 }
             });
 
         }
-
         #endregion
 
         #region Yarn Functions
