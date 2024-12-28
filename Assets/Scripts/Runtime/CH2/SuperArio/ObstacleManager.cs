@@ -27,7 +27,9 @@ namespace Runtime.CH2.SuperArio
             }
 
             _obstacleTypeCnt = stageData.ObstacleTypes; // 장애물 종류 수
-            _spawnDelay = 3.0f / stageData.Speed; // 스폰 간격 계산 (속도 반비례)
+            
+            _spawnDelay = 3.0f / stageData.Speed;
+            _spawnDelay = Mathf.Max(_spawnDelay, 0.5f);
             _remainingSpawnCount = stageData.ObstacleCount; // 남은 스폰 카운트 초기화
         }
 
@@ -78,9 +80,8 @@ namespace Runtime.CH2.SuperArio
                 if (_remainingSpawnCount <= 0)
                 {
                     yield return new WaitForSeconds(5.0f);
-
-                    string nextStage = ArioManager.instance.CalculateNextStage(ArioManager.instance.CurrentStage);
-                    ArioManager.instance.NextStage(nextStage); // 다음 스테이지 이동
+                    
+                    ArioManager.instance.CalculateNextStage();
                     yield break;
                 }
 
@@ -110,16 +111,20 @@ namespace Runtime.CH2.SuperArio
 
         private GameObject CreateObj(GameObject obj, Transform parent)
         {
-            GameObject copy = Instantiate(obj);
-            copy.transform.SetParent(parent);
+            GameObject copy = Instantiate(obj, parent);
             copy.SetActive(false);
             return copy;
         }
 
-        public void CreateBuilding()
+        public void SpawnBuilding()
         {
-            _buildingObj = Instantiate(building);
-            _buildingObj.transform.SetParent(transform);
+            _buildingObj = Instantiate(building, transform);
+        }
+
+        public void DeleteBuilding()
+        {
+            Destroy(_buildingObj);
+            _buildingObj = null;
         }
 
         public void ChangeStage(string newStage, ObstacleSpawnDataSet dataSet)

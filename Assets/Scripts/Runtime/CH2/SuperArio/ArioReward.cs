@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 
 namespace Runtime.CH2.SuperArio
 {
     public class ArioReward : MonoBehaviour
     {
-        [SerializeField] private GameObject rewardUi;
+        [SerializeField] private SurfaceEffector2D _surface;
         private Vector2 _initPos;
         private Rigidbody2D _rb;
 
@@ -16,12 +17,11 @@ namespace Runtime.CH2.SuperArio
             _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             ArioManager.instance.OnEnterReward += EnterReward;
         }
-    
+        
         private void EnterReward(bool isTrue)
         {
             _rb.isKinematic = false;
             gameObject.SetActive(true);
-            rewardUi.SetActive(true);
         }
         
         public void ExitReward()
@@ -31,7 +31,16 @@ namespace Runtime.CH2.SuperArio
             
             ArioManager.instance.ExitReward();
             gameObject.SetActive(false);
-            rewardUi.SetActive(false);
+        }
+
+        public void SurfaceControl()
+        {
+            if(_surface.speed > 0)
+                _surface.speed = 0;
+            else
+            {
+                _surface.speed = 3.5f;
+            }
         }
     }
 }
