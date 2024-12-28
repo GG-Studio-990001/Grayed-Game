@@ -113,7 +113,7 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator WaitExitReward()
         {
             yield return new WaitForSeconds(1f);
-            _dataCheater.LoadCheatData("Turn03", _sceneSystem);
+            _dataCheater.LoadCheatData("Turn3", _sceneSystem);
             // _rewardCam.Priority = 10;
             // IsReward = false;
             // RestartSuperArio();
