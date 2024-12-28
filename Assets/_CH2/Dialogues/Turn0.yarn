@@ -107,15 +107,16 @@ title: Turn0
     :안면은 텄지만 미카엘에게 퇴짜를 맞았다...<br>아무래도 다른 방법이 필요해 보인다.
 
 // 장소: 골목길
+// <<ChangeBGM>> // 너무 잠깐이라 생략, BGM7 당기기
+<<ChangeBGM 7>>
+
 <<SetLocation Backstreet>>
 <<wait 2>>
-// <<ChangeBGM>> // 너무 잠깐이라 생략
 
     :다시 광장으로 돌아가기 위해 골목길에 들어섰는데,<br>갑자기 누군가 튀어나와 부딪혔다. 
 
 // 대사창 없다가, 콰당! + 아파하는 기계음 sfx 출력하면서 같이 다음 대사 진행
 
-<<ChangeBGM 7>>
 <<PartnerAppear R2mon>>
 R2-Mon: 아야얏-! 머리가 비잉 비잉 돈 다아...
 R2-Mon: ... 잠깐 ... 

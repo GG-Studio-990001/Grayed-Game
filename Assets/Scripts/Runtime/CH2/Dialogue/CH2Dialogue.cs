@@ -3,7 +3,6 @@ using Runtime.CH2.Main;
 using Runtime.ETC;
 using System;
 using System.Collections;
-using System.Net;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,7 +37,9 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _toBeContinued;
         [SerializeField] private GameObject _autoTxt;
         [SerializeField] private GameObject _continueBtn;
-        [SerializeField] private GameObject[] _illerstrations = new GameObject[1];
+        [SerializeField] private GameObject _illerstBg;
+        [SerializeField] private Image _illerstImg;
+        [SerializeField] private Sprite[] _illerstSprs;
         [SerializeField] private DialogueRunner _luckyDialogueRunner;
         [SerializeField] private GameObject _tcgPack;
         [SerializeField] private GameObject _SuperArioPack;
@@ -142,13 +143,13 @@ namespace Runtime.CH2.Dialogue
 
         private void ShowIllerstration(int val)
         {
-            _illerstrations[val].SetActive(true);
+            _illerstBg.SetActive(true);
+            _illerstImg.sprite = _illerstSprs[val];
         }
 
         private void HideIllerstration()
         {
-            foreach (var o in _illerstrations)
-                o.SetActive(false);
+            _illerstBg.SetActive(false);
         }
 
         private void PartnerAppear(string partner)

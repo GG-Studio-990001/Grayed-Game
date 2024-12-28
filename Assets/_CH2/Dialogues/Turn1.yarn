@@ -62,10 +62,11 @@ title: Turn1_S
     :골목길을 지나가는 중 바닥에 떨어져 있는 무언가를 발견했다.
 
 //  명함 일러스트
-
+<<ShowIllerstration 1>>
     :R2-Mon의 명함이다. 아무래도 뭔가 잘 흘리고 다니는 모양이다.
     :자세히 보니 작게 그려진 약도로 기지의 위치가 그려져 있었다.
     :플로야드 동굴 안쪽인 것 같다. 한 번 가볼까?
+<<HideIllerstration>>
 
 // 장소: 마을 입구
 <<SetLocation Entrance>>
@@ -97,14 +98,16 @@ R2-Mon: 근데 손에 뭐가 많은데 이걸로 만들어주면 되는 거지�
 R2-Mon: 나에게 맡겨보세요!
 
 // 대사창 없이 제작하는 sfx 출력 후, 일러스트 + 대사 진행
+<<ShowIllerstration 2>>
 
 R2-Mon: 제작 완료~
 R2-Mon: 어때요, 완전 새것 같지요?
 
 // 일러스트 Out
-<<PartnerOut>>
+<<HideIllerstration>>
 
 R2-Mon: 다음에도 또 찾아오시면 만들어 드릴게요! 그럼 안녕히!
+<<PartnerOut>>
 
     :R2-Mon이 배웅을 한다.<br>새롭게 만든 링을 미카엘에게 주면 좋아할 것 같다.
 
