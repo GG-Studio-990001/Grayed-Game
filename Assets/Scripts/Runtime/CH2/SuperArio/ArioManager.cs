@@ -1,7 +1,9 @@
 using Cinemachine;
+using Runtime.InGameSystem;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Runtime.CH2.SuperArio
 {
@@ -35,6 +37,7 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private ObstacleSpawnDataSet _dataSet;
         [SerializeField] private CinemachineVirtualCamera _storeCam;
         [SerializeField] private CinemachineVirtualCamera _rewardCam;
+        [SerializeField] private SceneSystem _sceneSystem;
         [SerializeField] private Ario _ario;
         [SerializeField] private ArioUIController _ui;
 
@@ -52,6 +55,7 @@ namespace Runtime.CH2.SuperArio
         {
             _obstacleManager = GetComponent<ObstacleManager>();
             StartCoroutine(WaitStart());
+            CurrentStage = _dataSet.DataList[0].Stage;
         }
 
         public void RestartSuperArio()
@@ -74,6 +78,12 @@ namespace Runtime.CH2.SuperArio
 
         public void ExitStore()
         {
+            StartCoroutine(WaitExitStore());
+        }
+
+        private IEnumerator WaitExitStore()
+        {
+            yield return new WaitForSeconds(1f);
             IsStore = false;
             RestartSuperArio();
         }
@@ -82,8 +92,10 @@ namespace Runtime.CH2.SuperArio
         {
             _storeCam.Priority = 10;
             _rewardCam.Priority = 12;
+            
             IsStore = false;
             IsPlay = false;
+            
             OnPlay.Invoke(IsPlay);
             _obstacleManager.DeleteBuilding();
             
@@ -93,9 +105,16 @@ namespace Runtime.CH2.SuperArio
 
         public void ExitReward()
         {
-            _rewardCam.Priority = 10;
-            IsReward = false;
-            RestartSuperArio();
+            StartCoroutine(WaitExitReward());
+        }
+
+        private IEnumerator WaitExitReward()
+        {
+            yield return new WaitForSeconds(1f);
+            _sceneSystem.LoadScene("CH2");
+            // _rewardCam.Priority = 10;
+            // IsReward = false;
+            // RestartSuperArio();
         }
 
         private IEnumerator WaitStart()
@@ -138,7 +157,7 @@ namespace Runtime.CH2.SuperArio
             if (_ario.life <= 1)
                 ChangeHeartUI(1);
             IsPause = false; // 시작 시 입력 방지
-            //HasItem = true; // 테스트 용 아이템 지급
+            //GetItem(); // 테스트 용 아이템 지급
         }
 
         private void GameOver()
@@ -181,6 +200,38 @@ namespace Runtime.CH2.SuperArio
             _ui.ChangeObstacleText(count);
         }
         
+
+        public void TouchFlag()
+        {
+            IsPlay = false;
+            IsStore = false;
+            IsReward = true;
+        }
+
+        private void SpawnBuilding()
+        {
+            _obstacleManager.SpawnBuilding();
+        }
+
+        public void CalculateNextStage()
+        {
+            var parts = CurrentStage.Split('-');
+            if (parts.Length == 2 && int.TryParse(parts[0], out int world) && int.TryParse(parts[1], out int stage))
+            {
+                stage++;
+                if (stage > 3) // 3 스테이지를 넘어가면 다음 월드로 이동
+                {
+                    SpawnBuilding();
+                    world++;
+                    stage = 1;
+                }
+
+                CurrentStage = $"{world}-{stage}";
+            }
+
+            UpdateStage(CurrentStage); // 기본적으로 변경 없이 반환
+        }
+        
         private void UpdateStage(string stage)
         {
             var stageData = _dataSet.DataList.Find(data => data.Stage == stage);
@@ -192,52 +243,10 @@ namespace Runtime.CH2.SuperArio
             CurrentStage = stage; // 현재 스테이지 갱신
             GameSpeed = stageData.Speed + 4; // 게임 속도 갱신
             _ui.ChangeStageText($"WORLD\n{CurrentStage}"); // UI에 스테이지 정보 갱신
+            ChangeObstacleCnt(stageData.ObstacleCount);
 
             // 장애물 매니저에 스테이지 데이터 전달
             _obstacleManager.ChangeStage(CurrentStage, _dataSet);
-        }
-
-        public void NextStage(string nextStage)
-        {
-            // 특정 스테이지 조건 체크
-            if (nextStage.EndsWith("-3"))
-            {
-                SpawnBuilding();
-            }
-            else
-            {
-                UpdateStage(nextStage); // 일반 스테이지 업데이트
-            }
-        }
-
-        public void TouchFlag()
-        {
-            IsPlay = false;
-            IsStore = false;
-            IsReward = true;
-        }
-
-        private void SpawnBuilding()
-        {
-            _obstacleManager.CreateBuilding();
-        }
-
-        public string CalculateNextStage(string currentStage)
-        {
-            var parts = currentStage.Split('-');
-            if (parts.Length == 2 && int.TryParse(parts[0], out int world) && int.TryParse(parts[1], out int stage))
-            {
-                stage++;
-                if (stage > 3) // 3 스테이지를 넘어가면 다음 월드로 이동
-                {
-                    world++;
-                    stage = 1;
-                }
-
-                return $"{world}-{stage}";
-            }
-
-            return currentStage; // 기본적으로 변경 없이 반환
         }
 
         public void StoreOpenEvent()

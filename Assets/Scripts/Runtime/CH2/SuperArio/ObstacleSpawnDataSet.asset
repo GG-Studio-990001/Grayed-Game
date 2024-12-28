@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: ObstacleSpawnDataSet
   m_EditorClassIdentifier: 
   DataList:
-  - Stage: 1-1
-    Speed: 1
-    ObstacleTypes: 3
-    ObstacleCount: 1
-  - Stage: 1-2
-    Speed: 1.5
-    ObstacleTypes: 6
-    ObstacleCount: 1
-  - Stage: 1-3
+  - Stage: 3-1
     Speed: 2
+    ObstacleTypes: 3
+    ObstacleCount: 3
+  - Stage: 3-2
+    Speed: 2.25
     ObstacleTypes: 6
-    ObstacleCount: 1
+    ObstacleCount: 4
+  - Stage: 3-3
+    Speed: 2.5
+    ObstacleTypes: 6
+    ObstacleCount: 5
