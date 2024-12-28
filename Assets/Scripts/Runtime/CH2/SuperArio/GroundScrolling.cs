@@ -11,10 +11,11 @@ namespace Runtime.CH2.SuperArio
         private float _xScreenHalfSize;
         private float _yScreenHalfSize;
         private bool _isInitialized;
+        private Vector2 _lastResolution;
 
         void Start()
         {
-            // 첫 프레임 이후에 초기화하도록 설정
+            _lastResolution = new Vector2(Screen.width, Screen.height);
             Invoke(nameof(InitializePositions), 0.1f);
         }
 
@@ -26,7 +27,12 @@ namespace Runtime.CH2.SuperArio
             _leftPosX = -(_xScreenHalfSize * 2);
             _rightPosX = _xScreenHalfSize * 2 * backgrounds.Length;
 
-            // 초기 위치 재정렬
+            RealignBackgrounds();
+            _isInitialized = true;
+        }
+
+        private void RealignBackgrounds()
+        {
             float startX = 0f;
             float width = _xScreenHalfSize * 2;
         
@@ -36,12 +42,17 @@ namespace Runtime.CH2.SuperArio
                 pos.x = startX + (width * i);
                 backgrounds[i].position = pos;
             }
-
-            _isInitialized = true;
         }
     
         void Update()
         {
+            // 해상도 변경 감지
+            if (_lastResolution.x != Screen.width || _lastResolution.y != Screen.height)
+            {
+                InitializePositions();
+                _lastResolution = new Vector2(Screen.width, Screen.height);
+            }
+
             if (!_isInitialized || !ArioManager.instance.IsPlay) return;
 
             foreach (var tr in backgrounds)
