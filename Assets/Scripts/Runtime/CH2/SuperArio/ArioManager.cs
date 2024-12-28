@@ -1,5 +1,6 @@
 using Cinemachine;
 using Runtime.InGameSystem;
+using Runtime.Main.Runtime.ETC;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -50,6 +51,7 @@ namespace Runtime.CH2.SuperArio
         public bool HasItem { get; private set; }
         public int CoinCnt { get; private set; }
         private ObstacleManager _obstacleManager;
+        private DataCheater _dataCheater = new();
 
         private void Start()
         {
@@ -111,7 +113,7 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator WaitExitReward()
         {
             yield return new WaitForSeconds(1f);
-            _sceneSystem.LoadScene("CH2");
+            _dataCheater.LoadCheatData("Turn03", _sceneSystem);
             // _rewardCam.Priority = 10;
             // IsReward = false;
             // RestartSuperArio();

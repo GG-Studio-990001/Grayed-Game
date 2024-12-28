@@ -206,8 +206,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 624253868}
-        m_TargetAssemblyTypeName: Runtime.Main.Runtime.ETC.DataCheater, Scripts
+      - m_Target: {fileID: 624253866}
+        m_TargetAssemblyTypeName: Runtime.Main.MainController, Scripts
         m_MethodName: LoadCheatData
         m_Mode: 5
         m_Arguments:
@@ -607,8 +607,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 624253868}
-        m_TargetAssemblyTypeName: Runtime.Main.Runtime.ETC.DataCheater, Scripts
+      - m_Target: {fileID: 624253866}
+        m_TargetAssemblyTypeName: Runtime.Main.MainController, Scripts
         m_MethodName: LoadCheatData
         m_Mode: 5
         m_Arguments:
@@ -740,8 +740,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 624253868}
-        m_TargetAssemblyTypeName: Runtime.Main.Runtime.ETC.DataCheater, Scripts
+      - m_Target: {fileID: 624253866}
+        m_TargetAssemblyTypeName: Runtime.Main.MainController, Scripts
         m_MethodName: LoadCheatData
         m_Mode: 5
         m_Arguments:
@@ -1183,8 +1183,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 624253868}
-        m_TargetAssemblyTypeName: Runtime.Main.Runtime.ETC.DataCheater, Scripts
+      - m_Target: {fileID: 624253866}
+        m_TargetAssemblyTypeName: Runtime.Main.MainController, Scripts
         m_MethodName: LoadCheatData
         m_Mode: 5
         m_Arguments:
@@ -1337,7 +1337,6 @@ GameObject:
   m_Component:
   - component: {fileID: 624253867}
   - component: {fileID: 624253866}
-  - component: {fileID: 624253868}
   m_Layer: 0
   m_Name: MainController
   m_TagString: Untagged
@@ -1358,7 +1357,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneSystem: {fileID: 306113482}
-  _dataCheater: {fileID: 624253868}
 --- !u!4 &624253867
 Transform:
   m_ObjectHideFlags: 0
@@ -1374,19 +1372,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &624253868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 624253865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 809c2265c1d50ee4793bb5386eacfb7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sceneSystem: {fileID: 306113482}
 --- !u!1 &647073632
 GameObject:
   m_ObjectHideFlags: 0
@@ -2080,8 +2065,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 624253868}
-        m_TargetAssemblyTypeName: Runtime.Main.Runtime.ETC.DataCheater, Scripts
+      - m_Target: {fileID: 624253866}
+        m_TargetAssemblyTypeName: Runtime.Main.MainController, Scripts
         m_MethodName: LoadCheatData
         m_Mode: 5
         m_Arguments:
@@ -2213,8 +2198,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 624253868}
-        m_TargetAssemblyTypeName: Runtime.Main.Runtime.ETC.DataCheater, Scripts
+      - m_Target: {fileID: 624253866}
+        m_TargetAssemblyTypeName: Runtime.Main.MainController, Scripts
         m_MethodName: LoadCheatData
         m_Mode: 5
         m_Arguments:
@@ -2346,8 +2331,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 624253868}
-        m_TargetAssemblyTypeName: Runtime.Main.Runtime.ETC.DataCheater, Scripts
+      - m_Target: {fileID: 624253866}
+        m_TargetAssemblyTypeName: Runtime.Main.MainController, Scripts
         m_MethodName: LoadCheatData
         m_Mode: 5
         m_Arguments:
@@ -2958,8 +2943,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 624253868}
-        m_TargetAssemblyTypeName: Runtime.Main.Runtime.ETC.DataCheater, Scripts
+      - m_Target: {fileID: 624253866}
+        m_TargetAssemblyTypeName: Runtime.Main.MainController, Scripts
         m_MethodName: LoadCheatData
         m_Mode: 5
         m_Arguments:
@@ -3823,8 +3808,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 624253868}
-        m_TargetAssemblyTypeName: Runtime.Main.Runtime.ETC.DataCheater, Scripts
+      - m_Target: {fileID: 624253866}
+        m_TargetAssemblyTypeName: Runtime.Main.MainController, Scripts
         m_MethodName: LoadCheatData
         m_Mode: 5
         m_Arguments:
@@ -3987,8 +3972,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 624253868}
-        m_TargetAssemblyTypeName: Runtime.Main.Runtime.ETC.DataCheater, Scripts
+      - m_Target: {fileID: 624253866}
+        m_TargetAssemblyTypeName: Runtime.Main.MainController, Scripts
         m_MethodName: LoadCheatData
         m_Mode: 5
         m_Arguments:

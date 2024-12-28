@@ -7,7 +7,7 @@ namespace Runtime.Main
     public class MainController : MonoBehaviour
     {
         [SerializeField] private SceneSystem _sceneSystem;
-        [SerializeField] private DataCheater _dataCheater;
+        private DataCheater _dataCheater = new();
 
         private void Start()
         {
@@ -30,6 +30,11 @@ namespace Runtime.Main
         {
             Managers.Data.NewGame();
             _sceneSystem.LoadScene("Pacmom");
+        }
+
+        public void LoadCheatData(string file)
+        {
+            _dataCheater.LoadCheatData(file, _sceneSystem);
         }
     }
 }
