@@ -245,6 +245,15 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeScreen"",
+                    ""type"": ""Button"",
+                    ""id"": ""5026746c-b4f1-4ec6-8f69-9f7a4fa3e304"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -335,6 +344,39 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""action"": ""Restart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""689461c6-1a43-48c1-aea0-9ad00d60a683"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeScreen"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""2ffc7cb5-936e-4e44-bce6-356039c290db"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeScreen"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""11e0f846-d026-4b1e-84b6-80ce3f749ecd"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeScreen"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -355,6 +397,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         m_UI_Skip = m_UI.FindAction("Skip", throwIfNotFound: true);
         m_UI_Hide = m_UI.FindAction("Hide", throwIfNotFound: true);
         m_UI_Restart = m_UI.FindAction("Restart", throwIfNotFound: true);
+        m_UI_ChangeScreen = m_UI.FindAction("ChangeScreen", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -478,6 +521,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Skip;
     private readonly InputAction m_UI_Hide;
     private readonly InputAction m_UI_Restart;
+    private readonly InputAction m_UI_ChangeScreen;
     public struct UIActions
     {
         private @GameOverControls m_Wrapper;
@@ -490,6 +534,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         public InputAction @Skip => m_Wrapper.m_UI_Skip;
         public InputAction @Hide => m_Wrapper.m_UI_Hide;
         public InputAction @Restart => m_Wrapper.m_UI_Restart;
+        public InputAction @ChangeScreen => m_Wrapper.m_UI_ChangeScreen;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -523,6 +568,9 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
             @Restart.started += instance.OnRestart;
             @Restart.performed += instance.OnRestart;
             @Restart.canceled += instance.OnRestart;
+            @ChangeScreen.started += instance.OnChangeScreen;
+            @ChangeScreen.performed += instance.OnChangeScreen;
+            @ChangeScreen.canceled += instance.OnChangeScreen;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -551,6 +599,9 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
             @Restart.started -= instance.OnRestart;
             @Restart.performed -= instance.OnRestart;
             @Restart.canceled -= instance.OnRestart;
+            @ChangeScreen.started -= instance.OnChangeScreen;
+            @ChangeScreen.performed -= instance.OnChangeScreen;
+            @ChangeScreen.canceled -= instance.OnChangeScreen;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -583,5 +634,6 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         void OnSkip(InputAction.CallbackContext context);
         void OnHide(InputAction.CallbackContext context);
         void OnRestart(InputAction.CallbackContext context);
+        void OnChangeScreen(InputAction.CallbackContext context);
     }
 }
