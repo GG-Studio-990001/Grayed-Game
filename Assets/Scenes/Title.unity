@@ -816,7 +816,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.6
+  orthographic size: 5.4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1546,6 +1546,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 977441387082237809, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: <ToggleFullscreenAction>k__BackingField.m_Name
+      value: Toggle Fullscreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 977441387082237809, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: <ToggleFullscreenAction>k__BackingField.m_SingletonActionBindings.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 977441387082237809, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: <ToggleFullscreenAction>k__BackingField.m_SingletonActionBindings.Array.data[0].m_Id
+      value: 915b0ba5-d27b-4a93-8437-12cb31c9d552
+      objectReference: {fileID: 0}
+    - target: {fileID: 977441387082237809, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: <ToggleFullscreenAction>k__BackingField.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <Keyboard>/alt
+      objectReference: {fileID: 0}
+    - target: {fileID: 977441387082237809, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: <ToggleFullscreenAction>k__BackingField.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Toggle Fullscreen
+      objectReference: {fileID: 0}
     - target: {fileID: 2162176244392371930, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

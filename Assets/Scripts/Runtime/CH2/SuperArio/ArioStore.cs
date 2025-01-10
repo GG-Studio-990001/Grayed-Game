@@ -109,7 +109,6 @@ namespace Runtime.CH2.SuperArio
 
             switch (context.phase)
             {
-                case InputActionPhase.Started:
                 case InputActionPhase.Performed:
                     if (moveInput.y > 0 && _isGrounded && !_isJumping)
                     {
@@ -117,7 +116,6 @@ namespace Runtime.CH2.SuperArio
                         _isJumpHeld = true;
                     }
                     break;
-
                 case InputActionPhase.Canceled:
                     _isJumpHeld = false;
                     break;

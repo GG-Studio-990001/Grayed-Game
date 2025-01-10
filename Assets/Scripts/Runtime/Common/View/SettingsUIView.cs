@@ -1,7 +1,9 @@
 using Runtime.Common.Presentation;
+using Runtime.ETC;
 using Runtime.Event;
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Runtime.Common.View
@@ -13,18 +15,15 @@ namespace Runtime.Common.View
         [field:SerializeField] public Slider SfxVolumeSlider { get; set; }
         [field:SerializeField] public Button ExitButton { get; set; }
         [field:SerializeField] public Button GameExitButton { get; set; }
-        
         [field:SerializeField] public Toggle FullScreenToggle { get; set; }
-        
         [field:SerializeField] public Toggle WindowScreenToggle { get; set; }
-
         
         private SettingsUIPresenter _presenter;
 
         public event Action OnSettingsOpen;
         public event Action OnSettingsClose;
         private Vector2 _lastResolution;
-        
+
         private void Awake()
         {
             _lastResolution = new Vector2(Screen.width, Screen.height);
@@ -38,18 +37,9 @@ namespace Runtime.Common.View
         
         private void Update()
         {
-            // 해상도가 변경되었는지 체크
             if (_lastResolution.x != Screen.width || _lastResolution.y != Screen.height)
             {
-                // 해상도가 변경됨
-                if (SettingUIObject.activeSelf)
-                {
-                    ClosePopup();
-                }
-
-                // 토글 상태 업데이트
                 UpdateScreenModeToggles();
-        
                 _lastResolution = new Vector2(Screen.width, Screen.height);
             }
         }
@@ -73,16 +63,6 @@ namespace Runtime.Common.View
             }
         }
         
-        public void ClosePopup()
-        {
-            if (!SettingUIObject.activeSelf) return;
-    
-            OnSettingsClose?.Invoke();
-            Time.timeScale = 1;
-            SettingsEvent.ToggleSettings(false);
-            SettingUIObject.SetActive(false);
-        }
-
         public void GameSettingToggle()
         {
             if (SettingUIObject.activeSelf)
@@ -96,6 +76,21 @@ namespace Runtime.Common.View
                 SettingsEvent.ToggleSettings(true);
                 SettingUIObject.SetActive(true);
             }
+        }
+        
+        private void ClosePopup()
+        {
+            if (!SettingUIObject.activeSelf) return;
+    
+            OnSettingsClose?.Invoke();
+            Time.timeScale = 1;
+            SettingsEvent.ToggleSettings(false);
+            SettingUIObject.SetActive(false);
+        }
+
+        public void PlayBasicClickSound()
+        {
+            Managers.Sound.Play(Sound.SFX, "Setting/SFX_Setting_UI_Basic_Click");
         }
     }
 }

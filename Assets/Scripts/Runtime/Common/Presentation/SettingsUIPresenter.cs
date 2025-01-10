@@ -13,9 +13,10 @@ namespace Runtime.Common.Presentation
         public SettingsUIPresenter(SettingsUIView settingsUIView)
         {
             _settingsUIView = settingsUIView;
-
+            
             InitVolume();
             InitScreenMode();
+            
             _settingsUIView.BgmVolumeSlider.onValueChanged.AddListener(SetBgmVolume);
             _settingsUIView.SfxVolumeSlider.onValueChanged.AddListener(SetSfxVolume);
             
@@ -36,14 +37,27 @@ namespace Runtime.Common.Presentation
         {
             if (Managers.Data.IsFullscreen)
             {
-                SetFullScreenMode(true);
+                _settingsUIView.FullScreenToggle.SetIsOnWithoutNotify(true);
+                _settingsUIView.FullScreenToggle.interactable = false;
+
+                _settingsUIView.WindowScreenToggle.SetIsOnWithoutNotify(false);
+                _settingsUIView.WindowScreenToggle.interactable = true;
+                
+                Managers.Data.IsFullscreen = true;
+                Screen.SetResolution(1920, 1080, FullScreenMode.ExclusiveFullScreen);
             }
             else
             {
-                SetWindowScreenMode(true);
+                _settingsUIView.FullScreenToggle.SetIsOnWithoutNotify(false);
+                _settingsUIView.FullScreenToggle.interactable = true;
+
+                _settingsUIView.WindowScreenToggle.SetIsOnWithoutNotify(true);
+                _settingsUIView.WindowScreenToggle.interactable = false;
+                
+                Managers.Data.IsFullscreen = false;
+                Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
             }
         }
-        
 
         private void SetBgmVolume(float volume)
         {
@@ -62,13 +76,15 @@ namespace Runtime.Common.Presentation
         {
             if (isOn)
             {
+                Managers.Sound.Play(Sound.SFX, "Setting/SFX_Setting_UI_Window");
                 _settingsUIView.FullScreenToggle.SetIsOnWithoutNotify(true);
-                _settingsUIView.WindowScreenToggle.SetIsOnWithoutNotify(false);
                 _settingsUIView.FullScreenToggle.interactable = false;
-                _settingsUIView.WindowScreenToggle.isOn = false;
+
+                _settingsUIView.WindowScreenToggle.SetIsOnWithoutNotify(false);
                 _settingsUIView.WindowScreenToggle.interactable = true;
+                
                 Managers.Data.IsFullscreen = true;
-                Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+                Screen.SetResolution(1920, 1080, FullScreenMode.ExclusiveFullScreen);
             }
         }
         
@@ -76,11 +92,13 @@ namespace Runtime.Common.Presentation
         {
             if (isOn)
             {
+                Managers.Sound.Play(Sound.SFX, "Setting/SFX_Setting_UI_Window");
                 _settingsUIView.FullScreenToggle.SetIsOnWithoutNotify(false);
+                _settingsUIView.FullScreenToggle.interactable = true;
+
                 _settingsUIView.WindowScreenToggle.SetIsOnWithoutNotify(true);
                 _settingsUIView.WindowScreenToggle.interactable = false;
-                _settingsUIView.FullScreenToggle.isOn = false;
-                _settingsUIView.FullScreenToggle.interactable = true;
+                
                 Managers.Data.IsFullscreen = false;
                 Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
             }
