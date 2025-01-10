@@ -1,3 +1,4 @@
+using Runtime.ETC;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +25,6 @@ namespace Runtime.Common
         {
             if (_isSoundSelected)
                 return;
-
             SelectTab(0);
         }
 
@@ -32,12 +32,12 @@ namespace Runtime.Common
         {
             if (!_isSoundSelected)
                 return;
-
             SelectTab(1);
         }
 
         private void SelectTab(int idx)
         {
+            Managers.Sound.Play(Sound.SFX, "Setting/SFX_Setting_UI_Basic_Click");
             _isSoundSelected = idx == 0;
             ActiveTab(idx);
             InactiveTab(1 - idx);
