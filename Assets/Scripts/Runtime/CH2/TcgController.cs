@@ -231,15 +231,20 @@ namespace Runtime.CH2.Main
 
         private void MoveLastCardFromDeck()
         {
+            if (_cards.Length == 0)
+                return;
             // 마지막 카드 (가장 오른쪽에 위치할 카드)를 덱에서 목표 위치로 이동
-            if (_cards.Length > 0)
-            {
-                Transform lastCard = _cards[_cards.Length - 1].transform;
 
-                lastCard.DOLocalMove(new Vector3(234f, -521f + 300f, 0f), 1f).SetEase(Ease.OutQuad);  // 위치 이동
-                lastCard.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);  // 크기 변화 (0.5 -> 1.0)
-                lastCard.DOLocalRotate(new Vector3(0f, 0f, -15f), 1f).SetEase(Ease.OutQuad);  // 회전 (z값 변화)
-            }
+            Transform lastCard = _cards[_cards.Length - 1].transform;
+
+            lastCard.DOLocalMove(new Vector3(234f, -521f + 300f, 0f), 1f).SetEase(Ease.OutQuad);  // 위치 이동
+            lastCard.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);  // 크기 변화 (0.5 -> 1.0)
+            lastCard.DOLocalRotate(new Vector3(0f, 0f, -15f), 1f).SetEase(Ease.OutQuad);  // 회전 (z값 변화)
+
+            //DOVirtual.DelayedCall(0.5f, () =>
+            //{
+            //    lastCard.Find("YourObjectName").gameObject.SetActive(true);  // YourObjectName을 원하는 오브젝트로 교체
+            //});
         }
         #endregion
 
