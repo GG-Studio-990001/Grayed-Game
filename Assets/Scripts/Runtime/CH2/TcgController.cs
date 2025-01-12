@@ -193,36 +193,30 @@ namespace Runtime.CH2.Main
                 _cards[i].transform.DOLocalRotate(cardRotation.eulerAngles, 0.5f, RotateMode.Fast).SetEase(Ease.OutQuad);
             }
 
-            // 마지막 카드의 시작 위치를 _cardBack의 위치로 설정 (임시)
-            
-            _cards[cardCount - 1].transform.localPosition = new Vector3(_cardBack.transform.localPosition.x, _cardBack.transform.localPosition.y + 300f, 0);
+            // Init Last Card
+            // 마지막 카드를 _cardBack과 position, rotation, scale이 동일하게 설정
+            Transform lastCard = _cards[cardCount - 1].transform;
+
+            // 마지막 카드 위치, 회전, 크기 설정
+            lastCard.localPosition = _cardBack.transform.localPosition;  // 위치 설정
+            lastCard.localRotation = _cardBack.transform.localRotation;  // 회전 설정
+            lastCard.localScale = _cardBack.transform.localScale;  // 크기 설정
         }
 
         private void CardsAppear()
         {
-            // 0, 1, 2번 카드를 위로 올린다
-            MoveLeftCardsUp();
-            
             //if (_currentQuestionIndex == 0)
-            //{
-            //    // 0~3번 카드가 덱에서 날아온다
-            //}
-            //else
-            //{
-                
-            //}
+
+            // 모든 카드를 위로 올린다
+            MoveCardsUp();
         }
 
-        private void MoveLeftCardsUp()
+        private void MoveCardsUp()
         {
-            for (int i = 0; i < _cards.Length; i++)
+            foreach (var card in _cards)
             {
-                // 마지막 카드인지 확인
-                if (i == _cards.Length - 1)
-                    continue;
-
-                Vector3 targetPosition = _cards[i].transform.localPosition + new Vector3(0, 300, 0);
-                _cards[i].transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.OutQuad);
+                Vector3 targetPosition = card.transform.localPosition + new Vector3(0, 300, 0);
+                card.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.OutQuad);
             }
 
             // 카드 뒷면도 Y축으로 300만큼 올라감
@@ -240,10 +234,11 @@ namespace Runtime.CH2.Main
             // 마지막 카드 (가장 오른쪽에 위치할 카드)를 덱에서 목표 위치로 이동
             if (_cards.Length > 0)
             {
-                Debug.Log("시작");
+                Transform lastCard = _cards[_cards.Length - 1].transform;
 
-                // 카드를 이동시킴 (1초 동안 이동)
-                _cards[_cards.Length - 1].transform.DOLocalMove(new(234f, -521f + 300f, 0f), 1f).SetEase(Ease.OutQuad);
+                lastCard.DOLocalMove(new Vector3(234f, -521f + 300f, 0f), 1f).SetEase(Ease.OutQuad);  // 위치 이동
+                lastCard.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);  // 크기 변화 (0.5 -> 1.0)
+                lastCard.DOLocalRotate(new Vector3(0f, 0f, -15f), 1f).SetEase(Ease.OutQuad);  // 회전 (z값 변화)
             }
         }
         #endregion
