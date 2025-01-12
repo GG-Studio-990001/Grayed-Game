@@ -66,8 +66,7 @@ namespace Runtime.CH2.Main
         #region Dialogue
         public void StartTcg()
         {
-            ArrangeCardsInFan();
-            ResetCardPositions();
+            ResetAndArrangeCards();
             ActiveCh2Ui(false);
 
             // _michael을 중앙으로 이동
@@ -75,7 +74,7 @@ namespace Runtime.CH2.Main
                 .OnComplete(() =>
                 {
                     ActiveTcgUi(true);
-                    MoveCardsUp();
+                    CardsAppear();
                 });
 
             ShowQuestion();
@@ -157,13 +156,18 @@ namespace Runtime.CH2.Main
             _scoreBoard.SetActive(false);
         }
 
-        private void ResetCardPositions()
+        private void ResetAndArrangeCards()
         {
             IsCardSelected = false;
 
             _cardsCanvasGroup.alpha = 1f;
 
-            for (int i = 0; i < _cards.Length; i++)
+            int cardCount = _cards.Length;
+
+            if (cardCount <= 0) return; // 카드가 없으면 종료
+
+            // 카드 초기 위치 리셋
+            for (int i = 0; i < cardCount; i++)
             {
                 _cards[i].transform.localPosition = _cardInitialPositions[i];
             }
@@ -172,38 +176,13 @@ namespace Runtime.CH2.Main
             {
                 _cardBack.transform.localPosition = _cardBackInitialPosition;
             }
-        }
 
-        private void MoveCardsUp()
-        {
-            foreach (var card in _cards)
-            {
-                Vector3 targetPosition = card.transform.localPosition + new Vector3(0, 300, 0);
-                card.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.OutQuad);
-            }
-
-            // 카드 뒷면도 Y축으로 300만큼 올라감
-            if (_cardBack != null)
-            {
-                Vector3 targetPosition = _cardBack.transform.localPosition + new Vector3(0, 300, 0);
-                _cardBack.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.OutQuad);
-            }
-        }
-
-        private void ArrangeCardsInFan()
-        {
-            // TODO: 카드가 3장 이하일 때 처리
-
-            int cardCount = _cards.Length;
-
-            if (cardCount <= 0) return; // 카드가 없으면 종료
-
-            // 카드 배치의 기본 설정
+            // 카드 배치의 기본 설정 (팬 형태로 배치)
             float[] xPositions = { -234f, -80f, 80f, 234f }; // X 좌표
             float[] yPositions = { -521f, -496f, -496f, -521f }; // Y 좌표
             float[] zRotations = { 15f, 5f, -5f, -15f }; // Z축 각도
 
-            for (int i = 0; i < cardCount; i++)
+            for (int i = 0; i < cardCount - 1; i++)
             {
                 // 카드의 위치 및 회전 설정
                 Vector3 cardPosition = new(xPositions[i], yPositions[i], 0f);
@@ -213,8 +192,60 @@ namespace Runtime.CH2.Main
                 _cards[i].transform.DOLocalMove(cardPosition, 0.5f).SetEase(Ease.OutQuad);
                 _cards[i].transform.DOLocalRotate(cardRotation.eulerAngles, 0.5f, RotateMode.Fast).SetEase(Ease.OutQuad);
             }
+
+            // 마지막 카드의 시작 위치를 _cardBack의 위치로 설정 (임시)
+            
+            _cards[cardCount - 1].transform.localPosition = new Vector3(_cardBack.transform.localPosition.x, _cardBack.transform.localPosition.y + 300f, 0);
         }
 
+        private void CardsAppear()
+        {
+            // 0, 1, 2번 카드를 위로 올린다
+            MoveLeftCardsUp();
+            
+            //if (_currentQuestionIndex == 0)
+            //{
+            //    // 0~3번 카드가 덱에서 날아온다
+            //}
+            //else
+            //{
+                
+            //}
+        }
+
+        private void MoveLeftCardsUp()
+        {
+            for (int i = 0; i < _cards.Length; i++)
+            {
+                // 마지막 카드인지 확인
+                if (i == _cards.Length - 1)
+                    continue;
+
+                Vector3 targetPosition = _cards[i].transform.localPosition + new Vector3(0, 300, 0);
+                _cards[i].transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.OutQuad);
+            }
+
+            // 카드 뒷면도 Y축으로 300만큼 올라감
+            if (_cardBack != null)
+            {
+                Vector3 targetPosition = _cardBack.transform.localPosition + new Vector3(0, 300, 0);
+                _cardBack.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.OutQuad);
+            }
+
+            Invoke(nameof(MoveLastCardFromDeck), 1f);
+        }
+
+        private void MoveLastCardFromDeck()
+        {
+            // 마지막 카드 (가장 오른쪽에 위치할 카드)를 덱에서 목표 위치로 이동
+            if (_cards.Length > 0)
+            {
+                Debug.Log("시작");
+
+                // 카드를 이동시킴 (1초 동안 이동)
+                _cards[_cards.Length - 1].transform.DOLocalMove(new(234f, -521f + 300f, 0f), 1f).SetEase(Ease.OutQuad);
+            }
+        }
         #endregion
 
         #region TCG
