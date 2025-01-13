@@ -1,4 +1,5 @@
 using Runtime.CH2.Main;
+using Runtime.ETC;
 using Runtime.InGameSystem;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,7 @@ namespace Runtime.CH2.Location
                 {
                     DisableAllButtons(); // 클릭 시 모든 버튼 비활성화
 
+                    Managers.Sound.Play(Sound.SFX, "CH2/SFX_Click");
                     TurnController.SetLocation(loc[index]);
                     TurnController.StartDialogue();
                 });

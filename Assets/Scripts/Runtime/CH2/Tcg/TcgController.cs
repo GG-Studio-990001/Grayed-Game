@@ -7,7 +7,7 @@ using Yarn.Unity;
 using Runtime.ETC;
 using DG.Tweening;
 
-namespace Runtime.CH2.Main
+namespace Runtime.CH2.Tcg
 {
     public class TcgController : MonoBehaviour
     {
@@ -22,14 +22,13 @@ namespace Runtime.CH2.Main
         [SerializeField] private TextMeshProUGUI _michaelBubbleTxt; // 미카엘 대화창 텍스트
         [SerializeField] private TextMeshProUGUI _scoreTxt; // 호감도 텍스트
         [SerializeField] private GameObject[] _cards = new GameObject[4]; // 답변 카드
-        [SerializeField] private TextMeshProUGUI[] _cardsTxt = new TextMeshProUGUI[4]; // 답변 카드 텍스트
+        [SerializeField] private TcgCard[] _tcgCards = new TcgCard[4]; // 답변 카드 속성
         [SerializeField] private GameObject _cardBack;
         [SerializeField] private CanvasGroup _cardsCanvasGroup;
         [Header("=ScoreBoard=")]
         [SerializeField] private GameObject _scoreBoard;
         [SerializeField] private Slider _scoreSlider;
         [SerializeField] private RectTransform _heart;
-        private Vector3[] _cardInitialPositions; // 카드의 초기 위치를 저장
         private Vector3 _cardBackInitialPosition; // 카드 뒷면의 초기 위치
         private List<Dictionary<string, object>> _responses = new(); // 캐릭터 반응 파일
         private List<Dictionary<string, object>> _scores = new(); // 호감도 점수 파일
@@ -50,13 +49,7 @@ namespace Runtime.CH2.Main
             _responses = CSVReader.Read("Tcg - Responses");
             _scores = CSVReader.Read("Tcg - Scores");
 
-            // 카드 초기 위치 저장
-            _cardInitialPositions = new Vector3[_cards.Length];
-            for (int i = 0; i < _cards.Length; i++)
-            {
-                _cardInitialPositions[i] = _cards[i].transform.localPosition;
-            }
-
+            // 카드뒷면 초기 위치 저장
             if (_cardBack != null)
             {
                 _cardBackInitialPosition = _cardBack.transform.localPosition;
@@ -66,8 +59,7 @@ namespace Runtime.CH2.Main
         #region Dialogue
         public void StartTcg()
         {
-            ArrangeCardsInFan();
-            ResetCardPositions();
+            ResetAndArrangeCards();
             ActiveCh2Ui(false);
 
             // _michael을 중앙으로 이동
@@ -157,20 +149,56 @@ namespace Runtime.CH2.Main
             _scoreBoard.SetActive(false);
         }
 
-        private void ResetCardPositions()
+        private void ResetAndArrangeCards()
         {
             IsCardSelected = false;
 
             _cardsCanvasGroup.alpha = 1f;
 
-            for (int i = 0; i < _cards.Length; i++)
-            {
-                _cards[i].transform.localPosition = _cardInitialPositions[i];
-            }
+            int cardCount = _cards.Length;
 
+            if (cardCount <= 0) return; // 카드가 없으면 종료
+
+            // 카드뒷면 초기 위치 리셋
             if (_cardBack != null)
             {
                 _cardBack.transform.localPosition = _cardBackInitialPosition;
+            }
+
+
+            // 모든 카드를 카드 덱에 위치
+            for (int i = 0; i < cardCount; i++)
+            {
+                _cards[i].transform.localPosition = _cardBack.transform.localPosition;  // 위치 설정
+                _cards[i].transform.localRotation = _cardBack.transform.localRotation;  // 회전 설정
+                _cards[i].transform.localScale = _cardBack.transform.localScale;  // 크기 설정
+
+                _tcgCards[i].SetCardBack();
+            }
+
+            if (_currentQuestionIndex > 0)
+            {
+                // 카드앞면 배치의 기본 설정 (팬 형태로 배치)
+                float[] xPositions = { -234f, -80f, 80f, 234f }; // X 좌표
+                float[] yPositions = { -521f, -496f, -496f, -521f }; // Y 좌표
+                float[] zRotations = { 15f, 5f, -5f, -15f }; // Z축 각도
+
+                for (int i = 0; i < cardCount - 1; i++)
+                {
+                    // 카드의 위치 및 회전 설정
+                    _cards[i].transform.localPosition = new(xPositions[i], yPositions[i], 0f);
+                    _cards[i].transform.localRotation = Quaternion.Euler(0f, 0f, zRotations[i]);
+                    _cards[i].transform.localScale = Vector3.one;
+
+                    _tcgCards[i].SetCardFront();
+                }
+
+                // 마지막 카드만 위치, 회전, 크기 설정
+                Transform lastCard = _cards[cardCount - 1].transform;
+
+                lastCard.localPosition = _cardBack.transform.localPosition;  // 위치 설정
+                lastCard.localRotation = _cardBack.transform.localRotation;  // 회전 설정
+                lastCard.localScale = _cardBack.transform.localScale;  // 크기 설정
             }
         }
 
@@ -188,33 +216,56 @@ namespace Runtime.CH2.Main
                 Vector3 targetPosition = _cardBack.transform.localPosition + new Vector3(0, 300, 0);
                 _cardBack.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.OutQuad);
             }
+
+            if (_currentQuestionIndex == 0)
+                Invoke(nameof(MoveAllCardsFromDeck), 1f);
+            else
+                Invoke(nameof(MoveLastCardFromDeck), 1f);
         }
 
-        private void ArrangeCardsInFan()
+        private void MoveLastCardFromDeck()
         {
-            // TODO: 카드가 3장 이하일 때 처리
+            // 마지막 카드 (가장 오른쪽에 위치할 카드)를 덱에서 목표 위치로 이동
+            Transform lastCard = _cards[_cards.Length - 1].transform;
 
-            int cardCount = _cards.Length;
+            lastCard.DOLocalMove(new Vector3(234f, -521f + 300f, 0f), 1f).SetEase(Ease.OutQuad);  // 위치 이동
+            lastCard.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);  // 크기 변화 (0.5 -> 1.0)
+            lastCard.DOLocalRotate(new Vector3(0f, 0f, -15f), 1f).SetEase(Ease.OutQuad);  // 회전 (z값 변화)
 
-            if (cardCount <= 0) return; // 카드가 없으면 종료
+            DOVirtual.DelayedCall(0.1f, () =>
+            {
+                _tcgCards[_cards.Length - 1].SetCardFront();
+            });
+        }
 
-            // 카드 배치의 기본 설정
+        private void MoveAllCardsFromDeck()
+        {
+            float delayBetweenCards = 0.3f; // 각 카드 간의 딜레이
             float[] xPositions = { -234f, -80f, 80f, 234f }; // X 좌표
-            float[] yPositions = { -521f, -496f, -496f, -521f }; // Y 좌표
+            float[] yPositions = { -221f, -196f, -196f, -221f }; // Y 좌표
             float[] zRotations = { 15f, 5f, -5f, -15f }; // Z축 각도
 
-            for (int i = 0; i < cardCount; i++)
+            for (int i = 0; i < _cards.Length; i++)
             {
-                // 카드의 위치 및 회전 설정
-                Vector3 cardPosition = new(xPositions[i], yPositions[i], 0f);
-                Quaternion cardRotation = Quaternion.Euler(0f, 0f, zRotations[i]);
+                int index = i; // 클로저 문제 방지
+                DOVirtual.DelayedCall(delayBetweenCards * i, () =>
+                {
+                    // 카드의 목표 위치 및 회전 설정
+                    Vector3 targetPosition = new(xPositions[index], yPositions[index], 0f);
+                    Quaternion targetRotation = Quaternion.Euler(0f, 0f, zRotations[index]);
 
-                // 카드 위치와 회전 적용
-                _cards[i].transform.DOLocalMove(cardPosition, 0.5f).SetEase(Ease.OutQuad);
-                _cards[i].transform.DOLocalRotate(cardRotation.eulerAngles, 0.5f, RotateMode.Fast).SetEase(Ease.OutQuad);
+                    // 애니메이션 실행
+                    _cards[index].transform.DOLocalMove(targetPosition, 0.5f).SetEase(Ease.OutQuad);
+                    _cards[index].transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);
+                    _cards[index].transform.DOLocalRotate(targetRotation.eulerAngles, 0.5f).SetEase(Ease.OutQuad);
+
+                    DOVirtual.DelayedCall(0.1f, () =>
+                    {
+                        _tcgCards[index].SetCardFront();
+                    });
+                });
             }
         }
-
         #endregion
 
         #region TCG
@@ -254,12 +305,11 @@ namespace Runtime.CH2.Main
 
                 if (answerIndex < _responses.Count)
                 {
-                    string answer = _responses[answerIndex][""].ToString();
-                    _cardsTxt[i].text = answer;
+                    _tcgCards[i].SetCardIndex(answerIndex);
 
                     // 버튼 클릭 이벤트 설정
                     int cardIndex = answerIndex;
-                    _cards[i].SetActive(true);
+                    _cards[i].gameObject.SetActive(true);
                     var button = _cards[i].GetComponent<Button>();
                     button.interactable = true;
                     button.onClick.RemoveAllListeners();
@@ -269,7 +319,7 @@ namespace Runtime.CH2.Main
                 }
                 else
                 {
-                    _cards[i].SetActive(false);
+                    _cards[i].gameObject.SetActive(false);
                 }
             }
         }
@@ -307,7 +357,7 @@ namespace Runtime.CH2.Main
             Sequence cardsSequence = DOTween.Sequence();
             for (int i = 0; i < _cards.Length; i++)
             {
-                if (_cardsTxt[i].text != answer)
+                if (_tcgCards[i].Index != answerIndex)
                 {
                     // 선택되지 않은 카드는 아래로 이동
                     Vector3 downPosition = _cards[i].transform.localPosition - new Vector3(0, 300, 0);
@@ -327,7 +377,7 @@ namespace Runtime.CH2.Main
             {
                 for (int i = 0; i < _cards.Length; i++)
                 {
-                    if (_cardsTxt[i].text == answer)
+                    if (_tcgCards[i].Index == answerIndex)
                     {
                         // 선택된 카드의 x값만 0으로 설정하고 이동
                         Vector3 centerPosition = _cards[i].transform.localPosition;
