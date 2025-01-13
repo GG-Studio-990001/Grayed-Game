@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +21,7 @@ namespace Runtime.CH2.Tcg
                     Debug.LogWarning("Invalid Card Idx");
                 return;
             }
+
             SetCardFront();
         }
 
