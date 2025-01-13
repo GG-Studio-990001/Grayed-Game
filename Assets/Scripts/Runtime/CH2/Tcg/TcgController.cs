@@ -165,17 +165,18 @@ namespace Runtime.CH2.Tcg
                 _cardBack.transform.localPosition = _cardBackInitialPosition;
             }
 
-            if (_currentQuestionIndex == 0)
+
+            // 모든 카드를 카드 덱에 위치
+            for (int i = 0; i < cardCount; i++)
             {
-                // 모든 카드를 카드 덱에 위치
-                foreach (var card in _cards)
-                {
-                    card.transform.localPosition = _cardBack.transform.localPosition;  // 위치 설정
-                    card.transform.localRotation = _cardBack.transform.localRotation;  // 회전 설정
-                    card.transform.localScale = _cardBack.transform.localScale;  // 크기 설정
-                }
+                _cards[i].transform.localPosition = _cardBack.transform.localPosition;  // 위치 설정
+                _cards[i].transform.localRotation = _cardBack.transform.localRotation;  // 회전 설정
+                _cards[i].transform.localScale = _cardBack.transform.localScale;  // 크기 설정
+
+                _tcgCards[i].SetCardBack();
             }
-            else
+
+            if (_currentQuestionIndex > 0)
             {
                 // 카드앞면 배치의 기본 설정 (팬 형태로 배치)
                 float[] xPositions = { -234f, -80f, 80f, 234f }; // X 좌표
@@ -185,12 +186,11 @@ namespace Runtime.CH2.Tcg
                 for (int i = 0; i < cardCount - 1; i++)
                 {
                     // 카드의 위치 및 회전 설정
-                    Vector3 cardPosition = new(xPositions[i], yPositions[i], 0f);
-                    Quaternion cardRotation = Quaternion.Euler(0f, 0f, zRotations[i]);
+                    _cards[i].transform.localPosition = new(xPositions[i], yPositions[i], 0f);
+                    _cards[i].transform.localRotation = Quaternion.Euler(0f, 0f, zRotations[i]);
+                    _cards[i].transform.localScale = Vector3.one;
 
-                    // 카드 위치와 회전 적용
-                    _cards[i].transform.DOLocalMove(cardPosition, 0.5f).SetEase(Ease.OutQuad);
-                    _cards[i].transform.DOLocalRotate(cardRotation.eulerAngles, 0.5f, RotateMode.Fast).SetEase(Ease.OutQuad);
+                    _tcgCards[i].SetCardFront();
                 }
 
                 // 마지막 카드만 위치, 회전, 크기 설정
@@ -232,10 +232,10 @@ namespace Runtime.CH2.Tcg
             lastCard.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);  // 크기 변화 (0.5 -> 1.0)
             lastCard.DOLocalRotate(new Vector3(0f, 0f, -15f), 1f).SetEase(Ease.OutQuad);  // 회전 (z값 변화)
 
-            //DOVirtual.DelayedCall(0.5f, () =>
-            //{
-            //    lastCard.Find("YourObjectName").gameObject.SetActive(true);  // YourObjectName을 원하는 오브젝트로 교체
-            //});
+            DOVirtual.DelayedCall(0.1f, () =>
+            {
+                _tcgCards[_cards.Length - 1].SetCardFront();
+            });
         }
 
         private void MoveAllCardsFromDeck()
@@ -258,6 +258,11 @@ namespace Runtime.CH2.Tcg
                     _cards[index].transform.DOLocalMove(targetPosition, 0.5f).SetEase(Ease.OutQuad);
                     _cards[index].transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);
                     _cards[index].transform.DOLocalRotate(targetRotation.eulerAngles, 0.5f).SetEase(Ease.OutQuad);
+
+                    DOVirtual.DelayedCall(0.1f, () =>
+                    {
+                        _tcgCards[index].SetCardFront();
+                    });
                 });
             }
         }

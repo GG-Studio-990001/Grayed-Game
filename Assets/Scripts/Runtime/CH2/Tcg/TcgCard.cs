@@ -8,7 +8,7 @@ namespace Runtime.CH2.Tcg
         public int Index;
         [SerializeField] private CardManager _cardManager;
         [SerializeField] private Image _cardImg;
-        private bool _isBack;
+        private bool _isBack = true;
 
         public void SetCardIndex(int index)
         {
@@ -22,16 +22,21 @@ namespace Runtime.CH2.Tcg
                 return;
             }
 
-            SetCardFront();
+            if (_isBack)
+                SetCardBack();
+            else
+                SetCardFront();
         }
 
         public void SetCardBack()
         {
+            _isBack = true;
             _cardImg.sprite = _cardManager.CardBackSpr;
         }
 
         public void SetCardFront()
         {
+            _isBack = false;
             _cardImg.sprite = _cardManager.CardSprs[Index];
         }
     }
