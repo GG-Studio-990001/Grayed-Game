@@ -1,5 +1,6 @@
 using Runtime.CH2.Location;
 using Runtime.CH2.Main;
+using Runtime.CH2.Tcg;
 using Runtime.ETC;
 using System;
 using System.Collections;

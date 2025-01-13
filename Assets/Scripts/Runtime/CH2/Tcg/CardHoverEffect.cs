@@ -1,9 +1,8 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
-using Runtime.CH2.Main;
 
-namespace Runtime.CH2
+namespace Runtime.CH2.Tcg
 {
     public class CardHoverEffectUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
