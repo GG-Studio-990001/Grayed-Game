@@ -26,7 +26,7 @@ namespace Runtime.Input
         public void TitleKeyBinding(TitleKeyBinder keyBinder, SettingsUIView settingsUIView)
         {
             _gameOverControls.UI.Enable();
-            _gameOverControls.UI.DialogueInput.performed += _ => keyBinder.ActiveTimeline();
+            _gameOverControls.UI.DialogueInput.performed += _ => keyBinder.ExitTitle();
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
             _gameOverControls.UI.Cheat.performed += _ => keyBinder.GoToMain();
         }

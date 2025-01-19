@@ -70,7 +70,7 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("RebuildBridge", _cutScene.RebuildBridge);
             _runner.AddCommandHandler("BuildCompany", _cutScene.BuildCompany);
             _runner.AddCommandHandler("EndMamagoCutScene", _cutScene.EndMamagoCutScene);
-            _runner.AddCommandHandler("EndSLGMode", _cutScene.EndSLGMode);
+            _runner.AddCommandHandler("EndCh1", _cutScene.EndCh1);
             _runner.AddCommandHandler("ConstructSFX", _cutScene.ConstructSFX);
             _runner.AddCommandHandler("CompleteSFX", _cutScene.CompleteSFX);
             _runner.AddCommandHandler("MamagoJump", _cutScene.MamagoJump);

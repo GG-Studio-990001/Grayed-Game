@@ -196,13 +196,16 @@ namespace Runtime.CH1.Main.Dialogue
             }
         }
 
-        public void EndSLGMode()
+        public void EndCh1()
         {
             SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
             if (slgAction != null)
             {
                 slgAction.MoveOnNextProgress();
             }
+
+            Managers.Data.Chapter = 2;
+            Managers.Data.SaveGame();
         }
 
         #region Mamago

@@ -23,8 +23,8 @@ title: VisualNovelPack
      <<GetVisualNovel>>
      : '비주얼노벨팩'을 획득했다.
      : 이상한 기분이 든다.
-     <<EndSLGMode>>
-     <<SceneChange CH2>>
+     <<EndCh1>>
+     <<SceneChange Title>>
 ===
 
 title: EquipTranslator

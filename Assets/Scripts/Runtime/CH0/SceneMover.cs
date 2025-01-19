@@ -13,6 +13,7 @@ namespace Runtime.CH0
             if (!other.CompareTag(GlobalConst.PlayerStr))
                 return;
 
+            Managers.Data.Chapter = 1;
             _sceneSystem.LoadSceneWithFade("CH1");
         }
     }
