@@ -35,7 +35,18 @@ namespace Runtime.CH2.Main
                     break;
                 case 3:
                     _dialogueRunner.StartDialogue("Turn3");
-                    // TODO: 슈아브 다녀온 후로는 Turn3~ 치트로 넘기기
+                    break;
+                case 4:
+                    _dialogueRunner.StartDialogue("Turn4_S");
+                    break;
+                case 5:
+                    _dialogueRunner.StartDialogue("Turn5");
+                    break;
+                case 6:
+                    _dialogueRunner.StartDialogue("Turn6_S");
+                    break;
+                case 7:
+                    _dialogueRunner.StartDialogue("Turn7");
                     break;
             }
         }
@@ -63,7 +74,11 @@ namespace Runtime.CH2.Main
             }
 
             if (dialogueName == "")
+            {
+                Debug.Log("출력할 다이얼로그 없음");
+                _locationUiController.MoveLocation();
                 dialogueName = Nobody;
+            }
             _dialogueRunner.StartDialogue(dialogueName);
         }
 

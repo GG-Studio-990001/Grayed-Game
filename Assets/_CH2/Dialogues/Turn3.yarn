@@ -187,5 +187,8 @@ title: AfterTcg3
 <<PartnerOut>>
 
     :파머가 언급한 공간...<br>비밀이 들키기 전에 다시 가보는 게 좋을 것 같다.
-    :<i>!!!Turn3 끝. 구현은 여기까지!!!</i>
+
+<<DialogueFin>>
+<<NextTurn>>
+<<ShowOptions>>
 ===

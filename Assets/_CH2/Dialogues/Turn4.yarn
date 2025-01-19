@@ -1,6 +1,8 @@
 title: Turn4_N_Entrance
 ---
 // 장소: 마을 입구
+<<SetLocation Entrance>>
+<<wait 2>>
 
     :진도와 비글이 마을 입구를 지키고 있다.
 
@@ -16,6 +18,8 @@ title: Turn4_N_Entrance
     :마을 안으로 다시 들어가는 게 좋을 것 같다.
 
 // 장소 이동
+<<DialogueFin>>
+<<ShowOptions>>
 ===
 
 title: Turn4_N_Temple
@@ -23,15 +27,21 @@ title: Turn4_N_Temple
 // 상황 : 기도시간에는 종을 울리지 말라는 안내문이 붙어 있다.
 ---
 // 신전 도착
+<<SetLocation Temple>>
+<<wait 2>>
 
     :신전에 도착했지만,<br>기도 시간에는 종을 울리지 말라는 안내문이 붙어 있다.
 
 // 장소 이동
+<<DialogueFin>>
+<<ShowOptions>>
 ===
 
 title: Turn4_S
 ---
 // 장소: 달러 동상
+<<SetLocation Statue>>
+<<wait 2>>
 
     :비밀스러운 곳으로 들어가기 위해 꺼낸 열쇠로 문을 열었다.
 
@@ -40,6 +50,8 @@ title: Turn4_S
     :누군가 다가오는 것 같다. 서둘러 안으로 들어가자.
 
 // 장소: 달러 동상 틈새
+<<SetLocation StatueCrack>>
+<<wait 2>>
 
     :무사히 안으로 들어왔다. 문틈 사이로 밖이 희미하게 보였다.
 
@@ -58,8 +70,14 @@ title: Turn4_S
     :...이런, 들킨 것 같다. 도망을 가야 한다.
 
 // 장소: 달러 동상 내부
+<<SetLocation InStatue>>
+<<wait 2>>
 
     :나갈 수도 없고 어떻게 하지? 지금 유일한 방법은...
+    :<i>(슈아브로 이동)</i>
 
 // 게임팩의 스테이지2로 접속
+<<DialogueFin>>
+<<NextTurn>>
+<<ConnectScene SuperArio>>
 ===

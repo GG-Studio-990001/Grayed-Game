@@ -45,6 +45,8 @@ namespace Runtime.CH2.Tcg
             _currentScore = Managers.Data.CH2.TcgScore;
             _usedAnswers = Managers.Data.CH2.UsedTcgAnswers;
 
+            _scoreSlider.value = (float)_currentScore / 100;
+
             // CSV 읽어오기
             _responses = CSVReader.Read("Tcg - Responses");
             _scores = CSVReader.Read("Tcg - Scores");
@@ -121,6 +123,8 @@ namespace Runtime.CH2.Tcg
         public void ShowScore()
         {
             _scoreBoard.SetActive(true);
+
+            Debug.Log($"{_currentScore} {_scoreChange}");
 
             // 새로운 점수 계산
             float newScore = Mathf.Clamp(_currentScore + _scoreChange, 0, 100);
