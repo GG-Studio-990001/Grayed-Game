@@ -45,6 +45,8 @@ namespace Runtime.CH2.Tcg
             _currentScore = Managers.Data.CH2.TcgScore;
             _usedAnswers = Managers.Data.CH2.UsedTcgAnswers;
 
+            _scoreSlider.value = (float)_currentScore / 100;
+
             // CSV 읽어오기
             _responses = CSVReader.Read("Tcg - Responses");
             _scores = CSVReader.Read("Tcg - Scores");
@@ -122,6 +124,8 @@ namespace Runtime.CH2.Tcg
         {
             _scoreBoard.SetActive(true);
 
+            Debug.Log($"{_currentScore} {_scoreChange}");
+
             // 새로운 점수 계산
             float newScore = Mathf.Clamp(_currentScore + _scoreChange, 0, 100);
 
@@ -157,42 +161,68 @@ namespace Runtime.CH2.Tcg
 
             int cardCount = _cards.Length;
 
-            if (cardCount <= 0) return; // 카드가 없으면 종료
-
             // 카드뒷면 초기 위치 리셋
             if (_cardBack != null)
             {
                 _cardBack.transform.localPosition = _cardBackInitialPosition;
+                if (_currentQuestionIndex >= 4)
+                    _cardBack.SetActive(false);
             }
 
+            if (_currentQuestionIndex == 0)
+            {
+                // 모든 카드를 카드 덱에 위치
+                for (int i = 0; i < cardCount; i++)
+                {
+                    _cards[i].transform.localPosition = _cardBack.transform.localPosition;  // 위치 설정
+                    _cards[i].transform.localRotation = _cardBack.transform.localRotation;  // 회전 설정
+                    _cards[i].transform.localScale = _cardBack.transform.localScale;  // 크기 설정
 
-            // 모든 카드를 카드 덱에 위치
+                    _tcgCards[i].SetCardBack();
+                }
+                return;
+            }
+
+            // 카드앞면 배치의 기본 설정 (팬 형태로 배치)
+            float[] xPositions = new float[] { -234f, -80f, 80f, 234f }; // X 좌표
+            float[] yPositions = new float[] { -521f, -496f, -496f, -521f }; // Y 좌표
+            float[] zRotations = new float[] { 15f, 5f, -5f, -15f }; // Z축 각도
+
+            if (_currentQuestionIndex == 4)
+            {
+                // 3장
+                xPositions = new float[] { -160f, 0f, 160f, 0f };
+                yPositions = new float[] { -511f, -496f, - 511f, 0f };
+                zRotations = new float[] { 10f, 0f, -10f, 0f };
+            }
+            else if (_currentQuestionIndex == 5)
+            {
+                // 2장
+                xPositions = new float[] { -80f, 80f, 0f, 0f };
+                yPositions = new float[] { -496f, -496f, 0f, 0f };
+                zRotations = new float[] { 5f, -5f, 0f, 0f };
+            }
+            else if (_currentQuestionIndex == 6)
+            {
+                // 1장
+                xPositions = new float[] { 0f, 0f, 0f, 0f };
+                yPositions = new float[] { -496f, 0f, 0f, 0f };
+                zRotations = new float[] { 0f, 0f, 0f, 0f };
+            }
+
             for (int i = 0; i < cardCount; i++)
             {
-                _cards[i].transform.localPosition = _cardBack.transform.localPosition;  // 위치 설정
-                _cards[i].transform.localRotation = _cardBack.transform.localRotation;  // 회전 설정
-                _cards[i].transform.localScale = _cardBack.transform.localScale;  // 크기 설정
+                // 카드의 위치 및 회전 설정
+                _cards[i].transform.localPosition = new(xPositions[i], yPositions[i], 0f);
+                _cards[i].transform.localRotation = Quaternion.Euler(0f, 0f, zRotations[i]);
+                _cards[i].transform.localScale = Vector3.one;
 
-                _tcgCards[i].SetCardBack();
+                _tcgCards[i].SetCardFront();
             }
 
-            if (_currentQuestionIndex > 0)
+            if (_currentQuestionIndex < 4)
             {
-                // 카드앞면 배치의 기본 설정 (팬 형태로 배치)
-                float[] xPositions = { -234f, -80f, 80f, 234f }; // X 좌표
-                float[] yPositions = { -521f, -496f, -496f, -521f }; // Y 좌표
-                float[] zRotations = { 15f, 5f, -5f, -15f }; // Z축 각도
-
-                for (int i = 0; i < cardCount - 1; i++)
-                {
-                    // 카드의 위치 및 회전 설정
-                    _cards[i].transform.localPosition = new(xPositions[i], yPositions[i], 0f);
-                    _cards[i].transform.localRotation = Quaternion.Euler(0f, 0f, zRotations[i]);
-                    _cards[i].transform.localScale = Vector3.one;
-
-                    _tcgCards[i].SetCardFront();
-                }
-
+                // 카드 1장만 날아올 경우
                 // 마지막 카드만 위치, 회전, 크기 설정
                 Transform lastCard = _cards[cardCount - 1].transform;
 

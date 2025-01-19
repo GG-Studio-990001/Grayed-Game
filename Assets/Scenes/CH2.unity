@@ -820,6 +820,7 @@ MonoBehaviour:
   _turnController: {fileID: 1755298184}
   _locationUiController: {fileID: 444606903}
   _tcgController: {fileID: 839508657}
+  _connectionController: {fileID: 1027870255}
   _lineViewCanvas: {fileID: 1100803384}
   _lineView: {fileID: 1100803380}
   _nameTag: {fileID: 789604149}
@@ -3299,7 +3300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

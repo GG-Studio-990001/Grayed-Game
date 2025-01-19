@@ -2,6 +2,7 @@ using Runtime.CH2.Location;
 using Runtime.CH2.Main;
 using Runtime.CH2.Tcg;
 using Runtime.ETC;
+using Runtime.Middle;
 using System;
 using System.Collections;
 using TMPro;
@@ -27,6 +28,7 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private TurnController _turnController;
         [SerializeField] private LocationUIController _locationUiController;
         [SerializeField] private TcgController _tcgController;
+        [SerializeField] private ConnectionController _connectionController;
         [Header("=Else=")]
         [SerializeField] private CanvasGroup _lineViewCanvas;
         [SerializeField] private LineView _lineView;
@@ -63,6 +65,7 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("SetTcgPack", SetTcgPack);
             _runner.AddCommandHandler("SetSuperArioPack", SetSuperArioPack);
             _runner.AddCommandHandler<int>("ChangeBGM", ChangeBGM);
+            _runner.AddCommandHandler<string>("ConnectScene", ConnectScene);
 
             // Yarn Spinner 함수 등록
             _runner.AddCommandHandler("DialogueAfterTCG", _tcgController.DialogueAfterTCG);
@@ -100,8 +103,13 @@ namespace Runtime.CH2.Dialogue
 
             onDialogueLineFinished();
         }
-
         #endregion
+
+        private void ConnectScene(string scene)
+        {
+            Managers.Sound.StopBGM();
+            _connectionController.ConnectScene(scene);
+        }
 
         private void ChangeBGM(int idx = 1)
         {
