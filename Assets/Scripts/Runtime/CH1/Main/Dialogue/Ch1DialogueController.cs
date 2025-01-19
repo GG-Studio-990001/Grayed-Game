@@ -56,8 +56,8 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler<int>("CharactersMove", _cutScene.CharactersMove);
             _runner.AddCommandHandler<int>("CharactersStop", _cutScene.CharactersStop);
             _runner.AddCommandHandler<int>("NpcJump", _cutScene.NpcJump);
-            _runner.AddCommandHandler("GetLucky", _cutScene.GetLucky);
-            _runner.AddCommandHandler("MeetLucky", _cutScene.MeetLucky);
+            _runner.AddCommandHandler("GetLucky", _cutScene.GetLucky);  // 삭제예정
+            _runner.AddCommandHandler("MeetLucky", _cutScene.MeetLucky); // 삭제예정
             _runner.AddCommandHandler<bool>("ShakeMap", _cutScene.ShakeMap);
             _runner.AddCommandHandler("BreakBridge", _cutScene.BreakBridge);
             _runner.AddCommandHandler<int>("SetNpcPosition", _cutScene.SetNpcPosition);
@@ -70,7 +70,7 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("RebuildBridge", _cutScene.RebuildBridge);
             _runner.AddCommandHandler("BuildCompany", _cutScene.BuildCompany);
             _runner.AddCommandHandler("EndMamagoCutScene", _cutScene.EndMamagoCutScene);
-            _runner.AddCommandHandler("EndSLGMode", _cutScene.EndSLGMode);
+            _runner.AddCommandHandler("EndCh1", _cutScene.EndCh1);
             _runner.AddCommandHandler("ConstructSFX", _cutScene.ConstructSFX);
             _runner.AddCommandHandler("CompleteSFX", _cutScene.CompleteSFX);
             _runner.AddCommandHandler("MamagoJump", _cutScene.MamagoJump);

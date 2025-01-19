@@ -1,3 +1,4 @@
+using Runtime.CH0;
 using Runtime.CH1.Main.Controller;
 using Runtime.CH1.Main.Player;
 using Runtime.CH1.Pacmom;
@@ -25,7 +26,7 @@ namespace Runtime.Input
         public void TitleKeyBinding(TitleKeyBinder keyBinder, SettingsUIView settingsUIView)
         {
             _gameOverControls.UI.Enable();
-            _gameOverControls.UI.DialogueInput.performed += _ => keyBinder.ActiveTimeline();
+            _gameOverControls.UI.DialogueInput.performed += _ => keyBinder.ExitTitle();
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
             _gameOverControls.UI.Cheat.performed += _ => keyBinder.GoToMain();
         }
@@ -61,6 +62,14 @@ namespace Runtime.Input
             _gameOverControls.Player.Move.performed += keyBinder.ArioStore.OnMove;
             _gameOverControls.Player.Move.canceled += keyBinder.ArioStore.OnMove;
             _gameOverControls.Player.Interaction.performed += _ => keyBinder.ItemKeyInput();
+        }
+
+        // CH0
+        public void CH0UIKeyBinding(SettingsUIView settingsUIView, LineView line)
+        {
+            _gameOverControls.UI.Enable();
+            _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
+            _gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
         }
 
         // CH1

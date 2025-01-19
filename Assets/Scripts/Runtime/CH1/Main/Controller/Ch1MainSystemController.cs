@@ -3,9 +3,7 @@ using Runtime.CH1.Main.Npc;
 using Runtime.CH1.Main.Player;
 using Runtime.CH1.Main.Stage;
 using Runtime.Common.View;
-using Runtime.ETC;
 using Runtime.InGameSystem;
-using System;
 using UnityEngine;
 using Yarn.Unity;
 

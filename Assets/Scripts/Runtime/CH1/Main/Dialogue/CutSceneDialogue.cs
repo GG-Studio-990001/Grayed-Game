@@ -196,13 +196,16 @@ namespace Runtime.CH1.Main.Dialogue
             }
         }
 
-        public void EndSLGMode()
+        public void EndCh1()
         {
             SLGActionComponent slgAction = FindObjectOfType<SLGActionComponent>();
             if (slgAction != null)
             {
                 slgAction.MoveOnNextProgress();
             }
+
+            Managers.Data.Chapter = 2;
+            Managers.Data.SaveGame();
         }
 
         #region Mamago
@@ -479,13 +482,13 @@ namespace Runtime.CH1.Main.Dialogue
             _visualNovel.SetActive(false);
         }
 
-        public void GetLucky()
+        public void GetLucky() // 삭제예정
         {
             Managers.Sound.Play(Sound.SFX, "CH1/Lucky_Dog&Key_SFX");
             _lucky.SetActive(false);
         }
 
-        public void MeetLucky()
+        public void MeetLucky() // 삭제예정
         {
             // Find로 변경?
             _luckyDialogue.StartDialogue("LuckyFirstMeet");
