@@ -20,10 +20,7 @@ namespace Runtime.CH1.Title
 
         public void LoadSceneByData()
         {
-            if (Managers.Data.Chapter == 1)
-                _sceneSystem.LoadScene("CH1");
-            else if (Managers.Data.Chapter == 2)
-                _sceneSystem.LoadScene("CH2");
+            _sceneSystem.LoadScene($"CH{Managers.Data.Chapter}");
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Runtime.Manager
         public GameData()
         {
             Version = "";
-            Chapter = 1;
+            Chapter = 0;
             BgmVolume = 0.5f;
             SfxVolume = 0.5f;
             isFullScreen = true;
