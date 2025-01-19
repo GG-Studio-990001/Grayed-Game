@@ -479,13 +479,13 @@ namespace Runtime.CH1.Main.Dialogue
             _visualNovel.SetActive(false);
         }
 
-        public void GetLucky()
+        public void GetLucky() // 삭제예정
         {
             Managers.Sound.Play(Sound.SFX, "CH1/Lucky_Dog&Key_SFX");
             _lucky.SetActive(false);
         }
 
-        public void MeetLucky()
+        public void MeetLucky() // 삭제예정
         {
             // Find로 변경?
             _luckyDialogue.StartDialogue("LuckyFirstMeet");

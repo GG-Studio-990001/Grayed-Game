@@ -1,0 +1,29 @@
+﻿title: LuckyFirstMeet
+// 상황 : 만능게임번역팩 획득 이후 럭키의 자기소개
+---
+<<ReverseConnection>>
+<<wait 1>>
+
+<<SetLuckyPos>>
+<<SetBubblePos>>
+<<LuckyEnter>>
+
+<<WalkLeft>>
+<<wait 3>>
+<<ActiveBubble true>>
+<<Idle>>
+
+럭키: 안녕?<br>내 이름은 <bounce>럭키!</bounce>
+럭키: 모르는 게 있으면<br>이 몸이 등장!
+럭키: 어려운 게 있어도<br>이 몸이 등장!
+럭키: 예를 들어... 
+<<RemoveObject>>
+럭키: 이런 것도<br>치워준다는 말씀!
+럭키: 그럼 곧 또 만나자~
+
+<<ActiveBubble false>>
+<<WalkRight>>
+<<wait 3>>
+
+<<ExitFirstMeet>>
+===
