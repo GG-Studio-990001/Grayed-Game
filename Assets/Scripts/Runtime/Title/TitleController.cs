@@ -10,7 +10,7 @@ namespace Runtime.CH1.Title
 
         private void Start()
         {
-            Managers.Sound.Play(Sound.BGM, "Title_BGM_04");
+            Managers.Sound.Play(Sound.BGM, "Title/Title_BGM_CH1");
         }
 
         public void StopBGM()
