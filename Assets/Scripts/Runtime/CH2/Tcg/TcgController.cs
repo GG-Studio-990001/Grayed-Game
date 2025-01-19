@@ -191,26 +191,26 @@ namespace Runtime.CH2.Tcg
             if (_currentQuestionIndex == 4)
             {
                 // 3장
-                xPositions = new float[] { -160f, 0f, 160f };
-                yPositions = new float[] { -511f, -496f, - 511f };
-                zRotations = new float[] { 10f, 0f, -10f };
+                xPositions = new float[] { -160f, 0f, 160f, 0f };
+                yPositions = new float[] { -511f, -496f, - 511f, 0f };
+                zRotations = new float[] { 10f, 0f, -10f, 0f };
             }
             else if (_currentQuestionIndex == 5)
             {
                 // 2장
-                xPositions = new float[] { -80f, 80f };
-                yPositions = new float[] { -496f, -496f };
-                zRotations = new float[] { 5f, -5f };
+                xPositions = new float[] { -80f, 80f, 0f, 0f };
+                yPositions = new float[] { -496f, -496f, 0f, 0f };
+                zRotations = new float[] { 5f, -5f, 0f, 0f };
             }
             else if (_currentQuestionIndex == 6)
             {
                 // 1장
-                xPositions = new float[] { 0f };
-                yPositions = new float[] { -496f };
-                zRotations = new float[] { 0f };
+                xPositions = new float[] { 0f, 0f, 0f, 0f };
+                yPositions = new float[] { -496f, 0f, 0f, 0f };
+                zRotations = new float[] { 0f, 0f, 0f, 0f };
             }
 
-            for (int i = 0; i < cardCount - 1; i++)
+            for (int i = 0; i < cardCount; i++)
             {
                 // 카드의 위치 및 회전 설정
                 _cards[i].transform.localPosition = new(xPositions[i], yPositions[i], 0f);
