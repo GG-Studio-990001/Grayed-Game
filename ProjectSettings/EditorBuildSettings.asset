@@ -15,14 +15,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Escape.unity
     guid: 7a28a7d04a65ca64eb3dd86192894891
   - enabled: 1
-    path: Assets/Scenes/CH0.unity
-    guid: 9aa01f5e4d602ae48a6b2d0eb0bec224
-  - enabled: 1
     path: Assets/Scenes/CH1 Title.unity
     guid: 1b3a2d1c03ab698408b1c1529fa4130e
   - enabled: 1
+    path: Assets/Scenes/CH0.unity
+    guid: 9aa01f5e4d602ae48a6b2d0eb0bec224
+  - enabled: 1
     path: Assets/Scenes/CH1.unity
     guid: b114ef1e23b4e3f448ba9f32c6b7a629
+  - enabled: 1
+    path: Assets/Scenes/CH2 Title.unity
+    guid: 73958fc40c50c0544905b6fa779db450
   - enabled: 1
     path: Assets/Scenes/CH2.unity
     guid: b25d0c8f70ec7154380a92e8a0e84e49
