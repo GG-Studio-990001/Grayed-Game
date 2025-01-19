@@ -1,5 +1,6 @@
 title: Turn6_S
 ---
+<<ChangeBGM>>
 // 장소: 마을 입구
 <<SetLocation Entrance>>
 <<wait 2>>
@@ -8,7 +9,7 @@ title: Turn6_S
 
 <<PartnerAppear JindoBeagle>>
 비글: 뭐야, 또 너야? 어딘지 모르겠지만 잘 갔다 오라구.
-비글:  여긴 안전 그 잡채니까~
+비글: 여긴 안전 그 잡채니까~
 진도: 자체다. 아니다. 잡채.
 비글: 에잇, 고게 고거지!
 진도: 그거다. 아니다. 고거.

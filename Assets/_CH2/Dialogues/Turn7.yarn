@@ -1,5 +1,6 @@
 title: Turn7
 ---
+<<ChangeBGM>>
 // 장소: 기지
 <<SetLocation Base>>
 <<wait 2>>
@@ -37,6 +38,7 @@ title: Turn7
 // TCG 8 (질문만) 진행 후
 // 방울 sfx + 슬라임이 미카엘의 링 위로 올라타는 연출
 
+<<ChangeBGM 3>>
 미카엘: 슬- 라- 임-!!!
 슬라임: 또잉- 또이잉- 또이이잉-!!!
 
@@ -69,7 +71,7 @@ title: Turn7
 파머: 라플리, 자유가 된 걸 축하한다!
 <<PartnerAppear Michael>>
 미카엘: 자유를 얻게 된 걸 축하해. 여기 기념 선물이야.
-
+<<ChangeBGM>>
 // 쪽지 일러스트
 
 미카엘: 나를 도와줄 수 있는 기회를 선물할게~
@@ -85,6 +87,7 @@ title: Turn7
 
     :진도와 비글이 아직 돌아오지 않은 것 같다.<br>그냥 지나가려던 찰나, 누군가 갑자기 튀어나왔다.
 
+<<ChangeBGM 7>>
 <<PartnerAppear R2mon>>
 R2-Mon: 잠깐만요, 휴먼! 혹시 잊은 거 없어요?
 R2-Mon: 이거 그... 비밀 장부라고 쓰여 있던데요!
