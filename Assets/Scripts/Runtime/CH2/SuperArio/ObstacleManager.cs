@@ -29,7 +29,7 @@ namespace Runtime.CH2.SuperArio
             _obstacleTypeCnt = stageData.ObstacleTypes; // 장애물 종류 수
             
             _spawnDelay = 3.0f / stageData.Speed;
-            _spawnDelay = Mathf.Max(_spawnDelay, 0.5f);
+            _spawnDelay = Mathf.Max(_spawnDelay, 1f);
             _remainingSpawnCount = stageData.ObstacleCount; // 남은 스폰 카운트 초기화
         }
 
