@@ -1,10 +1,9 @@
 ---
-name: 작업
-about: 작업 관련 템플릿
-title: [CH] 작업 제목
-labels: ''
-assignees: ''
-
+name: "작업"
+description: "작업 관련 템플릿"
+title: "[CH] 작업 제목"
+labels: ""
+assignees: ""
 ---
 
 # 작업 제목
