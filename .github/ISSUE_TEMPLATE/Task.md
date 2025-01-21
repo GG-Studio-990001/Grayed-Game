@@ -1,7 +1,7 @@
 ---
 name: Task
 about: 작업 관련 템플릿
-title: [CH] 작업 제목
+title: 작업 제목
 labels: 
 assignees: 
 
