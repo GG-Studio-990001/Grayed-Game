@@ -43,6 +43,7 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _illerstBg;
         [SerializeField] private Image _illerstImg;
         [SerializeField] private Sprite[] _illerstSprs;
+        [SerializeField] private GameObject _darkImg;
         [SerializeField] private DialogueRunner _luckyDialogueRunner;
         private string _speaker;
         private bool _isAutoAdvanced = false;
@@ -64,12 +65,12 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("StartSuperArio", StartSuperArio);
             _runner.AddCommandHandler<int>("ChangeBGM", ChangeBGM);
             _runner.AddCommandHandler<string>("ConnectScene", ConnectScene);
+            _runner.AddCommandHandler<bool>("SetDarkness", SetDarkness);
+            _runner.AddCommandHandler("Ch2End", Ch2End);
 
-            // Yarn Spinner 함수 등록
             _runner.AddCommandHandler("DialogueAfterTCG", _tcgController.DialogueAfterTCG);
             _runner.AddCommandHandler("ShowScore", _tcgController.ShowScore);
             _runner.AddCommandHandler("HideScore", _tcgController.HideScore);
-            _runner.AddCommandHandler("Ch2End", Ch2End);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
 
@@ -243,6 +244,11 @@ namespace Runtime.CH2.Dialogue
         private void SetNameTag(bool hasName)
         {
             _nameTag.SetActive(hasName);
+        }
+
+        private void SetDarkness(bool dark)
+        {
+            _darkImg.SetActive(dark);
         }
 
         private void Ch2End()
