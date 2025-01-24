@@ -24,6 +24,7 @@ namespace Runtime.CH2.Tcg
         [SerializeField] private GameObject[] _cards = new GameObject[4]; // 답변 카드
         [SerializeField] private TcgCard[] _tcgCards = new TcgCard[4]; // 답변 카드 속성
         [SerializeField] private GameObject _cardBack;
+        [SerializeField] private GameObject _cardBlock;
         [SerializeField] private CanvasGroup _cardsCanvasGroup;
         [Header("=ScoreBoard=")]
         [SerializeField] private GameObject _scoreBoard;
@@ -234,6 +235,9 @@ namespace Runtime.CH2.Tcg
 
         private void MoveCardsUp()
         {
+            if (_currentQuestionIndex < 4)
+                _cardBlock.SetActive(true);
+
             foreach (var card in _cards)
             {
                 Vector3 targetPosition = card.transform.localPosition + new Vector3(0, 300, 0);
@@ -249,7 +253,7 @@ namespace Runtime.CH2.Tcg
 
             if (_currentQuestionIndex == 0)
                 Invoke(nameof(MoveAllCardsFromDeck), 1f);
-            else
+            else if (_currentQuestionIndex < 4)
                 Invoke(nameof(MoveLastCardFromDeck), 1f);
         }
 
@@ -260,7 +264,8 @@ namespace Runtime.CH2.Tcg
 
             lastCard.DOLocalMove(new Vector3(234f, -521f + 300f, 0f), 1f).SetEase(Ease.OutQuad);  // 위치 이동
             lastCard.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);  // 크기 변화 (0.5 -> 1.0)
-            lastCard.DOLocalRotate(new Vector3(0f, 0f, -15f), 1f).SetEase(Ease.OutQuad);  // 회전 (z값 변화)
+            lastCard.DOLocalRotate(new Vector3(0f, 0f, -15f), 1f).SetEase(Ease.OutQuad)          // 회전 (z값 변화)
+                .OnComplete(() => _cardBlock.SetActive(false));  // 애니메이션 종료 시 _cardBlock 비활성화
 
             DOVirtual.DelayedCall(0.1f, () =>
             {
@@ -275,26 +280,33 @@ namespace Runtime.CH2.Tcg
             float[] yPositions = { -221f, -196f, -196f, -221f }; // Y 좌표
             float[] zRotations = { 15f, 5f, -5f, -15f }; // Z축 각도
 
+            Sequence sequence = DOTween.Sequence(); // DOTween 시퀀스 생성
+
             for (int i = 0; i < _cards.Length; i++)
             {
                 int index = i; // 클로저 문제 방지
-                DOVirtual.DelayedCall(delayBetweenCards * i, () =>
-                {
-                    // 카드의 목표 위치 및 회전 설정
-                    Vector3 targetPosition = new(xPositions[index], yPositions[index], 0f);
-                    Quaternion targetRotation = Quaternion.Euler(0f, 0f, zRotations[index]);
-
-                    // 애니메이션 실행
-                    _cards[index].transform.DOLocalMove(targetPosition, 0.5f).SetEase(Ease.OutQuad);
-                    _cards[index].transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);
-                    _cards[index].transform.DOLocalRotate(targetRotation.eulerAngles, 0.5f).SetEase(Ease.OutQuad);
-
-                    DOVirtual.DelayedCall(0.1f, () =>
+                sequence.AppendInterval(delayBetweenCards * i)
+                    .AppendCallback(() =>
                     {
-                        _tcgCards[index].SetCardFront();
+                        // 카드의 목표 위치 및 회전 설정
+                        Vector3 targetPosition = new(xPositions[index], yPositions[index], 0f);
+                        Quaternion targetRotation = Quaternion.Euler(0f, 0f, zRotations[index]);
+
+                        // 애니메이션 실행
+                        _cards[index].transform.DOLocalMove(targetPosition, 0.5f).SetEase(Ease.OutQuad);
+                        _cards[index].transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);
+                        _cards[index].transform.DOLocalRotate(targetRotation.eulerAngles, 0.5f).SetEase(Ease.OutQuad);
+
+                        DOVirtual.DelayedCall(0.1f, () =>
+                        {
+                            _tcgCards[index].SetCardFront();
+                        });
                     });
-                });
             }
+
+            // 모든 애니메이션이 끝난 후 _cardBlock 비활성화
+            sequence.OnComplete(() => _cardBlock.SetActive(false));
+            sequence.Play();
         }
         #endregion
 

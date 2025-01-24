@@ -72,8 +72,11 @@ title: Turn7
 <<PartnerAppear Michael>>
 미카엘: 자유를 얻게 된 걸 축하해. 여기 기념 선물이야.
 <<ChangeBGM>>
-// 쪽지 일러스트
 
+// 쪽지 일러스트
+<<ShowIllerstration 12>>
+<<wait 2>>
+<<HideIllerstration>>
 미카엘: 나를 도와줄 수 있는 기회를 선물할게~
 미카엘: 아까 슬라임한테 받았는데 무슨 말인지 도통...<br>뭐라고 써있는 건지 너무 궁금해서 못 참겠어.
 미카엘: 너는 뭐든지 잘하니까 부탁할게!
@@ -100,6 +103,6 @@ R2-Mon: 일단 한 번 보세요!
 // 비밀장부를 넘겨보는 컷씬을 진행하다가, 3챕터 장르팩을 발견한다.
 // 접속 연출로 시야 바뀌며 3챕터로 진입힌다.
 <<DialogueFin>>
-// <<Ch2End>>
+<<Ch2End>>
 <<ConnectScene Title>>
 ===

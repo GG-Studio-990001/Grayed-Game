@@ -43,9 +43,8 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _illerstBg;
         [SerializeField] private Image _illerstImg;
         [SerializeField] private Sprite[] _illerstSprs;
+        [SerializeField] private GameObject _darkImg;
         [SerializeField] private DialogueRunner _luckyDialogueRunner;
-        [SerializeField] private GameObject _tcgPack;
-        [SerializeField] private GameObject _SuperArioPack;
         private string _speaker;
         private bool _isAutoAdvanced = false;
         private Coroutine _autoDialogueCoroutine;
@@ -62,16 +61,16 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("StartTcg", _tcgController.StartTcg);
             _runner.AddCommandHandler<int>("ShowIllerstration", ShowIllerstration);
             _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
-            _runner.AddCommandHandler("SetTcgPack", SetTcgPack);
-            _runner.AddCommandHandler("SetSuperArioPack", SetSuperArioPack);
+            _runner.AddCommandHandler("GetTcgPack", GetTcgPack);
+            _runner.AddCommandHandler("StartSuperArio", StartSuperArio);
             _runner.AddCommandHandler<int>("ChangeBGM", ChangeBGM);
             _runner.AddCommandHandler<string>("ConnectScene", ConnectScene);
+            _runner.AddCommandHandler<bool>("SetDarkness", SetDarkness);
+            _runner.AddCommandHandler("Ch2End", Ch2End);
 
-            // Yarn Spinner 함수 등록
             _runner.AddCommandHandler("DialogueAfterTCG", _tcgController.DialogueAfterTCG);
             _runner.AddCommandHandler("ShowScore", _tcgController.ShowScore);
             _runner.AddCommandHandler("HideScore", _tcgController.HideScore);
-            //_runner.AddCommandHandler("Ending", Ending);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
 
@@ -139,15 +138,14 @@ namespace Runtime.CH2.Dialogue
             }
         }
 
-        private void SetSuperArioPack()
+        private void StartSuperArio()
         {
-            Managers.Sound.StopBGM();
-            _SuperArioPack.SetActive(true);
+            _connectionController.ConnectScene("SuperArio");
         }
 
-        private void SetTcgPack()
+        private void GetTcgPack()
         {
-            _tcgPack.SetActive(true);
+            _luckyDialogueRunner.StartDialogue("LuckyTCG_pack");
         }
 
         private void ShowIllerstration(int val)
@@ -248,6 +246,17 @@ namespace Runtime.CH2.Dialogue
             _nameTag.SetActive(hasName);
         }
 
+        private void SetDarkness(bool dark)
+        {
+            _darkImg.SetActive(dark);
+        }
+
+        private void Ch2End()
+        {
+            Managers.Data.Chapter = 3;
+            Managers.Data.SaveGame();
+        }
+
         #region Auto Dialgue
         public void AutoDialogueToggle(bool isAutoAdvanced)
         {
@@ -303,12 +312,6 @@ namespace Runtime.CH2.Dialogue
 
             if (Managers.Data.CH2.Turn == 7)
                 Ending();
-        }
-
-        private void Ending()
-        {
-            // 개발한 부분까지 모두 출력 완료함
-            _toBeContinued.SetActive(true);
         }
 
         private void NpcFace(int idx)
