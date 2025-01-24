@@ -173,17 +173,23 @@ R2-Mon: 아무튼 무언가 만들어야 한다면 내 기지로 오세요!<br>�
 
 // 일러스트
 <<ShowIllerstration 0>>
-<<wait 2>>
-<<HideIllerstration>>
+<<wait 1>>
+<<ShowIllerstration 1>>
+<<wait 1>>
+<<ShowIllerstration 2>>
 
     :이것을 <wave>재료</wave> 삼아 무언가 만들 수 있을 것 같다.
+<<HideIllerstration>>
+
     :이어서 살펴보다가 색달라 보이는 것을 발견했다.
 
-<<SetTcgPack>>
+<<ShowIllerstration 3>>
+    :'TCG Pack'을 획득했다.
+<<HideIllerstration>>
+<<GetTcgPack>>
 // UI 숨김 기믹으로 TCG 팩 발견
 // 역접속 후 럭키 등장 (럭키 대사는 추후 별도로 작성)
 // 유저 스킵으로 럭키 퇴장
-
 ===
 
 title: Turn0_1

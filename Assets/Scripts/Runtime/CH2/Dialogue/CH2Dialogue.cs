@@ -44,8 +44,6 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private Image _illerstImg;
         [SerializeField] private Sprite[] _illerstSprs;
         [SerializeField] private DialogueRunner _luckyDialogueRunner;
-        [SerializeField] private GameObject _tcgPack;
-        [SerializeField] private GameObject _SuperArioPack;
         private string _speaker;
         private bool _isAutoAdvanced = false;
         private Coroutine _autoDialogueCoroutine;
@@ -62,8 +60,8 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("StartTcg", _tcgController.StartTcg);
             _runner.AddCommandHandler<int>("ShowIllerstration", ShowIllerstration);
             _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
-            _runner.AddCommandHandler("SetTcgPack", SetTcgPack);
-            _runner.AddCommandHandler("SetSuperArioPack", SetSuperArioPack);
+            _runner.AddCommandHandler("GetTcgPack", GetTcgPack);
+            _runner.AddCommandHandler("StartSuperArio", StartSuperArio);
             _runner.AddCommandHandler<int>("ChangeBGM", ChangeBGM);
             _runner.AddCommandHandler<string>("ConnectScene", ConnectScene);
 
@@ -139,15 +137,14 @@ namespace Runtime.CH2.Dialogue
             }
         }
 
-        private void SetSuperArioPack()
+        private void StartSuperArio()
         {
-            Managers.Sound.StopBGM();
-            _SuperArioPack.SetActive(true);
+            _connectionController.ConnectScene("SuperArio");
         }
 
-        private void SetTcgPack()
+        private void GetTcgPack()
         {
-            _tcgPack.SetActive(true);
+            _luckyDialogueRunner.StartDialogue("LuckyTCG_pack");
         }
 
         private void ShowIllerstration(int val)

@@ -113,11 +113,11 @@ title: AfterTcg1
 <<ChangeBGM>>
     :침착하고 주변을 둘러보니 더럽지만 꽤 아늑한 방 안인 것 같다.
 
-<<ShowIllerstration 3>>
+<<ShowIllerstration 6>>
     :벽면에 걸린 커튼을 걷어보니 슬라임이 그려진 액자가 있다.
 
 // 일러스트
-<<ShowIllerstration 4>>
+<<ShowIllerstration 7>>
     :책장에는 경전... 모양의 게임보이가 꽂혀 있다.
 <<HideIllerstration>>
 
@@ -183,7 +183,10 @@ R2-Mon: 어디서 다른 열쇠를 가지고 올 수도 없을테고...<br>어�
 <<PartnerOut>>
 
 // UI 숨김 기믹으로 R2-Mon뒤의 게임팩 발견 후 스테이지1로 접속
-<<SetSuperArioPack>>
+<<ShowIllerstration 8>>
+: '슈퍼 아리오 브라더스'로 접속된다!
+<<HideIllerstration>>
 <<DialogueFin>>
 <<NextTurn>>
+<<StartSuperArio>>
 ===
