@@ -71,7 +71,7 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("DialogueAfterTCG", _tcgController.DialogueAfterTCG);
             _runner.AddCommandHandler("ShowScore", _tcgController.ShowScore);
             _runner.AddCommandHandler("HideScore", _tcgController.HideScore);
-            //_runner.AddCommandHandler("Ending", Ending);
+            _runner.AddCommandHandler("Ch2End", Ch2End);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
 
@@ -248,6 +248,12 @@ namespace Runtime.CH2.Dialogue
             _nameTag.SetActive(hasName);
         }
 
+        private void Ch2End()
+        {
+            Managers.Data.Chapter = 3;
+            Managers.Data.SaveGame();
+        }
+
         #region Auto Dialgue
         public void AutoDialogueToggle(bool isAutoAdvanced)
         {
@@ -303,12 +309,6 @@ namespace Runtime.CH2.Dialogue
 
             if (Managers.Data.CH2.Turn == 7)
                 Ending();
-        }
-
-        private void Ending()
-        {
-            // 개발한 부분까지 모두 출력 완료함
-            _toBeContinued.SetActive(true);
         }
 
         private void NpcFace(int idx)

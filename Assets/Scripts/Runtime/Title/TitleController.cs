@@ -7,27 +7,22 @@ namespace Runtime.CH1.Title
     public class TitleController : MonoBehaviour
     {
         [SerializeField] private SceneSystem _sceneSystem;
-        [SerializeField] private GameObject _ch1Obj;
-        [SerializeField] private GameObject _ch2Obj;
+        [SerializeField] private GameObject[] _chObjs = new GameObject[3];
 
         private void Start()
         {
-            _ch1Obj.SetActive(false);
-            _ch2Obj.SetActive(false);
+            foreach (GameObject obj in _chObjs)
+                obj.SetActive(false);
 
-            switch (Managers.Data.Chapter)
-            {
-                case 0:
-                case 1:
-                    Managers.Sound.Play(Sound.BGM, "Title/Title_BGM_CH1");
-                    _ch1Obj.SetActive(true);
-                    break;
-                case 2:
-                case 3:
-                    Managers.Sound.Play(Sound.BGM, "Title/Title_BGM_CH2");
-                    _ch2Obj.SetActive(true);
-                    break;
-            }
+            int ch = Managers.Data.Chapter;
+
+            if (ch > 3) return;
+
+            _chObjs[ch - 1].SetActive(true);
+
+            if (ch > 2) return;
+
+            Managers.Sound.Play(Sound.BGM, $"Title/Title_BGM_CH{ch}");
         }
 
         public void StopBGM()

@@ -25,6 +25,12 @@ namespace Runtime.CH1.Title
 
         public void ExitTitle()
         {
+            if (Managers.Data.Chapter >= 2)
+            {
+                Debug.Log("No More Chapter");
+                return;
+            }
+
             if (Managers.Data.Chapter < 2)
             {
                 Managers.Data.SaveGame();
