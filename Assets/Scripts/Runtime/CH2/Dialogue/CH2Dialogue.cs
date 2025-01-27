@@ -5,6 +5,7 @@ using Runtime.ETC;
 using Runtime.Middle;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -113,29 +114,20 @@ namespace Runtime.CH2.Dialogue
 
         private void ChangeBGM(int idx = 1)
         {
-            switch(idx)
+            Dictionary<int, string> bgmPaths = new()
             {
-                case 1:
-                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_01_Normal");
-                    break;
-                case 2:
-                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_02_Serious");
-                    break;
-                case 3:
-                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_03_Exciting");
-                    break;
-                case 4:
-                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_04_Wariness");
-                    break;
-                case 5:
-                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_05_Faint");
-                    break;
-                case 6:
-                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_06_Micael's Riddle");
-                    break;
-                case 7:
-                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_07_R2IsComing");
-                    break;
+                { 1, "CH2/BGM_01_Normal" },
+                { 2, "CH2/BGM_02_Serious" },
+                { 3, "CH2/BGM_03_Exciting" },
+                { 4, "CH2/BGM_04_Wariness" },
+                { 5, "CH2/BGM_05_Faint" },
+                { 6, "CH2/BGM_06_Micael's Riddle" },
+                { 7, "CH2/BGM_07_R2IsComing" }
+            };
+
+            if (bgmPaths.TryGetValue(idx, out string path))
+            {
+                Managers.Sound.Play(Sound.BGM, path);
             }
         }
 
@@ -297,27 +289,9 @@ namespace Runtime.CH2.Dialogue
         #endregion
 
         /*
-        public void SkipDialogue()
-        {
-            Debug.Log("Skip");
-            _runner.Stop();
-
-            if (Managers.Data.CH2.IsSpecialDialogue)
-            {
-                _runner.StartDialogue("EndS");
-            }
-            else
-            {
-                _runner.StartDialogue("EndN");
-            }
-
-            if (Managers.Data.CH2.Turn == 7)
-                Ending();
-        }
-
         private void NpcFace(int idx)
         {
-            // 현재는 미카엘뿐이지만 추후 확대
+            // 추후 확대
             _michael.SetFace(idx);
         }
         */
