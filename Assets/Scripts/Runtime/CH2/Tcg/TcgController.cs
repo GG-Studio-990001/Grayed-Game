@@ -6,7 +6,6 @@ using System.Linq;
 using Yarn.Unity;
 using Runtime.ETC;
 using DG.Tweening;
-using static PlasticGui.WorkspaceWindow.CodeReview.Summary.CommentSummaryData;
 
 namespace Runtime.CH2.Tcg
 {
