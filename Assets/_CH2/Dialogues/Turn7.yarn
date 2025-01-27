@@ -37,7 +37,11 @@ title: Turn7
 
 // TCG 7 (질문만) 진행 후 (8번째, 마지막)
 // 방울 sfx + 슬라임이 미카엘의 링 위로 올라타는 연출
+<<StartLastTcg>>
+===
 
+title: AfterTcg7
+---
 <<ChangeBGM 3>>
 미카엘: 슬- 라- 임-!!!
 슬라임: 또잉- 또이잉- 또이이잉-!!!

@@ -58,7 +58,6 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler<string>("PartnerAppear", PartnerAppear);
             _runner.AddCommandHandler("PartnerOut", PartnerOut);
             _runner.AddCommandHandler("DialogueFin", DialogueFin);
-            _runner.AddCommandHandler("StartTcg", _tcgController.StartTcg);
             _runner.AddCommandHandler<int>("ShowIllerstration", ShowIllerstration);
             _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
             _runner.AddCommandHandler("GetTcgPack", GetTcgPack);
@@ -68,9 +67,11 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler<bool>("SetDarkness", SetDarkness);
             _runner.AddCommandHandler("Ch2End", Ch2End);
 
+            _runner.AddCommandHandler("StartTcg", _tcgController.StartTcg);
             _runner.AddCommandHandler("DialogueAfterTCG", _tcgController.DialogueAfterTCG);
             _runner.AddCommandHandler("ShowScore", _tcgController.ShowScore);
             _runner.AddCommandHandler("HideScore", _tcgController.HideScore);
+            _runner.AddCommandHandler("StartLastTcg", _tcgController.StartLastTcg);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
 
