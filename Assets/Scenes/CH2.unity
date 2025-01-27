@@ -896,7 +896,7 @@ MonoBehaviour:
   _locationUiController: {fileID: 444606903}
   _tcgController: {fileID: 839508657}
   _connectionController: {fileID: 1027870255}
-  _characterManager: {fileID: 0}
+  _characterManager: {fileID: 495576460}
   _lineViewCanvas: {fileID: 1100803384}
   _lineView: {fileID: 1100803380}
   _nameTag: {fileID: 789604149}
@@ -1659,8 +1659,8 @@ MonoBehaviour:
   - {fileID: 947951252}
   - {fileID: 857216135}
   - {fileID: 1691260654}
-  _posA: {fileID: 0}
-  _posB: {fileID: 0}
+  _leftX: -314
+  _rightX: 355
 --- !u!1 &565989935
 GameObject:
   m_ObjectHideFlags: 0
@@ -2973,6 +2973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7b4c2c158143847b9c4f1c9c43a11d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _characterManager: {fileID: 495576460}
   _runner: {fileID: 696216669}
   _character: {fileID: 2050412806}
   _tcgObject: {fileID: 1746762859}

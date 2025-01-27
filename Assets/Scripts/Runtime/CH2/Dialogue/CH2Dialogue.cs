@@ -58,7 +58,7 @@ namespace Runtime.CH2.Dialogue
 
             // Character
             _runner.AddCommandHandler<string, string>("SetCharacterPos", _characterManager.SetCharacterPos);
-            _runner.AddCommandHandler<string>("SetCharacterOut", _characterManager.SetCharacterOut);
+            _runner.AddCommandHandler<string>("HideCharacter", _characterManager.HideCharacter);
             _runner.AddCommandHandler<string, int>("SetCharacterExpression", _characterManager.SetCharacterExpression);
 
             // TCG
@@ -74,26 +74,25 @@ namespace Runtime.CH2.Dialogue
         private void Update()
         {
             if (_lineViewCanvas.alpha == 0)
-                ClearLineText();
+            {
+                _lineTxt.text = "";
+            }
             // 원래는 새로운 다이얼로그 시작하면 비워주는 용도로 쓴 코드...
             // 알파값 건들일 시 주의
-        }
-        
-        private void ClearLineText()
-        {
-            _lineTxt.text = "";
+            // TODO: 더 나은 방법 찾기
         }
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
             _speaker = dialogueLine.CharacterName;
-            SetNameTag(_speaker != "");
 
+            SetNameTag(_speaker != "");
             _characterManager.HighlightSpeakingCharacter(_speaker);
 
             onDialogueLineFinished();
         }
         #endregion
+
         private void ConnectScene(string scene)
         {
             Managers.Sound.StopBGM();
@@ -144,18 +143,20 @@ namespace Runtime.CH2.Dialogue
         {
             // 자동진행 끄기
             _isAutoAdvanced = false;
-
-            _characterManager.HighlightSpeakingCharacter("라플리");
         }
 
         public void StartLocation(string location)
         {
+            _characterManager.HighlightSpeakingCharacter("라플리");
+
             Managers.Data.CH2.Location = location;
             _locationUiController.StartLocation();
         }
 
         public void SetLocation(string location)
         {
+            _characterManager.HighlightSpeakingCharacter("라플리");
+
             Managers.Data.CH2.Location = location;
             _locationUiController.MoveLocation();
         }
@@ -167,6 +168,8 @@ namespace Runtime.CH2.Dialogue
 
         private void ShowOptions()
         {
+            _characterManager.HighlightSpeakingCharacter("라플리");
+
             // 이동 가능한 장소 목록을 띄운다
             _turnController.DisplayAvailableLocations();
         }

@@ -7,17 +7,18 @@ namespace Runtime.CH2.Dialogue
     public class Character : MonoBehaviour
     {
         public string CharacterName;
-        private readonly Image _image;
+        private Image _image;
         [SerializeField] private Sprite[] _expressions; // 표정 리스트
-        private bool _isHighlighted;
+        private bool _isHighlighted = true;
 
         private void Awake()
         {
-            _image.GetComponent<Image>();
+            _image = GetComponent<Image>();
         }
 
         public void SetHighlight(bool highlight)
         {
+            // Debug.Log($"{CharacterName} {highlight}");
             if (_isHighlighted == highlight) return;
             _isHighlighted = highlight;
 

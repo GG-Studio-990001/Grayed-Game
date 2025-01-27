@@ -29,7 +29,7 @@ title: Turn1_N_Entrance
 
     :마을 입구에 진도와 비글이 서 있었다.
 
-<<PartnerAppear JindoBeagle>>
+<<SetCharacterPos "진도비글" "B">>
 비글: 오~ 개 같은 꼬마다.
 진도: 바꾸어라. 정중하게. 태도.
 비글: 참나...<br>오~ 개 냄새 나는 어린애다. 됐냐?
@@ -38,7 +38,7 @@ title: Turn1_N_Entrance
 비글: 아무튼 여긴 우리가 잘 지키고 있으니까 넌 돌아가.
 
     :비글이 떠나라는 손짓을 한다. 다른 곳으로 가 보자.
-<<PartnerOut>>
+<<HideCharacter "진도비글">>
 
 // 장소 선택지 On
 <<DialogueFin>>
@@ -74,12 +74,11 @@ title: Turn1_S
 
     :마을 입구로 가니 어김없이 진도와 비글이 있었다.<br>이들에게 명함을 내밀었다.
 
-<<PartnerAppear JindoBeagle>>
+<<SetCharacterPos "진도비글" "B">>
 비글: 흐음, 얘 동굴에 가고 싶나 본데?
 진도: 보내주자. 믿는다. 달러.
 비글: 알았어. 동굴은 저쪽에 있어!
-
-<<PartnerOut>>
+<<HideCharacter "진도비글">>
 
 // 장소: 동굴
 <<SetLocation Cave>>
@@ -92,7 +91,7 @@ title: Turn1_S
 <<SetLocation Base>>
 <<wait 2>>
  
-<<PartnerAppear R2mon>>
+<<SetCharacterPos "R2-Mon" "B">>
 R2-Mon: 혼자서도 여기까지 잘 찾아오다니, 역시 휴먼이야!
 R2-Mon: 뭔가 만들고 싶은 게 있는 거지요?
 
@@ -119,7 +118,7 @@ R2-Mon: 어때요, 완전 새것 같지요?
 <<HideIllerstration>>
 
 R2-Mon: 다음에도 또 찾아오시면 만들어 드릴게요! 그럼 안녕히!
-<<PartnerOut>>
+<<HideCharacter "R2-Mon">>
 
     :R2-Mon이 배웅을 한다.<br>새롭게 만든 링을 미카엘에게 주면 좋아할 것 같다.
 
@@ -130,12 +129,11 @@ R2-Mon: 다음에도 또 찾아오시면 만들어 드릴게요! 그럼 안녕�
 
     :마을 입구로 가자 비글이 길을 막아섰다.
 
-<<PartnerAppear JindoBeagle>>
+<<SetCharacterPos "진도비글" "B">>
 비글: 나갈 땐 자유지만 들어올 땐 아니다!
 진도: 비켜주자. 혼난다. 달러한테.
 비글: 쳇... 장난도 못치냐? 너 얼른 지나가!
-
-<<PartnerOut>>
+<<HideCharacter "진도비글">>
 
 <<DialogueFin>>
 <<NextTurn>>

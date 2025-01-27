@@ -11,12 +11,19 @@ namespace Runtime.CH2.Dialogue
 
         public void SetCharacterPos(string standing, string pos)
         {
+            // Debug.Log($"SetCharacterPos called with standing: {standing}, pos: {pos}"); // 디버깅용 로그
+
             foreach (var character in _characters)
             {
+                // Debug.Log($"Checking character: {character.CharacterName}"); // 추가
+
                 if (character.CharacterName == standing)
                 {
+                    character.gameObject.SetActive(true);
+
                     float xPos = pos.Equals("A") ? _leftX : _rightX;
-                    character.transform.position = new Vector3(xPos, character.transform.position.y, character.transform.position.z);
+                    character.transform.localPosition = new Vector3(xPos, character.transform.localPosition.y, character.transform.localPosition.z);
+
                     return;
                 }
             }
@@ -24,7 +31,8 @@ namespace Runtime.CH2.Dialogue
             Debug.LogError("캐릭터 못찾음");
         }
 
-        public void SetCharacterOut(string standing)
+
+        public void HideCharacter(string standing)
         {
             foreach (var character in _characters)
             {
@@ -56,6 +64,8 @@ namespace Runtime.CH2.Dialogue
         {
             foreach (var character in _characters)
             {
+                if (!character.gameObject.activeInHierarchy) continue;
+
                 if (character.CharacterName == speaker)
                     character.SetHighlight(true);
                 else
