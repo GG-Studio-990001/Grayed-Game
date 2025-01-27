@@ -13,15 +13,6 @@ using Yarn.Unity;
 
 namespace Runtime.CH2.Dialogue
 {
-    public enum Npc
-    {
-        Michael = 0,
-        R2mon = 1,
-        Dollar = 2,
-        Farmer = 3,
-        JindoBeagle = 4,
-    }
-
     public class CH2Dialogue : DialogueViewBase
     {
         [Header("=Script=")]
@@ -30,13 +21,12 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private LocationUIController _locationUiController;
         [SerializeField] private TcgController _tcgController;
         [SerializeField] private ConnectionController _connectionController;
+        [SerializeField] private CharacterManager _characterManager;
         [Header("=Else=")]
         [SerializeField] private CanvasGroup _lineViewCanvas;
         [SerializeField] private LineView _lineView;
         [SerializeField] private GameObject _nameTag;
         [SerializeField] private TextMeshProUGUI _lineTxt;
-        [SerializeField] private Image[] _characters = new Image[2];
-        [SerializeField] private Image[] _npcs = new Image[5];
         [SerializeField] private FaceSpriteSwitcher _michael;
         [SerializeField] private GameObject _toBeContinued;
         [SerializeField] private GameObject _autoTxt;
@@ -56,8 +46,6 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler<string>("SetLocation", SetLocation);
             _runner.AddCommandHandler("NextTurn", NextTurn);
             _runner.AddCommandHandler("ShowOptions", ShowOptions);
-            _runner.AddCommandHandler<string>("PartnerAppear", PartnerAppear);
-            _runner.AddCommandHandler("PartnerOut", PartnerOut);
             _runner.AddCommandHandler("DialogueFin", DialogueFin);
             _runner.AddCommandHandler<int>("ShowIllerstration", ShowIllerstration);
             _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
@@ -68,6 +56,12 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler<bool>("SetDarkness", SetDarkness);
             _runner.AddCommandHandler("Ch2End", Ch2End);
 
+            // Character
+            _runner.AddCommandHandler<string, string>("SetCharacterPos", _characterManager.SetCharacterPos);
+            _runner.AddCommandHandler<string>("SetCharacterOut", _characterManager.SetCharacterOut);
+            _runner.AddCommandHandler<string, int>("SetCharacterExpression", _characterManager.SetCharacterExpression);
+
+            // TCG
             _runner.AddCommandHandler("StartTcg", _tcgController.StartTcg);
             _runner.AddCommandHandler("DialogueAfterTCG", _tcgController.DialogueAfterTCG);
             _runner.AddCommandHandler("ShowScore", _tcgController.ShowScore);
@@ -95,17 +89,11 @@ namespace Runtime.CH2.Dialogue
             _speaker = dialogueLine.CharacterName;
             SetNameTag(_speaker != "");
 
-            if (_speaker.Equals("라플리"))
-                StandingHighlight(0);
-            else if (_speaker.Equals(""))
-                StandingHighlight(2);
-            else // TODO: NPC 여러명일 때 처리
-                StandingHighlight(1);
+            _characterManager.HighlightSpeakingCharacter(_speaker);
 
             onDialogueLineFinished();
         }
         #endregion
-
         private void ConnectScene(string scene)
         {
             Managers.Sound.StopBGM();
@@ -152,51 +140,12 @@ namespace Runtime.CH2.Dialogue
             _illerstBg.SetActive(false);
         }
 
-        private void PartnerAppear(string partner)
-        {
-            if (Enum.TryParse(partner, true, out Npc npc)) // Parse the string to enum
-            {
-                int idx = (int)npc; // Convert enum to int
-                _characters[1] = _npcs[idx];
-                _characters[1].gameObject.SetActive(true);
-            }
-        }
-
-        private void PartnerOut()
-        {
-            _characters[1].gameObject.SetActive(false);
-        }
-
         private void DialogueFin()
         {
             // 자동진행 끄기
             _isAutoAdvanced = false;
 
-            // 라플리는 밝게 처리
-            StandingHighlight(0);
-            
-            // NPC가 있다면 끈다
-            _characters[1].gameObject.SetActive(false);
-        }
-
-        private void StandingHighlight(int num)
-        {
-            // 0 라플리 1 NPC 2 모두 어둡게
-            Color bright = new Color32(255, 255, 255, 255);
-            Color dark = new Color32(157, 157, 157, 255);
-
-            if (num <= 1)
-            {
-                _characters[num].color = bright;
-                _characters[1 - num].color = dark;
-            }
-            else
-            {
-                for (int i = 0; i < _characters.Length; i++)
-                {
-                    _characters[i].color = dark;
-                }
-            }
+            _characterManager.HighlightSpeakingCharacter("라플리");
         }
 
         public void StartLocation(string location)
@@ -287,13 +236,5 @@ namespace Runtime.CH2.Dialogue
             }
         }
         #endregion
-
-        /*
-        private void NpcFace(int idx)
-        {
-            // 추후 확대
-            _michael.SetFace(idx);
-        }
-        */
     }
 }
