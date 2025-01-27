@@ -47,6 +47,7 @@ namespace Runtime.InGameSystem
 
         private IEnumerator FadeInCoroutine(float duration)
         {
+            fadeImage.raycastTarget = true; // 터치 차단
             float time = 0;
             while (time < duration)
             {
@@ -54,10 +55,12 @@ namespace Runtime.InGameSystem
                 fadeImage.color = new Color(0, 0, 0, 1 - time / duration);
                 yield return new WaitForSeconds(fadeDeltaTime);
             }
+            fadeImage.raycastTarget = false;
         }
 
         private IEnumerator FadeOutCoroutine(float duration)
         {
+            fadeImage.raycastTarget = true; // 터치 차단
             float time = 0;
             while (time < duration)
             {
@@ -65,6 +68,7 @@ namespace Runtime.InGameSystem
                 fadeImage.color = new Color(0, 0, 0, time / duration);
                 yield return new WaitForSeconds(fadeDeltaTime);
             }
+            fadeImage.raycastTarget = false;
         }
     }
 }
