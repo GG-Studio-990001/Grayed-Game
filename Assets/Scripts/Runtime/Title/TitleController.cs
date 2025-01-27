@@ -16,13 +16,16 @@ namespace Runtime.CH1.Title
 
             int ch = Managers.Data.Chapter;
 
-            if (ch > 3) return;
-
-            _chObjs[ch - 1].SetActive(true);
-
-            if (ch > 2) return;
-
-            Managers.Sound.Play(Sound.BGM, $"Title/Title_BGM_CH{ch}");
+            if (ch <= 1)
+            {
+                _chObjs[0].SetActive(true);
+                Managers.Sound.Play(Sound.BGM, $"Title/Title_BGM_CH1");
+            }
+            else
+            {
+                _chObjs[ch - 1].SetActive(true);
+                Managers.Sound.Play(Sound.BGM, $"Title/Title_BGM_CH{ch}");
+            }
         }
 
         public void StopBGM()

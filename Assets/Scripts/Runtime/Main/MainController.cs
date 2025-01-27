@@ -26,6 +26,12 @@ namespace Runtime.Main
             _sceneSystem.LoadScene($"CH{Managers.Data.Chapter}");
         }
 
+        public void GoCh0()
+        {
+            Managers.Data.NewGame();
+            _sceneSystem.LoadScene("CH0");
+        }
+
         public void GoPacmom()
         {
             Managers.Data.NewGame();
