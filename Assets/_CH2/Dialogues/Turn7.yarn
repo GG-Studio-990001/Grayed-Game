@@ -6,11 +6,13 @@ title: Turn7
 <<wait 2>>
 // 접속게임 스테이지3에서 슬라임을 얻어 탈출함
 
+<<SetCharacterPos "슬라임" "B">>
     :기지로 돌아왔다. 가지고 있던 방울을 슬라임에게 달아주었다.
 
 슬라임: 또이잉- 또잉, 또잉-!
 
     :슬라임이 익숙한 듯 밖을 나선다. 아마 신전으로 가는 것 같다.<br>같이 가 보자.
+<<HideCharacter "슬라임">>
 
 // 장소: 마을 입구
 <<SetLocation Entrance>>
@@ -59,20 +61,36 @@ title: AfterTcg7
 
     :진도와 비글이 마을에 소식을 퍼뜨렸고,<br>주민들이 한자리에 모이게 되었다.
 
+<<SetCharacterPos "파머" "B">>
 파머: 역시 라플리가 해낼 줄 알았어. 누가 발견한 건지 참, 파하핫!
+<<HideCharacter "파머">>
+<<SetCharacterPos "진도비글" "B">>
 비글: 꼬맹이가 제법인데?
 진도: 훌륭하다. 멋지다. 능력.
+<<HideCharacter "진도비글">>
+<<SetCharacterPos "달러" "B">>
 달러: 이제는 진정 자네의 능력을 인정할 수밖에 없군.
 달러: 더군다나 미카엘과 대화할 기회도 얻게 되었으니.
 달러: 미카엘... 일전에는 미안했네. 내 생각이 짧았다네.
+<<HideCharacter "라플리">>
+<<SetCharacterPos "미카엘" "A">>
 미카엘: 흠흠... 괜찮아요. 소중한 걸 잃어보니까 알겠어요.<br>달러님이 마을을 지키고 싶은 마음. 그렇지, 슬라임?
+<<HideCharacter "달러">>
+<<SetCharacterPos "슬라임" "B">>
 슬라임: 또잉- 또이잉-!
+<<HideCharacter "미카엘">>
+<<SetCharacterPos "달러" "A">>
 달러: 그래. 나도 앞으로 언행을 조심하겠네.
+<<HideCharacter "슬라임">>
+<<SetCharacterPos "파머" "B">>
 파머: 두 분 화해해서 다행이네요. 이제 싸우지들 맙시다!
 달러: 그러도록 하지. 그리고 하나 더.
 달러: 이 시간 이후로 자네에 대한 소유권을 철회하겠네.
 달러: 앞으로는 나와 상관없이 모든 것을 자유롭게 행하도록.
 파머: 라플리, 자유가 된 걸 축하한다!
+<<HideCharacter "달러">>
+<<HideCharacter "파머">>
+<<SetCharacterPos "라플리" "A">>
 <<SetCharacterPos "미카엘" "B">>
 미카엘: 자유를 얻게 된 걸 축하해. 여기 기념 선물이야.
 <<ChangeBGM>>
