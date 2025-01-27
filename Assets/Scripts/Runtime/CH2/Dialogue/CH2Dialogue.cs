@@ -5,6 +5,7 @@ using Runtime.ETC;
 using Runtime.Middle;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,15 +13,6 @@ using Yarn.Unity;
 
 namespace Runtime.CH2.Dialogue
 {
-    public enum Npc
-    {
-        Michael = 0,
-        R2mon = 1,
-        Dollar = 2,
-        Farmer = 3,
-        JindoBeagle = 4,
-    }
-
     public class CH2Dialogue : DialogueViewBase
     {
         [Header("=Script=")]
@@ -29,13 +21,12 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private LocationUIController _locationUiController;
         [SerializeField] private TcgController _tcgController;
         [SerializeField] private ConnectionController _connectionController;
+        [SerializeField] private CharacterManager _characterManager;
         [Header("=Else=")]
         [SerializeField] private CanvasGroup _lineViewCanvas;
         [SerializeField] private LineView _lineView;
         [SerializeField] private GameObject _nameTag;
         [SerializeField] private TextMeshProUGUI _lineTxt;
-        [SerializeField] private Image[] _characters = new Image[2];
-        [SerializeField] private Image[] _npcs = new Image[5];
         [SerializeField] private FaceSpriteSwitcher _michael;
         [SerializeField] private GameObject _toBeContinued;
         [SerializeField] private GameObject _autoTxt;
@@ -55,10 +46,7 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler<string>("SetLocation", SetLocation);
             _runner.AddCommandHandler("NextTurn", NextTurn);
             _runner.AddCommandHandler("ShowOptions", ShowOptions);
-            _runner.AddCommandHandler<string>("PartnerAppear", PartnerAppear);
-            _runner.AddCommandHandler("PartnerOut", PartnerOut);
             _runner.AddCommandHandler("DialogueFin", DialogueFin);
-            _runner.AddCommandHandler("StartTcg", _tcgController.StartTcg);
             _runner.AddCommandHandler<int>("ShowIllerstration", ShowIllerstration);
             _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
             _runner.AddCommandHandler("GetTcgPack", GetTcgPack);
@@ -68,9 +56,17 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler<bool>("SetDarkness", SetDarkness);
             _runner.AddCommandHandler("Ch2End", Ch2End);
 
+            // Character
+            _runner.AddCommandHandler<string, string>("SetCharacterPos", _characterManager.SetCharacterPos);
+            _runner.AddCommandHandler<string>("HideCharacter", _characterManager.HideCharacter);
+            _runner.AddCommandHandler<string, int>("SetCharacterExpression", _characterManager.SetCharacterExpression);
+
+            // TCG
+            _runner.AddCommandHandler("StartTcg", _tcgController.StartTcg);
             _runner.AddCommandHandler("DialogueAfterTCG", _tcgController.DialogueAfterTCG);
             _runner.AddCommandHandler("ShowScore", _tcgController.ShowScore);
             _runner.AddCommandHandler("HideScore", _tcgController.HideScore);
+            _runner.AddCommandHandler("StartLastTcg", _tcgController.StartLastTcg);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
 
@@ -78,27 +74,20 @@ namespace Runtime.CH2.Dialogue
         private void Update()
         {
             if (_lineViewCanvas.alpha == 0)
-                ClearLineText();
+            {
+                _lineTxt.text = "";
+            }
             // 원래는 새로운 다이얼로그 시작하면 비워주는 용도로 쓴 코드...
             // 알파값 건들일 시 주의
-        }
-        
-        private void ClearLineText()
-        {
-            _lineTxt.text = "";
+            // TODO: 더 나은 방법 찾기
         }
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
             _speaker = dialogueLine.CharacterName;
-            SetNameTag(_speaker != "");
 
-            if (_speaker.Equals("라플리"))
-                StandingHighlight(0);
-            else if (_speaker.Equals(""))
-                StandingHighlight(2);
-            else // TODO: NPC 여러명일 때 처리
-                StandingHighlight(1);
+            SetNameTag(_speaker != "");
+            _characterManager.HighlightSpeakingCharacter(_speaker);
 
             onDialogueLineFinished();
         }
@@ -112,29 +101,20 @@ namespace Runtime.CH2.Dialogue
 
         private void ChangeBGM(int idx = 1)
         {
-            switch(idx)
+            Dictionary<int, string> bgmPaths = new()
             {
-                case 1:
-                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_01_Normal");
-                    break;
-                case 2:
-                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_02_Serious");
-                    break;
-                case 3:
-                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_03_Exciting");
-                    break;
-                case 4:
-                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_04_Wariness");
-                    break;
-                case 5:
-                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_05_Faint");
-                    break;
-                case 6:
-                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_06_Micael's Riddle");
-                    break;
-                case 7:
-                    Managers.Sound.Play(Sound.BGM, "CH2/BGM_07_R2IsComing");
-                    break;
+                { 1, "CH2/BGM_01_Normal" },
+                { 2, "CH2/BGM_02_Serious" },
+                { 3, "CH2/BGM_03_Exciting" },
+                { 4, "CH2/BGM_04_Wariness" },
+                { 5, "CH2/BGM_05_Faint" },
+                { 6, "CH2/BGM_06_Micael's Riddle" },
+                { 7, "CH2/BGM_07_R2IsComing" }
+            };
+
+            if (bgmPaths.TryGetValue(idx, out string path))
+            {
+                Managers.Sound.Play(Sound.BGM, path);
             }
         }
 
@@ -159,61 +139,24 @@ namespace Runtime.CH2.Dialogue
             _illerstBg.SetActive(false);
         }
 
-        private void PartnerAppear(string partner)
-        {
-            if (Enum.TryParse(partner, true, out Npc npc)) // Parse the string to enum
-            {
-                int idx = (int)npc; // Convert enum to int
-                _characters[1] = _npcs[idx];
-                _characters[1].gameObject.SetActive(true);
-            }
-        }
-
-        private void PartnerOut()
-        {
-            _characters[1].gameObject.SetActive(false);
-        }
-
         private void DialogueFin()
         {
             // 자동진행 끄기
             _isAutoAdvanced = false;
-
-            // 라플리는 밝게 처리
-            StandingHighlight(0);
-            
-            // NPC가 있다면 끈다
-            _characters[1].gameObject.SetActive(false);
-        }
-
-        private void StandingHighlight(int num)
-        {
-            // 0 라플리 1 NPC 2 모두 어둡게
-            Color bright = new Color32(255, 255, 255, 255);
-            Color dark = new Color32(157, 157, 157, 255);
-
-            if (num <= 1)
-            {
-                _characters[num].color = bright;
-                _characters[1 - num].color = dark;
-            }
-            else
-            {
-                for (int i = 0; i < _characters.Length; i++)
-                {
-                    _characters[i].color = dark;
-                }
-            }
         }
 
         public void StartLocation(string location)
         {
+            _characterManager.HighlightSpeakingCharacter("라플리");
+
             Managers.Data.CH2.Location = location;
             _locationUiController.StartLocation();
         }
 
         public void SetLocation(string location)
         {
+            _characterManager.HighlightSpeakingCharacter("라플리");
+
             Managers.Data.CH2.Location = location;
             _locationUiController.MoveLocation();
         }
@@ -225,6 +168,8 @@ namespace Runtime.CH2.Dialogue
 
         private void ShowOptions()
         {
+            _characterManager.HighlightSpeakingCharacter("라플리");
+
             // 이동 가능한 장소 목록을 띄운다
             _turnController.DisplayAvailableLocations();
         }
@@ -294,31 +239,5 @@ namespace Runtime.CH2.Dialogue
             }
         }
         #endregion
-
-        /*
-        public void SkipDialogue()
-        {
-            Debug.Log("Skip");
-            _runner.Stop();
-
-            if (Managers.Data.CH2.IsSpecialDialogue)
-            {
-                _runner.StartDialogue("EndS");
-            }
-            else
-            {
-                _runner.StartDialogue("EndN");
-            }
-
-            if (Managers.Data.CH2.Turn == 7)
-                Ending();
-        }
-
-        private void NpcFace(int idx)
-        {
-            // 현재는 미카엘뿐이지만 추후 확대
-            _michael.SetFace(idx);
-        }
-        */
     }
 }

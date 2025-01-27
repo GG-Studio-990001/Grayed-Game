@@ -14,9 +14,9 @@ public class Managers : MonoBehaviour
     private static Managers _instance;
     public static Managers Instance => _instance;
 
-    private static SoundManager _soundManager = new SoundManager();
-    private static ResourceManager _resourceManager = new ResourceManager();
-    private static DataManager _dataManager = new DataManager();
+    private static SoundManager _soundManager = new();
+    private static ResourceManager _resourceManager = new();
+    private static DataManager _dataManager = new();
 
     public static SoundManager Sound
     {

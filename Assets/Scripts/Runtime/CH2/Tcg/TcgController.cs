@@ -6,6 +6,7 @@ using System.Linq;
 using Yarn.Unity;
 using Runtime.ETC;
 using DG.Tweening;
+using static PlasticGui.WorkspaceWindow.CodeReview.Summary.CommentSummaryData;
 
 namespace Runtime.CH2.Tcg
 {
@@ -60,6 +61,20 @@ namespace Runtime.CH2.Tcg
         }
 
         #region Dialogue
+        public void StartLastTcg()
+        {
+            ActiveCh2Ui(false);
+
+            // _michael을 중앙으로 이동
+            _michael.transform.DOLocalMove(new Vector3(39f, -70f, 0f), 1f).SetEase(Ease.InOutQuad)
+                .OnComplete(() =>
+                {
+                    ActiveTcgUi(true);
+                });
+
+            ShowQuestion();
+        }
+
         public void StartTcg()
         {
             ResetAndArrangeCards();
@@ -74,6 +89,23 @@ namespace Runtime.CH2.Tcg
                 });
 
             ShowQuestion();
+        }
+
+        private void TcgFinish()
+        {
+            _michaelBubble.DOFade(0f, 0.5f).OnComplete(() =>
+            {
+                _michaelBubble.gameObject.SetActive(false);
+            });
+
+            // _michael 오른쪽으로 이동
+            _michael.transform.DOLocalMove(new Vector3(355f, -70f, 0f), 1f).SetEase(Ease.InOutQuad)
+                .OnComplete(() =>
+                {
+                    ActiveTcgUi(false);
+                    ActiveCh2Ui(true);
+                    DialogueAfterTCG();
+                });
         }
 
         private void EndTcg()
@@ -193,7 +225,7 @@ namespace Runtime.CH2.Tcg
             {
                 // 3장
                 xPositions = new float[] { -160f, 0f, 160f, 0f };
-                yPositions = new float[] { -511f, -496f, - 511f, 0f };
+                yPositions = new float[] { -511f, -496f, -511f, 0f };
                 zRotations = new float[] { 10f, 0f, -10f, 0f };
             }
             else if (_currentQuestionIndex == 5)
@@ -313,20 +345,14 @@ namespace Runtime.CH2.Tcg
         #region TCG
         private void ShowQuestion()
         {
-            if (_currentQuestionIndex < _responses[0].Count - 1) // 남은 질문이 있으면
+            if (_currentQuestionIndex == _responses[0].Count - 1) // 마지막 질문
             {
-                DisplayQuestionAndAnswers(_currentQuestionIndex);
+                _michaelBubbleTxt.text = "소중한 친구를 구하지 못한 바보 같은 나한테도...<br> 아직 기회가 있을까?";
+                Invoke(nameof(TcgFinish), 3f);
             }
             else
             {
-                // 질문이 끝났을 경우
-                _michaelBubbleTxt.text = "(질문 끝)";
-                //foreach (var card in _cards)
-                //{
-                //    card.SetActive(false);
-                //}
-                //Debug.Log("게임 종료");
-                //EndTcg();
+                DisplayQuestionAndAnswers(_currentQuestionIndex);
             }
         }
 
@@ -335,7 +361,6 @@ namespace Runtime.CH2.Tcg
             // 질문 텍스트 설정
             string question = _responses[0].Keys.ToArray()[questionIndex + 1];
             _michaelBubbleTxt.text = question;
-
             // 답변 카드 설정
             int answerIndex = 0;
             for (int i = 0; i < _cards.Length; i++)
@@ -361,7 +386,7 @@ namespace Runtime.CH2.Tcg
                 }
                 else
                 {
-                    _cards[i].gameObject.SetActive(false);
+                    _cards[i].SetActive(false);
                 }
             }
         }
