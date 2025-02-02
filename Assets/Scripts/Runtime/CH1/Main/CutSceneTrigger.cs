@@ -17,8 +17,8 @@ namespace Runtime.CH1
             switch (_idx)
             {
                 case 1:
-                    if (Managers.Data.CH1.Scene == 1 && Managers.Data.CH1.SceneDetail == 0)
-                        dialogueRunner.StartDialogue("S1_1");
+                    if (Managers.Data.CH1.Scene == 0)
+                        dialogueRunner.StartDialogue("S1");
                     break;
                 case 2:
                     if (Managers.Data.CH1.Scene == 2)

@@ -116,11 +116,7 @@ namespace Runtime.CH1.Main.Dialogue
 
         private void Start()
         {
-            if (Managers.Data.CH1.Scene == 0)
-            {
-                _runner.StartDialogue("S1");
-            }
-            else if (Managers.Data.CH1.Scene == 1 && Managers.Data.CH1.IsPacmomCleared)
+            if (Managers.Data.CH1.Scene == 1 && Managers.Data.CH1.IsPacmomCleared)
             {
                 _cutScene.NpcPos.SetNpcPosition(3);
                 _cutScene.SetPlayerPosition(1);

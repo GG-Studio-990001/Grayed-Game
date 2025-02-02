@@ -22,7 +22,6 @@ namespace Runtime.CH1.Main.Controller
 
         [Header("Init")] // 맵에서 초기화해줘야 하는 것 / 클래스 따로 빼기
         [SerializeField] private NpcPosition _npcPosition;
-        [SerializeField] private LuckyPack _luckyPack;
         [SerializeField] private Bridge _bridge;
         [SerializeField] private Mamago _mamago;
         [SerializeField] private MamagoBubble _mamagoBubble;
@@ -67,7 +66,6 @@ namespace Runtime.CH1.Main.Controller
         {
             // TODO: Check나 Load로 용어 통일
             _npcPosition.LoadNpcPosition();
-            _luckyPack.ActiveLuckyPack();
             _mamago.CheckMamago();
             _mamagoBubble.CheckMamagoBubble();
         }
