@@ -49,7 +49,6 @@ namespace Runtime.CH1.Lucky
             _runner.AddCommandHandler("WaitAssetInput", WaitAssetInput);
             _runner.AddCommandHandler("WaitWindowInput", WaitWindowInput);
 
-            _runner.AddCommandHandler("ExitFirstMeet", ExitFirstMeet);
             _runner.AddCommandHandler("Exit3Match", Exit3Match);
             _runner.AddCommandHandler("ExitSLG", ExitSLG);
 
@@ -140,16 +139,16 @@ namespace Runtime.CH1.Lucky
             Managers.Data.SaveGame();
         }
 
-        private void WalkLeft(int idx)
+        private void WalkLeft(int idx) // 들어옴
         {
             _lucky.SetFlipX(false);
-            _lucky.Anim.SetAnimation("Walking"); // enum으로 변경
+            _lucky.Anim.SetAnimation("Walking"); // TODO: enum으로 변경
             _lucky.transform.DOLocalMove(_leftPositions[idx], 3f).SetEase(Ease.Linear);
 
             _bubbleImg.transform.localScale = new(1, 1, 1);
         }
 
-        private void WalkRight(int idx)
+        private void WalkRight(int idx) // 나감
         {
             _lucky.SetFlipX(true);
             _lucky.Anim.SetAnimation("Walking");
@@ -199,16 +198,6 @@ namespace Runtime.CH1.Lucky
 
         #region Exit
         // LuckyExit() 호출 필수
-        private void ExitFirstMeet()
-        {
-            LuckyExit();
-
-            Managers.Data.CH1.MeetLucky = true;
-            Managers.Data.SaveGame();
-
-            Managers.Sound.Play(Sound.BGM, "CH1/Main_BGM", true);
-        }
-
         private void Exit3Match()
         {
             LuckyExit();

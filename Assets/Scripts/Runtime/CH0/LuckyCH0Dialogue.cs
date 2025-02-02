@@ -9,6 +9,7 @@ using Yarn.Unity;
 
 namespace Runtime.CH1.Lucky
 {
+    // TODO: LuckyCH1Dialogue와 중복되는 부분 처리
     public class LuckyCH0Dialogue : DialogueViewBase
     {
         private DialogueRunner _runner;
@@ -120,9 +121,7 @@ namespace Runtime.CH1.Lucky
         {
             LuckyExit();
 
-            Managers.Data.CH1.MeetLucky = true; // TODO: 데이터 제거?
             Managers.Data.SaveGame();
-
             Managers.Sound.StopBGM();
         }
     }

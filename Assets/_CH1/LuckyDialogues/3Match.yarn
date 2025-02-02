@@ -1,11 +1,11 @@
 title: Lucky3Match
 // 시점 : 첫 3매치 퍼즐 스테이지1
 ---
-<<SetLuckyPos 1>>
-<<SetBubblePos 1>>
+<<SetLuckyPos 0>>
+<<SetBubblePos 0>>
 <<LuckyEnter>>
 
-<<WalkLeft 1>>
+<<WalkLeft 0>>
 <<wait 3>>
 <<ActiveBubble true>>
 <<Idle>>
@@ -18,7 +18,7 @@ title: Lucky3Match
 럭키: 럭키님은 이만 퇴장이요~
 
 <<ActiveBubble false>>
-<<WalkRight 1>>
+<<WalkRight 0>>
 <<wait 3>>
 
 <<Exit3Match>>
@@ -27,11 +27,11 @@ title: Lucky3Match
 title: LuckyFish
 // 시점 : 첫 3매치 퍼즐 스테이지3 후반
 ---
-<<SetLuckyPos 2>>
-<<SetBubblePos 2>>
+<<SetLuckyPos 1>>
+<<SetBubblePos 1>>
 <<LuckyEnter>>
 
-<<WalkLeft 2>>
+<<WalkLeft 1>>
 <<wait 3>>
 <<ActiveBubble true>>
 <<Idle>>
@@ -50,7 +50,7 @@ title: LuckyFish
 럭키: 그럼 다시<br>밖으로 나가야지~
 
 <<ActiveBubble false>>
-<<WalkRight 2>>
+<<WalkRight 1>>
 <<wait 3>>
 
 <<Exit3Match>>

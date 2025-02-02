@@ -1,5 +1,4 @@
 using Runtime.CH1.SubB._3_Match;
-using Runtime.ETC;
 using System;
 using UnityEngine;
 using SLGDefines;
@@ -13,9 +12,7 @@ namespace Runtime.Data
         public int Stage;
         public int Scene;
         public int SceneDetail; // 씬 세부 진행도
-                                // CH1
-        public bool MeetLucky; // have로 변경
-                               // 3match
+        // 3match
         public bool Is3MatchEntered;
         public bool Is3MatchCleared;
         public ThreeMatchPuzzleStageData[] ThreeMatchPuzzleStageData;
@@ -38,10 +35,8 @@ namespace Runtime.Data
             Stage = 1;
             Scene = 0;
             SceneDetail = 0;
-            // CH1
-            MeetLucky = false;
-            Is3MatchEntered = false;
             // 3match
+            Is3MatchEntered = false;
             Is3MatchCleared = false;
             ThreeMatchPuzzleStageData = new ThreeMatchPuzzleStageData[4];
             for (int i = 0; i < ThreeMatchPuzzleStageData.Length; i++)
