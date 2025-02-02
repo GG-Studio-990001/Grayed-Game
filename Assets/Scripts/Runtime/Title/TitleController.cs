@@ -11,6 +11,8 @@ namespace Runtime.CH1.Title
 
         private void Start()
         {
+            Managers.Data.NewGame();
+
             foreach (GameObject obj in _chObjs)
                 obj.SetActive(false);
 
@@ -35,6 +37,7 @@ namespace Runtime.CH1.Title
 
         public void LoadSceneByData()
         {
+            // CH0 또는 CH1
             _sceneSystem.LoadScene($"CH{Managers.Data.Chapter}");
         }
     }

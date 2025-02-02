@@ -8,15 +8,20 @@ title: S1
 <<CharactersStop 0>>
 
 // 4. R2-Mon이 라플리 발견 후 달려온다.
-<<SetSpeakerR2Mon>>
+<<NpcJump 2>>
+<<CharactersMove 1>>
+<<wait 2>>
+<<NpcIdleLeft 2>>
+
 <<NpcJump 2>>
 R2-Mon: @@$~!@^%^$@!@^%^$@!@^%^$@
-파머: 저 녀셕이 또... 왜, 거기 뭐라도 있어?
 
-// 5. 파머, 달러 뒤돌아본다.
+<<NpcIdleLeft 1>> // 파머 돌아본다
 <<NpcJump 1>>
+파머: 저 녀석이 또... 왜, 거기 뭐라도 있어?
 파머: !!!
 파머: 달러님, 저기 좀 보세요. 처음 보는 게 서 있어요!
+<<NpcIdleLeft 0>> // 달러 돌아본다
 파머: 뭔가 이상합니다. 이건 마치...
 <<NpcJump 0>>
 달러: 잠깐, 섣불리 말하지 말게. 내가 확인할 테니.

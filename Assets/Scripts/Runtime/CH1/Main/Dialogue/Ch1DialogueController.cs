@@ -25,7 +25,6 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private CanvasGroup _lineViewCanvas;
         [SerializeField] private TextMeshProUGUI _lineTxt;
         private string _speaker;
-        private bool _isR2MonSpeaking = false;
 
         public UnityEvent OnDialogueStart => _runner.onDialogueStart;
         public UnityEvent OnDialogueEnd => _runner.onDialogueComplete;
@@ -51,8 +50,7 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("ClearLineText", ClearLineText);
             
             // CutScene
-            _runner.AddCommandHandler("SetSpeakerR2Mon", SetSpeakerR2Mon);
-            _runner.AddCommandHandler<int>("ShowIllustration", _cutScene.ShowIllustration);
+            _runner.AddCommandHandler<int>("NpcIdleLeft", _cutScene.NpcIdleLeft);
             _runner.AddCommandHandler<int>("CharactersMove", _cutScene.CharactersMove);
             _runner.AddCommandHandler<int>("CharactersStop", _cutScene.CharactersStop);
             _runner.AddCommandHandler<int>("NpcJump", _cutScene.NpcJump);
@@ -101,8 +99,6 @@ namespace Runtime.CH1.Main.Dialogue
         {
             _speaker = dialogueLine.CharacterName;
             SetNameTag(_speaker != "");
-
-            CheckR2MonSpeaking();
 
             onDialogueLineFinished();
         }
@@ -179,19 +175,6 @@ namespace Runtime.CH1.Main.Dialogue
                 //variableStorage.TryGetValue("$ThreeMatchPuzzle", out lvalue);
                 variableStorage.SetValue("$ThreeMatchPuzzle", true);
             }
-        }
-
-        // TODO: 달러와 파머의 음성도 각각 생긴다면 방식 변경할 듯
-        private void CheckR2MonSpeaking()
-        {
-            if (_isR2MonSpeaking)
-                _speaker = "R2-Mon";
-            _isR2MonSpeaking = false;
-        }
-
-        private void SetSpeakerR2Mon()
-        {
-            _isR2MonSpeaking = true;
         }
 
         public void TextSFX()
