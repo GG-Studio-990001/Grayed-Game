@@ -3,7 +3,7 @@
 ---
 <<set $progress to GetProgress()>>
 
-<<if $progress == 11>>
+<<if $progress == 10>>
     <<if not visited("Farmer1")>>
         <<jump Farmer1>>
     <<else>>

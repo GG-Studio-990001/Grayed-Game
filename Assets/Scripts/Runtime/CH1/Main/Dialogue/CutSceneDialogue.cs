@@ -21,7 +21,6 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private Vector3[] _mamagoLocation;
         [SerializeField] private NpcBody _michael;
         [Header("=Else=")]
-        [SerializeField] private GameObject[] _illerstration = new GameObject[2];
         [SerializeField] private GameObject _lucky;
         [SerializeField] private GameObject _stage2;
         [SerializeField] private Bridge _bridge;
@@ -163,7 +162,7 @@ namespace Runtime.CH1.Main.Dialogue
             _michael.transform.DOMove(new Vector3(89.5400009f, -16.0f, 0), 3.5f).SetEase(Ease.Linear);
         }
 
-        public void DallarRun()
+        public void DollarRun()
         {
             _npc[0].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
             _npc[0].transform.DOMove(new Vector3(89.5400009f, -16.0f, 0), 6f).SetEase(Ease.Linear);
@@ -322,9 +321,6 @@ namespace Runtime.CH1.Main.Dialogue
         {
             switch (num)
             {
-                case 0:
-                    CharactersMove0();
-                    break;
                 case 1:
                     CharactersMove1();
                     break;
@@ -373,27 +369,31 @@ namespace Runtime.CH1.Main.Dialogue
             }
         }
 
-        private void CharactersMove1()
+        private void CharactersMove1() // CH1 초입 변경하면서 0 삭제 후 1 수정
         {
-            Player.Animation.SetAnimation(GlobalConst.MoveStr, Vector2.right);
-            Player.transform.DOMove(_location[0], 5f).SetEase(Ease.Linear);
-
-            for (int i = 0; i < _npc.Length; i++)
-            {
-                _npc[i].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
-                _npc[i].transform.DOMove(NpcPos.NpcLocations[i].Locations[2], 5f).SetEase(Ease.Linear);
-            }
+            // 알투몬만 뛰어간다
+            _npc[2].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.left);
+            _npc[2].transform.DOMove(NpcPos.NpcLocations[2].Locations[1], 2f).SetEase(Ease.Linear);
         }
 
-        private void CharactersMove0()
+        public void NpcIdleLeft(int idx)
         {
-            // 라플리 빼고 오른쪽으로 이동
+            _npc[idx].Anim.SetAnimation(GlobalConst.IdleStr, Vector2.left);
+        }
 
-            for (int i = 0; i < _npc.Length; i++)
-            {
-                _npc[i].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
-                _npc[i].transform.DOMove(NpcPos.NpcLocations[i].Locations[1], 5f).SetEase(Ease.Linear);
-            }
+        private void NpcIdleRight(int idx)
+        {
+            _npc[idx].Anim.SetAnimation(GlobalConst.IdleStr, Vector2.right);
+        }
+
+        private void NpcIdleUp(int idx)
+        {
+            _npc[idx].Anim.SetAnimation(GlobalConst.IdleStr, Vector2.up);
+        }
+
+        private void NpcIdleDown(int idx)
+        {
+            _npc[idx].Anim.SetAnimation(GlobalConst.IdleStr, Vector2.down);
         }
 
         public void CharactersStop(int num)
@@ -404,17 +404,20 @@ namespace Runtime.CH1.Main.Dialogue
                 case 0:
                     PlayerIdleRight();
                     break;
-                case 1:
+                case 1: // 가운데
                     CharIdleCenter();
                     break;
-                case 2:
-                    CharIdleLeft();
+                case 2: // 왼쪽
+                    for (int i = 0; i < 3; i++)
+                        NpcIdleLeft(i);
                     break;
-                case 3:
-                    CharIdleDown();
+                case 3: // 아래
+                    for (int i = 0; i < 3; i++)
+                        NpcIdleDown(i);
                     break;
-                case 4:
-                    CharIdleRight();
+                case 4: // 오른쪽
+                    for (int i = 0; i < 3; i++)
+                        NpcIdleRight(i);
                     break;
                 default:
                     Debug.LogError("Invalid Move Number");
@@ -422,37 +425,13 @@ namespace Runtime.CH1.Main.Dialogue
             }
         }
 
-        private void CharIdleDown()
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                _npc[i].Anim.SetAnimation(GlobalConst.IdleStr, Vector2.down);
-            }
-        }
-
-        private void CharIdleRight()
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                _npc[i].Anim.SetAnimation(GlobalConst.IdleStr, Vector2.right);
-            }
-        }
-
-        private void CharIdleLeft()
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                _npc[i].Anim.SetAnimation(GlobalConst.IdleStr, Vector2.left);
-            }
-        }
-
         private void CharIdleCenter()
         {
             Player.Animation.SetAnimation(GlobalConst.IdleStr, Vector2.down);
 
-            _npc[0].Anim.SetAnimation(GlobalConst.IdleStr, Vector2.right);
-            _npc[1].Anim.SetAnimation(GlobalConst.IdleStr, Vector2.up);
-            _npc[2].Anim.SetAnimation(GlobalConst.IdleStr, Vector2.left);
+            NpcIdleRight(0);
+            NpcIdleUp(1);
+            NpcIdleLeft(2);
         }
 
         public void PlayerIdleRight()
@@ -481,36 +460,6 @@ namespace Runtime.CH1.Main.Dialogue
         {
             _visualNovel.SetActive(false);
         }
-
-        public void GetLucky() // 삭제예정
-        {
-            Managers.Sound.Play(Sound.SFX, "CH1/Lucky_Dog&Key_SFX");
-            _lucky.SetActive(false);
-        }
-
-        public void MeetLucky() // 삭제예정
-        {
-            // Find로 변경?
-            _luckyDialogue.StartDialogue("LuckyFirstMeet");
-        }
-
-        public void ShowIllustration(int val)
-        {
-            switch(val)
-            {
-                case 1:
-                    _illerstration[0].SetActive(true);
-                    break;
-                case 2:
-                    _illerstration[0].SetActive(false);
-                    _illerstration[1].SetActive(true);
-                    break;
-                case 0:
-                    _illerstration[1].SetActive(false);
-                    break;
-            }
-        }
         #endregion
-
     }
 }

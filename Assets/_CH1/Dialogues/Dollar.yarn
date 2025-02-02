@@ -1,22 +1,22 @@
-﻿title: Dallar
+﻿title: Dollar
 // 사건분기에 따라 여기서 분류 후 JUMP하는 게 바람직
 ---
 <<set $progress to GetProgress()>>
 
-<<if $progress == 11>>
-    <<if not visited("Dallar1")>>
-        <<jump Dallar1>>
+<<if $progress == 10>>
+    <<if not visited("Dollar1")>>
+        <<jump Dollar1>>
     <<else>>
-        <<jump Dallar1_1>>
+        <<jump Dollar1_1>>
     <<endif>>
 <<else>>
     <<NpcDialogueFin 0>>
 // <<else>>
-//     <<jump DallarDefault>>
+//     <<jump DollarDefault>>
 <<endif>>
 ===
 
-title: Dallar1
+title: Dollar1
 // 시점: 컷씬 1.1 이후
 ---
 달러: 가치 있는 물건을 찾는다는 건<br>꽤나 어려운 일이야.
@@ -24,7 +24,7 @@ title: Dallar1
 <<NpcDialogueFin 0>>
 ===
 
-title: Dallar1_1
+title: Dollar1_1
 // 시점: 컷씬 1.1 이후
 ---
 // 달러-이후 상호작용시 반복 출력

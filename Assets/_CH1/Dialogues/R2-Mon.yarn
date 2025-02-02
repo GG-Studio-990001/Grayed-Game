@@ -4,7 +4,7 @@
 ---
 <<set $progress to GetProgress()>>
 
-<<if $progress == 11>>
+<<if $progress == 10>>
     <<jump R2_Mon1>>
 <<elseif $progress == 40>>
     <<jump R2_Mon2>>

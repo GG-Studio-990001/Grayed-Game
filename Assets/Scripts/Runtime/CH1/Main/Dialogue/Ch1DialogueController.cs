@@ -25,7 +25,6 @@ namespace Runtime.CH1.Main.Dialogue
         [SerializeField] private CanvasGroup _lineViewCanvas;
         [SerializeField] private TextMeshProUGUI _lineTxt;
         private string _speaker;
-        private bool _isR2MonSpeaking = false;
 
         public UnityEvent OnDialogueStart => _runner.onDialogueStart;
         public UnityEvent OnDialogueEnd => _runner.onDialogueComplete;
@@ -51,19 +50,16 @@ namespace Runtime.CH1.Main.Dialogue
             _runner.AddCommandHandler("ClearLineText", ClearLineText);
             
             // CutScene
-            _runner.AddCommandHandler("SetSpeakerR2Mon", SetSpeakerR2Mon);
-            _runner.AddCommandHandler<int>("ShowIllustration", _cutScene.ShowIllustration);
+            _runner.AddCommandHandler<int>("NpcIdleLeft", _cutScene.NpcIdleLeft);
             _runner.AddCommandHandler<int>("CharactersMove", _cutScene.CharactersMove);
             _runner.AddCommandHandler<int>("CharactersStop", _cutScene.CharactersStop);
             _runner.AddCommandHandler<int>("NpcJump", _cutScene.NpcJump);
-            _runner.AddCommandHandler("GetLucky", _cutScene.GetLucky);  // 삭제예정
-            _runner.AddCommandHandler("MeetLucky", _cutScene.MeetLucky); // 삭제예정
             _runner.AddCommandHandler<bool>("ShakeMap", _cutScene.ShakeMap);
             _runner.AddCommandHandler("BreakBridge", _cutScene.BreakBridge);
             _runner.AddCommandHandler<int>("SetNpcPosition", _cutScene.SetNpcPosition);
             // CutScene / Michael
             _runner.AddCommandHandler<int>("MichaelAction", _cutScene.MichaelAction);
-            _runner.AddCommandHandler("DallarRun", _cutScene.DallarRun);
+            _runner.AddCommandHandler("DollarRun", _cutScene.DollarRun);
             _runner.AddCommandHandler("NpcsMove", _cutScene.NpcsMove);
             _runner.AddCommandHandler("Scene4End", _cutScene.Scene4End);
             // CutScene / Mamago
@@ -104,8 +100,6 @@ namespace Runtime.CH1.Main.Dialogue
             _speaker = dialogueLine.CharacterName;
             SetNameTag(_speaker != "");
 
-            CheckR2MonSpeaking();
-
             onDialogueLineFinished();
         }
 
@@ -116,11 +110,7 @@ namespace Runtime.CH1.Main.Dialogue
 
         private void Start()
         {
-            if (Managers.Data.CH1.Scene == 0)
-            {
-                _runner.StartDialogue("S1");
-            }
-            else if (Managers.Data.CH1.Scene == 1 && Managers.Data.CH1.IsPacmomCleared)
+            if (Managers.Data.CH1.Scene == 1 && Managers.Data.CH1.IsPacmomCleared)
             {
                 _cutScene.NpcPos.SetNpcPosition(3);
                 _cutScene.SetPlayerPosition(1);
@@ -185,19 +175,6 @@ namespace Runtime.CH1.Main.Dialogue
                 //variableStorage.TryGetValue("$ThreeMatchPuzzle", out lvalue);
                 variableStorage.SetValue("$ThreeMatchPuzzle", true);
             }
-        }
-
-        // TODO: 달러와 파머의 음성도 각각 생긴다면 방식 변경할 듯
-        private void CheckR2MonSpeaking()
-        {
-            if (_isR2MonSpeaking)
-                _speaker = "R2-Mon";
-            _isR2MonSpeaking = false;
-        }
-
-        private void SetSpeakerR2Mon()
-        {
-            _isR2MonSpeaking = true;
         }
 
         public void TextSFX()

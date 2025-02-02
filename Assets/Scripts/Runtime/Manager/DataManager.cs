@@ -111,8 +111,10 @@ namespace Runtime.Manager
             Managers.Sound.SFX.volume = data.SfxVolume;
             Debug.Log($"Load Game Completed : {path}");
 
+            Debug.Log($"Chapter: {Managers.Data.Chapter}");
             switch (Managers.Data.Chapter)
             {
+                case 0:
                 case 1:
                     Debug.Log($"{Managers.Data.CH1.Scene}.{Managers.Data.CH1.SceneDetail}");
                     break;

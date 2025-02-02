@@ -1,11 +1,11 @@
 title: LuckySlg
 // 상황 : SLG UI 역접속 후 럭키의 튜토리얼
 ---
-<<SetLuckyPos 3>>
-<<SetBubblePos 3>>
+<<SetLuckyPos 2>>
+<<SetBubblePos 2>>
 <<LuckyEnter>>
 
-<<WalkLeft 3>>
+<<WalkLeft 2>>
 <<wait 3>>
 <<ActiveBubble true>>
 <<Idle>>
@@ -37,7 +37,7 @@ title: LuckySlgAfterWindowInput
 럭키: 럭키의 시간은 금이니까!<br>그럼 뚝딱뚝딱 잘 해보라구~
 
 <<ActiveBubble false>>
-<<WalkRight 3>>
+<<WalkRight 2>>
 <<wait 3>>
 
 <<ExitSLG>>
