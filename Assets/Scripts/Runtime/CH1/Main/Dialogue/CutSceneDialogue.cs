@@ -163,7 +163,7 @@ namespace Runtime.CH1.Main.Dialogue
             _michael.transform.DOMove(new Vector3(89.5400009f, -16.0f, 0), 3.5f).SetEase(Ease.Linear);
         }
 
-        public void DallarRun()
+        public void DollarRun()
         {
             _npc[0].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
             _npc[0].transform.DOMove(new Vector3(89.5400009f, -16.0f, 0), 6f).SetEase(Ease.Linear);
