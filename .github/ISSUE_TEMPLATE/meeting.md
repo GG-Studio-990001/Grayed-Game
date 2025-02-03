@@ -21,7 +21,7 @@ assignees: fkdl0048, Songkihwa, wooyn730, Sumindd, roweclaw, JIJI037, NearthYou
 - 우연
 - 수민
 - 지은
-- 수빈
 - 기화
+- 수빈
 
 ### 빌드 테스트
