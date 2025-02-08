@@ -17,6 +17,7 @@ namespace Runtime.CH2.SuperArio
 
         private Vector2 _initPos;
         private Rigidbody2D _rb;
+        private SpriteRenderer spr;
         private bool _isGrounded;
         private bool _isJumping;
         private float _initialJumpPosition;
@@ -29,6 +30,7 @@ namespace Runtime.CH2.SuperArio
             _initPos = transform.position;
             _rb = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
+            spr = GetComponent<SpriteRenderer>();
             _rb.isKinematic = true;
             _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             ArioManager.instance.OnEnterStore += EnterStore;
@@ -57,8 +59,11 @@ namespace Runtime.CH2.SuperArio
 
         public void ExitStore()
         {
+            _isGrounded = false;
+            spr.flipX = false;
             _rb.isKinematic = true;
             transform.position = _initPos;
+            _surface.speed = 3.5f;
             
             foreach (var wall in _storeWalls)
             {
@@ -154,6 +159,7 @@ namespace Runtime.CH2.SuperArio
             if (other.gameObject.TryGetComponent(out StoreWall wall))
             {
                 _surfaceVelocityX = wall.IsLeft ? 3.5f : -3.5f;
+                spr.flipX = !wall.IsLeft;
                 if (_surface != null)
                     _surface.speed = _surfaceVelocityX;
                 return;
