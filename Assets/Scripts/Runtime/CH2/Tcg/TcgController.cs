@@ -41,6 +41,14 @@ namespace Runtime.CH2.Tcg
         private List<int> _usedAnswers = new(); // 사용된 답변 인덱스 기록
         private int _scoreChange;
         public bool IsCardSelected { get; private set; }
+        private bool ShouldUseLastCard => _currentQuestionIndex < 4;
+        private static readonly Dictionary<int, (float[], float[], float[])> _cardLayouts = new()
+        {
+            { 4, (new float[] { -234f, -80f, 80f, 234f }, new float[] { -521f, -496f, -496f, -521f }, new float[] { 15f, 5f, -5f, -15f }) },
+            { 3, (new float[] { -160f, 0f, 160f }, new float[] { -511f, -496f, -511f }, new float[] { 10f, 0f, -10f }) },
+            { 2, (new float[] { -80f, 80f }, new float[] { -496f, -496f }, new float[] { 5f, -5f }) },
+            { 1, (new float[] { 0f }, new float[] { -496f }, new float[] { 0f }) }
+        };
 
         private void Start()
         {
@@ -191,114 +199,115 @@ namespace Runtime.CH2.Tcg
         private void ResetAndArrangeCards()
         {
             IsCardSelected = false;
-
             _cardsCanvasGroup.alpha = 1f;
 
             int cardCount = _cards.Length;
 
-            // 카드뒷면 초기 위치 리셋
+            ResetCardBack();
+
+            if (_currentQuestionIndex == 0)
+            {
+                PositionAllCardsToDeck();
+                return;
+            }
+
+            ArrangeCardPositions(cardCount);
+        }
+
+        private void ResetCardBack()
+        {
             if (_cardBack != null)
             {
                 _cardBack.transform.localPosition = _cardBackInitialPosition;
                 if (_currentQuestionIndex >= 4)
                     _cardBack.SetActive(false);
             }
+        }
 
-            if (_currentQuestionIndex == 0)
+        private void PositionAllCardsToDeck()
+        {
+            for (int i = 0; i < _cards.Length; i++)
             {
-                // 모든 카드를 카드 덱에 위치
-                for (int i = 0; i < cardCount; i++)
-                {
-                    _cards[i].transform.SetLocalPositionAndRotation(_cardBack.transform.localPosition, _cardBack.transform.localRotation);  // 회전 설정
-                    _cards[i].transform.localScale = _cardBack.transform.localScale;  // 크기 설정
+                _cards[i].transform.SetLocalPositionAndRotation(_cardBack.transform.localPosition, _cardBack.transform.localRotation);
+                _cards[i].transform.localScale = _cardBack.transform.localScale;
+                _tcgCards[i].SetCardBack();
+            }
+        }
 
-                    _tcgCards[i].SetCardBack();
-                }
+        // 공통적으로 카드 이동을 처리하는 함수 (애니메이션 적용 가능)
+        private void MoveCardToPosition(Transform card, Vector3 targetPosition, Vector3 targetRotation, float duration, TweenCallback onComplete = null)
+        {
+            card.DOLocalMove(targetPosition, duration).SetEase(Ease.OutQuad);
+            card.DOLocalRotate(targetRotation, duration).SetEase(Ease.OutQuad);
+            card.DOScale(Vector3.one, duration).SetEase(Ease.OutQuad).OnComplete(onComplete);
+        }
+
+        private void ArrangeCardPositions(int cardCount)
+        {
+            if (!_cardLayouts.TryGetValue(cardCount, out var layout))
+            {
+                Debug.LogError($"올바른 카드 배치 데이터를 찾을 수 없습니다. cardCount: {cardCount}");
                 return;
             }
 
-            // 카드앞면 배치의 기본 설정 (팬 형태로 배치)
-            float[] xPositions = new float[] { -234f, -80f, 80f, 234f }; // X 좌표
-            float[] yPositions = new float[] { -521f, -496f, -496f, -521f }; // Y 좌표
-            float[] zRotations = new float[] { 15f, 5f, -5f, -15f }; // Z축 각도
-
-            if (_currentQuestionIndex == 4)
-            {
-                // 3장
-                xPositions = new float[] { -160f, 0f, 160f, 0f };
-                yPositions = new float[] { -511f, -496f, -511f, 0f };
-                zRotations = new float[] { 10f, 0f, -10f, 0f };
-            }
-            else if (_currentQuestionIndex == 5)
-            {
-                // 2장
-                xPositions = new float[] { -80f, 80f, 0f, 0f };
-                yPositions = new float[] { -496f, -496f, 0f, 0f };
-                zRotations = new float[] { 5f, -5f, 0f, 0f };
-            }
-            else if (_currentQuestionIndex == 6)
-            {
-                // 1장
-                xPositions = new float[] { 0f, 0f, 0f, 0f };
-                yPositions = new float[] { -496f, 0f, 0f, 0f };
-                zRotations = new float[] { 0f, 0f, 0f, 0f };
-            }
+            float[] xPositions = layout.Item1;
+            float[] yPositions = layout.Item2;
+            float[] zRotations = layout.Item3;
 
             for (int i = 0; i < cardCount; i++)
             {
-                // 카드의 위치 및 회전 설정
-                _cards[i].transform.localPosition = new(xPositions[i], yPositions[i], 0f);
-                _cards[i].transform.localRotation = Quaternion.Euler(0f, 0f, zRotations[i]);
-                _cards[i].transform.localScale = Vector3.one;
+                Vector3 targetPosition = new(xPositions[i], yPositions[i], 0f);
+                Vector3 targetRotation = new(0f, 0f, zRotations[i]);
 
+                // 공통 함수 사용 (애니메이션 없이 즉시 배치)
+                _cards[i].transform.localPosition = targetPosition;
+                _cards[i].transform.localRotation = Quaternion.Euler(targetRotation);
+                _cards[i].transform.localScale = Vector3.one;
                 _tcgCards[i].SetCardFront();
             }
 
-            if (_currentQuestionIndex < 4)
-            {
-                // 카드 1장만 날아올 경우
-                // 마지막 카드만 위치, 회전, 크기 설정
-                Transform lastCard = _cards[cardCount - 1].transform;
+            if (ShouldUseLastCard)
+                PositionLastCard(cardCount);
+        }
 
-                lastCard.localPosition = _cardBack.transform.localPosition;  // 위치 설정
-                lastCard.localRotation = _cardBack.transform.localRotation;  // 회전 설정
-                lastCard.localScale = _cardBack.transform.localScale;  // 크기 설정
-            }
+        private void PositionLastCard(int cardCount)
+        {
+            Transform lastCard = _cards[cardCount - 1].transform;
+            lastCard.localPosition = _cardBack.transform.localPosition;
+            lastCard.localRotation = _cardBack.transform.localRotation;
+            lastCard.localScale = _cardBack.transform.localScale;
         }
 
         private void MoveCardsUp()
         {
-            if (_currentQuestionIndex < 4)
+            if (ShouldUseLastCard)
                 _cardBlock.SetActive(true);
 
             foreach (var card in _cards)
             {
                 Vector3 targetPosition = card.transform.localPosition + new Vector3(0, 300, 0);
-                card.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.OutQuad);
+                MoveCardToPosition(card.transform, targetPosition, Vector3.zero, 1f);
             }
 
-            // 카드 뒷면도 Y축으로 300만큼 올라감
             if (_cardBack != null)
             {
                 Vector3 targetPosition = _cardBack.transform.localPosition + new Vector3(0, 300, 0);
-                _cardBack.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.OutQuad);
+                MoveCardToPosition(_cardBack.transform, targetPosition, Vector3.zero, 1f);
             }
 
             if (_currentQuestionIndex == 0)
                 Invoke(nameof(MoveAllCardsFromDeck), 1f);
-            else if (_currentQuestionIndex < 4)
+            else if (ShouldUseLastCard)
                 Invoke(nameof(MoveLastCardFromDeck), 1f);
         }
 
         private void MoveLastCardFromDeck()
         {
-            // 마지막 카드 (가장 오른쪽에 위치할 카드)를 덱에서 목표 위치로 이동
             Transform lastCard = _cards[_cards.Length - 1].transform;
+            Vector3 targetPosition = new(234f, -221f, 0f);
+            Vector3 targetRotation = new(0f, 0f, -15f);
 
-            lastCard.DOLocalMove(new Vector3(234f, -521f + 300f, 0f), 1f).SetEase(Ease.OutQuad);
-            lastCard.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);
-            lastCard.DOLocalRotate(new Vector3(0f, 0f, -15f), 1f).SetEase(Ease.OutQuad)
-                .OnComplete(() => _cardBlock.SetActive(false));
+            MoveCardToPosition(lastCard, targetPosition, targetRotation, 1f, () => _cardBlock.SetActive(false));
 
             DOVirtual.DelayedCall(0.1f, () =>
             {
@@ -308,27 +317,30 @@ namespace Runtime.CH2.Tcg
 
         private void MoveAllCardsFromDeck()
         {
+            if (!_cardLayouts.TryGetValue(_cards.Length, out var layout))
+            {
+                Debug.LogError("올바른 카드 배치 데이터를 찾을 수 없습니다.");
+                return;
+            }
+
             float delayBetweenCards = 0.3f;
-            float[] xPositions = { -234f, -80f, 80f, 234f };
-            float[] yPositions = { -221f, -196f, -196f, -221f };
-            float[] zRotations = { 15f, 5f, -5f, -15f };
+            float[] xPositions = layout.Item1;
+            float[] yPositions = layout.Item2;
+            float[] zRotations = layout.Item3;
 
             Sequence sequence = DOTween.Sequence();
 
             for (int i = 0; i < _cards.Length; i++)
             {
-                int index = i; // 클로저 문제 방지
+                int index = i;
                 sequence.AppendInterval(delayBetweenCards * i)
                     .AppendCallback(() =>
                     {
-                        // 카드의 목표 위치 및 회전 설정
                         Vector3 targetPosition = new(xPositions[index], yPositions[index], 0f);
-                        Quaternion targetRotation = Quaternion.Euler(0f, 0f, zRotations[index]);
+                        Vector3 targetRotation = new(0f, 0f, zRotations[index]);
 
-                        // 애니메이션 실행
-                        _cards[index].transform.DOLocalMove(targetPosition, 0.5f).SetEase(Ease.OutQuad);
-                        _cards[index].transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);
-                        _cards[index].transform.DOLocalRotate(targetRotation.eulerAngles, 0.5f).SetEase(Ease.OutQuad);
+                        // 공통 함수 사용 (애니메이션 적용)
+                        MoveCardToPosition(_cards[index].transform, targetPosition, targetRotation, 0.5f);
 
                         DOVirtual.DelayedCall(0.1f, () =>
                         {
