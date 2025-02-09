@@ -30,6 +30,9 @@ namespace Runtime.CH2.Tcg
         [SerializeField] private GameObject _scoreBoard;
         [SerializeField] private Slider _scoreSlider;
         [SerializeField] private RectTransform _heart;
+        [Header("=Else=")]
+        private Vector3 _michaleCenter = new(39f, -70f, 0f);
+        private Vector3 _michaleRight = new(355f, -70f, 0f);
         private Vector3 _cardBackInitialPosition; // 카드 뒷면의 초기 위치
         private List<Dictionary<string, object>> _responses = new(); // 캐릭터 반응 파일
         private List<Dictionary<string, object>> _scores = new(); // 호감도 점수 파일
@@ -60,35 +63,37 @@ namespace Runtime.CH2.Tcg
         }
 
         #region Dialogue
-        public void StartLastTcg()
+        private void MoveMichael(Vector3 targetPosition, TweenCallback onComplete)
         {
-            ActiveCh2Ui(false);
-
-            // _michael을 중앙으로 이동
-            _michael.transform.DOLocalMove(new Vector3(39f, -70f, 0f), 1f).SetEase(Ease.InOutQuad)
-                .OnComplete(() =>
-                {
-                    ActiveTcgUi(true);
-                });
-
-            ShowQuestion();
+            _michael.transform.DOLocalMove(targetPosition, 1f)
+                .SetEase(Ease.InOutQuad)
+                .OnComplete(onComplete);
         }
 
         public void StartTcg()
         {
-            ResetAndArrangeCards();
+            StartTcgInternal(false);
+        }
+
+        public void StartLastTcg()
+        {
+            StartTcgInternal(true);
+        }
+
+        private void StartTcgInternal(bool isLast)
+        {
+            if (!isLast) ResetAndArrangeCards();
             ActiveCh2Ui(false);
 
-            // _michael을 중앙으로 이동
-            _michael.transform.DOLocalMove(new Vector3(39f, -70f, 0f), 1f).SetEase(Ease.InOutQuad)
-                .OnComplete(() =>
-                {
-                    ActiveTcgUi(true);
-                    MoveCardsUp();
-                });
+            MoveMichael(_michaleCenter, () =>
+            {
+                ActiveTcgUi(true);
+                if (!isLast) MoveCardsUp();
+            });
 
             ShowQuestion();
         }
+
 
         private void TcgFinish()
         {
@@ -97,14 +102,13 @@ namespace Runtime.CH2.Tcg
                 _michaelBubble.gameObject.SetActive(false);
             });
 
-            // _michael 오른쪽으로 이동
-            _michael.transform.DOLocalMove(new Vector3(355f, -70f, 0f), 1f).SetEase(Ease.InOutQuad)
-                .OnComplete(() =>
-                {
-                    ActiveTcgUi(false);
-                    ActiveCh2Ui(true);
-                    DialogueAfterTCG();
-                });
+            // _michael 오른쪽
+            MoveMichael(_michaleRight, () =>
+            {
+                ActiveTcgUi(false);
+                ActiveCh2Ui(true);
+                DialogueAfterTCG();
+            });
         }
 
         private void EndTcg()
@@ -113,13 +117,12 @@ namespace Runtime.CH2.Tcg
             _cardsCanvasGroup.DOFade(0f, 1f);
 
             // _michael 오른쪽으로 이동
-            _michael.transform.DOLocalMove(new Vector3(355f, -70f, 0f), 1f).SetEase(Ease.InOutQuad)
-                .OnComplete(() =>
-                {
-                    ActiveTcgUi(false);
-                    ActiveCh2Ui(true);
-                    AnswerDialogue();
-                });
+            MoveMichael(_michaleRight, () =>
+            {
+                ActiveTcgUi(false);
+                ActiveCh2Ui(true);
+                AnswerDialogue();
+            });
         }
 
         private void ActiveCh2Ui(bool active)
@@ -175,9 +178,9 @@ namespace Runtime.CH2.Tcg
         private void HeartAnim()
         {
             // 심장 뛰는 애니메이션
-            _heart.DOScale(1.2f, 0.3f) // 1.25배로 키움
+            _heart.DOScale(1.2f, 0.3f) // 1.2배로 키움
                 .SetEase(Ease.InOutBack)
-                .SetLoops(8, LoopType.Yoyo);   // 2번 반복하며 원래 크기로 돌아감
+                .SetLoops(8, LoopType.Yoyo); // 2번 반복하며 원래 크기로 돌아감
         }
 
         public void HideScore()
@@ -206,8 +209,7 @@ namespace Runtime.CH2.Tcg
                 // 모든 카드를 카드 덱에 위치
                 for (int i = 0; i < cardCount; i++)
                 {
-                    _cards[i].transform.localPosition = _cardBack.transform.localPosition;  // 위치 설정
-                    _cards[i].transform.localRotation = _cardBack.transform.localRotation;  // 회전 설정
+                    _cards[i].transform.SetLocalPositionAndRotation(_cardBack.transform.localPosition, _cardBack.transform.localRotation);  // 회전 설정
                     _cards[i].transform.localScale = _cardBack.transform.localScale;  // 크기 설정
 
                     _tcgCards[i].SetCardBack();
@@ -293,10 +295,10 @@ namespace Runtime.CH2.Tcg
             // 마지막 카드 (가장 오른쪽에 위치할 카드)를 덱에서 목표 위치로 이동
             Transform lastCard = _cards[_cards.Length - 1].transform;
 
-            lastCard.DOLocalMove(new Vector3(234f, -521f + 300f, 0f), 1f).SetEase(Ease.OutQuad);  // 위치 이동
-            lastCard.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);  // 크기 변화 (0.5 -> 1.0)
-            lastCard.DOLocalRotate(new Vector3(0f, 0f, -15f), 1f).SetEase(Ease.OutQuad)          // 회전 (z값 변화)
-                .OnComplete(() => _cardBlock.SetActive(false));  // 애니메이션 종료 시 _cardBlock 비활성화
+            lastCard.DOLocalMove(new Vector3(234f, -521f + 300f, 0f), 1f).SetEase(Ease.OutQuad);
+            lastCard.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);
+            lastCard.DOLocalRotate(new Vector3(0f, 0f, -15f), 1f).SetEase(Ease.OutQuad)
+                .OnComplete(() => _cardBlock.SetActive(false));
 
             DOVirtual.DelayedCall(0.1f, () =>
             {
@@ -306,12 +308,12 @@ namespace Runtime.CH2.Tcg
 
         private void MoveAllCardsFromDeck()
         {
-            float delayBetweenCards = 0.3f; // 각 카드 간의 딜레이
-            float[] xPositions = { -234f, -80f, 80f, 234f }; // X 좌표
-            float[] yPositions = { -221f, -196f, -196f, -221f }; // Y 좌표
-            float[] zRotations = { 15f, 5f, -5f, -15f }; // Z축 각도
+            float delayBetweenCards = 0.3f;
+            float[] xPositions = { -234f, -80f, 80f, 234f };
+            float[] yPositions = { -221f, -196f, -196f, -221f };
+            float[] zRotations = { 15f, 5f, -5f, -15f };
 
-            Sequence sequence = DOTween.Sequence(); // DOTween 시퀀스 생성
+            Sequence sequence = DOTween.Sequence();
 
             for (int i = 0; i < _cards.Length; i++)
             {
@@ -335,7 +337,6 @@ namespace Runtime.CH2.Tcg
                     });
             }
 
-            // 모든 애니메이션이 끝난 후 _cardBlock 비활성화
             sequence.OnComplete(() => _cardBlock.SetActive(false));
             sequence.Play();
         }

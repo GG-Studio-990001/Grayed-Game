@@ -63,10 +63,10 @@ namespace Runtime.CH2.Dialogue
 
             // TCG
             _runner.AddCommandHandler("StartTcg", _tcgController.StartTcg);
+            _runner.AddCommandHandler("StartLastTcg", _tcgController.StartLastTcg);
             _runner.AddCommandHandler("DialogueAfterTCG", _tcgController.DialogueAfterTCG);
             _runner.AddCommandHandler("ShowScore", _tcgController.ShowScore);
             _runner.AddCommandHandler("HideScore", _tcgController.HideScore);
-            _runner.AddCommandHandler("StartLastTcg", _tcgController.StartLastTcg);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
 
