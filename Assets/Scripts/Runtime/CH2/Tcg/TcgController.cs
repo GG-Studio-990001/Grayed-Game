@@ -375,7 +375,7 @@ namespace Runtime.CH2.Tcg
 
                     // 버튼 클릭 이벤트 설정
                     int cardIndex = answerIndex;
-                    _cards[i].gameObject.SetActive(true);
+                    _cards[i].SetActive(true);
                     var button = _cards[i].GetComponent<Button>();
                     button.interactable = true;
                     button.onClick.RemoveAllListeners();
@@ -418,14 +418,12 @@ namespace Runtime.CH2.Tcg
                 _michaelBubble.gameObject.SetActive(false);
             });
 
-            // CardsMoveDown
-            // 선택되지 않은 카드와 _cardBack 처리
+            // 선택되지 않은 카드들과 카드덱 Down
             Sequence cardsSequence = DOTween.Sequence();
             for (int i = 0; i < _cards.Length; i++)
             {
                 if (_tcgCards[i].Index != answerIndex)
                 {
-                    // 선택되지 않은 카드는 아래로 이동
                     Vector3 downPosition = _cards[i].transform.localPosition - new Vector3(0, 300, 0);
                     cardsSequence.Join(_cards[i].transform.DOLocalMove(downPosition, 1f).SetEase(Ease.InQuad));
                 }
@@ -433,7 +431,6 @@ namespace Runtime.CH2.Tcg
 
             if (_cardBack != null)
             {
-                // _cardBack도 아래로 이동
                 Vector3 cardBackDownPosition = _cardBack.transform.localPosition - new Vector3(0, 300, 0);
                 cardsSequence.Join(_cardBack.transform.DOLocalMove(cardBackDownPosition, 1f).SetEase(Ease.InQuad));
             }
@@ -445,19 +442,12 @@ namespace Runtime.CH2.Tcg
                 {
                     if (_tcgCards[i].Index == answerIndex)
                     {
-                        // 선택된 카드의 x값만 0으로 설정하고 이동
                         Vector3 centerPosition = _cards[i].transform.localPosition;
-                        centerPosition.x = 0; // x값만 0으로 변경
+                        centerPosition.x = 0;
 
                         Sequence moveAndRotateSequence = DOTween.Sequence();
-
-                        // 위치 이동
                         moveAndRotateSequence.Append(_cards[i].transform.DOLocalMove(centerPosition, 1f).SetEase(Ease.OutQuad));
-
-                        // Z각도 0으로 회전
                         moveAndRotateSequence.Join(_cards[i].transform.DOLocalRotate(Vector3.zero, 1f, RotateMode.Fast).SetEase(Ease.OutQuad));
-
-                        // 완료 시 EndTcg 호출
                         moveAndRotateSequence.OnComplete(() =>
                         {
                             EndTcg();
@@ -465,7 +455,6 @@ namespace Runtime.CH2.Tcg
                     }
                 }
             });
-
         }
         #endregion
 

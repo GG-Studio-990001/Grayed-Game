@@ -22,6 +22,7 @@ namespace Runtime.CH2.Main
 
         public void GetInitialLocation()
         {
+            // TODO: 리팩터링
             switch (Managers.Data.CH2.Turn)
             {
                 case 0:
@@ -85,7 +86,6 @@ namespace Runtime.CH2.Main
         private string GetDialogueName()
         {
             // 현재 턴수와 장소에 맞는 다이얼로그 이름 가져오기
-
             int turn = Managers.Data.CH2.Turn;
             Debug.Log(Managers.Data.CH2.Turn + " 시작");
 
@@ -132,28 +132,7 @@ namespace Runtime.CH2.Main
                     break;
                 }
             }
-            /*
-            int progress = Managers.Data.CH2.Turn;
-            Debug.Log(Managers.Data.CH2.Turn + "에서 갈 수 있는 곳");
-            // 이동 가능한 장소 리스트 가져오기
-
-            foreach (var row in _data)
-            {
-                // 첫 번째 열(장소) 데이터를 가져옴
-                string location = row.ElementAt(0).Value.ToString(); // 첫 번째 열
-
-                // 진행도 상태 가져오기 (Managers.Data.CH2.Progress에 해당하는 열)
-                string progressState = row[$"{progress}"].ToString();
-                // Debug.Log($"{location} {progressState}");
-
-                // 진행도에서 'x'가 아닌 값이면 이동 가능 장소로 리스트에 추가
-                // 현재 있는 위치가 아니어야 함
-                if (progressState != "x" && location != Managers.Data.CH2.Location)
-                {
-                    loc.Add(location);
-                }
-            }*/
-
+            
             return loc; // 이동 가능한 장소 리스트 반환
         }
 
