@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 namespace Runtime.CH2.Tcg
 {
-    public class TcgCard : MonoBehaviour
+    public class CardFlipper : MonoBehaviour
     {
         public int Index;
-        [SerializeField] private CardManager _cardManager;
+        [SerializeField] private CardSpriteManager _cardManager;
         [SerializeField] private Image _cardImg;
         private bool _isBack = true;
 

@@ -22,7 +22,7 @@ namespace Runtime.CH2.Tcg
         [SerializeField] private TextMeshProUGUI _michaelBubbleTxt; // 미카엘 대화창 텍스트
         [SerializeField] private TextMeshProUGUI _scoreTxt; // 호감도 텍스트
         [SerializeField] private GameObject[] _cards = new GameObject[4]; // 답변 카드
-        [SerializeField] private TcgCard[] _tcgCards = new TcgCard[4]; // 답변 카드 속성
+        [SerializeField] private CardFlipper[] _tcgCards = new CardFlipper[4]; // 답변 카드 속성
         [SerializeField] private GameObject _cardBack;
         [SerializeField] private GameObject _cardBlock;
         [SerializeField] private CanvasGroup _cardsCanvasGroup;
