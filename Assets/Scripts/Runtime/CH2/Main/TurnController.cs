@@ -13,6 +13,7 @@ namespace Runtime.CH2.Main
         [SerializeField] private LocationUIController _locationUiController;
         private List<Dictionary<string, object>> _data = new();
         private List<string> _visitedLocations = new();
+        private const string _nobody = "Nobody"; // Nobody를 상수로 이동
 
         private void Awake()
         {
@@ -22,34 +23,10 @@ namespace Runtime.CH2.Main
 
         public void GetInitialLocation()
         {
-            // TODO: 리팩터링
-            switch (Managers.Data.CH2.Turn)
-            {
-                case 0:
-                    _dialogueRunner.StartDialogue("Turn0");
-                    break;
-                case 1:
-                    _dialogueRunner.StartDialogue("Turn1_S");
-                    break;
-                case 2:
-                    _dialogueRunner.StartDialogue("Turn2_S");
-                    break;
-                case 3:
-                    _dialogueRunner.StartDialogue("Turn3");
-                    break;
-                case 4:
-                    _dialogueRunner.StartDialogue("Turn4_S");
-                    break;
-                case 5:
-                    _dialogueRunner.StartDialogue("Turn5");
-                    break;
-                case 6:
-                    _dialogueRunner.StartDialogue("Turn6_S");
-                    break;
-                case 7:
-                    _dialogueRunner.StartDialogue("Turn7");
-                    break;
-            }
+            int turn = Managers.Data.CH2.Turn;
+            string dialogueKey = (turn == 1 || turn == 2 || turn == 4 || turn == 6) ? $"Turn{turn}_S" : $"Turn{turn}";
+
+            _dialogueRunner.StartDialogue(dialogueKey);
         }
 
         public void SetLocation(string loc)
@@ -59,27 +36,26 @@ namespace Runtime.CH2.Main
 
         public void StartDialogue()
         {
-            string Nobody = "Nobody"; // 리팩터링 필요 (옮기기)
-            string dialogueName;
+            string dialogueName = _nobody;
 
             if (_visitedLocations.Contains(Managers.Data.CH2.Location))
             {
                 Debug.Log("이미 방문함");
                 _locationUiController.MoveLocation();
-                dialogueName = Nobody;
-            }
-            else
-            {
-                dialogueName = GetDialogueName();
-                _visitedLocations.Add(Managers.Data.CH2.Location);
+                _dialogueRunner.StartDialogue(dialogueName);
+                return;
             }
 
-            if (dialogueName == "")
+            dialogueName = GetDialogueName();
+            _visitedLocations.Add(Managers.Data.CH2.Location);
+
+            if (string.IsNullOrEmpty(dialogueName))
             {
                 Debug.Log("출력할 다이얼로그 없음");
                 _locationUiController.MoveLocation();
-                dialogueName = Nobody;
+                dialogueName = _nobody;
             }
+
             _dialogueRunner.StartDialogue(dialogueName);
         }
 
