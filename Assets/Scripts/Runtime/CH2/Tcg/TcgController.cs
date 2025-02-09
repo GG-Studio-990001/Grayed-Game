@@ -41,14 +41,6 @@ namespace Runtime.CH2.Tcg
         private List<int> _usedAnswers = new(); // 사용된 답변 인덱스 기록
         private int _scoreChange;
         public bool IsCardSelected { get; private set; }
-        private bool ShouldUseLastCard => _currentQuestionIndex < 4;
-        private static readonly Dictionary<int, (float[], float[], float[])> _cardLayouts = new()
-        {
-            { 4, (new float[] { -234f, -80f, 80f, 234f }, new float[] { -521f, -496f, -496f, -521f }, new float[] { 15f, 5f, -5f, -15f }) },
-            { 3, (new float[] { -160f, 0f, 160f }, new float[] { -511f, -496f, -511f }, new float[] { 10f, 0f, -10f }) },
-            { 2, (new float[] { -80f, 80f }, new float[] { -496f, -496f }, new float[] { 5f, -5f }) },
-            { 1, (new float[] { 0f }, new float[] { -496f }, new float[] { 0f }) }
-        };
 
         private void Start()
         {
@@ -234,39 +226,31 @@ namespace Runtime.CH2.Tcg
             }
         }
 
-        // 공통적으로 카드 이동을 처리하는 함수 (애니메이션 적용 가능)
-        private void MoveCardToPosition(Transform card, Vector3 targetPosition, Vector3 targetRotation, float duration, TweenCallback onComplete = null)
-        {
-            card.DOLocalMove(targetPosition, duration).SetEase(Ease.OutQuad);
-            card.DOLocalRotate(targetRotation, duration).SetEase(Ease.OutQuad);
-            card.DOScale(Vector3.one, duration).SetEase(Ease.OutQuad).OnComplete(onComplete);
-        }
-
         private void ArrangeCardPositions(int cardCount)
         {
-            if (!_cardLayouts.TryGetValue(cardCount, out var layout))
+            // 카드 배치 정보 딕셔너리
+            Dictionary<int, (float[], float[], float[])> cardLayouts = new()
             {
-                Debug.LogError($"올바른 카드 배치 데이터를 찾을 수 없습니다. cardCount: {cardCount}");
-                return;
-            }
+                { 4, (new float[] { -234f, -80f, 80f, 234f }, new float[] { -521f, -496f, -496f, -521f }, new float[] { 15f, 5f, -5f, -15f }) },
+                { 3, (new float[] { -160f, 0f, 160f, 0f }, new float[] { -511f, -496f, -511f, 0f }, new float[] { 10f, 0f, -10f, 0f }) },
+                { 2, (new float[] { -80f, 80f, 0f, 0f }, new float[] { -496f, -496f, 0f, 0f }, new float[] { 5f, -5f, 0f, 0f }) },
+                { 1, (new float[] { 0f, 0f, 0f, 0f }, new float[] { -496f, 0f, 0f, 0f }, new float[] { 0f, 0f, 0f, 0f }) }
+            };
 
-            float[] xPositions = layout.Item1;
-            float[] yPositions = layout.Item2;
-            float[] zRotations = layout.Item3;
+            // 현재 질문 인덱스에 따라 카드 개수 결정
+            int cardsToShow = _currentQuestionIndex >= 6 ? 1 : (_currentQuestionIndex >= 5 ? 2 : (_currentQuestionIndex >= 4 ? 3 : 4));
+
+            var (xPositions, yPositions, zRotations) = cardLayouts[cardsToShow];
 
             for (int i = 0; i < cardCount; i++)
             {
-                Vector3 targetPosition = new(xPositions[i], yPositions[i], 0f);
-                Vector3 targetRotation = new(0f, 0f, zRotations[i]);
-
-                // 공통 함수 사용 (애니메이션 없이 즉시 배치)
-                _cards[i].transform.localPosition = targetPosition;
-                _cards[i].transform.localRotation = Quaternion.Euler(targetRotation);
+                _cards[i].transform.localPosition = new(xPositions[i], yPositions[i], 0f);
+                _cards[i].transform.localRotation = Quaternion.Euler(0f, 0f, zRotations[i]);
                 _cards[i].transform.localScale = Vector3.one;
                 _tcgCards[i].SetCardFront();
             }
 
-            if (ShouldUseLastCard)
+            if (_currentQuestionIndex < 4)
                 PositionLastCard(cardCount);
         }
 
@@ -278,36 +262,40 @@ namespace Runtime.CH2.Tcg
             lastCard.localScale = _cardBack.transform.localScale;
         }
 
+
         private void MoveCardsUp()
         {
-            if (ShouldUseLastCard)
+            if (_currentQuestionIndex < 4)
                 _cardBlock.SetActive(true);
 
             foreach (var card in _cards)
             {
                 Vector3 targetPosition = card.transform.localPosition + new Vector3(0, 300, 0);
-                MoveCardToPosition(card.transform, targetPosition, Vector3.zero, 1f);
+                card.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.OutQuad);
             }
 
+            // 카드 뒷면도 Y축으로 300만큼 올라감
             if (_cardBack != null)
             {
                 Vector3 targetPosition = _cardBack.transform.localPosition + new Vector3(0, 300, 0);
-                MoveCardToPosition(_cardBack.transform, targetPosition, Vector3.zero, 1f);
+                _cardBack.transform.DOLocalMove(targetPosition, 1f).SetEase(Ease.OutQuad);
             }
 
             if (_currentQuestionIndex == 0)
                 Invoke(nameof(MoveAllCardsFromDeck), 1f);
-            else if (ShouldUseLastCard)
+            else if (_currentQuestionIndex < 4)
                 Invoke(nameof(MoveLastCardFromDeck), 1f);
         }
 
         private void MoveLastCardFromDeck()
         {
+            // 마지막 카드 (가장 오른쪽에 위치할 카드)를 덱에서 목표 위치로 이동
             Transform lastCard = _cards[_cards.Length - 1].transform;
-            Vector3 targetPosition = new(234f, -221f, 0f);
-            Vector3 targetRotation = new(0f, 0f, -15f);
 
-            MoveCardToPosition(lastCard, targetPosition, targetRotation, 1f, () => _cardBlock.SetActive(false));
+            lastCard.DOLocalMove(new Vector3(234f, -521f + 300f, 0f), 1f).SetEase(Ease.OutQuad);
+            lastCard.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);
+            lastCard.DOLocalRotate(new Vector3(0f, 0f, -15f), 1f).SetEase(Ease.OutQuad)
+                .OnComplete(() => _cardBlock.SetActive(false));
 
             DOVirtual.DelayedCall(0.1f, () =>
             {
@@ -317,30 +305,27 @@ namespace Runtime.CH2.Tcg
 
         private void MoveAllCardsFromDeck()
         {
-            if (!_cardLayouts.TryGetValue(_cards.Length, out var layout))
-            {
-                Debug.LogError("올바른 카드 배치 데이터를 찾을 수 없습니다.");
-                return;
-            }
-
             float delayBetweenCards = 0.3f;
-            float[] xPositions = layout.Item1;
-            float[] yPositions = layout.Item2;
-            float[] zRotations = layout.Item3;
+            float[] xPositions = { -234f, -80f, 80f, 234f };
+            float[] yPositions = { -221f, -196f, -196f, -221f };
+            float[] zRotations = { 15f, 5f, -5f, -15f };
 
             Sequence sequence = DOTween.Sequence();
 
             for (int i = 0; i < _cards.Length; i++)
             {
-                int index = i;
+                int index = i; // 클로저 문제 방지
                 sequence.AppendInterval(delayBetweenCards * i)
                     .AppendCallback(() =>
                     {
+                        // 카드의 목표 위치 및 회전 설정
                         Vector3 targetPosition = new(xPositions[index], yPositions[index], 0f);
-                        Vector3 targetRotation = new(0f, 0f, zRotations[index]);
+                        Quaternion targetRotation = Quaternion.Euler(0f, 0f, zRotations[index]);
 
-                        // 공통 함수 사용 (애니메이션 적용)
-                        MoveCardToPosition(_cards[index].transform, targetPosition, targetRotation, 0.5f);
+                        // 애니메이션 실행
+                        _cards[index].transform.DOLocalMove(targetPosition, 0.5f).SetEase(Ease.OutQuad);
+                        _cards[index].transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);
+                        _cards[index].transform.DOLocalRotate(targetRotation.eulerAngles, 0.5f).SetEase(Ease.OutQuad);
 
                         DOVirtual.DelayedCall(0.1f, () =>
                         {
@@ -507,7 +492,7 @@ namespace Runtime.CH2.Tcg
             int lastAnswerIndex = instance._usedAnswers.Last();
 
             // 현재 질문 인덱스가 유효한지 확인
-            int questionIndex = instance._currentQuestionIndex; // `OnAnswerSelected`와 동일하게 -1 적용
+            int questionIndex = instance._currentQuestionIndex; // OnAnswerSelected와 동일하게 -1 적용
             if (questionIndex < 0)
             {
                 Debug.LogWarning($"현재 질문 인덱스가 0보다 작습니다. questionIndex: {questionIndex}");
