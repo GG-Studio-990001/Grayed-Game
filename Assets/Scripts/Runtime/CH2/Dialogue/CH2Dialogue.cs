@@ -6,6 +6,7 @@ using Runtime.Middle;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,10 +52,12 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
             _runner.AddCommandHandler("GetTcgPack", GetTcgPack);
             _runner.AddCommandHandler("StartSuperArio", StartSuperArio);
-            _runner.AddCommandHandler<int>("ChangeBGM", ChangeBGM);
             _runner.AddCommandHandler<string>("ConnectScene", ConnectScene);
             _runner.AddCommandHandler<bool>("SetDarkness", SetDarkness);
             _runner.AddCommandHandler("Ch2End", Ch2End);
+
+            _runner.AddCommandHandler<int>("ChangeBGM", ChangeBGM);
+            _runner.AddCommandHandler<int>("PlaySFX", PlaySFX);
 
             // Character
             _runner.AddCommandHandler<string, string>("SetCharacterPos", _characterManager.SetCharacterPos);
@@ -93,29 +96,72 @@ namespace Runtime.CH2.Dialogue
         }
         #endregion
 
+        #region 사운드
+        private void ChangeBGM(int idx = 1)
+        {
+            string[] bgmPaths =
+            {
+                "CH2/BGM_01_Normal",
+                "CH2/BGM_02_Serious",
+                "CH2/BGM_03_Exciting",
+                "CH2/BGM_04_Wariness",
+                "CH2/BGM_05_Faint",
+                "CH2/BGM_06_Micael's Riddle",
+                "CH2/BGM_07_R2IsComing"
+            };
+
+            string prefix = $"CH2/BGM_{idx:D2}";
+
+            string path = bgmPaths.FirstOrDefault(bgm => bgm.Substring(0, 10) == prefix);
+
+            if (string.IsNullOrEmpty(path))
+            {
+                Debug.LogError($"BGM not found for index {idx}");
+                return;
+            }
+
+            Managers.Sound.Play(Sound.BGM, path);
+        }
+
+
+        private void PlaySFX(int idx)
+        {
+            string[] sfxPaths =
+            {
+                "CH2/SFX_01_Foot_Farmer",
+                "CH2/SFX_02_Foot_Gruop",
+                "CH2/SFX_03_Foot_Run",
+                "CH2/SFX_04_Hit",
+                "CH2/SFX_05_R2_Ouch",
+                "CH2/SFX_06_Bell",
+                "CH2/SFX_07_Build",
+                "CH2/SFX_08_Heavens",
+                "CH2/SFX_09_Knock_Big",
+                "CH2/SFX_10_Door_Stone",
+                "CH2/SFX_11_Knock",
+                "CH2/SFX_12_slime",
+                "CH2/SFX_13_Foot_R2",
+            };
+
+            string prefix = $"CH2/SFX_{idx:D2}";
+
+            string path = sfxPaths.FirstOrDefault(sfx => sfx.Substring(0, 10) == prefix);
+
+            Debug.Log($"SFX {path}");
+            if (string.IsNullOrEmpty(path))
+            {
+                Debug.LogError($"SFX not found for index {idx}");
+                return;
+            }
+
+            Managers.Sound.Play(Sound.SFX, path);
+        }
+        #endregion
+
         private void ConnectScene(string scene)
         {
             Managers.Sound.StopBGM();
             _connectionController.ConnectScene(scene);
-        }
-
-        private void ChangeBGM(int idx = 1)
-        {
-            Dictionary<int, string> bgmPaths = new()
-            {
-                { 1, "CH2/BGM_01_Normal" },
-                { 2, "CH2/BGM_02_Serious" },
-                { 3, "CH2/BGM_03_Exciting" },
-                { 4, "CH2/BGM_04_Wariness" },
-                { 5, "CH2/BGM_05_Faint" },
-                { 6, "CH2/BGM_06_Micael's Riddle" },
-                { 7, "CH2/BGM_07_R2IsComing" }
-            };
-
-            if (bgmPaths.TryGetValue(idx, out string path))
-            {
-                Managers.Sound.Play(Sound.BGM, path);
-            }
         }
 
         private void StartSuperArio()
@@ -155,6 +201,7 @@ namespace Runtime.CH2.Dialogue
 
         public void SetLocation(string location)
         {
+            Managers.Sound.StopSFX();
             _characterManager.HighlightSpeakingCharacter("라플리");
 
             Managers.Data.CH2.Location = location;
