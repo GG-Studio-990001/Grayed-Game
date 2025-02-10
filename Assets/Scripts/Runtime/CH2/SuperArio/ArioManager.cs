@@ -104,7 +104,7 @@ namespace Runtime.CH2.SuperArio
             IsReward = true;
             OnEnterReward.Invoke(IsReward);
         }
-
+        
         public void ExitReward()
         {
             StartCoroutine(WaitExitReward());
@@ -113,10 +113,15 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator WaitExitReward()
         {
             yield return new WaitForSeconds(1f);
-            _dataCheater.LoadCheatData("Turn3", _sceneSystem);
-            // _rewardCam.Priority = 10;
-            // IsReward = false;
-            // RestartSuperArio();
+            if(CurrentStage.StartsWith("3"))
+                _dataCheater.LoadCheatData("Turn3", _sceneSystem);
+            else
+            {
+                _rewardCam.Priority = 10;
+                IsReward = false;
+                RestartSuperArio();
+            }
+            Debug.Log("리워드 종료");
         }
 
         private IEnumerator WaitStart()
@@ -215,6 +220,7 @@ namespace Runtime.CH2.SuperArio
             _obstacleManager.SpawnBuilding();
         }
 
+        //TODO: 스테이지가 끝나면 토관 or 빌딩 소환 들어가기 전에 현재 스테이지 저장시키기
         public void CalculateNextStage()
         {
             var parts = CurrentStage.Split('-');
@@ -226,12 +232,16 @@ namespace Runtime.CH2.SuperArio
                     SpawnBuilding();
                     world++;
                     stage = 1;
+                    CurrentStage = $"{world}-{stage}";
+                    Debug.Log("스테이지 3 끝");
+                    return;
                 }
 
                 CurrentStage = $"{world}-{stage}";
+                GameOver();
             }
 
-            UpdateStage(CurrentStage); // 기본적으로 변경 없이 반환
+            //UpdateStage(CurrentStage); // 기본적으로 변경 없이 반환
         }
         
         private void UpdateStage(string stage)
