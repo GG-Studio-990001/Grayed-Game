@@ -66,6 +66,17 @@ namespace Runtime.CH2.Dialogue
             {
                 if (!character.gameObject.activeInHierarchy) continue;
 
+                // TODO: 리팩터링
+                if (character.CharacterName == "진도비글")
+                {
+                    if (speaker == "진도")
+                        character.SetHighlight(true, 0);
+                    else if (speaker == "비글")
+                        character.SetHighlight(true, 1);
+                    else
+                        character.SetHighlight(false, 2);
+                }
+                
                 if (character.CharacterName == speaker)
                     character.SetHighlight(true);
                 else

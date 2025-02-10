@@ -38,13 +38,17 @@ title: Turn7
 미카엘: ?
 
 // TCG 7 (질문만) 진행 후 (8번째, 마지막)
-// 방울 sfx + 슬라임이 미카엘의 링 위로 올라타는 연출
 <<StartLastTcg>>
 ===
 
 title: AfterTcg7
 ---
 <<ChangeBGM 3>>
+
+// 방울 sfx + 슬라임이 미카엘의 링 위로 올라타는 연출
+<<PlaySFX 12>>
+<<HideCharacter "라플리">>
+<<SetCharacterPos "슬라임" "A">>
 미카엘: 슬- 라- 임-!!!
 슬라임: 또잉- 또이잉- 또이이잉-!!!
 
@@ -54,11 +58,12 @@ title: AfterTcg7
 미카엘: 처음에 널 오해하고 가둬서 미안하고<br>내 친구를 구해줘서 고맙다는 말은 하고 싶어.
 미카엘: 내 기도가 이뤄진 오늘을 잊지 못할 거야.
 <<HideCharacter "미카엘">>
+<<HideCharacter "슬라임">>
 
 // 장소: 광장
 <<SetLocation Square>>
 <<wait 2>>
-
+<<SetCharacterPos "라플리" "A">>
     :진도와 비글이 마을에 소식을 퍼뜨렸고,<br>주민들이 한자리에 모이게 되었다.
 
 <<SetCharacterPos "파머" "B">>
@@ -110,6 +115,7 @@ title: AfterTcg7
 <<SetLocation Entrance>>
 <<wait 2>>
 
+<<PlaySFX 13>>
     :진도와 비글이 아직 돌아오지 않은 것 같다.<br>그냥 지나가려던 찰나, 누군가 갑자기 튀어나왔다.
 
 <<ChangeBGM 7>>
