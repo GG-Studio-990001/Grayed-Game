@@ -13,6 +13,7 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private float _endPos;
 
         private List<ArioCoin> _coins;
+        private float _speed;
 
         private void Awake()
         {

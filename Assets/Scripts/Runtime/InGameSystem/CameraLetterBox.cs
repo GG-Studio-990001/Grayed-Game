@@ -20,12 +20,16 @@ public class CameraLetterbox : MonoBehaviour
     [SerializeField] private Camera _uiCamera; // UI 카메라
     [SerializeField] private RawImage _gameScreenImage; // 게임 화면을 표시할 RawImage
     [SerializeField] private AspectRatio _targetAspectRatio; // 기본 비율을 8:7로 설정
+    [SerializeField] private Image _transition;
+    [SerializeField] private Material _material;
     
     private Camera _mainCamera;
     private RenderTexture _renderTexture;
     private Sequence _currentSequence;
     private int _baseWidth = 1920;  // 기본 해상도 너비
     private int _baseHeight = 1080; // 기본 해상도 높이
+    private static readonly int Value = Shader.PropertyToID("_Value");
+    private static readonly int Lerp = Shader.PropertyToID("Lerp");
 
     private void Awake()
     {
@@ -138,15 +142,34 @@ public class CameraLetterbox : MonoBehaviour
             }
         }
     }
-
-    public void Set8To7Ratio()
+    
+    public void FadeIn()
     {
-        SetAspectRatio(AspectRatio.Ratio_8_7);
+        float curValue = _material.GetFloat("_Value");
+        if(curValue == 1f)
+            return;
+        
+        _transition.raycastTarget = true;
+        DOTween.To(() => curValue, x =>
+        {
+            curValue = x;
+            _material.SetFloat(Value, x);
+        }, 1f, 1f).OnComplete(FadeOut);
     }
-
-    public void Set21To9Ratio()
+    
+    private void FadeOut()
     {
-        SetAspectRatio(AspectRatio.Ratio_21_9);
+        float curValue = _material.GetFloat("_Value");
+        if(curValue == 0f)
+            return;
+        
+        _transition.raycastTarget = true;
+        DOTween.To(() => curValue, x =>
+        {
+            curValue = x;
+            _material.SetFloat(Value, x);
+        }, 0f, 1f)
+        .OnComplete(() => _transition.raycastTarget = false);
     }
 
     private void OnDestroy()

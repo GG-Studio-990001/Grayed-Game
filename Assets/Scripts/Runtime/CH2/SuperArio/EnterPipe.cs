@@ -12,7 +12,6 @@ namespace Runtime.CH2.SuperArio
 
         private Vector3 _initialPosition;
         private Vector3 _targetPosition;
-        private bool _isAnimating = false;
 
         private void Awake()
         {
@@ -32,16 +31,12 @@ namespace Runtime.CH2.SuperArio
         {
             DOTween.Kill(transform);
             transform.position = _targetPosition;
-            _isAnimating = false;
         }
 
         private void StartEnterAnimation()
         {
-            _isAnimating = true;
-
             transform.DOMoveY(_initialPosition.y, _animationDuration)
-                .SetEase(Ease.OutBounce) // 애니메이션 이징
-                .OnComplete(() => _isAnimating = false); // 애니메이션 완료 시 상태 변경
+                .SetEase(Ease.OutBounce); // 애니메이션 이징
         }
     }
 }

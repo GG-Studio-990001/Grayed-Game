@@ -27,8 +27,8 @@ MonoBehaviour:
   - m_From: StoreCamera
     m_To: StageCamera
     m_Blend:
-      m_Style: 1
-      m_Time: 0.25
+      m_Style: 0
+      m_Time: 0.1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
