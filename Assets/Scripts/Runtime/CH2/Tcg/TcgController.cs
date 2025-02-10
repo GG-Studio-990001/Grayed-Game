@@ -31,8 +31,8 @@ namespace Runtime.CH2.Tcg
         [SerializeField] private Slider _scoreSlider;
         [SerializeField] private RectTransform _heart;
         [Header("=Else=")]
-        private Vector3 _michaleCenter = new(39f, -70f, 0f);
-        private Vector3 _michaleRight = new(355f, -70f, 0f);
+        private float _michaleCenterX = 39f;
+        private float _michaleRightX = 355f;
         private Vector3 _cardBackInitialPosition; // 카드 뒷면의 초기 위치
         private List<Dictionary<string, object>> _responses = new(); // 캐릭터 반응 파일
         private List<Dictionary<string, object>> _scores = new(); // 호감도 점수 파일
@@ -63,9 +63,9 @@ namespace Runtime.CH2.Tcg
         }
 
         #region Dialogue
-        private void MoveMichael(Vector3 targetPosition, TweenCallback onComplete)
+        private void MoveMichael(float targetPosX, TweenCallback onComplete)
         {
-            _michael.transform.DOLocalMove(targetPosition, 1f)
+            _michael.transform.DOLocalMove(new Vector3(targetPosX, _michael.transform.localPosition.y, 0), 1f)
                 .SetEase(Ease.InOutQuad)
                 .OnComplete(onComplete);
         }
@@ -85,7 +85,7 @@ namespace Runtime.CH2.Tcg
             if (!isLast) ResetAndArrangeCards();
             ActiveCh2Ui(false);
 
-            MoveMichael(_michaleCenter, () =>
+            MoveMichael(_michaleCenterX, () =>
             {
                 ActiveTcgUi(true);
                 if (!isLast) MoveCardsUp();
@@ -103,7 +103,7 @@ namespace Runtime.CH2.Tcg
             });
 
             // _michael 오른쪽
-            MoveMichael(_michaleRight, () =>
+            MoveMichael(_michaleRightX, () =>
             {
                 ActiveTcgUi(false);
                 ActiveCh2Ui(true);
@@ -117,7 +117,7 @@ namespace Runtime.CH2.Tcg
             _cardsCanvasGroup.DOFade(0f, 1f);
 
             // _michael 오른쪽으로 이동
-            MoveMichael(_michaleRight, () =>
+            MoveMichael(_michaleRightX, () =>
             {
                 ActiveTcgUi(false);
                 ActiveCh2Ui(true);

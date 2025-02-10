@@ -42,7 +42,7 @@ title: Turn2_S
     :미카엘이 곧바로 선물 받은 링으로 교체했다.
 
 // 스탠딩 교체 + 후광 + 성스러운 sfx 연출
-<<ChangeBGM>>
+// <<ChangeBGM>>
 <<PlaySFX 8>>
 <<wait 2>>
 
