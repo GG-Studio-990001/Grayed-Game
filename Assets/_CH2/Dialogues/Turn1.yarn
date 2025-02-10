@@ -51,6 +51,7 @@ title: Turn1_S
 <<SetLocation Temple>>
 <<wait 2>>
 <<PlaySFX 6>>
+<<wait 2>>
     :신전에 도착해 종을 울렸지만,<br>미카엘의 마음을 대변하는 듯 아무런 반응이 없다.
     :<wave>환심을 살 만한 선물</wave>이라도 있으면 좋을 것 같다.<br>마을을 둘러보자.
 
@@ -102,6 +103,7 @@ R2-Mon: 제작모드 본격 돌입!
 
 // 암전 + 제작 sfx
 <<PlaySFX 7>>
+<<wait 2>>
 <<SetDarkness true>>
 R2-Mon: ... 대상 아이템: 핸들 ...
 R2-Mon: ... 변경할 이름: 링 ...
