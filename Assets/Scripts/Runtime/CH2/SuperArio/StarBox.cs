@@ -42,7 +42,7 @@ namespace Runtime.CH2.SuperArio
 
         public void Use()
         {
-            if (IsUsed)
+            if (IsUsed || !ArioManager.instance.UseCoin(150))
                 return;
             
             ArioManager.instance.GetItem();

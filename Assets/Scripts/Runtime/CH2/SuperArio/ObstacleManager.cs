@@ -12,7 +12,7 @@ namespace Runtime.CH2.SuperArio
         private int _poolObjCnt = 3;
         
         private int _obstacleTypeCnt = 3;
-        private float _spawnDelay = 1.5f; // 스폰 간격 (기본값)
+        private float _spawnDelay = 2.5f; // 스폰 간격 (기본값)
         private int _remainingSpawnCount = 20; // 남은 스폰 카운트
         private GameObject _buildingObj;
 
@@ -25,11 +25,8 @@ namespace Runtime.CH2.SuperArio
                 Debug.LogWarning($"Stage data for {stage} not found.");
                 return;
             }
-
-            _obstacleTypeCnt = stageData.ObstacleTypes; // 장애물 종류 수
             
-            _spawnDelay = 3.0f / stageData.Speed;
-            _spawnDelay = Mathf.Max(_spawnDelay, 1f);
+            _obstacleTypeCnt = stageData.ObstacleTypes; // 장애물 종류 수
             _remainingSpawnCount = stageData.ObstacleCount; // 남은 스폰 카운트 초기화
         }
 

@@ -19,6 +19,7 @@ namespace Runtime.CH2.SuperArio
                 if (isTop)
                 {
                     // 코인 50개 추가
+                    ArioManager.instance.GetCoin(50);
                 }
                 
                 // isplay 멈춤

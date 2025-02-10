@@ -44,4 +44,10 @@ namespace Runtime.ETC
         CHAP2 = 200,
         Max
     }
+    
+    public enum AspectRatio
+    {
+        Ratio_8_7,     // 8:7
+        Ratio_21_9     // 21:9
+    }
 }
