@@ -131,8 +131,11 @@ namespace Runtime.CH2.SuperArio
             yield return new WaitForSeconds(1f);
             _ui.gameObject.SetActive(true);
             _letterbox.SetAspectRatio(AspectRatio.Ratio_21_9,true);
-            if(CurrentStage.StartsWith("4"))
-                _dataCheater.LoadCheatData("Turn3", _sceneSystem);
+            if (CurrentStage.StartsWith("4"))
+            {
+                SceneManager.LoadScene("CH2");
+                //_dataCheater.LoadCheatData("Turn3", _sceneSystem);
+            }
             else
             {
                 _rewardCam.Priority = 10;
