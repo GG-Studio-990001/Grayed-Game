@@ -31,6 +31,7 @@ X (구 트위터): https://x.com/GrayedGame
 | [지수민](https://github.com/Sumindd) | 기획 | 24-03 ~ |
 | [송기화](https://github.com/Songkihwa) | 사운드 | 23-09 ~ |
 | [김지은](https://github.com/JIJI037) | 아트 | 24-08 ~ |
+| [서주미](https://github.com/seojumi) | 아트 | 25-02 ~ |
 
 <details><summary>명예의 전당</summary>
 <p>
