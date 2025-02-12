@@ -68,6 +68,7 @@ X (구 트위터): https://x.com/GrayedGame
 [개발 일지 [4]](https://fkdl0048.github.io/game/game_15/)  
 [개발 일지 [5]](https://fkdl0048.github.io/game/game_16/)  
 [개발 일지 [6]](https://fkdl0048.github.io/game/game_17/)  
+[개발 일지 [7]](https://fkdl0048.github.io/game/game_18/)  
 
 </p>
 </details> 
