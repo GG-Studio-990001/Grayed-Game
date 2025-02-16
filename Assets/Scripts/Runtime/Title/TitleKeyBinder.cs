@@ -25,20 +25,20 @@ namespace Runtime.CH1.Title
 
         public void ExitTitle()
         {
-            if (Managers.Data.Chapter >= 2)
+            switch(Managers.Data.Chapter)
             {
-                Debug.Log("No More Chapter");
-                return;
-            }
+                case 0:
+                case 1:
+                    Managers.Data.SaveGame();
+                    _timeline.SetActive(true);
+                    break;
+                case 2:
+                    _sceneSystem.LoadSceneWithFade($"CH{Managers.Data.Chapter}");
+                    break;
+                case 3:
+                    Debug.Log("No More Chapter");
+                    break;
 
-            if (Managers.Data.Chapter < 2)
-            {
-                Managers.Data.SaveGame();
-                _timeline.SetActive(true);
-            }
-            else
-            {
-                _sceneSystem.LoadSceneWithFade($"CH{Managers.Data.Chapter}");
             }
         }
 

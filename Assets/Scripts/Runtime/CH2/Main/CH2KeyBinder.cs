@@ -1,5 +1,6 @@
 using Runtime.Common.View;
 using UnityEngine;
+using Yarn.Unity;
 
 namespace Runtime.CH2.Main
 {
@@ -7,6 +8,7 @@ namespace Runtime.CH2.Main
     {
         [SerializeField] private SettingsUIView _settingsUIView;
         [SerializeField] private CH2KeySetting _keySetting;
+        [SerializeField] private LineView _luckyDialogue;
 
         private void Start()
         {
@@ -16,7 +18,7 @@ namespace Runtime.CH2.Main
         private void InitKeyBinding()
         {
             Managers.Data.InGameKeyBinder.GameControlReset();
-            Managers.Data.InGameKeyBinder.CH2KeyBinding(_settingsUIView, _keySetting);
+            Managers.Data.InGameKeyBinder.CH2KeyBinding(_settingsUIView, _keySetting, _luckyDialogue);
         }
     }
 }

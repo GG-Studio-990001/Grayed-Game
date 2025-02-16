@@ -1374,37 +1374,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &342591943
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 342591944}
-  m_Layer: 0
-  m_Name: ---UI---
-  m_TagString: EditorOnly
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &342591944
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 342591943}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 90}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &397390411
 GameObject:
   m_ObjectHideFlags: 0
@@ -1695,7 +1664,7 @@ Canvas:
   m_GameObject: {fileID: 453375412}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 1674432337}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1707,7 +1676,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 1546151723
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_TargetDisplay: 0
 --- !u!224 &453375416
 RectTransform:
@@ -1976,7 +1945,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1546151723
   m_SortingLayer: 4
-  m_SortingOrder: 10
+  m_SortingOrder: 4
   m_Sprite: {fileID: -1351900663, guid: bd54902fbe136b54fa36d573e67d139b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2645,7 +2614,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7350, y: 3200}
+  m_SizeDelta: {x: 7350, y: 2000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1021925730
 MonoBehaviour:
@@ -3418,7 +3387,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 883, y: 47.5}
-  m_SizeDelta: {x: 7035.626, y: 1900}
+  m_SizeDelta: {x: 7300, y: 1900}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1307555727
 MonoBehaviour:
@@ -3573,7 +3542,7 @@ Canvas:
   m_GameObject: {fileID: 1311836788}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 1674432337}
   m_PlaneDistance: 100
   m_PixelPerfect: 1
@@ -3585,7 +3554,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 1546151723
-  m_SortingOrder: 12
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!224 &1311836792
 RectTransform:
@@ -5671,6 +5640,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BGMSlider
       objectReference: {fileID: 0}
+    - target: {fileID: 8555817922455941149, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 41.900818
+      objectReference: {fileID: 0}
+    - target: {fileID: 8555817922455941149, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -74.49011
+      objectReference: {fileID: 0}
     - target: {fileID: 8731950164643215071, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -6302,8 +6279,6 @@ SceneRoots:
   - {fileID: 1683366823}
   - {fileID: 1947703713}
   - {fileID: 1841026840}
-  - {fileID: 342591944}
-  - {fileID: 1311836792}
   - {fileID: 934047297}
   - {fileID: 101260565}
   - {fileID: 594261035}
@@ -6312,6 +6287,7 @@ SceneRoots:
   - {fileID: 8470899940852173831}
   - {fileID: 1651610314298150028}
   - {fileID: 1267319288}
+  - {fileID: 1311836792}
   - {fileID: 1362877071}
   - {fileID: 1436091036}
   - {fileID: 4747834864411408023}

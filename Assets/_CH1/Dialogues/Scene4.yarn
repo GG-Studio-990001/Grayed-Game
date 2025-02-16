@@ -26,7 +26,7 @@ title: S4
 달러: 거기 서게! 미카엘!
 
 // 달러도 우측으로 달려나감
-<<DallarRun>>
+<<DollarRun>>
 
 <<wait 1>>
 <<NpcJump 1>>

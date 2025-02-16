@@ -62,14 +62,14 @@ namespace Runtime.Common.Presentation
         private void SetBgmVolume(float volume)
         {
             Managers.Data.BgmVolume = volume;
-            Managers.Sound.BGM.volume = volume;
-            Managers.Sound.LuckyBGM.volume = volume;
+            Managers.Sound.UpdateBGMVolume();
         }
 
         private void SetSfxVolume(float volume)
         {
             Managers.Data.SfxVolume = volume;
             Managers.Sound.SFX.volume = volume;
+            Managers.Sound.Speech.volume = volume;
         }
 
         private void SetFullScreenMode(bool isOn)

@@ -11,8 +11,6 @@ namespace Runtime.CH1.Title
 
         private void Start()
         {
-            Managers.Data.NewGame();
-
             foreach (GameObject obj in _chObjs)
                 obj.SetActive(false);
 
