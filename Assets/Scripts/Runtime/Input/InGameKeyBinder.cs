@@ -91,14 +91,14 @@ namespace Runtime.Input
         }
 
         // CH2
-        public void CH2KeyBinding(SettingsUIView settingsUIView, CH2KeySetting keySetting)
+        public void CH2KeyBinding(SettingsUIView settingsUIView, CH2KeySetting keySetting, LineView line)
         {
             _gameOverControls.UI.Enable();
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
             _gameOverControls.UI.DialogueInput.performed += _ => keySetting.DialogueInput();
             _gameOverControls.UI.Hide.performed += _ => keySetting.HideUIToggle();
             _gameOverControls.UI.Auto.performed += _ => keySetting.AutoDialogue();
-            //_gameOverControls.UI.Skip.performed += _ => keySetting.Skip();
+            _gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
         }
 
         // ETC

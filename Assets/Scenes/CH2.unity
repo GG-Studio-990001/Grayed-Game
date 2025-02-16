@@ -8040,6 +8040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _settingsUIView: {fileID: 299734578}
   _keySetting: {fileID: 2138864458}
+  _luckyDialogue: {fileID: 1110213015}
 --- !u!4 &2138864457
 Transform:
   m_ObjectHideFlags: 0
