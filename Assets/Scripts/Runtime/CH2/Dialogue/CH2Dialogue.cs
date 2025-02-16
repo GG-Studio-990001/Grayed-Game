@@ -51,7 +51,6 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler<int>("ShowIllerstration", ShowIllerstration);
             _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
             _runner.AddCommandHandler("GetTcgPack", GetTcgPack);
-            _runner.AddCommandHandler("StartSuperArio", StartSuperArio);
             _runner.AddCommandHandler<string>("ConnectScene", ConnectScene);
             _runner.AddCommandHandler<bool>("SetDarkness", SetDarkness);
             _runner.AddCommandHandler("Ch2End", Ch2End);
@@ -162,11 +161,6 @@ namespace Runtime.CH2.Dialogue
         {
             Managers.Sound.StopBGM();
             _connectionController.ConnectScene(scene);
-        }
-
-        private void StartSuperArio()
-        {
-            _connectionController.ConnectScene("SuperArio");
         }
 
         private void GetTcgPack()
