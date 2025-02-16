@@ -1,5 +1,7 @@
+using Runtime.Common;
 using Runtime.ETC;
 using Runtime.Event;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +17,7 @@ namespace Runtime.InGameSystem
         private GameObject _soundRoot = null;
         private AudioClip _currentBGM;
         private float _bgmPlayTime = 0f;
+        private bool _isRestoring = false;
 
         public AudioSource BGM => _audioSources[(int)Sound.BGM];
         public AudioSource SFX => _audioSources[(int)Sound.SFX];
@@ -77,23 +80,17 @@ namespace Runtime.InGameSystem
             }
 
             AudioSource audioSource = _audioSources[(int)type];
-            if (path.Contains("Sound/") == false)
-            {
-                path = $"Sound/{path}";
-            }
-
-            // 임시 처리인데 볼륨 잘 바뀜..
             if (type == Sound.BGM || type == Sound.LuckyBGM)
                 audioSource.volume = Managers.Data.BgmVolume;
             else
                 audioSource.volume = Managers.Data.SfxVolume;
 
+            if (path.Contains("Sound/") == false)
+                path = $"Sound/{path}";
+
             AudioClip audioClip = GetAudioClip(path);
-            
             if (audioClip == null)
-            {
                 return false;
-            }
 
             // 이미 틀고 있는 브금 또 틀기 방지
             if (type == Sound.BGM || type == Sound.LuckyBGM)
@@ -109,19 +106,17 @@ namespace Runtime.InGameSystem
                 }
             }
             
-            // audioSource.pitch = pitch;
-            
             if (type == Sound.SFX)
             {
+                ReduceBGMVolume(); // BGM 볼륨 감소 호출
                 audioSource.PlayOneShot(audioClip);
+                CoroutineRunner.Instance.StartCoroutine(RestoreBGMVolume(audioClip.length)); // 일정 시간 후 복구
                 return true;
             }
             else if (type == Sound.Speech)
             {
                 if (audioSource.isPlaying)
-                {
                     audioSource.Stop();
-                }
 
                 audioSource.clip = audioClip;
                 audioSource.Play();
@@ -139,6 +134,36 @@ namespace Runtime.InGameSystem
             }
 
             // return false;
+        }
+
+        private void ReduceBGMVolume()
+        {
+            float vol = Managers.Data.BgmVolume;
+            float mul = 0.5f;
+
+            BGM.volume = vol * mul;
+            LuckyBGM.volume = vol * mul;
+
+            Debug.Log("볼륨 줄이기");
+        }
+
+        private IEnumerator RestoreBGMVolume(float delay)
+        {
+            if (_isRestoring) yield break; // 이미 실행 중이면 중단
+            _isRestoring = true; // 복구 시작
+
+            yield return new WaitForSeconds(delay);
+
+            if (!SFX.isPlaying) // 다른 SFX 플레이 중인지 체크
+            {
+                float vol = Managers.Data.BgmVolume;
+                BGM.volume = vol;
+                LuckyBGM.volume = vol;
+
+                Debug.Log("볼륨 복구");
+            }
+
+            _isRestoring = false;
         }
 
         private void CheckBGMTime()
