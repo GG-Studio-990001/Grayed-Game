@@ -1860,16 +1860,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 624253866}
-        m_TargetAssemblyTypeName: Runtime.Main.MainController, Scripts
-        m_MethodName: GoCh0
-        m_Mode: 1
+      - m_Target: {fileID: 306113482}
+        m_TargetAssemblyTypeName: Runtime.InGameSystem.SceneSystem, Scripts
+        m_MethodName: LoadScene
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Title
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &635911263
@@ -3510,7 +3510,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD0C0\uC774\uD2C0"
+  m_text: "\uD0C0\uC774\uD2C0\uB85C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c8cb25ccd1fe043408814de784fa425a, type: 2}
   m_sharedMaterial: {fileID: 8398014560776052167, guid: c8cb25ccd1fe043408814de784fa425a, type: 2}
@@ -4390,7 +4390,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "CH0\uBD80\uD130"
+  m_text: "\uCC98\uC74C(CH0)\uBD80\uD130"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c8cb25ccd1fe043408814de784fa425a, type: 2}
   m_sharedMaterial: {fileID: 8398014560776052167, guid: c8cb25ccd1fe043408814de784fa425a, type: 2}

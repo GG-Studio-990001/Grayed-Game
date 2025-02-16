@@ -43357,7 +43357,7 @@ Canvas:
   m_GameObject: {fileID: 1311836788}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 1674432337}
   m_PlaneDistance: 100
   m_PixelPerfect: 1
@@ -43369,7 +43369,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 1546151723
-  m_SortingOrder: 12
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!224 &1311836792
 RectTransform:
@@ -68542,6 +68542,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1674432337}
     - target: {fileID: 6712089802947262558, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6712089802947262558, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
+      propertyPath: m_SortingOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6712089802947262558, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
       propertyPath: m_UpdateRectTransformForStandalone
       value: 0
       objectReference: {fileID: 0}
@@ -71693,7 +71701,6 @@ SceneRoots:
   - {fileID: 1051889806}
   - {fileID: 2511279292538436685}
   - {fileID: 342591944}
-  - {fileID: 1311836792}
   - {fileID: 200716017}
   - {fileID: 523524591}
   - {fileID: 934047297}
@@ -71705,6 +71712,7 @@ SceneRoots:
   - {fileID: 1651610314298150028}
   - {fileID: 1496251486}
   - {fileID: 1267319288}
+  - {fileID: 1311836792}
   - {fileID: 4747834864411408023}
   - {fileID: 1284326281653811846}
   - {fileID: 2072421840011331707}

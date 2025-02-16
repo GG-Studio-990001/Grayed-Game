@@ -1908,7 +1908,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 1546151723
-  m_SortingOrder: 4
+  m_SortingOrder: 6
   m_TargetDisplay: 0
 --- !u!114 &4250298028826877838
 MonoBehaviour:
@@ -3360,7 +3360,7 @@ Canvas:
   m_GameObject: {fileID: 6584498748132185721}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -3372,7 +3372,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 1546151723
-  m_SortingOrder: 10
+  m_SortingOrder: 6
   m_TargetDisplay: 0
 --- !u!114 &7535796109508110750
 MonoBehaviour:
