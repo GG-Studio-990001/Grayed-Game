@@ -17,6 +17,7 @@ namespace Runtime.InGameSystem
         private GameObject _soundRoot = null;
         private AudioClip _currentBGM;
         private float _bgmPlayTime = 0f;
+        private bool _isReducing = false;
         private bool _isRestoring = false;
 
         public AudioSource BGM => _audioSources[(int)Sound.BGM];
@@ -42,8 +43,14 @@ namespace Runtime.InGameSystem
                         _audioSources[count] = Utils.GetOrAddComponent<AudioSource>(soundObject);
                     }
 
-                    _audioSources[(int)Sound.BGM].loop = true;
-                    _audioSources[(int)Sound.LuckyBGM].loop = true;
+                    // 볼륨
+                    UpdateBGMVolume();
+                    SFX.volume = Managers.Sound.SFX.volume;
+                    Speech.volume = Managers.Sound.SFX.volume;
+
+                    // 루프
+                    BGM.loop = true;
+                    LuckyBGM.loop = true;
 
                     SettingsEvent.OnSettingsToggled += OnSettingsToggled;
                 }
@@ -67,6 +74,7 @@ namespace Runtime.InGameSystem
             foreach (var audioSource in _audioSources)
             {
                 audioSource.Stop();
+                audioSource.clip = null;
             }
 
             _audioClips.Clear();
@@ -80,10 +88,6 @@ namespace Runtime.InGameSystem
             }
 
             AudioSource audioSource = _audioSources[(int)type];
-            if (type == Sound.BGM || type == Sound.LuckyBGM)
-                audioSource.volume = Managers.Data.BgmVolume;
-            else
-                audioSource.volume = Managers.Data.SfxVolume;
 
             if (path.Contains("Sound/") == false)
                 path = $"Sound/{path}";
@@ -110,8 +114,10 @@ namespace Runtime.InGameSystem
             {
                 if (audioClip.length >= 1.0f)
                 {
-                    ReduceBGMVolume(); // BGM 볼륨 감소 호출
+                    // Debug.Log($"SFX: {BGM.volume}");
+                    _isReducing = true;
                     CoroutineRunner.Instance.StartCoroutine(RestoreBGMVolume(audioClip.length)); // 일정 시간 후 복구
+                    UpdateBGMVolume();
                 }
                     
                 audioSource.PlayOneShot(audioClip);
@@ -126,8 +132,9 @@ namespace Runtime.InGameSystem
                 audioSource.Play();
                 return true;
             }
-            else
+            else if (type == Sound.BGM || type == Sound.LuckyBGM)
             {
+                // Debug.Log($"BGM: {BGM.volume}");
                 CheckBGMTime();
                 StopBGM();
                 
@@ -137,35 +144,37 @@ namespace Runtime.InGameSystem
                 return true;
             }
 
-            // return false;
+            return false;
         }
 
-        private void ReduceBGMVolume()
+        public void UpdateBGMVolume()
         {
-            float vol = Managers.Data.BgmVolume;
-            float mul = 0.5f;
+            float mul = _isReducing ? 0.5f : 1.0f;
 
-            BGM.volume = vol * mul;
-            LuckyBGM.volume = vol * mul;
-
-            Debug.Log("볼륨 줄이기");
+            BGM.volume = Managers.Data.BgmVolume * mul;
+            LuckyBGM.volume = Managers.Data.BgmVolume * mul;
         }
 
         private IEnumerator RestoreBGMVolume(float delay)
         {
             if (_isRestoring) yield break; // 이미 실행 중이면 중단
-            _isRestoring = true; // 복구 시작
+            _isRestoring = true;
 
             yield return new WaitForSeconds(delay);
 
-            if (!SFX.isPlaying) // 다른 SFX 플레이 중인지 체크
-            {
-                float vol = Managers.Data.BgmVolume;
-                BGM.volume = vol;
-                LuckyBGM.volume = vol;
+            // Debug.Log($"RestoreBGMVolume 실행됨, SFX.isPlaying: {SFX.isPlaying}");
 
-                Debug.Log("볼륨 복구");
+            // 모든 SFX가 끝날 때까지 대기
+            while (SFX.isPlaying)
+            {
+                // Debug.Log("아직 SFX가 재생 중... 0.5초 후 다시 확인");
+                yield return new WaitForSeconds(0.5f);
             }
+
+            // 모든 SFX가 종료되었으므로 볼륨 복구
+            _isReducing = false;
+            Managers.Sound.UpdateBGMVolume();
+            // Debug.Log($"볼륨 복구 완료: {BGM.volume}");
 
             _isRestoring = false;
         }
