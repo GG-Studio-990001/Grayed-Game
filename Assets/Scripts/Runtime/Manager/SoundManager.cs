@@ -108,9 +108,13 @@ namespace Runtime.InGameSystem
             
             if (type == Sound.SFX)
             {
-                ReduceBGMVolume(); // BGM 볼륨 감소 호출
+                if (audioClip.length >= 1.0f)
+                {
+                    ReduceBGMVolume(); // BGM 볼륨 감소 호출
+                    CoroutineRunner.Instance.StartCoroutine(RestoreBGMVolume(audioClip.length)); // 일정 시간 후 복구
+                }
+                    
                 audioSource.PlayOneShot(audioClip);
-                CoroutineRunner.Instance.StartCoroutine(RestoreBGMVolume(audioClip.length)); // 일정 시간 후 복구
                 return true;
             }
             else if (type == Sound.Speech)
