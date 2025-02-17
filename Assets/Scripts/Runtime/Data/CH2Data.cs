@@ -1,3 +1,4 @@
+using Runtime.ETC;
 using System;
 using System.Collections.Generic;
 
@@ -11,6 +12,7 @@ namespace Runtime.Data
         public int TcgNum;
         public int TcgScore;
         public List<int> UsedTcgAnswers;
+        public string ArioStage;
 
         public CH2Data()
         {
@@ -21,6 +23,7 @@ namespace Runtime.Data
             TcgNum = 0;
             TcgScore = 0;
             UsedTcgAnswers = new List<int>();
+            ArioStage = "1-1";
         }
     }
 }

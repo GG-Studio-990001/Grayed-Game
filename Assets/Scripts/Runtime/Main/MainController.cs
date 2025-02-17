@@ -37,6 +37,13 @@ namespace Runtime.Main
             Managers.Data.NewGame();
             _sceneSystem.LoadScene("Pacmom");
         }
+        
+        public void GoSuperArio(string stage)
+        {
+            Managers.Data.NewGame();
+            Managers.Data.CH2.ArioStage = stage;
+            _sceneSystem.LoadScene("SuperArio");
+        }
 
         public void LoadCheatData(string file)
         {

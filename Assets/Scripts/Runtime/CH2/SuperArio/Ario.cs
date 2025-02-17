@@ -136,7 +136,8 @@ namespace Runtime.CH2.SuperArio
             else
             {
                 _animator.enabled = false;
-                _pipe.SetActive(true);
+                if(ArioManager.instance.IsGameOver)
+                    _pipe.SetActive(true);
             }
         }
 

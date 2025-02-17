@@ -51,7 +51,8 @@ namespace Runtime.CH2.SuperArio
             {
                 if (moveInput.y < 0) // 아래 방향키
                 {
-                    ArioManager.instance.EnterStore();
+                    if (ArioManager.instance.IsGameOver)
+                        ArioManager.instance.EnterStore();
                 }
             }
         }

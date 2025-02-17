@@ -87,5 +87,6 @@ title: Turn4_S
 // 게임팩의 스테이지2로 접속
 <<DialogueFin>>
 <<NextTurn>>
+<<ConnectCheatData 2>>
 <<ConnectScene SuperArio>>
 ===
