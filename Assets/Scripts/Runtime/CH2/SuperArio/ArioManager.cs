@@ -55,7 +55,8 @@ namespace Runtime.CH2.SuperArio
         public int CoinCnt { get; private set; }
         private ObstacleManager _obstacleManager;
         private CameraProduction _production;
-        private DataCheater _dataCheater = new();
+        private SceneTransform _sceneTransform;
+        private DataCheater _dataCheater;
 
         private void Start()
         {
@@ -138,7 +139,9 @@ namespace Runtime.CH2.SuperArio
             yield return new WaitForSeconds(1f);
             _ui.gameObject.SetActive(true);
             Managers.Data.CH2.ArioStage = CurrentStage;
-            SceneManager.LoadScene("CH2");
+            _sceneTransform = FindObjectOfType<SceneTransform>();
+            _sceneTransform.EscapeFromScene("CH2");
+            //SceneManager.LoadScene("CH2");
 
             // if (CurrentStage.StartsWith("4"))
             // {
