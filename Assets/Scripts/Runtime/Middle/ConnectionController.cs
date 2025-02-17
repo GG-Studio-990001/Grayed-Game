@@ -2,6 +2,7 @@ using Runtime.ETC;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 namespace Runtime.Middle
 {
@@ -22,7 +23,11 @@ namespace Runtime.Middle
         {
             // 접속
             _sceneName = sceneName;
-            StartCoroutine(nameof(ActiveGlitch), true);
+            //TODO: 빌드용 임시 씬로드 호출 삭제 요망
+            if(sceneName == "SuperArio")
+                SceneManager.LoadScene(sceneName);
+            else
+                StartCoroutine(nameof(ActiveGlitch), true);
         }
 
         public void ReverseConnection()
@@ -46,6 +51,7 @@ namespace Runtime.Middle
 
             if (isConnection)
             {
+                //TODO: sceneTransform에서 MissingReference 에러 발생
                 _sceneTransform.ConnectToScene(_sceneName);
             }
         }

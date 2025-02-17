@@ -52,6 +52,7 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("HideIllerstration", HideIllerstration);
             _runner.AddCommandHandler("GetTcgPack", GetTcgPack);
             _runner.AddCommandHandler<string>("ConnectScene", ConnectScene);
+            _runner.AddCommandHandler<string>("ConnectCheatData", ConnectCheatData);
             _runner.AddCommandHandler<bool>("SetDarkness", SetDarkness);
             _runner.AddCommandHandler("Ch2End", Ch2End);
 
@@ -161,6 +162,12 @@ namespace Runtime.CH2.Dialogue
         {
             Managers.Sound.StopBGM();
             _connectionController.ConnectScene(scene);
+        }
+
+        private void ConnectCheatData(string stage)
+        {
+            Managers.Data.CH2.ArioStage = stage;
+            Managers.Data.CH2.ArioStage += "-1";
         }
 
         private void GetTcgPack()

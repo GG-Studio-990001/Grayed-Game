@@ -139,9 +139,24 @@ namespace Runtime.CH2.SuperArio
             yield return new WaitForSeconds(1f);
             _ui.gameObject.SetActive(true);
             Managers.Data.CH2.ArioStage = CurrentStage;
-            _sceneTransform = FindObjectOfType<SceneTransform>();
-            _sceneTransform.EscapeFromScene("CH2");
-            //SceneManager.LoadScene("CH2");
+            
+            var parts = CurrentStage[0];
+            switch (parts)
+            {
+                case '2':
+                    Managers.Data.CH2.Turn = 3;
+                    break;
+                case '3':
+                    Managers.Data.CH2.Turn = 5;
+                    break;
+                case '4':
+                    Managers.Data.CH2.Turn = 7;
+                    break;
+            }
+            Debug.Log($"{Managers.Data.CH2.Turn}턴 시작");
+            //_sceneTransform = FindObjectOfType<SceneTransform>();
+            //_sceneTransform.EscapeFromScene("CH2");
+            SceneManager.LoadScene("CH2");
 
             // if (CurrentStage.StartsWith("4"))
             // {

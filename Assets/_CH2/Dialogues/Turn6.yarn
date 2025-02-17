@@ -33,5 +33,6 @@ title: Turn6_S
 // 게임팩의 스테이지3으로 접속
 <<DialogueFin>>
 <<NextTurn>>
+<<ConnectCheatData 3>>
 <<ConnectScene SuperArio>>
 ===
