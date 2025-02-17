@@ -43,7 +43,7 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private Ario _ario;
         [SerializeField] private ArioUIController _ui;
         
-        private CameraLetterbox _letterbox;
+        private CameraProduction _production;
 
         public string CurrentStage { get; private set; }
         public float GameSpeed { get; private set; }
@@ -59,10 +59,10 @@ namespace Runtime.CH2.SuperArio
         private void Start()
         {
             _obstacleManager = GetComponent<ObstacleManager>();
-            _letterbox = GetComponent<CameraLetterbox>();
+            _production = GetComponent<CameraProduction>();
             StartCoroutine(WaitStart());
-            CurrentStage = _dataSet.DataList[0].Stage;
-            Managers.Sound.Play(Sound.SFX, "CH2/CH2_SUB_BGM_01");
+            CurrentStage = Managers.Data.CH2.ArioStage;
+            Managers.Sound.Play(Sound.BGM, "CH2/CH2_SUB_BGM_01");
         }
 
         public void RestartSuperArio()
@@ -75,11 +75,13 @@ namespace Runtime.CH2.SuperArio
 
         public void EnterStore()
         {
-            _letterbox.SetAspectRatio(AspectRatio.Ratio_8_7,true);
+            _production.SetAspectRatio(AspectRatio.Ratio_8_7,true);
             _storeCam.Priority = 12;
             _ui.ActiveRestartText(false);
             ChangeHeartUI(1);
+            _obstacleManager.DestroyPipe();
 
+            IsPlay = false;
             IsStore = true;
             OnEnterStore.Invoke(IsStore);
         }
@@ -92,7 +94,7 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator WaitExitStore()
         {
             yield return new WaitForSeconds(1f);
-            _letterbox.SetAspectRatio(AspectRatio.Ratio_21_9,true);
+            _production.SetAspectRatio(AspectRatio.Ratio_21_9,true);
             IsStore = false;
             RestartSuperArio();
         }
@@ -100,14 +102,14 @@ namespace Runtime.CH2.SuperArio
         public void EnterReward()
         {
             //TODO: 트랜지션 고치기
-            //_letterbox.FadeIn();
-            StartCoroutine(WaitEnterReward());
+            StartCoroutine(WaitEnterReward(_production.FadeInOut()));
         }
 
-        public IEnumerator WaitEnterReward()
+        private IEnumerator WaitEnterReward(float delay = 0)
         {
-            yield return new WaitForSeconds(1f);
-            _letterbox.SetAspectRatio(AspectRatio.Ratio_8_7,true);
+            yield return new WaitForSeconds(delay-1f);
+            _production.SetAspectRatio(AspectRatio.Ratio_8_7,true);
+            _obstacleManager.DestroyBuilding();
             _storeCam.Priority = 10;
             _rewardCam.Priority = 12;
             
@@ -115,7 +117,6 @@ namespace Runtime.CH2.SuperArio
             IsPlay = false;
             
             OnPlay.Invoke(IsPlay);
-            _obstacleManager.DeleteBuilding();
             
             IsReward = true;
             OnEnterReward.Invoke(IsReward);
@@ -126,22 +127,29 @@ namespace Runtime.CH2.SuperArio
             StartCoroutine(WaitExitReward());
         }
 
+        public void StopGame()
+        {
+            IsPlay = false;
+            OnPlay.Invoke(IsPlay);
+        }
+
         private IEnumerator WaitExitReward()
         {
             yield return new WaitForSeconds(1f);
             _ui.gameObject.SetActive(true);
-            _letterbox.SetAspectRatio(AspectRatio.Ratio_21_9,true);
-            if (CurrentStage.StartsWith("4"))
-            {
-                SceneManager.LoadScene("CH2");
-                //_dataCheater.LoadCheatData("Turn3", _sceneSystem);
-            }
-            else
-            {
-                _rewardCam.Priority = 10;
-                IsReward = false;
-                RestartSuperArio();
-            }
+            Managers.Data.CH2.ArioStage = CurrentStage;
+            SceneManager.LoadScene("CH2");
+
+            // if (CurrentStage.StartsWith("4"))
+            // {
+            //     //_dataCheater.LoadCheatData("Turn3", _sceneSystem);
+            // }
+            // else
+            // {
+            //     _rewardCam.Priority = 10;
+            //     IsReward = false;
+            //     RestartSuperArio();
+            // }
             Debug.Log("리워드 종료");
         }
 
@@ -185,7 +193,6 @@ namespace Runtime.CH2.SuperArio
             if (_ario.life <= 1)
                 ChangeHeartUI(1);
             IsPause = false; // 시작 시 입력 방지
-            //GetItem(); // 테스트 용 아이템 지급
         }
 
         private void GameOver()
@@ -195,6 +202,12 @@ namespace Runtime.CH2.SuperArio
             UpdateStage(CurrentStage);
             IsPlay = false;
             OnPlay.Invoke(IsPlay);
+        }
+
+        private void NextStage()
+        {
+            UpdateStage(CurrentStage);
+            _obstacleManager.SpawnPipe();
         }
 
         public void ChangeHeartUI(int life)
@@ -245,13 +258,8 @@ namespace Runtime.CH2.SuperArio
             IsPlay = false;
             IsStore = false;
             IsReward = true;
-            _letterbox.SetAspectRatio(AspectRatio.Ratio_8_7);
+            _production.SetAspectRatio(AspectRatio.Ratio_8_7);
             _ui.gameObject.SetActive(false);
-        }
-
-        private void SpawnBuilding()
-        {
-            _obstacleManager.SpawnBuilding();
         }
         
         public void CalculateNextStage()
@@ -262,7 +270,7 @@ namespace Runtime.CH2.SuperArio
                 stage++;
                 if (stage > 3) // 3 스테이지를 넘어가면 다음 월드로 이동
                 {
-                    SpawnBuilding();
+                    _obstacleManager.SpawnBuilding();
                     world++;
                     stage = 1;
                     CurrentStage = $"{world}-{stage}";
@@ -271,7 +279,7 @@ namespace Runtime.CH2.SuperArio
                 }
 
                 CurrentStage = $"{world}-{stage}";
-                GameOver();
+                NextStage();
             }
         }
         

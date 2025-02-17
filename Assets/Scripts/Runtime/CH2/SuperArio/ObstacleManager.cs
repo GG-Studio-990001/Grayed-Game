@@ -8,6 +8,7 @@ namespace Runtime.CH2.SuperArio
     {
         [SerializeField] private GameObject[] obstacles; // 장애물 프리팹 배열
         [SerializeField] private GameObject building;
+        [SerializeField] private GameObject pipe;
         private List<GameObject> _obstaclePool = new List<GameObject>();
         private int _poolObjCnt = 3;
         
@@ -15,6 +16,8 @@ namespace Runtime.CH2.SuperArio
         private float _spawnDelay = 2.5f; // 스폰 간격 (기본값)
         private int _remainingSpawnCount = 20; // 남은 스폰 카운트
         private GameObject _buildingObj;
+        private GameObject _pipeObj;
+        private Coroutine _obstacleCoroutine;
 
         private void SetStageData(string stage, ObstacleSpawnDataSet dataSet)
         {
@@ -55,7 +58,7 @@ namespace Runtime.CH2.SuperArio
                     item.SetActive(false);
             }
 
-            StartCoroutine(CreateObstacle());
+            _obstacleCoroutine = StartCoroutine(CreateObstacle());
         }
 
         private IEnumerator CreateObstacle()
@@ -116,9 +119,22 @@ namespace Runtime.CH2.SuperArio
         public void SpawnBuilding()
         {
             _buildingObj = Instantiate(building, transform);
+            StopCoroutine(_obstacleCoroutine);
+        }
+        
+        public void SpawnPipe()
+        {
+            _pipeObj = Instantiate(pipe, transform);
+            StopCoroutine(_obstacleCoroutine);
         }
 
-        public void DeleteBuilding()
+        public void DestroyPipe()
+        {
+            Destroy(_pipeObj);
+            _pipeObj = null;
+        }
+        
+        public void DestroyBuilding()
         {
             Destroy(_buildingObj);
             _buildingObj = null;

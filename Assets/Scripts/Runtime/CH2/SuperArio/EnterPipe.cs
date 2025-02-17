@@ -1,15 +1,16 @@
 using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 namespace Runtime.CH2.SuperArio
 {
     public class EnterPipe : MonoBehaviour
     {
-        [Header("Animation Settings")] [SerializeField]
-        private float _animationDuration = 0.5f;
-
+        [Header("Animation Settings")]
+        [SerializeField] private float _animationDuration = 0.5f;
         [SerializeField] private float _offsetY = 1.0f;
 
+        public bool _canEnter;
         private Vector3 _initialPosition;
         private Vector3 _targetPosition;
 
@@ -37,6 +38,26 @@ namespace Runtime.CH2.SuperArio
         {
             transform.DOMoveY(_initialPosition.y, _animationDuration)
                 .SetEase(Ease.OutBounce); // 애니메이션 이징
+        }
+
+        private IEnumerator EnterAnimCoroutine(GameObject ario)
+        {
+            ario.transform.position = transform.position + Vector3.up * 5f;
+            ArioManager.instance.StopGame();
+            ario.transform.DOMove(transform.position, 0.25f);
+            yield return new WaitForSeconds(1f);
+            ArioManager.instance.EnterStore();
+        }
+        
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.TryGetComponent(out Ario ario))
+            {
+                if (_canEnter)
+                {
+                    StartCoroutine(EnterAnimCoroutine(ario.gameObject));
+                }
+            }
         }
     }
 }

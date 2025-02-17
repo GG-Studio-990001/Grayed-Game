@@ -5,7 +5,7 @@ using Runtime.ETC;
 using System;
 using UnityEngine.UI;
 
-public class CameraLetterbox : MonoBehaviour
+public class CameraProduction : MonoBehaviour
 {
     [Header("Camera Settings")]
     [SerializeField] private CinemachineVirtualCamera _virtualCamera;
@@ -41,6 +41,7 @@ public class CameraLetterbox : MonoBehaviour
         //SetAspectRatio(AspectRatio.Ratio_8_7, true);
         //_targetAspectRatio = AspectRatio.Ratio_8_7;
     }
+
 
     private void Update()
     {
@@ -143,33 +144,34 @@ public class CameraLetterbox : MonoBehaviour
         }
     }
     
-    public void FadeIn()
+    public float FadeInOut()
     {
-        float curValue = _material.GetFloat("_Value");
-        if(curValue == 1f)
-            return;
-        
+        if (_material.GetFloat("_Lerp") == 0f)
+            return 0f;
+
         _transition.raycastTarget = true;
-        DOTween.To(() => curValue, x =>
-        {
-            curValue = x;
-            _material.SetFloat(Value, x);
-        }, 1f, 1f).OnComplete(FadeOut);
-    }
+
+        Sequence sequence = DOTween.Sequence();
     
-    private void FadeOut()
-    {
-        float curValue = _material.GetFloat("_Value");
-        if(curValue == 0f)
-            return;
-        
-        _transition.raycastTarget = true;
-        DOTween.To(() => curValue, x =>
-        {
-            curValue = x;
-            _material.SetFloat(Value, x);
-        }, 0f, 1f)
-        .OnComplete(() => _transition.raycastTarget = false);
+        // sequence.Append(DOTween.To(
+        //     () => _material.GetFloat("_Lerp"), 
+        //     x => _material.SetFloat("_Lerp", x),
+        //     0.3f, 1f // 1초 동안 0.7까지 변경
+        // ));
+        sequence.Append(DOTween.To(
+            () => _material.GetFloat("_Lerp"), 
+            x => _material.SetFloat("_Lerp", x),
+            0f, 1f // 1초 동안 1로 변경
+        ));
+        sequence.AppendInterval(0.5f); // 1초 대기
+        sequence.Append(DOTween.To(
+            () => _material.GetFloat("_Lerp"), 
+            x => _material.SetFloat("_Lerp", x),
+            1f, 1f // 1초 동안 0으로 변경 (FadeOut)
+        ));
+    
+        sequence.OnComplete(() => _transition.raycastTarget = false); // 완료 후 Raycast 비활성화
+        return sequence.Duration();
     }
 
     private void OnDestroy()
