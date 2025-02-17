@@ -43,7 +43,6 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private Ario _ario;
         [SerializeField] private ArioUIController _ui;
         
-        private CameraProduction _production;
 
         public string CurrentStage { get; private set; }
         public float GameSpeed { get; private set; }
@@ -52,8 +51,10 @@ namespace Runtime.CH2.SuperArio
         public bool IsStore { get; private set; }
         public bool IsReward { get; private set; }
         public bool HasItem { get; private set; }
+        public bool IsGameOver { get; private set; }
         public int CoinCnt { get; private set; }
         private ObstacleManager _obstacleManager;
+        private CameraProduction _production;
         private DataCheater _dataCheater = new();
 
         private void Start()
@@ -101,7 +102,6 @@ namespace Runtime.CH2.SuperArio
 
         public void EnterReward()
         {
-            //TODO: 트랜지션 고치기
             StartCoroutine(WaitEnterReward(_production.FadeInOut()));
         }
 
@@ -150,7 +150,6 @@ namespace Runtime.CH2.SuperArio
             //     IsReward = false;
             //     RestartSuperArio();
             // }
-            Debug.Log("리워드 종료");
         }
 
         private IEnumerator WaitStart()
@@ -169,6 +168,7 @@ namespace Runtime.CH2.SuperArio
             InitData();
             UpdateStage(CurrentStage);
             
+            IsGameOver = false;
             IsPlay = true;
             OnPlay.Invoke(IsPlay);
         }
@@ -197,6 +197,7 @@ namespace Runtime.CH2.SuperArio
 
         private void GameOver()
         {
+            IsGameOver = true;
             _ui.ActiveRestartText(true);
             _ui.ChangeObstacleText(0);
             UpdateStage(CurrentStage);

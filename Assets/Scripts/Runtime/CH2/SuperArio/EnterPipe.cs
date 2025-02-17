@@ -42,9 +42,9 @@ namespace Runtime.CH2.SuperArio
 
         private IEnumerator EnterAnimCoroutine(GameObject ario)
         {
-            ario.transform.position = transform.position + Vector3.up * 5f;
             ArioManager.instance.StopGame();
-            ario.transform.DOMove(transform.position, 0.25f);
+            ario.transform.DOMove(ario.transform.position = transform.position + Vector3.up, 0f);
+            ario.transform.DOMove(transform.position, 0.5f);
             yield return new WaitForSeconds(1f);
             ArioManager.instance.EnterStore();
         }
