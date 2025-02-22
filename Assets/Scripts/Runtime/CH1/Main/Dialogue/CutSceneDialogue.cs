@@ -282,6 +282,7 @@ namespace Runtime.CH1.Main.Dialogue
                     NpcPos.SetNpcPosition(8);
                     break;
                 default:
+                    // Debug.Log("SLG 후 알투몬 위치 변경");
                     NpcPos.SetNpcPosition(i);
                     break;
             }
