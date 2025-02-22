@@ -14,8 +14,8 @@ title: PacmomGamePack
 
 title: TranslatorPack
 ---
-     : '마마고 번역기'를 획득했다.
     <<SetNpcPosition 10>>
+     : '마마고 번역기'를 획득했다.
 ===
 
 title: VisualNovelPack
