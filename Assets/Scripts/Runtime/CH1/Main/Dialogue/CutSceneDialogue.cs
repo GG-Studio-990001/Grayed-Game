@@ -130,14 +130,14 @@ namespace Runtime.CH1.Main.Dialogue
         public void R2MonRun()
         {
             _npc[2].Anim.SetAnimation(GlobalConst.MoveStr, Vector2.right);
-            _npc[2].transform.DOMove(new Vector3(101.08f, -15f, 0), 2.5f).SetEase(Ease.Linear);
+            _npc[2].transform.DOMove(new Vector3(101.08f, -15f, 0), 4f).SetEase(Ease.Linear);
 
             // 비켜주기
-            float posX = Player.transform.localPosition.x;
-            if (posX >= 90.9f)
-            {
-                StartCoroutine(nameof(RapleyGetOutR2Mon), (Player.transform.localPosition.y > -15.4f));
-            }
+            //float posX = Player.transform.localPosition.x;
+            //if (posX >= 90.9f)
+            //{
+            //    StartCoroutine(nameof(RapleyGetOutR2Mon), (Player.transform.localPosition.y > -15.4f));
+            //}
         }
 
         private IEnumerator RapleyGetOutR2Mon(bool isUp)
@@ -448,7 +448,7 @@ namespace Runtime.CH1.Main.Dialogue
         #region Else
         public void ActiveVisualNovel()
         {
-            Invoke(nameof(ActivePack), 1.45f);
+            Invoke(nameof(ActivePack), 3.5f);
         }
 
         private void ActivePack()
