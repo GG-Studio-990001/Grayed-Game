@@ -1229,7 +1229,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterName: "\uC2AC\uB77C\uC784"
-  _expressions: []
+  _expressions:
+  - {fileID: 21300000, guid: 0e984c060ee98cc40926c3d2356a6ac4, type: 3}
 --- !u!114 &384806706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2405,7 +2406,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 29fd28e52b44d894bb20859a3f28bd93, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 23919a36edc09c748b4dcf59e826d4d9, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -2437,10 +2438,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterName: "\uD30C\uBA38"
   _expressions:
-  - {fileID: 21300000, guid: 29fd28e52b44d894bb20859a3f28bd93, type: 3}
-  - {fileID: 21300000, guid: b7bed44bb58880c4d92c623d75f14601, type: 3}
-  - {fileID: 21300000, guid: 44af5d40b1f226f499dccf56ce27ffe1, type: 3}
-  - {fileID: 21300000, guid: c1200aeaaff58a9438c942e71c00c4fc, type: 3}
+  - {fileID: 21300000, guid: 3c51b6b148d3c2d4a999dd099e9cd2e2, type: 3}
+  - {fileID: 21300000, guid: 5d28c809f0c79544b959f2b2c2c0f840, type: 3}
+  - {fileID: 21300000, guid: 23919a36edc09c748b4dcf59e826d4d9, type: 3}
+  - {fileID: 21300000, guid: a7f1b1886f1922749957ec33355ada35, type: 3}
 --- !u!1 &696121908 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4848254361678375663, guid: 0d61b18444317944a99ee38e37220ff8, type: 3}
@@ -7737,7 +7738,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d3cab793bba5b0d4699ed68b72534fbe, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dc796b84e129ac746bdffc0ad61d93fa, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -7769,8 +7770,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterName: "\uB77C\uD50C\uB9AC"
   _expressions:
-  - {fileID: 21300000, guid: d3cab793bba5b0d4699ed68b72534fbe, type: 3}
-  - {fileID: 21300000, guid: c0bd409eb2d545d44bdc14eef5dc6996, type: 3}
+  - {fileID: 21300000, guid: dc796b84e129ac746bdffc0ad61d93fa, type: 3}
+  - {fileID: 21300000, guid: 953ddc300c142e04089fd53fcf966c28, type: 3}
 --- !u!1 &2065020764
 GameObject:
   m_ObjectHideFlags: 0

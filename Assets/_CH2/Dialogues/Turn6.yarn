@@ -16,11 +16,14 @@ title: Turn6_S
 비글: 진도 너어어어!!!
 <<HideCharacter "진도비글">>
 
+<<SetCharacterExpression "라플리" "1">>
     :둘이 싸울 것 같다. 빨리 지나가자.
 
 // 장소: 동굴
 <<SetLocation Cave>>
-<<wait 2>>
+<<wait 1>>
+<<SetCharacterExpression "라플리" "0">>
+<<wait 1>>
  
     :동굴에 깊숙한 곳에 보이는 R2-Mon로 걸음을 옮겼다.
 

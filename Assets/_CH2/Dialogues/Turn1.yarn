@@ -52,13 +52,16 @@ title: Turn1_S
 <<wait 2>>
 <<PlaySFX 6>>
 <<wait 2>>
+<<SetCharacterExpression "라플리" "1">>
     :신전에 도착해 종을 울렸지만,<br>미카엘의 마음을 대변하는 듯 아무런 반응이 없다.
     :<wave>환심을 살 만한 선물</wave>이라도 있으면 좋을 것 같다.<br>마을을 둘러보자.
 
 // 장소: 골목길
+<<SetCharacterExpression "라플리" "0">>
 <<SetLocation Backstreet>>
-<<wait 2>>
+<<wait 1>>
 <<ChangeBGM>>
+<<wait 1>>
 
     :골목길을 지나가는 중 바닥에 떨어져 있는 무언가를 발견했다.
 
@@ -88,16 +91,19 @@ title: Turn1_S
     :동굴에 깊숙한 곳에 R2-Mon의 기지가 있다.<br>안으로 들어가면 될 것 같다.
 
 // 장소: 기지
-<<ChangeBGM 7>>
 <<SetLocation Base>>
-<<wait 2>>
+<<wait 1>>
+<<ChangeBGM 7>>
+<<wait 1>>
  
 <<SetCharacterPos "R2-Mon" "B">>
+<<SetCharacterExpression "R2-Mon" "0">>
 R2-Mon: 혼자서도 여기까지 잘 찾아오다니, 역시 휴먼이야!
 R2-Mon: 뭔가 만들고 싶은 게 있는 거지요?
 
     :R2-Mon에게 창고에서 가져 온 물건들을 건네주었다.
 
+<<SetCharacterExpression "R2-Mon" "2">>
 R2-Mon: 아하-! 이 재료들에게 딱 맞는 제작법이 떠올랐어요!
 R2-Mon: 제작모드 본격 돌입!
 
@@ -113,7 +119,7 @@ R2-Mon: ... 제 작 중 ...
 
 // 완성된 [빛나는]링 일러스트
 <<ShowIllerstration 5>>
-
+<<SetCharacterExpression "R2-Mon" "0">>
 R2-Mon: 제작 완료~
 R2-Mon: 어때요, 완전 새것 같지요?
 
