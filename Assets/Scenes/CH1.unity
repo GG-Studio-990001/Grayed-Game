@@ -8719,7 +8719,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &300634421
 Transform:
   m_ObjectHideFlags: 0
@@ -8802,7 +8802,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -10178,7 +10178,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 0a2a767c880f08149a9681bd76f41906, type: 3}
   - {fileID: 21300000, guid: 550a000469cba434abf26b23268a5985, type: 3}
   cursorTexture: {fileID: 2800000, guid: c13f75a70399e504e9df5adb76ab1f75, type: 3}
-  ArrowTexture: {fileID: 21300000, guid: 09dc5101ce868164c8ce6f0c93a4c2de, type: 3}
   _SLGCanvas: {fileID: 200716016}
   _buildingConstructUI: {fileID: 1709039470}
   _MamagoTranslateUI: {fileID: 523524587}
@@ -10233,6 +10232,7 @@ MonoBehaviour:
   _luckyDialogue: {fileID: 101260564}
   _dialogue: {fileID: 7390379506314505000}
   _luckyBlocker: {fileID: 123357331}
+  _arrow: {fileID: 1061782829}
 --- !u!1001 &327543772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32963,7 +32963,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1061782828
 Transform:
   m_ObjectHideFlags: 0
@@ -32996,9 +32996,6 @@ MonoBehaviour:
   target: {fileID: 1893695430}
   rb: {fileID: 300634423}
   arrowDistance: 1.15
-  minDistance: 1.1
-  maxDistance: 1.2
-  moveSmoothTime: 0.1
   rotationSmoothTime: 0.1
 --- !u!1 &1061886914
 GameObject:
