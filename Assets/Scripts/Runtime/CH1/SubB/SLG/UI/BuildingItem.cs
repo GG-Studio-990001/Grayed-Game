@@ -64,9 +64,9 @@ public class BuildingItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void OnPointerDown(PointerEventData eventData)
     {
         SLGActionComponent SLGAction = FindAnyObjectByType<SLGActionComponent>();
-        if(SLGAction != null)
+        if (SLGAction != null)
         {
-            if(_buildingState != BuildingState.Constructed && _buildingState != BuildingState.Locked)
+            if (_buildingState != BuildingState.Constructed && _buildingState != BuildingState.Locked)
             {
                 SLGAction.ShowArrowObject(_buildingtype);
             }

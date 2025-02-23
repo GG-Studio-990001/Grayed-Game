@@ -46,9 +46,9 @@ namespace SLGDefines
     public enum SLGBuildingType
     {
         MamagoCompany = 0,
-        Bridge =1,
-        R2Mon =2,
-        DollarStatue=3,
+        Bridge = 1,
+        R2Mon = 2,
+        DollarStatue = 3,
         Max
     }
 
@@ -773,9 +773,12 @@ public class SLGActionComponent : MonoBehaviour
         Managers.Sound.Play(Sound.SFX, "SLG/SLG_Get_SFX");
         SLGTriggerObject.SetActive(false);
     }
+    #endregion
+
+    #region Arrow
     public void ShowArrowObject(SLGBuildingType type)
     {
-        if(_SLGBuildingObjects.Length < (int)type)
+        if (_SLGBuildingObjects.Length < (int)type)
         {
             return;
         }
@@ -789,10 +792,10 @@ public class SLGActionComponent : MonoBehaviour
         }
 
         CreateArrowObject();
-        if(_arrowObject)
+        if (_arrowObject)
         {
             SLGArrowObject ArrowAction = _arrowObject.GetComponent<SLGArrowObject>();
-            if(ArrowAction != null)
+            if (ArrowAction != null)
             {
                 SLGBuildingObject _buildingObj = _SLGBuildingObjects[(int)type];
                 if (_buildingObj != null)
@@ -805,7 +808,7 @@ public class SLGActionComponent : MonoBehaviour
 
     private void CreateArrowObject()
     {
-        if(_arrowObject)
+        if (_arrowObject)
         {
             Destroy(_arrowObject);
         }
@@ -819,7 +822,7 @@ public class SLGActionComponent : MonoBehaviour
         }
 
         Renderer.sortingLayerName = "UI";
-        
+
         SLGArrowObject ArrowAction = _arrowObject.AddComponent<SLGArrowObject>();
         if (_player)
         {
@@ -827,7 +830,7 @@ public class SLGActionComponent : MonoBehaviour
             _arrowObject.transform.localPosition = new Vector3(0, 1, 0);
         }
         ObjectFadeInOutComponent FadeInOutAction = _arrowObject.AddComponent<ObjectFadeInOutComponent>();
-        if(FadeInOutAction != null)
+        if (FadeInOutAction != null)
         {
             FadeInOutAction.SetTargetComponent(_arrowObject);
         }
