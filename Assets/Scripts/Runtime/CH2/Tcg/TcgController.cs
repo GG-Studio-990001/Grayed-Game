@@ -315,23 +315,15 @@ namespace Runtime.CH2.Tcg
             for (int i = 0; i < _cards.Length; i++)
             {
                 int index = i; // 클로저 문제 방지
-                sequence.AppendInterval(delayBetweenCards * i)
-                    .AppendCallback(() =>
-                    {
-                        // 카드의 목표 위치 및 회전 설정
-                        Vector3 targetPosition = new(xPositions[index], yPositions[index], 0f);
-                        Quaternion targetRotation = Quaternion.Euler(0f, 0f, zRotations[index]);
+                float delay = delayBetweenCards * i;
 
-                        // 애니메이션 실행
-                        _cards[index].transform.DOLocalMove(targetPosition, 0.5f).SetEase(Ease.OutQuad);
-                        _cards[index].transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad);
-                        _cards[index].transform.DOLocalRotate(targetRotation.eulerAngles, 0.5f).SetEase(Ease.OutQuad);
+                // 각 애니메이션 tween을 시퀀스 타임라인에 삽입
+                sequence.Insert(delay, _cards[index].transform.DOLocalMove(new Vector3(xPositions[index], yPositions[index], 0f), 0.5f).SetEase(Ease.OutQuad));
+                sequence.Insert(delay, _cards[index].transform.DOLocalRotate(new Vector3(0f, 0f, zRotations[index]), 0.5f).SetEase(Ease.OutQuad));
+                sequence.Insert(delay, _cards[index].transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutQuad));
 
-                        DOVirtual.DelayedCall(0.1f, () =>
-                        {
-                            _tcgCards[index].SetCardFront();
-                        });
-                    });
+                // 약간의 지연 후 카드의 앞면을 보여줌
+                sequence.InsertCallback(delay + 0.1f, () => _tcgCards[index].SetCardFront());
             }
 
             sequence.OnComplete(() => _cardBlock.SetActive(false));
