@@ -56,7 +56,9 @@ title: Turn4_S
 
 // 장소: 달러 동상 틈새
 <<SetLocation StatueCrack>>
-<<wait 2>>
+<<wait 1>>
+<<SetCharacterExpression "라플리" "1">>
+<<wait 1>>
 
     :무사히 안으로 들어왔다. 문틈 사이로 밖이 희미하게 보였다.
 
