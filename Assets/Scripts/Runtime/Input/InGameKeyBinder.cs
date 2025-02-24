@@ -5,6 +5,7 @@ using Runtime.CH1.Pacmom;
 using Runtime.CH1.Title;
 using Runtime.CH2.Main;
 using Runtime.CH2.SuperArio;
+using Runtime.CH3;
 using Runtime.Common.View;
 using Yarn.Unity;
 
@@ -99,6 +100,22 @@ namespace Runtime.Input
             _gameOverControls.UI.Hide.performed += _ => keySetting.HideUIToggle();
             _gameOverControls.UI.Auto.performed += _ => keySetting.AutoDialogue();
             _gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
+        }
+        
+        public void CH3UIKeyBinding(SettingsUIView settingsUIView, LineView line)
+        {
+            _gameOverControls.UI.Enable();
+            _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
+            _gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
+        }
+
+        public void CH3PlayerKeyBinding(QuaterViewPlayer player)
+        {
+            _gameOverControls.Player.Enable();
+            _gameOverControls.Player.Move.performed += player.OnMove;
+            _gameOverControls.Player.Move.started += player.OnMove;
+            _gameOverControls.Player.Move.canceled += player.OnMove;
+            _gameOverControls.Player.Interaction.performed += _ => player.OnInteraction();
         }
 
         // ETC
