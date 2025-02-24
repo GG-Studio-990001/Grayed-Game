@@ -1738,6 +1738,7 @@ MonoBehaviour:
   _targetAspectRatio: 1
   _transition: {fileID: 1287953294}
   _material: {fileID: 2100000, guid: c66a8de03681b9a47ba578d1402549d3, type: 2}
+  _mainCamera: {fileID: 1390820801}
 --- !u!1 &360040384
 GameObject:
   m_ObjectHideFlags: 0
@@ -10824,6 +10825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0533045b4db203f47bc12d25a411a4f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainCamera: {fileID: 1390820801}
   backgrounds:
   - {fileID: 1056545685}
   - {fileID: 1551818696}

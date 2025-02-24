@@ -64,7 +64,6 @@ namespace Runtime.CH2.SuperArio
             _production = GetComponent<CameraProduction>();
             StartCoroutine(WaitStart());
             CurrentStage = Managers.Data.CH2.ArioStage;
-            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
         }
 
         public void RestartSuperArio()
@@ -77,8 +76,6 @@ namespace Runtime.CH2.SuperArio
 
         public void EnterStore()
         {
-            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_02_30s");
-
             _production.SetAspectRatio(AspectRatio.Ratio_8_7,true);
             _storeCam.Priority = 12;
             _ui.ActiveRestartText(false);
@@ -88,6 +85,7 @@ namespace Runtime.CH2.SuperArio
             IsPlay = false;
             IsStore = true;
             OnEnterStore.Invoke(IsStore);
+            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_02_30s");
         }
 
         public void ExitStore()
@@ -98,7 +96,6 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator WaitExitStore()
         {
             yield return new WaitForSeconds(1f);
-            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
             _production.SetAspectRatio(AspectRatio.Ratio_21_9,true);
             IsStore = false;
             RestartSuperArio();
@@ -157,20 +154,9 @@ namespace Runtime.CH2.SuperArio
                     break;
             }
             Debug.Log($"{Managers.Data.CH2.Turn}턴 시작");
-            //_sceneTransform = FindObjectOfType<SceneTransform>();
-            //_sceneTransform.EscapeFromScene("CH2");
-            SceneManager.LoadScene("CH2");
-
-            // if (CurrentStage.StartsWith("4"))
-            // {
-            //     //_dataCheater.LoadCheatData("Turn3", _sceneSystem);
-            // }
-            // else
-            // {
-            //     _rewardCam.Priority = 10;
-            //     IsReward = false;
-            //     RestartSuperArio();
-            // }
+            _sceneTransform = FindObjectOfType<SceneTransform>();
+            _sceneTransform.EscapeFromScene("CH2");
+            //SceneManager.LoadScene("CH2");
         }
 
         private IEnumerator WaitStart()
@@ -186,6 +172,7 @@ namespace Runtime.CH2.SuperArio
 
         private void StartGame()
         {
+            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
             InitData();
             UpdateStage(CurrentStage);
             
@@ -214,6 +201,7 @@ namespace Runtime.CH2.SuperArio
             if (_ario.life <= 1)
                 ChangeHeartUI(1);
             IsPause = false; // 시작 시 입력 방지
+            HasItem = true;
         }
 
         private void GameOver()

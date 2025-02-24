@@ -22,8 +22,8 @@ public class CameraProduction : MonoBehaviour
     [SerializeField] private AspectRatio _targetAspectRatio; // 기본 비율을 8:7로 설정
     [SerializeField] private Image _transition;
     [SerializeField] private Material _material;
+    [SerializeField] private Camera _mainCamera;
     
-    private Camera _mainCamera;
     private RenderTexture _renderTexture;
     private Sequence _currentSequence;
     private int _baseWidth = 1920;  // 기본 해상도 너비
@@ -35,11 +35,14 @@ public class CameraProduction : MonoBehaviour
     {
         if (_virtualCamera == null)
             _virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-        _mainCamera = Camera.main;
+    }
+    
+    void Start()
+    {
         InitializeRenderTexture();
         SetAspectRatio(_targetAspectRatio, true);
-        //SetAspectRatio(AspectRatio.Ratio_8_7, true);
-        //_targetAspectRatio = AspectRatio.Ratio_8_7;
+        
+        _uiCamera.cullingMask = LayerMask.GetMask("UI");
     }
 
 
