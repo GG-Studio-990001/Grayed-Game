@@ -64,7 +64,7 @@ namespace Runtime.CH2.SuperArio
             _production = GetComponent<CameraProduction>();
             StartCoroutine(WaitStart());
             CurrentStage = Managers.Data.CH2.ArioStage;
-            Managers.Sound.Play(Sound.BGM, "CH2/CH2_SUB_BGM_01");
+            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
         }
 
         public void RestartSuperArio()
@@ -77,6 +77,8 @@ namespace Runtime.CH2.SuperArio
 
         public void EnterStore()
         {
+            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_02_30s");
+
             _production.SetAspectRatio(AspectRatio.Ratio_8_7,true);
             _storeCam.Priority = 12;
             _ui.ActiveRestartText(false);
@@ -96,6 +98,7 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator WaitExitStore()
         {
             yield return new WaitForSeconds(1f);
+            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
             _production.SetAspectRatio(AspectRatio.Ratio_21_9,true);
             IsStore = false;
             RestartSuperArio();
@@ -261,8 +264,9 @@ namespace Runtime.CH2.SuperArio
             _ui.GetItemSprite();
         }
         
-        public void ChangeItemSprite()
+        public void UseItem()
         {
+            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_04");
             HasItem = false;
             _ui.UseItemSprite();
         }

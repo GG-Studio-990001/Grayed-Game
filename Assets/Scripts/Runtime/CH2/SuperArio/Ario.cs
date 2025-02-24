@@ -168,7 +168,7 @@ namespace Runtime.CH2.SuperArio
             if (_isInvincible || !ArioManager.instance.HasItem || !ArioManager.instance.IsPlay)
                 return;
 
-            ArioManager.instance.ChangeItemSprite();
+            ArioManager.instance.UseItem();
             StartCoroutine(UseItemCoroutine());
         }
 
@@ -188,6 +188,7 @@ namespace Runtime.CH2.SuperArio
                 yield return new WaitForSeconds(_blinkInterval);
             }
 
+            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
             _spr.enabled = true;
             _isInvincible = false;
         }
