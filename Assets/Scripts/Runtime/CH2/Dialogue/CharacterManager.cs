@@ -52,12 +52,13 @@ namespace Runtime.CH2.Dialogue
             {
                 if (character.CharacterName == standing)
                 {
+                    if (!character.gameObject.activeInHierarchy)
+                        Debug.LogError("캐릭터 활성화 X");
+
                     character.SetExpression(Index);
                     return;
                 }
             }
-
-            Debug.LogError("캐릭터 못찾음");
         }
 
         public void HighlightSpeakingCharacter(string speaker)

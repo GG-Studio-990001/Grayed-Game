@@ -5,7 +5,6 @@ using Runtime.ETC;
 using Runtime.Middle;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -35,6 +34,7 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _illerstBg;
         [SerializeField] private Image _illerstImg;
         [SerializeField] private Sprite[] _illerstSprs;
+        [SerializeField] private GameObject _cutScene;
         [SerializeField] private GameObject _darkImg;
         [SerializeField] private DialogueRunner _luckyDialogueRunner;
         private string _speaker;
@@ -54,6 +54,7 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler<string>("ConnectScene", ConnectScene);
             _runner.AddCommandHandler<string>("ConnectCheatData", ConnectCheatData);
             _runner.AddCommandHandler<bool>("SetDarkness", SetDarkness);
+            _runner.AddCommandHandler<int>("ShowCutScene", ShowCutScene);
             _runner.AddCommandHandler("Ch2End", Ch2End);
 
             _runner.AddCommandHandler<int>("ChangeBGM", ChangeBGM);
@@ -168,6 +169,22 @@ namespace Runtime.CH2.Dialogue
         {
             Managers.Data.CH2.ArioStage = stage;
             Managers.Data.CH2.ArioStage += "-1";
+        }
+
+        private void ShowCutScene(int val)
+        {
+            switch(val)
+            {
+                case 0:
+                case 1:
+                    _cutScene.SetActive(true);
+                    _cutScene.transform.GetChild(val).gameObject.SetActive(true);
+                    _cutScene.transform.GetChild(1 - val).gameObject.SetActive(false);
+                    break;
+                case -1:
+                    _cutScene.SetActive(false);
+                    break;
+            }
         }
 
         private void GetTcgPack()

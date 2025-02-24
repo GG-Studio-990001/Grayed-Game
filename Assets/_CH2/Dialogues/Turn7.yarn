@@ -35,6 +35,7 @@ title: Turn7
     :신전에 도착하자 마침 문을 열고 나오고 있는 미카엘과 마주쳤다.
 
 <<SetCharacterPos "미카엘" "B">>
+<<SetCharacterExpression "미카엘" "0">>
 미카엘: ?
 
 // TCG 7 (질문만) 진행 후 (8번째, 마지막)
@@ -47,6 +48,7 @@ title: AfterTcg7
 
 <<HideCharacter "라플리">>
 <<SetCharacterPos "슬라임" "A">>
+<<SetCharacterExpression "미카엘" "7">>
 // 방울 sfx + 슬라임이 미카엘의 링 위로 올라타는 연출
 <<PlaySFX 12>>
 <<wait 1>>
@@ -55,6 +57,7 @@ title: AfterTcg7
 
 // 미카엘과 슬라임의 재회 컷씬, 호감도 대폭 상승
 
+<<SetCharacterExpression "미카엘" "6">>
 미카엘: 이 감정을 어떤 말로 표현할지 모르겠어. 하지만...
 미카엘: 처음에 널 오해하고 가둬서 미안하고<br>내 친구를 구해줘서 고맙다는 말은 하고 싶어.
 미카엘: 내 기도가 이뤄진 오늘을 잊지 못할 거야.
@@ -68,6 +71,7 @@ title: AfterTcg7
     :진도와 비글이 마을에 소식을 퍼뜨렸고,<br>주민들이 한자리에 모이게 되었다.
 
 <<SetCharacterPos "파머" "B">>
+<<SetCharacterExpression "파머" "3">>
 파머: 역시 라플리가 해낼 줄 알았어. 누가 발견한 건지 참, 파하핫!
 <<HideCharacter "파머">>
 <<SetCharacterPos "진도비글" "B">>
@@ -75,21 +79,27 @@ title: AfterTcg7
 진도: 훌륭하다. 멋지다. 능력.
 <<HideCharacter "진도비글">>
 <<SetCharacterPos "달러" "B">>
+<<SetCharacterExpression "달러" "3">>
 달러: 이제는 진정 자네의 능력을 인정할 수밖에 없군.
 달러: 더군다나 미카엘과 대화할 기회도 얻게 되었으니.
+<<SetCharacterExpression "달러" "1">>
 달러: 미카엘... 일전에는 미안했네. 내 생각이 짧았다네.
 <<HideCharacter "라플리">>
 <<SetCharacterPos "미카엘" "A">>
+<<SetCharacterExpression "미카엘" "3">>
 미카엘: 흠흠... 괜찮아요. 소중한 걸 잃어보니까 알겠어요.<br>달러님이 마을을 지키고 싶은 마음. 그렇지, 슬라임?
 <<HideCharacter "달러">>
 <<SetCharacterPos "슬라임" "B">>
 슬라임: 또잉- 또이잉-!
 <<HideCharacter "미카엘">>
 <<SetCharacterPos "달러" "A">>
+<<SetCharacterExpression "달러" "3">>
 달러: 그래. 나도 앞으로 언행을 조심하겠네.
 <<HideCharacter "슬라임">>
 <<SetCharacterPos "파머" "B">>
+<<SetCharacterExpression "파머" "0">>
 파머: 두 분 화해해서 다행이네요. 이제 싸우지들 맙시다!
+<<SetCharacterExpression "달러" "3">>
 달러: 그러도록 하지. 그리고 하나 더.
 달러: 이 시간 이후로 자네에 대한 소유권을 철회하겠네.
 달러: 앞으로는 나와 상관없이 모든 것을 자유롭게 행하도록.
@@ -98,6 +108,7 @@ title: AfterTcg7
 <<HideCharacter "파머">>
 <<SetCharacterPos "라플리" "A">>
 <<SetCharacterPos "미카엘" "B">>
+<<SetCharacterExpression "미카엘" "6">>
 미카엘: 자유를 얻게 된 걸 축하해. 여기 기념 선물이야.
 <<ChangeBGM>>
 
@@ -105,8 +116,10 @@ title: AfterTcg7
 <<ShowIllerstration 12>>
 <<wait 2>>
 <<HideIllerstration>>
+<<SetCharacterExpression "미카엘" "3">>
 미카엘: 나를 도와줄 수 있는 기회를 선물할게~
 미카엘: 아까 슬라임한테 받았는데 무슨 말인지 도통...<br>뭐라고 써있는 건지 너무 궁금해서 못 참겠어.
+<<SetCharacterExpression "미카엘" "6">>
 미카엘: 너는 뭐든지 잘하니까 부탁할게!
 <<HideCharacter "미카엘">>
 
@@ -122,6 +135,7 @@ title: AfterTcg7
 
 <<ChangeBGM 7>>
 <<SetCharacterPos "R2-Mon" "B">>
+<<SetCharacterExpression "R2-Mon" "0">>
 R2-Mon: 잠깐만요, 휴먼! 혹시 잊은 거 없어요?
 R2-Mon: 이거 그... 비밀 장부라고 쓰여 있던데요!
 R2-Mon: 그 동상 안에 떨어져 있길래 휴먼의 것이라고 생각해서 챙겼지요.
@@ -129,7 +143,6 @@ R2-Mon: 일단 한 번 보세요!
 <<HideCharacter "R2-Mon">>
 
     :R2-Mon이 건넨 비밀 장부를 살펴보자.
-    :<i>(CH2 끝)</i>
 // 비밀장부를 넘겨보는 컷씬을 진행하다가, 3챕터 장르팩을 발견한다.
 // 접속 연출로 시야 바뀌며 3챕터로 진입힌다.
 <<DialogueFin>>

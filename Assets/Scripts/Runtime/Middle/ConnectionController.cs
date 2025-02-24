@@ -23,11 +23,14 @@ namespace Runtime.Middle
         {
             // 접속
             _sceneName = sceneName;
-            //TODO: 빌드용 임시 씬로드 호출 삭제 요망
-            if(sceneName == "SuperArio")
-                SceneManager.LoadScene(sceneName);
-            else
-                StartCoroutine(nameof(ActiveGlitch), true);
+
+            StartCoroutine(nameof(ActiveGlitch), true);
+
+            // 임시방편
+            //if (sceneName == "SuperArio")
+            //    SceneManager.LoadScene(sceneName);
+            //else
+            //    StartCoroutine(nameof(ActiveGlitch), true);
         }
 
         public void ReverseConnection()
@@ -51,8 +54,12 @@ namespace Runtime.Middle
 
             if (isConnection)
             {
-                //TODO: sceneTransform에서 MissingReference 에러 발생
-                _sceneTransform.ConnectToScene(_sceneName);
+                _sceneTransform = FindObjectOfType<SceneTransform>(); // 새 객체 찾기
+
+                if (_sceneTransform != null)
+                    _sceneTransform.ConnectToScene(_sceneName);
+                else
+                    Debug.LogError("SceneTransform 객체를 찾을 수 없습니다.");
             }
         }
     }
