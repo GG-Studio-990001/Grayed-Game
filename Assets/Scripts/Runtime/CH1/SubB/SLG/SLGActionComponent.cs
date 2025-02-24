@@ -11,6 +11,7 @@ using DG.Tweening;
 using Yarn.Unity;
 using System.Linq;
 using Runtime.CH1.Main.Stage;
+using Runtime.CH1.SubB.SLG;
 
 namespace SLGDefines
 { 
@@ -46,9 +47,9 @@ namespace SLGDefines
     public enum SLGBuildingType
     {
         MamagoCompany = 0,
-        Bridge =1,
-        R2Mon =2,
-        DollarStatue=3,
+        Bridge = 1,
+        R2Mon = 2,
+        DollarStatue = 3,
         Max
     }
 
@@ -68,7 +69,6 @@ public class SLGActionComponent : MonoBehaviour
     [Header("SLGSprites")]
     public List<Sprite> SLGPopupSprites;
     [SerializeField] private Texture2D cursorTexture;
-    [SerializeField] private Sprite ArrowTexture;
 
     [Header("UICanvas")]
     [SerializeField] private GameObject _SLGCanvas;
@@ -103,8 +103,6 @@ public class SLGActionComponent : MonoBehaviour
     [SerializeField] private Ch1DialogueController _dialogue;
 
     [Header("SLGData")]
-    private GameObject _arrowObject;
-
     //read from SaveData
     private int _spawnCount = 0;
     private SLGProgress _SLGProgressInfo;
@@ -118,6 +116,9 @@ public class SLGActionComponent : MonoBehaviour
     private bool _waitAssetInput = false;
     private bool _waitWindowInput = false;
     [SerializeField] private GameObject _luckyBlocker;
+
+    [Header("Arrow")]
+    [SerializeField] private NewArrow _arrow;
 
     [Header("SLGConstData")]
     //CONST Value 
@@ -773,12 +774,18 @@ public class SLGActionComponent : MonoBehaviour
         Managers.Sound.Play(Sound.SFX, "SLG/SLG_Get_SFX");
         SLGTriggerObject.SetActive(false);
     }
+    #endregion
+
+    #region Arrow
+    public void EnableArrow()
+    {
+        _arrow.enabled = true;
+    }
+
     public void ShowArrowObject(SLGBuildingType type)
     {
-        if(_SLGBuildingObjects.Length < (int)type)
-        {
-            return;
-        }
+        if (_SLGBuildingObjects.Length < (int)type) return;
+
         if (_buildingListUI)
         {
             SLGBuildingListWindow BuildingWnd = _buildingListUI.GetComponent<SLGBuildingListWindow>();
@@ -788,49 +795,7 @@ public class SLGActionComponent : MonoBehaviour
             }
         }
 
-        CreateArrowObject();
-        if(_arrowObject)
-        {
-            SLGArrowObject ArrowAction = _arrowObject.GetComponent<SLGArrowObject>();
-            if(ArrowAction != null)
-            {
-                SLGBuildingObject _buildingObj = _SLGBuildingObjects[(int)type];
-                if (_buildingObj != null)
-                {
-                    ArrowAction.SetTargetPos(_buildingObj.GetBuildingData().GetBuildingPos());
-                }
-            }
-        }
-    }
-
-    private void CreateArrowObject()
-    {
-        if(_arrowObject)
-        {
-            Destroy(_arrowObject);
-        }
-
-        _arrowObject = new GameObject();
-        SpriteRenderer Renderer = _arrowObject.AddComponent<SpriteRenderer>();
-
-        if (ArrowTexture)
-        {
-            Renderer.sprite = ArrowTexture;
-        }
-
-        Renderer.sortingLayerName = "UI";
-        
-        SLGArrowObject ArrowAction = _arrowObject.AddComponent<SLGArrowObject>();
-        if (_player)
-        {
-            _arrowObject.transform.parent = _player.transform;
-            _arrowObject.transform.localPosition = new Vector3(0, 1, 0);
-        }
-        ObjectFadeInOutComponent FadeInOutAction = _arrowObject.AddComponent<ObjectFadeInOutComponent>();
-        if(FadeInOutAction != null)
-        {
-            FadeInOutAction.SetTargetComponent(_arrowObject);
-        }
+        _arrow.SetTarget(type);
     }
     #endregion
 }
