@@ -201,7 +201,6 @@ namespace Runtime.CH2.SuperArio
             if (_ario.life <= 1)
                 ChangeHeartUI(1);
             IsPause = false; // 시작 시 입력 방지
-            HasItem = true;
         }
 
         private void GameOver()
