@@ -1,66 +1,107 @@
+using SLGDefines;
 using UnityEngine;
+using System.Collections;
 
-public class NewArrow : MonoBehaviour
+namespace Runtime.CH1.SubB.SLG
 {
-    public Transform player;  // 플레이어 Transform
-    public Transform target;  // 목표 (건물)
-    public Rigidbody2D rb;    // Rigidbody2D (화살표 이동을 부드럽게 처리)
-
-    public float arrowDistance = 1.15f;  // 거리 1.15로 고정
-    public float rotationSmoothTime = 0.05f; // 회전 보간 속도
-    private float currentVelocity; // SmoothDampAngle 속도 저장용
-
-    private void FixedUpdate() // 물리 업데이트 활용
+    public class NewArrow : MonoBehaviour
     {
-        if (rb.gameObject.activeSelf) // 활성화 상태일 때만 실행
+        [SerializeField] private Transform _player;
+        [SerializeField] private Transform[] _buildings;
+        [SerializeField] private Rigidbody2D _rb; // Rigidbody2D (화살표 이동을 부드럽게 처리)
+        [SerializeField] private SpriteRenderer _sr;
+        [SerializeField] private float _arrowDistance = 1.15f;
+        [SerializeField] private float _rotationSmoothTime = 0.05f; // 회전 보간 속도
+
+        private Transform _target;
+        private float _currentVelocity; // SmoothDampAngle 속도 저장용
+        private Coroutine _arrowRoutine; // 코루틴 핸들러
+
+        private void FixedUpdate()
         {
-            ShowArrowTo(); // 부드럽게 위치 및 회전 조정
+            ShowArrowTo();
         }
-    }
 
-    public void SetArrowActive(bool active)
-    {
-        if (active)
+        public void SetTarget(SLGBuildingType type)
         {
-            if (target == null) return;
+            if (type == SLGBuildingType.Bridge)
+                _target = _buildings[0];
+            else if (type == SLGBuildingType.MamagoCompany)
+                _target = _buildings[1];
+            else if (type == SLGBuildingType.DollarStatue)
+                _target = _buildings[2];
+            else
+            {
+                Debug.Log("Cannot Set Target");
+                return;
+            }
 
-            // ✅ 물리 엔진 비활성화 (즉시 값 반영하기 위해)
-            rb.simulated = false;
+            // 새로운 목표 설정 시 즉시 위치 & 회전값 반영
+            UpdateArrowRotationInstantly();
 
-            // ✅ 즉시 방향 계산
-            Vector3 direction = (target.position - player.position).normalized;
-            Vector3 desiredPosition = player.position + direction * arrowDistance;
+            // 기존 코루틴이 실행 중이면 중지하고 새로운 코루틴 시작
+            if (_arrowRoutine != null)
+                StopCoroutine(_arrowRoutine);
+            _arrowRoutine = StartCoroutine(ArrowActivationRoutine());
+        }
 
-            // ✅ 즉시 위치 & 회전값 적용 (딜레이 없음)
-            rb.position = desiredPosition;
+        private IEnumerator ArrowActivationRoutine()
+        {
+            yield return StartCoroutine(FadeArrow(0f, 1f, 0.4f));
+
+            yield return new WaitForSeconds(1.2f);
+
+            yield return StartCoroutine(FadeArrow(1f, 0f, 0.4f));
+        }
+
+        private IEnumerator FadeArrow(float startAlpha, float targetAlpha, float duration)
+        {
+            float elapsedTime = 0f;
+            Color color = _sr.color;
+
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                color.a = Mathf.Lerp(startAlpha, targetAlpha, elapsedTime / duration);
+                _sr.color = color;
+                yield return null;
+            }
+
+            color.a = targetAlpha;
+            _sr.color = color;
+        }
+
+        private void ShowArrowTo()
+        {
+            if (_target == null) return;
+
+            Vector3 direction = (_target.position - _player.position).normalized;
+            Vector3 desiredPosition = _player.position + direction * _arrowDistance;
+
+            // 위치 이동 부드럽게 보간
+            _rb.MovePosition(desiredPosition);
 
             float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            rb.rotation = targetAngle;
+            float currentAngle = _rb.rotation;
+            float smoothedAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref _currentVelocity, _rotationSmoothTime);
 
-            // ✅ 이전 회전 속도 영향 제거
-            currentVelocity = 0;
-
-            // ✅ 물리 엔진 다시 활성화 (FixedUpdate에서 정상 작동하도록)
-            rb.simulated = true;
+            // 회전 부드럽게 보간
+            _rb.MoveRotation(smoothedAngle);
         }
 
-        rb.gameObject.SetActive(active);
-    }
+        private void UpdateArrowRotationInstantly()
+        {
+            if (_target == null) return;
 
-    private void ShowArrowTo()
-    {
-        if (target == null) return;
+            Vector3 direction = (_target.position - _player.position).normalized;
+            Vector3 newPosition = _player.position + direction * _arrowDistance;
 
-        Vector3 direction = (target.position - player.position).normalized;
-        Vector3 desiredPosition = player.position + direction * arrowDistance;
+            // 목표 변경 시 즉시 위치 반영
+            _rb.position = newPosition;
 
-        // ✅ FixedUpdate에서 부드러운 위치 보정
-        rb.MovePosition(desiredPosition);
-
-        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        float currentAngle = rb.rotation;
-        float smoothedAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref currentVelocity, rotationSmoothTime);
-
-        rb.MoveRotation(smoothedAngle);
+            // 목표 변경 시 즉시 회전값 반영
+            float newAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            _rb.rotation = newAngle;
+        }
     }
 }

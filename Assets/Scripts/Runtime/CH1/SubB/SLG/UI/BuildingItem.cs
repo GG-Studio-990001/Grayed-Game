@@ -34,6 +34,9 @@ public class BuildingItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             _building = _actionComponent.GetBuildingObject(_buildingtype);
         }
         RefreshItem();
+
+        SLGActionComponent SLGAction = FindAnyObjectByType<SLGActionComponent>();
+        SLGAction.EnableArrow();
     }
     private void OnDisable()
     {

@@ -11,6 +11,7 @@ using DG.Tweening;
 using Yarn.Unity;
 using System.Linq;
 using Runtime.CH1.Main.Stage;
+using Runtime.CH1.SubB.SLG;
 
 namespace SLGDefines
 { 
@@ -776,6 +777,11 @@ public class SLGActionComponent : MonoBehaviour
     #endregion
 
     #region Arrow
+    public void EnableArrow()
+    {
+        _arrow.enabled = true;
+    }
+
     public void ShowArrowObject(SLGBuildingType type)
     {
         if (_SLGBuildingObjects.Length < (int)type) return;
@@ -789,13 +795,7 @@ public class SLGActionComponent : MonoBehaviour
             }
         }
 
-        _arrow.SetArrowActive(true);
-        Invoke(nameof(InactiveArrow), 2f);
-    }
-
-    private void InactiveArrow()
-    {
-        _arrow.SetArrowActive(false);
+        _arrow.SetTarget(type);
     }
     #endregion
 }
