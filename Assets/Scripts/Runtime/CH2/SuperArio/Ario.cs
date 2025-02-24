@@ -187,8 +187,7 @@ namespace Runtime.CH2.SuperArio
                 elapsedTime += _blinkInterval;
                 yield return new WaitForSeconds(_blinkInterval);
             }
-
-            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
+            
             _spr.enabled = true;
             _isInvincible = false;
         }
@@ -216,6 +215,13 @@ namespace Runtime.CH2.SuperArio
                 _isJump = true;
                 _jumpBufferTimeRemaining = 0f; // 점프 실행 후 버퍼를 리셋
             }
+        }
+
+        public void CancleInvincibleTime()
+        {
+            _spr.enabled = true;
+            _spr.color = _originalColor;
+            _isInvincible = false;
         }
 
         public IEnumerator RewardEnterAnimation(Transform door)

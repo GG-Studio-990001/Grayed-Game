@@ -46,6 +46,9 @@ namespace Runtime.CH2.SuperArio
             ario.transform.DOMove(ario.transform.position = transform.position + Vector3.up, 0f);
             ario.transform.DOMove(transform.position, 0.5f);
             yield return new WaitForSeconds(1f);
+            ario.SetActive(false);
+            ario.SetActive(true);
+            ario.GetComponent<Ario>().CancleInvincibleTime();
             ArioManager.instance.EnterStore();
         }
         
