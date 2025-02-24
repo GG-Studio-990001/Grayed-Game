@@ -17,6 +17,7 @@ assignees: fkdl0048, Songkihwa, wooyn730, Sumindd, roweclaw, JIJI037, NearthYou,
 ## 회의록
 
 ### 진행상황 공유
+- 성연
 - 주미
 - 시원
 - 우연
