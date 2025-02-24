@@ -4,6 +4,7 @@ namespace Runtime.CH2.SuperArio
 {
     public class GroundScrolling : MonoBehaviour
     {
+        [SerializeField] private Camera _mainCamera;
         public Transform[] backgrounds;
 
         private float _leftPosX;
@@ -21,8 +22,8 @@ namespace Runtime.CH2.SuperArio
 
         private void InitializePositions()
         {
-            _yScreenHalfSize = Camera.main.orthographicSize;
-            _xScreenHalfSize = _yScreenHalfSize * Camera.main.aspect;
+            _yScreenHalfSize = _mainCamera.orthographicSize;
+            _xScreenHalfSize = _yScreenHalfSize * _mainCamera.aspect;
  
             _leftPosX = -(_xScreenHalfSize * 2);
             _rightPosX = _xScreenHalfSize * 2 * backgrounds.Length;

@@ -1,3 +1,4 @@
+using Runtime.ETC;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -36,6 +37,7 @@ namespace Runtime.CH2.SuperArio
                 num--;
             }
             _count.gameObject.SetActive(false);
+            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
         }
         
         private void SetImageColorGray()

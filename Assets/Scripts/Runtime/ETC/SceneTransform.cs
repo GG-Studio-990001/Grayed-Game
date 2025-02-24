@@ -71,10 +71,37 @@ namespace Runtime.ETC
 
             yield return new WaitForSeconds(_translationDuration);
 
+            // 현재 활성 씬 변경
             Scene currentScene = SceneManager.GetActiveScene();
             yield return SceneManager.UnloadSceneAsync(currentScene);
 
             yield return SceneManager.LoadSceneAsync(_targetScene, LoadSceneMode.Additive);
+
+            // **강제로 활성 씬 변경**
+            Scene newScene = SceneManager.GetSceneByName(_targetScene);
+            if (newScene.IsValid())
+            {
+                SceneManager.SetActiveScene(newScene);
+                Debug.Log("Set active scene: " + _targetScene);
+            }
+            else
+            {
+                Debug.LogError("Failed to set active scene!");
+            }
+
+            // **카메라 강제 전환**
+            yield return new WaitForSeconds(0.1f);  // 씬 언로드 전에 딜레이
+            Camera newCamera = FindObjectOfType<Camera>();
+            if (newCamera != null)
+            {
+                newCamera.gameObject.SetActive(true);
+                Debug.Log("New camera activated: " + newCamera.name);
+            }
+            else
+            {
+                Debug.LogError("No camera found in new scene!");
+            }
+
             yield return SceneManager.UnloadSceneAsync(_middleScene);
 
             if (!disablePlayerInput)
