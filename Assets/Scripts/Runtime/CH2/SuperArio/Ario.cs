@@ -220,7 +220,7 @@ namespace Runtime.CH2.SuperArio
         public void CancleInvincibleTime()
         {
             _spr.enabled = true;
-            _spr.color = _originalColor;
+            //_spr.color = _originalColor;
             _isInvincible = false;
         }
 

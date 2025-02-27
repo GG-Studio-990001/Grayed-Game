@@ -6,6 +6,8 @@ namespace Runtime.CH2.SuperArio
 {
     public class ObstacleManager : MonoBehaviour
     {
+        [Header("장애물 스폰 시간 간격")]
+        [SerializeField] private float _spawnDelay = 2f; // 스폰 간격 (기본값)
         [SerializeField] private GameObject[] obstacles; // 장애물 프리팹 배열
         [SerializeField] private GameObject building;
         [SerializeField] private GameObject pipe;
@@ -13,7 +15,6 @@ namespace Runtime.CH2.SuperArio
         private int _poolObjCnt = 3;
         
         private int _obstacleTypeCnt = 3;
-        private float _spawnDelay = 2.5f; // 스폰 간격 (기본값)
         private int _remainingSpawnCount = 20; // 남은 스폰 카운트
         private GameObject _buildingObj;
         private GameObject _pipeObj;

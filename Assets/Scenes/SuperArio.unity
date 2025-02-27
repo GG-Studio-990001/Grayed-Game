@@ -1672,6 +1672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c4005d051332941a17ea6aaa5f5536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawnDelay: 2
   obstacles:
   - {fileID: 4802087884916030990, guid: 2538ffc73ec492b4aa6a59b4986a7b18, type: 3}
   - {fileID: 4802087884916030990, guid: 79e93bcb81905414cbd494f53c1c8bc9, type: 3}
@@ -11877,11 +11878,11 @@ SceneRoots:
   - {fileID: 70859180}
   - {fileID: 1082707441}
   - {fileID: 1146818002}
-  - {fileID: 310571482}
   - {fileID: 1633679111}
   - {fileID: 255248416}
   - {fileID: 865558342}
   - {fileID: 768279311}
   - {fileID: 900708986}
   - {fileID: 893934978}
+  - {fileID: 310571482}
   - {fileID: 1411184281}
