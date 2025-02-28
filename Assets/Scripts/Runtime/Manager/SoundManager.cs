@@ -101,7 +101,6 @@ namespace Runtime.InGameSystem
             {
                 if (_currentBGM == audioClip && BGM.isPlaying)
                 {
-                    Debug.Log("IsPlaying");
                     return false;
                 }
                 else

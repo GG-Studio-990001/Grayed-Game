@@ -88,6 +88,7 @@ namespace Runtime.CH2.SuperArio
             }
             else
             {
+                _ani.ResetTrigger("Jump");
                 _ani.enabled = false;
                 StopAllCoroutines();
             }
