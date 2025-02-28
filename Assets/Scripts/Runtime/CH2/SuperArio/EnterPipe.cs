@@ -48,7 +48,7 @@ namespace Runtime.CH2.SuperArio
             yield return new WaitForSeconds(1f);
             ario.SetActive(false);
             ario.SetActive(true);
-            ario.GetComponent<Ario>().CancleInvincibleTime();
+            ario.GetComponent<Ario>().CancelInvincibleTime();
             ArioManager.instance.EnterStore();
         }
         
