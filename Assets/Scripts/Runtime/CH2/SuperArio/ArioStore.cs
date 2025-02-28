@@ -11,25 +11,19 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private GameObject[] _openWalls;
         [SerializeField] private GameObject[] _boxes;
         [SerializeField] private float _jumpForce = 12f;
-        [SerializeField] private float _maxJumpHeight = 3f;
         [SerializeField] private float _fallMultiplier = 2.5f;
-        [SerializeField] private float _lowJumpMultiplier = 2f;
 
         private Vector2 _initPos;
         private Rigidbody2D _rb;
         private SpriteRenderer spr;
         private bool _isGrounded;
         private bool _isJumping;
-        private float _initialJumpPosition;
-        private bool _isJumpHeld;
         private float _surfaceVelocityX;
-        private Collider2D _collider;
 
         private void Start()
         {
             _initPos = transform.position;
             _rb = GetComponent<Rigidbody2D>();
-            _collider = GetComponent<Collider2D>();
             spr = GetComponent<SpriteRenderer>();
             _rb.isKinematic = true;
             _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -64,7 +58,7 @@ namespace Runtime.CH2.SuperArio
             _rb.isKinematic = true;
             transform.position = _initPos;
             _surface.speed = 3.5f;
-            
+
             foreach (var wall in _storeWalls)
             {
                 wall.gameObject.SetActive(true);
@@ -74,7 +68,7 @@ namespace Runtime.CH2.SuperArio
             {
                 wall.gameObject.SetActive(false);
             }
-            
+
             ArioManager.instance.ExitStore();
             gameObject.SetActive(false);
         }
@@ -83,42 +77,28 @@ namespace Runtime.CH2.SuperArio
         {
             if (!ArioManager.instance.IsStore) return;
 
-            // 떨어지는 중일 때만 지면 상태 해제
-            if (_rb.velocity.y < -0.5f)
-            {
-                _isGrounded = false;
-            }
-
             HandleMovement();
         }
 
         private void HandleMovement()
         {
-            // 지면에 있을 때만 surface 속도 적용
             if (_isGrounded)
             {
                 _rb.velocity = new Vector2(_surfaceVelocityX, _rb.velocity.y);
+                _isJumping = false; // 지면에 있을 때 점프 상태 종료
             }
 
-            // 낙하 가속도
             if (_rb.velocity.y < 0)
             {
                 _rb.velocity += Vector2.up * (Physics2D.gravity.y * (_fallMultiplier - 1) * Time.fixedDeltaTime);
             }
-            // 낮은 점프 가속도
-            else if (_rb.velocity.y > 0 && !_isJumpHeld)
-            {
-                _rb.velocity += Vector2.up * (Physics2D.gravity.y * (_lowJumpMultiplier - 1) * Time.fixedDeltaTime);
-            }
 
-            // 점프 중 이동
             if (_isJumping)
             {
-                _rb.velocity = new Vector2(_surfaceVelocityX, _rb.velocity.y);
-
-                if (transform.position.y >= _initialJumpPosition + _maxJumpHeight)
+                // 점프 중에는 수직 속도를 변경하지 않음
+                if (_rb.velocity.y <= 0)
                 {
-                    _rb.velocity = new Vector2(_surfaceVelocityX, 0);
+                    _isJumping = false; // 점프 상태 종료
                 }
             }
         }
@@ -126,32 +106,26 @@ namespace Runtime.CH2.SuperArio
         public void OnMove(InputAction.CallbackContext context)
         {
             if (!ArioManager.instance.IsStore) return;
-            
+
             Vector2 moveInput = context.ReadValue<Vector2>();
 
             // 즉시 점프 처리
             if (context.phase == InputActionPhase.Started && moveInput.y > 0)
             {
-                if (_isGrounded)
+                if (_isGrounded) // 지면에 있을 때만 점프
                 {
                     Jump();
-                    _isJumpHeld = true;
                 }
-            }
-            else if (context.phase == InputActionPhase.Canceled)
-            {
-                _isJumpHeld = false;
             }
         }
 
         private void Jump()
         {
             if (!_isGrounded) return;
-            
+
             _isJumping = true;
             _isGrounded = false;
-            _initialJumpPosition = transform.position.y;
-            _rb.velocity = new Vector2(_surfaceVelocityX, _jumpForce);
+            _rb.velocity = new Vector2(_surfaceVelocityX, _jumpForce); // 고정된 점프 힘으로 점프
         }
 
         private void OnCollisionStay2D(Collision2D other)
@@ -164,8 +138,7 @@ namespace Runtime.CH2.SuperArio
                     _surface.speed = _surfaceVelocityX;
                 return;
             }
-
-            // 박스와의 충돌 처리
+            
             if (other.gameObject.CompareTag(GlobalConst.ObstacleStr))
             {
                 foreach (ContactPoint2D contact in other.contacts)
@@ -179,17 +152,12 @@ namespace Runtime.CH2.SuperArio
                 }
                 return;
             }
-
-            // 지면 체크
+            
             if (other.gameObject.TryGetComponent(out StoreGround ground))
             {
-                // 이미 점프 중이면 지면 체크 스킵
-                if (_isJumping && _rb.velocity.y > 0) return;
-
                 foreach (ContactPoint2D contact in other.contacts)
                 {
-                    // 지면 체크 조건 완화
-                    if (Vector2.Dot(contact.normal, Vector2.up) > 0.5f)
+                    if (Vector2.Dot(contact.normal, Vector2.up) > 0.25f)
                     {
                         _isGrounded = true;
                         if (_rb.velocity.y <= 0)
