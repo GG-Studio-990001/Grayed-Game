@@ -16,6 +16,7 @@ namespace Runtime.CH2.SuperArio
         private Animator _ani;
         private SpriteRenderer _spr;
         private Sprite initSprite;
+        private static readonly int Jump1 = Animator.StringToHash("Jump");
 
         private void Start()
         {
@@ -54,7 +55,11 @@ namespace Runtime.CH2.SuperArio
 
         private IEnumerator Jump()
         {
+            if (_isJump)
+                yield break;
+            
             _isJump = true;
+            _ani.SetTrigger("Jump");
             yield return new WaitForSeconds(0.65f);
             _isJump = false;
             _isTop = false;
@@ -83,6 +88,7 @@ namespace Runtime.CH2.SuperArio
             }
             else
             {
+                _ani.ResetTrigger("Jump");
                 _ani.enabled = false;
                 StopAllCoroutines();
             }
@@ -93,7 +99,8 @@ namespace Runtime.CH2.SuperArio
             if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.instance.IsPlay)
             {
                 var isSit = other.GetComponent<ObstacleBase>().isSitObstacle;
-                StartCoroutine(!isSit ? Jump() : Sit());
+                if(!isSit)
+                    StartCoroutine(Jump());
             }
         }
     }

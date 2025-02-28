@@ -37,13 +37,13 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator Delay()
         {
             _col.enabled = false;
-            yield return new WaitForSeconds(1.25f);
+            yield return new WaitForSeconds(0.95f);
             _col.enabled = true;
         }
 
         public void Use()
         {
-            if (IsUsed || !ArioManager.instance.UseCoin(80))
+            if (IsUsed || !ArioManager.instance.UseCoin(100))
                 return;
             ArioManager.instance.PlusLife();
             IsUsed = true;

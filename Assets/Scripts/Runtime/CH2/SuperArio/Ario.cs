@@ -11,6 +11,7 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private float _jumpHeight;
         [SerializeField] private float _jumpSpeed;
         [SerializeField] private Sprite sitSprite;
+        [SerializeField] private Sprite hitSprite;
         public int life;
 
         private bool _isJump;
@@ -27,7 +28,7 @@ namespace Runtime.CH2.SuperArio
         private float _invincibleDuration = 1.0f; // 무적 지속 시간
         private float _jumpBufferTimeRemaining = 0f; // 남은 점프 대기 시간
         private Color _originalColor; // 원래 색상 저장
-        
+
         // 점프 버퍼 관련 변수
         private readonly float _blinkInterval = 0.1f; // 깜빡이는 간격
         private readonly float _jumpBufferTime = 0.2f; // 점프 입력 대기 시간
@@ -40,12 +41,15 @@ namespace Runtime.CH2.SuperArio
             _animator = GetComponent<Animator>();
             _initSprite = _spr.sprite;
             _startPos = transform.position;
+            _originalColor = _spr.color;
             ArioManager.instance.OnPlay += InitData;
+            ArioManager.instance.OnEnterStore += DisablePipe;
         }
 
         private void OnDestroy()
         {
             ArioManager.instance.OnPlay -= InitData;
+            ArioManager.instance.OnEnterStore -= DisablePipe;
         }
 
         private void FixedUpdate()
@@ -75,7 +79,8 @@ namespace Runtime.CH2.SuperArio
 
                 if (transform.position.y > _startPos.y && _isTop)
                 {
-                    transform.position = Vector2.MoveTowards(transform.position, _startPos, _jumpSpeed * Time.fixedDeltaTime);
+                    transform.position =
+                        Vector2.MoveTowards(transform.position, _startPos, _jumpSpeed * Time.fixedDeltaTime);
                 }
             }
 
@@ -86,6 +91,11 @@ namespace Runtime.CH2.SuperArio
                 _isTop = false;
                 transform.position = _startPos;
             }
+        }
+
+        public void DisablePipe(bool isDisable)
+        {
+            _pipe.SetActive(false);
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -136,7 +146,7 @@ namespace Runtime.CH2.SuperArio
             else
             {
                 _animator.enabled = false;
-                if(ArioManager.instance.IsGameOver)
+                if (ArioManager.instance.IsGameOver)
                     _pipe.SetActive(true);
             }
         }
@@ -187,7 +197,7 @@ namespace Runtime.CH2.SuperArio
                 elapsedTime += _blinkInterval;
                 yield return new WaitForSeconds(_blinkInterval);
             }
-            
+
             _spr.enabled = true;
             _isInvincible = false;
         }
@@ -197,6 +207,7 @@ namespace Runtime.CH2.SuperArio
             if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.instance.IsPlay && !_isInvincible)
             {
                 life--;
+                _spr.sprite = hitSprite;
                 ArioManager.instance.ChangeHeartUI(life);
                 StartCoroutine(InvincibilityCoroutine());
             }
@@ -217,10 +228,10 @@ namespace Runtime.CH2.SuperArio
             }
         }
 
-        public void CancleInvincibleTime()
+        public void CancelInvincibleTime()
         {
             _spr.enabled = true;
-            //_spr.color = _originalColor;
+            _spr.color = _originalColor;
             _isInvincible = false;
         }
 
@@ -231,7 +242,7 @@ namespace Runtime.CH2.SuperArio
             float duration = Vector2.Distance(transform.position, _startPos) / 2f;
             yield return transform.DOMove(_startPos, duration).SetEase(Ease.Linear).WaitForCompletion();
             yield return new WaitForSeconds(1f);
-            
+
             // 입구까지 이동
             yield return transform.DOMove(door.position, 1.5f).SetEase(Ease.Linear).WaitForCompletion();
             yield return new WaitForSeconds(1f);

@@ -137,7 +137,7 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator WaitExitReward()
         {
             yield return new WaitForSeconds(1f);
-            _ui.gameObject.SetActive(true);
+            _ui.gameObject.SetActive(false);
             Managers.Data.CH2.ArioStage = CurrentStage;
             
             var parts = CurrentStage[0];
@@ -156,7 +156,7 @@ namespace Runtime.CH2.SuperArio
             Debug.Log($"{Managers.Data.CH2.Turn}턴 시작");
             _sceneTransform = FindObjectOfType<SceneTransform>();
             _sceneTransform.EscapeFromScene("CH2");
-            //SceneManager.LoadScene("CH2");
+            
         }
 
         private IEnumerator WaitStart()

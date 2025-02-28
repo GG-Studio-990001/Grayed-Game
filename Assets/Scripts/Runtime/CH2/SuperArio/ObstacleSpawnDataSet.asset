@@ -14,38 +14,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DataList:
   - Stage: 1-1
-    Speed: 1
+    Speed: 1.5
+    ObstacleTypes: 3
+    ObstacleCount: 10
+  - Stage: 1-2
+    Speed: 2.5
+    ObstacleTypes: 3
+    ObstacleCount: 15
+  - Stage: 1-3
+    Speed: 3
     ObstacleTypes: 3
     ObstacleCount: 20
-  - Stage: 1-2
-    Speed: 1.2
-    ObstacleTypes: 3
-    ObstacleCount: 25
-  - Stage: 1-3
-    Speed: 1.4
-    ObstacleTypes: 3
-    ObstacleCount: 30
   - Stage: 2-1
-    Speed: 1.4
+    Speed: 3
     ObstacleTypes: 6
-    ObstacleCount: 30
+    ObstacleCount: 15
   - Stage: 2-2
-    Speed: 1.6
+    Speed: 3.5
     ObstacleTypes: 6
-    ObstacleCount: 40
+    ObstacleCount: 15
   - Stage: 2-3
-    Speed: 1.8
+    Speed: 4
     ObstacleTypes: 6
-    ObstacleCount: 50
+    ObstacleCount: 20
   - Stage: 3-1
-    Speed: 5.5
+    Speed: 4.5
     ObstacleTypes: 6
-    ObstacleCount: 1
+    ObstacleCount: 15
   - Stage: 3-2
-    Speed: 5.5
+    Speed: 5
     ObstacleTypes: 6
-    ObstacleCount: 1
+    ObstacleCount: 20
   - Stage: 3-3
     Speed: 5.5
     ObstacleTypes: 6
-    ObstacleCount: 55
+    ObstacleCount: 30

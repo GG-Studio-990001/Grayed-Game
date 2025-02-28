@@ -2,13 +2,13 @@ using UnityEngine;
 using DG.Tweening;
 using Cinemachine;
 using Runtime.ETC;
-using System;
 using UnityEngine.UI;
 
 public class CameraProduction : MonoBehaviour
 {
-    [Header("Camera Settings")]
-    [SerializeField] private CinemachineVirtualCamera _virtualCamera;
+    [Header("Camera Settings")] [SerializeField]
+    private CinemachineVirtualCamera _virtualCamera;
+
     [SerializeField] private RectTransform _topBar;
     [SerializeField] private RectTransform _bottomBar;
     [SerializeField] private RectTransform _leftBar;
@@ -23,10 +23,10 @@ public class CameraProduction : MonoBehaviour
     [SerializeField] private Image _transition;
     [SerializeField] private Material _material;
     [SerializeField] private Camera _mainCamera;
-    
+
     private RenderTexture _renderTexture;
     private Sequence _currentSequence;
-    private int _baseWidth = 1920;  // 기본 해상도 너비
+    private int _baseWidth = 1920; // 기본 해상도 너비
     private int _baseHeight = 1080; // 기본 해상도 높이
     private static readonly int Value = Shader.PropertyToID("_Value");
     private static readonly int Lerp = Shader.PropertyToID("Lerp");
@@ -35,16 +35,14 @@ public class CameraProduction : MonoBehaviour
     {
         if (_virtualCamera == null)
             _virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        SetAspectRatio(_targetAspectRatio, true);
     }
-    
+
     void Start()
     {
         InitializeRenderTexture();
-        SetAspectRatio(_targetAspectRatio, true);
-        
         _uiCamera.cullingMask = LayerMask.GetMask("UI");
     }
-
 
     private void Update()
     {
@@ -103,12 +101,16 @@ public class CameraProduction : MonoBehaviour
 
     private void SetLetterbox(float targetRatio, bool immediate)
     {
-        float screenRatio = (float)Screen.width / Screen.height;
+        // 고정된 해상도 비율을 사용
+        float fixedWidth = 1920f; // 고정된 너비
+        float fixedHeight = 1080f; // 고정된 높이
+        float fixedRatio = fixedWidth / fixedHeight;
 
-        if (screenRatio > targetRatio)
+        // 고정된 비율을 사용하여 레터박스 크기 계산
+        if (fixedRatio > targetRatio)
         {
             // 좌우 레터박스
-            float barWidth = (Screen.width - (Screen.height * targetRatio)) / 2f;
+            float barWidth = (fixedWidth - (fixedHeight * targetRatio)) / 2f;
             if (immediate)
             {
                 _leftBar.sizeDelta = new Vector2(barWidth, _leftBar.sizeDelta.y);
@@ -119,15 +121,20 @@ public class CameraProduction : MonoBehaviour
             else
             {
                 _currentSequence = DOTween.Sequence();
-                _currentSequence.Join(_leftBar.DOSizeDelta(new Vector2(barWidth, _leftBar.sizeDelta.y), _transitionDuration).SetEase(_easeType));
-                _currentSequence.Join(_rightBar.DOSizeDelta(new Vector2(barWidth, _rightBar.sizeDelta.y), _transitionDuration).SetEase(_easeType));
-                _currentSequence.Join(_topBar.DOSizeDelta(new Vector2(0, _topBar.sizeDelta.y), _transitionDuration).SetEase(_easeType));
-                _currentSequence.Join(_bottomBar.DOSizeDelta(new Vector2(0, _bottomBar.sizeDelta.y), _transitionDuration).SetEase(_easeType));
+                _currentSequence.Join(_leftBar
+                    .DOSizeDelta(new Vector2(barWidth, _leftBar.sizeDelta.y), _transitionDuration).SetEase(_easeType));
+                _currentSequence.Join(_rightBar
+                    .DOSizeDelta(new Vector2(barWidth, _rightBar.sizeDelta.y), _transitionDuration).SetEase(_easeType));
+                _currentSequence.Join(_topBar.DOSizeDelta(new Vector2(0, _topBar.sizeDelta.y), _transitionDuration)
+                    .SetEase(_easeType));
+                _currentSequence.Join(_bottomBar
+                    .DOSizeDelta(new Vector2(0, _bottomBar.sizeDelta.y), _transitionDuration).SetEase(_easeType));
             }
         }
         else
         {
-            float barHeight = (Screen.height - (Screen.width / targetRatio)) / 2f;
+            // 상하 레터박스
+            float barHeight = (fixedHeight - (fixedWidth / targetRatio)) / 2f;
 
             if (immediate)
             {
@@ -139,14 +146,19 @@ public class CameraProduction : MonoBehaviour
             else
             {
                 _currentSequence = DOTween.Sequence();
-                _currentSequence.Join(_topBar.DOSizeDelta(new Vector2(_topBar.sizeDelta.x, barHeight), _transitionDuration).SetEase(_easeType));
-                _currentSequence.Join(_bottomBar.DOSizeDelta(new Vector2(_bottomBar.sizeDelta.x, barHeight), _transitionDuration).SetEase(_easeType));
-                _currentSequence.Join(_leftBar.DOSizeDelta(new Vector2(0, _leftBar.sizeDelta.y), _transitionDuration).SetEase(_easeType));
-                _currentSequence.Join(_rightBar.DOSizeDelta(new Vector2(0, _rightBar.sizeDelta.y), _transitionDuration).SetEase(_easeType));
+                _currentSequence.Join(_topBar
+                    .DOSizeDelta(new Vector2(_topBar.sizeDelta.x, barHeight), _transitionDuration).SetEase(_easeType));
+                _currentSequence.Join(_bottomBar
+                    .DOSizeDelta(new Vector2(_bottomBar.sizeDelta.x, barHeight), _transitionDuration)
+                    .SetEase(_easeType));
+                _currentSequence.Join(_leftBar.DOSizeDelta(new Vector2(0, _leftBar.sizeDelta.y), _transitionDuration)
+                    .SetEase(_easeType));
+                _currentSequence.Join(_rightBar.DOSizeDelta(new Vector2(0, _rightBar.sizeDelta.y), _transitionDuration)
+                    .SetEase(_easeType));
             }
         }
     }
-    
+
     public float FadeInOut()
     {
         if (_material.GetFloat("_Lerp") == 0f)
@@ -155,24 +167,18 @@ public class CameraProduction : MonoBehaviour
         _transition.raycastTarget = true;
 
         Sequence sequence = DOTween.Sequence();
-    
-        // sequence.Append(DOTween.To(
-        //     () => _material.GetFloat("_Lerp"), 
-        //     x => _material.SetFloat("_Lerp", x),
-        //     0.3f, 1f // 1초 동안 0.7까지 변경
-        // ));
         sequence.Append(DOTween.To(
-            () => _material.GetFloat("_Lerp"), 
+            () => _material.GetFloat("_Lerp"),
             x => _material.SetFloat("_Lerp", x),
             0f, 1f // 1초 동안 1로 변경
         ));
-        sequence.AppendInterval(0.5f); // 1초 대기
+        sequence.AppendInterval(0.5f); // 0.5초 대기
         sequence.Append(DOTween.To(
-            () => _material.GetFloat("_Lerp"), 
+            () => _material.GetFloat("_Lerp"),
             x => _material.SetFloat("_Lerp", x),
             1f, 1f // 1초 동안 0으로 변경 (FadeOut)
         ));
-    
+
         sequence.OnComplete(() => _transition.raycastTarget = false); // 완료 후 Raycast 비활성화
         return sequence.Duration();
     }

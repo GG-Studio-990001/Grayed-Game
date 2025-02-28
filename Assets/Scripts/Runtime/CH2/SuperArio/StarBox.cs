@@ -36,7 +36,7 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator Delay()
         {
             _col.enabled = false;
-            yield return new WaitForSeconds(1.25f);
+            yield return new WaitForSeconds(0.95f);
             _col.enabled = true;
         }
 
