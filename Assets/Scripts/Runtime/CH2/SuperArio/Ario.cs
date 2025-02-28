@@ -11,6 +11,7 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private float _jumpHeight;
         [SerializeField] private float _jumpSpeed;
         [SerializeField] private Sprite sitSprite;
+        [SerializeField] private Sprite hitSprite;
         public int life;
 
         private bool _isJump;
@@ -206,6 +207,7 @@ namespace Runtime.CH2.SuperArio
             if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.instance.IsPlay && !_isInvincible)
             {
                 life--;
+                _spr.sprite = hitSprite;
                 ArioManager.instance.ChangeHeartUI(life);
                 StartCoroutine(InvincibilityCoroutine());
             }
