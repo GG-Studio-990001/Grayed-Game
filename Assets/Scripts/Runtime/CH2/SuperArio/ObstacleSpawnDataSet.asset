@@ -40,12 +40,12 @@ MonoBehaviour:
   - Stage: 3-1
     Speed: 4.5
     ObstacleTypes: 6
-    ObstacleCount: 1
+    ObstacleCount: 15
   - Stage: 3-2
     Speed: 5
     ObstacleTypes: 6
-    ObstacleCount: 1
+    ObstacleCount: 20
   - Stage: 3-3
     Speed: 5.5
     ObstacleTypes: 6
-    ObstacleCount: 1
+    ObstacleCount: 30
