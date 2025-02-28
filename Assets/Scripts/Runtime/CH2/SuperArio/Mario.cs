@@ -59,7 +59,6 @@ namespace Runtime.CH2.SuperArio
                 yield break;
             
             _isJump = true;
-            Debug.Log("Jump");
             _ani.SetTrigger("Jump");
             yield return new WaitForSeconds(0.65f);
             _isJump = false;
@@ -99,7 +98,8 @@ namespace Runtime.CH2.SuperArio
             if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.instance.IsPlay)
             {
                 var isSit = other.GetComponent<ObstacleBase>().isSitObstacle;
-                StartCoroutine(!isSit ? Jump() : Sit());
+                if(!isSit)
+                    StartCoroutine(Jump());
             }
         }
     }
