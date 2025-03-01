@@ -172,15 +172,7 @@ namespace Runtime.CH1.Lucky
         #region 상황 따라 다르게
         private void SetLuckyPos(int idx)
         {
-            // TODO: 모두 다 오른쪽에서 등장으로 수정
-            if (idx == 0)
-            {
-                _lucky.transform.position = _leftPositions[idx];
-            }
-            else
-            {
-                _lucky.transform.position = _rightPositions[idx];
-            }
+            _lucky.transform.position = _rightPositions[idx];
         }
 
         private void SetBubblePos(int idx)
