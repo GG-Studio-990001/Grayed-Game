@@ -45,6 +45,14 @@ namespace Runtime.Main
             _sceneSystem.LoadScene("SuperArio");
         }
 
+        public void GoCh3()
+        {
+            Managers.Data.NewGame();
+            Managers.Data.Chapter = 3;
+            Managers.Data.SaveGame();
+            _sceneSystem.LoadScene("Title");
+        }
+
         public void LoadCheatData(string file)
         {
             _dataCheater.LoadCheatData(file, _sceneSystem);
