@@ -33,12 +33,9 @@ namespace Runtime.CH1.Title
                     _timeline.SetActive(true);
                     break;
                 case 2:
+                case 3:
                     _sceneSystem.LoadSceneWithFade($"CH{Managers.Data.Chapter}");
                     break;
-                case 3:
-                    Debug.Log("No More Chapter");
-                    break;
-
             }
         }
 

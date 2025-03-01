@@ -17,17 +17,22 @@ namespace Runtime.CH1.Title
 
             int ch = Managers.Data.Chapter;
 
-            if (ch <= 1)
+            switch(ch)
             {
-                _fadeController.StartFadeIn();
-                _chObjs[0].SetActive(true);
-                Managers.Sound.Play(Sound.BGM, $"Title/Title_BGM_CH1");
-            }
-            else
-            {
-                // ch2, ch3
-                _chObjs[ch - 1].SetActive(true);
-                Managers.Sound.Play(Sound.BGM, $"Title/Title_BGM_CH{ch}");
+                case 0:
+                case 1:
+                    _fadeController.StartFadeIn();
+                    _chObjs[0].SetActive(true);
+                    Managers.Sound.Play(Sound.BGM, $"Title/Title_BGM_CH1");
+                    break;
+                case 2:
+                    _chObjs[ch - 1].SetActive(true);
+                    Managers.Sound.Play(Sound.BGM, $"Title/Title_BGM_CH{ch}");
+                    break;
+                case 3:
+                    _chObjs[ch - 1].SetActive(true);
+                    Managers.Sound.Play(Sound.BGM, $"Mamago_BGM_1");
+                    break;
             }
         }
 
