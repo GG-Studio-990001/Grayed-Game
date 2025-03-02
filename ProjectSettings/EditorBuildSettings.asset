@@ -35,6 +35,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CH3.unity
     guid: 19bda13025b52bb4f9b7a9521c1ee0d9
+  - enabled: 1
+    path: Assets/Scenes/Rokemon.unity
+    guid: 5b6bd4fda1f54af4886f024c151ca1e8
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: f3e6a5ed471769d4aabb8105f74f71fa, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: ddc15bbc1419fef4cbf8bc7636cf3ba4, type: 2}
