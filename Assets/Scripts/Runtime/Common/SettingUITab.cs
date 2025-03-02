@@ -1,5 +1,6 @@
 using Runtime.ETC;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Runtime.Common
@@ -14,6 +15,12 @@ namespace Runtime.Common
         private void Start()
         {
             _tabs[1].gameObject.SetActive(Managers.Data.CH1.TranslatorCount != 0);
+        }
+
+        public void ToTitleScene()
+        {
+            Managers.Data.SaveGame();
+            SceneManager.LoadScene("Title");
         }
 
         public void ShowTransTab()
