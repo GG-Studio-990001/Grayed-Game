@@ -26,16 +26,10 @@ namespace Runtime.Main
             _sceneSystem.LoadScene($"CH{Managers.Data.Chapter}");
         }
 
-        public void GoCh0()
+        public void GoToScene(string name)
         {
             Managers.Data.NewGame();
-            _sceneSystem.LoadScene("CH0");
-        }
-
-        public void GoPacmom()
-        {
-            Managers.Data.NewGame();
-            _sceneSystem.LoadScene("Pacmom");
+            _sceneSystem.LoadScene(name);
         }
         
         public void GoSuperArio(string stage)
@@ -45,10 +39,10 @@ namespace Runtime.Main
             _sceneSystem.LoadScene("SuperArio");
         }
 
-        public void GoCh3()
+        public void GoChapterTitle(int ch)
         {
             Managers.Data.NewGame();
-            Managers.Data.Chapter = 3;
+            Managers.Data.Chapter = ch;
             Managers.Data.SaveGame();
             _sceneSystem.LoadScene("Title");
         }

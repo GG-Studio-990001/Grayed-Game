@@ -8,22 +8,34 @@ namespace Runtime.CH1.SubB.SLG
     {
         [SerializeField] private Transform _player;
         [SerializeField] private Transform[] _buildings;
-        [SerializeField] private Rigidbody2D _rb; // Rigidbody2D (화살표 이동을 부드럽게 처리)
+        [SerializeField] private Rigidbody2D _rb;
         [SerializeField] private SpriteRenderer _sr;
         [SerializeField] private float _arrowDistance = 1.15f;
-        [SerializeField] private float _rotationSmoothTime = 0.05f; // 회전 보간 속도
+        [SerializeField] private float _rotationSmoothTime = 0.05f;
+        [SerializeField] private GameObject[] _map = new GameObject[3];
 
         private Transform _target;
-        private float _currentVelocity; // SmoothDampAngle 속도 저장용
-        private Coroutine _arrowRoutine; // 코루틴 핸들러
+        private float _arrowTime = 2f;
+        private float _fadeTime = 0.4f;
+        private float _currentVelocity;
+        private Coroutine _arrowRoutine;
+        private bool _isRotating = false;
 
         private void FixedUpdate()
         {
-            ShowArrowTo();
+            if (!_isRotating)
+                ShowArrowTo();
         }
 
         public void SetTarget(SLGBuildingType type)
         {
+            if (!_map[0].activeSelf && !_map[1].activeSelf && !_map[2].activeSelf)
+            {
+                StartOrbitingArrow();
+                Debug.Log("SLG 화살표 특수상황 - 공전 시작");
+                return;
+            }
+
             if (type == SLGBuildingType.Bridge)
                 _target = _buildings[0];
             else if (type == SLGBuildingType.MamagoCompany)
@@ -36,10 +48,8 @@ namespace Runtime.CH1.SubB.SLG
                 return;
             }
 
-            // 새로운 목표 설정 시 즉시 위치 & 회전값 반영
             UpdateArrowRotationInstantly();
 
-            // 기존 코루틴이 실행 중이면 중지하고 새로운 코루틴 시작
             if (_arrowRoutine != null)
                 StopCoroutine(_arrowRoutine);
             _arrowRoutine = StartCoroutine(ArrowActivationRoutine());
@@ -47,11 +57,9 @@ namespace Runtime.CH1.SubB.SLG
 
         private IEnumerator ArrowActivationRoutine()
         {
-            yield return StartCoroutine(FadeArrow(0f, 1f, 0.4f));
-
-            yield return new WaitForSeconds(1.2f);
-
-            yield return StartCoroutine(FadeArrow(1f, 0f, 0.4f));
+            yield return StartCoroutine(FadeArrow(0f, 1f, _fadeTime));
+            yield return new WaitForSeconds(_arrowTime - _fadeTime * 2);
+            yield return StartCoroutine(FadeArrow(1f, 0f, _fadeTime));
         }
 
         private IEnumerator FadeArrow(float startAlpha, float targetAlpha, float duration)
@@ -78,14 +86,12 @@ namespace Runtime.CH1.SubB.SLG
             Vector3 direction = (_target.position - _player.position).normalized;
             Vector3 desiredPosition = _player.position + direction * _arrowDistance;
 
-            // 위치 이동 부드럽게 보간
             _rb.MovePosition(desiredPosition);
 
             float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             float currentAngle = _rb.rotation;
             float smoothedAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref _currentVelocity, _rotationSmoothTime);
 
-            // 회전 부드럽게 보간
             _rb.MoveRotation(smoothedAngle);
         }
 
@@ -96,12 +102,60 @@ namespace Runtime.CH1.SubB.SLG
             Vector3 direction = (_target.position - _player.position).normalized;
             Vector3 newPosition = _player.position + direction * _arrowDistance;
 
-            // 목표 변경 시 즉시 위치 반영
             _rb.position = newPosition;
 
-            // 목표 변경 시 즉시 회전값 반영
             float newAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             _rb.rotation = newAngle;
+        }
+
+        public void StartOrbitingArrow()
+        {
+            if (_arrowRoutine != null)
+                StopCoroutine(_arrowRoutine);
+            _arrowRoutine = StartCoroutine(OrbitArrow());
+        }
+
+        private IEnumerator OrbitArrow()
+        {
+            _isRotating = true;
+
+            // 화살표 초기 위치를 플레이어의 오른쪽에서 시작
+            transform.position = _player.position + new Vector3(_arrowDistance, 0, 0);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            _sr.color = new Color(1f, 1f, 1f, 0f); // 시작 시 투명
+
+            float orbitTime = _arrowTime;
+            float elapsedTime = 0f;
+            float angleSpeed = 720f / orbitTime; // 2바퀴 (720도) / 2초
+
+            while (elapsedTime < orbitTime)
+            {
+                elapsedTime += Time.deltaTime;
+
+                // 현재 진행된 각도 계산 (0도에서 시작)
+                float angle = (elapsedTime / orbitTime) * 720f * Mathf.Deg2Rad; // 2바퀴(720도)
+
+                // 공전하면서 플레이어와의 거리 유지
+                Vector3 newPos = _player.position + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * _arrowDistance;
+                _rb.MovePosition(newPos);
+
+                // 화살표가 항상 플레이어 반대 방향을 가리키도록 회전 (오른쪽 기준)
+                Vector3 direction = (_player.position - newPos).normalized;
+                float newAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 180f;
+                _rb.MoveRotation(newAngle);
+
+                // 페이드인/페이드아웃을 2초 내에 진행
+                float alpha = Mathf.Lerp(0f, 1f, elapsedTime / _fadeTime);
+                if (elapsedTime > orbitTime - _fadeTime)
+                {
+                    alpha = Mathf.Lerp(1f, 0f, (elapsedTime - (orbitTime - _fadeTime)) / _fadeTime);
+                }
+                _sr.color = new Color(1f, 1f, 1f, alpha);
+
+                yield return null;
+            }
+
+            _isRotating = false;
         }
     }
 }
