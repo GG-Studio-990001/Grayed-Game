@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using Yarn.Unity;
 
 namespace Runtime.CH3.Rokemon
 {
@@ -13,7 +14,8 @@ namespace Runtime.CH3.Rokemon
         [Header("==할당==")]
         [SerializeField] private TextMeshProUGUI _curLvTxt; // 기존 Lv
         [SerializeField] private TextMeshProUGUI _tmpLvTxt; // 변경중인 임시 Lv
-        [Header("==잔여==")]
+        [Header("==그 외==")]
+        [SerializeField] private DialogueRunner _dialogueRunner;
         [SerializeField] private TextMeshProUGUI _leftLvTxt; // 잔여 Lv
         private int _skillIdx;
         private int _curLv;
@@ -21,7 +23,7 @@ namespace Runtime.CH3.Rokemon
         private int _maxLv;
         private int _leftLv = 40;
         private int _usedLv = 0;
-        private int _totalUsedLv = 30; // 지금까지 사용한 Lv 합 (습득 조건 위함)
+        private int _totalUsedLv = 0; // 지금까지 사용한 Lv 합 (습득 조건 위함)
 
         public void UpdateAssignPage(int idx)
         {
@@ -109,10 +111,13 @@ namespace Runtime.CH3.Rokemon
         {
             int lastUsedLv = _totalUsedLv;
             _totalUsedLv += used;
+            Debug.Log($"lastUsedLv = {lastUsedLv}");
+            Debug.Log($"_totalUsedLv = {_totalUsedLv}");
 
-            if (lastUsedLv < 30 && _totalUsedLv >= 30)
+            if (lastUsedLv < 30 && _totalUsedLv >= 30) // 매력 스킬 습득 조건 달성
             {
-                // 매력 스킬 습득 조건 달성
+                Debug.Log("조건 달성");
+                _dialogueRunner.StartDialogue("Charm");
             }
         }
 
