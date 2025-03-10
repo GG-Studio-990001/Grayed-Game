@@ -979,7 +979,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 705529360}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 15
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -3808,6 +3808,10 @@ PrefabInstance:
       propertyPath: m_RenderMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5773120352809373291, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6605949779606295980, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -5541,7 +5545,7 @@ MonoBehaviour:
   _locationTxt: {fileID: 261550756}
   _bgSprites:
   - {fileID: 21300000, guid: 13c30de153d0a4745a5b661feba64321, type: 3}
-  - {fileID: 21300000, guid: 94e1867701ee63148b51a3b9f48800d9, type: 3}
+  - {fileID: 21300000, guid: edf2ac4b7591b774d9207470b4794f76, type: 3}
   - {fileID: 21300000, guid: d81559c4c3abd9d4d81adb29bd9cb534, type: 3}
   - {fileID: 21300000, guid: 40ef2c8b9fb7aad41ad7fb7606aefa9c, type: 3}
   - {fileID: 21300000, guid: 1993f5b9ca9f0af428decd3ee6dfa89a, type: 3}
@@ -7071,7 +7075,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 94e1867701ee63148b51a3b9f48800d9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: edf2ac4b7591b774d9207470b4794f76, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
