@@ -1,3 +1,4 @@
+using Runtime.Common.View;
 using Runtime.ETC;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,7 @@ namespace Runtime.Common
 {
     public class SettingUITab : MonoBehaviour
     {
+        [SerializeField] private SettingsUIView _settingsUI;
         [SerializeField] private Image[] _tabs;
         [SerializeField] private Sprite[] _tabSprs;
         [SerializeField] private GameObject[] _panels;
@@ -19,6 +21,7 @@ namespace Runtime.Common
 
         public void ToTitleScene()
         {
+            _settingsUI.GameSettingToggle();
             Managers.Data.SaveGame();
             SceneManager.LoadScene("Title");
         }

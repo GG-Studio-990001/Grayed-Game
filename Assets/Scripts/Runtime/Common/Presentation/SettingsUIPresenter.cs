@@ -1,8 +1,6 @@
 using Runtime.Common.View;
 using Runtime.ETC;
-using Runtime.InGameSystem;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Runtime.Common.Presentation
 {

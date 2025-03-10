@@ -3,7 +3,6 @@ using Runtime.ETC;
 using Runtime.Event;
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Runtime.Common.View
