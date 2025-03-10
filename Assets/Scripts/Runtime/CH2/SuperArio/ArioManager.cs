@@ -33,7 +33,7 @@ namespace Runtime.CH2.SuperArio
 
         public Action<bool> OnPlay;
         public Action<bool> OnEnterStore;
-        public Action<bool> OnEnterReward;
+        public Action OnEnterReward;
         public Action OpenStore;
         
         [SerializeField] private ObstacleSpawnDataSet _dataSet;
@@ -41,10 +41,11 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private CinemachineVirtualCamera _rewardCam;
         [SerializeField] private SceneSystem _sceneSystem;
         [SerializeField] private Ario _ario;
+        [SerializeField] private Mario _mario;
         [SerializeField] private ArioUIController _ui;
         
 
-        public string CurrentStage { get; private set; }
+        [field:SerializeField] public string CurrentStage { get; private set; }
         public float GameSpeed { get; private set; }
         public bool IsPlay { get; private set; }
         public bool IsPause { get; private set; }
@@ -109,6 +110,7 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator WaitEnterReward(float delay = 0)
         {
             yield return new WaitForSeconds(delay-1f);
+            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_03");
             _production.SetAspectRatio(AspectRatio.Ratio_8_7,true);
             _obstacleManager.DestroyBuilding();
             _storeCam.Priority = 10;
@@ -120,7 +122,7 @@ namespace Runtime.CH2.SuperArio
             OnPlay.Invoke(IsPlay);
             
             IsReward = true;
-            OnEnterReward.Invoke(IsReward);
+            OnEnterReward.Invoke();
         }
         
         public void ExitReward()
@@ -270,6 +272,7 @@ namespace Runtime.CH2.SuperArio
             IsReward = true;
             _production.SetAspectRatio(AspectRatio.Ratio_8_7);
             _ui.gameObject.SetActive(false);
+            _mario.PauseAnimation();
         }
         
         public void CalculateNextStage()

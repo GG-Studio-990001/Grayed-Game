@@ -76,8 +76,7 @@ namespace Runtime.ETC
             yield return SceneManager.UnloadSceneAsync(currentScene);
 
             yield return SceneManager.LoadSceneAsync(_targetScene, LoadSceneMode.Additive);
-
-            // **강제로 활성 씬 변경**
+            
             Scene newScene = SceneManager.GetSceneByName(_targetScene);
             if (newScene.IsValid())
             {
@@ -87,28 +86,6 @@ namespace Runtime.ETC
             else
             {
                 Debug.LogError("Failed to set active scene!");
-            }
-
-            // **카메라 강제 전환**
-            yield return new WaitForSeconds(0.1f); // 씬 언로드 전에 딜레이
-            Camera newCamera = FindObjectOfType<Camera>();
-            if (newCamera != null)
-            {
-                newCamera.gameObject.SetActive(true);
-                newCamera.depth = 1; // Escape 씬 카메라의 depth를 높게 설정
-                Debug.Log("New camera activated: " + newCamera.name);
-            }
-            else
-            {
-                Debug.LogError("No camera found in new scene!");
-            }
-
-            // UI 카메라의 depth를 낮게 설정
-            Camera uiCamera = FindObjectOfType<Camera>(true); // 비활성 카메라 포함
-            if (uiCamera != null)
-            {
-                uiCamera.depth = 0; // UI 카메라의 depth를 낮게 설정
-                Debug.Log("UI camera depth set to: " + uiCamera.depth);
             }
 
             yield return SceneManager.UnloadSceneAsync(_middleScene);

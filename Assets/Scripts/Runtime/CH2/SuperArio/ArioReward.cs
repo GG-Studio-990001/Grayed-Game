@@ -18,7 +18,7 @@ namespace Runtime.CH2.SuperArio
             ArioManager.instance.OnEnterReward += EnterReward;
         }
         
-        private void EnterReward(bool isTrue)
+        private void EnterReward()
         {
             _rb.isKinematic = false;
             gameObject.SetActive(true);
