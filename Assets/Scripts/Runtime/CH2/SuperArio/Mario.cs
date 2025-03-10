@@ -16,7 +16,6 @@ namespace Runtime.CH2.SuperArio
         private Animator _ani;
         private SpriteRenderer _spr;
         private Sprite initSprite;
-        private static readonly int Jump1 = Animator.StringToHash("Jump");
 
         private void Start()
         {
@@ -84,15 +83,24 @@ namespace Runtime.CH2.SuperArio
             
             if (isPlay)
             {
-                _ani.enabled = true;
+                _ani.SetBool("Run", true);
             }
             else
             {
                 _ani.ResetTrigger("Jump");
-                _ani.enabled = false;
+                _ani.SetBool("Run", false);
                 StopAllCoroutines();
             }
         }
+        
+        public void PauseAnimation()
+        {
+            if (_ani != null)
+            {
+                _ani.speed = 0;
+            }
+        }
+        
 
         private void OnTriggerEnter2D(Collider2D other)
         {

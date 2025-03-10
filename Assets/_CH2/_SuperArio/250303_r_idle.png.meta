@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3518657514f7f084fa78f80607e9f742
+guid: 2999b97e229843c4a88fa627ca99ef4c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 160
+  spritePixelsToUnits: 30
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,160 +110,55 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ario_Sprites_0
+      name: 250303_r_idle_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 240
-        width: 80
-        height: 80
+        y: 16
+        width: 64
+        height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86dba416549b4724d9c8b97e6b62b1d7
-      internalID: 976045202
+      spriteID: 0f11b8524e56fc947974c2fb3103cc68
+      internalID: 244850596
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ario_Sprites_1
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 240
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 29b3fbe8a8eaa014da5b9bc6bf3ea85e
-      internalID: 1960136466
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ario_Sprites_2
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 240
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 52efc607791f2434b9dbad9400f6ef39
-      internalID: -576006623
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ario_Sprites_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 160
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0aa08d284b3f6d14db4c0edd30679f57
-      internalID: -405985178
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ario_Sprites_4
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 160
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 75f3d206400c6f448b1ff93874ba875b
-      internalID: -1356989288
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ario_Sprites_5
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 160
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f0c3731c47fbe674f8fb6011cd24a931
-      internalID: 1833129768
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ario_Sprites_6
+      name: 250303_r_idle_1
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 80
-        height: 105
+        width: 16
+        height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7d56f2830486e2d48a6c08fd96a3ce88
-      internalID: -2049584462
+      spriteID: 5d9b46793c4a24748a19f8907106290c
+      internalID: 1911811277
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ario_Sprites_7
+      name: 250303_r_idle_2
       rect:
         serializedVersion: 2
-        x: 80
+        x: 16
         y: 0
-        width: 80
-        height: 105
+        width: 16
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,20 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c6d5725b35565194680aee9d011f3446
-      internalID: -1812873039
+      spriteID: 9b188c5bc4e232f4cbed163594228462
+      internalID: 1796663644
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ario_Sprites_8
+      name: 250303_r_idle_3
       rect:
         serializedVersion: 2
-        x: 160
+        x: 32
         y: 0
-        width: 80
-        height: 105
+        width: 16
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,20 +187,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e5622e26f7c11142ac968f0ce1f65c1
-      internalID: 2118765054
+      spriteID: d693ad3e4b934e242bb277e695b9a8fd
+      internalID: 1034859382
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ario_Sprites_9
+      name: 250303_r_idle_4
       rect:
         serializedVersion: 2
-        x: 315
+        x: 48
         y: 0
-        width: 85
-        height: 105
+        width: 16
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -313,8 +208,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 35befe1b4e5ad10488cdefdf3879031e
-      internalID: -259198928
+      spriteID: efb95df25aac7fa499fe09fa3ed52a08
+      internalID: 1604084869
       vertices: []
       indices: 
       edges: []
@@ -322,7 +217,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 6e6e58048cb150d46b6fc3d62d12e661
+    spriteID: d833ca67f7bc93c4484283e1ddb12519
     internalID: 0
     vertices: []
     indices: 
@@ -330,16 +225,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Ario_Sprites_0: -1580757098
-      Ario_Sprites_1: 976045202
-      Ario_Sprites_2: -272054278
-      Ario_Sprites_3: 446752852
-      Ario_Sprites_4: 87278976
-      Ario_Sprites_5: 1771706906
-      Ario_Sprites_6: -384361437
-      Ario_Sprites_7: 1960136466
-      Ario_Sprites_8: 400761106
-      Ario_Sprites_9: 382161539
+      250303_r_idle_0: 244850596
+      250303_r_idle_1: 1911811277
+      250303_r_idle_2: 1796663644
+      250303_r_idle_3: 1034859382
+      250303_r_idle_4: 1604084869
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
