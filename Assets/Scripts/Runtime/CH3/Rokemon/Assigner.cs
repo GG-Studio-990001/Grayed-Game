@@ -9,15 +9,15 @@ namespace Runtime.CH3.Rokemon
         [SerializeField] private TextMeshProUGUI _typeTxt;
         [SerializeField] private TextMeshProUGUI _nameTxt;
         [SerializeField] private TextMeshProUGUI _descTxt;
-        [SerializeField] private TextMeshProUGUI _curRpTxt;
-        [SerializeField] private TextMeshProUGUI _newRpTxt;
-        [SerializeField] private TextMeshProUGUI _leftRpTxt;
+        [SerializeField] private TextMeshProUGUI _curLvTxt;
+        [SerializeField] private TextMeshProUGUI _newLvTxt;
+        [SerializeField] private TextMeshProUGUI _leftLvTxt;
         private int _skillIdx;
-        private int _curRp;
-        private int _newRp;
-        private int _maxRp;
-        private int _leftRp = 40;
-        private int _usedRp = 0;
+        private int _curLv;
+        private int _newLv;
+        private int _maxLv;
+        private int _leftLv = 40;
+        private int _usedLv = 0;
 
         public void UpdateAssignPage(int idx)
         {
@@ -25,79 +25,79 @@ namespace Runtime.CH3.Rokemon
             _typeTxt.text = _skills[_skillIdx].Type;
             _nameTxt.text = _skills[_skillIdx].Name;
             _descTxt.text = _skills[_skillIdx].Desc;
-            _curRpTxt.text = _skills[_skillIdx].CurLv.ToString();
+            _curLvTxt.text = _skills[_skillIdx].CurLv.ToString();
 
-            _curRp = _skills[_skillIdx].CurLv;
-            _newRp = _skills[_skillIdx].CurLv;
-            _maxRp = _skills[_skillIdx].MaxLv;
-            UpdateNewRpTxt();
+            _curLv = _skills[_skillIdx].CurLv;
+            _newLv = _skills[_skillIdx].CurLv;
+            _maxLv = _skills[_skillIdx].MaxLv;
+            UpdateNewLvTxt();
 
-            _usedRp = 0;
+            _usedLv = 0;
         }
 
         public bool HasChanged()
         {
-            return _newRp != _curRp;
+            return _newLv != _curLv;
         }
 
-        private void UpdateNewRpTxt()
+        private void UpdateNewLvTxt()
         {
-            _newRpTxt.text = _newRp.ToString();
+            _newLvTxt.text = _newLv.ToString();
         }
 
         public void MinBtn()
         {
-            _newRp = _curRp;
-            _usedRp = 0;
-            UpdateNewRpTxt();
+            _newLv = _curLv;
+            _usedLv = 0;
+            UpdateNewLvTxt();
         }
 
         public void MaxBtn()
         {
-            int availableRp = _leftRp - _usedRp; // 사용 가능한 남은 RP
-            int newRp = Mathf.Clamp(_newRp + availableRp, _curRp, _maxRp);
+            int availableRp = _leftLv - _usedLv; // 사용 가능한 남은 Lv
+            int newLv = Mathf.Clamp(_newLv + availableRp, _curLv, _maxLv);
 
-            _usedRp += newRp - _newRp; // 실제 사용한 값만큼 업데이트
-            _newRp = newRp;
+            _usedLv += newLv - _newLv; // 실제 사용한 값만큼 업데이트
+            _newLv = newLv;
 
-            UpdateNewRpTxt();
+            UpdateNewLvTxt();
         }
 
         public void UpBtn(int val)
         {
-            int availableRp = _leftRp - _usedRp;
+            int availableRp = _leftLv - _usedLv;
             if (val > availableRp)
                 val = availableRp;
 
-            int newRp = Mathf.Clamp(_newRp + val, _curRp, _maxRp);
-            _usedRp += newRp - _newRp;
-            _newRp = newRp;
-            UpdateNewRpTxt();
+            int newLv = Mathf.Clamp(_newLv + val, _curLv, _maxLv);
+            _usedLv += newLv - _newLv;
+            _newLv = newLv;
+            UpdateNewLvTxt();
         }
 
         public void DownBtn(int val)
         {
-            val = Mathf.Clamp(val, 0, _usedRp); // 반환할 수 있는 범위를 초과하지 않도록 보정
+            val = Mathf.Clamp(val, 0, _usedLv); // 반환할 수 있는 범위를 초과하지 않도록 보정
 
-            int newRp = Mathf.Clamp(_newRp - val, _curRp, _maxRp); // 최소 _curRp 유지
-            _usedRp -= _newRp - newRp; // 감소한 값만큼 _usedRp 복구
-            _newRp = newRp;
+            int newLv = Mathf.Clamp(_newLv - val, _curLv, _maxLv); // 최소 _curLv 유지
+            _usedLv -= _newLv - newLv; // 감소한 값만큼 _usedLv 복구
+            _newLv = newLv;
 
-            UpdateNewRpTxt();
+            UpdateNewLvTxt();
         }
 
-        public void SaveRp()
+        public void SaveLv()
         {
-            _skills[_skillIdx].CurLv = _newRp;
-            _skills[_skillIdx].SetRpTxt();
+            _skills[_skillIdx].CurLv = _newLv;
+            _skills[_skillIdx].SetLvTxt();
 
-            _leftRp -= _usedRp;
-            UpdateLeftRp();
+            _leftLv -= _usedLv;
+            UpdateLeftLv();
         }
 
-        private void UpdateLeftRp()
+        private void UpdateLeftLv()
         {
-            _leftRpTxt.text = $"{_leftRp} / 70";
+            _leftLvTxt.text = $"{_leftLv} / 70";
         }
     }
 }

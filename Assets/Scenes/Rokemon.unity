@@ -1069,7 +1069,7 @@ MonoBehaviour:
   MaxLv: 100
   _typeTxt: {fileID: 1924659464}
   _nameTxt: {fileID: 1083480961}
-  _lvTxt: {fileID: 0}
+  _lvTxt: {fileID: 445668705}
 --- !u!1 &240594296
 GameObject:
   m_ObjectHideFlags: 0
@@ -1219,7 +1219,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &270180714
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1262,9 +1262,9 @@ MonoBehaviour:
   _typeTxt: {fileID: 1567818351}
   _nameTxt: {fileID: 1711870788}
   _descTxt: {fileID: 1904776120}
-  _curRpTxt: {fileID: 1691156514}
-  _newRpTxt: {fileID: 913741911}
-  _leftRpTxt: {fileID: 583347671}
+  _curLvTxt: {fileID: 1691156514}
+  _newLvTxt: {fileID: 913741911}
+  _leftLvTxt: {fileID: 583347671}
 --- !u!1 &291106239
 GameObject:
   m_ObjectHideFlags: 0
@@ -1620,7 +1620,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RP
+  m_text: Lv
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c8cb25ccd1fe043408814de784fa425a, type: 2}
   m_sharedMaterial: {fileID: 8398014560776052167, guid: c8cb25ccd1fe043408814de784fa425a, type: 2}
@@ -2224,7 +2224,7 @@ GameObject:
   - component: {fileID: 583347672}
   - component: {fileID: 583347671}
   m_Layer: 5
-  m_Name: RpTxt
+  m_Name: LvTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3131,7 +3131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &701503816
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3888,7 +3888,7 @@ MonoBehaviour:
   MaxLv: 100
   _typeTxt: {fileID: 539913807}
   _nameTxt: {fileID: 770042270}
-  _lvTxt: {fileID: 0}
+  _lvTxt: {fileID: 37274149}
 --- !u!1 &870770140
 GameObject:
   m_ObjectHideFlags: 0
@@ -4112,7 +4112,7 @@ MonoBehaviour:
   MaxLv: 100
   _typeTxt: {fileID: 1829923902}
   _nameTxt: {fileID: 1739198560}
-  _lvTxt: {fileID: 0}
+  _lvTxt: {fileID: 1774966775}
 --- !u!1 &913741909
 GameObject:
   m_ObjectHideFlags: 0
@@ -4125,7 +4125,7 @@ GameObject:
   - component: {fileID: 913741912}
   - component: {fileID: 913741911}
   m_Layer: 5
-  m_Name: NewRP
+  m_Name: NewLv
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4578,7 +4578,7 @@ GameObject:
   - component: {fileID: 1050225879}
   - component: {fileID: 1050225878}
   m_Layer: 5
-  m_Name: LeftRp
+  m_Name: LeftLv
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5287,8 +5287,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1077370492}
   - {fileID: 2046319070}
+  - {fileID: 1077370492}
   m_Father: {fileID: 1835435534}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -7096,7 +7096,7 @@ GameObject:
   - component: {fileID: 1691156515}
   - component: {fileID: 1691156514}
   m_Layer: 5
-  m_Name: CurrentRP
+  m_Name: CurrentLv
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8692,7 +8692,7 @@ GameObject:
   - component: {fileID: 1966644061}
   - component: {fileID: 1966644060}
   m_Layer: 5
-  m_Name: Img
+  m_Name: LvImg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8912,7 +8912,7 @@ MonoBehaviour:
   MaxLv: 100
   _typeTxt: {fileID: 723999427}
   _nameTxt: {fileID: 613480842}
-  _lvTxt: {fileID: 0}
+  _lvTxt: {fileID: 16269734}
 --- !u!1 &2022703295
 GameObject:
   m_ObjectHideFlags: 0
@@ -9007,7 +9007,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 120 LV
+  m_text: 70 LV
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c8cb25ccd1fe043408814de784fa425a, type: 2}
   m_sharedMaterial: {fileID: 8398014560776052167, guid: c8cb25ccd1fe043408814de784fa425a, type: 2}
@@ -9170,7 +9170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2046319070}
   m_Layer: 5
-  m_Name: RP
+  m_Name: Lv
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

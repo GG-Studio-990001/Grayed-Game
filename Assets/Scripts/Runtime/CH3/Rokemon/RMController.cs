@@ -74,8 +74,7 @@ namespace Runtime.CH3.Rokemon
         public void SaveRpOkBtn()
         {
             _savePanel.SetActive(false);
-            // 저장 코드 추가
-            _assigner.SaveRp();
+            _assigner.SaveLv();
 
             if (_clickedSkill == -1 || _clickedSkill == _selectedSkill) // 할당창 끄기
             {

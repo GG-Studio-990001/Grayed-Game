@@ -21,7 +21,7 @@ namespace Runtime.CH3.Rokemon
             _nameTxt.text = Name;
         }
 
-        public void SetRpTxt()
+        public void SetLvTxt()
         {
             _lvTxt.text = $"{CurLv} / {MaxLv}";
         }
