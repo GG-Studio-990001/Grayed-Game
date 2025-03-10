@@ -44,24 +44,6 @@ public class CameraProduction : MonoBehaviour
         _uiCamera.cullingMask = LayerMask.GetMask("UI");
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            switch (_targetAspectRatio)
-            {
-                case AspectRatio.Ratio_8_7:
-                    _targetAspectRatio = AspectRatio.Ratio_21_9;
-                    SetAspectRatio(_targetAspectRatio);
-                    break;
-                case AspectRatio.Ratio_21_9:
-                    _targetAspectRatio = AspectRatio.Ratio_8_7;
-                    SetAspectRatio(_targetAspectRatio);
-                    break;
-            }
-        }
-    }
-
     private void InitializeRenderTexture()
     {
         // 기존 렌더 텍스처가 있다면 제거
