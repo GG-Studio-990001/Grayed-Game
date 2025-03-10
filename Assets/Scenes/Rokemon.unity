@@ -4562,6 +4562,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _assigner: {fileID: 270180715}
+  _skills:
+  - {fileID: 2014869433}
+  - {fileID: 827147109}
+  - {fileID: 900140078}
+  - {fileID: 224459338}
   _profilePage: {fileID: 701503815}
   _assignPage: {fileID: 270180713}
   _savePanel: {fileID: 1548373236}

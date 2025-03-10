@@ -5,6 +5,7 @@ namespace Runtime.CH3.Rokemon
     public class RMController : MonoBehaviour
     {
         [SerializeField] private Assigner _assigner;
+        [SerializeField] private Skill[] _skills = new Skill[4];
         [SerializeField] private GameObject _profilePage;
         [SerializeField] private GameObject _assignPage;
         [SerializeField] private GameObject _savePanel;
@@ -22,6 +23,7 @@ namespace Runtime.CH3.Rokemon
             if (_selectedSkill == -1 && idx != -1) // 할당창 활성화
             {
                 _selectedSkill = idx;
+                _skills[_selectedSkill].SkillSelected(true);
                 _profilePage.SetActive(false);
                 _assignPage.SetActive(true);
                 _assigner.UpdateAssignPage(_selectedSkill);
@@ -43,24 +45,14 @@ namespace Runtime.CH3.Rokemon
             }
             else
             {
-                // 변동이 없을 경우
-                if (_clickedSkill == -1 || _clickedSkill == _selectedSkill) // 그냥 할당창 끄기
-                {
-                    _selectedSkill = -1;
-                    _profilePage.SetActive(true);
-                    _assignPage.SetActive(false);
-                }
-                else // 할당창 새로고침
-                {
-                    _selectedSkill = _clickedSkill;
-                    _assigner.UpdateAssignPage(_clickedSkill);
-                }
+                UpdateAssignPage();
             }
         }
 
         public void CloseAssignPage()
         {
             // 변동이 있어도 무시
+            _skills[_selectedSkill].SkillSelected(false);
             _selectedSkill = -1;
             _profilePage.SetActive(true);
             _assignPage.SetActive(false);
@@ -76,15 +68,23 @@ namespace Runtime.CH3.Rokemon
             _savePanel.SetActive(false);
             _assigner.SaveLv();
 
+            UpdateAssignPage();
+        }
+
+        private void UpdateAssignPage()
+        {
             if (_clickedSkill == -1 || _clickedSkill == _selectedSkill) // 할당창 끄기
             {
+                _skills[_selectedSkill].SkillSelected(false);
                 _selectedSkill = -1;
                 _profilePage.SetActive(true);
                 _assignPage.SetActive(false);
             }
             else // 할당창 새로고침
             {
+                _skills[_selectedSkill].SkillSelected(false);
                 _selectedSkill = _clickedSkill;
+                _skills[_selectedSkill].SkillSelected(true);
                 _assigner.UpdateAssignPage(_clickedSkill);
             }
         }
