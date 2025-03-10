@@ -11,6 +11,12 @@ namespace Runtime.CH3.Rokemon
         private int _selectedSkill = -1; // 0부터 3까지, 프로필은 -1
         private int _clickedSkill = -1; // 0부터 3까지, 프로필은 -1
 
+        private void Start()
+        {
+            _profilePage.SetActive(true);
+            _assignPage.SetActive(false);
+        }
+
         public void SkillBtnToggle(int idx)
         {
             if (_selectedSkill == -1 && idx != -1) // 할당창 활성화

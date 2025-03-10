@@ -25,11 +25,11 @@ namespace Runtime.CH3.Rokemon
             _typeTxt.text = _skills[_skillIdx].Type;
             _nameTxt.text = _skills[_skillIdx].Name;
             _descTxt.text = _skills[_skillIdx].Desc;
-            _curRpTxt.text = _skills[_skillIdx].CurRp.ToString();
+            _curRpTxt.text = _skills[_skillIdx].CurLv.ToString();
 
-            _curRp = _skills[_skillIdx].CurRp;
-            _newRp = _skills[_skillIdx].CurRp;
-            _maxRp = _skills[_skillIdx].MaxRp;
+            _curRp = _skills[_skillIdx].CurLv;
+            _newRp = _skills[_skillIdx].CurLv;
+            _maxRp = _skills[_skillIdx].MaxLv;
             UpdateNewRpTxt();
 
             _usedRp = 0;
@@ -88,7 +88,7 @@ namespace Runtime.CH3.Rokemon
 
         public void SaveRp()
         {
-            _skills[_skillIdx].CurRp = _newRp;
+            _skills[_skillIdx].CurLv = _newRp;
             _skills[_skillIdx].SetRpTxt();
 
             _leftRp -= _usedRp;
