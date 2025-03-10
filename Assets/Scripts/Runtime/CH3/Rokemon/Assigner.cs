@@ -35,6 +35,7 @@ namespace Runtime.CH3.Rokemon
             _usedLv = 0;
         }
 
+        #region Lv 할당 확인 및 텍스트 업데이트
         public bool HasChanged()
         {
             return _newLv != _curLv;
@@ -44,7 +45,9 @@ namespace Runtime.CH3.Rokemon
         {
             _newLvTxt.text = _newLv.ToString();
         }
+        #endregion
 
+        #region Lv 할당(조절) 버튼
         public void MinBtn()
         {
             _newLv = _curLv;
@@ -85,7 +88,9 @@ namespace Runtime.CH3.Rokemon
 
             UpdateNewLvTxt();
         }
+        #endregion
 
+        #region Lv 저장
         public void SaveLv()
         {
             _skills[_skillIdx].CurLv = _newLv;
@@ -94,10 +99,13 @@ namespace Runtime.CH3.Rokemon
             _leftLv -= _usedLv;
             UpdateLeftLv();
         }
+        #endregion
 
+        #region 잔여 Lv 업데이트
         private void UpdateLeftLv()
         {
             _leftLvTxt.text = $"{_leftLv} / 70";
         }
+        #endregion
     }
 }

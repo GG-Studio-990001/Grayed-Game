@@ -18,6 +18,7 @@ namespace Runtime.CH3.Rokemon
             _assignPage.SetActive(false);
         }
 
+        #region 스킬창 클릭
         public void SkillBtnToggle(int idx)
         {
             if (_selectedSkill == -1 && idx != -1) // 할당창 활성화
@@ -34,7 +35,7 @@ namespace Runtime.CH3.Rokemon
             }
         }
 
-        private void ChangeTab(int idx) // 프로필 활성화 또는 어사인 새로고침
+        private void ChangeTab(int idx) // 프로필창 활성화 또는 할당창 새로고침
         {
             _clickedSkill = idx;
 
@@ -47,28 +48,6 @@ namespace Runtime.CH3.Rokemon
             {
                 UpdateAssignPage();
             }
-        }
-
-        public void CloseAssignPage()
-        {
-            // 변동이 있어도 무시
-            _skills[_selectedSkill].SkillSelected(false);
-            _selectedSkill = -1;
-            _profilePage.SetActive(true);
-            _assignPage.SetActive(false);
-        }
-
-        public void CloseAndSaveAssignPage()
-        {
-            ChangeTab(-1);
-        }
-
-        public void SaveRpOkBtn()
-        {
-            _savePanel.SetActive(false);
-            _assigner.SaveLv();
-
-            UpdateAssignPage();
         }
 
         private void UpdateAssignPage()
@@ -88,10 +67,37 @@ namespace Runtime.CH3.Rokemon
                 _assigner.UpdateAssignPage(_clickedSkill);
             }
         }
+        #endregion
+
+        #region 할당 페이지의 닫기/확인 버튼
+        public void CloseAssignPage()
+        {
+            // 변동이 있어도 무시
+            _skills[_selectedSkill].SkillSelected(false);
+            _selectedSkill = -1;
+            _profilePage.SetActive(true);
+            _assignPage.SetActive(false);
+        }
+
+        public void CloseAndSaveAssignPage()
+        {
+            ChangeTab(-1);
+        }
+        #endregion
+
+        #region 저장패널의 취소/확인 버튼
+        public void SaveRpOkBtn()
+        {
+            _savePanel.SetActive(false);
+            _assigner.SaveLv();
+
+            UpdateAssignPage();
+        }
 
         public void SaveRpCancelBtn()
         {
             _savePanel.SetActive(false);
         }
+        #endregion
     }
 }
