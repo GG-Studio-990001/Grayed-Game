@@ -111,8 +111,8 @@ public class BuildingDetailViewWindow : MonoBehaviour
             return;
         }
 
-        int _wood = Managers.Data.CH1.SLGWoodCount;
-        int _stone = Managers.Data.CH1.SLGStoneCount;
+        int _wood = Managers.Data.Common.Wood;
+        int _stone = Managers.Data.Common.Stone;
 
         Vector2 _targetAssetCost = _currentDisplayBuilding.GetBuildingData().GetReqAsset();
         if (woodText != null)
@@ -147,8 +147,8 @@ public class BuildingDetailViewWindow : MonoBehaviour
             CloseWindow();
         }
 
-        coinCostText.text = Managers.Data.CH1.PacmomCoin.ToString() + "/" + _currentDisplayBuilding.GetBuildingData().GetReqCoin().ToString();
-        coinCostText.color = Managers.Data.CH1.PacmomCoin < _currentDisplayBuilding.GetBuildingData().GetReqCoin() ? Color.red : Color.blue;
+        coinCostText.text = Managers.Data.Common.Coin.ToString() + "/" + _currentDisplayBuilding.GetBuildingData().GetReqCoin().ToString();
+        coinCostText.color = Managers.Data.Common.Coin < _currentDisplayBuilding.GetBuildingData().GetReqCoin() ? Color.red : Color.blue;
     }
 
     private void OnClickCloseButton()

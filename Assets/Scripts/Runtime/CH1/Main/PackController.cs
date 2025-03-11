@@ -31,15 +31,15 @@ namespace Runtime.CH1.Main
 
         public void BuyTranslator()
         {
-            if (Managers.Data.CH1.PacmomCoin < 10)
+            if (Managers.Data.Common.Coin < 10)
                 return;
 
-            Managers.Data.CH1.PacmomCoin -= 10;
+            Managers.Data.Common.Coin -= 10;
             _slg.RefreshCoinText();
 
             _runner.Stop();
             _runner.StartDialogue("TranslatorPack");
-            Managers.Data.CH1.TranslatorCount = 1;
+            Managers.Data.Common.Translator = 1;
 
             EquipTranslator();
 
