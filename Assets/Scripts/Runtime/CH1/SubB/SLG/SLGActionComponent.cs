@@ -267,9 +267,9 @@ public class SLGActionComponent : MonoBehaviour
                 _stone -= (int)_targetBuilding.GetBuildingData().GetReqAsset().y;
                 break;
             case SLGBuildingProgress.PlayCutScene:
-                if (Managers.Data.CH1.PacmomCoin >= _targetBuilding.GetBuildingData().GetReqCoin())
+                if (Managers.Data.Common.Coin >= _targetBuilding.GetBuildingData().GetReqCoin())
                 {
-                    Managers.Data.CH1.PacmomCoin -= _targetBuilding.GetBuildingData().GetReqCoin();
+                    Managers.Data.Common.Coin -= _targetBuilding.GetBuildingData().GetReqCoin();
                 }
                 PlayCutScene(InType);
                 break;
@@ -441,14 +441,14 @@ public class SLGActionComponent : MonoBehaviour
     private void InitSLGData()
     {
         _SLGProgressInfo = Managers.Data.CH1.SLGProgressData;
-        _wood = Managers.Data.CH1.SLGWoodCount;
-        _stone = Managers.Data.CH1.SLGStoneCount;
+        _wood = Managers.Data.Common.Wood;
+        _stone = Managers.Data.Common.Stone;
     }
     private void WriteSLGData()
     {
         Managers.Data.CH1.SLGProgressData = _SLGProgressInfo;
-        Managers.Data.CH1.SLGWoodCount = _wood;
-        Managers.Data.CH1.SLGStoneCount = _stone;
+        Managers.Data.Common.Wood = _wood;
+        Managers.Data.Common.Stone = _stone;
 
         foreach (SLGBuildingObject _building in _SLGBuildingObjects)
         {
@@ -515,7 +515,7 @@ public class SLGActionComponent : MonoBehaviour
             return false;
         }
 
-        int _currentCount = Managers.Data.CH1.PacmomCoin;
+        int _currentCount = Managers.Data.Common.Coin;
         SLGBuildingObject _building = _SLGBuildingObjects[(int)InType];
         if(_building == null)
         {
@@ -609,7 +609,7 @@ public class SLGActionComponent : MonoBehaviour
     {
         if (UI_CoinText != null)
         {
-            UI_CoinText.text = Managers.Data.CH1.PacmomCoin.ToString();
+            UI_CoinText.text = Managers.Data.Common.Coin.ToString();
         }
     }
 

@@ -32,7 +32,7 @@ namespace Runtime.CH1.Pacmom
         private void GetRewardCoin(int finalScore)
         {
             _resultCoinTxt.text = "x" + finalScore.ToString();
-            Managers.Data.CH1.PacmomCoin += finalScore;
+            Managers.Data.Common.Coin += finalScore;
         }
 
         public void PacmomWin()

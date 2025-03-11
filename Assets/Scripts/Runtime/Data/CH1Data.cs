@@ -19,15 +19,10 @@ namespace Runtime.Data
         // Pacmom
         public bool IsPacmomPlayed;
         public bool IsPacmomCleared;
-        public int PacmomCoin;
         // SLG
         public long[] SLGConstructionBeginTime;
         public SLGProgress SLGProgressData;
         public SLGBuildingProgress[] SLGBuildingProgressData;
-        public int SLGWoodCount;
-        public int SLGStoneCount;
-        // Else
-        public int TranslatorCount;
 
         public CH1Data()
         {
@@ -48,15 +43,10 @@ namespace Runtime.Data
             // Pacmom
             IsPacmomPlayed = false;
             IsPacmomCleared = false;
-            PacmomCoin = 0;
             // SLG
             SLGProgressData = SLGProgress.None;
-            SLGWoodCount = 0;
-            SLGStoneCount = 0;
             SLGConstructionBeginTime = new long[(int)SLGBuildingType.Max];
             SLGBuildingProgressData = new SLGBuildingProgress[(int)SLGBuildingType.Max];
-            // Else
-            TranslatorCount = 0;
         }
     }
 }

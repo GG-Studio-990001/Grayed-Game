@@ -71,7 +71,7 @@ public class SLGBuildingObject
             case SLGBuildingType.DollarStatue:
                 return BuildingState.Impossible;
         }
-        if (_buildingData.GetReqAsset().x <= Managers.Data.CH1.SLGWoodCount && _buildingData.GetReqAsset().y <= Managers.Data.CH1.SLGStoneCount)
+        if (_buildingData.GetReqAsset().x <= Managers.Data.Common.Wood && _buildingData.GetReqAsset().y <= Managers.Data.Common.Stone)
         {
             return BuildingState.Able;
         }

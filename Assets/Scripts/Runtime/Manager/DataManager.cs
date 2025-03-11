@@ -2,7 +2,6 @@ using Runtime.Input;
 using System;
 using UnityEngine;
 using Runtime.Data;
-using SLGDefines;
 
 namespace Runtime.Manager
 {
@@ -14,6 +13,7 @@ namespace Runtime.Manager
         public float BgmVolume;
         public float SfxVolume;
         public bool isFullScreen;
+        public CommonData Common;
         public CH1Data CH1;
         public CH2Data CH2;
 
@@ -24,6 +24,7 @@ namespace Runtime.Manager
             BgmVolume = 0.5f;
             SfxVolume = 0.5f;
             isFullScreen = true;
+            Common = new CommonData();
             CH1 = new CH1Data();
             CH2 = new CH2Data();
         }
@@ -68,6 +69,8 @@ namespace Runtime.Manager
             get { return _gameData.isFullScreen; }
             set { _gameData.isFullScreen = value; }
         }
+
+        public CommonData Common { get { return _gameData.Common; } set { _gameData.Common = value; } }
 
         public CH1Data CH1 { get { return _gameData.CH1; } set { _gameData.CH1 = value; } }
 
