@@ -3808,10 +3808,6 @@ PrefabInstance:
       propertyPath: m_RenderMode
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5773120352809373291, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
-      propertyPath: m_SortingOrder
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 6605949779606295980, guid: 8791e0e7477d6684f830b32feb216504, type: 3}
       propertyPath: m_IsActive
       value: 1
