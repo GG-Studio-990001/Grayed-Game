@@ -28,13 +28,10 @@ X (구 트위터): https://x.com/GrayedGame
 | [정우연](https://github.com/wooyn730) | PM, 프로그래머 | 23-09 ~ |
 | [이시원](https://github.com/NearthYou) | 프로그래머 | 24-10 ~ |
 | [한수빈](https://github.com/roweclaw) | 기획 | 24-03 ~ |
-| [지수민](https://github.com/Sumindd) | 기획 | 24-03 ~ |
 | [이동호](https://github.com/CreatorLDH) | 기획 | 23-09 ~ 24-02 .. 25-02 ~ |
 | [송기화](https://github.com/Songkihwa) | 사운드 | 23-09 ~ |
-| [김지은](https://github.com/JIJI037) | 아트 | 24-08 ~ |
 | [서주미](https://github.com/seojumi) | 아트 | 25-02 ~ |
 | [이성연](https://github.com/4t4n) | 아트 | 25-02 ~ |
-
 
 <details><summary>명예의 전당</summary>
 <p>
@@ -46,6 +43,8 @@ X (구 트위터): https://x.com/GrayedGame
 | [유이우](https://github.com/gomgom172) | 아트 | 24-03 ~ 24-08 |
 | [김보민](https://github.com/vprwolf) | 아트 | 24-08 ~ 24-12 |
 | [남현정](https://github.com/jeongopo) | 프로그래머 | 24-03 ~ 24-12 |
+| [지수민](https://github.com/Sumindd) | 기획 | 24-03 ~ 25-03 |
+| [김지은](https://github.com/JIJI037) | 아트 | 24-08 ~ 25-03 |
 
 </p>
 </details> 
