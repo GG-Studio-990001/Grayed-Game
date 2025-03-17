@@ -1,14 +1,20 @@
+using System;
 using UnityEngine;
+using Yarn.Unity;
 
 namespace Runtime.CH3.Rokemon
 {
     public class RMController : MonoBehaviour
     {
+        [SerializeField] private RMDialogue _rMDialogue;
         [SerializeField] private Assigner _assigner;
-        [SerializeField] private Skill[] _skills = new Skill[4];
+        [SerializeField] private Skill[] _curSkills = new Skill[4];
+        [SerializeField] private Skill[] _skills = new Skill[7];
         [SerializeField] private GameObject _profilePage;
         [SerializeField] private GameObject _assignPage;
         [SerializeField] private GameObject _savePanel;
+        private bool _isRemoveMode = false;
+        private int _addIdx = 0;
         private int _selectedSkill = -1; // 0부터 3까지, 프로필은 -1
         private int _clickedSkill = -1; // 0부터 3까지, 프로필은 -1
 
@@ -19,12 +25,48 @@ namespace Runtime.CH3.Rokemon
         }
 
         #region 스킬창 클릭
-        public void SkillBtnToggle(int idx)
+        public void SkillBtnClked(int idx)
+        {
+            if (_isRemoveMode)
+            {
+                RemoveSkill(idx);
+                return;
+            }
+            
+            SkillBtnToggle(idx);
+        }
+
+        private void RemoveSkill(int idx)
+        {
+            // 제거
+            _curSkills[idx].gameObject.SetActive(false);
+
+            // 추가
+            _skills[_addIdx].gameObject.SetActive(true);
+            // _curSkills[idx] = _skills[_addIdx];
+
+            // 초기화
+            _rMDialogue.StartNextDialogue(_addIdx);
+        }
+
+        public void SetRemoveInfo(int idx)
+        {
+            _isRemoveMode = true;
+            _addIdx = idx;
+        }
+
+        public void ResetRemoveInfo()
+        {
+            _isRemoveMode = false;
+            _addIdx = 0;
+        }
+
+        private void SkillBtnToggle(int idx)
         {
             if (_selectedSkill == -1 && idx != -1) // 할당창 활성화
             {
                 _selectedSkill = idx;
-                _skills[_selectedSkill].SkillSelected(true);
+                _curSkills[_selectedSkill].SkillSelected(true);
                 _profilePage.SetActive(false);
                 _assignPage.SetActive(true);
                 _assigner.UpdateAssignPage(_selectedSkill);
@@ -54,16 +96,16 @@ namespace Runtime.CH3.Rokemon
         {
             if (_clickedSkill == -1 || _clickedSkill == _selectedSkill) // 할당창 끄기
             {
-                _skills[_selectedSkill].SkillSelected(false);
+                _curSkills[_selectedSkill].SkillSelected(false);
                 _selectedSkill = -1;
                 _profilePage.SetActive(true);
                 _assignPage.SetActive(false);
             }
             else // 할당창 새로고침
             {
-                _skills[_selectedSkill].SkillSelected(false);
+                _curSkills[_selectedSkill].SkillSelected(false);
                 _selectedSkill = _clickedSkill;
-                _skills[_selectedSkill].SkillSelected(true);
+                _curSkills[_selectedSkill].SkillSelected(true);
                 _assigner.UpdateAssignPage(_clickedSkill);
             }
         }
@@ -73,7 +115,7 @@ namespace Runtime.CH3.Rokemon
         public void CloseAssignPage()
         {
             // 변동이 있어도 무시
-            _skills[_selectedSkill].SkillSelected(false);
+            _curSkills[_selectedSkill].SkillSelected(false);
             _selectedSkill = -1;
             _profilePage.SetActive(true);
             _assignPage.SetActive(false);

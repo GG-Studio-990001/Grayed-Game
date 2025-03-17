@@ -8,11 +8,41 @@ namespace Runtime.CH3.Rokemon
         [Header("=Script=")]
         [SerializeField] private DialogueRunner _runner;
         [Header("=Else=")]
-        [SerializeField] private LineView _lineView;
+        //[SerializeField] private LineView _lineView;
+        [SerializeField] private RMController _rMController;
+        [SerializeField] private GameObject _profileBlock;
 
         private void Awake()
         {
-            // _runner.AddCommandHandler("", );
+            _runner.AddCommandHandler<int>("ChooseSkillToForget", ChooseSkillToForget);
+        }
+
+        private void ChooseSkillToForget(int idx)
+        {
+            _rMController.SetRemoveInfo(idx);
+            _profileBlock.SetActive(true);
+        }
+
+        public void StartNextDialogue(int idx)
+        {
+            switch (idx)
+            {
+                case 4:
+                    _runner.StartDialogue("Charm2");
+                    break;
+                case 5:
+                    // _runner.StartDialogue("Charm2");
+                    break;
+                case 6:
+                    // _runner.StartDialogue("Charm2");
+                    break;
+                default:
+                    Debug.LogError($"{idx} => Invalid Idx");
+                    break;
+            }
+
+            _profileBlock.SetActive(false);
+            _rMController.ResetRemoveInfo();
         }
     }
 }
