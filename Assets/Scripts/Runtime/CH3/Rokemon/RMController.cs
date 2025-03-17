@@ -1,6 +1,5 @@
-using System;
 using UnityEngine;
-using Yarn.Unity;
+using UnityEngine.UI;
 
 namespace Runtime.CH3.Rokemon
 {
@@ -20,8 +19,34 @@ namespace Runtime.CH3.Rokemon
 
         private void Start()
         {
+            SetCurSkills();
+
             _profilePage.SetActive(true);
             _assignPage.SetActive(false);
+        }
+
+        private void SetCurSkills()
+        {
+            Debug.Log("버튼 새로 세팅");
+            int active = 0;
+
+            for (int i = 0; i < _skills.Length; i++)
+            {
+                if (_skills[i].gameObject.activeSelf)
+                {
+                    _curSkills[active] = _skills[i];
+
+                    // 버튼 컴포넌트 가져오기
+                    if (_skills[i].TryGetComponent<Button>(out var btn))
+                    {
+                        btn.onClick.RemoveAllListeners();
+                        int idx = active; // 람다 캡처 방지
+                        btn.onClick.AddListener(() => SkillBtnClked(idx));
+                    }
+
+                    active++;
+                }
+            }
         }
 
         #region 스킬창 클릭
@@ -43,10 +68,12 @@ namespace Runtime.CH3.Rokemon
 
             // 추가
             _skills[_addIdx].gameObject.SetActive(true);
-            // _curSkills[idx] = _skills[_addIdx];
 
             // 초기화
             _rMDialogue.StartNextDialogue(_addIdx);
+
+            // 세팅
+            SetCurSkills();
         }
 
         public void SetRemoveInfo(int idx)
@@ -69,7 +96,7 @@ namespace Runtime.CH3.Rokemon
                 _curSkills[_selectedSkill].SkillSelected(true);
                 _profilePage.SetActive(false);
                 _assignPage.SetActive(true);
-                _assigner.UpdateAssignPage(_selectedSkill);
+                _assigner.UpdateAssignPage(_curSkills[_selectedSkill]);
             }
             else // 할당창 활성화 중 스킬 버튼을 눌렀다면
             {
@@ -106,7 +133,7 @@ namespace Runtime.CH3.Rokemon
                 _curSkills[_selectedSkill].SkillSelected(false);
                 _selectedSkill = _clickedSkill;
                 _curSkills[_selectedSkill].SkillSelected(true);
-                _assigner.UpdateAssignPage(_clickedSkill);
+                _assigner.UpdateAssignPage(_curSkills[_selectedSkill]);
             }
         }
         #endregion
