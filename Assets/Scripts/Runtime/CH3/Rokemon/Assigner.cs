@@ -7,7 +7,6 @@ namespace Runtime.CH3.Rokemon
     public class Assigner : MonoBehaviour
     {
         [Header("==스킬==")]
-        [SerializeField] private Skill[] _skills;
         [SerializeField] private TextMeshProUGUI _typeTxt;
         [SerializeField] private TextMeshProUGUI _nameTxt;
         [SerializeField] private TextMeshProUGUI _descTxt;
@@ -17,7 +16,7 @@ namespace Runtime.CH3.Rokemon
         [Header("==그 외==")]
         [SerializeField] private DialogueRunner _dialogueRunner;
         [SerializeField] private TextMeshProUGUI _leftLvTxt; // 잔여 Lv
-        private int _skillIdx;
+        private Skill _curSkill;
         private int _curLv;
         private int _tmpLv;
         private int _maxLv;
@@ -25,17 +24,18 @@ namespace Runtime.CH3.Rokemon
         private int _usedLv = 0;
         private int _totalUsedLv = 0; // 지금까지 사용한 Lv 합 (습득 조건 위함)
 
-        public void UpdateAssignPage(int idx)
+        public void UpdateAssignPage(Skill skill)
         {
-            _skillIdx = idx;
-            _typeTxt.text = _skills[_skillIdx].Type;
-            _nameTxt.text = _skills[_skillIdx].Name;
-            _descTxt.text = _skills[_skillIdx].Desc;
-            _curLvTxt.text = _skills[_skillIdx].CurLv.ToString();
+            // _skillIdx = idx;
+            _curSkill = skill;
+            _typeTxt.text = _curSkill.Type;
+            _nameTxt.text = _curSkill.Name;
+            _descTxt.text = _curSkill.Desc;
+            _curLvTxt.text = _curSkill.CurLv.ToString();
 
-            _curLv = _skills[_skillIdx].CurLv;
-            _tmpLv = _skills[_skillIdx].CurLv;
-            _maxLv = _skills[_skillIdx].MaxLv;
+            _curLv = _curSkill.CurLv;
+            _tmpLv = _curSkill.CurLv;
+            _maxLv = _curSkill.MaxLv;
             UpdateTmpLvTxt();
 
             _usedLv = 0;
@@ -99,8 +99,8 @@ namespace Runtime.CH3.Rokemon
         #region Lv 저장
         public void SaveLv()
         {
-            _skills[_skillIdx].CurLv = _tmpLv;
-            _skills[_skillIdx].SetLvTxt();
+            _curSkill.CurLv = _tmpLv;
+            _curSkill.SetLvTxt();
 
             UpdateTotalUsedLv(_usedLv);
             UpdateLeftLv(_usedLv);

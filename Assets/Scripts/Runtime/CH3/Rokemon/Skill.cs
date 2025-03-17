@@ -6,6 +6,7 @@ namespace Runtime.CH3.Rokemon
 {
     public class Skill : MonoBehaviour
     {
+        public int idx;
         public string Type;
         public string Name;
         [TextArea(3, 5)]
