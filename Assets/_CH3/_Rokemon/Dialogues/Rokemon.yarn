@@ -1,6 +1,8 @@
 ﻿title: Charm
 // 매력 스킬 습득
 ---
+<<declare $DeletedSkill = 100>>
+
 라플리는 새로 어설픈 흉내 내기를 배우고 싶다...
 그러나 라플리는 기술을 4개 알고 있으므로 더 이상 배울 수 없다!
 어설픈 흉내 내기 대신 다른 기술을 잊게 하겠습니까?
@@ -15,7 +17,21 @@ title: Charm2
 // 매력 스킬 습득
 ---
 1, 2......짠
-라플리는 (이전 스킬)를 깨끗이 잊었다!
+<<if $DeletedSkill is 0>>
+    라플리는 단단해진 척하기를 깨끗이 잊었다!
+<<elseif $DeletedSkill is 1>>
+    라플리는 머리 박치기를 깨끗이 잊었다!
+<<elseif $DeletedSkill is 2>>
+    라플리는 낮잠 자기를 깨끗이 잊었다!
+<<elseif $DeletedSkill is 3>>
+    라플리는 와장창 광선를 깨끗이 잊었다!
+<<elseif $DeletedSkill is 4>>
+    라플리는 어설픈 흉내 내기를 깨끗이 잊었다!
+<<elseif $DeletedSkill is 5>>
+    라플리는 쳐다보기를 깨끗이 잊었다!
+<<else>>
+    라플리는 발가락 흔들기를 깨끗이 잊었다!
+<<endif>>
 그리고...!
 라플리는 어설픈 흉내 내기를 배웠다!
 ===
