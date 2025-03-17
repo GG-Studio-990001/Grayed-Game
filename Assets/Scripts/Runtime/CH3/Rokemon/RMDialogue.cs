@@ -23,26 +23,12 @@ namespace Runtime.CH3.Rokemon
             _profileBlock.SetActive(true);
         }
 
-        public void StartNextDialogue(int delete, int add)
+        public void StartNextDialogue(string oldSkill, string newSkill)
         {
-            _runner.VariableStorage.SetValue("$DeletedSkill", delete);
-            Debug.Log($"DeletedSkill을 {delete}로 설정");
-
-            switch (add)
-            {
-                case 4:
-                    _runner.StartDialogue("Charm2");
-                    break;
-                case 5:
-                    // _runner.StartDialogue("Charm2");
-                    break;
-                case 6:
-                    // _runner.StartDialogue("Charm2");
-                    break;
-                default:
-                    Debug.LogError($"{add} => Invalid Idx");
-                    break;
-            }
+            _runner.VariableStorage.SetValue("$DeletedSkill", oldSkill);
+            _runner.VariableStorage.SetValue("$NewSkill", newSkill);
+            
+            _runner.StartDialogue("GetNewSkill");
 
             _profileBlock.SetActive(false);
             _rMController.ResetRemoveInfo();

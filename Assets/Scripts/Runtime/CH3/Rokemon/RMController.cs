@@ -70,7 +70,7 @@ namespace Runtime.CH3.Rokemon
             _skills[_addIdx].gameObject.SetActive(true);
 
             // 초기화
-            _rMDialogue.StartNextDialogue(_curSkills[idx].idx, _addIdx);
+            _rMDialogue.StartNextDialogue(_curSkills[idx].Name, _skills[_addIdx].Name);
 
             // 세팅
             SetCurSkills();
