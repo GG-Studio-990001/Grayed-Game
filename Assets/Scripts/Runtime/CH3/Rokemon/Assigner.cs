@@ -1,11 +1,12 @@
 using TMPro;
 using UnityEngine;
-using Yarn.Unity;
 
 namespace Runtime.CH3.Rokemon
 {
     public class Assigner : MonoBehaviour
     {
+        [Header("==스크립트==")]
+        [SerializeField] private RMDialogue _rMDialogue;
         [Header("==스킬==")]
         [SerializeField] private TextMeshProUGUI _typeTxt;
         [SerializeField] private TextMeshProUGUI _nameTxt;
@@ -13,23 +14,38 @@ namespace Runtime.CH3.Rokemon
         [Header("==할당==")]
         [SerializeField] private TextMeshProUGUI _curLvTxt; // 기존 Lv
         [SerializeField] private TextMeshProUGUI _tmpLvTxt; // 변경중인 임시 Lv
-        [Header("==그 외==")]
-        [SerializeField] private DialogueRunner _dialogueRunner;
-        [SerializeField] private TextMeshProUGUI _leftLvTxt; // 잔여 Lv
+        [Header("==Lv==")]
+        [SerializeField] private TextMeshProUGUI _leftLvTxt;
+        [SerializeField] private TextMeshProUGUI _leftMaxLvTxt;
+        [SerializeField] private int _leftLv = 10;
+        [SerializeField] int _totalUsedLv = 0; // 지금까지 사용한 Lv 합 (습득 조건 위함)
         private Skill _curSkill;
         private int _curLv;
         private int _tmpLv;
         private int _maxLv;
-        private int _leftLv = 40;
         private int _usedLv = 0;
-        private int _totalUsedLv = 0; // 지금까지 사용한 Lv 합 (습득 조건 위함)
+        private readonly int _totalMaxLv = 120; // 라플리가 가질 수 있는 Lv 한도
+
+        private void Start()
+        {
+            UpdateLeftLvTxt();
+        }
+
+        private void UpdateLeftLvTxt()
+        {
+            int leftMaxLv = _totalMaxLv - 30 - _totalUsedLv;
+            _leftLv = Mathf.Clamp(_leftLv, 0, leftMaxLv);
+
+            _leftLvTxt.text = _leftLv.ToString();
+            _leftMaxLvTxt.text = "/ " + leftMaxLv.ToString(); // 30 = 초기 할당 값
+        }
 
         public void UpdateAssignPage(Skill skill)
         {
             // _skillIdx = idx;
             _curSkill = skill;
             _typeTxt.text = _curSkill.Type;
-            _nameTxt.text = _curSkill.Name;
+            _nameTxt.text = _curSkill.SkillName;
             _descTxt.text = _curSkill.Desc;
             _curLvTxt.text = _curSkill.CurLv.ToString();
 
@@ -49,6 +65,7 @@ namespace Runtime.CH3.Rokemon
 
         private void UpdateTmpLvTxt() // 임시로 할당한 Lv 값 (아직 저장 X)
         {
+            _leftLvTxt.text = (_leftLv - _tmpLv + _curLv).ToString();
             _tmpLvTxt.text = _tmpLv.ToString();
         }
         #endregion
@@ -99,11 +116,17 @@ namespace Runtime.CH3.Rokemon
         #region Lv 저장
         public void SaveLv()
         {
+            int lastLv = _curSkill.CurLv;
             _curSkill.CurLv = _tmpLv;
             _curSkill.SetLvTxt();
 
             UpdateTotalUsedLv(_usedLv);
-            UpdateLeftLv(_usedLv);
+
+            // 원래 마력 30 찍는 게 조건인데 매력 스킬과 동시에 습득 가능성이 있음, 임시 변형
+            //if (_curSkill.idx == 3 && lastLv < 70 && _curSkill.CurLv >= 70) // 마력 스킬 습득
+            //{
+            //    _rMDialogue.NewSkillDialogue(5);
+            //}
         }
         #endregion
 
@@ -114,22 +137,26 @@ namespace Runtime.CH3.Rokemon
             Debug.Log($"lastUsedLv = {lastUsedLv}");
             Debug.Log($"_totalUsedLv = {_totalUsedLv}");
 
-            if (lastUsedLv < 30 && _totalUsedLv >= 30) // 매력 스킬 습득 조건 달성
+            if (lastUsedLv < 30 && _totalUsedLv >= 30) // 매력 스킬 습득
             {
-                Debug.Log("조건 달성");
-                _dialogueRunner.StartDialogue("Charm");
+                _rMDialogue.NewSkillDialogue(4);
             }
+            else if (lastUsedLv < 45 && _totalUsedLv >= 45) // 마력 스킬 습득
+            {
+                _rMDialogue.NewSkillDialogue(5);
+            }
+            else if (lastUsedLv < 60 && _totalUsedLv >= 60) // 행운 스킬 습득
+            {
+                _rMDialogue.NewSkillDialogue(6);
+            }
+
+            UpdateLeftLvTxt();
         }
 
-        private void UpdateLeftLv(int used)
+        public void RevertLeftLv()
         {
-            _leftLv -= used;
-            _leftLvTxt.text = $"{_leftLv} / 70";
-        }
-
-        private void RevertLeftLv()
-        {
-            // TODO: 잔여를 실시간으로 변경, 저장하지 않으면 복구 가능하도록 짜야함
+            Debug.Log("복구햇");
+            _leftLvTxt.text = _leftLv.ToString();
         }
     }
 }
