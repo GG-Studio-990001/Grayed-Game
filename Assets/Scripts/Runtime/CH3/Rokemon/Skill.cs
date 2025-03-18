@@ -6,9 +6,9 @@ namespace Runtime.CH3.Rokemon
 {
     public class Skill : MonoBehaviour
     {
-        public int idx;
+        public int idx; // 대문자 시작 안지킴
         public string Type;
-        public string Name;
+        public string Name; // .name과 혼용 위험이 있으므로 바꿔야함
         [TextArea(3, 5)]
         public string Desc;
         public int CurLv;

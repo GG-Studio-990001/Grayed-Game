@@ -49,6 +49,11 @@ namespace Runtime.CH3.Rokemon
             }
         }
 
+        public string GetSkillName(int idx)
+        {
+            return _skills[idx].Name;
+        }
+
         #region 스킬창 클릭
         public void SkillBtnClked(int idx)
         {
@@ -70,7 +75,7 @@ namespace Runtime.CH3.Rokemon
             _skills[_addIdx].gameObject.SetActive(true);
 
             // 초기화
-            _rMDialogue.StartNextDialogue(_curSkills[idx].Name, _skills[_addIdx].Name);
+            _rMDialogue.StartNextDialogue(_curSkills[idx].Name);
 
             // 세팅
             SetCurSkills();
@@ -142,6 +147,7 @@ namespace Runtime.CH3.Rokemon
         public void CloseAssignPage()
         {
             // 변동이 있어도 무시
+            _assigner.RevertLeftLv();
             _curSkills[_selectedSkill].SkillSelected(false);
             _selectedSkill = -1;
             _profilePage.SetActive(true);

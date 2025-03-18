@@ -8,27 +8,34 @@ namespace Runtime.CH3.Rokemon
         [Header("=Script=")]
         [SerializeField] private DialogueRunner _runner;
         [Header("=Else=")]
-        //[SerializeField] private LineView _lineView;
         [SerializeField] private RMController _rMController;
         [SerializeField] private GameObject _profileBlock;
+        private int _newSkill = -1;
 
         private void Awake()
         {
-            _runner.AddCommandHandler<int>("ChooseSkillToForget", ChooseSkillToForget);
+            _runner.AddCommandHandler("ReplaceSkill", ReplaceSkill);
         }
 
-        private void ChooseSkillToForget(int idx)
+        public void NewSkillDialogue(int idx)
         {
-            _rMController.SetRemoveInfo(idx);
+            _newSkill = idx;
+            _runner.VariableStorage.SetValue("$NewSkill", _rMController.GetSkillName(idx));
+
+            _runner.StartDialogue("NewSkillAvailable");
+        }
+
+        private void ReplaceSkill()
+        {
+            _rMController.SetRemoveInfo(_newSkill);
             _profileBlock.SetActive(true);
         }
 
-        public void StartNextDialogue(string oldSkill, string newSkill)
+        public void StartNextDialogue(string oldSkill)
         {
             _runner.VariableStorage.SetValue("$DeletedSkill", oldSkill);
-            _runner.VariableStorage.SetValue("$NewSkill", newSkill);
             
-            _runner.StartDialogue("GetNewSkill");
+            _runner.StartDialogue("SkillReplacement");
 
             _profileBlock.SetActive(false);
             _rMController.ResetRemoveInfo();
