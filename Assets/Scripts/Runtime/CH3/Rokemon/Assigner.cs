@@ -45,7 +45,7 @@ namespace Runtime.CH3.Rokemon
             // _skillIdx = idx;
             _curSkill = skill;
             _typeTxt.text = _curSkill.Type;
-            _nameTxt.text = _curSkill.Name;
+            _nameTxt.text = _curSkill.SkillName;
             _descTxt.text = _curSkill.Desc;
             _curLvTxt.text = _curSkill.CurLv.ToString();
 

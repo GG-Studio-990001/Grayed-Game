@@ -1407,9 +1407,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee132aee8eae34e459e694d2dec9a351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idx: 3
+  Idx: 0
   Type: "\uB9C8\uB825"
-  Name: "\uC640\uC7A5\uCC3D \uAD11\uC120"
+  SkillName: "\uC640\uC7A5\uCC3D \uAD11\uC120"
   Desc: "\uC640\uC7A5\uCC3D \uAD11\uC120\uC744 \uC3D8\uBA74 \uC640\uC7A5\uCC3D \uC18C\uB9AC\uC640
     \uD568\uAED8 \uBB34\uC5B8\uAC00 \uC640\uC7A5\uCC3D\uD574\uC9C4\uB2E4."
   CurLv: 0
@@ -1643,9 +1643,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee132aee8eae34e459e694d2dec9a351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idx: 5
+  Idx: 0
   Type: "\uC9C0\uBC30"
-  Name: "\uCCD0\uB2E4\uBCF4\uAE30"
+  SkillName: "\uCCD0\uB2E4\uBCF4\uAE30"
   Desc: "\uCCD0\uB2E4\uB9CC \uBCF8\uB2E4"
   CurLv: 0
   MaxLv: 50
@@ -4605,9 +4605,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee132aee8eae34e459e694d2dec9a351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idx: 6
+  Idx: 0
   Type: "\uD589\uC6B4"
-  Name: "\uBC1C\uAC00\uB77D \uD754\uB4E4\uAE30"
+  SkillName: "\uBC1C\uAC00\uB77D \uD754\uB4E4\uAE30"
   Desc: "\uBC1C\uAC00\uB77D\uC744 \uD754\uB4E4\uBA74 \uBB34\uC2A8 \uC77C\uC774 \uC0DD\uAE38\uAE4C"
   CurLv: 0
   MaxLv: 5
@@ -5099,9 +5099,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee132aee8eae34e459e694d2dec9a351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idx: 1
+  Idx: 0
   Type: "\uADFC\uB825"
-  Name: "\uBA38\uB9AC \uBC15\uCE58\uAE30"
+  SkillName: "\uBA38\uB9AC \uBC15\uCE58\uAE30"
   Desc: "\uC0C1\uB300\uC758 \uB208\uC55E\uC5D0 \uBCC4\uC774 \uBCF4\uC774\uB3C4\uB85D
     \uC544\uC8FC \uC138\uAC8C \uBA38\uB9AC \uBC15\uCE58\uAE30\uB97C \uD574\uC8FC\uC790."
   CurLv: 5
@@ -5431,9 +5431,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee132aee8eae34e459e694d2dec9a351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idx: 2
+  Idx: 0
   Type: "\uC9C0\uB2A5"
-  Name: "\uB0AE\uC7A0 \uC790\uAE30"
+  SkillName: "\uB0AE\uC7A0 \uC790\uAE30"
   Desc: "\uD55C \uC5F0\uAD6C \uACB0\uACFC\uC5D0 \uB530\uB974\uBA74 \uB0AE\uC7A0\uC740
     \uB1CC \uAC74\uAC15\uACFC \uC218\uBA85, \uADF8\uB9AC\uACE0 \uCC3D\uC758\uB825\uAE4C\uC9C0
     \uD5A5\uC0C1\uC2DC\uD0A8\uB2E4\uACE0 \uD55C\uB2E4."
@@ -5899,9 +5899,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee132aee8eae34e459e694d2dec9a351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idx: 4
+  Idx: 0
   Type: "\uB9E4\uB825"
-  Name: "\uC5B4\uC124\uD508 \uD749\uB0B4 \uB0B4\uAE30"
+  SkillName: "\uC5B4\uC124\uD508 \uD749\uB0B4 \uB0B4\uAE30"
   Desc: "\uC5B4\uC124\uD508 \uD749\uB0B4\uB97C \uB0B8\uB2E4"
   CurLv: 0
   MaxLv: 100
@@ -12556,9 +12556,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee132aee8eae34e459e694d2dec9a351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idx: 0
+  Idx: 0
   Type: "\uCCB4\uB825"
-  Name: "\uB2E8\uB2E8\uD574\uC9C4 \uCC99 \uD558\uAE30"
+  SkillName: "\uB2E8\uB2E8\uD574\uC9C4 \uCC99\uD558\uAE30"
   Desc: "\uAC89\uC73C\uB85C\uB294 \uD56D\uC0C1 \uB2E8\uB2E8\uD55C \uC0AC\uB78C\uC778
     \uCC99\uD558\uC9C0\uB9CC \uC65C \uBCA0\uAC1C\uB294 \uBC24\uB9C8\uB2E4 \uCD95\uCD95\uD574\uC9C8\uAE4C."
   CurLv: 20

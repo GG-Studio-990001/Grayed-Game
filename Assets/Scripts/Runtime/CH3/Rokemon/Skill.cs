@@ -6,9 +6,9 @@ namespace Runtime.CH3.Rokemon
 {
     public class Skill : MonoBehaviour
     {
-        public int idx; // 대문자 시작 안지킴
+        public int Idx;
         public string Type;
-        public string Name; // .name과 혼용 위험이 있으므로 바꿔야함
+        public string SkillName;
         [TextArea(3, 5)]
         public string Desc;
         public int CurLv;
@@ -17,13 +17,12 @@ namespace Runtime.CH3.Rokemon
         [SerializeField] private TextMeshProUGUI _nameTxt;
         [SerializeField] private TextMeshProUGUI _lvTxt;
         private Image _img;
-        // private bool _isSelected = false;
 
         private void Start()
         {
             _img = GetComponent<Image>();
             _typeTxt.text = Type;
-            _nameTxt.text = Name;
+            _nameTxt.text = SkillName;
         }
 
         public void SkillSelected(bool isSelected)

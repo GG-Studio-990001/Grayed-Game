@@ -51,7 +51,7 @@ namespace Runtime.CH3.Rokemon
 
         public string GetSkillName(int idx)
         {
-            return _skills[idx].Name;
+            return _skills[idx].SkillName;
         }
 
         #region 스킬창 클릭
@@ -75,7 +75,7 @@ namespace Runtime.CH3.Rokemon
             _skills[_addIdx].gameObject.SetActive(true);
 
             // 초기화
-            _rMDialogue.StartNextDialogue(_curSkills[idx].Name);
+            _rMDialogue.StartNextDialogue(_curSkills[idx].SkillName);
 
             // 세팅
             SetCurSkills();
