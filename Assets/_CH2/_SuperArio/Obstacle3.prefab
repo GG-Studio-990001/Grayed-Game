@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 5186003860073840645}
   - component: {fileID: 1833087243415822612}
   - component: {fileID: 3210274550775140970}
+  - component: {fileID: 8333043409051177409}
   m_Layer: 0
   m_Name: Obstacle3
   m_TagString: Obstacle
@@ -204,6 +205,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8333333, y: 0.4}
   m_EdgeRadius: 0
+--- !u!95 &8333043409051177409
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4802087884916030990}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0269e89749f047f40bbcadd3cb7c3970, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1056007489368321824
 PrefabInstance:
   m_ObjectHideFlags: 0
