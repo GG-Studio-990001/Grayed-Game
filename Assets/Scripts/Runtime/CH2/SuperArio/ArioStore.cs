@@ -114,6 +114,7 @@ namespace Runtime.CH2.SuperArio
             {
                 if (_isGrounded) // 지면에 있을 때만 점프
                 {
+                    Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_02");
                     Jump();
                 }
             }
@@ -132,7 +133,11 @@ namespace Runtime.CH2.SuperArio
         {
             if (other.gameObject.TryGetComponent(out StoreWall wall))
             {
-                _surfaceVelocityX = wall.IsLeft ? 3.5f : -3.5f;
+                var tempVelocity = wall.IsLeft ? 3.5f : -3.5f;
+                if (Mathf.Approximately(tempVelocity, _surfaceVelocityX))
+                    return;
+                _surfaceVelocityX = tempVelocity;
+                Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_15");
                 spr.flipX = !wall.IsLeft;
                 if (_surface != null)
                     _surface.speed = _surfaceVelocityX;

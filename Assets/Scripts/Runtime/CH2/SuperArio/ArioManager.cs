@@ -1,4 +1,5 @@
 using Cinemachine;
+using Runtime.CH1.Pacmom;
 using Runtime.ETC;
 using Runtime.InGameSystem;
 using Runtime.Main.Runtime.ETC;
@@ -65,6 +66,7 @@ namespace Runtime.CH2.SuperArio
             _production = GetComponent<CameraProduction>();
             StartCoroutine(WaitStart());
             CurrentStage = Managers.Data.CH2.ArioStage;
+            CoinCnt = Managers.Data.Common.Coin;
         }
 
         public void RestartSuperArio()
@@ -235,6 +237,8 @@ namespace Runtime.CH2.SuperArio
                 CoinCnt++;
             else
                 CoinCnt += count;
+            
+            Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_31");
             _ui.ChangeCoinText("RAPLEY\n" + CoinCnt);
         }
         
