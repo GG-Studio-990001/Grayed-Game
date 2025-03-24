@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Runtime.InGameSystem
 {
-    // 코드에서 SoundType은 정적으로 3개로 고정이기 때문에
+    // 코드에서 SoundType은 정적으로 4개로 고정이기 때문에
     // 구분하지 않고 분기문으로 처리, Sound 타입에 따라 정리
     public class SoundManager
     {
@@ -146,35 +146,48 @@ namespace Runtime.InGameSystem
             return false;
         }
 
-        public void UpdateBGMVolume()
+        public void UpdateBGMVolume(float t = 1.0f)
         {
             float mul = _isReducing ? 0.5f : 1.0f;
+            float volume = Managers.Data.BgmVolume * mul * t;
 
-            BGM.volume = Managers.Data.BgmVolume * mul;
-            LuckyBGM.volume = Managers.Data.BgmVolume * mul;
+            BGM.volume = volume;
+            LuckyBGM.volume = volume;
         }
 
-        private IEnumerator RestoreBGMVolume(float delay)
+        private IEnumerator RestoreBGMVolume(float sfxDuration)
         {
-            if (_isRestoring) yield break; // 이미 실행 중이면 중단
+            if (_isRestoring) yield break;
             _isRestoring = true;
 
-            yield return new WaitForSeconds(delay);
+            float fadeOutDuration = 0.5f;
+            float fadeInDuration = 0.5f;
 
-            // Debug.Log($"RestoreBGMVolume 실행됨, SFX.isPlaying: {SFX.isPlaying}");
-
-            // 모든 SFX가 끝날 때까지 대기
-            while (SFX.isPlaying)
+            // 페이드 아웃 (0.5초)
+            _isReducing = true;
+            for (float t = 0f; t < fadeOutDuration; t += Time.deltaTime)
             {
-                // Debug.Log("아직 SFX가 재생 중... 0.5초 후 다시 확인");
-                yield return new WaitForSeconds(0.5f);
+                float lerp = Mathf.Lerp(1f, 0.5f, t / fadeOutDuration);
+                UpdateBGMVolume(lerp);
+                yield return null;
             }
+            UpdateBGMVolume(0.5f);
 
-            // 모든 SFX가 종료되었으므로 볼륨 복구
+            // SFX 종료 0.25초 전까지 대기 (페이드 인 시작 시점까지)
+            float waitBeforeFadeIn = sfxDuration - fadeInDuration / 2f - fadeOutDuration;
+            if (waitBeforeFadeIn > 0f)
+                yield return new WaitForSeconds(waitBeforeFadeIn);
+
+            // 페이드 인 (0.5초)
+            for (float t = 0f; t < fadeInDuration; t += Time.deltaTime)
+            {
+                float lerp = Mathf.Lerp(0.5f, 1f, t / fadeInDuration);
+                UpdateBGMVolume(lerp);
+                yield return null;
+            }
+            UpdateBGMVolume(1f);
+
             _isReducing = false;
-            Managers.Sound.UpdateBGMVolume();
-            // Debug.Log($"볼륨 복구 완료: {BGM.volume}");
-
             _isRestoring = false;
         }
 
