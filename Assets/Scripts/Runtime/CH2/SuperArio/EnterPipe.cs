@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Runtime.ETC;
 using System.Collections;
 using UnityEngine;
 
@@ -42,6 +43,7 @@ namespace Runtime.CH2.SuperArio
 
         private IEnumerator EnterAnimCoroutine(GameObject ario)
         {
+            Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_14");
             ArioManager.instance.StopGame();
             ario.transform.DOMove(ario.transform.position = transform.position + Vector3.up, 0f);
             ario.transform.DOMove(transform.position, 0.5f);

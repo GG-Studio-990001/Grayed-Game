@@ -1,3 +1,4 @@
+using Runtime.ETC;
 using UnityEngine;
 
 namespace Runtime.CH2.SuperArio
@@ -8,6 +9,7 @@ namespace Runtime.CH2.SuperArio
         {
             if (other.gameObject.TryGetComponent(out ArioStore ario))
             {
+                Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_15");
                 ario.ExitStore();
             }
         }
