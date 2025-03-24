@@ -114,6 +114,7 @@ namespace Runtime.CH2.SuperArio
             {
                 if (_isGrounded) // 지면에 있을 때만 점프
                 {
+                    Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_02");
                     Jump();
                 }
             }

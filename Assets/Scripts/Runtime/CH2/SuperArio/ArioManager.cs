@@ -235,6 +235,8 @@ namespace Runtime.CH2.SuperArio
                 CoinCnt++;
             else
                 CoinCnt += count;
+            
+            Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_31");
             _ui.ChangeCoinText("RAPLEY\n" + CoinCnt);
         }
         

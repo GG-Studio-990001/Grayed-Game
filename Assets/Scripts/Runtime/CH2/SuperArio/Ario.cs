@@ -118,6 +118,7 @@ namespace Runtime.CH2.SuperArio
                 }
                 else if (moveInput.y > 0 && transform.position.y <= _startPos.y && !_isJump) // 위쪽 (점프)
                 {
+                    Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_02");
                     _jumpBufferTimeRemaining = _jumpBufferTime; // 점프 입력을 버퍼에 저장
                 }
             }
