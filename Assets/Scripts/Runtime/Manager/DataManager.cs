@@ -10,9 +10,7 @@ namespace Runtime.Manager
     {
         public string Version;
         public int Chapter;
-        public float BgmVolume;
-        public float SfxVolume;
-        public bool isFullScreen;
+        public SettingData Setting;
         public CommonData Common;
         public CH1Data CH1;
         public CH2Data CH2;
@@ -21,15 +19,13 @@ namespace Runtime.Manager
         {
             Version = "";
             Chapter = 0;
-            BgmVolume = 0.5f;
-            SfxVolume = 0.5f;
-            isFullScreen = true;
+            Setting = new SettingData();
             Common = new CommonData();
             CH1 = new CH1Data();
             CH2 = new CH2Data();
         }
     }
-    
+
     [DefaultExecutionOrder(-100)]
     public class DataManager
     {
@@ -44,30 +40,30 @@ namespace Runtime.Manager
         public int Chapter { get { return _gameData.Chapter; } set { _gameData.Chapter = value; } }
         public float BgmVolume
         {
-            get { return _gameData.BgmVolume; }
+            get { return _gameData.Setting.BgmVolume; }
             set
             {
                 value = Mathf.Clamp(value, 0, 1);
-                _gameData.BgmVolume = value;
+                _gameData.Setting.BgmVolume = value;
                 Managers.Sound.BGM.volume = value;
             }
         }
-        
+
         public float SfxVolume
         {
-            get { return _gameData.SfxVolume; }
-            set 
-            { 
+            get { return _gameData.Setting.SfxVolume; }
+            set
+            {
                 value = Mathf.Clamp(value, 0, 1);
-                _gameData.SfxVolume = value;
+                _gameData.Setting.SfxVolume = value;
                 Managers.Sound.SFX.volume = value;
             }
         }
 
         public bool IsFullscreen
         {
-            get { return _gameData.isFullScreen; }
-            set { _gameData.isFullScreen = value; }
+            get { return _gameData.Setting.isFullScreen; }
+            set { _gameData.Setting.isFullScreen = value; }
         }
 
         public CommonData Common { get { return _gameData.Common; } set { _gameData.Common = value; } }
@@ -109,9 +105,9 @@ namespace Runtime.Manager
             }
             
             Managers.Data.SaveData = data;
-            Screen.fullScreen = data.isFullScreen;
-            Managers.Sound.BGM.volume = data.BgmVolume;
-            Managers.Sound.SFX.volume = data.SfxVolume;
+            Screen.fullScreen = data.Setting.isFullScreen;
+            Managers.Sound.BGM.volume = data.Setting.BgmVolume;
+            Managers.Sound.SFX.volume = data.Setting.SfxVolume;
             Debug.Log($"Load Game Completed : {path}");
 
             Debug.Log($"Chapter: {Managers.Data.Chapter}");
