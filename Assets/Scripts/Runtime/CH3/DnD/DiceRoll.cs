@@ -6,7 +6,7 @@ namespace Runtime.CH3.DnD
     {
         [SerializeField] private float _maxRandomForceValue, _startRollingForce;
         public int DiceFaceNum;
-        private Rigidbody _body;
+        Rigidbody _body;
         private float _forceX, _forceY, _forceZ;
 
         private void Awake()
