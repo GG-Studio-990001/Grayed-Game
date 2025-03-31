@@ -69,7 +69,7 @@ namespace Runtime.CH2.SuperArio
                 CurrentStage = Managers.Data.CH2.ArioStage;
             else
             {
-                CurrentStage = "1-3";
+                CurrentStage = "3-3";
             }
             CoinCnt = Managers.Data.Common.Coin;
         }
