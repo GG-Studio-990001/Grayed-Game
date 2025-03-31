@@ -1,4 +1,6 @@
 using Runtime.ETC;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -49,6 +51,14 @@ namespace Runtime.CH2.SuperArio
                 if (box.TryGetComponent(out IStoreBox storeBox))
                     storeBox.Check();
             }
+
+            StartCoroutine(EnterSoundDelay());
+        }
+
+        private IEnumerator EnterSoundDelay()
+        {
+            yield return new WaitForSeconds(0.5f);
+            Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_15");
         }
 
         public void ExitStore()
@@ -137,7 +147,7 @@ namespace Runtime.CH2.SuperArio
                 if (Mathf.Approximately(tempVelocity, _surfaceVelocityX))
                     return;
                 _surfaceVelocityX = tempVelocity;
-                Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_15");
+                Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_16");
                 spr.flipX = !wall.IsLeft;
                 if (_surface != null)
                     _surface.speed = _surfaceVelocityX;

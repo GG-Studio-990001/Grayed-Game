@@ -1,3 +1,4 @@
+using Runtime.ETC;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -8,10 +9,11 @@ namespace Runtime.CH2.SuperArio
     {
         private Transform[] _fireworks;
 
-        private void Awake()
+        private void Start()
         {
-            _fireworks = new Transform[4];
-            for (int i = 0; i < 4; i++)
+            Debug.Log($"Child Count: {transform.childCount}");
+            _fireworks = new Transform[3];
+            for (int i = 0; i < 3; i++)
             {
                 _fireworks[i] = transform.GetChild(i);
             }
@@ -39,12 +41,16 @@ namespace Runtime.CH2.SuperArio
             
             for (int i = 0; i < repeatCount; i++)
             {
-                // 4개의 자식 오브젝트를 순환하면서 활성화
-                int fireworkIndex = i % 4;
+                // 3개의 자식 오브젝트를 순환하면서 활성화
+                int fireworkIndex = i % 3;
             
+                Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_20");
+
                 _fireworks[fireworkIndex].gameObject.SetActive(true);
             
                 yield return new WaitForSeconds(0.5f);
+                
+                _fireworks[fireworkIndex].gameObject.SetActive(false);
             }
 
             yield return new WaitForSeconds(1f);

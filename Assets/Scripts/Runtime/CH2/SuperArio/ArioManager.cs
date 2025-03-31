@@ -44,8 +44,8 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private Ario _ario;
         [SerializeField] private Mario _mario;
         [SerializeField] private ArioUIController _ui;
+        [SerializeField] private bool isDebug;
         
-
         [field:SerializeField] public string CurrentStage { get; private set; }
         public float GameSpeed { get; private set; }
         public bool IsPlay { get; private set; }
@@ -65,7 +65,12 @@ namespace Runtime.CH2.SuperArio
             _obstacleManager = GetComponent<ObstacleManager>();
             _production = GetComponent<CameraProduction>();
             StartCoroutine(WaitStart());
-            CurrentStage = Managers.Data.CH2.ArioStage;
+            if(!isDebug)
+                CurrentStage = Managers.Data.CH2.ArioStage;
+            else
+            {
+                CurrentStage = "3-3";
+            }
             CoinCnt = Managers.Data.Common.Coin;
         }
 
@@ -238,7 +243,6 @@ namespace Runtime.CH2.SuperArio
             else
                 CoinCnt += count;
             
-            Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_31");
             _ui.ChangeCoinText("RAPLEY\n" + CoinCnt);
         }
         

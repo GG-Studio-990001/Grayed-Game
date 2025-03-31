@@ -1,4 +1,5 @@
 using Runtime.Common.View;
+using Runtime.ETC;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -52,7 +53,10 @@ namespace Runtime.CH2.SuperArio
                 if (moveInput.y < 0) // 아래 방향키
                 {
                     if (ArioManager.instance.IsGameOver)
+                    {
+                        Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_14");
                         ArioManager.instance.EnterStore();
+                    }
                 }
             }
         }
