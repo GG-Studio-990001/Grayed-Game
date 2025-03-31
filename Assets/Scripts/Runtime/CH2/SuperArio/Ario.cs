@@ -217,6 +217,7 @@ namespace Runtime.CH2.SuperArio
             {
                 ArioManager.instance.GetCoin();
                 other.gameObject.SetActive(false);
+                Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_31");
             }
         }
 

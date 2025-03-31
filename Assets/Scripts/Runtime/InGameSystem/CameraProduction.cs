@@ -149,13 +149,19 @@ public class CameraProduction : MonoBehaviour
         _transition.raycastTarget = true;
 
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(DOTween.To(
+        sequence.AppendCallback(() =>
+        {
+            Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_23");
+        }).Append(DOTween.To(
             () => _material.GetFloat("_Lerp"),
             x => _material.SetFloat("_Lerp", x),
             0f, 1f // 1초 동안 1로 변경
         ));
         sequence.AppendInterval(0.5f); // 0.5초 대기
-        sequence.Append(DOTween.To(
+        sequence.AppendCallback(() =>
+        {
+            Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_24");
+        }).Append(DOTween.To(
             () => _material.GetFloat("_Lerp"),
             x => _material.SetFloat("_Lerp", x),
             1f, 1f // 1초 동안 0으로 변경 (FadeOut)
