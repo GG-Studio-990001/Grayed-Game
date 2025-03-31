@@ -31,26 +31,37 @@ namespace Runtime.CH3
 
         private void MovePlayer()
         {
-            // 카메라의 포워드 벡터와 오른쪽 벡터를 사용하여 이동 방향 계산
-            Vector3 forward = virtualCamera.transform.forward;
-            Vector3 right = virtualCamera.transform.right;
+            // 카메라 기준 이동 방향 계산
+            Vector3 cameraForward = Vector3.ProjectOnPlane(virtualCamera.transform.forward, Vector3.up).normalized;
+            Vector3 cameraRight = Vector3.ProjectOnPlane(virtualCamera.transform.right, Vector3.up).normalized;
 
-            // Y축의 영향을 제거하여 수평 이동만 고려
-            forward.y = 0;
-            right.y = 0;
-
-            // 정규화하여 방향 벡터를 계산
-            forward.Normalize();
-            right.Normalize();
-
-            // 입력에 따라 이동 방향 결정
-            Vector3 moveDirection = forward * _movementInput.y + right * _movementInput.x;
-
-            // 플레이어 이동
-            _rigidbody.MovePosition(_rigidbody.position + moveDirection * moveSpeed * Time.fixedDeltaTime);
-
-            // 상태 업데이트
-            _state = _movementInput != Vector2.zero ? PlayerState.Move : PlayerState.Idle;
+            // 입력값을 기반으로 이동 방향 계산
+            Vector3 moveDirection = (cameraForward * _movementInput.y + cameraRight * _movementInput.x).normalized;
+    
+            if (moveDirection != Vector3.zero)
+            {
+                // 이동 속도 적용
+                Vector3 targetVelocity = moveDirection * moveSpeed;
+                targetVelocity.y = _rigidbody.velocity.y; // 수직 속도 유지
+        
+                // 부드러운 이동을 위해 Velocity 사용
+                _rigidbody.velocity = targetVelocity;
+        
+                // 이동 방향으로 캐릭터 회전
+                transform.forward = moveDirection;
+        
+                _state = PlayerState.Move;
+            }
+            else
+            {
+                // 정지 시 수평 속도를 0으로 설정
+                Vector3 currentVelocity = _rigidbody.velocity;
+                currentVelocity.x = 0f;
+                currentVelocity.z = 0f;
+                _rigidbody.velocity = currentVelocity;
+        
+                _state = PlayerState.Idle;
+            }
         }
 
         public void OnMove(InputAction.CallbackContext context)
