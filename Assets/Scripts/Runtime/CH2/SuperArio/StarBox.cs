@@ -4,36 +4,36 @@ using UnityEngine;
 
 namespace Runtime.CH2.SuperArio
 {
-    public class StarBox : MonoBehaviour, IStoreBox
+    public class StarBox : ItemBox, IStoreBox
     {
         private SpriteRenderer _spr;
         private Color _originalColor;
         private BoxCollider2D _col;
-    
+
         private void Start()
         {
             _spr = GetComponent<SpriteRenderer>();
             _col = GetComponent<BoxCollider2D>();
             _originalColor = _spr.color;
+            _cost = 150;
         }
-    
+
         public bool IsUsed { get; set; }
-        
+
         public void Check()
         {
             StartCoroutine(Delay());
-            if (ArioManager.instance.HasItem)
+            if (ArioManager.instance.HasItem || !CanBuy())
             {
                 SetColorGray();
                 IsUsed = true;
+                return;
             }
-            else
-            {
-                ResetColor();
-                IsUsed = false;
-            }
+
+            ResetColor();
+            IsUsed = false;
         }
-        
+
         private IEnumerator Delay()
         {
             _col.enabled = false;
@@ -43,7 +43,7 @@ namespace Runtime.CH2.SuperArio
 
         public void Use()
         {
-            if (IsUsed || !ArioManager.instance.UseCoin(150))
+            if (IsUsed || !ArioManager.instance.UseCoin(_cost))
                 return;
             Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_4");
             ArioManager.instance.GetItem();
@@ -55,7 +55,7 @@ namespace Runtime.CH2.SuperArio
         {
             if (_spr != null)
             {
-                _spr.color = Color.gray;
+                _spr.sprite = closeSprite;
             }
         }
 

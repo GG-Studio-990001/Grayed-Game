@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Runtime.CH2.SuperArio
 {
-    public class ExitBox : MonoBehaviour, IStoreBox
+    public class ExitBox : ItemBox, IStoreBox
     {
         private SpriteRenderer _spr;
         private Color _originalColor;
@@ -48,7 +48,7 @@ namespace Runtime.CH2.SuperArio
         {
             if (_spr != null)
             {
-                _spr.color = Color.gray;
+                _spr.sprite = closeSprite;
             }
         }
 
