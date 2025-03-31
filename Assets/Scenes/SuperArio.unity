@@ -7859,7 +7859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 685b92a0e845aeb4b9aaa0a0618c2f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <closeSprite>k__BackingField: {fileID: 1145553998, guid: c75a9963b1cb91c4a9b06ca0d00ce3d5, type: 3}
+  <closeSprite>k__BackingField: {fileID: 0}
 --- !u!1 &1260933347
 GameObject:
   m_ObjectHideFlags: 0
@@ -8302,7 +8302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38aefe2a70c00ea42b0fe388afc158d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <closeSprite>k__BackingField: {fileID: 1145553998, guid: c75a9963b1cb91c4a9b06ca0d00ce3d5, type: 3}
+  <closeSprite>k__BackingField: {fileID: 0}
 --- !u!61 &1314224579
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12489,7 +12489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a19560ca46102104983ebc1206479f38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <closeSprite>k__BackingField: {fileID: 1145553998, guid: c75a9963b1cb91c4a9b06ca0d00ce3d5, type: 3}
+  <closeSprite>k__BackingField: {fileID: 0}
 --- !u!1 &1865252903
 GameObject:
   m_ObjectHideFlags: 0
