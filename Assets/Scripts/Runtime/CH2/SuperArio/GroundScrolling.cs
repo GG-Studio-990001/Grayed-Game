@@ -54,11 +54,11 @@ namespace Runtime.CH2.SuperArio
                 _lastResolution = new Vector2(Screen.width, Screen.height);
             }
 
-            if (!_isInitialized || !ArioManager.instance.IsPlay) return;
+            if (!_isInitialized || !ArioManager.Instance.IsPlay) return;
 
             foreach (var tr in backgrounds)
             {
-                tr.position += new Vector3(-ArioManager.instance.GameSpeed, 0, 0) * Time.deltaTime;
+                tr.position += new Vector3(-ArioManager.Instance.GameSpeed, 0, 0) * Time.deltaTime;
 
                 if(tr.position.x < _leftPosX)
                 {

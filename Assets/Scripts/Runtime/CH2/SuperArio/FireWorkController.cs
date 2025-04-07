@@ -21,7 +21,7 @@ namespace Runtime.CH2.SuperArio
 
         public void PlayFireworks()
         {
-            int lastDigit = ArioManager.instance.CoinCnt % 10; // 1의 자릿수 구하기
+            int lastDigit = ArioManager.Instance.CoinCnt % 10; // 1의 자릿수 구하기
             int repeatCount = 1; // 기본 반복 횟수
 
             // 1의 자릿수에 따라 반복 횟수 결정
@@ -61,7 +61,7 @@ namespace Runtime.CH2.SuperArio
             }
             
             // 보상방 이동
-            ArioManager.instance.EnterReward();
+            ArioManager.Instance.EnterReward();
         }
 
         private void OnTriggerEnter2D(Collider2D other)

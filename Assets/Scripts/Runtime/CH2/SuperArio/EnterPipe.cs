@@ -37,21 +37,21 @@ namespace Runtime.CH2.SuperArio
 
         private void StartEnterAnimation()
         {
-            transform.DOMoveY(_initialPosition.y+ 0.1f, _animationDuration)
+            transform.DOMoveY(_initialPosition.y+ 0.15f, _animationDuration)
                 .SetEase(Ease.OutBounce); // 애니메이션 이징
         }
 
         private IEnumerator EnterAnimCoroutine(GameObject ario)
         {
             Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_14");
-            ArioManager.instance.StopGame();
+            ArioManager.Instance.StopGame();
             ario.transform.DOMove(ario.transform.position = transform.position + Vector3.up, 0f);
             ario.transform.DOMove(transform.position, 0.5f);
             yield return new WaitForSeconds(1f);
             ario.SetActive(false);
             ario.SetActive(true);
             ario.GetComponent<Ario>().CancelInvincibleTime();
-            ArioManager.instance.EnterStore();
+            ArioManager.Instance.EnterStore();
         }
         
         private void OnTriggerEnter2D(Collider2D other)

@@ -42,19 +42,19 @@ namespace Runtime.CH2.SuperArio
             _initSprite = _spr.sprite;
             _startPos = transform.position;
             _originalColor = _spr.color;
-            ArioManager.instance.OnPlay += InitData;
-            ArioManager.instance.OnEnterStore += DisablePipe;
+            ArioManager.Instance.OnPlay += InitData;
+            ArioManager.Instance.OnEnterStore += DisablePipe;
         }
 
         private void OnDestroy()
         {
-            ArioManager.instance.OnPlay -= InitData;
-            ArioManager.instance.OnEnterStore -= DisablePipe;
+            ArioManager.Instance.OnPlay -= InitData;
+            ArioManager.Instance.OnEnterStore -= DisablePipe;
         }
 
         private void FixedUpdate()
         {
-            if (!ArioManager.instance.IsPlay) return;
+            if (!ArioManager.Instance.IsPlay) return;
 
             // 점프 대기 시간 동안 점프를 실행할지 여부 결정
             if (_jumpBufferTimeRemaining > 0)
@@ -100,7 +100,7 @@ namespace Runtime.CH2.SuperArio
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (!ArioManager.instance.IsPlay || ArioManager.instance.IsPause)
+            if (!ArioManager.Instance.IsPlay || ArioManager.Instance.IsPause)
                 return;
 
             Vector2 moveInput = context.ReadValue<Vector2>();
@@ -148,7 +148,7 @@ namespace Runtime.CH2.SuperArio
             else
             {
                 _animator.enabled = false;
-                if (ArioManager.instance.IsGameOver)
+                if (ArioManager.Instance.IsGameOver)
                     _pipe.SetActive(true);
             }
         }
@@ -170,6 +170,7 @@ namespace Runtime.CH2.SuperArio
                 yield return null;
             }
 
+            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
             // 무적 상태 종료 후 원래 색상 복구
             _spr.color = _originalColor;
             _isInvincible = false;
@@ -177,10 +178,10 @@ namespace Runtime.CH2.SuperArio
 
         public void UseInvincibleItem()
         {
-            if (_isInvincible || !ArioManager.instance.HasItem || !ArioManager.instance.IsPlay)
+            if (_isInvincible || !ArioManager.Instance.HasItem || !ArioManager.Instance.IsPlay)
                 return;
 
-            ArioManager.instance.UseItem();
+            ArioManager.Instance.UseItem();
             StartCoroutine(UseItemCoroutine());
         }
 
@@ -199,23 +200,22 @@ namespace Runtime.CH2.SuperArio
                 elapsedTime += _blinkInterval;
                 yield return new WaitForSeconds(_blinkInterval);
             }
-
             _spr.enabled = true;
             _isInvincible = false;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.instance.IsPlay && !_isInvincible)
+            if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.Instance.IsPlay && !_isInvincible)
             {
                 life--;
                 _spr.sprite = hitSprite;
-                ArioManager.instance.ChangeHeartUI(life);
+                ArioManager.Instance.ChangeHeartUI(life);
                 StartCoroutine(InvincibilityCoroutine());
             }
-            else if (other.CompareTag(GlobalConst.CoinStr) && ArioManager.instance.IsPlay)
+            else if (other.CompareTag(GlobalConst.CoinStr) && ArioManager.Instance.IsPlay)
             {
-                ArioManager.instance.GetCoin();
+                ArioManager.Instance.GetCoin();
                 other.gameObject.SetActive(false);
                 Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_31");
             }

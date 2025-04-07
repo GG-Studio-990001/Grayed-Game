@@ -15,7 +15,7 @@ namespace Runtime.CH2.SuperArio
             _rb = GetComponent<Rigidbody2D>();
             _rb.isKinematic = true;
             _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            ArioManager.instance.OnEnterReward += EnterReward;
+            ArioManager.Instance.OnEnterReward += EnterReward;
         }
         
         private void EnterReward()
@@ -29,7 +29,7 @@ namespace Runtime.CH2.SuperArio
             _rb.isKinematic = true;
             transform.position = _initPos;
             
-            ArioManager.instance.ExitReward();
+            ArioManager.Instance.ExitReward();
             gameObject.SetActive(false);
         }
 
