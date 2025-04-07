@@ -13,7 +13,7 @@ public class CameraProduction : MonoBehaviour
     [SerializeField] private RectTransform _bottomBar;
     [SerializeField] private RectTransform _leftBar;
     [SerializeField] private RectTransform _rightBar;
-    [SerializeField] private float _transitionDuration = 0.5f;
+    [SerializeField] private float _transitionDuration = 2f;
     [SerializeField] private Ease _easeType = Ease.InOutQuad;
 
     // 렌더 텍스처와 카메라 설정

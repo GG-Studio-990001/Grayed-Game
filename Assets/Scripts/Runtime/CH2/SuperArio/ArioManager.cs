@@ -14,17 +14,17 @@ namespace Runtime.CH2.SuperArio
     {
         #region Instance
 
-        public static ArioManager instance;
+        public static ArioManager Instance;
 
         private void Awake()
         {
-            if (instance != null)
+            if (Instance != null)
             {
                 Destroy(gameObject);
                 return;
             }
 
-            instance = this;
+            Instance = this;
             GameSpeed = 1;
             IsPause = true;
             CurrentStage = "1-1";
@@ -44,9 +44,9 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private Ario _ario;
         [SerializeField] private Mario _mario;
         [SerializeField] private ArioUIController _ui;
-        [SerializeField] private bool isDebug;
+        [SerializeField] private string stageName;
         
-        [field:SerializeField] public string CurrentStage { get; private set; }
+        public string CurrentStage { get; private set; }
         public float GameSpeed { get; private set; }
         public bool IsPlay { get; private set; }
         public bool IsPause { get; private set; }
@@ -62,16 +62,14 @@ namespace Runtime.CH2.SuperArio
 
         private void Start()
         {
+
             _obstacleManager = GetComponent<ObstacleManager>();
             _production = GetComponent<CameraProduction>();
-            StartCoroutine(WaitStart());
-            if(!isDebug)
-                CurrentStage = Managers.Data.CH2.ArioStage;
-            else
-            {
-                CurrentStage = "3-3";
-            }
+            CurrentStage = stageName ?? Managers.Data.CH2.ArioStage;
             CoinCnt = Managers.Data.Common.Coin;
+            _production.SetAspectRatio(AspectRatio.Ratio_8_7,true);
+
+            //StartCoroutine(WaitStart());
         }
 
         public void RestartSuperArio()
@@ -168,9 +166,10 @@ namespace Runtime.CH2.SuperArio
             
         }
 
-        private IEnumerator WaitStart()
+        public void WaitStart()
         {
-            yield return new WaitForSeconds(0.5f);
+            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
+            _production.SetAspectRatio(AspectRatio.Ratio_21_9);
             StartGame();
         }
 
@@ -181,7 +180,7 @@ namespace Runtime.CH2.SuperArio
 
         private void StartGame()
         {
-            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
+
             InitData();
             UpdateStage(CurrentStage);
             
