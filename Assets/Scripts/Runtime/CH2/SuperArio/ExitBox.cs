@@ -4,68 +4,29 @@ using UnityEngine;
 
 namespace Runtime.CH2.SuperArio
 {
-    public class ExitBox : ItemBox, IStoreBox
+    public class ExitBox : ItemBox
     {
-        private SpriteRenderer _spr;
-        private Color _originalColor;
-        private BoxCollider2D _col;
-
         private void Start()
         {
-            _spr = GetComponent<SpriteRenderer>();
-            _col = GetComponent<BoxCollider2D>();
-            _originalColor = _spr.color;
+            Init();
         }
 
-        public bool IsUsed { get; set; }
-
-        public void Check()
+        public override void Check()
         {
             StartCoroutine(Delay());
-            ResetColor();
+            ResetSprite();
             IsUsed = false;
         }
 
-        private IEnumerator Delay()
-        {
-            _col.enabled = false;
-            yield return new WaitForSeconds(0.95f);
-            _col.enabled = true;
-        }
-
-        public void Use()
+        protected override void Use()
         {
             if (IsUsed)
                 return;
             Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_4");
             // 벽 열기
-            ArioManager.instance.StoreOpenEvent();
+            ArioManager.Instance.StoreOpenEvent();
             IsUsed = true;
-            SetColorGray();
-        }
-
-        public void SetColorGray()
-        {
-            if (_spr != null)
-            {
-                _spr.sprite = closeSprite;
-            }
-        }
-
-        public void ResetColor()
-        {
-            if (_spr != null)
-            {
-                _spr.color = _originalColor;
-            }
-        }
-
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.gameObject.TryGetComponent(out ArioStore ario))
-            {
-                Use();
-            }
+            ChangeSprite();
         }
     }
 }
