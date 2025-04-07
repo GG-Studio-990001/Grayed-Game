@@ -65,7 +65,7 @@ namespace Runtime.CH2.SuperArio
 
             _obstacleManager = GetComponent<ObstacleManager>();
             _production = GetComponent<CameraProduction>();
-            CurrentStage = stageName ?? Managers.Data.CH2.ArioStage;
+            CurrentStage = Managers.Data.CH2.ArioStage;
             CoinCnt = Managers.Data.Common.Coin;
             _production.SetAspectRatio(AspectRatio.Ratio_8_7,true);
 
