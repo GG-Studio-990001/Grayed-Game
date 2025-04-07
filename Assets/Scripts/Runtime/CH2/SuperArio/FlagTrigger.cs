@@ -19,11 +19,11 @@ namespace Runtime.CH2.SuperArio
                 if (isTop)
                 {
                     // 코인 50개 추가
-                    ArioManager.instance.GetCoin(50);
+                    ArioManager.Instance.GetCoin(50);
                 }
                 
                 // isplay 멈춤
-                ArioManager.instance.TouchFlag();
+                ArioManager.Instance.TouchFlag();
                 StartCoroutine(ario.RewardEnterAnimation(doorTr));
             }
         }

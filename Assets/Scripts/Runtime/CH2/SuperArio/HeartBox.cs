@@ -5,75 +5,36 @@ using UnityEngine;
 
 namespace Runtime.CH2.SuperArio
 {
-    public class HeartBox : ItemBox, IStoreBox
+    public class HeartBox : ItemBox
     {
-        private SpriteRenderer _spr;
-        private Color _originalColor;
-        private BoxCollider2D _col;
-
         private void Start()
         {
-            _spr = GetComponent<SpriteRenderer>();
-            _col = GetComponent<BoxCollider2D>();
-            _originalColor = _spr.color;
+            Init();
             _cost = 100;
         }
 
-        public bool IsUsed { get; set; }
-
-        public void Check()
+        public override void Check()
         {
             StartCoroutine(Delay());
-            if (!ArioManager.instance.LifeCheck() || !CanBuy())
+            if (!ArioManager.Instance.LifeCheck() || !CanBuy())
             {
-                SetColorGray();
+                ChangeSprite();
                 IsUsed = true;
                 return;
             }
 
-            ResetColor();
+            ResetSprite();
             IsUsed = false;
         }
 
-        private IEnumerator Delay()
+        protected override void Use()
         {
-            _col.enabled = false;
-            yield return new WaitForSeconds(0.95f);
-            _col.enabled = true;
-        }
-
-        public void Use()
-        {
-            if (IsUsed || !ArioManager.instance.UseCoin(_cost))
+            if (IsUsed || !ArioManager.Instance.UseCoin(_cost))
                 return;
             Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_4");
-            ArioManager.instance.PlusLife();
+            ArioManager.Instance.PlusLife();
             IsUsed = true;
-            SetColorGray();
-        }
-
-        public void SetColorGray()
-        {
-            if (_spr != null)
-            {
-                _spr.sprite = closeSprite;
-            }
-        }
-
-        public void ResetColor()
-        {
-            if (_spr != null)
-            {
-                _spr.color = _originalColor; // 원래 색상으로 복구
-            }
-        }
-
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.gameObject.TryGetComponent(out ArioStore ario))
-            {
-                Use();
-            }
+            ChangeSprite();
         }
     }
 }

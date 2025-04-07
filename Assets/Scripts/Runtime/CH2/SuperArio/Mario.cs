@@ -23,12 +23,12 @@ namespace Runtime.CH2.SuperArio
             _spr = GetComponent<SpriteRenderer>();
             initSprite = _spr.sprite;
             _startPos = transform.position;
-            ArioManager.instance.OnPlay += InitData;
+            ArioManager.Instance.OnPlay += InitData;
         }
         
         private void OnDestroy()
         {
-            ArioManager.instance.OnPlay -= InitData;
+            ArioManager.Instance.OnPlay -= InitData;
         }
 
         private void Update()
@@ -104,7 +104,7 @@ namespace Runtime.CH2.SuperArio
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.instance.IsPlay)
+            if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.Instance.IsPlay)
             {
                 var isSit = other.GetComponent<ObstacleBase>().isSitObstacle;
                 if(!isSit)

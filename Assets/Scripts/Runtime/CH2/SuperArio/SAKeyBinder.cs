@@ -1,5 +1,6 @@
 using Runtime.Common.View;
 using Runtime.ETC;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +12,8 @@ namespace Runtime.CH2.SuperArio
         [field: SerializeField] public Ario Ario { get; private set; }
         [field: SerializeField] public ArioStore ArioStore { get; private set; }
         [SerializeField] private SettingsUIView _settingsUIView;
+        
+        private bool _isInputDelay;
 
         private void Start()
         {
@@ -28,7 +31,7 @@ namespace Runtime.CH2.SuperArio
 
         public void PauseKeyInput()
         {
-            ArioManager.instance.PauseKey();
+            ArioManager.Instance.PauseKey();
         }
 
         public void ItemKeyInput()
@@ -38,13 +41,13 @@ namespace Runtime.CH2.SuperArio
 
         public void RestartSuperArio()
         {
-            ArioManager.instance.RestartSuperArio();
+            ArioManager.Instance.RestartSuperArio();
         }
 
         public void EnterStoreKeyInput(InputAction.CallbackContext context)
         {
-            if (ArioManager.instance.IsPlay || ArioManager.instance.IsPause || ArioManager.instance.IsStore ||
-                ArioManager.instance.IsReward)
+            if (ArioManager.Instance.IsPlay || ArioManager.Instance.IsPause || ArioManager.Instance.IsStore ||
+                ArioManager.Instance.IsReward)
                 return;
 
             Vector2 moveInput = context.ReadValue<Vector2>();
@@ -52,13 +55,21 @@ namespace Runtime.CH2.SuperArio
             {
                 if (moveInput.y < 0) // 아래 방향키
                 {
-                    if (ArioManager.instance.IsGameOver)
+                    if (ArioManager.Instance.IsGameOver && !_isInputDelay)
                     {
-                        Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_14");
-                        ArioManager.instance.EnterStore();
+                        StartCoroutine(InputDelay());
                     }
                 }
             }
+        }
+
+        private IEnumerator InputDelay()
+        {
+            _isInputDelay = true;
+            yield return new WaitForSeconds(0.25f);
+            Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_14");
+            ArioManager.Instance.EnterStore();
+            _isInputDelay = false;
         }
 
         public void ChangeScreenResolution()

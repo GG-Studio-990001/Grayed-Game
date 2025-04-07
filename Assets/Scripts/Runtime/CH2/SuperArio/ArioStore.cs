@@ -29,16 +29,16 @@ namespace Runtime.CH2.SuperArio
             spr = GetComponent<SpriteRenderer>();
             _rb.isKinematic = true;
             _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            ArioManager.instance.OnEnterStore += EnterStore;
-            ArioManager.instance.OpenStore += OpenWalls;
+            ArioManager.Instance.OnEnterStore += EnterStore;
+            ArioManager.Instance.OpenStore += OpenWalls;
         }
 
         private void OnDestroy()
         {
-            if (ArioManager.instance != null)
+            if (ArioManager.Instance != null)
             {
-                ArioManager.instance.OnEnterStore -= EnterStore;
-                ArioManager.instance.OpenStore -= OpenWalls;
+                ArioManager.Instance.OnEnterStore -= EnterStore;
+                ArioManager.Instance.OpenStore -= OpenWalls;
             }
         }
 
@@ -48,8 +48,8 @@ namespace Runtime.CH2.SuperArio
             gameObject.SetActive(true);
             foreach (var box in _boxes)
             {
-                if (box.TryGetComponent(out IStoreBox storeBox))
-                    storeBox.Check();
+                if (box.TryGetComponent(out ItemBox itemBox))
+                    itemBox.Check();
             }
 
             StartCoroutine(EnterSoundDelay());
@@ -79,13 +79,13 @@ namespace Runtime.CH2.SuperArio
                 wall.gameObject.SetActive(false);
             }
 
-            ArioManager.instance.ExitStore();
+            ArioManager.Instance.ExitStore();
             gameObject.SetActive(false);
         }
 
         private void FixedUpdate()
         {
-            if (!ArioManager.instance.IsStore) return;
+            if (!ArioManager.Instance.IsStore) return;
 
             HandleMovement();
         }
@@ -115,7 +115,7 @@ namespace Runtime.CH2.SuperArio
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (!ArioManager.instance.IsStore) return;
+            if (!ArioManager.Instance.IsStore) return;
 
             Vector2 moveInput = context.ReadValue<Vector2>();
 
