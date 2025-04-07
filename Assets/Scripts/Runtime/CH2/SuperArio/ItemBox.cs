@@ -2,8 +2,6 @@ using Runtime.CH2.SuperArio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ResourceManagement.ResourceProviders.Simulation;
-using UnityEngine.Serialization;
 
 public abstract class ItemBox : MonoBehaviour
 {
