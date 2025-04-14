@@ -168,7 +168,6 @@ namespace Runtime.CH2.SuperArio
 
         public void WaitStart()
         {
-            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
             _production.SetAspectRatio(AspectRatio.Ratio_21_9);
             StartGame();
         }
@@ -180,6 +179,7 @@ namespace Runtime.CH2.SuperArio
 
         private void StartGame()
         {
+            Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
 
             InitData();
             UpdateStage(CurrentStage);
