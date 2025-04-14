@@ -2457,6 +2457,7 @@ MonoBehaviour:
   - {fileID: 1725076801}
   jumpSprite: {fileID: 1226773098, guid: 85eecc212ede4b140a408879ff7bd27b, type: 3}
   arioOpening: {fileID: 2008862217}
+  _camera: {fileID: 238472088}
 --- !u!1 &310571478
 GameObject:
   m_ObjectHideFlags: 0
@@ -2533,7 +2534,7 @@ MonoBehaviour:
   _ario: {fileID: 87311209}
   _mario: {fileID: 759164881}
   _ui: {fileID: 160858918}
-  stageName: 1-3
+  stageName: 
 --- !u!4 &310571482
 Transform:
   m_ObjectHideFlags: 0
@@ -15746,10 +15747,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bedf00b7542e45d44abf010ca31d9032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mario: {fileID: 303740681}
   _targets:
   - {fileID: 116054157}
   - {fileID: 455809648}
-  _camera: {fileID: 238472088}
   _txtBallon: {fileID: 1679188510}
 --- !u!1 &2029880436
 GameObject:
