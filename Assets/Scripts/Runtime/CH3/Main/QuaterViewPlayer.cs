@@ -1,3 +1,4 @@
+using Runtime.CH3.Main;
 using Runtime.ETC;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,25 +9,38 @@ namespace Runtime.CH3
     [RequireComponent(typeof(BoxCollider))]
     public class QuaterViewPlayer : MonoBehaviour
     {
-        [SerializeField] private float moveSpeed = 5.0f; // 이동 속도
-        [SerializeField] private Cinemachine.CinemachineVirtualCamera virtualCamera; // Cinemachine 가상 카메라
+        [SerializeField] private float moveSpeed = 5.0f;
+        [SerializeField] private Cinemachine.CinemachineVirtualCamera virtualCamera;
         
-        private Vector2 _movementInput; // 현재 이동 입력
-        private PlayerState _state = PlayerState.Idle; // 플레이어 상태
-        private Rigidbody _rigidbody; // Rigidbody 컴포넌트
+        private Vector2 _movementInput;
+        private PlayerState _state = PlayerState.Idle;
+        private PlayerGridObject _gridObject;
+        private Rigidbody _rigidbody;
+        private GridManager _gridManager;
 
         private void Awake()
         {
-            _rigidbody = GetComponent<Rigidbody>(); // Rigidbody 초기화
+            _rigidbody = GetComponent<Rigidbody>();
+            _gridManager = FindObjectOfType<GridManager>();
+            
+            // Rigidbody 설정 수정
+            _rigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY; // Y축 위치도 고정
+            _rigidbody.useGravity = false; // 중력 비활성화
+            _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+            
+            if (_gridManager != null)
+            {
+                transform.position = _gridManager.GetCenterPosition(transform);
+                
+            }
         }
 
         private void FixedUpdate()
         {
-            // 플레이어 상태가 "Get"일 경우 이동하지 않음
             if (_state == PlayerState.Get)
                 return;
 
-            MovePlayer(); // 플레이어 이동 처리
+            MovePlayer();
         }
 
         private void MovePlayer()
@@ -46,10 +60,7 @@ namespace Runtime.CH3
         
                 // 부드러운 이동을 위해 Velocity 사용
                 _rigidbody.velocity = targetVelocity;
-        
-                // 이동 방향으로 캐릭터 회전
-                transform.forward = moveDirection;
-        
+                
                 _state = PlayerState.Move;
             }
             else
@@ -66,7 +77,7 @@ namespace Runtime.CH3
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            _movementInput = context.ReadValue<Vector2>(); // 이동 입력 읽기
+            _movementInput = context.ReadValue<Vector2>();
         }
 
         public void OnInteraction()
@@ -76,7 +87,7 @@ namespace Runtime.CH3
 
         public void PlayerIdle()
         {
-            _state = PlayerState.Idle; // 플레이어 상태를 Idle로 설정
+            _state = PlayerState.Idle;
         }
 
         public void SetLastInput(Vector2 direction)
