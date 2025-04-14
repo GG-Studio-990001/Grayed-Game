@@ -21,6 +21,8 @@ namespace Runtime.CH3.Main
 
     public class GridManager : MonoBehaviour
     {
+        public static GridManager Instance;
+
         [Header("Grid Settings")] [SerializeField]
         private Vector2Int gridSize = new Vector2Int(10, 10);
 
@@ -42,6 +44,16 @@ namespace Runtime.CH3.Main
 
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            
             if (mainCamera == null)
                 mainCamera = Camera.main;
 

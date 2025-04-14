@@ -30,7 +30,9 @@ namespace Runtime.CH3.Main
             int yOffset = useYPosition ? Mathf.RoundToInt(adjustedY * -100) : 0;
             int targetOrder = baseOrder + yOffset;
         
-            SmoothTransitionOrder(targetOrder);
+            //SmoothTransitionOrder(targetOrder);
+            spriteRenderer.sortingOrder = targetOrder;
+
         }
 
         public void SetBaseOrder(int order)

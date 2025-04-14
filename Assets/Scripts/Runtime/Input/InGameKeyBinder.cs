@@ -106,7 +106,7 @@ namespace Runtime.Input
         {
             _gameOverControls.UI.Enable();
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
-            _gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
+            //_gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
         }
 
         public void CH3PlayerKeyBinding(QuaterViewPlayer player)
