@@ -247,7 +247,7 @@ namespace Runtime.CH2.SuperArio
             yield return new WaitForSeconds(1f);
 
             // 입구까지 이동
-            yield return transform.DOMove(door.position, 1.5f).SetEase(Ease.Linear).WaitForCompletion();
+            yield return transform.DOMoveX(door.position.x, 1.5f).SetEase(Ease.Linear).WaitForCompletion();
             yield return new WaitForSeconds(1f);
             gameObject.SetActive(false);
         }
