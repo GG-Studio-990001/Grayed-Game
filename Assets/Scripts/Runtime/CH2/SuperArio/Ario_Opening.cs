@@ -66,7 +66,7 @@ namespace Runtime.CH2.SuperArio
         private void Drop(Vector3 point)
         {
             Managers.Sound.Play(Sound.SFX, "SuperArio/Opening/CH2_SUB_SFX_08_1");
-            _ani.SetBool("Run", true);
+            //_ani.SetBool("Run", true);
             Sequence sequence = DOTween.Sequence();
             sequence
                 .Append(transform.DOJump(point, 2f,1,0.5f).SetEase(Ease.Linear))
