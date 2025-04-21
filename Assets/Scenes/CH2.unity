@@ -5540,7 +5540,7 @@ MonoBehaviour:
   _bgImg: {fileID: 2074134823}
   _locationTxt: {fileID: 261550756}
   _bgSprites:
-  - {fileID: 21300000, guid: 13c30de153d0a4745a5b661feba64321, type: 3}
+  - {fileID: 21300000, guid: f5c0b6fa77d76ce41b9c929741166bf7, type: 3}
   - {fileID: 21300000, guid: edf2ac4b7591b774d9207470b4794f76, type: 3}
   - {fileID: 21300000, guid: d81559c4c3abd9d4d81adb29bd9cb534, type: 3}
   - {fileID: 21300000, guid: 40ef2c8b9fb7aad41ad7fb7606aefa9c, type: 3}
