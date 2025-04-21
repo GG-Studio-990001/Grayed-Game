@@ -27,6 +27,7 @@ namespace Runtime.CH3.DnD
 
         private void Initialize()
         {
+            DiceFaceNum = -1;
             _body = GetComponent<Rigidbody>();
             _body.isKinematic = true;
             transform.rotation = new Quaternion(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360), 0);
