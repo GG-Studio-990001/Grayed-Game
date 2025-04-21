@@ -8,7 +8,8 @@ namespace Runtime.CH3.DnD
 
         private void OnTriggerStay(Collider other)
         {
-            if (_dice.GetComponent<Rigidbody>().velocity == Vector3.zero)
+            Debug.Log("_dice.name");
+            if (other.CompareTag(_dice.name) && _dice.GetComponent<Rigidbody>().velocity == Vector3.zero)
             {
                 Debug.Log("Detect");
                 _dice.DiceFaceNum = int.Parse(other.name);
