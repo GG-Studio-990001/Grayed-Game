@@ -7,16 +7,17 @@ namespace Runtime.CH3.Main
     {
         private QuaterViewPlayer playerController;
 
-        protected void Start()
+        protected override void Start()
         { 
+            base.Start();
             gridManager = GridManager.Instance;
             if (gridManager != null)
             {
                 Vector3 centerPos = gridManager.GetCenterPosition(transform);
                 transform.position = centerPos;
             }
-            Vector2Int initialGridPos = gridManager != null ? gridManager.WorldToGridPosition(transform.position) : Vector2Int.zero;
-            Initialize(initialGridPos);
+            //Vector2Int initialGridPos = gridManager != null ? gridManager.WorldToGridPosition(transform.position) : Vector2Int.zero;
+            //Initialize(initialGridPos);
             playerController = GetComponent<QuaterViewPlayer>();
         }
 

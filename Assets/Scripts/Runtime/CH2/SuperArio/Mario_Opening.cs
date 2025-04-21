@@ -11,8 +11,8 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private Sprite jumpSprite;
         [SerializeField] private Ario_Opening arioOpening;
         [SerializeField] private GameObject _camera;
-        private float _jumpHeight = 1;
-        private float _jumpSpeed = 7;
+        //private float _jumpHeight = 1;
+        //private float _jumpSpeed = 7;
         private bool _isJump;
         private bool _isTop;
 

@@ -1,4 +1,4 @@
-﻿using Runtime.CH3.Main.Factory;
+﻿using Runtime.CH3.Main;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -10,7 +10,7 @@ namespace Runtime.CH3.Main
         Structure,
         BlockedArea,
         NPC,
-        Mineral
+        Ore 
     }
 
     // 오브젝트 생성을 담당하는 팩토리
