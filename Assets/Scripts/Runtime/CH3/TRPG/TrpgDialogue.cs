@@ -24,12 +24,20 @@ namespace Runtime.CH3.TRPG
 
         private IEnumerator ShowResult(int val)
         {
+            if (val == 1)
+            {
+                yield return null;
+                _runner.StartDialogue($"Warlocker_1_{val}");
+                yield break;
+            }
+            
             _resultPanel.SetActive(true);
 
-            string type = (val == 1 ? "근력" : "지능");
+            string type = (val == 2 ? "근력" : "지능");
             int dice = Random.Range(1, 101); // 끝값 제외
             bool result = dice <= 40;
             string resultStr = (result ? "성공" : "실패");
+            string resultL = (result ? "S" : "F");
 
             _resultTxt.text = type + ": 40\n";
             yield return new WaitForSeconds(1f);
@@ -40,14 +48,7 @@ namespace Runtime.CH3.TRPG
 
             _resultPanel.SetActive(false);
 
-            if (val == 1 && result)
-                _runner.StartDialogue("1-1success");
-            else if (val == 1 && !result)
-                _runner.StartDialogue("1-1fail");
-            else if (val == 2 && result)
-                _runner.StartDialogue("1-2success");
-            else
-                _runner.StartDialogue("1-2fail");
+            _runner.StartDialogue($"Warlocker_1_{val}_{resultL}");
         }
     }
 }
