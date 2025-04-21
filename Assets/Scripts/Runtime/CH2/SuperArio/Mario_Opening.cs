@@ -11,8 +11,8 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private Sprite jumpSprite;
         [SerializeField] private Ario_Opening arioOpening;
         [SerializeField] private GameObject _camera;
-        private float _jumpHeight = 1;
-        private float _jumpSpeed = 7;
+        //private float _jumpHeight = 1;
+        //private float _jumpSpeed = 7;
         private bool _isJump;
         private bool _isTop;
 
@@ -61,6 +61,11 @@ namespace Runtime.CH2.SuperArio
 
         private void Move(Vector2 point)
         {
+            Managers.Sound.Play(Sound.BGM, "SuperArio/Opening/CH2_SUB_SFX_01_1");
+            Managers.Sound.Play(Sound.BGM, "SuperArio/Opening/CH2_SUB_SFX_01_2");
+            Managers.Sound.Play(Sound.BGM, "SuperArio/Opening/CH2_SUB_SFX_01_1");
+            Managers.Sound.Play(Sound.BGM, "SuperArio/Opening/CH2_SUB_SFX_01_2");
+            
             _ani.SetBool("Run", true);
             Sequence sequence = DOTween.Sequence();
             sequence
@@ -68,10 +73,17 @@ namespace Runtime.CH2.SuperArio
                 .AppendCallback(() =>
                 {
                     _ani.SetBool("Run", false);
+                    Managers.Sound.StopAllSound();
                 })
-                .AppendInterval(1f)
+                .AppendInterval(0.5f)
+                .AppendCallback(() =>
+                {
+                    Managers.Sound.Play(Sound.SFX, "SuperArio/Opening/CH2_SUB_SFX_02");
+                })
+                .AppendInterval(0.5f)
                 .OnComplete(() =>
                 {
+
                     _spr.sprite = jumpSprite;
                     Jump(targets[1].position);
                     StopAnimation();
@@ -83,11 +95,16 @@ namespace Runtime.CH2.SuperArio
             Sequence sequence = DOTween.Sequence();
             sequence.Append(transform.DOMoveY(point.y - 0.55f, 0.5f).SetEase(Ease.Linear));
             sequence.Join(transform.DOMoveX(point.x - 0.55f, 0.5f).SetEase(Ease.Linear))
-                .OnComplete(() => arioOpening.Up());
+                .OnComplete(() =>
+                {
+                    Managers.Sound.Play(Sound.SFX, "SuperArio/Opening/CH2_SUB_SFX_03");
+                    arioOpening.Up();
+                });
         }
         
         public void DropAndMove(Vector2 dropPoint, Vector2 movePoint)
         {
+            Managers.Sound.Play(Sound.SFX, "SuperArio/Opening/CH2_SUB_SFX_34");
             Sequence sequence = DOTween.Sequence();
             sequence.Append(transform.DOMoveY(dropPoint.y, 0.25f).SetEase(Ease.Linear));
             sequence.Join(transform.DOMoveX(dropPoint.x-1.5f, 0.25f).SetEase(Ease.Linear))
@@ -99,9 +116,21 @@ namespace Runtime.CH2.SuperArio
                     _ani.ResetTrigger("Jump");
                 })
                 .AppendInterval(1f)
-                .AppendCallback(() => _ani.SetBool("Run", true))
+                .AppendCallback(() =>
+                {
+                    Managers.Sound.Play(Sound.BGM, "SuperArio/Opening/CH2_SUB_SFX_01_1");
+                    Managers.Sound.Play(Sound.BGM, "SuperArio/Opening/CH2_SUB_SFX_01_2");
+                    Managers.Sound.Play(Sound.BGM, "SuperArio/Opening/CH2_SUB_SFX_01_1");
+                    Managers.Sound.Play(Sound.BGM, "SuperArio/Opening/CH2_SUB_SFX_01_2");
+                    _ani.SetBool("Run", true);
+                })
                 .Append(transform.DOMoveX(movePoint.x, 0.5f).SetEase(Ease.Linear))
-                .AppendInterval(1f)
+                .AppendInterval(0.5f)
+                .AppendCallback(() =>
+                {
+                    Managers.Sound.StopAllSound();
+                })
+                .AppendInterval(0.5f)
                 .OnComplete(() =>
                 {
                     // 카메라 끄기

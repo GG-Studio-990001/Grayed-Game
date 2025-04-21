@@ -496,7 +496,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -504,6 +504,27 @@ TextureImporter:
       bones: []
       spriteID: 06fb9d65118eacd44af1c0dacddb79df
       internalID: 620035097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ArioSprites_19
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 543179098a0f05c47845769749395a17
+      internalID: -1816943106
       vertices: []
       indices: 
       edges: []
@@ -530,6 +551,7 @@ TextureImporter:
       ArioSprites_16: -1246212025
       ArioSprites_17: -1524351911
       ArioSprites_18: 620035097
+      ArioSprites_19: -1816943106
       ArioSprites_2: 405807010
       ArioSprites_3: 773531430
       ArioSprites_4: 949947265

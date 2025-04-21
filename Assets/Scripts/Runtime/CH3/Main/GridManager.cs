@@ -32,8 +32,8 @@ namespace Runtime.CH3.Main
         [Header("Camera Reference")] [SerializeField]
         private Camera mainCamera;
 
-        [Header("Debug Visualization")] [SerializeField]
-        private bool showDebugVisuals = true;
+        //[Header("Debug Visualization")] [SerializeField]
+        //private bool showDebugVisuals = true;
 
         [SerializeField] private Color gridLineColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
 
@@ -41,6 +41,8 @@ namespace Runtime.CH3.Main
         private Vector3 _forward;
         private Vector3 _right;
         private Vector2Int _gridCenter;
+        
+        private bool[,] blockedCells;
 
         private void Awake()
         {
@@ -59,7 +61,7 @@ namespace Runtime.CH3.Main
 
             // 그리드 중심점 계산
             _gridCenter = new Vector2Int(gridSize.x / 2, gridSize.y / 2);
-
+            blockedCells = new bool[gridSize.x, gridSize.y];
             InitializeCameraAlignment();
             InitializeGrid();
         }
@@ -132,6 +134,7 @@ namespace Runtime.CH3.Main
             return null;
         }
 
+        /*
         private void OnDrawGizmos()
         {
             if (!showDebugVisuals) return;
@@ -207,6 +210,7 @@ namespace Runtime.CH3.Main
             Gizmos.color = Color.red;
             Gizmos.DrawRay(transform.position, _right * 2f);
         }
+        
 
         // OnDrawGizmosSelected에서도 동일한 시각화를 제공하여 선택 시 더 잘 보이게 함
         private void OnDrawGizmosSelected()
@@ -214,7 +218,7 @@ namespace Runtime.CH3.Main
             if (!showDebugVisuals) return;
             OnDrawGizmos();
         }
-
+*/
         public void RecalculateGridAlignment()
         {
             InitializeCameraAlignment();
@@ -235,6 +239,27 @@ namespace Runtime.CH3.Main
             Vector3 centerPos = GridToWorldPosition(Vector2Int.zero);
             centerPos.y = targetTransform.position.y; // 현재 오브젝트의 높이 유지
             return centerPos;
+        }
+        
+        // 그리드 범위 내에 있는지 확인
+        public bool IsWithinGridBounds(Vector2Int position)
+        {
+            return position.x >= 0 && position.x < gridSize.x &&
+                   position.y >= 0 && position.y < gridSize.y;
+        }
+
+        // 셀이 블록되어 있는지 확인
+        public bool IsCellBlocked(Vector2Int position)
+        {
+            if (!IsWithinGridBounds(position)) return true;
+            return blockedCells[position.x, position.y];
+        }
+
+        // 셀 블록 상태 설정
+        public void SetCellBlocked(Vector2Int position, bool blocked)
+        {
+            if (!IsWithinGridBounds(position)) return;
+            blockedCells[position.x, position.y] = blocked;
         }
     }
 }

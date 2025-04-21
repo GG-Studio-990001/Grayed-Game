@@ -49,6 +49,7 @@ namespace Runtime.CH2.SuperArio
                 .AppendInterval(1f)
                 .AppendCallback(() =>
                 {
+                    Managers.Sound.Play(Sound.SFX, "SuperArio/Opening/CH2_SUB_SFX_06");
                     // 말풍선
                     _txtBallon.SetActive(true);
                 })
@@ -64,10 +65,15 @@ namespace Runtime.CH2.SuperArio
         
         private void Drop(Vector3 point)
         {
-            _ani.SetBool("Run", true);
+            Managers.Sound.Play(Sound.SFX, "SuperArio/Opening/CH2_SUB_SFX_08_1");
+            //_ani.SetBool("Run", true);
             Sequence sequence = DOTween.Sequence();
             sequence
                 .Append(transform.DOJump(point, 2f,1,0.5f).SetEase(Ease.Linear))
+                .AppendCallback(() =>
+                {
+                    Managers.Sound.Play(Sound.SFX, "SuperArio/Opening/CH2_SUB_SFX_08_2");
+                })
                 .AppendInterval(1f)
                 .OnComplete(() =>
                 {
@@ -77,6 +83,7 @@ namespace Runtime.CH2.SuperArio
 
         private void Move(Vector2 point)
         {
+            Managers.Sound.Play(Sound.SFX, "SuperArio/Opening/CH2_SUB_SFX_09");
             Sequence sequence = DOTween.Sequence();
             sequence.Join(transform.DOMoveX(point.x, 0.75f).SetEase(Ease.Linear))
                 .AppendInterval(1f)

@@ -5,8 +5,11 @@ namespace Runtime.CH3.Main
 {
     public class BaseGridObject : MonoBehaviour, IGridObject
     {
+        [SerializeField] protected GridObjectType objectType;  // Inspector에서 설정할 수 있도록
         [SerializeField] protected Vector2Int gridPosition;
+        public GridObjectType ObjectType => objectType;
         public Vector2Int GridPosition => gridPosition;
+        public GameObject GameObject => gameObject;  // GameObject 속성 구현
 
         protected SpriteRenderer spriteRenderer;
         private MinimapManager minimapManager;
@@ -56,6 +59,7 @@ namespace Runtime.CH3.Main
 
         public virtual void Remove()
         {
+            minimapManager.RemoveMinimapIcon(transform);
             Destroy(gameObject);
         }
 
