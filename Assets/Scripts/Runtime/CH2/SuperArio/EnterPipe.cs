@@ -37,7 +37,7 @@ namespace Runtime.CH2.SuperArio
 
         private void StartEnterAnimation()
         {
-            transform.DOMoveY(_initialPosition.y+ 0.25f, _animationDuration)
+            transform.DOMoveY(_initialPosition.y+ 0.2f, _animationDuration)
                 .SetEase(Ease.OutBounce); // 애니메이션 이징
         }
 
