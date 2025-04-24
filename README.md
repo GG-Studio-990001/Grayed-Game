@@ -2,6 +2,7 @@
 
 ![CutSene gif](https://github.com/user-attachments/assets/c66db4e4-e75d-4350-8168-768db4800578)
 
+_잊혀진 게임들이 모이는 마을이 있다. 어느 날, 게임이 아닌 것이 떨어졌다._
 
 <br>
 
