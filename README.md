@@ -1,4 +1,4 @@
-# Grayed-Game
+# Grayed Game
 
 ![CutSene gif](https://github.com/user-attachments/assets/c66db4e4-e75d-4350-8168-768db4800578)
 
