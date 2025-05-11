@@ -22,7 +22,10 @@ namespace Runtime.CH3.DnD
         {
             Initialize();
             _body.isKinematic = false;
-            _body.AddForce(350, 500, -150);
+            Physics.gravity = new Vector3(0, -9.81f * 3, 0);
+
+            float t = 4f;
+            _body.AddForce(350 * t, 500 * t, -150 * t);
             _body.AddTorque(0, 0, -20);
         }
 
@@ -30,7 +33,9 @@ namespace Runtime.CH3.DnD
         {
             Initialize();
             _body.isKinematic = false;
-            _body.AddForce(500, 500, -50);
+
+            float t = 4f;
+            _body.AddForce(500 * t, 500 * t, -50 * t);
             _body.AddTorque(0, 0, -10);
         }
 
