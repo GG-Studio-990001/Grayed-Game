@@ -181,11 +181,8 @@ namespace Runtime.CH2.SuperArio
         {
             Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
 
-            // 첫 스테이지 시작 시에만 코인 초기화
-            if (CurrentStage == "1-1")
-            {
-                CoinCnt = Managers.Data.Common.Coin;
-            }
+            // 모든 스테이지 시작 시 저장된 코인 데이터 불러오기
+            CoinCnt = Managers.Data.Common.Coin;
 
             InitData();
             UpdateStage(CurrentStage);
@@ -225,6 +222,9 @@ namespace Runtime.CH2.SuperArio
             UpdateStage(CurrentStage);
             IsPlay = false;
             OnPlay.Invoke(IsPlay);
+            
+            // 게임 종료 시 코인 데이터 저장
+            Managers.Data.Common.Coin = CoinCnt;
         }
 
         private void NextStage()
