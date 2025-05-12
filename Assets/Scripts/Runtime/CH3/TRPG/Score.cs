@@ -10,7 +10,7 @@ namespace Runtime.CH3.DnD
 
         private void Update()
         {
-            if (_dice.DiceFaceNum != 0)
+            if (_dice.DiceFaceNum != -1)
                 _scoreText.text = _dice.DiceFaceNum.ToString();
         }
     }
