@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Runtime.CH3.DnD
+namespace Runtime.CH3.TRPG
 {
     public class Score : MonoBehaviour
     {
@@ -10,7 +10,7 @@ namespace Runtime.CH3.DnD
 
         private void Update()
         {
-            if (_dice.DiceFaceNum != 0)
+            if (_dice.DiceFaceNum != -1)
                 _scoreText.text = _dice.DiceFaceNum.ToString();
         }
     }
