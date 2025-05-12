@@ -32,21 +32,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SuperArio.unity
     guid: 1a47ec3f9f2b2a84eb7240046f128a0f
-  - enabled: 0
-    path: Assets/Scenes/CH3_Legacy.unity
-    guid: 19bda13025b52bb4f9b7a9521c1ee0d9
-  - enabled: 1
-    path: Assets/Scenes/Rokemon.unity
-    guid: 5b6bd4fda1f54af4886f024c151ca1e8
-  - enabled: 0
-    path: Assets/Scenes/TRPG_Dice.unity
-    guid: 1f992ce4b856453499b6d434350bb9fc
-  - enabled: 1
-    path: Assets/Scenes/TRPG.unity
-    guid: 05a6ba0ebff19784498195211f006e71
   - enabled: 1
     path: Assets/Scenes/CH3.unity
     guid: 1033371f428a0254bae4877b921dbc9e
+  - enabled: 1
+    path: Assets/Scenes/Rokemon.unity
+    guid: 5b6bd4fda1f54af4886f024c151ca1e8
+  - enabled: 1
+    path: Assets/Scenes/TRPG.unity
+    guid: 05a6ba0ebff19784498195211f006e71
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: f3e6a5ed471769d4aabb8105f74f71fa, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: ddc15bbc1419fef4cbf8bc7636cf3ba4, type: 2}
