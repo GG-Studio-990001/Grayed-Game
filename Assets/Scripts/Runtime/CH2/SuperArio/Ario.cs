@@ -162,16 +162,27 @@ namespace Runtime.CH2.SuperArio
             float elapsedTime = 0f;
             while (elapsedTime < _invincibleDuration)
             {
-                // 무지개 색상을 계산
-                float hue = (elapsedTime % 1f) / 1f;
+                // 무지개 색상을 더 천천히 변경
+                float hue = (elapsedTime % 2f) / 2f; // 2초 주기로 색상 변경
                 _spr.color = Color.HSVToRGB(hue, 1f, 1f);
 
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
+            // 스타 효과 종료 전 깜빡임
+            float warningTime = 2f;
+            float warningElapsedTime = 0f;
+            while (warningElapsedTime < warningTime)
+            {
+                _spr.enabled = !_spr.enabled;
+                warningElapsedTime += _blinkInterval;
+                yield return new WaitForSeconds(_blinkInterval);
+            }
+
             Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
             // 무적 상태 종료 후 원래 색상 복구
+            _spr.enabled = true;
             _spr.color = _originalColor;
             _isInvincible = false;
         }

@@ -27,5 +27,10 @@ namespace Runtime.CH2.SuperArio
                 StartCoroutine(ario.RewardEnterAnimation(doorTr));
             }
         }
+
+        private void OnEnable()
+        {
+            _once = false;
+        }
     }
 }
