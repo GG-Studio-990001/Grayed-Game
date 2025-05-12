@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Runtime.CH3.DnD
+namespace Runtime.CH3.TRPG
 {
     public class FaceDetector : MonoBehaviour
     {
@@ -8,11 +8,9 @@ namespace Runtime.CH3.DnD
 
         private void OnTriggerStay(Collider other)
         {
-            // Debug.Log("_dice.name");
             if (other.CompareTag(_dice.name) && _dice.GetComponent<Rigidbody>().velocity == Vector3.zero)
             {
-                // Debug.Log("Detect");
-                _dice.DiceFaceNum = int.Parse(other.name);
+                _dice.DiceFaceNum = (int.Parse(other.name) == 999 ? 0 : int.Parse(other.name));
             }
         }
     }
