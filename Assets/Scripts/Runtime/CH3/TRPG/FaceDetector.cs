@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Runtime.CH3.DnD
+namespace Runtime.CH3.TRPG
 {
     public class FaceDetector : MonoBehaviour
     {
