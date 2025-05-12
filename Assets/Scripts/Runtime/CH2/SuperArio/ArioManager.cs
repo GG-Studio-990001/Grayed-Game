@@ -206,7 +206,7 @@ namespace Runtime.CH2.SuperArio
             _ui.ChangeCoinText("RAPLEY\n" + CoinCnt);
             _ui.ActiveRestartText(false);
             _ui.ChangeObstacleText(0);
-            if (_ario.life <= 1)
+            if (_ario.life == 0)
                 ChangeHeartUI(1);
             IsPause = false; // 시작 시 입력 방지
         }
