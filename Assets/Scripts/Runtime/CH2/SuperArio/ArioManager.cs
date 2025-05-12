@@ -181,6 +181,12 @@ namespace Runtime.CH2.SuperArio
         {
             Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
 
+            // 첫 스테이지 시작 시에만 코인 초기화
+            if (CurrentStage == "1-1")
+            {
+                CoinCnt = Managers.Data.Common.Coin;
+            }
+
             InitData();
             UpdateStage(CurrentStage);
             
