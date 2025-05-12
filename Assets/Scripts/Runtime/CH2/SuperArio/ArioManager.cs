@@ -321,7 +321,7 @@ namespace Runtime.CH2.SuperArio
 
             CurrentStage = stage; // 현재 스테이지 갱신
             GameSpeed = stageData.Speed + 5; // 게임 속도 갱신
-            _ui.ChangeStageText($"WORLD\n{CurrentStage}"); // UI에 스테이지 정보 갱신
+            _ui.ChangeStageText($"STAGE\n{CurrentStage}"); // UI에 스테이지 정보 갱신
             ChangeObstacleCnt(stageData.ObstacleCount);
 
             // 장애물 매니저에 스테이지 데이터 전달

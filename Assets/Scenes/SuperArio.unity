@@ -971,7 +971,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 0.25}
+  m_Size: {x: 0.5, y: 0.6}
   m_Direction: 0
 --- !u!212 &87311207
 SpriteRenderer:
@@ -13075,7 +13075,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'WORLD
+  m_text: 'STAGE
 
     1-1'
   m_isRightToLeft: 0
