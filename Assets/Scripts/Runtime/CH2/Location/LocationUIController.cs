@@ -21,13 +21,14 @@ namespace Runtime.CH2.Location
         public void MoveLocation() // FadeIn&Out
         {
             FadeOut();
-            StartLocation();
+            Invoke(nameof(StartLocation), 1f);
         }
 
         public void StartLocation() // Only FadeIn
         {
-            Invoke(nameof(SetLocation), 1f);
-            Invoke(nameof(FadeIn), 1f);
+            _fadeController.SetFadeImg();
+            Invoke(nameof(SetLocation), 0.5f);
+            Invoke(nameof(FadeIn), 0.5f);
         }
 
         private void FadeOut()
