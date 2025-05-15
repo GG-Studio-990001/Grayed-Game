@@ -2,7 +2,7 @@ title: Turn7
 ---
 <<ChangeBGM>>
 // 장소: 기지
-<<SetLocation Base>>
+<<StartLocation Base>>
 <<wait 2>>
 // 접속게임 스테이지3에서 슬라임을 얻어 탈출함
 

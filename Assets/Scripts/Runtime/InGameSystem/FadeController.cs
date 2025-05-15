@@ -1,6 +1,8 @@
+using Codice.Client.Common;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace Runtime.InGameSystem
 {
@@ -11,6 +13,12 @@ namespace Runtime.InGameSystem
 
         private float FadeDuration { get; set; } = 1f;
         private Coroutine _currentFadeCoroutine;
+        private Tween _currentFadeTween;
+
+        public void SetFadeImg()
+        {
+            fadeImage.color = new Color(0, 0, 0, 1);
+        }
 
         public void StartFadeIn()
         {
