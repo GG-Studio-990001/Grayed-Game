@@ -24,6 +24,12 @@ namespace Runtime.CH2.Dialogue
                     float xPos = pos.Equals("A") ? _leftX : _rightX;
                     character.transform.localPosition = new Vector3(xPos, character.transform.localPosition.y, character.transform.localPosition.z);
 
+                    if (character.CharacterName == "슬라임") // 하드코딩 주의... 리팩터링 필요?
+                    {
+                        Vector3 flipedScale = new(pos.Equals("A") ? -0.48f : 0.48f, character.transform.localScale.y, character.transform.localScale.z);
+                        character.transform.localScale = flipedScale;
+                    }
+
                     return;
                 }
             }
@@ -67,7 +73,7 @@ namespace Runtime.CH2.Dialogue
             {
                 if (!character.gameObject.activeInHierarchy) continue;
 
-                // TODO: 리팩터링
+                // TODO: 리팩터링 => CharacterName 제거하고 .name만 사용하도록 될까?
                 if (character.CharacterName == "진도비글")
                 {
                     if (speaker == "진도")
