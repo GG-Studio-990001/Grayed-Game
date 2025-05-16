@@ -5492,7 +5492,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7730226951996380954}
         m_TargetAssemblyTypeName: Runtime.CH3.TRPG.DiceRoll, Scripts
-        m_MethodName: Initialize
+        m_MethodName: Test
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5504,7 +5504,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 7334016540370449110}
         m_TargetAssemblyTypeName: Runtime.CH3.TRPG.DiceRoll, Scripts
-        m_MethodName: Initialize
+        m_MethodName: Test
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7469,7 +7469,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4662372388357164709}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -6.617913, y: 0.5194892, z: 2.806369}
   m_LocalScale: {x: 120, y: 120, z: 100}
   m_ConstrainProportionsScale: 0
@@ -7485,7 +7485,7 @@ Transform:
   - {fileID: 1859994961}
   - {fileID: 1606892653}
   m_Father: {fileID: 1907902537}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!64 &7334016540370449108
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7551,6 +7551,17 @@ MonoBehaviour:
   _forceX: 350
   _forceY: 500
   _forceZ: -150
+  _presets:
+  - {x: 270, y: 335.27478, z: 0}
+  - {x: 59, y: 190, z: 184}
+  - {x: 11, y: 352, z: 327}
+  - {x: 19.00001, y: 112, z: 203.16716}
+  - {x: 11, y: 227, z: 210}
+  - {x: 73.00001, y: 121.000015, z: 7.6239343}
+  - {x: 279, y: 180, z: 245.929}
+  - {x: 19, y: 64, z: 109}
+  - {x: 14, y: 255, z: 333}
+  - {x: 19, y: 112, z: 141}
 --- !u!23 &7730226951996380952
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7636,6 +7647,17 @@ MonoBehaviour:
   _forceX: 500
   _forceY: 500
   _forceZ: -50
+  _presets:
+  - {x: 291.11, y: 167.82, z: 162.12}
+  - {x: 29, y: 141, z: 37}
+  - {x: 0, y: 286, z: 302}
+  - {x: 63, y: 196, z: 281}
+  - {x: 274.76, y: 68, z: 56}
+  - {x: 63, y: 154, z: 5.11}
+  - {x: 11, y: 330, z: 224}
+  - {x: 30, y: 160, z: 14}
+  - {x: 275.2, y: 57, z: 95}
+  - {x: 52, y: 29, z: 164}
 --- !u!64 &7730226951996380955
 MeshCollider:
   m_ObjectHideFlags: 0
