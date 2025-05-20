@@ -5808,7 +5808,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 1624018585}
-  fadeDeltaTime: 0.1
 --- !u!224 &865558342
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7318,7 +7317,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ' X 150'
+  m_text: ' X 100'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1452dd602895f7449930e1bb19972b51, type: 2}
   m_sharedMaterial: {fileID: -281216424612694139, guid: 1452dd602895f7449930e1bb19972b51, type: 2}
@@ -13610,7 +13609,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ' X 100'
+  m_text: ' X 30'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1452dd602895f7449930e1bb19972b51, type: 2}
   m_sharedMaterial: {fileID: -281216424612694139, guid: 1452dd602895f7449930e1bb19972b51, type: 2}
