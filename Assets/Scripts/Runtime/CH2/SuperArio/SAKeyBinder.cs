@@ -44,6 +44,15 @@ namespace Runtime.CH2.SuperArio
             ArioManager.Instance.RestartSuperArio();
         }
 
+        public void CheatKeyInput(InputAction.CallbackContext context)
+        {
+            if (!ArioManager.Instance.IsPlay) return;
+            if (context.performed)
+            {
+                ArioManager.Instance.AddCheatCoins();
+            }
+        }
+
         public void EnterStoreKeyInput(InputAction.CallbackContext context)
         {
             if (ArioManager.Instance.IsPlay || ArioManager.Instance.IsPause || ArioManager.Instance.IsStore ||

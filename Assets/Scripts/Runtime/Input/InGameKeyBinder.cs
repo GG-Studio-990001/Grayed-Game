@@ -55,6 +55,7 @@ namespace Runtime.Input
             _gameOverControls.UI.GameSetting.performed += _ => keyBinder.PauseKeyInput();
             _gameOverControls.UI.Restart.performed += _ => keyBinder.RestartSuperArio();
             _gameOverControls.UI.ChangeScreen.performed += _ => keyBinder.ChangeScreenResolution();
+            _gameOverControls.UI.Cheat.performed += keyBinder.CheatKeyInput;
             
             _gameOverControls.Player.Enable();
             _gameOverControls.Player.Move.performed += keyBinder.EnterStoreKeyInput;

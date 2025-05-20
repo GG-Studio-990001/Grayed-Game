@@ -332,5 +332,18 @@ namespace Runtime.CH2.SuperArio
         {
             OpenStore.Invoke();
         }
+
+        public void AddCheatCoins()
+        {
+            if (!IsPlay) return;
+            if (CoinCnt >= 500) return;
+
+            for (int i = 0; i < 500; i++)
+            {
+                GetCoin();
+            }
+            
+            Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_31");
+        }
     }
 }
