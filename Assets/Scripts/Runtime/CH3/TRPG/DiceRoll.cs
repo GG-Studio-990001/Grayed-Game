@@ -22,8 +22,8 @@ namespace Runtime.CH3.TRPG
 
         public void RollDice()
         {
-            // Initialize();
-            // SetValue();
+            Initialize();
+            SetValue();
 
             Debug.Log(this.name + " Vector3" + transform.localEulerAngles);
 
@@ -45,12 +45,6 @@ namespace Runtime.CH3.TRPG
             Quaternion rot = Quaternion.Euler(_presets[val]);
             transform.SetPositionAndRotation(_initPos, rot);
             Debug.Log(this.name + " 목표값: " + val);
-        }
-
-        public void Test()
-        {
-            Initialize();
-            SetValue();
         }
     }
 }
