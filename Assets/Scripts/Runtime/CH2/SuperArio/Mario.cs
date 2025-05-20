@@ -7,6 +7,7 @@ namespace Runtime.CH2.SuperArio
     public class Mario : MonoBehaviour
     {
         [SerializeField] private Sprite sitSprite;
+        [SerializeField] private Sprite hitSprite;
         private float _jumpHeight = 1;
         private float _jumpSpeed = 7;
         private bool _isJump;
@@ -69,7 +70,7 @@ namespace Runtime.CH2.SuperArio
         {
             _ani.enabled = false;
             _spr.sprite = sitSprite;
-            yield return new WaitForSeconds(0.65f);
+            yield return new WaitForSeconds(0.45f);
             _ani.enabled = true;
             _spr.sprite = initSprite;
         }
@@ -100,7 +101,6 @@ namespace Runtime.CH2.SuperArio
                 _ani.speed = 0;
             }
         }
-        
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -109,6 +109,8 @@ namespace Runtime.CH2.SuperArio
                 var isSit = other.GetComponent<ObstacleBase>().isSitObstacle;
                 if(!isSit)
                     StartCoroutine(Jump());
+                else
+                    StartCoroutine(Sit());
             }
         }
     }

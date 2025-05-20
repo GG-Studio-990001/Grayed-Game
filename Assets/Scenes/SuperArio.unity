@@ -4630,7 +4630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55224b3eacc349246b0b03ca2ba9d983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sitSprite: {fileID: -498863669, guid: d9f7d398e90034d40b67124d10cf1ac2, type: 3}
+  sitSprite: {fileID: -2038916504, guid: 85eecc212ede4b140a408879ff7bd27b, type: 3}
 --- !u!70 &759164882
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -4663,8 +4663,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 3.25, y: 0.6}
+  m_Offset: {x: 0.0000000066315238, y: 0.05562926}
+  m_Size: {x: 2.5, y: 0.71125954}
   m_Direction: 1
 --- !u!50 &759164883
 Rigidbody2D:
