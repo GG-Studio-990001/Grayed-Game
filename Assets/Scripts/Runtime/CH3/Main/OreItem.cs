@@ -19,9 +19,9 @@ namespace Runtime.CH3.Main
 
         [Header("Collection Settings")]
         [SerializeField] private float collectRadius = 3f;
-        [SerializeField] private float moveSpeed = 10f;
-        [SerializeField] private float accelerationRate = 2f;
-        [SerializeField] private float collectDistance = 0.1f;
+        [SerializeField] private float moveSpeed = 15f;
+        [SerializeField] private float accelerationRate = 4f;
+        [SerializeField] private float collectDistance = 0.05f;
         [SerializeField] private float minScale = 0.3f;
 
         private bool isDropped = false;
