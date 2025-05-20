@@ -78,7 +78,8 @@ namespace Runtime.CH2.SuperArio
             if (IsPlay || IsStore || IsOpening)
                 return;
             _storeCam.Priority = 10;
-            StartGame();
+            _ui.ActiveRestartText(false);
+            StartGame(true);
         }
 
         public void EnterStore()
@@ -105,7 +106,8 @@ namespace Runtime.CH2.SuperArio
             yield return new WaitForSeconds(1f);
             _production.SetAspectRatio(AspectRatio.Ratio_21_9, true);
             IsStore = false;
-            RestartSuperArio();
+            _storeCam.Priority = 10;
+            StartGame(false);
         }
 
         public void EnterReward()
@@ -179,7 +181,7 @@ namespace Runtime.CH2.SuperArio
             IsPause = !IsPause;
         }
 
-        private void StartGame()
+        private void StartGame(bool initLife = true)
         {
             Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
 
@@ -190,6 +192,8 @@ namespace Runtime.CH2.SuperArio
 
             IsGameOver = false;
             IsPlay = true;
+            if (initLife)
+                ChangeHeartUI(1); // 게임 시작 시에만 체력 초기화
             OnPlay.Invoke(IsPlay);
         }
 
