@@ -9,7 +9,6 @@ namespace Runtime.CH2.SuperArio
     public class ArioStore : MonoBehaviour
     {
         [SerializeField] private SurfaceEffector2D _surface;
-        [SerializeField] private StoreWall[] _storeWalls;
         [SerializeField] private GameObject[] _openWalls;
         [SerializeField] private GameObject[] _boxes;
         [SerializeField] private float _jumpForce = 12f;
@@ -66,21 +65,11 @@ namespace Runtime.CH2.SuperArio
             _isGrounded = false;
             spr.flipX = false;
             _rb.isKinematic = true;
+            _rb.velocity = Vector2.zero;
             transform.position = _initPos;
             _surface.speed = 3.5f;
-
-            foreach (var wall in _storeWalls)
-            {
-                wall.gameObject.SetActive(true);
-            }
-
-            foreach (var wall in _openWalls)
-            {
-                wall.gameObject.SetActive(false);
-            }
-
             ArioManager.Instance.ExitStore();
-            gameObject.SetActive(false);
+            StartCoroutine(CloseWalls());
         }
 
         private void FixedUpdate()
@@ -153,7 +142,7 @@ namespace Runtime.CH2.SuperArio
                     _surface.speed = _surfaceVelocityX;
                 return;
             }
-            
+
             if (other.gameObject.CompareTag(GlobalConst.ObstacleStr))
             {
                 foreach (ContactPoint2D contact in other.contacts)
@@ -167,7 +156,7 @@ namespace Runtime.CH2.SuperArio
                 }
                 return;
             }
-            
+
             if (other.gameObject.TryGetComponent(out StoreGround ground))
             {
                 foreach (ContactPoint2D contact in other.contacts)
@@ -193,15 +182,20 @@ namespace Runtime.CH2.SuperArio
 
         private void OpenWalls()
         {
-            foreach (var wall in _storeWalls)
-            {
-                wall.gameObject.SetActive(false);
-            }
-
             foreach (var wall in _openWalls)
             {
-                wall.gameObject.SetActive(true);
+                wall.GetComponent<StoreWall>().OpenWall();
             }
+        }
+
+        private IEnumerator CloseWalls()
+        {
+            yield return new WaitForSeconds(1f);
+            foreach (var wall in _openWalls)
+            {
+                wall.GetComponent<StoreWall>().CloseWall();
+            }
+            gameObject.SetActive(false);
         }
     }
 }
