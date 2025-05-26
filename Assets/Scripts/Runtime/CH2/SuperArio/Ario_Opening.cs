@@ -15,6 +15,8 @@ namespace Runtime.CH2.SuperArio
         
         private void Start()
         {
+            if (ArioManager.Instance != null && ArioManager.Instance.SkipOpening)
+                return;
             _spr = GetComponent<SpriteRenderer>();
             _ani = GetComponent<Animator>();
             _ani.enabled = false;

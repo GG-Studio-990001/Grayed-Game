@@ -46,6 +46,10 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private ArioUIController _ui;
         [SerializeField] private string stageName;
 
+        [Header("디버그")]
+        [SerializeField] private bool skipOpening = false;
+        public bool SkipOpening => skipOpening;
+
         public string CurrentStage { get; private set; }
         public float GameSpeed { get; private set; }
         public bool IsPlay { get; private set; }
@@ -63,14 +67,19 @@ namespace Runtime.CH2.SuperArio
 
         private void Start()
         {
-
             _obstacleManager = GetComponent<ObstacleManager>();
             _production = GetComponent<CameraProduction>();
             CurrentStage = Managers.Data.CH2.ArioStage;
             CoinCnt = Managers.Data.Common.Coin;
-            _production.SetAspectRatio(AspectRatio.Ratio_8_7, true);
 
             InitData();
+
+            if (skipOpening)
+            {
+                WaitStart();
+                return;
+            }
+            _production.SetAspectRatio(AspectRatio.Ratio_8_7, true);
         }
 
         public void RestartSuperArio()

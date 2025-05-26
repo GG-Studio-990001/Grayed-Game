@@ -23,11 +23,15 @@ namespace Runtime.CH2.SuperArio
 
         private void Start()
         {
+            if (ArioManager.Instance != null && ArioManager.Instance.SkipOpening)
+            {
+                _camera.SetActive(false);
+                return;
+            }
             _ani = GetComponent<Animator>();
             _spr = GetComponent<SpriteRenderer>();
             initSprite = _spr.sprite;
             _startPos = transform.position;
-
             Move(targets[0].position);
         }
 
