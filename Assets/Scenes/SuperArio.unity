@@ -2629,6 +2629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f9f5da94ab3504bbc7580e6b001011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <_lineView>k__BackingField: {fileID: 268768000}
   <Ario>k__BackingField: {fileID: 87311209}
   <ArioStore>k__BackingField: {fileID: 1780669280}
   _settingsUIView: {fileID: 2079359821}
@@ -2673,8 +2674,8 @@ MonoBehaviour:
   _ario: {fileID: 87311209}
   _mario: {fileID: 759164881}
   _ui: {fileID: 160858918}
-  stageName: 3-3
-  skipOpening: 1
+  stageName: 
+  skipOpening: 0
 --- !u!4 &310571482
 Transform:
   m_ObjectHideFlags: 0

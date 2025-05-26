@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animationDuration: 0.5
   _offsetY: 1
+  _isEndPipe: 1
   _canEnter: 1
 --- !u!114 &-6741809011975829497
 MonoBehaviour:

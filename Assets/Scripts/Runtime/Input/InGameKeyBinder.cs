@@ -48,7 +48,7 @@ namespace Runtime.Input
         }
         
         // SuperArio
-        public void SAKeyBinding(SAKeyBinder keyBinder, SettingsUIView settingsUIView)
+        public void SAKeyBinding(SAKeyBinder keyBinder, SettingsUIView settingsUIView, LineView line)
         {
             _gameOverControls.UI.Enable();
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
@@ -56,7 +56,8 @@ namespace Runtime.Input
             _gameOverControls.UI.Restart.performed += _ => keyBinder.RestartSuperArio();
             _gameOverControls.UI.ChangeScreen.performed += _ => keyBinder.ChangeScreenResolution();
             _gameOverControls.UI.Cheat.performed += keyBinder.CheatKeyInput;
-            
+            _gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
+
             _gameOverControls.Player.Enable();
             _gameOverControls.Player.Move.performed += keyBinder.EnterStoreKeyInput;
             _gameOverControls.Player.Move.performed += keyBinder.Ario.OnMove;

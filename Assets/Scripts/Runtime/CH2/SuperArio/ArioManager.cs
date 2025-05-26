@@ -63,12 +63,12 @@ namespace Runtime.CH2.SuperArio
         private ObstacleManager _obstacleManager;
         private CameraProduction _production;
         private SceneTransform _sceneTransform;
-        
+
         private void Start()
         {
             _obstacleManager = GetComponent<ObstacleManager>();
             _production = GetComponent<CameraProduction>();
-            
+
             // stageName이 입력되어 있고 N-N 형식이면 해당 스테이지부터 시작
             if (!string.IsNullOrEmpty(stageName) && stageName.Contains("-"))
             {
@@ -82,7 +82,8 @@ namespace Runtime.CH2.SuperArio
             {
                 CurrentStage = Managers.Data.CH2.ArioStage;
             }
-            
+            _ui.ChangeStageText($"STAGE\n{CurrentStage}"); // UI에 스테이지 정보 갱신
+
             CoinCnt = Managers.Data.Common.Coin;
 
             InitData();
@@ -376,7 +377,7 @@ namespace Runtime.CH2.SuperArio
             {
                 GetCoin();
             }
-            
+
             Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_31");
         }
     }

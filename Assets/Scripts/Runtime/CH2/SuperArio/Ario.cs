@@ -196,7 +196,7 @@ namespace Runtime.CH2.SuperArio
         public void EnterStoreAnimation()
         {
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(transform.DOMoveY(transform.position.y - 2f, 1f).SetEase(Ease.Linear));
+            sequence.Append(transform.DOMoveY(transform.position.y - 2f, 0.8f).SetEase(Ease.Linear));
             sequence.AppendCallback(() =>
             {
                 transform.position = _startPos;
@@ -226,6 +226,7 @@ namespace Runtime.CH2.SuperArio
         {
             if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.Instance.IsPlay && !_isInvincible)
             {
+                Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_20");
                 life--;
                 _spr.sprite = hitSprite;
                 ArioManager.Instance.ChangeHeartUI(life);
