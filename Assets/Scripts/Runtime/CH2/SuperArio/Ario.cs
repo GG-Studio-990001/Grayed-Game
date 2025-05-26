@@ -256,17 +256,19 @@ namespace Runtime.CH2.SuperArio
             _isInvincible = false;
         }
 
-        public IEnumerator RewardEnterAnimation(Transform door)
+        public IEnumerator RewardEnterAnimation(Transform door, bool istop = false)
         {
             // 바닥까지 이동
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.85f);
+            if (istop)
+                Managers.Sound.Play(Sound.SFX, "SuperArio/Ending/CH2_SUB_SFX_18");
+            yield return new WaitForSeconds(0.15f);
             float duration = Vector2.Distance(transform.position, _startPos) / 2f;
             yield return transform.DOMove(_startPos, duration).SetEase(Ease.Linear).WaitForCompletion();
-            Managers.Sound.Play(Sound.SFX, "SuperArio/Ending/CH2_SUB_SFX_18");
             yield return new WaitForSeconds(1f);
 
             // 입구까지 이동
-            Managers.Sound.Play(Sound.SFX, "SuperArio/Ending/CH2_SUB_SFX_9_2");
+            Managers.Sound.Play(Sound.SFX, "SuperArio/Opening/CH2_SUB_SFX_9_2");
             yield return transform.DOMoveX(door.position.x, 1.5f).SetEase(Ease.Linear).WaitForCompletion();
             yield return new WaitForSeconds(1f);
             gameObject.SetActive(false);

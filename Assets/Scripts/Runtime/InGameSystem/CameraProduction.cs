@@ -156,6 +156,7 @@ public class CameraProduction : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         sequence.AppendCallback(() =>
         {
+            Managers.Sound.UpdateBGMVolume(0f);
             Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_23");
         }).Append(DOTween.To(
             () => _material.GetFloat("_Lerp"),

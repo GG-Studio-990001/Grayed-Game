@@ -63,13 +63,26 @@ namespace Runtime.CH2.SuperArio
         private ObstacleManager _obstacleManager;
         private CameraProduction _production;
         private SceneTransform _sceneTransform;
-        private DataCheater _dataCheater;
-
+        
         private void Start()
         {
             _obstacleManager = GetComponent<ObstacleManager>();
             _production = GetComponent<CameraProduction>();
-            CurrentStage = Managers.Data.CH2.ArioStage;
+            
+            // stageName이 입력되어 있고 N-N 형식이면 해당 스테이지부터 시작
+            if (!string.IsNullOrEmpty(stageName) && stageName.Contains("-"))
+            {
+                var parts = stageName.Split('-');
+                if (parts.Length == 2 && int.TryParse(parts[0], out int world) && int.TryParse(parts[1], out int stage))
+                {
+                    CurrentStage = stageName;
+                }
+            }
+            else
+            {
+                CurrentStage = Managers.Data.CH2.ArioStage;
+            }
+            
             CoinCnt = Managers.Data.Common.Coin;
 
             InitData();
@@ -133,6 +146,7 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator WaitEnterReward(float delay = 0)
         {
             yield return new WaitForSeconds(delay - 1f);
+            Managers.Sound.UpdateBGMVolume();
             Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_03");
             _production.SetAspectRatio(AspectRatio.Ratio_8_7, true);
             _obstacleManager.DestroyBuilding();
@@ -307,6 +321,7 @@ namespace Runtime.CH2.SuperArio
             _production.SetAspectRatio(AspectRatio.Ratio_8_7);
             _ui.gameObject.SetActive(false);
             _mario.PauseAnimation();
+            Managers.Sound.UpdateBGMVolume(0.25f);
         }
 
         public void CalculateNextStage()

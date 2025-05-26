@@ -9,7 +9,7 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private Sprite sitSprite;
         [SerializeField] private Sprite hitSprite;
         private float _jumpHeight = 1;
-        private float _jumpSpeed = 7;
+        private float _jumpSpeed = 7.5f;
         private bool _isJump;
         private bool _isTop;
 

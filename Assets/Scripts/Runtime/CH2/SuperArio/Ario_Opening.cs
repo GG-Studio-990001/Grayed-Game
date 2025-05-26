@@ -80,7 +80,7 @@ namespace Runtime.CH2.SuperArio
                 });
         }
 
-        private void Move(UnityEngine.Vector2 point)
+        private void Move(Vector2 point)
         {
             Managers.Sound.Play(Sound.SFX, "SuperArio/Opening/CH2_SUB_SFX_09");
             Sequence sequence = DOTween.Sequence();

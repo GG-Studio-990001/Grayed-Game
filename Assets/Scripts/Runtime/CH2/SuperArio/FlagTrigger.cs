@@ -24,7 +24,7 @@ namespace Runtime.CH2.SuperArio
                 
                 // isplay 멈춤
                 ArioManager.Instance.TouchFlag();
-                StartCoroutine(ario.RewardEnterAnimation(doorTr));
+                StartCoroutine(ario.RewardEnterAnimation(doorTr, isTop));
             }
         }
 
