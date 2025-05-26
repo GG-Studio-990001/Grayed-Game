@@ -1,9 +1,6 @@
 using Runtime.ETC;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using System.Collections;
 using DG.Tweening;
-using UnityEngine.Serialization;
 
 namespace Runtime.CH2.SuperArio
 {
@@ -45,7 +42,7 @@ namespace Runtime.CH2.SuperArio
         {
             Sequence sequence = DOTween.Sequence();
             
-            sequence.Append(transform.DOMoveY(transform.position.y + 0.75f, 1f).SetEase(Ease.Linear))
+            sequence.Append(transform.DOMoveY(transform.position.y + 0.725f, 1f).SetEase(Ease.Linear))
                 .AppendInterval(1f)
                 .AppendCallback(() =>
                 {
@@ -59,7 +56,7 @@ namespace Runtime.CH2.SuperArio
                     // 말풍선
                     _txtBallon.SetActive(false);
                     _ani.enabled = true;;
-                    Drop(_targets[0].position);
+                    Drop(_targets[0].position + Vector3.down * 0.05f);
                 });
         }
         
@@ -81,7 +78,7 @@ namespace Runtime.CH2.SuperArio
                 });
         }
 
-        private void Move(Vector2 point)
+        private void Move(UnityEngine.Vector2 point)
         {
             Managers.Sound.Play(Sound.SFX, "SuperArio/Opening/CH2_SUB_SFX_09");
             Sequence sequence = DOTween.Sequence();
