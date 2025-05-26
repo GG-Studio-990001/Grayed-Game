@@ -12,6 +12,7 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private float _jumpSpeed;
         [SerializeField] private Sprite sitSprite;
         [SerializeField] private Sprite hitSprite;
+        [SerializeField] private GameObject _pipe;
         public int life;
 
         private bool _isJump;
@@ -22,7 +23,6 @@ namespace Runtime.CH2.SuperArio
         private Animator _animator;
         private SpriteRenderer _spr;
         private Sprite _initSprite;
-        private GameObject _pipe;
 
         private bool _isInvincible = false; // 무적 상태 여부
         private float _invincibleDuration = 1.0f; // 무적 지속 시간
@@ -35,7 +35,6 @@ namespace Runtime.CH2.SuperArio
 
         private void Start()
         {
-            _pipe = transform.GetChild(0).gameObject;
             _spr = GetComponent<SpriteRenderer>();
             _col = GetComponent<CapsuleCollider2D>();
             _animator = GetComponent<Animator>();
@@ -192,6 +191,16 @@ namespace Runtime.CH2.SuperArio
 
             ArioManager.Instance.UseItem();
             StartCoroutine(UseItemCoroutine());
+        }
+
+        public void EnterStoreAnimation()
+        {
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(transform.DOMoveY(transform.position.y - 2f, 1f).SetEase(Ease.Linear));
+            sequence.AppendCallback(() =>
+            {
+                transform.position = _startPos;
+            });
         }
 
         private IEnumerator InvincibilityCoroutine()

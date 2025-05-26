@@ -91,6 +91,12 @@ namespace Runtime.CH2.SuperArio
             StartGame(true);
         }
 
+        public void EnterStoreAnimation()
+        {
+            _ui.ActiveRestartText(false);
+            _ario.EnterStoreAnimation();
+        }
+
         public void EnterStore()
         {
             _production.SetAspectRatio(AspectRatio.Ratio_8_7, true);

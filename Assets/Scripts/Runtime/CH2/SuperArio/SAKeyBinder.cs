@@ -41,6 +41,7 @@ namespace Runtime.CH2.SuperArio
 
         public void RestartSuperArio()
         {
+            if(_isInputDelay) return;
             ArioManager.Instance.RestartSuperArio();
         }
 
@@ -75,8 +76,9 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator InputDelay()
         {
             _isInputDelay = true;
-            yield return new WaitForSeconds(0.25f);
             Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_14");
+            ArioManager.Instance.EnterStoreAnimation();
+            yield return new WaitForSeconds(0.75f);
             ArioManager.Instance.EnterStore();
             _isInputDelay = false;
         }
