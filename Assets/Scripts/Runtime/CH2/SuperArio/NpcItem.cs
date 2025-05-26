@@ -1,16 +1,17 @@
-using Runtime.CH2.SuperArio;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Runtime.ETC;
 using UnityEngine;
 
-public class NpcItem : MonoBehaviour
+namespace Runtime.CH2.SuperArio
 {
-    private void OnTriggerEnter2D(Collider2D other)
+    public class NpcItem : MonoBehaviour
     {
-        if(other.TryGetComponent(out ArioReward ario))
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            gameObject.SetActive(false);
+            if (other.TryGetComponent(out ArioReward ario))
+            {
+                gameObject.SetActive(false);
+                Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_31");
+            }
         }
     }
 }

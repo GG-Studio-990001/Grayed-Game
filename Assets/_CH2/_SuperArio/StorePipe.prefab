@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animationDuration: 0.5
   _offsetY: 1
+  _isEndPipe: 1
   _canEnter: 1
 --- !u!114 &-6741809011975829497
 MonoBehaviour:
@@ -161,5 +162,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 12}
+  m_Size: {x: 0.1, y: 12}
   m_EdgeRadius: 0

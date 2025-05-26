@@ -3,16 +3,17 @@ using Runtime.ETC;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Yarn.Unity;
 
 namespace Runtime.CH2.SuperArio
 {
     public class SAKeyBinder : MonoBehaviour
     {
-        //[field:SerializeField] public LineView LineView { get; private set; }
+        [field: SerializeField] public LineView _lineView { get; private set; }
         [field: SerializeField] public Ario Ario { get; private set; }
         [field: SerializeField] public ArioStore ArioStore { get; private set; }
         [SerializeField] private SettingsUIView _settingsUIView;
-        
+
         private bool _isInputDelay;
 
         private void Start()
@@ -23,7 +24,7 @@ namespace Runtime.CH2.SuperArio
         private void InitKeyBinding()
         {
             Managers.Data.InGameKeyBinder.GameControlReset();
-            Managers.Data.InGameKeyBinder.SAKeyBinding(this, _settingsUIView);
+            Managers.Data.InGameKeyBinder.SAKeyBinding(this, _settingsUIView, _lineView);
 
             _settingsUIView.OnSettingsOpen += () => Managers.Data.InGameKeyBinder.PlayerInputDisable();
             _settingsUIView.OnSettingsClose += () => Managers.Data.InGameKeyBinder.PlayerInputEnable();
@@ -41,7 +42,17 @@ namespace Runtime.CH2.SuperArio
 
         public void RestartSuperArio()
         {
+            if (_isInputDelay) return;
             ArioManager.Instance.RestartSuperArio();
+        }
+
+        public void CheatKeyInput(InputAction.CallbackContext context)
+        {
+            if (!ArioManager.Instance.IsPlay) return;
+            if (context.performed)
+            {
+                ArioManager.Instance.AddCheatCoins();
+            }
         }
 
         public void EnterStoreKeyInput(InputAction.CallbackContext context)
@@ -66,8 +77,9 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator InputDelay()
         {
             _isInputDelay = true;
-            yield return new WaitForSeconds(0.25f);
             Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_14");
+            ArioManager.Instance.EnterStoreAnimation();
+            yield return new WaitForSeconds(0.75f);
             ArioManager.Instance.EnterStore();
             _isInputDelay = false;
         }

@@ -10,7 +10,7 @@ namespace Runtime.CH2.SuperArio
         private void Start()
         {
             Init();
-            _cost = 100;
+            _cost = 30;
         }
 
         public override void Check()

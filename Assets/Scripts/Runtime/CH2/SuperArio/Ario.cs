@@ -12,6 +12,7 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private float _jumpSpeed;
         [SerializeField] private Sprite sitSprite;
         [SerializeField] private Sprite hitSprite;
+        [SerializeField] private GameObject _pipe;
         public int life;
 
         private bool _isJump;
@@ -22,7 +23,6 @@ namespace Runtime.CH2.SuperArio
         private Animator _animator;
         private SpriteRenderer _spr;
         private Sprite _initSprite;
-        private GameObject _pipe;
 
         private bool _isInvincible = false; // 무적 상태 여부
         private float _invincibleDuration = 1.0f; // 무적 지속 시간
@@ -35,7 +35,6 @@ namespace Runtime.CH2.SuperArio
 
         private void Start()
         {
-            _pipe = transform.GetChild(0).gameObject;
             _spr = GetComponent<SpriteRenderer>();
             _col = GetComponent<CapsuleCollider2D>();
             _animator = GetComponent<Animator>();
@@ -160,18 +159,17 @@ namespace Runtime.CH2.SuperArio
             _originalColor = _spr.color;
 
             float elapsedTime = 0f;
-            while (elapsedTime < _invincibleDuration)
+            while (elapsedTime < _invincibleDuration - 3f) // 3초 전까지 무지개 색상 효과
             {
-                // 무지개 색상을 더 천천히 변경
-                float hue = (elapsedTime % 2f) / 2f; // 2초 주기로 색상 변경
+                float hue = (elapsedTime % 2f) / 2f;
                 _spr.color = Color.HSVToRGB(hue, 1f, 1f);
 
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            // 스타 효과 종료 전 깜빡임
-            float warningTime = 2f;
+            // 마지막 3초 동안 깜빡이는 효과
+            float warningTime = 3f;
             float warningElapsedTime = 0f;
             while (warningElapsedTime < warningTime)
             {
@@ -181,7 +179,6 @@ namespace Runtime.CH2.SuperArio
             }
 
             Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
-            // 무적 상태 종료 후 원래 색상 복구
             _spr.enabled = true;
             _spr.color = _originalColor;
             _isInvincible = false;
@@ -194,6 +191,16 @@ namespace Runtime.CH2.SuperArio
 
             ArioManager.Instance.UseItem();
             StartCoroutine(UseItemCoroutine());
+        }
+
+        public void EnterStoreAnimation()
+        {
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(transform.DOMoveY(transform.position.y - 2f, 0.8f).SetEase(Ease.Linear));
+            sequence.AppendCallback(() =>
+            {
+                transform.position = _startPos;
+            });
         }
 
         private IEnumerator InvincibilityCoroutine()
@@ -219,6 +226,7 @@ namespace Runtime.CH2.SuperArio
         {
             if (other.CompareTag(GlobalConst.ObstacleStr) && ArioManager.Instance.IsPlay && !_isInvincible)
             {
+                Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_20");
                 life--;
                 _spr.sprite = hitSprite;
                 ArioManager.Instance.ChangeHeartUI(life);
@@ -249,17 +257,19 @@ namespace Runtime.CH2.SuperArio
             _isInvincible = false;
         }
 
-        public IEnumerator RewardEnterAnimation(Transform door)
+        public IEnumerator RewardEnterAnimation(Transform door, bool istop = false)
         {
             // 바닥까지 이동
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.85f);
+            if (istop)
+                Managers.Sound.Play(Sound.SFX, "SuperArio/Ending/CH2_SUB_SFX_18");
+            yield return new WaitForSeconds(0.15f);
             float duration = Vector2.Distance(transform.position, _startPos) / 2f;
             yield return transform.DOMove(_startPos, duration).SetEase(Ease.Linear).WaitForCompletion();
-            Managers.Sound.Play(Sound.SFX, "SuperArio/Ending/CH2_SUB_SFX_18");
             yield return new WaitForSeconds(1f);
 
             // 입구까지 이동
-            Managers.Sound.Play(Sound.SFX, "SuperArio/Ending/CH2_SUB_SFX_9_2");
+            Managers.Sound.Play(Sound.SFX, "SuperArio/Opening/CH2_SUB_SFX_9_2");
             yield return transform.DOMoveX(door.position.x, 1.5f).SetEase(Ease.Linear).WaitForCompletion();
             yield return new WaitForSeconds(1f);
             gameObject.SetActive(false);

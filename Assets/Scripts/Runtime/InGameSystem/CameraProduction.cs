@@ -93,6 +93,11 @@ public class CameraProduction : MonoBehaviour
         {
             // 좌우 레터박스
             float barWidth = (fixedWidth - (fixedHeight * targetRatio)) / 2f;
+
+            // 여기서 barWidth에 원하는 만큼 더해줌
+            float extraGap = -60f; // 픽셀 단위로 더 벌리고 싶을 때 (원하는 값으로 조정)
+            barWidth += extraGap;
+
             if (immediate)
             {
                 _leftBar.sizeDelta = new Vector2(barWidth, _leftBar.sizeDelta.y);
@@ -151,6 +156,7 @@ public class CameraProduction : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         sequence.AppendCallback(() =>
         {
+            Managers.Sound.UpdateBGMVolume(0f);
             Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_23");
         }).Append(DOTween.To(
             () => _material.GetFloat("_Lerp"),

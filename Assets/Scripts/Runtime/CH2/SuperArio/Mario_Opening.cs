@@ -23,11 +23,15 @@ namespace Runtime.CH2.SuperArio
 
         private void Start()
         {
+            if (ArioManager.Instance != null && ArioManager.Instance.SkipOpening)
+            {
+                _camera.SetActive(false);
+                return;
+            }
             _ani = GetComponent<Animator>();
             _spr = GetComponent<SpriteRenderer>();
             initSprite = _spr.sprite;
             _startPos = transform.position;
-
             Move(targets[0].position);
         }
 
@@ -93,8 +97,8 @@ namespace Runtime.CH2.SuperArio
         private void Jump(Vector2 point)
         {
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(transform.DOMoveY(point.y - 0.55f, 0.5f).SetEase(Ease.Linear));
-            sequence.Join(transform.DOMoveX(point.x - 0.55f, 0.5f).SetEase(Ease.Linear))
+            sequence.Append(transform.DOMoveY(point.y - 0.5f, 0.5f).SetEase(Ease.Linear));
+            sequence.Join(transform.DOMoveX(point.x - 0.5f, 0.5f).SetEase(Ease.Linear))
                 .OnComplete(() =>
                 {
                     Managers.Sound.Play(Sound.SFX, "SuperArio/Opening/CH2_SUB_SFX_03");

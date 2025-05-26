@@ -10,6 +10,7 @@ namespace Runtime.CH2.SuperArio
         [Header("Animation Settings")]
         [SerializeField] private float _animationDuration = 0.5f;
         [SerializeField] private float _offsetY = 1.0f;
+        [SerializeField] private bool _isEndPipe = false;
 
         public bool _canEnter;
         private Vector3 _initialPosition;
@@ -37,8 +38,16 @@ namespace Runtime.CH2.SuperArio
 
         private void StartEnterAnimation()
         {
-            transform.DOMoveY(_initialPosition.y+ 0.2f, _animationDuration)
+            if (!_isEndPipe)
+            {
+                transform.DOMoveY(_initialPosition.y, _animationDuration)
+                    .SetEase(Ease.OutBounce); // 애니메이션 이징
+            }
+            else
+            {
+                transform.DOMoveY(_initialPosition.y + 0.25f, _animationDuration)
                 .SetEase(Ease.OutBounce); // 애니메이션 이징
+            }
         }
 
         private IEnumerator EnterAnimCoroutine(GameObject ario)
@@ -53,7 +62,7 @@ namespace Runtime.CH2.SuperArio
             ario.GetComponent<Ario>().CancelInvincibleTime();
             ArioManager.Instance.EnterStore();
         }
-        
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.TryGetComponent(out Ario ario))

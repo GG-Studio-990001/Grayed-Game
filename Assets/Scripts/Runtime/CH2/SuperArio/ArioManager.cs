@@ -46,6 +46,10 @@ namespace Runtime.CH2.SuperArio
         [SerializeField] private ArioUIController _ui;
         [SerializeField] private string stageName;
 
+        [Header("디버그")]
+        [SerializeField] private bool skipOpening = false;
+        public bool SkipOpening => skipOpening;
+
         public string CurrentStage { get; private set; }
         public float GameSpeed { get; private set; }
         public bool IsPlay { get; private set; }
@@ -59,18 +63,37 @@ namespace Runtime.CH2.SuperArio
         private ObstacleManager _obstacleManager;
         private CameraProduction _production;
         private SceneTransform _sceneTransform;
-        private DataCheater _dataCheater;
 
         private void Start()
         {
-
             _obstacleManager = GetComponent<ObstacleManager>();
             _production = GetComponent<CameraProduction>();
-            CurrentStage = Managers.Data.CH2.ArioStage;
+
+            // stageName이 입력되어 있고 N-N 형식이면 해당 스테이지부터 시작
+            if (!string.IsNullOrEmpty(stageName) && stageName.Contains("-"))
+            {
+                var parts = stageName.Split('-');
+                if (parts.Length == 2 && int.TryParse(parts[0], out int world) && int.TryParse(parts[1], out int stage))
+                {
+                    CurrentStage = stageName;
+                }
+            }
+            else
+            {
+                CurrentStage = Managers.Data.CH2.ArioStage;
+            }
+            _ui.ChangeStageText($"STAGE\n{CurrentStage}"); // UI에 스테이지 정보 갱신
+
             CoinCnt = Managers.Data.Common.Coin;
-            _production.SetAspectRatio(AspectRatio.Ratio_8_7, true);
 
             InitData();
+
+            if (skipOpening)
+            {
+                WaitStart();
+                return;
+            }
+            _production.SetAspectRatio(AspectRatio.Ratio_8_7, true);
         }
 
         public void RestartSuperArio()
@@ -78,7 +101,14 @@ namespace Runtime.CH2.SuperArio
             if (IsPlay || IsStore || IsOpening)
                 return;
             _storeCam.Priority = 10;
-            StartGame();
+            _ui.ActiveRestartText(false);
+            StartGame(true);
+        }
+
+        public void EnterStoreAnimation()
+        {
+            _ui.ActiveRestartText(false);
+            _ario.EnterStoreAnimation();
         }
 
         public void EnterStore()
@@ -105,7 +135,8 @@ namespace Runtime.CH2.SuperArio
             yield return new WaitForSeconds(1f);
             _production.SetAspectRatio(AspectRatio.Ratio_21_9, true);
             IsStore = false;
-            RestartSuperArio();
+            _storeCam.Priority = 10;
+            StartGame(false);
         }
 
         public void EnterReward()
@@ -116,6 +147,7 @@ namespace Runtime.CH2.SuperArio
         private IEnumerator WaitEnterReward(float delay = 0)
         {
             yield return new WaitForSeconds(delay - 1f);
+            Managers.Sound.UpdateBGMVolume();
             Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_03");
             _production.SetAspectRatio(AspectRatio.Ratio_8_7, true);
             _obstacleManager.DestroyBuilding();
@@ -179,7 +211,7 @@ namespace Runtime.CH2.SuperArio
             IsPause = !IsPause;
         }
 
-        private void StartGame()
+        private void StartGame(bool initLife = true)
         {
             Managers.Sound.Play(Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
 
@@ -190,6 +222,8 @@ namespace Runtime.CH2.SuperArio
 
             IsGameOver = false;
             IsPlay = true;
+            if (initLife)
+                ChangeHeartUI(1); // 게임 시작 시에만 체력 초기화
             OnPlay.Invoke(IsPlay);
         }
 
@@ -288,6 +322,7 @@ namespace Runtime.CH2.SuperArio
             _production.SetAspectRatio(AspectRatio.Ratio_8_7);
             _ui.gameObject.SetActive(false);
             _mario.PauseAnimation();
+            Managers.Sound.UpdateBGMVolume(0.25f);
         }
 
         public void CalculateNextStage()
@@ -331,6 +366,19 @@ namespace Runtime.CH2.SuperArio
         public void StoreOpenEvent()
         {
             OpenStore.Invoke();
+        }
+
+        public void AddCheatCoins()
+        {
+            if (!IsPlay) return;
+            if (CoinCnt >= 500) return;
+
+            for (int i = 0; i < 500; i++)
+            {
+                GetCoin();
+            }
+
+            Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_31");
         }
     }
 }
