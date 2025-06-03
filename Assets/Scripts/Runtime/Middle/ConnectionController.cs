@@ -47,7 +47,7 @@ namespace Runtime.Middle
                 Managers.Sound.Play(Sound.SFX, "ReverseConnection_SFX_01");
 
             Managers.Data.InGameKeyBinder.PlayerInputDisable();
-            _volume.weight = 0.59f;
+            _volume.weight = 0.4f;
             yield return new WaitForSeconds(1f);
             _volume.weight = 0;
             Managers.Data.InGameKeyBinder.PlayerInputEnable();
