@@ -927,7 +927,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 964753880}
-  fadeDeltaTime: 0.1
 --- !u!114 &374415884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2252,7 +2251,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 17
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
