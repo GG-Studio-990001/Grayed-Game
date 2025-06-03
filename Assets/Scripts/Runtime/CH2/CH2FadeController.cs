@@ -9,24 +9,27 @@ namespace Runtime.CH2
 
         public override void StartFadeIn()
         {
-            StopCurrentFadeTween();
-
-            fadeImage.raycastTarget = true;
-            _currentFadeTween = fadeImage.DOFade(0, FadeDuration)
-                                         .SetEase(Ease.InOutQuad)
-                                         .OnComplete(() => fadeImage.raycastTarget = false);
+            StartFade(0f, 0.1f, 0.0f);
         }
 
         public override void StartFadeOut()
         {
+            StartFade(1f, 0.0f, 0.1f);
+        }
+
+        private void StartFade(float targetAlpha, float delayBefore, float delayAfter)
+        {
             StopCurrentFadeTween();
 
             fadeImage.raycastTarget = true;
-            _currentFadeTween = fadeImage.DOFade(1, FadeDuration)
-                                         .SetEase(Ease.InOutQuad)
-                                         .OnComplete(() => fadeImage.raycastTarget = false);
+            _currentFadeTween = DOTween.Sequence()
+                .AppendInterval(delayBefore)
+                .Append(fadeImage.DOFade(targetAlpha, FadeDuration - (delayBefore + delayAfter))
+                                 .SetEase(Ease.InOutSine))
+                .AppendInterval(delayAfter)
+                .OnComplete(() => fadeImage.raycastTarget = false);
         }
-
+        
         private void StopCurrentFadeTween()
         {
             if (_currentFadeTween != null && _currentFadeTween.IsActive())
