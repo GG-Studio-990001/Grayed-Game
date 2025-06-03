@@ -6,8 +6,8 @@ using Runtime.CH1.Title;
 using Runtime.CH2.Main;
 using Runtime.CH2.SuperArio;
 using Runtime.CH3;
+using Runtime.CH3.Dancepace;
 using Runtime.Common.View;
-using Yarn;
 using Yarn.Unity;
 
 namespace Runtime.Input
@@ -125,6 +125,15 @@ namespace Runtime.Input
         {
             _gameOverControls.UI.Enable();
             _gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
+        }
+
+        public void DancepaceKeyBinding(DancepaceKeyBinder keyBinder, SettingsUIView settingsUIView)
+        {
+            _gameOverControls.Player.Enable();
+            _gameOverControls.Player.Move.performed += keyBinder.OnMove;
+            _gameOverControls.Player.Move.started += keyBinder.OnMove;
+            _gameOverControls.Player.Move.canceled += keyBinder.OnMove;
+            _gameOverControls.Player.Interaction.performed += _ => keyBinder.OnInteraction();
         }
 
         // ETC

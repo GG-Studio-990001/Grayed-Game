@@ -14,6 +14,7 @@ namespace Runtime.Manager
         public CommonData Common;
         public CH1Data CH1;
         public CH2Data CH2;
+        public CH3Data CH3;
 
         public GameData()
         {
@@ -23,6 +24,7 @@ namespace Runtime.Manager
             Common = new CommonData();
             CH1 = new CH1Data();
             CH2 = new CH2Data();
+            CH3 = new CH3Data();
         }
     }
 
@@ -71,6 +73,8 @@ namespace Runtime.Manager
         public CH1Data CH1 { get { return _gameData.CH1; } set { _gameData.CH1 = value; } }
 
         public CH2Data CH2 { get { return _gameData.CH2; } set { _gameData.CH2 = value; } }
+
+        public CH3Data CH3 { get { return _gameData.CH3; } set { _gameData.CH3 = value; } }
         #endregion
 
         public void Init()
@@ -119,6 +123,9 @@ namespace Runtime.Manager
                     break;
                 case 2:
                     Debug.Log($"{Managers.Data.CH2.Turn}");
+                    break;
+                case 3:
+                    Debug.Log($"Dancepace High Score: {Managers.Data.CH3.Dancepace.HighScore}");
                     break;
             }
             return true;
