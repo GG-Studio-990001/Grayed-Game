@@ -35,7 +35,7 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private Image _illerstImg;
         [SerializeField] private Sprite[] _illerstSprs;
         [SerializeField] private GameObject _cutScene;
-        [SerializeField] private GameObject _darkImg;
+        [SerializeField] private GameObject[] _darkImgs;
         [SerializeField] private DialogueRunner _luckyDialogueRunner;
         private string _speaker;
         private bool _isAutoAdvanced = false;
@@ -258,7 +258,8 @@ namespace Runtime.CH2.Dialogue
 
         private void SetDarkness(bool dark)
         {
-            _darkImg.SetActive(dark);
+            _darkImgs[0].SetActive(dark);
+            _darkImgs[1].SetActive(dark);
         }
 
         private void Ch2End()
