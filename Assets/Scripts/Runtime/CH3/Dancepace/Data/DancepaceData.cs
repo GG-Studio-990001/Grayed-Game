@@ -18,11 +18,22 @@ namespace Runtime.CH3.Dancepace
     [Serializable]
     public class BeatData
     {
-        public float timing;
         public string poseId;
+        public float timing;
+        public float restTime;
         public bool isPreview;
         public bool isPlay;
         public bool isRestBeat;
+
+        public BeatData(string poseId, float timing, float restTime, bool isPreview = false, bool isPlay = false, bool isRestBeat = false)
+        {
+            this.poseId = poseId;
+            this.timing = timing;
+            this.restTime = restTime;
+            this.isPreview = isPreview;
+            this.isPlay = isPlay;
+            this.isRestBeat = isRestBeat;
+        }
     }
 
     [Serializable]
@@ -30,11 +41,14 @@ namespace Runtime.CH3.Dancepace
     {
         public string waveId;
         public float duration;
-        public List<BeatData> previewBeats;
-        public List<BeatData> restBeats;
-        public List<BeatData> playBeats;
         public bool isRehearsal;
         public string waveMainBGM;
+        public List<BeatData> beats;
+
+        public WaveData()
+        {
+            beats = new List<BeatData>();
+        }
     }
 
     [Serializable]
@@ -206,11 +220,7 @@ namespace Runtime.CH3.Dancepace
         BEAT_1,
         BEAT_2,
         BEAT_3,
-        BEAT_4,
-        BEAT_5,
-        BEAT_6,
-        BEAT_7,
-        BEAT_8
+        BEAT_4
     }
 
     public enum JudgmentType

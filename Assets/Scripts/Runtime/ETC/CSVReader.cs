@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using UnityEngine.Networking;
+using Runtime.CH3.Dancepace;
 
 namespace Runtime.ETC
 {
@@ -303,6 +304,8 @@ namespace Runtime.ETC
                 string spreadsheetId = isGameConfig ? GAME_CONFIG_SPREADSHEET_ID : WAVE_DATA_SPREADSHEET_ID;
                 string url = $"https://docs.google.com/spreadsheets/d/{spreadsheetId}/gviz/tq?tqx=out:csv&range={range}";
                 
+                Debug.Log($"[CSVReader] 스프레드시트 URL: {url}");
+                
                 using (UnityWebRequest request = UnityWebRequest.Get(url))
                 {
                     var operation = request.SendWebRequest();
@@ -312,11 +315,15 @@ namespace Runtime.ETC
                     if (request.result == UnityWebRequest.Result.Success)
                     {
                         string csvContent = request.downloadHandler.text;
+                        Debug.Log($"[CSVReader] 읽어온 CSV 내용:\n{csvContent}");
+                        
                         var lines = Regex.Split(csvContent, LINE_SPLIT_RE);
 
                         if (lines.Length <= 1) return list;
 
                         var header = Regex.Split(lines[0], SPLIT_RE);
+                        Debug.Log($"[CSVReader] 헤더: {string.Join(", ", header)}");
+                        
                         for (var i = 1; i < lines.Length; i++)
                         {
                             var values = Regex.Split(lines[i], SPLIT_RE);
@@ -340,17 +347,18 @@ namespace Runtime.ETC
                                 entry[header[j]] = finalvalue;
                             }
                             list.Add(entry);
+                            Debug.Log($"[CSVReader] 행 {i} 데이터: {string.Join(", ", entry.Select(kv => $"{kv.Key}={kv.Value}"))}");
                         }
                     }
                     else
                     {
-                        Debug.LogError($"Error: {request.error}");
+                        Debug.LogError($"[CSVReader] 에러: {request.error}");
                     }
                 }
             }
             catch (Exception e)
             {
-                Debug.LogError($"구글 스프레드시트 읽기 실패: {e.Message}");
+                Debug.LogError($"[CSVReader] 구글 스프레드시트 읽기 실패: {e.Message}");
             }
 
             return list;
@@ -360,30 +368,159 @@ namespace Runtime.ETC
         {
             var data = await ReadFromGoogleSheet(range, isGameConfig);
             var result = new List<T>();
+            int emptyRowCount = 0;
+            bool configAdded = false;
 
-            foreach (var row in data)
+            if (typeof(T) == typeof(GameConfig))
             {
-                var obj = new T();
-                var properties = typeof(T).GetProperties();
-
-                foreach (var property in properties)
+                // 첫 번째 유효 데이터만 읽고, 그 이후는 무시
+                foreach (var row in data)
                 {
-                    if (row.TryGetValue(property.Name, out object value))
+                    bool isEmptyRow = true;
+                    foreach (var value in row.Values)
                     {
-                        try
+                        if (value != null && !string.IsNullOrEmpty(value.ToString()))
                         {
-                            if (value != null)
+                            isEmptyRow = false;
+                            break;
+                        }
+                    }
+                    if (isEmptyRow) continue;
+                    if (configAdded) break;
+
+                    var config = new GameConfig();
+                    if (row.TryGetValue("limitTime", out object limitTimeObj))
+                        config.limitTime = Convert.ToInt32(limitTimeObj);
+                    if (row.TryGetValue("waveForCount", out object waveForCountObj))
+                        config.waveForCount = Convert.ToInt32(waveForCountObj);
+                    if (row.TryGetValue("waveMainBGM", out object waveMainBGMObj))
+                        config.waveMainBGM = waveMainBGMObj?.ToString() ?? "-";
+                    if (row.TryGetValue("lifeCount", out object lifeCountObj))
+                        config.lifeCount = Convert.ToInt32(lifeCountObj);
+                    if (row.TryGetValue("waveClearCoin", out object waveClearCoinObj))
+                        config.waveClearCoin = Convert.ToInt32(waveClearCoinObj);
+                    if (row.TryGetValue("greatCoin", out object greatCoinObj))
+                        config.greatCoin = Convert.ToInt32(greatCoinObj);
+                    if (row.TryGetValue("goodCoin", out object goodCoinObj))
+                        config.goodCoin = Convert.ToInt32(goodCoinObj);
+                    if (row.TryGetValue("badCoin", out object badCoinObj))
+                        config.badCoin = Convert.ToInt32(badCoinObj);
+                    result.Add((T)(object)config);
+                    configAdded = true;
+                }
+            }
+            else if (typeof(T) == typeof(WaveData))
+            {
+                foreach (var row in data)
+                {
+                    // 빈 행 체크
+                    bool isEmptyRow = true;
+                    foreach (var value in row.Values)
+                    {
+                        if (value != null && !string.IsNullOrEmpty(value.ToString()))
+                        {
+                            isEmptyRow = false;
+                            break;
+                        }
+                    }
+                    if (isEmptyRow)
+                    {
+                        emptyRowCount++;
+                        if (emptyRowCount >= 2)
+                        {
+                            Debug.Log("[CSVReader] 빈 행이 2개 이상 연속으로 발견되어 이후 데이터 처리를 중단합니다.");
+                            break;
+                        }
+                        continue;
+                    }
+                    else
+                    {
+                        emptyRowCount = 0;
+                    }
+
+                    if (!row.TryGetValue("id", out object waveIdObj) || string.IsNullOrEmpty(waveIdObj?.ToString()))
+                        continue;
+
+                    var waveData = new WaveData
+                    {
+                        waveId = waveIdObj.ToString(),
+                        beats = new List<BeatData>()
+                    };
+
+                    // 4개의 Beat 세트 처리
+                    for (int i = 1; i <= 4; i++)
+                    {
+                        string poseKey = $"Beat+ poseData";
+                        string timingKey = "beatData";
+                        string restTimeKey = "restBeatData";
+
+                        if (row.TryGetValue(poseKey, out object poseObj) && !string.IsNullOrEmpty(poseObj?.ToString()))
+                        {
+                            float timing = 1.0f;
+                            float restTime = 0.5f;
+
+                            if (row.TryGetValue(timingKey, out object timingObj) && timingObj != null)
+                                float.TryParse(timingObj.ToString(), out timing);
+                            if (row.TryGetValue(restTimeKey, out object restTimeObj) && restTimeObj != null)
+                                float.TryParse(restTimeObj.ToString(), out restTime);
+
+                            waveData.beats.Add(new BeatData(poseObj.ToString(), timing, restTime));
+                        }
+                    }
+
+                    if (waveData.beats.Count > 0)
+                    {
+                        result.Add((T)(object)waveData);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var row in data)
+                {
+                    // 빈 행 체크
+                    bool isEmptyRow = true;
+                    foreach (var value in row.Values)
+                    {
+                        if (value != null && !string.IsNullOrEmpty(value.ToString()))
+                        {
+                            isEmptyRow = false;
+                            break;
+                        }
+                    }
+                    if (isEmptyRow)
+                    {
+                        emptyRowCount++;
+                        if (emptyRowCount >= 2)
+                        {
+                            Debug.Log("[CSVReader] 빈 행이 2개 이상 연속으로 발견되어 이후 데이터 처리를 중단합니다.");
+                            break;
+                        }
+                        continue;
+                    }
+                    else
+                    {
+                        emptyRowCount = 0;
+                    }
+
+                    var obj = new T();
+                    var properties = typeof(T).GetProperties();
+                    foreach (var property in properties)
+                    {
+                        if (row.TryGetValue(property.Name, out object value) && value != null)
+                        {
+                            try
                             {
                                 property.SetValue(obj, Convert.ChangeType(value, property.PropertyType));
                             }
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.LogWarning($"Failed to convert value for property {property.Name}: {e.Message}");
+                            catch (Exception e)
+                            {
+                                Debug.LogWarning($"Failed to convert value for property {property.Name}: {e.Message}");
+                            }
                         }
                     }
+                    result.Add(obj);
                 }
-                result.Add(obj);
             }
 
             return result.ToArray();

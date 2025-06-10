@@ -19,13 +19,15 @@ namespace Runtime.CH3.Dancepace
         public Key rightKey = Key.D;
 
         private Dictionary<string, Key> poseKeyBindings;
+        private bool isInputEnabled = true;
 
         private void Start()
         {
-            InitKeyBinding();
+            InitializeKeyBindings();
+            SetupSettingsCallbacks();
         }
 
-        private void InitKeyBinding()
+        private void InitializeKeyBindings()
         {
             poseKeyBindings = new Dictionary<string, Key>
             {
@@ -42,27 +44,54 @@ namespace Runtime.CH3.Dancepace
             {
                 Debug.LogError("DPRapley reference is missing!");
             }
+        }
 
-            _settingsUIView.OnSettingsOpen += () => Managers.Data.InGameKeyBinder.PlayerInputDisable();
-            _settingsUIView.OnSettingsClose += () => Managers.Data.InGameKeyBinder.PlayerInputEnable();
+        private void SetupSettingsCallbacks()
+        {
+            _settingsUIView.OnSettingsOpen += DisableInput;
+            _settingsUIView.OnSettingsClose += EnableInput;
         }
 
         public void OnMove(InputAction.CallbackContext context)
         {
+            if (!isInputEnabled) return;
             _dPRapley?.OnMove(context);
         }
 
         public void OnInteraction()
         {
+            if (!isInputEnabled) return;
             // 상호작용 키 입력 처리
-            // TODO: 필요한 경우 구현
         }
 
         public bool IsPoseKeyPressed(string poseId)
         {
+            if (!isInputEnabled) return false;
+            
             if (poseKeyBindings != null && poseKeyBindings.TryGetValue(poseId, out var key))
                 return Keyboard.current[key].wasPressedThisFrame;
             return false;
+        }
+
+        private void DisableInput()
+        {
+            isInputEnabled = false;
+            Managers.Data.InGameKeyBinder.PlayerInputDisable();
+        }
+
+        private void EnableInput()
+        {
+            isInputEnabled = true;
+            Managers.Data.InGameKeyBinder.PlayerInputEnable();
+        }
+
+        private void OnDestroy()
+        {
+            if (_settingsUIView != null)
+            {
+                _settingsUIView.OnSettingsOpen -= DisableInput;
+                _settingsUIView.OnSettingsClose -= EnableInput;
+            }
         }
     }
 } 
