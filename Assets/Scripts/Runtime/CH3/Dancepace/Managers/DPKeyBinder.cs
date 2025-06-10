@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Runtime.CH3.Dancepace
 {
-    public class DancepaceKeyBinder : MonoBehaviour
+    public class DPKeyBinder : MonoBehaviour
     {
         [SerializeField] private SettingsUIView _settingsUIView;
         [SerializeField] private DPRapley _dPRapley;

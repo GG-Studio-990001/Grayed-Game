@@ -6,24 +6,24 @@ using UnityEngine.InputSystem;
 
 namespace Runtime.CH3.Dancepace
 {
-    public class DancepaceManager : MonoBehaviour
+    public class DPManager : MonoBehaviour
     {
         [Header("Managers")]
-        [SerializeField] private EffectManager effectManager;
-        [SerializeField] private PoseIndicator poseIndicator;
-        [SerializeField] private DancepaceKeyBinder keyBinder;
+        [SerializeField] private DPEffectManager effectManager;
+        [SerializeField] private DPKeyBinder keyBinder;
 
         [Header("Characters")]
-        [SerializeField] private DPRapley[] previewNPCs; // 미리보기 NPC 4명
-        [SerializeField] private DPRapley playerCharacter; // 플레이어
+        [SerializeField] private PreviewNPC[] previewNPCs; // 미리보기 NPC 4명
+        [SerializeField] private AnswerNPC[] answerNPCs;   // 정답 NPC 3명
+        [SerializeField] private DPRapley playerCharacter;
 
         [Header("UI")]
         [SerializeField] private GameObject rehearsalPanel;
         [SerializeField] private GameObject moreRehearsalPanel;
 
         // --- 데이터 ---
-        private List<WaveData> rehearsalWaves; // id가 _0인 웨이브
-        private List<WaveData> mainWaves;      // id가 _0이 아닌 웨이브
+        private List<WaveData> rehearsalWaves;
+        private List<WaveData> mainWaves;
         private int currentWaveIndex;
         private bool isRehearsalMode = true;
         private bool userWantsMoreRehearsal = false;
@@ -31,7 +31,6 @@ namespace Runtime.CH3.Dancepace
 
         private void Awake()
         {
-            // 데이터 로드 및 분리
             _gameData = new DancepaceData();
             rehearsalWaves = new List<WaveData>();
             mainWaves = new List<WaveData>();
@@ -49,22 +48,18 @@ namespace Runtime.CH3.Dancepace
 
         private IEnumerator GameFlow()
         {
-            // 1. 리허설 강제 1회
             isRehearsalMode = true;
             do
             {
                 foreach (var wave in rehearsalWaves)
                     yield return StartCoroutine(PlayRoutine(wave));
-                // "더 연습할래?" 패널 활성화, 유저 선택 대기
                 moreRehearsalPanel.SetActive(true);
                 userWantsMoreRehearsal = false;
-                // UI에서 버튼 클릭 시 userWantsMoreRehearsal 값을 true/false로 변경하도록 연결 필요
                 yield return new WaitUntil(() => userWantsMoreRehearsal == true || userWantsMoreRehearsal == false);
                 moreRehearsalPanel.SetActive(false);
             }
             while (userWantsMoreRehearsal);
 
-            // 2. 본게임
             isRehearsalMode = false;
             foreach (var wave in mainWaves)
                 yield return StartCoroutine(PlayRoutine(wave));
@@ -72,13 +67,11 @@ namespace Runtime.CH3.Dancepace
 
         private IEnumerator PlayRoutine(WaveData wave)
         {
-            // 1. 미리보기
+            // 1. 미리보기 박자
             foreach (var beat in wave.previewBeats)
             {
                 foreach (var npc in previewNPCs)
-                    npc.PlayPose(beat.poseId);
-                // 포즈 UI 표시
-                poseIndicator.ShowPose(beat.poseId, null, beat.poseId);
+                    npc.PlayPreviewPose(beat.poseId);
                 yield return new WaitForSeconds(beat.timing);
             }
 
@@ -86,10 +79,11 @@ namespace Runtime.CH3.Dancepace
             if (wave.restBeats.Count > 0)
                 yield return new WaitForSeconds(wave.restBeats[0].timing);
 
-            // 3. 따라하기
+            // 3. 플레이 박자(정답 NPC와 동기화)
             for (int i = 0; i < wave.playBeats.Count; i++)
             {
-                poseIndicator.ShowPose(wave.playBeats[i].poseId, null, wave.playBeats[i].poseId);
+                foreach (var npc in answerNPCs)
+                    npc.PlayAnswerPose(wave.playBeats[i].poseId);
                 yield return StartCoroutine(WaitForPlayerInput(wave.playBeats[i]));
             }
         }
@@ -102,7 +96,6 @@ namespace Runtime.CH3.Dancepace
 
             while (!inputReceived && Time.time - startTime < maxWait)
             {
-                // 바인딩된 키로 입력 체크
                 if (keyBinder != null && keyBinder.IsPoseKeyPressed(beat.poseId))
                 {
                     inputReceived = true;
@@ -138,20 +131,7 @@ namespace Runtime.CH3.Dancepace
 
         private void ShowJudgment(JudgmentType type, string poseId)
         {
-            // 판정 텍스트는 UI에 표시하지 않음, 하트 파티클만 등급별로 생성
             effectManager.SpawnHeartParticles(type);
-        }
-
-        private Vector2 PoseToVector2(string poseId)
-        {
-            switch (poseId)
-            {
-                case "Up": return Vector2.up;
-                case "Down": return Vector2.down;
-                case "Left": return Vector2.left;
-                case "Right": return Vector2.right;
-                default: return Vector2.zero;
-            }
         }
     }
 } 

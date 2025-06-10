@@ -51,19 +51,15 @@ namespace Runtime.CH3.Dancepace
             {
                 case "Up":
                     SetSprite(_upSprite);
-                    _spriteRenderer.flipX = false;
                     break;
                 case "Down":
                     SetSprite(_downSprite);
-                    _spriteRenderer.flipX = false;
                     break;
                 case "Left":
                     SetSprite(_leftSprite);
-                    _spriteRenderer.flipX = false;
                     break;
                 case "Right":
                     SetSprite(_rightSprite);
-                    _spriteRenderer.flipX = true;
                     break;
                 default:
                     SetIdleSprite();
@@ -87,13 +83,11 @@ namespace Runtime.CH3.Dancepace
             {
                 // 좌우 방향
                 bool isRight = _currentDirection.x > 0;
-                _spriteRenderer.flipX = !isRight;
                 SetSprite(isRight ? _rightSprite : _leftSprite);
             }
             else
             {
                 // 상하 방향
-                _spriteRenderer.flipX = false;
                 SetSprite(_currentDirection.y > 0 ? _upSprite : _downSprite);
             }
         }
@@ -111,7 +105,6 @@ namespace Runtime.CH3.Dancepace
             if (_idleSprite != null)
             {
                 _spriteRenderer.sprite = _idleSprite;
-                _spriteRenderer.flipX = false;
             }
         }
 

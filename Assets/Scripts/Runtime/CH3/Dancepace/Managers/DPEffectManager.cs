@@ -3,7 +3,7 @@ using System;
 
 namespace Runtime.CH3.Dancepace
 {
-    public class EffectManager : MonoBehaviour
+    public class DPEffectManager : MonoBehaviour
     {
         [Header("이펙트 프리팹/파티클")]
         [SerializeField] private ParticleSystem heartParticlePrefab;
