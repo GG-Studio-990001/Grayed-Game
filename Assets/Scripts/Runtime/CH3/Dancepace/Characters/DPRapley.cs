@@ -45,6 +45,32 @@ namespace Runtime.CH3.Dancepace
             }
         }
 
+        public void PlayPose(string poseId)
+        {
+            switch (poseId)
+            {
+                case "Up":
+                    SetSprite(_upSprite);
+                    _spriteRenderer.flipX = false;
+                    break;
+                case "Down":
+                    SetSprite(_downSprite);
+                    _spriteRenderer.flipX = false;
+                    break;
+                case "Left":
+                    SetSprite(_leftSprite);
+                    _spriteRenderer.flipX = false;
+                    break;
+                case "Right":
+                    SetSprite(_rightSprite);
+                    _spriteRenderer.flipX = true;
+                    break;
+                default:
+                    SetIdleSprite();
+                    break;
+            }
+        }
+
         private void UpdateSprite()
         {
             if (_currentDirection == Vector2.zero)
