@@ -118,7 +118,7 @@ namespace Runtime.CH3.Dancepace
 
         private IEnumerator PlayPreviewBeats()
         {
-            while (currentPreviewIndex < currentWave.previewBeats.Length)
+            while (currentPreviewIndex < currentWave.previewBeats.Count)
             {
                 OnPreviewBeat?.Invoke(currentWave.previewBeats[currentPreviewIndex]);
                 currentPreviewIndex++;
@@ -128,7 +128,7 @@ namespace Runtime.CH3.Dancepace
 
         private IEnumerator PlayRestBeats()
         {
-            while (currentRestIndex < currentWave.restBeats.Length)
+            while (currentRestIndex < currentWave.restBeats.Count)
             {
                 OnRestBeat?.Invoke(currentWave.restBeats[currentRestIndex]);
                 currentRestIndex++;
@@ -138,7 +138,7 @@ namespace Runtime.CH3.Dancepace
 
         private IEnumerator PlayGameBeats()
         {
-            while (currentPlayIndex < currentWave.playBeats.Length && _isWaveActive)
+            while (currentPlayIndex < currentWave.playBeats.Count && _isWaveActive)
             {
                 OnPlayBeat?.Invoke(currentWave.playBeats[currentPlayIndex]);
                 currentPlayIndex++;

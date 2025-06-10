@@ -1,10 +1,9 @@
 using UnityEngine;
 using System.Collections;
-using Runtime.Common;
-using Runtime.Common.View;
 using Runtime.ETC;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 
 namespace Runtime.CH3.Dancepace
 {
@@ -26,61 +25,146 @@ namespace Runtime.CH3.Dancepace
         private const string GAME_CONFIG_PATH = "DancepaceData";
         private const string WAVE_DATA_PATH = "DancepaceWaveData";
 
-        private GameConfig _gameConfig;
-        private List<WaveData> _waveDataList;
-        private int _currentWaveIndex = 0;
-        private float _gameTimer = 0f;
-        private bool _isGameRunning = false;
+        private DancepaceData _gameData;
+        private bool _isGameOver = false;
 
         public event Action OnGameStart;
         public event Action OnGameEnd;
         public event Action OnWaveStart;
         public event Action OnWaveEnd;
+        public event Action OnRehearsalStart;
+        public event Action OnRehearsalEnd;
 
-        private int totalCoins = 0;
-        private int remainingLives;
-        private bool isFirstPlay = true;
-
-        private void Awake()
+        private async void Awake()
         {
             if (Instance == null)
             {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
+                await InitializeGame();
             }
             else
             {
                 Destroy(gameObject);
             }
-
-            InitializeManagers();
-            LoadGameData();
         }
 
-        private void LoadGameData()
+        private async Task InitializeGame()
         {
-            // 게임 설정 로드
-            var configData = CSVReader.ReadAndConvert<GameConfig>(GAME_CONFIG_PATH);
-            if (configData != null && configData.Length > 0)
+            try
             {
-                _gameConfig = configData[0];
+                await LoadGameData();
+                InitializeManagers();
+                StartCoroutine(GameRoutine());
             }
-            else
+            catch (Exception e)
             {
-                Debug.LogError($"Failed to load game config from {GAME_CONFIG_PATH}");
-                return;
+                Debug.LogError($"Error in InitializeGame: {e.Message}");
             }
+        }
 
-            // 웨이브 데이터 로드
-            var waveData = CSVReader.ReadAndConvert<WaveData>(WAVE_DATA_PATH);
-            if (waveData != null)
+        private async Task LoadGameData()
+        {
+            try
             {
-                _waveDataList = new List<WaveData>(waveData);
+                // 구글 스프레드시트에서 게임 설정 데이터 로드
+                var configData = await CSVReader.ReadFromGoogleSheet("GameConfig!A1:Z1000", true);
+                if (configData != null && configData.Count > 0)
+                {
+                    _gameData = new DancepaceData();
+                    var firstRow = configData[0];
+                    
+                    // 실제 스프레드시트의 열 이름으로 데이터 로드
+                    if (firstRow.TryGetValue("limitTime", out object limitTime))
+                        _gameData.gameConfig.limitTime = Convert.ToSingle(limitTime);
+                    if (firstRow.TryGetValue("waveForCount", out object waveForCount))
+                        _gameData.gameConfig.waveForCount = Convert.ToInt32(waveForCount);
+                    if (firstRow.TryGetValue("waveMainBGM", out object waveMainBGM))
+                        _gameData.gameConfig.waveMainBGM = waveMainBGM.ToString();
+                    if (firstRow.TryGetValue("lifeCount", out object lifeCount))
+                        _gameData.gameConfig.lifeCount = Convert.ToInt32(lifeCount);
+                    if (firstRow.TryGetValue("waveClearCoin", out object waveClearCoin))
+                        _gameData.gameConfig.waveClearCoin = Convert.ToInt32(waveClearCoin);
+                    if (firstRow.TryGetValue("greatCoin", out object greatCoin))
+                        _gameData.gameConfig.greatCoin = Convert.ToInt32(greatCoin);
+                    if (firstRow.TryGetValue("goodCoin", out object goodCoin))
+                        _gameData.gameConfig.goodCoin = Convert.ToInt32(goodCoin);
+                    if (firstRow.TryGetValue("badCoin", out object badCoin))
+                        _gameData.gameConfig.badCoin = Convert.ToInt32(badCoin);
+
+                    Debug.Log("Game config loaded successfully");
+
+                    // 웨이브 데이터 로드
+                    var waveData = await CSVReader.ReadFromGoogleSheet("WaveData!A1:Z1000", false);
+                    if (waveData != null && waveData.Count > 0)
+                    {
+                        foreach (var row in waveData)
+                        {
+                            if (!row.ContainsKey("Data") || string.IsNullOrEmpty(row["Data"].ToString()))
+                                continue;
+
+                            var wave = new WaveData
+                            {
+                                waveId = row["Data"].ToString(),
+                                duration = 30f, // 기본 30초
+                                isRehearsal = row["Data"].ToString().EndsWith("_0"),
+                                previewBeats = new List<BeatData>(),
+                                playBeats = new List<BeatData>(),
+                                restBeats = new List<BeatData>()
+                            };
+
+                            // 비트 데이터 파싱
+                            for (int i = 0; i < 4; i++) // 최대 4개의 비트
+                            {
+                                string poseKey = i == 0 ? "poseData" : $"poseData{i + 1}";
+                                string beatKey = i == 0 ? "beatData" : $"beatData{i + 1}";
+                                string restKey = i == 0 ? "restBeatData" : $"restBeatData{i + 1}";
+
+                                if (row.ContainsKey(poseKey) && row.ContainsKey(beatKey))
+                                {
+                                    var beat = new BeatData
+                                    {
+                                        poseId = row[poseKey].ToString(),
+                                        timing = Convert.ToSingle(row[beatKey]),
+                                        isPreview = true,
+                                        isPlay = true,
+                                        isRestBeat = false
+                                    };
+                                    wave.previewBeats.Add(beat);
+                                    wave.playBeats.Add(beat);
+
+                                    if (row.ContainsKey(restKey))
+                                    {
+                                        var restBeat = new BeatData
+                                        {
+                                            poseId = "rest",
+                                            timing = Convert.ToSingle(row[restKey]),
+                                            isPreview = false,
+                                            isPlay = false,
+                                            isRestBeat = true
+                                        };
+                                        wave.restBeats.Add(restBeat);
+                                    }
+                                }
+                            }
+
+                            _gameData.waveDataList.Add(wave);
+                        }
+                        Debug.Log($"Loaded {_gameData.waveDataList.Count} waves");
+                    }
+                    else
+                    {
+                        Debug.LogError("Failed to load wave data: No data found");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Failed to load game config: No data found");
+                }
             }
-            else
+            catch (Exception e)
             {
-                Debug.LogError($"Failed to load wave data from {WAVE_DATA_PATH}");
-                _waveDataList = new List<WaveData>();
+                Debug.LogError($"Failed to load game data: {e.Message}");
             }
         }
 
@@ -98,58 +182,82 @@ namespace Runtime.CH3.Dancepace
             RehearsalManager.Instance.OnRehearsalSkip += OnRehearsalComplete;
         }
 
-        private void Start()
-        {
-            if (_gameConfig == null)
-            {
-                Debug.LogError("Failed to load game config");
-                return;
-            }
-
-            _gameTimer = _gameConfig.limitTime;
-            StartCoroutine(GameRoutine());
-        }
-
         private IEnumerator GameRoutine()
         {
-            // 리허설 시작
-            _rehearsalManager.StartRehearsal();
-            yield return new WaitUntil(() => !_rehearsalManager.IsRehearsalActive);
-
-            // 메인 게임 시작
-            _isGameRunning = true;
-            PlayBGM(_mainBGM);
-
-            while (_isGameRunning && _gameTimer > 0)
+            if (_gameData == null || _gameData.waveDataList == null || _gameData.waveDataList.Count == 0)
             {
-                _gameTimer -= Time.deltaTime;
-                
-                // 웨이브 진행
-                if (_currentWaveIndex < _gameConfig.waveForCount)
-                {
-                    var waveData = _waveDataList.Find(wave => wave.waveId == $"Wave_Normal_{_currentWaveIndex + 1}");
-                    if (waveData != null)
-                    {
-                        _rhythmManager.StartWave(waveData);
-                        yield return new WaitUntil(() => !_rhythmManager.IsWaveActive);
-                        _currentWaveIndex++;
-                    }
-                }
-                else
-                {
-                    _isGameRunning = false;
-                }
-
-                yield return null;
+                Debug.LogError("Game data is not properly initialized");
+                yield break;
             }
 
-            // 게임 종료
-            StopBGM();
-            _isGameRunning = false;
+            _gameData.ResetCurrentData();
+            _isGameOver = false;
+
+            OnGameStart?.Invoke();
+
+            // 첫 플레이시 리허설 실행
+            if (_gameData.IsRehearsalMode)
+            {
+                yield return StartCoroutine(RehearsalRoutine());
+            }
+
+            // 메인 게임 시작
+            while (!_isGameOver && !_gameData.IsWaveComplete())
+            {
+                var currentWave = _gameData.waveDataList[_gameData.CurrentWave];
+                if (currentWave == null)
+                {
+                    Debug.LogError($"Wave data at index {_gameData.CurrentWave} is null");
+                    yield break;
+                }
+
+                OnWaveStart?.Invoke();
+                PlayBGM(_mainBGM);
+
+                yield return StartCoroutine(PlayWaveRoutine(currentWave));
+
+                OnWaveEnd?.Invoke();
+                _gameData.CurrentWave++;
+            }
+
+            EndGame(!_gameData.IsGameOver());
+        }
+
+        private IEnumerator RehearsalRoutine()
+        {
+            OnRehearsalStart?.Invoke();
+            PlayBGM(_rehearsalBGM);
+
+            // 리허설용 웨이브 찾기
+            var rehearsalWave = _gameData.waveDataList.Find(w => w.isRehearsal);
+            if (rehearsalWave != null)
+            {
+                yield return StartCoroutine(PlayWaveRoutine(rehearsalWave));
+            }
+
+            OnRehearsalEnd?.Invoke();
+            _gameData.IsRehearsalMode = false;
+        }
+
+        private IEnumerator PlayWaveRoutine(WaveData wave)
+        {
+            if (wave == null || wave.playBeats == null)
+            {
+                Debug.LogError("Invalid wave data for play");
+                yield break;
+            }
+
+            foreach (var beat in wave.playBeats)
+            {
+                if (beat == null) continue;
+                // 플레이 비트 처리
+                yield return new WaitForSeconds(beat.timing);
+            }
         }
 
         private void OnRehearsalComplete()
         {
+            _gameData.IsRehearsalMode = false;
             StartCoroutine(GameRoutine());
         }
 
@@ -180,13 +288,18 @@ namespace Runtime.CH3.Dancepace
 
         private void EndGame(bool isSuccess)
         {
-            _isGameRunning = false;
-            isFirstPlay = false;
+            _isGameOver = true;
+            StopBGM();
 
             if (isSuccess)
             {
-                AddCoins(_gameConfig.waveClearCoin);
+                _gameData.AddCoins(_gameData.gameConfig.waveClearCoin);
+                _gameData.CompleteWave(_gameData.CurrentWave);
             }
+
+            _gameData.UpdateHighScore();
+            _gameData.UpdateBestAccuracy();
+            _gameData.UpdateMaxCombo();
 
             OnGameEnd?.Invoke();
         }
@@ -196,21 +309,23 @@ namespace Runtime.CH3.Dancepace
             switch (judgment)
             {
                 case JudgmentType.Great:
-                    AddCoins(_gameConfig.greatCoin);
+                    _gameData.AddCoins(_gameData.gameConfig.greatCoin);
+                    _gameData.AddCombo();
                     break;
                 case JudgmentType.Good:
-                    AddCoins(_gameConfig.goodCoin);
+                    _gameData.AddCoins(_gameData.gameConfig.goodCoin);
+                    _gameData.AddCombo();
                     break;
                 case JudgmentType.Bad:
-                    remainingLives--;
+                    _gameData.LoseLife();
+                    _gameData.ResetCombo();
                     break;
             }
         }
 
-        public void AddCoins(int amount)
+        public DancepaceData GetGameData()
         {
-            totalCoins += amount;
-            // TODO: UI 업데이트 구현
+            return _gameData;
         }
 
         private void OnDestroy()

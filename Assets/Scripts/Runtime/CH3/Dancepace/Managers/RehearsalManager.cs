@@ -12,15 +12,23 @@ namespace Runtime.CH3.Dancepace
         public static RehearsalManager Instance { get; private set; }
 
         [Header("Rehearsal Settings")]
-        [SerializeField] private WaveData[] tutorialWaves;
-        [SerializeField] private WaveData rehearsalWave;
+        [SerializeField] private float poseDisplayTime = 2f;
+        [SerializeField] private float transitionTime = 1f;
+
+        [Header("UI References")]
+        [SerializeField] private GameObject tutorialPanel;
+        [SerializeField] private GameObject poseGuidePanel;
+        [SerializeField] private GameObject controlPanel;
+
+        [Header("Audio")]
+        [SerializeField] private AudioClip poseSound;
+        [SerializeField] private AudioClip successSound;
 
         public event Action OnRehearsalComplete;
         public event Action OnRehearsalSkip;
 
-        private int currentTutorialIndex = 0;
-        private bool _isRehearsalActive = false;
-        public bool IsRehearsalActive => _isRehearsalActive;
+        private int currentPoseIndex = 0;
+        private bool isRehearsing = false;
 
         private void Awake()
         {
@@ -37,68 +45,43 @@ namespace Runtime.CH3.Dancepace
 
         public void StartRehearsal()
         {
-            _isRehearsalActive = true;
-            currentTutorialIndex = 0;
-            StartCoroutine(RehearsalRoutine());
+            isRehearsing = true;
+            currentPoseIndex = 0;
+            ShowTutorialPanel();
         }
 
-        private IEnumerator RehearsalRoutine()
+        private void ShowTutorialPanel()
         {
-            // 기본 포즈 튜토리얼
-            while (currentTutorialIndex < tutorialWaves.Length)
-            {
-                yield return StartCoroutine(PlayTutorialWave(tutorialWaves[currentTutorialIndex]));
-                currentTutorialIndex++;
-            }
-
-            // 전체 리허설
-            yield return StartCoroutine(PlayRehearsalWave());
-
-            // 추가 리허설 여부 확인
-            ShowRehearsalPrompt();
+            tutorialPanel.SetActive(true);
+            poseGuidePanel.SetActive(false);
+            controlPanel.SetActive(false);
         }
 
-        private IEnumerator PlayTutorialWave(WaveData wave)
+        public void StartPoseGuide()
         {
-            // TODO: Implement tutorial wave UI and instructions
-            RhythmManager.Instance.StartWave(wave);
-            yield return new WaitForSeconds(wave.duration);
+            tutorialPanel.SetActive(false);
+            poseGuidePanel.SetActive(true);
+            controlPanel.SetActive(true);
+            StartCoroutine(ShowPoseGuide());
         }
 
-        private IEnumerator PlayRehearsalWave()
+        private IEnumerator ShowPoseGuide()
         {
-            // TODO: Implement rehearsal wave UI and instructions
-            RhythmManager.Instance.StartWave(rehearsalWave);
-            yield return new WaitForSeconds(rehearsalWave.duration);
-        }
-
-        private void ShowRehearsalPrompt()
-        {
-            // TODO: Implement UI prompt for additional rehearsal
-            // "더 리허설할래?" 메시지 표시
-        }
-
-        public void OnRehearsalPromptResponse(bool wantMoreRehearsal)
-        {
-            if (wantMoreRehearsal)
-            {
-                StartRehearsal();
-            }
-            else
-            {
-                _isRehearsalActive = false;
-                OnRehearsalComplete?.Invoke();
-            }
+            // 포즈 가이드 표시 로직
+            yield return new WaitForSeconds(poseDisplayTime);
+            // 다음 포즈로 이동
         }
 
         public void SkipRehearsal()
         {
-            if (_isRehearsalActive)
-            {
-                _isRehearsalActive = false;
-                StopAllCoroutines();
-                OnRehearsalSkip?.Invoke();
-            }
+            isRehearsing = false;
+            OnRehearsalSkip?.Invoke();
+        }
+
+        public void CompleteRehearsal()
+        {
+            isRehearsing = false;
+            OnRehearsalComplete?.Invoke();
         }
     }
 } 
