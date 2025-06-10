@@ -10,12 +10,15 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private float _minScale = 0.8f;
         [SerializeField] private float _animationSpeed = 2f;
         [SerializeField] private float _autoBeatInterval = 1f;
+        [SerializeField] private float _sensitivity = 10f; // 볼륨 반응 민감도
 
         private Vector3 _originalScale;
         private bool _isAnimating = false;
         private Coroutine _animationCoroutine;
         private Coroutine _autoAnimationCoroutine;
         private float _animationTime = 0f;
+        private AudioSource _bgmSource;
+        private float _currentScale = 1f;
 
         private void Awake()
         {
@@ -24,7 +27,28 @@ namespace Runtime.CH3.Dancepace
 
         private void Start()
         {
+            // SoundManager에서 BGM AudioSource 가져오기
+            _bgmSource = Managers.Sound.BGM;
             StartAutoAnimation();
+        }
+
+        private void Update()
+        {
+            if (_bgmSource != null && _bgmSource.isPlaying)
+            {
+                float amplitude = GetBGMAmplitude();
+                float targetScale = Mathf.Lerp(_minScale, _maxScale, amplitude * _sensitivity);
+                // 이전 스케일과 부드럽게 섞기 (관성 효과)
+                _currentScale = Mathf.Lerp(_currentScale, targetScale, Time.deltaTime * 8f);
+                transform.localScale = _originalScale * _currentScale;
+            }
+            else
+            {
+                // 자동 애니메이션(음악 없을 때)
+                float t = Mathf.Sin(Time.time * _animationSpeed) * 0.5f + 0.5f;
+                float scale = Mathf.Lerp(_minScale, _maxScale, t);
+                transform.localScale = _originalScale * scale;
+            }
         }
 
         public void StartBeatAnimation()
@@ -106,6 +130,19 @@ namespace Runtime.CH3.Dancepace
         {
             StopBeatAnimation();
             StopAutoAnimation();
+        }
+
+        // BGM의 실시간 볼륨(Amplitude) 측정
+        private float GetBGMAmplitude()
+        {
+            if (_bgmSource == null) return 0f;
+
+            float[] samples = new float[64];
+            _bgmSource.GetOutputData(samples, 0);
+            float sum = 0f;
+            for (int i = 0; i < samples.Length; i++)
+                sum += samples[i] * samples[i];
+            return Mathf.Sqrt(sum / samples.Length); // RMS
         }
     }
 }
