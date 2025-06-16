@@ -127,7 +127,7 @@ namespace Runtime.Input
             _gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
         }
 
-        public void DancepaceKeyBinding(DancepaceKeyBinder keyBinder, SettingsUIView settingsUIView)
+        public void DancepaceKeyBinding(DPKeyBinder keyBinder, SettingsUIView settingsUIView)
         {
             _gameOverControls.Player.Enable();
             _gameOverControls.Player.Move.performed += keyBinder.OnMove;

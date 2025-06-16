@@ -45,6 +45,28 @@ namespace Runtime.CH3.Dancepace
             }
         }
 
+        public void PlayPose(string poseId)
+        {
+            switch (poseId)
+            {
+                case "Up":
+                    SetSprite(_upSprite);
+                    break;
+                case "Down":
+                    SetSprite(_downSprite);
+                    break;
+                case "Left":
+                    SetSprite(_leftSprite);
+                    break;
+                case "Right":
+                    SetSprite(_rightSprite);
+                    break;
+                default:
+                    SetIdleSprite();
+                    break;
+            }
+        }
+
         private void UpdateSprite()
         {
             if (_currentDirection == Vector2.zero)
@@ -61,13 +83,11 @@ namespace Runtime.CH3.Dancepace
             {
                 // 좌우 방향
                 bool isRight = _currentDirection.x > 0;
-                _spriteRenderer.flipX = !isRight;
                 SetSprite(isRight ? _rightSprite : _leftSprite);
             }
             else
             {
                 // 상하 방향
-                _spriteRenderer.flipX = false;
                 SetSprite(_currentDirection.y > 0 ? _upSprite : _downSprite);
             }
         }
@@ -85,7 +105,6 @@ namespace Runtime.CH3.Dancepace
             if (_idleSprite != null)
             {
                 _spriteRenderer.sprite = _idleSprite;
-                _spriteRenderer.flipX = false;
             }
         }
 
