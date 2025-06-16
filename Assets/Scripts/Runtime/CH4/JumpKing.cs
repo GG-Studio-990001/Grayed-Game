@@ -13,19 +13,19 @@ namespace Runtime.CH4
         [SerializeField] private bool _canJump = true;
         [SerializeField] private float _jumpValue = 0.0f;
 
-        private float _legLen = 1.4f;
-        private Vector2 _feetSize = new(1.5f, 0.4f);
+        private float _legLen = 1.5f;
+        private Vector2 _feetSize = new(1.4f, 0.4f);
 
         private float _moveInput;
         private Rigidbody2D _rb;
 
 
-        void Start()
+        private void Start()
         {
             _rb = GetComponent<Rigidbody2D>();
         }
 
-        void Update()
+        private void Update()
         {
             _moveInput = InputOld.GetAxisRaw("Horizontal");
 
@@ -37,7 +37,7 @@ namespace Runtime.CH4
             _isGrounded = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - _legLen),
                 _feetSize, 0f, _groundMask);
 
-            if (_jumpValue > 0)
+            if (!_isGrounded)
             {
                 _rb.sharedMaterial = _BounceMat;
             }
@@ -75,13 +75,13 @@ namespace Runtime.CH4
             }
         }
 
-        void ResetJump()
+        private void ResetJump()
         {
             _canJump = false;
             _jumpValue = 0f;
         }
 
-        void OnDrawGizmosSelected()
+        private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.green;
             Gizmos.DrawCube(new Vector2(transform.position.x, transform.position.y - _legLen), _feetSize);
