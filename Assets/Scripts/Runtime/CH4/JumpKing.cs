@@ -12,9 +12,10 @@ namespace Runtime.CH4
         [SerializeField] private PhysicsMaterial2D _normalMat, _BounceMat;
         [SerializeField] private bool _canJump = true;
         [SerializeField] private float _jumpValue = 0.0f;
+        [SerializeField] private float _maxJumpValue = 24f;
 
-        private float _legLen = 1.5f;
-        private Vector2 _feetSize = new(1.4f, 0.4f);
+        private readonly float _legLen = 1f;
+        private readonly Vector2 _feetSize = new(1.4f, 1f);
 
         private float _moveInput;
         private Rigidbody2D _rb;
@@ -56,7 +57,7 @@ namespace Runtime.CH4
                 _rb.velocity = new Vector2(0f, _rb.velocity.y);
             }
 
-            if (_jumpValue >= 20f && _isGrounded)
+            if (_jumpValue >= _maxJumpValue && _isGrounded)
             {
                 float tmpX = _moveInput * _walkSpeed;
                 float tmpY = _jumpValue;
