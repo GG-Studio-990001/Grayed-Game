@@ -28,8 +28,8 @@ namespace Runtime.CH4
 
         private void Update()
         {
-            HandeMovement();
             CheckGround();
+            HandeMovement();
             Charge();
             Jump();
         }
