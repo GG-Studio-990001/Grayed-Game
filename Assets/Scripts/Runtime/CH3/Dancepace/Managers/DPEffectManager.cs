@@ -5,37 +5,36 @@ namespace Runtime.CH3.Dancepace
 {
     public class DPEffectManager : MonoBehaviour
     {
-        [Header("이펙트 프리팹/파티클")]
-        [SerializeField] private ParticleSystem heartParticlePrefab;
-        [SerializeField] private GameObject coinEffectPrefab;
+        [Header("이펙트 프리팹")]
+        [SerializeField] private GameObject heartPrefab;
         
         [Header("관중석 스팟")]
-        [SerializeField] private Transform[] audienceSpots;
-
-        [Header("이펙트 설정")]
-        [SerializeField] private float heartParticleLifetime = 2f;
-        [SerializeField] private float coinEffectLifetime = 1f;
+        [SerializeField] private Transform audienceSpot;
 
         public void SpawnHeartParticles(JudgmentType type)
         {
-            if (audienceSpots.Length == 0 || heartParticlePrefab == null) return;
+            if (audienceSpot == null || heartPrefab == null) return;
 
             int count = GetHeartParticleCount(type);
+            if (count == 0) return;
+
             for (int i = 0; i < count; i++)
             {
-                var spot = GetRandomAudienceSpot();
-                var particle = Instantiate(heartParticlePrefab, spot.position, Quaternion.identity);
-                particle.Play();
-                Destroy(particle.gameObject, heartParticleLifetime);
-            }
-        }
+                // audienceSpot의 영역 내에서 랜덤한 위치 계산
+                Vector3 spotPosition = audienceSpot.position;
+                Vector3 spotScale = audienceSpot.localScale;
+                
+                float randomX = spotPosition.x + UnityEngine.Random.Range(-spotScale.x/2, spotScale.x/2);
+                float randomY = spotPosition.y + UnityEngine.Random.Range(-spotScale.y/2, spotScale.y/2);
+                Vector2 randomPosition = new Vector2(randomX, randomY);
 
-        public void SpawnCoinEffect(Vector3 position)
-        {
-            if (coinEffectPrefab == null) return;
-            
-            var effect = Instantiate(coinEffectPrefab, position, Quaternion.identity);
-            Destroy(effect, coinEffectLifetime);
+                var heartObj = Instantiate(heartPrefab, randomPosition, Quaternion.identity);
+                var heartEffect = heartObj.GetComponent<HeartEffect>();
+                if (heartEffect != null)
+                {
+                    heartEffect.PlayEffect();
+                }
+            }
         }
 
         private int GetHeartParticleCount(JudgmentType type)
@@ -49,9 +48,13 @@ namespace Runtime.CH3.Dancepace
             };
         }
 
-        private Transform GetRandomAudienceSpot()
+        private void OnDrawGizmos()
         {
-            return audienceSpots[UnityEngine.Random.Range(0, audienceSpots.Length)];
+            if (audienceSpot == null) return;
+
+            // Transform의 영역 표시
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(audienceSpot.position, audienceSpot.localScale);
         }
     }
-} 
+}

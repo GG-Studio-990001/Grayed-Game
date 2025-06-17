@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using Runtime.ETC;
 
 namespace Runtime.CH3.Dancepace
 {
@@ -23,39 +24,37 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private GameObject rehearsalPanel;
         [SerializeField] private GameObject moreRehearsalPanel;
 
+        [Header("Sound")]
+        [SerializeField] private string greatSFX = "Dancepace/CH3_Great";
+        //[SerializeField] private string goodSFX = "Dancepace/CH3_Good";
+        [SerializeField] private string previewSFX = "Dancepace/CH3_Preview";
+
         private List<WaveData> rehearsalWaves;
         private List<WaveData> mainWaves;
-        private int currentWaveIndex;
+        //private int currentWaveIndex;
         private bool isRehearsalMode = true;
         private bool userWantsMoreRehearsal = false;
         private DancepaceData _gameData;
+        private List<BeatData> currentBeats = new List<BeatData>();
+        private HashSet<string> completedPoses = new HashSet<string>();
+        //private bool canInput = false;
+        private float elapsed = 0f;
 
         private void Awake()
         {
-            Debug.Log("[DPManager] Awake 진입");
             InitializeGameData();
-            if (uiManager == null) Debug.LogError("[DPManager] uiManager가 연결되어 있지 않습니다!");
-            if (previewNPCs == null || previewNPCs.Length == 0) Debug.LogError("[DPManager] previewNPCs가 비어있습니다!");
-            if (answerNPCs == null || answerNPCs.Length == 0) Debug.LogError("[DPManager] answerNPCs가 비어있습니다!");
-            if (playerCharacter == null) Debug.LogError("[DPManager] playerCharacter가 연결되어 있지 않습니다!");
             uiManager?.InitializeUI();
         }
 
-        private async void InitializeGameData()
+        private void InitializeGameData()
         {
-            // 스프레드시트 로드 부분 주석 처리
-            // _gameData = new DancepaceData();
-            // rehearsalWaves = new List<WaveData>();
-            // mainWaves = new List<WaveData>();
-            // try { ... } catch { ... }
-
             // 임시 하드코딩 데이터
             _gameData = new DancepaceData();
             _gameData.gameConfig = new GameConfig
             {
                 limitTime = 60,
                 waveForCount = 6,
-                waveMainBGM = "-",
+                waveMainBGM = "Dancepace/CH3_SUB_BGM_01",
                 lifeCount = 3,
                 waveClearCoin = 15,
                 greatCoin = 3,
@@ -111,34 +110,28 @@ namespace Runtime.CH3.Dancepace
             _gameData.waveDataList = new List<WaveData>();
             _gameData.waveDataList.AddRange(rehearsalWaves);
             _gameData.waveDataList.AddRange(mainWaves);
-
-            Debug.Log("[DPManager] 임시 데이터로 게임 데이터 초기화 완료");
         }
 
         private void Start()
         {
-            Debug.Log("[DPManager] Start 진입");
             StartCoroutine(GameFlow());
         }
 
         private IEnumerator GameFlow()
         {
-            Debug.Log("[DPManager] GameFlow 진입");
-            // 리허설 모드
             isRehearsalMode = true;
             uiManager?.ShowRehearsalPanel(true);
             uiManager?.SetRehearsalMode(true);
-            Managers.Sound.Play(ETC.Sound.BGM, "SuperArio/CH2_SUB_BGM_01");
-            
+            Managers.Sound.Play(Sound.BGM, _gameData.gameConfig.waveMainBGM);
+
             do
             {
-                Debug.Log("[DPManager] 리허설 웨이브 반복 시작");
+                uiManager?.ShowKeyGuide(true);
                 foreach (var wave in rehearsalWaves)
                 {
-                    Debug.Log($"[DPManager] 리허설 웨이브: {wave.waveId}");
                     yield return StartCoroutine(PlayRoutine(wave));
                 }
-                
+
                 uiManager?.ShowMoreRehearsalPanel(true);
                 userWantsMoreRehearsal = false;
                 yield return new WaitUntil(() => userWantsMoreRehearsal);
@@ -148,91 +141,116 @@ namespace Runtime.CH3.Dancepace
 
             uiManager?.ShowRehearsalPanel(false);
             uiManager?.SetRehearsalMode(false);
+            uiManager?.ShowKeyGuide(false);
 
-            // 본게임 모드
             isRehearsalMode = false;
-            Debug.Log("[DPManager] 메인 웨이브 반복 시작");
             foreach (var wave in mainWaves)
             {
-                Debug.Log($"[DPManager] 메인 웨이브: {wave.waveId}");
                 yield return StartCoroutine(PlayRoutine(wave));
             }
         }
 
         private IEnumerator PlayRoutine(WaveData wave)
         {
-            Debug.Log($"[DPManager] PlayRoutine 진입: {wave?.waveId}");
             if (wave == null || wave.beats == null || wave.beats.Count == 0)
             {
-                Debug.LogError("[DPManager] wave 또는 beats가 null/empty");
                 yield break;
             }
-            float waveDuration = wave.duration > 0 ? wave.duration : _gameData.gameConfig.limitTime;
-            float elapsed = 0f;
-            int beatIndex = 0;
-            while (elapsed < waveDuration)
+
+            float limitTime = _gameData.gameConfig.limitTime;
+            int waveCount = 0;
+            bool isGameOver = false;
+
+            elapsed = 0f;
+            uiManager?.UpdateTimeBar(0f, limitTime);
+
+            yield return StartCoroutine(UpdateTimeBarWithWait(1f, limitTime));
+
+            while (!isGameOver && waveCount < _gameData.gameConfig.waveForCount)
             {
-                var beat = wave.beats[beatIndex];
-                // 1. PreviewNPCs가 포즈 시연
-                if (previewNPCs != null)
+                for (int i = 0; i < wave.beats.Count; i++)
                 {
+                    var beat = wave.beats[i];
+                    string nextPoseId = (i + 1 < wave.beats.Count) ? wave.beats[i + 1].poseId : "";
+                    uiManager?.UpdateKeyGuide(beat.poseId, nextPoseId); // 각 포즈마다 반드시 호출
                     foreach (var npc in previewNPCs)
-                    {
-                        if (npc != null)
-                            npc.PlayPreviewPose(beat.poseId);
-                    }
+                        npc?.PlayPreviewPose(beat.poseId);
+                    float waitTime = beat.timing + beat.restTime;
+                    yield return StartCoroutine(UpdateTimeBarWithWait(waitTime, limitTime));
+                    if (elapsed >= limitTime) { isGameOver = true; break; }
                 }
-                uiManager?.UpdateKeyGuide(beat.poseId ?? "", "");
-                yield return new WaitForSeconds(beat.timing);
-                elapsed += beat.timing;
 
-                // 2. 쉬는 타임 (최소 0.5초 보장)
-                float rest = Mathf.Max(beat.restTime, 0.5f);
-                yield return new WaitForSeconds(rest);
-                elapsed += rest;
+                Managers.Sound.Play(Sound.SFX, previewSFX);
+                yield return StartCoroutine(UpdateTimeBarWithWait(0.5f, limitTime));
+                if (elapsed >= limitTime) { isGameOver = true; break; }
 
-                // 3. AnswerNPCs가 포즈 시연 + 플레이어 입력 대기
-                if (answerNPCs != null)
+                for (int i = 0; i < wave.beats.Count; i++)
                 {
+                    var beat = wave.beats[i];
+                    string nextPoseId = (i + 1 < wave.beats.Count) ? wave.beats[i + 1].poseId : "";
+                    uiManager?.UpdateKeyGuide(beat.poseId, nextPoseId); // 각 포즈마다 반드시 호출
                     foreach (var npc in answerNPCs)
-                    {
-                        if (npc != null)
-                            npc.PlayAnswerPose(beat.poseId);
-                    }
+                        npc?.PlayAnswerPose(beat.poseId);
+                    yield return StartCoroutine(WaitForPlayerInputs(new List<BeatData> { beat }));
+                    yield return StartCoroutine(UpdateTimeBarWithWait(beat.timing, limitTime));
+                    if (beat.restTime > 0)
+                        yield return StartCoroutine(UpdateTimeBarWithWait(beat.restTime, limitTime));
+                    if (elapsed >= limitTime) { isGameOver = true; break; }
                 }
-                uiManager?.UpdateKeyGuide(beat.poseId ?? "", "");
-                yield return StartCoroutine(WaitForPlayerInput(beat));
-                // (입력 대기 시간은 elapsed에 포함하지 않음)
+                waveCount++;
+            }
 
-                beatIndex = (beatIndex + 1) % wave.beats.Count;
+            if (isGameOver)
+            {
+                OnGameSuccess();
+            }
+            else
+            {
+                OnGameFail();
             }
         }
 
-        private IEnumerator WaitForPlayerInput(BeatData beat)
+        private IEnumerator UpdateTimeBarWithWait(float waitTime, float limitTime)
         {
-            Debug.Log($"[DPManager] WaitForPlayerInput 진입: poseId={beat?.poseId}, timing={beat?.timing}");
-            bool inputReceived = false;
-            float startTime = Time.time;
-            float maxWait = beat.timing * 2f;
-
-            while (!inputReceived && Time.time - startTime < maxWait)
+            float timer = 0f;
+            while (timer < waitTime && elapsed < limitTime)
             {
-                float currentTime = Time.time - startTime;
-                uiManager?.UpdateTimeBar(currentTime, maxWait);
+                float delta = Time.deltaTime;
+                timer += delta;
+                elapsed += delta;
+                uiManager?.UpdateTimeBar(elapsed, limitTime);
+                yield return null;
+            }
+        }
 
-                if (keyBinder != null && keyBinder.IsPoseKeyPressed(beat.poseId))
+        private IEnumerator WaitForPlayerInputs(List<BeatData> beats)
+        {
+            bool allInputsReceived = false;
+            float startTime = Time.time;
+            float maxWait = beats[0].timing * 2f;
+
+            while (!allInputsReceived && Time.time - startTime < maxWait)
+            {
+                if (keyBinder != null)
                 {
-                    inputReceived = true;
-                    float timing = Time.time - startTime;
-                    JudgeInput(timing, beat.timing, beat.poseId);
+                    foreach (var beat in beats)
+                    {
+                        if (!completedPoses.Contains(beat.poseId) && keyBinder.IsPoseKeyPressed(beat.poseId))
+                        {
+                            completedPoses.Add(beat.poseId);
+                            float timing = Time.time - startTime;
+                            JudgeInput(timing, beat.timing, beat.poseId);
+                        }
+                    }
                 }
+
+                allInputsReceived = completedPoses.Count == beats.Count;
                 yield return null;
             }
 
-            if (!inputReceived)
+            if (!allInputsReceived)
             {
-                Debug.LogWarning("[DPManager] 입력 미수행: Bad 처리");
-                ShowJudgment(JudgmentType.Bad, beat.poseId);
+                ShowJudgment(JudgmentType.Bad, beats[0].poseId);
             }
         }
 
@@ -242,12 +260,12 @@ namespace Runtime.CH3.Dancepace
             if (diff <= _gameData.gameConfig.greatTimingWindow)
             {
                 ShowJudgment(JudgmentType.Great, poseId);
-                effectManager.SpawnCoinEffect(playerCharacter.transform.position);
+                Managers.Sound.Play(Sound.SFX, greatSFX);
             }
             else if (diff <= _gameData.gameConfig.goodTimingWindow)
             {
                 ShowJudgment(JudgmentType.Good, poseId);
-                effectManager.SpawnCoinEffect(playerCharacter.transform.position);
+                Managers.Sound.Play(Sound.SFX, greatSFX);
             }
             else
             {
@@ -259,5 +277,19 @@ namespace Runtime.CH3.Dancepace
         {
             effectManager.SpawnHeartParticles(type);
         }
+
+        private void OnGameSuccess()
+        {
+            // 게임 성공 연출
+            uiManager?.ShowSuccessPanel(true);
+            // TODO: 성공 연출 추가
+        }
+
+        private void OnGameFail()
+        {
+            // 게임 실패 연출
+            uiManager?.ShowFailPanel(true);
+            // TODO: 실패 연출 추가
+        }
     }
-} 
+}
