@@ -136,6 +136,14 @@ namespace Runtime.Input
             _gameOverControls.Player.Interaction.performed += _ => keyBinder.OnInteraction();
         }
 
+        // CH4
+        public void CH4KeyBinding(SettingsUIView settingsUIView)
+        {
+            // _gameOverControls.Player.Enable();
+            _gameOverControls.UI.Enable();
+            _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
+        }
+
         // ETC
         public void GameControlReset()
         {
