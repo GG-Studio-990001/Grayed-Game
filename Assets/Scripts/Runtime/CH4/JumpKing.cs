@@ -5,14 +5,13 @@ namespace Runtime.CH4
 {
     public class JumpKing : MonoBehaviour
     {
-        [SerializeField] private float _walkSpeed;
         [SerializeField] private bool _isGrounded;
         [SerializeField] private LayerMask _groundMask;
-
         [SerializeField] private PhysicsMaterial2D _normalMat, _BounceMat;
         [SerializeField] private bool _canJump = true;
+        [SerializeField] private float _walkSpeed = 6;
         [SerializeField] private float _jumpValue = 0f;
-        [SerializeField] private float _minJumpValue = 1f;
+        [SerializeField] private float _minJumpValue = 5f;
         [SerializeField] private float _maxJumpValue = 24f;
         [SerializeField] private float _jumpMul = 1.3f;
 
@@ -22,7 +21,6 @@ namespace Runtime.CH4
         private float _moveInput;
         private Rigidbody2D _rb;
 
-
         private void Start()
         {
             _rb = GetComponent<Rigidbody2D>();
@@ -30,25 +28,32 @@ namespace Runtime.CH4
 
         private void Update()
         {
+            HandeMovement();
+            CheckGround();
+            Charge();
+            Jump();
+        }
+
+        private void HandeMovement()
+        {
             _moveInput = InputOld.GetAxisRaw("Horizontal");
 
             if (_jumpValue == _minJumpValue && _isGrounded)
             {
                 _rb.velocity = new Vector2(_moveInput * _walkSpeed, _rb.velocity.y);
             }
+        }    
 
+        private void CheckGround()
+        {
             _isGrounded = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - _legLen),
                 _feetSize, 0f, _groundMask);
 
-            if (!_isGrounded)
-            {
-                _rb.sharedMaterial = _BounceMat;
-            }
-            else
-            {
-                _rb.sharedMaterial = _normalMat;
-            }
+            _rb.sharedMaterial = _isGrounded ? _normalMat : _BounceMat;
+        }
 
+        private void Charge()
+        {
             if (InputOld.GetKey(KeyCode.Space) && _isGrounded && _canJump)
             {
                 _jumpValue += 0.1f;
@@ -58,7 +63,10 @@ namespace Runtime.CH4
             {
                 _rb.velocity = new Vector2(0f, _rb.velocity.y);
             }
+        }
 
+        private void Jump()
+        {
             // 자동 점프
             if (_jumpValue >= _maxJumpValue && _isGrounded)
             {

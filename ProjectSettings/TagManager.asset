@@ -9,6 +9,7 @@ TagManager:
   - Coin
   - D1
   - D10
+  - Goal
   layers:
   - Default
   - TransparentFX
