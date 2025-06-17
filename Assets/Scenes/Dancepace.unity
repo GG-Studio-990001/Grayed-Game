@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2353,7 +2353,7 @@ MonoBehaviour:
   _maxScale: 1
   _minScale: 0.8
   _animationSpeed: 2
-  _autoBeatInterval: 1
+  _sensitivity: 10
 --- !u!212 &516232256
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2752,6 +2752,8 @@ MonoBehaviour:
   keyGuideUI: {fileID: 305762099}
   rehearsalPanel: {fileID: 903288550}
   moreRehearsalPanel: {fileID: 582266189}
+  successPanel: {fileID: 0}
+  failPanel: {fileID: 0}
 --- !u!1 &621097071
 GameObject:
   m_ObjectHideFlags: 0
@@ -3188,12 +3190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e11cebbc57b38a04f9bff4e7bda813c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heartParticlePrefab: {fileID: 4528294729825614636, guid: 7d25c509a84b045469dd9042ca35171e, type: 3}
-  coinEffectPrefab: {fileID: 4278329159390637904, guid: 31c8707df8e230f4c911a68a0959d762, type: 3}
-  audienceSpots:
-  - {fileID: 1405302018}
-  heartParticleLifetime: 2
-  coinEffectLifetime: 1
+  heartPrefab: {fileID: 3083159345399870649, guid: f3dcf40f127e3184d91f617aadee55d0, type: 3}
+  audienceSpot: {fileID: 0}
 --- !u!114 &699020852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3221,6 +3219,8 @@ MonoBehaviour:
   playerCharacter: {fileID: 975104571}
   rehearsalPanel: {fileID: 903288550}
   moreRehearsalPanel: {fileID: 582266189}
+  greatSFX: Dancepace/CH3_Great
+  previewSFX: Dancepace/CH3_Preview
 --- !u!1 &714996156
 GameObject:
   m_ObjectHideFlags: 0
@@ -4126,7 +4126,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 850531342, guid: d9f7d398e90034d40b67124d10cf1ac2, type: 3}
   m_Color: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -4202,9 +4202,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccb89ecc7912ce44800c7d50b0621ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fillImage: {fileID: 22124804}
+  timeBarSlider: {fileID: 1953232320}
   handleImage: {fileID: 171153169}
-  fillDuration: 0.3
   normalHandleSprite: {fileID: 525879217, guid: f6eb4ce53aa2d7f4bba33e89f5c696f3, type: 3}
   warningHandleSprite: {fileID: 1091901569, guid: f6eb4ce53aa2d7f4bba33e89f5c696f3, type: 3}
   dangerHandleSprite: {fileID: 2043577889, guid: f6eb4ce53aa2d7f4bba33e89f5c696f3, type: 3}
@@ -8689,7 +8688,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 850531342, guid: d9f7d398e90034d40b67124d10cf1ac2, type: 3}
   m_Color: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -9460,7 +9459,7 @@ MonoBehaviour:
   _maxScale: 1
   _minScale: 0.8
   _animationSpeed: 2
-  _autoBeatInterval: 1
+  _sensitivity: 10
 --- !u!212 &2140554510
 SpriteRenderer:
   m_ObjectHideFlags: 0

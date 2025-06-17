@@ -20,6 +20,7 @@ namespace Runtime.CH3.Dancepace
 
         private Dictionary<string, Key> poseKeyBindings;
         private bool isInputEnabled = true;
+        private Vector2 lastMoveDirection;
 
         private void Start()
         {
@@ -55,7 +56,19 @@ namespace Runtime.CH3.Dancepace
         public void OnMove(InputAction.CallbackContext context)
         {
             if (!isInputEnabled) return;
-            _dPRapley?.OnMove(context);
+
+            if (context.performed)
+            {
+                lastMoveDirection = context.ReadValue<Vector2>();
+                _dPRapley?.OnMove(context);
+            }
+            else if (context.canceled)
+            {
+                // 입력이 없을 때 마지막 방향을 유지
+                var lastContext = new InputAction.CallbackContext();
+                lastContext.ReadValue<Vector2>().Set(lastMoveDirection.x, lastMoveDirection.y);
+                _dPRapley?.OnMove(lastContext);
+            }
         }
 
         public void OnInteraction()
@@ -73,13 +86,13 @@ namespace Runtime.CH3.Dancepace
             return false;
         }
 
-        private void DisableInput()
+        public void DisableInput()
         {
             isInputEnabled = false;
             Managers.Data.InGameKeyBinder.PlayerInputDisable();
         }
 
-        private void EnableInput()
+        public void EnableInput()
         {
             isInputEnabled = true;
             Managers.Data.InGameKeyBinder.PlayerInputEnable();

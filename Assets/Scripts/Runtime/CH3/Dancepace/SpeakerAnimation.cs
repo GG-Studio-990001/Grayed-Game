@@ -9,7 +9,7 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private float _maxScale = 1.2f;
         [SerializeField] private float _minScale = 0.8f;
         [SerializeField] private float _animationSpeed = 2f;
-        [SerializeField] private float _autoBeatInterval = 1f;
+        //[SerializeField] private float _autoBeatInterval = 1f;
         [SerializeField] private float _sensitivity = 10f; // 볼륨 반응 민감도
 
         private Vector3 _originalScale;

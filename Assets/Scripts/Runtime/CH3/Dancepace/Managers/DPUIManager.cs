@@ -11,6 +11,8 @@ namespace Runtime.CH3.Dancepace
         [Header("Panels")]
         [SerializeField] private GameObject rehearsalPanel;
         [SerializeField] private GameObject moreRehearsalPanel;
+        [SerializeField] private GameObject successPanel;
+        [SerializeField] private GameObject failPanel;
 
         private void Awake()
         {
@@ -57,6 +59,28 @@ namespace Runtime.CH3.Dancepace
         public void UpdateKeyGuide(string currentPoseId, string nextPoseId)
         {
             keyGuideUI.UpdateKeyGuide(currentPoseId, nextPoseId);
+        }
+
+        public void ShowSuccessPanel(bool show)
+        {
+            if (successPanel != null)
+            {
+                successPanel.SetActive(show);
+            }
+        }
+
+        public void ShowFailPanel(bool show)
+        {
+            if (failPanel != null)
+            {
+                failPanel.SetActive(show);
+            }
+        }
+
+        public void ShowKeyGuide(bool show)
+        {
+            if (keyGuideUI != null)
+                keyGuideUI.gameObject.SetActive(show);
         }
     }
 } 
