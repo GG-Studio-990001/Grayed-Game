@@ -129,6 +129,10 @@ namespace Runtime.Input
 
         public void DancepaceKeyBinding(DPKeyBinder keyBinder, SettingsUIView settingsUIView)
         {
+            _gameOverControls.UI.Enable();
+            _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
+            //_gameOverControls.UI.GameSetting.performed += _ => keyBinder.PauseKeyInput();
+            
             _gameOverControls.Player.Enable();
             _gameOverControls.Player.Move.performed += keyBinder.OnMove;
             _gameOverControls.Player.Move.started += keyBinder.OnMove;

@@ -12,6 +12,8 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private Sprite _rightSprite;
         [SerializeField] private Sprite _idleSprite;
 
+        [SerializeField] private GameObject spotlightObject;
+
         private SpriteRenderer _spriteRenderer;
         private Vector2 _currentDirection = Vector2.zero;
 
@@ -112,6 +114,12 @@ namespace Runtime.CH3.Dancepace
         {
             SetIdleSprite();
             _currentDirection = Vector2.zero;
+        }
+
+        public void ShowSpotlight(bool show)
+        {
+            if (spotlightObject != null)
+                spotlightObject.SetActive(show);
         }
     }
 } 

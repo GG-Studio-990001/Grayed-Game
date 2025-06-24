@@ -37,9 +37,10 @@ namespace Runtime.CH3.Dancepace
                 { "Left", leftKey },
                 { "Right", rightKey }
             };
-
             Managers.Data.InGameKeyBinder.GameControlReset();
             Managers.Data.InGameKeyBinder.DancepaceKeyBinding(this, _settingsUIView);
+            _settingsUIView.OnSettingsOpen += () => Managers.Data.InGameKeyBinder.PlayerInputDisable();
+            _settingsUIView.OnSettingsClose += () => Managers.Data.InGameKeyBinder.PlayerInputEnable();
 
             if (_dPRapley == null)
             {
@@ -86,15 +87,38 @@ namespace Runtime.CH3.Dancepace
             return false;
         }
 
+        public bool IsAnyOtherPoseKeyPressed(string exceptPoseId)
+        {
+            if (!isInputEnabled || poseKeyBindings == null)
+                return false;
+            foreach (var kvp in poseKeyBindings)
+            {
+                if (kvp.Key == exceptPoseId) continue;
+                if (Keyboard.current[kvp.Value].wasPressedThisFrame)
+                    return true;
+            }
+            return false;
+        }
+
+        public bool IsPoseKeyHeld(string poseId)
+        {
+            if (!isInputEnabled) return false;
+            if (poseKeyBindings != null && poseKeyBindings.TryGetValue(poseId, out var key))
+                return Keyboard.current[key].isPressed;
+            return false;
+        }
+
         public void DisableInput()
         {
             isInputEnabled = false;
+            Managers.Sound.PauseAllSound();
             Managers.Data.InGameKeyBinder.PlayerInputDisable();
         }
 
         public void EnableInput()
         {
             isInputEnabled = true;
+            Managers.Sound.UnPauseAllSound();
             Managers.Data.InGameKeyBinder.PlayerInputEnable();
         }
 
