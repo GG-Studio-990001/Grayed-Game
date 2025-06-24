@@ -243,5 +243,19 @@ namespace Runtime.InGameSystem
         {
             SFX.Stop();
         }
+
+        public void PauseAllSound()
+        {
+            SFX.Pause();
+            BGM.Pause();
+            LuckyBGM.Pause();
+        }
+
+        public void UnPauseAllSound()
+        {
+            SFX.UnPause();
+            BGM.UnPause();
+            LuckyBGM.UnPause();
+        }
     }
 }
