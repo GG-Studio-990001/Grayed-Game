@@ -15,13 +15,6 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private Sprite normalHandleSprite;
         [SerializeField] private Sprite warningHandleSprite;
         [SerializeField] private Sprite dangerHandleSprite;
-        
-        [Header("Animation Settings")]
-        [SerializeField] private float warningThreshold = 0.3f;
-        [SerializeField] private float dangerThreshold = 0.1f;
-        [SerializeField] private Color normalColor = Color.white;
-        [SerializeField] private Color warningColor = Color.yellow;
-        [SerializeField] private Color dangerColor = Color.red;
 
         private float currentTime;
         private float maxTime;
@@ -36,7 +29,6 @@ namespace Runtime.CH3.Dancepace
             }
 
             timeBarSlider.value = 0f;
-            handleImage.color = normalColor;
             handleImage.sprite = normalHandleSprite;
         }
 
@@ -48,28 +40,24 @@ namespace Runtime.CH3.Dancepace
             float fillAmount = Mathf.Clamp01(currentTime / maxTime);
             timeBarSlider.value = fillAmount;
 
-            // 상태에 따른 색상과 핸들 스프라이트 변경
-            if (fillAmount <= dangerThreshold)
+            // 3등분하여 구간별로 핸들 스프라이트 변경
+            if (fillAmount < 1f / 3f)
             {
-                handleImage.color = dangerColor;
-                handleImage.sprite = dangerHandleSprite;
+                handleImage.sprite = normalHandleSprite;
             }
-            else if (fillAmount <= warningThreshold)
+            else if (fillAmount < 2f / 3f)
             {
-                handleImage.color = warningColor;
                 handleImage.sprite = warningHandleSprite;
             }
             else
             {
-                handleImage.color = normalColor;
-                handleImage.sprite = normalHandleSprite;
+                handleImage.sprite = dangerHandleSprite;
             }
         }
 
         public void ResetTimeBar()
         {
             timeBarSlider.value = 0f;
-            handleImage.color = normalColor;
             handleImage.sprite = normalHandleSprite;
         }
 
