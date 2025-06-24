@@ -137,9 +137,14 @@ namespace Runtime.Input
         }
 
         // CH4
-        public void CH4KeyBinding(SettingsUIView settingsUIView)
+        public void CH4KeyBinding(TopDownPlayer player, SettingsUIView settingsUIView)
         {
-            // _gameOverControls.Player.Enable();
+            _gameOverControls.Player.Enable();
+            _gameOverControls.Player.Move.performed += player.OnMove;
+            _gameOverControls.Player.Move.started += player.OnMove;
+            _gameOverControls.Player.Move.canceled += player.OnMove;
+            _gameOverControls.Player.Interaction.performed += _ => player.OnInteraction();
+
             _gameOverControls.UI.Enable();
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
         }
