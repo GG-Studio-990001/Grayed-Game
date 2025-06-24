@@ -56,9 +56,9 @@ namespace Runtime.CH3.Dancepace
             keyGuideUI.SetRehearsalMode(isRehearsal);
         }
 
-        public void UpdateKeyGuide(string currentPoseId, string nextPoseId)
+        public void UpdateKeyGuide(string nextPoseId)
         {
-            keyGuideUI.UpdateKeyGuide(currentPoseId, nextPoseId);
+            keyGuideUI.UpdateKeyGuide(nextPoseId);
         }
 
         public void ShowSuccessPanel(bool show)
@@ -81,6 +81,12 @@ namespace Runtime.CH3.Dancepace
         {
             if (keyGuideUI != null)
                 keyGuideUI.gameObject.SetActive(show);
+        }
+
+        public void ShowResultPanel(int score)
+        {
+            Debug.Log($"최종 점수: {score}");
+            // TODO: 실제 결과 UI 구현
         }
     }
 } 

@@ -6,7 +6,7 @@ namespace Runtime.CH3.Dancepace
     public class HeartEffect : MonoBehaviour
     {
         [Header("Animation Settings")]
-        [SerializeField] private float floatDistance = 2f;
+        [SerializeField] private float floatDistance = 0.5f;
         [SerializeField] private float floatDuration = 1.5f;
         [SerializeField] private float fadeOutDuration = 1f;
         [SerializeField] private float randomOffset = 0.5f;
@@ -29,7 +29,7 @@ namespace Runtime.CH3.Dancepace
             animationSequence?.Kill();
 
             // 초기 상태 설정
-            transform.localPosition = Vector3.zero;
+            //transform.localPosition = Vector3.zero;
             Color startColor = spriteRenderer.color;
             startColor.a = 1f;
             spriteRenderer.color = startColor;
@@ -43,9 +43,9 @@ namespace Runtime.CH3.Dancepace
 
             // 애니메이션 시퀀스 생성
             animationSequence = DOTween.Sequence()
-                .Append(transform.DOLocalMoveY(floatDistance, floatDuration)
+                .Append(transform.DOLocalMoveY(transform.localPosition.y + floatDistance, floatDuration)
                     .SetEase(Ease.OutQuad))
-                .Join(transform.DOLocalMoveX(randomDirection.x, floatDuration)
+                .Join(transform.DOLocalMoveX(transform.localPosition.x + randomDirection.x, floatDuration)
                     .SetEase(Ease.OutQuad))
                 .Join(spriteRenderer.DOFade(0f, fadeOutDuration)
                     .SetEase(Ease.InQuad))
