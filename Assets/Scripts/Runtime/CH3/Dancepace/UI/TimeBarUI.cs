@@ -7,9 +7,9 @@ namespace Runtime.CH3.Dancepace
     public class TimeBarUI : MonoBehaviour
     {
         [Header("Time Bar Components")]
-        [SerializeField] private Image fillImage;
+        [SerializeField] private Slider timeBarSlider;
         [SerializeField] private Image handleImage;
-        [SerializeField] private float fillDuration = 0.3f;
+        //[SerializeField] private float fillDuration = 0.3f;
         
         [Header("Handle Sprites")]
         [SerializeField] private Sprite normalHandleSprite;
@@ -29,14 +29,14 @@ namespace Runtime.CH3.Dancepace
 
         public void Initialize()
         {
-            if (fillImage == null || handleImage == null)
+            if (timeBarSlider == null || handleImage == null)
             {
                 Debug.LogError("Required components are missing!");
                 return;
             }
 
-            fillImage.fillAmount = 0f;
-            fillImage.color = normalColor;
+            timeBarSlider.value = 0f;
+            handleImage.color = normalColor;
             handleImage.sprite = normalHandleSprite;
         }
 
@@ -45,38 +45,31 @@ namespace Runtime.CH3.Dancepace
             this.currentTime = currentTime;
             this.maxTime = maxTime;
 
-            float fillAmount = currentTime / maxTime;
-            
-            // 이전 트윈이 있다면 중지
-            fillTween?.Kill();
-
-            // 새로운 트윈 생성
-            fillTween = fillImage.DOFillAmount(fillAmount, fillDuration)
-                .SetEase(Ease.OutQuad);
+            float fillAmount = Mathf.Clamp01(currentTime / maxTime);
+            timeBarSlider.value = fillAmount;
 
             // 상태에 따른 색상과 핸들 스프라이트 변경
             if (fillAmount <= dangerThreshold)
             {
-                fillImage.color = dangerColor;
+                handleImage.color = dangerColor;
                 handleImage.sprite = dangerHandleSprite;
             }
             else if (fillAmount <= warningThreshold)
             {
-                fillImage.color = warningColor;
+                handleImage.color = warningColor;
                 handleImage.sprite = warningHandleSprite;
             }
             else
             {
-                fillImage.color = normalColor;
+                handleImage.color = normalColor;
                 handleImage.sprite = normalHandleSprite;
             }
         }
 
         public void ResetTimeBar()
         {
-            fillTween?.Kill();
-            fillImage.fillAmount = 0f;
-            fillImage.color = normalColor;
+            timeBarSlider.value = 0f;
+            handleImage.color = normalColor;
             handleImage.sprite = normalHandleSprite;
         }
 
