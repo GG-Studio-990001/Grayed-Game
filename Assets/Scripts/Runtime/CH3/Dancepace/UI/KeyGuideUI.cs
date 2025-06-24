@@ -61,30 +61,17 @@ namespace Runtime.CH3.Dancepace
             }
         }
 
-        public void UpdateKeyGuide(string currentPoseId, string nextPoseId)
+        public void UpdateKeyGuide(string poseId)
         {
             if (!isRehearsalMode) return;
 
-            this.currentPoseId = currentPoseId;
-            this.nextPoseId = nextPoseId;
-
             // 모든 키를 기본 색상으로 초기화
             foreach (var data in keyGuideDataList)
-            {
                 data.keyImage.DOColor(data.normalColor, colorChangeDuration);
-            }
 
-            // 현재 입력 중인 키를 파란색으로
-            if (keyGuideDict.TryGetValue(currentPoseId, out var currentData))
-            {
-                currentData.keyImage.DOColor(currentData.activeColor, colorChangeDuration);
-            }
-
-            // 다음에 입력할 키를 빨간색으로
-            if (keyGuideDict.TryGetValue(nextPoseId, out var nextData))
-            {
-                nextData.keyImage.DOColor(nextData.nextColor, colorChangeDuration);
-            }
+            // 현재 입력할 키만 빨간색으로 강조
+            if (!string.IsNullOrEmpty(poseId) && keyGuideDict.TryGetValue(poseId, out var targetData))
+                targetData.keyImage.DOColor(targetData.nextColor, colorChangeDuration);
         }
 
         public void ResetKeyGuide()
