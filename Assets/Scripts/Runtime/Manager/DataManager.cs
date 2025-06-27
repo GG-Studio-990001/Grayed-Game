@@ -125,7 +125,6 @@ namespace Runtime.Manager
                     Debug.Log($"{Managers.Data.CH2.Turn}");
                     break;
                 case 3:
-                    Debug.Log($"Dancepace High Score: {Managers.Data.CH3.Dancepace.HighScore}");
                     break;
             }
             return true;

@@ -40,7 +40,7 @@ namespace Runtime.CH3.Dancepace
             {
                 if (data.keyImage == null)
                 {
-                    Debug.LogError($"Key Image is missing for pose: {data.poseId}");
+                    Debug.LogError($"Key Image is missing for poseData: {data.poseId}");
                     continue;
                 }
                 keyGuideDict[data.poseId] = data;

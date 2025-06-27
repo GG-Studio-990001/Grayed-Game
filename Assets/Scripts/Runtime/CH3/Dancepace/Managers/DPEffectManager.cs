@@ -1,5 +1,5 @@
 using UnityEngine;
-using System;
+using Runtime.ETC;
 
 namespace Runtime.CH3.Dancepace
 {
@@ -11,7 +11,7 @@ namespace Runtime.CH3.Dancepace
         [Header("관중석 스팟")]
         [SerializeField] private Transform audienceSpot;
 
-        public void SpawnHeartParticles(JudgmentType type)
+        public void SpawnHeartParticles(EJudgmentType type)
         {
             if (audienceSpot == null || heartPrefab == null) return;
 
@@ -43,13 +43,13 @@ namespace Runtime.CH3.Dancepace
             }
         }
 
-        private int GetHeartParticleCount(JudgmentType type)
+        private int GetHeartParticleCount(EJudgmentType type)
         {
             return type switch
             {
-                JudgmentType.Great => UnityEngine.Random.Range(3, 6),
-                JudgmentType.Good => UnityEngine.Random.Range(1, 3),
-                JudgmentType.Bad => 0,
+                EJudgmentType.Great => UnityEngine.Random.Range(3, 6),
+                EJudgmentType.Good => UnityEngine.Random.Range(1, 3),
+                EJudgmentType.Bad => 0,
                 _ => 0
             };
         }

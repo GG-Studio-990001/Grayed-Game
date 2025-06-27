@@ -1,4 +1,5 @@
 using UnityEngine;
+using Runtime.ETC;
 
 namespace Runtime.CH3.Dancepace
 {
@@ -18,14 +19,14 @@ namespace Runtime.CH3.Dancepace
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        public void PlayAnswerPose(string poseId)
+        public void PlayAnswerPose(EPoseType poseId)
         {
             switch (poseId)
             {
-                case "Up": spriteRenderer.sprite = upSprite; break;
-                case "Down": spriteRenderer.sprite = downSprite; break;
-                case "Left": spriteRenderer.sprite = leftSprite; break;
-                case "Right": spriteRenderer.sprite = rightSprite; break;
+                case EPoseType.Up: spriteRenderer.sprite = upSprite; break;
+                case EPoseType.Down: spriteRenderer.sprite = downSprite; break;
+                case EPoseType.Left: spriteRenderer.sprite = leftSprite; break;
+                case EPoseType.Right: spriteRenderer.sprite = rightSprite; break;
                 default: spriteRenderer.sprite = idleSprite; break;
             }
         }

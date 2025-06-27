@@ -703,7 +703,7 @@ PlayableDirector:
   m_GameObject: {fileID: 158102960}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: a69306f78b4c4e241b0883399e20c8d1, type: 2}
+  m_PlayableAsset: {fileID: 0}
   m_InitialState: 1
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -862,7 +862,7 @@ MonoBehaviour:
   yarnProject: {fileID: 7545569452688597077, guid: 844b99a5f5c67df4c86269e3afd76d31, type: 3}
   _variableStorage: {fileID: 0}
   dialogueViews:
-  - {fileID: 1338969910}
+  - {fileID: 0}
   - {fileID: 171307636}
   startNode: PMStart
   startAutomatically: 0
@@ -2996,7 +2996,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 097b95c9f69f04f2d8c08a817e7786af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueView: {fileID: 626804718}
+  dialogueView: {fileID: 0}
   continueActionType: 4
   continueActionKeyCode: 32
   continueActionButtonName: Jump
@@ -3032,29 +3032,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddcdd604a328c4ab296f048eb7b3a925, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 626804719}
-  useFadeEffect: 0
-  fadeInTime: 0.25
-  fadeOutTime: 0.05
-  lineText: {fileID: 1135424278}
-  showCharacterNameInLineView: 0
-  characterNameText: {fileID: 0}
-  characterNameContainer: {fileID: 0}
-  useTypewriterEffect: 1
-  onCharacterTyped:
-    m_PersistentCalls:
-      m_Calls: []
-  onPauseStarted:
-    m_PersistentCalls:
-      m_Calls: []
-  onPauseEnded:
-    m_PersistentCalls:
-      m_Calls: []
-  typewriterEffectSpeed: 10
-  continueButton: {fileID: 0}
-  holdTime: 3
-  autoAdvance: 0
-  palette: {fileID: 0}
 --- !u!225 &626804719
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3319,7 +3296,7 @@ GameObject:
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -3365,6 +3342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c96a6f1259385ec4893fa03a1a50b357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _curWave: 0
   effectManager: {fileID: 699020851}
   keyBinder: {fileID: 1337447818}
   uiManager: {fileID: 964184103}
@@ -3378,10 +3356,8 @@ MonoBehaviour:
   - {fileID: 110115238}
   - {fileID: 917739435}
   playerCharacter: {fileID: 975104571}
-  rehearsalPanel: {fileID: 903288550}
-  moreRehearsalPanel: {fileID: 582266189}
-  greatSFX: Dancepace/CH3_Great
-  previewSFX: Dancepace/CH3_Preview
+  _gameData: {fileID: 11400000, guid: add2c5130c6fa6c439a597e0087e3b8b, type: 2}
+  _waveData: {fileID: 11400000, guid: 0e661170600e0b548aef0e40af8131f7, type: 2}
 --- !u!1 &714996156
 GameObject:
   m_ObjectHideFlags: 0
@@ -3717,7 +3693,7 @@ PlayableDirector:
   m_GameObject: {fileID: 780158138}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 8b43b0d8b5b9c5c46be269254995f143, type: 2}
+  m_PlayableAsset: {fileID: 0}
   m_InitialState: 1
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -6109,7 +6085,7 @@ PlayableDirector:
   m_GameObject: {fileID: 1261711910}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 2afa46a5bc665b146a1860fc08d2778d, type: 2}
+  m_PlayableAsset: {fileID: 0}
   m_InitialState: 1
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -6311,7 +6287,7 @@ MonoBehaviour:
   yarnProject: {fileID: 7545569452688597077, guid: 844b99a5f5c67df4c86269e3afd76d31, type: 3}
   _variableStorage: {fileID: 0}
   dialogueViews:
-  - {fileID: 626804718}
+  - {fileID: 0}
   - {fileID: 1315146252}
   startNode: Lucky_Pacmom
   startAutomatically: 1
@@ -6460,41 +6436,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddcdd604a328c4ab296f048eb7b3a925, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 1338969909}
-  useFadeEffect: 0
-  fadeInTime: 0.25
-  fadeOutTime: 0.05
-  lineText: {fileID: 1726832162}
-  showCharacterNameInLineView: 0
-  characterNameText: {fileID: 0}
-  characterNameContainer: {fileID: 0}
-  useTypewriterEffect: 1
-  onCharacterTyped:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 171307636}
-        m_TargetAssemblyTypeName: Runtime.CH1.Pacmom.OpeningDialogue, Scripts
-        m_MethodName: DustTextSFX
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onPauseStarted:
-    m_PersistentCalls:
-      m_Calls: []
-  onPauseEnded:
-    m_PersistentCalls:
-      m_Calls: []
-  typewriterEffectSpeed: 10
-  continueButton: {fileID: 0}
-  holdTime: 2
-  autoAdvance: 0
-  palette: {fileID: 0}
 --- !u!1 &1363666911
 GameObject:
   m_ObjectHideFlags: 0
