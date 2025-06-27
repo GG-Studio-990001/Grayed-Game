@@ -50,4 +50,7 @@ namespace Runtime.ETC
         Ratio_8_7,     // 8:7
         Ratio_21_9     // 21:9
     }
+    
+    public enum EPoseType { None, Up, Down, Left, Right }
+    public enum EJudgmentType { Great, Good, Bad }
 }

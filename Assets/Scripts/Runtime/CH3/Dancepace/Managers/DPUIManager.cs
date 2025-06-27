@@ -1,4 +1,5 @@
 using UnityEngine;
+using Runtime.ETC;
 
 namespace Runtime.CH3.Dancepace
 {
@@ -56,9 +57,9 @@ namespace Runtime.CH3.Dancepace
             keyGuideUI.SetRehearsalMode(isRehearsal);
         }
 
-        public void UpdateKeyGuide(string nextPoseId)
+        public void UpdateKeyGuide(EPoseType nextPoseId)
         {
-            keyGuideUI.UpdateKeyGuide(nextPoseId);
+            keyGuideUI.UpdateKeyGuide(nextPoseId.ToString());
         }
 
         public void ShowSuccessPanel(bool show)

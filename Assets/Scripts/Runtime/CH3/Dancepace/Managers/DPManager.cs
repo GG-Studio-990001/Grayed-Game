@@ -2,15 +2,19 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using System.Threading.Tasks;
 using System.Linq;
 using Runtime.ETC;
-using UnityEngine.SceneManagement; // 씬 리로드용
+using UnityEngine.SceneManagement;
 
 namespace Runtime.CH3.Dancepace
 {
     public class DPManager : MonoBehaviour
     {
+        [Header("WaveSettings")]
+        [Range(0, 2)]
+        [Tooltip("0: Rehearsal Wave, 1: Main Wave 1, 2: Main Wave 2")]
+        [SerializeField] private int _curWave;
+        
         [Header("Managers")]
         [SerializeField] private DPEffectManager effectManager;
         [SerializeField] private DPKeyBinder keyBinder;
@@ -20,24 +24,16 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private PreviewNPC[] previewNPCs;
         [SerializeField] private AnswerNPC[] answerNPCs;
         [SerializeField] private DPRapley playerCharacter;
-
-        [Header("UI")]
-        [SerializeField] private GameObject rehearsalPanel;
-        [SerializeField] private GameObject moreRehearsalPanel;
-
-        [Header("Sound")]
-        [SerializeField] private string greatSFX = "Dancepace/CH3_Great";
-        [SerializeField] private string previewSFX = "Dancepace/CH3_Preview";
-
+        
+        [Header("Data")]
+        [SerializeField] private DPGameConfigSO _gameData;
+        [SerializeField] private DPWaveDataSO _waveData;
+        
         private List<WaveData> rehearsalWaves;
         private List<WaveData> mainWaves;
-        //private int currentWaveIndex;
+        
         private bool isRehearsalMode;
         private bool userWantsMoreRehearsal = false;
-        private DancepaceData _gameData;
-        private List<BeatData> currentBeats = new List<BeatData>();
-        private HashSet<string> completedPoses = new HashSet<string>();
-        //private bool canInput = false;
         private float elapsed = 0f;
         private int totalScore = 0;
 
@@ -49,68 +45,12 @@ namespace Runtime.CH3.Dancepace
 
         private void InitializeGameData()
         {
-            // 임시 하드코딩 데이터
-            _gameData = new DancepaceData();
-            _gameData.gameConfig = new GameConfig
-            {
-                limitTime = 60,
-                waveForCount = 6,
-                waveMainBGM = "Dancepace/CH3_SUB_BGM_01",
-                lifeCount = 3,
-                waveClearCoin = 15,
-                greatCoin = 3,
-                goodCoin = 2,
-                badCoin = 0,
-                greatTimingWindow = 0.2f,
-                goodTimingWindow = 0.4f
-            };
-
             rehearsalWaves = new List<WaveData>();
             mainWaves = new List<WaveData>();
-
-            // 리허설 웨이브 1개
-            var rehearsalWave = new WaveData
-            {
-                waveId = "Wave_Rehearsal_0",
-                beats = new List<BeatData>
-                {
-                    new BeatData("Up", 1f, 0.5f),
-                    new BeatData("Down", 0.5f, 0.5f),
-                    new BeatData("Left", 0.5f, 1f),
-                    new BeatData("Right", 1f, 0.5f)
-                }
-            };
-            rehearsalWaves.Add(rehearsalWave);
-
-            // 메인 웨이브 2개
-            var mainWave1 = new WaveData
-            {
-                waveId = "Wave_Normal_1",
-                beats = new List<BeatData>
-                {
-                    new BeatData("Up", 1f, 0.5f),
-                    new BeatData("Up", 0.5f, 0.5f),
-                    new BeatData("Down", 0.5f, 0.5f),
-                    new BeatData("Left", 0.5f, 1f)
-                }
-            };
-            var mainWave2 = new WaveData
-            {
-                waveId = "Wave_Normal_2",
-                beats = new List<BeatData>
-                {
-                    new BeatData("Down", 1f, 1f),
-                    new BeatData("Right", 0.5f, 0.25f),
-                    new BeatData("Right", 0.5f, 0.25f),
-                    new BeatData("Up", 1f, 0.5f)
-                }
-            };
-            mainWaves.Add(mainWave1);
-            mainWaves.Add(mainWave2);
-
-            _gameData.waveDataList = new List<WaveData>();
-            _gameData.waveDataList.AddRange(rehearsalWaves);
-            _gameData.waveDataList.AddRange(mainWaves);
+            
+            rehearsalWaves.Add(_waveData.waveDatas[_curWave]);
+            mainWaves.Add(_waveData.waveDatas[1]);
+            mainWaves.Add(_waveData.waveDatas[2]);
         }
 
         private void Start()
@@ -153,7 +93,7 @@ namespace Runtime.CH3.Dancepace
 
         private IEnumerator PlayRoutine(WaveData wave)
         {
-            Managers.Sound.Play(Sound.BGM, _gameData.gameConfig.waveMainBGM);
+            Managers.Sound.Play(Sound.BGM, "Dancepace/CH3_SUB_BGM_01");
             
             if (wave == null || wave.beats == null || wave.beats.Count == 0)
             {
@@ -161,7 +101,7 @@ namespace Runtime.CH3.Dancepace
                 yield break;
             }
 
-            float limitTime = _gameData.gameConfig.limitTime;
+            float limitTime = _gameData.limitTime;
             int waveCount = 0;
 
             elapsed = 0f;
@@ -175,40 +115,39 @@ namespace Runtime.CH3.Dancepace
 
             yield return StartCoroutine(UpdateTimeBarWithWait(3f, limitTime)); // 시작 전 3초 대기(연출용)
 
-            while (waveCount < _gameData.gameConfig.waveForCount && !timeOver)
+            while (waveCount < _gameData.waveForCount && !timeOver)
             {
                 // 1. 사용할 비트 개수를 2~4개로 랜덤하게 결정
                 int bitCount = UnityEngine.Random.Range(2, 5);
                 var randomBeats = wave.beats.OrderBy(x => UnityEngine.Random.value).Take(bitCount).ToList();
-                Managers.Sound.Play(Sound.SFX, previewSFX);
+                Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Preview");
                 yield return StartCoroutine(WaitWithTimeCheck(wait, limitTime, () => timeOver));
                 // 1. 프리뷰 구간
                 for (int i = 0; i < randomBeats.Count && !timeOver; i++)
                 {
                     var beat = randomBeats[i];
-                    string nextPoseId = (i + 1 < randomBeats.Count) ? randomBeats[i + 1].poseId : "";
                     foreach (var npc in previewNPCs)
-                        npc?.PlayPreviewPose(beat.poseId);
+                        npc?.PlayPreviewPose(beat.poseData);
                     float waitTime = beat.timing + beat.restTime;
                     yield return StartCoroutine(WaitWithTimeCheck(waitTime, limitTime, () => timeOver));
                 }
 
                 // 프리뷰 종료 효과음 재생
-                Managers.Sound.Play(Sound.SFX, previewSFX);
+                Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Preview");
                 playerCharacter?.ShowSpotlight(true);
-                uiManager?.UpdateKeyGuide(randomBeats.Count > 0 ? randomBeats[0].poseId : "");
+                uiManager?.UpdateKeyGuide(randomBeats.Count > 0 ? randomBeats[0].poseData : EPoseType.None);
                 yield return StartCoroutine(WaitWithTimeCheck(wait, limitTime, () => timeOver));
                 // 2. 입력 구간 (자동 진행, 입력 대기 없이 박자에 맞춰 판정)
                 for (int i = 0; i < randomBeats.Count && !timeOver; i++)
                 {
                     var beat = randomBeats[i];
                     foreach (var npc in answerNPCs)
-                        npc?.PlayAnswerPose(beat.poseId);
+                        npc?.PlayAnswerPose(beat.poseData);
                     yield return StartCoroutine(JudgeBeatInputCoroutine(beat, beat.timing, limitTime));
                     if (i + 1 < randomBeats.Count && beat.restTime > 0)
                     {
                         var nextBeat = randomBeats[i + 1];
-                        uiManager?.UpdateKeyGuide(nextBeat.poseId);
+                        uiManager?.UpdateKeyGuide(nextBeat.poseData);
                         yield return StartCoroutine(WaitWithTimeCheck(beat.restTime, limitTime, () => timeOver));
                     }
                     else if (beat.restTime > 0)
@@ -218,7 +157,7 @@ namespace Runtime.CH3.Dancepace
                     }
                 }
                 playerCharacter?.ShowSpotlight(false);
-                uiManager?.UpdateKeyGuide("");
+                uiManager?.UpdateKeyGuide(EPoseType.None);
                 waveCount++;
             }
 
@@ -278,26 +217,26 @@ namespace Runtime.CH3.Dancepace
         private void JudgeInput(float inputTime, float targetTime, string poseId)
         {
             float diff = Mathf.Abs(inputTime - targetTime);
-            if (diff <= _gameData.gameConfig.greatTimingWindow)
+            if (diff <= _gameData.greatTimingWindow)
             {
-                ShowJudgment(JudgmentType.Great, poseId);
-                Managers.Sound.Play(Sound.SFX, greatSFX);
-                totalScore += _gameData.gameConfig.greatCoin;
+                ShowJudgment(EJudgmentType.Great, poseId);
+                Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Great");
+                totalScore += _gameData.greatCoin;
             }
-            else if (diff <= _gameData.gameConfig.goodTimingWindow)
+            else if (diff <= _gameData.goodTimingWindow)
             {
-                ShowJudgment(JudgmentType.Good, poseId);
-                Managers.Sound.Play(Sound.SFX, greatSFX);
-                totalScore += _gameData.gameConfig.goodCoin;
+                ShowJudgment(EJudgmentType.Good, poseId);
+                Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Good");
+                totalScore += _gameData.goodCoin;
             }
             else
             {
-                ShowJudgment(JudgmentType.Bad, poseId);
-                totalScore += _gameData.gameConfig.badCoin;
+                ShowJudgment(EJudgmentType.Bad, poseId);
+                totalScore += _gameData.badCoin;
             }
         }
 
-        private void ShowJudgment(JudgmentType type, string poseId)
+        private void ShowJudgment(EJudgmentType type, string poseId)
         {
             effectManager.SpawnHeartParticles(type);
         }
@@ -309,9 +248,9 @@ namespace Runtime.CH3.Dancepace
             float timer = 0f;
 
             // 비트 시작 전에 이미 키가 눌려 있으면 Bad 판정
-            if (keyBinder.IsPoseKeyHeld(beat.poseId))
+            if (keyBinder.IsPoseKeyHeld(beat.EnumToString()))
             {
-                JudgeInput(float.MaxValue, 0f, beat.poseId);
+                JudgeInput(float.MaxValue, 0f, beat.EnumToString());
                 inputReceived = true;
                 // 비트 시간만큼 그냥 대기
                 while (timer < beatTime && elapsed < limitTime)
@@ -326,15 +265,15 @@ namespace Runtime.CH3.Dancepace
             // 정상 판정 루프
             while (timer < beatTime && elapsed < limitTime)
             {
-                if (!inputReceived && keyBinder.IsPoseKeyPressed(beat.poseId))
+                if (!inputReceived && keyBinder.IsPoseKeyPressed(beat.EnumToString()))
                 {
                     float inputTime = timer;
-                    JudgeInput(inputTime, 0f, beat.poseId);
+                    JudgeInput(inputTime, 0f, beat.EnumToString());
                     inputReceived = true;
                 }
-                if (!inputReceived && keyBinder.IsAnyOtherPoseKeyPressed(beat.poseId))
+                if (!inputReceived && keyBinder.IsAnyOtherPoseKeyPressed(beat.EnumToString()))
                 {
-                    JudgeInput(float.MaxValue, 0f, beat.poseId);
+                    JudgeInput(float.MaxValue, 0f, beat.EnumToString());
                     inputReceived = true;
                 }
                 timer += Time.deltaTime;
@@ -342,7 +281,7 @@ namespace Runtime.CH3.Dancepace
                 yield return null;
             }
             if (!inputReceived)
-                JudgeInput(float.MaxValue, 0f, beat.poseId);
+                JudgeInput(float.MaxValue, 0f, beat.EnumToString());
         }
 
         public void EndGame()

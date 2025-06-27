@@ -6,11 +6,11 @@ namespace Runtime.Data
     [Serializable]
     public class CH3Data
     {
-        public DancepaceData Dancepace;
+        //public DancepaceData Dancepace;
 
         public CH3Data()
         {
-            Dancepace = new DancepaceData();
+            //Dancepace = new DancepaceData();
         }
     }
 }
