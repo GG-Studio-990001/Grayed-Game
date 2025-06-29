@@ -15,6 +15,9 @@ namespace Runtime.CH4
         [SerializeField] private float _groundCheckRadius = 0.2f;
         [SerializeField] private LayerMask _groundLayer;
 
+        [Header("Anim")]
+        [SerializeField] private PlatformerAnim _anim;
+
         private Rigidbody2D _rb;
         private Vector2 _moveInput;
         private bool _isGrounded;
@@ -45,6 +48,8 @@ namespace Runtime.CH4
         private void Update()
         {
             _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
+
+            _anim.UpdateAnim(_moveInput, _isGrounded);
         }
 
         private void FixedUpdate()
