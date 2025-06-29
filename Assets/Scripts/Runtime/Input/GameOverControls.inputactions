@@ -24,13 +24,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Mouse",
-                    "type": "Value",
-                    "id": "49c1b56a-5f7e-4c15-811e-5f5676a569ed",
-                    "expectedControlType": "Vector2",
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "1db2e13d-b017-4e7f-aa28-683018904bbe",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -157,12 +157,12 @@
                 },
                 {
                     "name": "",
-                    "id": "b453389c-b316-4bfb-92b8-1268ebf8e8b8",
-                    "path": "<Mouse>/position",
+                    "id": "afbd4c25-9a44-4e53-8ad7-da290bb08fee",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Mouse",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -203,24 +203,6 @@
                     "name": "Cheat",
                     "type": "Button",
                     "id": "f9f39aac-8b20-422f-92cc-4d6f00dd9adf",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Auto",
-                    "type": "Button",
-                    "id": "429d145c-e673-460d-8a8e-5ad74af22c8a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Skip",
-                    "type": "Button",
-                    "id": "40a2b252-daa9-4494-9ca5-1d92beb6b414",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -296,28 +278,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Cheat",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1d9bfdf4-e82b-4625-9b40-356ff711c360",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skip",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4b56c081-f912-48a0-97f1-fd5ea8830eee",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Auto",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

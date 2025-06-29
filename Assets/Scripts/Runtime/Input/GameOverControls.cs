@@ -46,13 +46,13 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Mouse"",
-                    ""type"": ""Value"",
-                    ""id"": ""49c1b56a-5f7e-4c15-811e-5f5676a569ed"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""1db2e13d-b017-4e7f-aa28-683018904bbe"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -179,12 +179,12 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b453389c-b316-4bfb-92b8-1268ebf8e8b8"",
-                    ""path"": ""<Mouse>/position"",
+                    ""id"": ""afbd4c25-9a44-4e53-8ad7-da290bb08fee"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Mouse"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -225,24 +225,6 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""name"": ""Cheat"",
                     ""type"": ""Button"",
                     ""id"": ""f9f39aac-8b20-422f-92cc-4d6f00dd9adf"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Auto"",
-                    ""type"": ""Button"",
-                    ""id"": ""429d145c-e673-460d-8a8e-5ad74af22c8a"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Skip"",
-                    ""type"": ""Button"",
-                    ""id"": ""40a2b252-daa9-4494-9ca5-1d92beb6b414"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -323,28 +305,6 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1d9bfdf4-e82b-4625-9b40-356ff711c360"",
-                    ""path"": ""<Keyboard>/ctrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Skip"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4b56c081-f912-48a0-97f1-fd5ea8830eee"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Auto"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""9a356ee9-185b-4062-9b07-a41b8ad99234"",
                     ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
@@ -407,15 +367,13 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
-        m_Player_Mouse = m_Player.FindAction("Mouse", throwIfNotFound: true);
+        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
         m_UI_GameSetting = m_UI.FindAction("GameSetting", throwIfNotFound: true);
         m_UI_DialogueInput = m_UI.FindAction("DialogueInput", throwIfNotFound: true);
         m_UI_Cheat = m_UI.FindAction("Cheat", throwIfNotFound: true);
-        m_UI_Auto = m_UI.FindAction("Auto", throwIfNotFound: true);
-        m_UI_Skip = m_UI.FindAction("Skip", throwIfNotFound: true);
         m_UI_Hide = m_UI.FindAction("Hide", throwIfNotFound: true);
         m_UI_Restart = m_UI.FindAction("Restart", throwIfNotFound: true);
         m_UI_ChangeScreen = m_UI.FindAction("ChangeScreen", throwIfNotFound: true);
@@ -482,14 +440,14 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Interaction;
-    private readonly InputAction m_Player_Mouse;
+    private readonly InputAction m_Player_Jump;
     public struct PlayerActions
     {
         private @GameOverControls m_Wrapper;
         public PlayerActions(@GameOverControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
-        public InputAction @Mouse => m_Wrapper.m_Player_Mouse;
+        public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -505,9 +463,9 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
-            @Mouse.started += instance.OnMouse;
-            @Mouse.performed += instance.OnMouse;
-            @Mouse.canceled += instance.OnMouse;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -518,9 +476,9 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
-            @Mouse.started -= instance.OnMouse;
-            @Mouse.performed -= instance.OnMouse;
-            @Mouse.canceled -= instance.OnMouse;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -546,8 +504,6 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_GameSetting;
     private readonly InputAction m_UI_DialogueInput;
     private readonly InputAction m_UI_Cheat;
-    private readonly InputAction m_UI_Auto;
-    private readonly InputAction m_UI_Skip;
     private readonly InputAction m_UI_Hide;
     private readonly InputAction m_UI_Restart;
     private readonly InputAction m_UI_ChangeScreen;
@@ -559,8 +515,6 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         public InputAction @GameSetting => m_Wrapper.m_UI_GameSetting;
         public InputAction @DialogueInput => m_Wrapper.m_UI_DialogueInput;
         public InputAction @Cheat => m_Wrapper.m_UI_Cheat;
-        public InputAction @Auto => m_Wrapper.m_UI_Auto;
-        public InputAction @Skip => m_Wrapper.m_UI_Skip;
         public InputAction @Hide => m_Wrapper.m_UI_Hide;
         public InputAction @Restart => m_Wrapper.m_UI_Restart;
         public InputAction @ChangeScreen => m_Wrapper.m_UI_ChangeScreen;
@@ -585,12 +539,6 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
             @Cheat.started += instance.OnCheat;
             @Cheat.performed += instance.OnCheat;
             @Cheat.canceled += instance.OnCheat;
-            @Auto.started += instance.OnAuto;
-            @Auto.performed += instance.OnAuto;
-            @Auto.canceled += instance.OnAuto;
-            @Skip.started += instance.OnSkip;
-            @Skip.performed += instance.OnSkip;
-            @Skip.canceled += instance.OnSkip;
             @Hide.started += instance.OnHide;
             @Hide.performed += instance.OnHide;
             @Hide.canceled += instance.OnHide;
@@ -616,12 +564,6 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
             @Cheat.started -= instance.OnCheat;
             @Cheat.performed -= instance.OnCheat;
             @Cheat.canceled -= instance.OnCheat;
-            @Auto.started -= instance.OnAuto;
-            @Auto.performed -= instance.OnAuto;
-            @Auto.canceled -= instance.OnAuto;
-            @Skip.started -= instance.OnSkip;
-            @Skip.performed -= instance.OnSkip;
-            @Skip.canceled -= instance.OnSkip;
             @Hide.started -= instance.OnHide;
             @Hide.performed -= instance.OnHide;
             @Hide.canceled -= instance.OnHide;
@@ -652,7 +594,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
-        void OnMouse(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -660,8 +602,6 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         void OnGameSetting(InputAction.CallbackContext context);
         void OnDialogueInput(InputAction.CallbackContext context);
         void OnCheat(InputAction.CallbackContext context);
-        void OnAuto(InputAction.CallbackContext context);
-        void OnSkip(InputAction.CallbackContext context);
         void OnHide(InputAction.CallbackContext context);
         void OnRestart(InputAction.CallbackContext context);
         void OnChangeScreen(InputAction.CallbackContext context);
