@@ -6,7 +6,7 @@ namespace Runtime.CH4
 {
     public class CH4KeyBinder : MonoBehaviour
     {
-        [SerializeField] private TopDownPlayer _player;
+        [SerializeField] private PlatformerPlayer _player;
         [SerializeField] private SettingsUIView _settingsUIView;
 
         private void Start()
