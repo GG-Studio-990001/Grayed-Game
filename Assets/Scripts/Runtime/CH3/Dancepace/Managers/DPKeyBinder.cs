@@ -4,6 +4,7 @@ using Runtime.Common.View;
 using Runtime.ETC;
 using Runtime.Input;
 using System.Collections.Generic;
+using Runtime.CH3.Dancepace;
 
 namespace Runtime.CH3.Dancepace
 {

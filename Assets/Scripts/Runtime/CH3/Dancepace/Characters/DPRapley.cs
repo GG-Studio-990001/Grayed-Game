@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Runtime.CH3.Dancepace;
 
 namespace Runtime.CH3.Dancepace
 {

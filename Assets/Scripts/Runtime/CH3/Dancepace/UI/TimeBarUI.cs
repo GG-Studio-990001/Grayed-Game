@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Runtime.CH3.Dancepace;
 
 namespace Runtime.CH3.Dancepace
 {
