@@ -1,5 +1,6 @@
 using UnityEngine;
 using Runtime.ETC;
+using Runtime.CH3.Dancepace;
 
 namespace Runtime.CH3.Dancepace
 {
@@ -10,13 +11,14 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private Sprite downSprite;
         [SerializeField] private Sprite leftSprite;
         [SerializeField] private Sprite rightSprite;
-        [SerializeField] private Sprite idleSprite;
+        private Sprite idleSprite;
 
         private SpriteRenderer spriteRenderer;
 
         private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+            idleSprite = spriteRenderer.sprite;
         }
 
         public void PlayAnswerPose(EPoseType poseId)

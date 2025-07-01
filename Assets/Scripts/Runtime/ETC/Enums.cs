@@ -52,5 +52,5 @@ namespace Runtime.ETC
     }
     
     public enum EPoseType { None, Up, Down, Left, Right }
-    public enum EJudgmentType { Great, Good, Bad }
+    public enum EJudgmentType { Perfect, Great, Bad }
 }

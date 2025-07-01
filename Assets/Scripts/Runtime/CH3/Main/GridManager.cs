@@ -134,10 +134,10 @@ namespace Runtime.CH3.Main
             return null;
         }
 
-        /*
+
         private void OnDrawGizmos()
         {
-            if (!showDebugVisuals) return;
+            //if (!showDebugVisuals) return;
 
             // 에디터에서도 카메라 방향 초기화가 필요함
             if (mainCamera == null)
@@ -215,10 +215,10 @@ namespace Runtime.CH3.Main
         // OnDrawGizmosSelected에서도 동일한 시각화를 제공하여 선택 시 더 잘 보이게 함
         private void OnDrawGizmosSelected()
         {
-            if (!showDebugVisuals) return;
+            //if (!showDebugVisuals) return;
             OnDrawGizmos();
         }
-*/
+
         public void RecalculateGridAlignment()
         {
             InitializeCameraAlignment();
