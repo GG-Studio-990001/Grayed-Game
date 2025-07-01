@@ -3,7 +3,7 @@ name: Meeting
 about: 정기 회의록 템플릿
 title: 온라인 정기 회의, 2024-MM-DD [21:00]
 labels: Art, Plan, Programming, Sound
-assignees: wooyn730, roweclaw, NearthYou, seojumi, 4t4n, CreatorLDH, Sumindd, Songkihwa
+assignees: wooyn730, roweclaw, NearthYou, seojumi, 4t4n, CreatorLDH, Sumindd, Songkihwa, JIJI037
 type: Meeting
 
 ---
@@ -27,7 +27,9 @@ type: Meeting
 - 우연
 - 동호
 - 수민
+- 지은
 - 수빈
+- 기화
 
 ### 빌드 테스트
 
