@@ -18,6 +18,10 @@ namespace Runtime.CH4
         [Header("Anim")]
         [SerializeField] private PlatformerAnim _anim;
 
+        [Header("Coyote Time")]
+        [SerializeField] private float _coyoteTime = 0.1f;
+        private float _coyoteTimer;
+
         private Rigidbody2D _rb;
         private Vector2 _moveInput;
         private bool _isGrounded;
@@ -34,9 +38,10 @@ namespace Runtime.CH4
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (context.performed && _isGrounded)
+            if (context.performed && _coyoteTimer > 0f)
             {
                 _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
+                _coyoteTimer = 0f;
             }
         }
 
@@ -48,6 +53,11 @@ namespace Runtime.CH4
         private void Update()
         {
             _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
+
+            if (_isGrounded)
+                _coyoteTimer = _coyoteTime;
+            else
+                _coyoteTimer -= Time.deltaTime;
 
             _anim.UpdateAnim(_moveInput, _isGrounded);
         }
