@@ -5434,7 +5434,7 @@ MonoBehaviour:
     m_Bits: 512
   _anim: {fileID: 8443206241476779020}
   _coyoteTime: 0.1
-  _isJumping: 0
+  _jumpBufferTime: 0.1
 --- !u!95 &8443206241476779019
 Animator:
   serializedVersion: 5

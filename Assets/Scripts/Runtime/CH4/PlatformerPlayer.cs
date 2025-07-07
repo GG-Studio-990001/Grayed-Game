@@ -21,6 +21,8 @@ namespace Runtime.CH4
         [Header("Improvements")]
         [SerializeField] private float _coyoteTime = 0.1f;
         private float _coyoteTimer;
+        [SerializeField] private float _jumpBufferTime = 0.1f;
+        private float _jumpBufferTimer;
 
         private Rigidbody2D _rb;
         private Vector2 _moveInput;
@@ -38,10 +40,9 @@ namespace Runtime.CH4
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (context.performed && _coyoteTimer > 0f)
+            if (context.performed)
             {
-                _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
-                _coyoteTimer = 0f;
+                _jumpBufferTimer = _jumpBufferTime; // 점프 입력 기억해놓기
             }
         }
 
@@ -54,13 +55,27 @@ namespace Runtime.CH4
         {
             _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
 
+            // 코요테 타이머
             if (_isGrounded)
                 _coyoteTimer = _coyoteTime;
             else
                 _coyoteTimer -= Time.deltaTime;
 
+            // 점프 버퍼 타이머
+            if (_jumpBufferTimer > 0)
+                _jumpBufferTimer -= Time.deltaTime;
+
+            // 버퍼 점프 조건
+            if (_jumpBufferTimer > 0 && _coyoteTimer > 0)
+            {
+                _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
+                _coyoteTimer = 0f;
+                _jumpBufferTimer = 0f;
+            }
+
             _anim.UpdateAnim(_moveInput, _isGrounded);
         }
+
 
         private void FixedUpdate()
         {
