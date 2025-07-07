@@ -18,7 +18,7 @@ namespace Runtime.CH4
         [Header("Anim")]
         [SerializeField] private PlatformerAnim _anim;
 
-        [Header("Coyote Time")]
+        [Header("Improvements")]
         [SerializeField] private float _coyoteTime = 0.1f;
         private float _coyoteTimer;
 
