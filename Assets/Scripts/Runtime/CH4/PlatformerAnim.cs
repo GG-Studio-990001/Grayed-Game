@@ -22,6 +22,5 @@ namespace Runtime.CH4
                 _animator.SetInteger("Facing", moveInput.x > 0 ? 1 : -1);
             }
         }
-
     }
 }
