@@ -30,11 +30,13 @@ namespace Runtime.CH3.Dancepace
         {
             // SoundManager에서 BGM AudioSource 가져오기
             _bgmSource = Managers.Sound.BGM;
-            StartAutoAnimation();
+            StopBeatAnimation();
         }
 
         private void Update()
         {
+            if (!_isAnimating) return;
+
             if (_bgmSource != null && _bgmSource.isPlaying)
             {
                 float amplitude = GetBGMAmplitude();
@@ -73,15 +75,6 @@ namespace Runtime.CH3.Dancepace
             transform.localScale = _originalScale;
         }
 
-        private void StartAutoAnimation()
-        {
-            if (_autoAnimationCoroutine != null)
-            {
-                StopCoroutine(_autoAnimationCoroutine);
-            }
-            _autoAnimationCoroutine = StartCoroutine(AutoAnimation());
-        }
-
         private void StopAutoAnimation()
         {
             if (_autoAnimationCoroutine != null)
@@ -110,21 +103,6 @@ namespace Runtime.CH3.Dancepace
             }
 
             transform.localScale = _originalScale;
-        }
-
-        private IEnumerator AutoAnimation()
-        {
-            while (true)
-            {
-                _animationTime += Time.deltaTime * _animationSpeed;
-                
-                // 사인 함수를 사용하여 부드러운 움직임 구현
-                float scale = Mathf.Lerp(_minScale, _maxScale, 
-                    (Mathf.Sin(_animationTime * Mathf.PI * 2) + 1f) * 0.5f);
-                
-                transform.localScale = _originalScale * scale;
-                yield return null;
-            }
         }
 
         private void OnDisable()

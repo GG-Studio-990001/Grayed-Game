@@ -12,6 +12,7 @@ namespace Runtime.CH3.Dancepace
     {
         [SerializeField] private SettingsUIView _settingsUIView;
         [SerializeField] private DPRapley _dPRapley;
+        [SerializeField] private UIManager _uiManager;
 
         [Header("Key Bindings (초기값)")]
         public Key upKey = Key.W;
@@ -63,6 +64,9 @@ namespace Runtime.CH3.Dancepace
             {
                 lastMoveDirection = context.ReadValue<Vector2>();
                 _dPRapley?.OnMove(context);
+
+                string poseId = GetPoseIdFromVector(lastMoveDirection);
+                _uiManager?.UpdateKeyGuide(poseId);
             }
             else if (context.canceled)
             {
@@ -70,7 +74,17 @@ namespace Runtime.CH3.Dancepace
                 var lastContext = new InputAction.CallbackContext();
                 lastContext.ReadValue<Vector2>().Set(lastMoveDirection.x, lastMoveDirection.y);
                 _dPRapley?.OnMove(lastContext);
+                _uiManager?.UpdateKeyGuide(null);
             }
+        }
+
+        private string GetPoseIdFromVector(Vector2 dir)
+        {
+            if (dir == Vector2.up) return "Up";
+            if (dir == Vector2.down) return "Down";
+            if (dir == Vector2.left) return "Left";
+            if (dir == Vector2.right) return "Right";
+            return null;
         }
 
         public void OnInteraction()
@@ -82,7 +96,7 @@ namespace Runtime.CH3.Dancepace
         public bool IsPoseKeyPressed(string poseId)
         {
             if (!isInputEnabled) return false;
-            
+
             if (poseKeyBindings != null && poseKeyBindings.TryGetValue(poseId, out var key))
                 return Keyboard.current[key].wasPressedThisFrame;
             return false;
@@ -132,4 +146,4 @@ namespace Runtime.CH3.Dancepace
             }
         }
     }
-} 
+}

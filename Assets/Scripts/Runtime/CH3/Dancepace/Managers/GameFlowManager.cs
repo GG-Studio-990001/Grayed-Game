@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System;
 using Runtime.ETC;
 using UnityEngine.SceneManagement;
-using Runtime.CH3.Dancepace;
 using System.Linq;
 
 namespace Runtime.CH3.Dancepace
@@ -32,7 +31,6 @@ namespace Runtime.CH3.Dancepace
         
         private List<WaveData> rehearsalWaves;
         private List<WaveData> mainWaves;
-        
         private bool isRehearsalMode;
         private bool userWantsMoreRehearsal = false;
         private float elapsed = 0f;
@@ -52,11 +50,6 @@ namespace Runtime.CH3.Dancepace
             rehearsalWaves.Add(_waveData.waveDatas[_curWave]);
             mainWaves.Add(_waveData.waveDatas[1]);
             mainWaves.Add(_waveData.waveDatas[2]);
-        }
-
-        private void Start()
-        {
-            StartCoroutine(GameFlow());
         }
 
         private IEnumerator GameFlow()
@@ -95,6 +88,7 @@ namespace Runtime.CH3.Dancepace
         private IEnumerator PlayRoutine(WaveData wave)
         {
             Managers.Sound.Play(Sound.BGM, "Dancepace/CH3_SUB_BGM_01");
+            effectManager.StartBeatAnimation();
             if (wave == null || wave.beats == null || wave.beats.Count == 0)
             {
                 Debug.LogError("Wave data is null or empty");
@@ -107,7 +101,7 @@ namespace Runtime.CH3.Dancepace
             uiManager?.UpdateTimeBar(0f, limitTime);
 
             bool timeOver = false;
-            float wait = 1.5f;
+            float wait = 3f;
             IEnumerator timeBarUpdater = TimeBarUpdater(limitTime, () => timeOver = true);
             Coroutine timeBarCoroutine = StartCoroutine(timeBarUpdater);
 
@@ -124,6 +118,7 @@ namespace Runtime.CH3.Dancepace
 
             if (!timeOver && elapsed < limitTime)
                 yield return HandleWaveIdle(limitTime);
+            effectManager.StopBeatAnimation();
         }
 
         private IEnumerator PlayPreviewPhase(List<BeatData> beats, float wait, float limitTime, Func<bool> isTimeOver)
@@ -146,8 +141,8 @@ namespace Runtime.CH3.Dancepace
             }
 
             Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Preview");
-            playerCharacter?.ShowSpotlight(true);
-            uiManager?.UpdateKeyGuide(beats.Count > 0 ? beats[0].poseData.ToString() : EPoseType.None.ToString());
+            playerCharacter?.StartSpotlightSequence(wait);
+            uiManager?.ShowTextBalloon(beats.Count > 0 ? beats[0].poseData : EPoseType.None);
             yield return StartCoroutine(WaitWithTimeCheck(wait, limitTime, isTimeOver));
         }
 
@@ -163,17 +158,16 @@ namespace Runtime.CH3.Dancepace
                 if (i + 1 < beats.Count && beat.restTime > 0)
                 {
                     var nextBeat = beats[i + 1];
-                    uiManager?.UpdateKeyGuide(nextBeat.poseData.ToString());
+                    uiManager?.ShowTextBalloon(nextBeat.poseData);
                     yield return StartCoroutine(WaitWithTimeCheck(beat.restTime, limitTime, isTimeOver));
                 }
                 else if (beat.restTime > 0)
                 {
                     yield return StartCoroutine(WaitWithTimeCheck(beat.restTime, limitTime, isTimeOver));
                 }
-                uiManager?.HideTextBalloon();
             }
-            playerCharacter?.ShowSpotlight(false);
-            uiManager?.UpdateKeyGuide(EPoseType.None.ToString());
+            playerCharacter?.HideSpotlight();
+            uiManager?.HideTextBalloon();
         }
 
         private IEnumerator HandleWaveIdle(float limitTime)
@@ -234,18 +228,18 @@ namespace Runtime.CH3.Dancepace
             if (ratio >= perfectMin && ratio <= perfectMax)
             {
                 ShowJudgment(EJudgmentType.Perfect, poseId);
-                uiManager?.ShowTextBalloon(EJudgmentType.Perfect);
+                //uiManager?.ShowTextBalloon(EJudgmentType.Perfect);
                 totalScore += _gameData.greatCoin;
             }
             else if (ratio >= greatMin && ratio <= greatMax)
             {
+                //uiManager?.ShowTextBalloon(EJudgmentType.Great);
                 ShowJudgment(EJudgmentType.Great, poseId);
-                uiManager?.ShowTextBalloon(EJudgmentType.Great);
                 totalScore += _gameData.goodCoin;
             }
             else
             {
-                uiManager?.ShowTextBalloon(EJudgmentType.Bad);
+                //uiManager?.ShowTextBalloon(EJudgmentType.Bad);
                 ShowJudgment(EJudgmentType.Bad, poseId);
                 totalScore += _gameData.badCoin;
             }
@@ -312,6 +306,11 @@ namespace Runtime.CH3.Dancepace
         {
             Scene currentScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(currentScene.name);
+        }
+
+        public void StartGame()
+        {
+            StartCoroutine(GameFlow());
         }
     }
 }
