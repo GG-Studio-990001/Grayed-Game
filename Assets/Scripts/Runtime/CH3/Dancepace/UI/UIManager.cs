@@ -9,7 +9,7 @@ namespace Runtime.CH3.Dancepace
         [Header("UI Components")]
         [SerializeField] private TimeBarUI timeBarUI;
         [SerializeField] private KeyGuideUI keyGuideUI;
-        [SerializeField] private GameObject[] textBalloon;
+        [SerializeField] private TextBallonUI textBalloon;
 
         [Header("Panels")]
         [SerializeField] private GameObject rehearsalPanel;
@@ -92,26 +92,51 @@ namespace Runtime.CH3.Dancepace
             // TODO: 실제 결과 UI 구현
         }
 
-        public void ShowTextBalloon(EJudgmentType type)
+        public void ShowTextBalloon(EPoseType poseType)
         {
-            switch (type)
+            if (poseType == EPoseType.None)
             {
-                case EJudgmentType.Perfect:
-                case EJudgmentType.Great:
-                    textBalloon[0].SetActive(true);
+                textBalloon.gameObject.SetActive(false);
+                return;
+            }
+
+            textBalloon.gameObject.SetActive(true);
+            switch (poseType)
+            {
+                case EPoseType.Up:
+                    textBalloon.SetText("위");
                     break;
-                case EJudgmentType.Bad:
-                    textBalloon[1].SetActive(true);
+                case EPoseType.Down:
+                    textBalloon.SetText("아래");
+                    break;
+                case EPoseType.Left:
+                    textBalloon.SetText("왼쪽");
+                    break;
+                case EPoseType.Right:
+                    textBalloon.SetText("오른쪽");
+                    break;
+                default:
                     break;
             }
         }
 
         public void HideTextBalloon()
         {
-            foreach (var balloon in textBalloon)
-            {
-                balloon.SetActive(false);
-            }
+            textBalloon.gameObject.SetActive(false);
         }
+
+        // public void ShowTextBalloon(EJudgmentType type)
+        // {
+        //     switch (type)
+        //     {
+        //         case EJudgmentType.Perfect:
+        //         case EJudgmentType.Great:
+        //             textBalloon[0].SetActive(true);
+        //             break;
+        //         case EJudgmentType.Bad:
+        //             textBalloon[1].SetActive(true);
+        //             break;
+        //     }
+        // }
     }
 } 
