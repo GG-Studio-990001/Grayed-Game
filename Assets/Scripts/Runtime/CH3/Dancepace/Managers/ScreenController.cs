@@ -1,7 +1,6 @@
 using Runtime.ETC;
 using UnityEngine;
 using DG.Tweening;
-using Runtime.CH3.Dancepace;
 
 namespace Runtime.CH3.Dancepace
 {
@@ -16,11 +15,6 @@ namespace Runtime.CH3.Dancepace
         {
             _screenResolution = GetComponent<ScreenResolution>();
             ResetPPU();
-        }
-
-        private void Start()
-        {
-            FixPPU();
         }
 
         private void Update()

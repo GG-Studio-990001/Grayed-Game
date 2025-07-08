@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Runtime.CH3.Dancepace;
+using System.Collections;
 
 namespace Runtime.CH3.Dancepace
 {
@@ -13,7 +13,7 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private Sprite _rightSprite;
         [SerializeField] private Sprite _idleSprite;
 
-        [SerializeField] private GameObject spotlightObject;
+        [SerializeField] private GameObject[] spotlightObject;
 
         private SpriteRenderer _spriteRenderer;
         private Vector2 _currentDirection = Vector2.zero;
@@ -117,10 +117,38 @@ namespace Runtime.CH3.Dancepace
             _currentDirection = Vector2.zero;
         }
 
-        public void ShowSpotlight(bool show)
+
+
+        public void StartSpotlightSequence(float totalTime)
         {
-            if (spotlightObject != null)
-                spotlightObject.SetActive(show);
+            if (spotlightObject == null || spotlightObject.Length == 0) return;
+            StopAllCoroutines();
+            StartCoroutine(SpotlightSequenceCoroutine(totalTime));
+        }
+
+        private IEnumerator SpotlightSequenceCoroutine(float totalTime)
+        {
+            int count = spotlightObject.Length;
+            float interval = totalTime / count;
+
+            // 모두 끄기
+            foreach (var obj in spotlightObject)
+                if (obj != null) obj.SetActive(false);
+
+            for (int i = 0; i < count; i++)
+            {
+                if (spotlightObject[i] != null)
+                    spotlightObject[i].SetActive(true);
+
+                if (i < count - 1)
+                    yield return new WaitForSeconds(interval);
+            }
+        }
+
+        public void HideSpotlight()
+        {
+            foreach (var obj in spotlightObject)
+                if (obj != null) obj.SetActive(false);
         }
     }
 } 
