@@ -11,6 +11,7 @@ namespace Runtime.CH3.Dancepace
         
         [Header("관중석 스팟")]
         [SerializeField] private Transform audienceSpot;
+        [SerializeField] private SpeakerAnimation[] speakerAnimations;
 
         public void SpawnHeartParticles(EJudgmentType type)
         {
@@ -53,6 +54,22 @@ namespace Runtime.CH3.Dancepace
                 EJudgmentType.Bad => 0,
                 _ => 0
             };
+        }
+
+        public void StartBeatAnimation()
+        {
+            foreach (var speaker in speakerAnimations)
+            {
+                speaker.StartBeatAnimation();
+            }
+        }
+
+        public void StopBeatAnimation()
+        {
+            foreach (var speaker in speakerAnimations)
+            {
+                speaker.StopBeatAnimation();
+            }
         }
     }
 }
