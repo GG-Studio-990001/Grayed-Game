@@ -18,13 +18,13 @@ MonoBehaviour:
     - poseData: 1
       timing: 1
       restTime: 0.5
-    - poseData: 1
-      timing: 0.5
-      restTime: 0.5
     - poseData: 2
       timing: 0.5
       restTime: 0.5
     - poseData: 3
+      timing: 0.5
+      restTime: 0.5
+    - poseData: 4
       timing: 0.5
       restTime: 1
   - waveId: Wave_Normal_1

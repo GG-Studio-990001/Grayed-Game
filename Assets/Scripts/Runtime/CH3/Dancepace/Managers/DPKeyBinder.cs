@@ -24,6 +24,10 @@ namespace Runtime.CH3.Dancepace
         private bool isInputEnabled = true;
         private Vector2 lastMoveDirection;
 
+        // 입력 없을 때 타이머 및 기본자세 체크
+        private float noInputTimer = 0f;
+        private bool isInDefaultPose = false;
+
         private void Start()
         {
             InitializeKeyBindings();
@@ -67,6 +71,10 @@ namespace Runtime.CH3.Dancepace
 
                 string poseId = GetPoseIdFromVector(lastMoveDirection);
                 _uiManager?.UpdateKeyGuide(poseId);
+
+                // 입력이 들어오면 타이머 리셋 및 기본자세 플래그 해제
+                noInputTimer = 0f;
+                isInDefaultPose = false;
             }
             else if (context.canceled)
             {
@@ -75,6 +83,10 @@ namespace Runtime.CH3.Dancepace
                 lastContext.ReadValue<Vector2>().Set(lastMoveDirection.x, lastMoveDirection.y);
                 _dPRapley?.OnMove(lastContext);
                 _uiManager?.UpdateKeyGuide(null);
+
+                // 입력 해제 시 타이머 리셋 및 기본자세 플래그 해제
+                noInputTimer = 0f;
+                isInDefaultPose = false;
             }
         }
 
@@ -135,6 +147,32 @@ namespace Runtime.CH3.Dancepace
             isInputEnabled = true;
             Managers.Sound.UnPauseAllSound();
             Managers.Data.InGameKeyBinder.PlayerInputEnable();
+        }
+
+        private void Update()
+        {
+            if (!isInputEnabled) return;
+
+            // 입력이 없을 때 타이머 증가
+            if (!Keyboard.current[upKey].isPressed && !Keyboard.current[downKey].isPressed &&
+                !Keyboard.current[leftKey].isPressed && !Keyboard.current[rightKey].isPressed)
+            {
+                noInputTimer += Time.deltaTime;
+
+                if (!isInDefaultPose && noInputTimer >= 1.5f)
+                {
+                    // 기본 자세로 복귀
+                    _dPRapley?.ResetState();
+                    _uiManager?.UpdateKeyGuide(null);
+                    isInDefaultPose = true;
+                }
+            }
+            else
+            {
+                // 키가 눌려있으면 타이머 리셋
+                noInputTimer = 0f;
+                isInDefaultPose = false;
+            }
         }
 
         private void OnDestroy()
