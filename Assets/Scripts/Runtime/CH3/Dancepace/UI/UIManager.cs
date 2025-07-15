@@ -1,6 +1,7 @@
 using Runtime.ETC;
 using UnityEngine;
 using Runtime.CH3.Dancepace;
+using System.Collections;
 
 namespace Runtime.CH3.Dancepace
 {
@@ -10,6 +11,7 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private TimeBarUI timeBarUI;
         [SerializeField] private KeyGuideUI keyGuideUI;
         [SerializeField] private TextBallonUI textBalloon;
+        [SerializeField] private ResultPanel resultPanel;
 
         [Header("Panels")]
         [SerializeField] private GameObject rehearsalPanel;
@@ -88,8 +90,11 @@ namespace Runtime.CH3.Dancepace
 
         public void ShowResultPanel(int score)
         {
-            Debug.Log($"최종 점수: {score}");
-            // TODO: 실제 결과 UI 구현
+            if (resultPanel != null)
+            {
+                resultPanel.gameObject.SetActive(true);
+                resultPanel.SetText(score);
+            }
         }
 
         public void ShowTextBalloon(EPoseType poseType)
@@ -125,18 +130,24 @@ namespace Runtime.CH3.Dancepace
             textBalloon.gameObject.SetActive(false);
         }
 
-        // public void ShowTextBalloon(EJudgmentType type)
-        // {
-        //     switch (type)
-        //     {
-        //         case EJudgmentType.Perfect:
-        //         case EJudgmentType.Great:
-        //             textBalloon[0].SetActive(true);
-        //             break;
-        //         case EJudgmentType.Bad:
-        //             textBalloon[1].SetActive(true);
-        //             break;
-        //     }
-        // }
+        public void ShowTimeBar(bool show)
+        {
+            if (timeBarUI != null)
+                timeBarUI.gameObject.SetActive(show);
+        }
+
+        public void ShowCustomTextBalloon(string text, float duration, bool showSuffix = false)
+        {
+            if (textBalloon == null) return;
+            textBalloon.SetText(text, showSuffix);
+            textBalloon.gameObject.SetActive(true);
+            StartCoroutine(HideTextBalloonAfterDelay(duration));
+        }
+
+        private IEnumerator HideTextBalloonAfterDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            textBalloon.gameObject.SetActive(false);
+        }
     }
 } 
