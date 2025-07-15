@@ -11,9 +11,12 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private Image _image;
         [SerializeField] private TextMeshProUGUI _text;
 
-        public void SetText(string text)
+        public void SetText(string text, bool showSuffix = true)
         {
-            _text.text = text + " 눌러!";
+            if (showSuffix)
+                _text.text = text + " 눌러!";
+            else
+                _text.text = text;
         }
     }
 }

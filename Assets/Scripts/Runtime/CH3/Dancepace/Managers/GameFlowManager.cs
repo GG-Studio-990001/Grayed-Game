@@ -14,7 +14,7 @@ namespace Runtime.CH3.Dancepace
         [Range(0, 2)]
         [Tooltip("0: Rehearsal Wave, 1: Main Wave 1, 2: Main Wave 2")]
         [SerializeField] private int _curWave;
-        
+
         [Header("Managers")]
         [SerializeField] private EffectController effectManager;
         [SerializeField] private DPKeyBinder keyBinder;
@@ -24,15 +24,15 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private PreviewNPC[] previewNPCs;
         [SerializeField] private AnswerNPC[] answerNPCs;
         [SerializeField] private DPRapley playerCharacter;
-        
+
         [Header("Data")]
         [SerializeField] private GameConfigSO _gameData;
         [SerializeField] private WaveDataSO _waveData;
-        
+
         private List<WaveData> rehearsalWaves;
         private List<WaveData> mainWaves;
         private bool isRehearsalMode;
-        private bool userWantsMoreRehearsal = false;
+        private bool? userWantsMoreRehearsal = null;
         private float elapsed = 0f;
         private int totalScore = 0;
 
@@ -46,7 +46,7 @@ namespace Runtime.CH3.Dancepace
         {
             rehearsalWaves = new List<WaveData>();
             mainWaves = new List<WaveData>();
-            
+
             rehearsalWaves.Add(_waveData.waveDatas[_curWave]);
             mainWaves.Add(_waveData.waveDatas[1]);
             mainWaves.Add(_waveData.waveDatas[2]);
@@ -60,35 +60,40 @@ namespace Runtime.CH3.Dancepace
             bool isRehearsalContinue = true;
             while (isRehearsalContinue && isRehearsalMode)
             {
+                effectManager.ShowAudience(0);
+                userWantsMoreRehearsal = null;
                 uiManager?.ShowKeyGuide(true);
+                uiManager?.ShowTimeBar(false);
                 foreach (var wave in rehearsalWaves)
                 {
-                    yield return StartCoroutine(PlayRoutine(wave));
+                    yield return StartCoroutine(PlayRoutine(wave, null));
                 }
 
                 uiManager?.ShowMoreRehearsalPanel(true);
-                yield return new WaitUntil(() => userWantsMoreRehearsal);
+                yield return new WaitUntil(() => userWantsMoreRehearsal != null);
                 uiManager?.ShowMoreRehearsalPanel(false);
-                isRehearsalContinue = userWantsMoreRehearsal;
+                isRehearsalContinue = userWantsMoreRehearsal == true;
             }
 
+            effectManager.ShowAudience(1);
             uiManager?.ShowRehearsalPanel(false);
-            uiManager?.ShowKeyGuide(false);
+            uiManager?.ShowTimeBar(true);
+            uiManager?.ShowKeyGuide(true);
 
             isRehearsalMode = false;
             foreach (var wave in mainWaves)
             {
-                yield return StartCoroutine(PlayRoutine(wave));
+                bool timeOver = false;
+                yield return StartCoroutine(PlayRoutine(wave, (to) => timeOver = to));
+                if (timeOver) break;
             }
 
             // 모든 웨이브가 끝나면 점수 결과만 보여줌
             uiManager?.ShowResultPanel(totalScore);
         }
 
-        private IEnumerator PlayRoutine(WaveData wave)
+        private IEnumerator PlayRoutine(WaveData wave, Action<bool> onTimeOver)
         {
-            Managers.Sound.Play(Sound.BGM, "Dancepace/CH3_SUB_BGM_01");
-            effectManager.StartBeatAnimation();
             if (wave == null || wave.beats == null || wave.beats.Count == 0)
             {
                 Debug.LogError("Wave data is null or empty");
@@ -97,11 +102,29 @@ namespace Runtime.CH3.Dancepace
 
             float limitTime = _gameData.limitTime;
             int waveCount = 0;
-            elapsed = 0f;
-            uiManager?.UpdateTimeBar(0f, limitTime);
-
             bool timeOver = false;
             float wait = 3f;
+            elapsed = 0f;
+
+            Managers.Sound.Play(Sound.BGM, "Dancepace/CH3_SUB_BGM_01");
+            effectManager.StartBeatAnimation();
+
+            // 리허설 모드일 때: 타임바 완전 무시
+            if (isRehearsalMode)
+            {
+                // 타임바 숨김
+                uiManager?.ShowTimeBar(false);
+                foreach (var waveData in rehearsalWaves)
+                {
+                    var beats = waveData.beats;
+                    yield return StartCoroutine(PlayPreviewPhase(beats, 3f, float.PositiveInfinity, () => false));
+                    yield return StartCoroutine(PlayInputPhase(beats, 3f, float.PositiveInfinity, () => false));
+                }
+                effectManager.StopBeatAnimation();
+                yield break;
+            }
+
+            uiManager?.UpdateTimeBar(0f, limitTime);
             IEnumerator timeBarUpdater = TimeBarUpdater(limitTime, () => timeOver = true);
             Coroutine timeBarCoroutine = StartCoroutine(timeBarUpdater);
 
@@ -109,16 +132,21 @@ namespace Runtime.CH3.Dancepace
 
             while (waveCount < _gameData.waveForCount && !timeOver)
             {
+                if (timeOver) break;
                 int bitCount = UnityEngine.Random.Range(2, 5);
                 var randomBeats = wave.beats.OrderBy(x => UnityEngine.Random.value).Take(bitCount).ToList();
                 yield return PlayPreviewPhase(randomBeats, wait, limitTime, () => timeOver);
+                if (timeOver) break;
                 yield return PlayInputPhase(randomBeats, wait, limitTime, () => timeOver);
                 waveCount++;
             }
 
             if (!timeOver && elapsed < limitTime)
                 yield return HandleWaveIdle(limitTime);
+
             effectManager.StopBeatAnimation();
+            onTimeOver?.Invoke(timeOver);
+            yield return null;
         }
 
         private IEnumerator PlayPreviewPhase(List<BeatData> beats, float wait, float limitTime, Func<bool> isTimeOver)
@@ -142,12 +170,30 @@ namespace Runtime.CH3.Dancepace
 
             Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Preview");
             playerCharacter?.StartSpotlightSequence(wait);
-            uiManager?.ShowTextBalloon(beats.Count > 0 ? beats[0].poseData : EPoseType.None);
+            //uiManager?.ShowTextBalloon(beats.Count > 0 ? beats[0].poseData : EPoseType.None);
             yield return StartCoroutine(WaitWithTimeCheck(wait, limitTime, isTimeOver));
         }
 
         private IEnumerator PlayInputPhase(List<BeatData> beats, float wait, float limitTime, Func<bool> isTimeOver)
         {
+            // 리허설 모드일 때 한 비트마다 안내, 입력 전까지 멈춤, 맞게 누르면 피드백
+            if (isRehearsalMode)
+            {
+                foreach (var beat in beats)
+                {
+                    uiManager?.ShowTextBalloon(beat.poseData);
+                    // 해당 키를 누를 때까지 대기 (시간 멈춤)
+                    while (!keyBinder.IsPoseKeyPressed(beat.EnumToString()))
+                        yield return null;
+                    // 피드백
+                    uiManager?.ShowCustomTextBalloon("잘했어!", 0.7f, false);
+                    yield return new WaitForSeconds(0.7f);
+                }
+                playerCharacter?.ResetState();
+                playerCharacter?.HideSpotlight();
+                yield break;
+            }
+
             for (int i = 0; i < beats.Count && !isTimeOver(); i++)
             {
                 Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Good");
@@ -158,7 +204,7 @@ namespace Runtime.CH3.Dancepace
                 if (i + 1 < beats.Count && beat.restTime > 0)
                 {
                     var nextBeat = beats[i + 1];
-                    uiManager?.ShowTextBalloon(nextBeat.poseData);
+                    //uiManager?.ShowTextBalloon(nextBeat.poseData);
                     yield return StartCoroutine(WaitWithTimeCheck(beat.restTime, limitTime, isTimeOver));
                 }
                 else if (beat.restTime > 0)
@@ -192,7 +238,7 @@ namespace Runtime.CH3.Dancepace
             onTimeOver?.Invoke();
         }
 
-        // 시간 흐름을 체크하며 대기하는 유틸리티 코루틴
+        // 시간 흐름을 체크하며 대기하는 코루틴
         private IEnumerator WaitWithTimeCheck(float waitTime, float limitTime, Func<bool> isTimeOver)
         {
             float timer = 0f;
@@ -294,6 +340,20 @@ namespace Runtime.CH3.Dancepace
                 JudgeInput(float.MaxValue, beatTime, beat.EnumToString());
         }
 
+        public void StartMainWaves()
+        {
+            userWantsMoreRehearsal = false;
+        }
+
+        public void RestartRehersal()
+        {
+            userWantsMoreRehearsal = true;
+        }
+
+        public void StartGame()
+        {
+            StartCoroutine(GameFlow());
+        }
         public void EndGame()
         {
 #if UNITY_EDITOR
@@ -301,17 +361,14 @@ namespace Runtime.CH3.Dancepace
 #else
             Application.Quit();
 #endif
+            userWantsMoreRehearsal = false;
         }
 
         public void ReloadScene()
         {
             Scene currentScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(currentScene.name);
-        }
-
-        public void StartGame()
-        {
-            StartCoroutine(GameFlow());
+            userWantsMoreRehearsal = true;
         }
     }
 }
