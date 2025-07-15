@@ -17,7 +17,6 @@ namespace Runtime.CH3.Dancepace
         private bool _isAnimating = false;
         private Coroutine _animationCoroutine;
         private Coroutine _autoAnimationCoroutine;
-        private float _animationTime = 0f;
         private AudioSource _bgmSource;
         private float _currentScale = 1f;
 
