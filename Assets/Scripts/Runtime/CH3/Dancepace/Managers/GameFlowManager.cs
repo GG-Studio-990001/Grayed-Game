@@ -166,6 +166,7 @@ namespace Runtime.CH3.Dancepace
                     yield return StartCoroutine(WaitWithTimeCheck(beat.restTime, limitTime, isTimeOver));
                 }
             }
+            playerCharacter?.ResetState();
             playerCharacter?.HideSpotlight();
             uiManager?.HideTextBalloon();
         }
