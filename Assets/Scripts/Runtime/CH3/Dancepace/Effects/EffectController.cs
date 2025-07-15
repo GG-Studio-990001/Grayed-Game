@@ -6,11 +6,9 @@ namespace Runtime.CH3.Dancepace
 {
     public class EffectController : MonoBehaviour
     {
-        [Header("이펙트 프리팹")]
-        [SerializeField] private GameObject heartPrefab;
-        
-        [Header("관중석 스팟")]
+        [SerializeField] private GameObject heartPrefab;        
         [SerializeField] private Transform audienceSpot;
+        [SerializeField] private GameObject[] audiences;
         [SerializeField] private SpeakerAnimation[] speakerAnimations;
 
         public void SpawnHeartParticles(EJudgmentType type)
@@ -70,6 +68,16 @@ namespace Runtime.CH3.Dancepace
             {
                 speaker.StopBeatAnimation();
             }
+        }
+
+        public void ShowAudience(int index)
+        {
+            foreach (var audience in audiences)
+            {
+                audience.SetActive(false);
+            }
+
+            audiences[index].SetActive(true);
         }
     }
 }
