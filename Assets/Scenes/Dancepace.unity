@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1869921519}
-  gradeText: {fileID: 0}
+  gradeText: {fileID: 547256940}
   perfectText: {fileID: 1206812899}
   greatText: {fileID: 1432709244}
   badText: {fileID: 2130057274}
