@@ -28,13 +28,13 @@ namespace Runtime.CH3.Dancepace
         [Header("Data")]
         [SerializeField] private GameConfigSO _gameData;
         [SerializeField] private WaveDataSO _waveData;
+        private GameResultData _gameResult;
 
         private List<WaveData> rehearsalWaves;
         private List<WaveData> mainWaves;
         private bool isRehearsalMode;
         private bool? userWantsMoreRehearsal = null;
         private float elapsed = 0f;
-        private int totalScore = 0;
 
         private void Awake()
         {
@@ -46,6 +46,7 @@ namespace Runtime.CH3.Dancepace
         {
             rehearsalWaves = new List<WaveData>();
             mainWaves = new List<WaveData>();
+            _gameResult = new GameResultData(0, 0, 0, 0);
 
             rehearsalWaves.Add(_waveData.waveDatas[_curWave]);
             mainWaves.Add(_waveData.waveDatas[1]);
@@ -76,7 +77,6 @@ namespace Runtime.CH3.Dancepace
             }
 
             effectManager.ShowAudience(1);
-            uiManager?.ShowRehearsalPanel(false);
             uiManager?.ShowTimeBar(true);
             uiManager?.ShowKeyGuide(true);
 
@@ -89,7 +89,8 @@ namespace Runtime.CH3.Dancepace
             }
 
             // 모든 웨이브가 끝나면 점수 결과만 보여줌
-            uiManager?.ShowResultPanel(totalScore);
+            uiManager?.ShowResultPanel(_gameResult.TotalScore, _gameResult.PerfectCnt, 
+            _gameResult.GreatCnt, _gameResult.BadCnt);
         }
 
         private IEnumerator PlayRoutine(WaveData wave, Action<bool> onTimeOver)
@@ -128,7 +129,9 @@ namespace Runtime.CH3.Dancepace
             IEnumerator timeBarUpdater = TimeBarUpdater(limitTime, () => timeOver = true);
             Coroutine timeBarCoroutine = StartCoroutine(timeBarUpdater);
 
-            yield return StartCoroutine(UpdateTimeBarWithWait(3f, limitTime));
+            Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_SUB_SFX_99");
+            uiManager?.ShowMcText();
+            yield return StartCoroutine(UpdateTimeBarWithWait(4f, limitTime));
 
             while (waveCount < _gameData.waveForCount && !timeOver)
             {
@@ -276,19 +279,22 @@ namespace Runtime.CH3.Dancepace
             {
                 ShowJudgment(EJudgmentType.Perfect, poseId);
                 //uiManager?.ShowTextBalloon(EJudgmentType.Perfect);
-                totalScore += _gameData.greatCoin;
+                _gameResult.AddPerfect();
+                _gameResult.AddScore(_gameData.greatCoin);
             }
             else if (ratio >= greatMin && ratio <= greatMax)
             {
                 //uiManager?.ShowTextBalloon(EJudgmentType.Great);
                 ShowJudgment(EJudgmentType.Great, poseId);
-                totalScore += _gameData.goodCoin;
+                _gameResult.AddGreat();
+                _gameResult.AddScore(_gameData.goodCoin);
             }
             else
             {
                 //uiManager?.ShowTextBalloon(EJudgmentType.Bad);
                 ShowJudgment(EJudgmentType.Bad, poseId);
-                totalScore += _gameData.badCoin;
+                _gameResult.AddBad();
+                _gameResult.AddScore(_gameData.badCoin);
             }
         }
 
