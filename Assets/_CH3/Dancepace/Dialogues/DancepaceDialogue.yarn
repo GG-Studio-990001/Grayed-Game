@@ -1,6 +1,6 @@
 title: DPStart
 ---
 <<NPCSpeak>>
-NPC: 뭐야, 여기에는<br>어떻게 들어온 거야?
+왔구나 우리의 센터!
 <<OpeningDialogueFin>>
 ===
