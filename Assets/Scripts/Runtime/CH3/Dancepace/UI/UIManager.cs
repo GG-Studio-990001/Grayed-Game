@@ -132,6 +132,7 @@ namespace Runtime.CH3.Dancepace
         public void ShowMcText()
         {
             mcText.gameObject.SetActive(true);
+            mcText.text = StringTableManager.Get("StageStart");
             StartCoroutine(ShowMcTextCoroutine());
         }
 

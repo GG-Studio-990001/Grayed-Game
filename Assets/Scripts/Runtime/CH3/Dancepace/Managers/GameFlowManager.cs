@@ -182,6 +182,7 @@ namespace Runtime.CH3.Dancepace
             // 리허설 모드일 때 한 비트마다 안내, 입력 전까지 멈춤, 맞게 누르면 피드백
             if (isRehearsalMode)
             {
+                string cheerText = StringTableManager.Get("TextBallon_Cheer");
                 foreach (var beat in beats)
                 {
                     uiManager?.ShowTextBalloon(beat.poseData);
@@ -189,7 +190,7 @@ namespace Runtime.CH3.Dancepace
                     while (!keyBinder.IsPoseKeyPressed(beat.EnumToString()))
                         yield return null;
                     // 피드백
-                    uiManager?.ShowCustomTextBalloon("잘했어!", 0.7f, false);
+                    uiManager?.ShowCustomTextBalloon(cheerText, 0.7f, false);
                     yield return new WaitForSeconds(0.7f);
                 }
                 playerCharacter?.ResetState();
