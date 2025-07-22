@@ -1,15 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.IO;
-using System.Linq;
-using System;
-using System.Text;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using UnityEngine.Networking;
-using Runtime.CH3.Dancepace;
 
 namespace Runtime.ETC
 {

@@ -1,7 +1,7 @@
 using Runtime.ETC;
 using UnityEngine;
-using Runtime.CH3.Dancepace;
 using System.Collections;
+using TMPro;
 
 namespace Runtime.CH3.Dancepace
 {
@@ -14,21 +14,23 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private ResultPanel resultPanel;
 
         [Header("Panels")]
-        [SerializeField] private GameObject rehearsalPanel;
         [SerializeField] private GameObject moreRehearsalPanel;
-        [SerializeField] private GameObject successPanel;
-        [SerializeField] private GameObject failPanel;
+        [SerializeField] private TextMeshProUGUI mcText;
+
+        private LocalizedText[] localizedTexts;
 
         private void Awake()
         {
             ValidateComponents();
+            localizedTexts = GetComponentsInChildren<LocalizedText>(true);
+            foreach (var loc in localizedTexts)
+                loc.Refresh();
         }
 
         private void ValidateComponents()
         {
             if (timeBarUI == null) Debug.LogError("TimeBarUI is missing!");
             if (keyGuideUI == null) Debug.LogError("KeyGuideUI is missing!");
-            if (rehearsalPanel == null) Debug.LogError("RehearsalPanel is missing!");
             if (moreRehearsalPanel == null) Debug.LogError("MoreRehearsalPanel is missing!");
         }
 
@@ -36,16 +38,9 @@ namespace Runtime.CH3.Dancepace
         {
             timeBarUI.Initialize();
             keyGuideUI.Initialize();
-            
-            rehearsalPanel.SetActive(false);
+
             moreRehearsalPanel.SetActive(false);
         }
-
-        public void ShowRehearsalPanel(bool show)
-        {
-            rehearsalPanel.SetActive(show);
-        }
-
         public void ShowMoreRehearsalPanel(bool show)
         {
             moreRehearsalPanel.SetActive(show);
@@ -66,34 +61,18 @@ namespace Runtime.CH3.Dancepace
             keyGuideUI.UpdateKeyGuide(poseId);
         }
 
-        public void ShowSuccessPanel(bool show)
-        {
-            if (successPanel != null)
-            {
-                successPanel.SetActive(show);
-            }
-        }
-
-        public void ShowFailPanel(bool show)
-        {
-            if (failPanel != null)
-            {
-                failPanel.SetActive(show);
-            }
-        }
-
         public void ShowKeyGuide(bool show)
         {
             if (keyGuideUI != null)
                 keyGuideUI.gameObject.SetActive(show);
         }
 
-        public void ShowResultPanel(int score)
+        public void ShowResultPanel(int score, int perfect, int great, int bad)
         {
             if (resultPanel != null)
             {
                 resultPanel.gameObject.SetActive(true);
-                resultPanel.SetText(score);
+                resultPanel.SetText(score, perfect, great, bad);
             }
         }
 
@@ -149,5 +128,23 @@ namespace Runtime.CH3.Dancepace
             yield return new WaitForSeconds(delay);
             textBalloon.gameObject.SetActive(false);
         }
+
+        public void ShowMcText()
+        {
+            mcText.gameObject.SetActive(true);
+            StartCoroutine(ShowMcTextCoroutine());
+        }
+
+        private IEnumerator ShowMcTextCoroutine()
+        {
+            yield return new WaitForSeconds(2f);
+            mcText.text = "3!";
+            yield return new WaitForSeconds(1f);
+            mcText.text = "2!";
+            yield return new WaitForSeconds(1f);
+            mcText.text = "1!";
+            yield return new WaitForSeconds(1f);
+            mcText.gameObject.SetActive(false);
+        }
     }
-} 
+}
