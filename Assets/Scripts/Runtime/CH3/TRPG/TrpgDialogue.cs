@@ -92,6 +92,9 @@ namespace Runtime.CH3.TRPG
                 // 옵션 텍스트 설정
                 optionText.text = options[i].Line.Text.Text;
                 
+                // 옵션 텍스트 높이에 맞게 이미지 박스 높이 조정
+                AdjustOptionHeight(optionObj, optionText);
+                
                 // 옵션 인덱스 저장
                 int optionIndex = i;
                 
@@ -141,6 +144,9 @@ namespace Runtime.CH3.TRPG
                 // 옵션 간 약간의 딜레이
                 yield return new WaitForSeconds(0.1f);
             }
+            
+            // 모든 옵션 생성 후 스크롤을 가장 밑으로 내리기
+            StartCoroutine(ScrollToBottom());
         }
 
         private void SelectOption(int optionIndex, Action<int> onOptionSelected)
@@ -209,6 +215,26 @@ namespace Runtime.CH3.TRPG
             
             // 레이아웃 업데이트를 강제로 실행
             LayoutRebuilder.ForceRebuildLayoutImmediate(lineObj.GetComponent<RectTransform>());
+        }
+
+        private void AdjustOptionHeight(GameObject optionObj, TextMeshProUGUI optionText)
+        {
+            // 텍스트의 실제 높이 계산
+            Vector2 textSize = optionText.GetPreferredValues();
+            
+            // 이미지 박스의 현재 높이
+            RectTransform imageRect = optionObj.GetComponent<RectTransform>();
+            float currentHeight = imageRect.sizeDelta.y;
+            
+            // 텍스트 높이 + 5픽셀 여유가 현재 이미지 높이보다 크면 이미지 높이를 조정
+            float targetHeight = textSize.y + 5f;
+            if (targetHeight > currentHeight)
+            {
+                imageRect.sizeDelta = new Vector2(imageRect.sizeDelta.x, targetHeight);
+            }
+            
+            // 레이아웃 업데이트를 강제로 실행
+            LayoutRebuilder.ForceRebuildLayoutImmediate(imageRect);
         }
 
         private IEnumerator ScrollToBottom()
