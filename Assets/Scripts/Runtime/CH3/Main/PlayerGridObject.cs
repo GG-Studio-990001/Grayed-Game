@@ -31,6 +31,11 @@ namespace Runtime.CH3.Main
             Vector2Int targetGridPos = gridManager.WorldToGridPosition(targetWorldPosition);
             if (!gridManager.IsValidGridPosition(targetGridPos))
                 return false;
+            
+            // 차단된 셀인지 확인
+            if (gridManager.IsCellBlocked(targetGridPos))
+                return false;
+                
             GridCell targetCell = gridManager.GetCell(targetGridPos);
             return targetCell != null && !targetCell.IsOccupied;
         }

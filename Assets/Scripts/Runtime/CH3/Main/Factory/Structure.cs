@@ -11,7 +11,7 @@ namespace Runtime.CH3.Main
             base.Initialize(gridPos);
             if (isBlocking)
             {
-                //GridManager.Instance.SetCellBlocked(gridPos, true);
+                GridManager.Instance.SetCellBlocked(gridPos, true);
             }
         }
 
@@ -19,7 +19,7 @@ namespace Runtime.CH3.Main
         {
             if (isBlocking)
             {
-                //GridManager.Instance.SetCellBlocked(gridPosition, false);
+                GridManager.Instance.SetCellBlocked(gridPosition, false);
             }
             base.Remove();
         }

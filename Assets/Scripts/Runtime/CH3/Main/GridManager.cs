@@ -137,27 +137,10 @@ namespace Runtime.CH3.Main
 
         private void OnDrawGizmos()
         {
-            //if (!showDebugVisuals) return;
-
-            // 에디터에서도 카메라 방향 초기화가 필요함
-            if (mainCamera == null)
-                mainCamera = Camera.main;
-
-            if (_forward == Vector3.zero || _right == Vector3.zero)
-            {
-                _forward = Vector3.ProjectOnPlane(mainCamera != null ? mainCamera.transform.forward : Vector3.forward,
-                    Vector3.up).normalized;
-                _right = Vector3
-                    .ProjectOnPlane(mainCamera != null ? mainCamera.transform.right : Vector3.right, Vector3.up)
-                    .normalized;
-            }
-
-            // 그리드 중심점 계산
-            _gridCenter = new Vector2Int(gridSize.x / 2, gridSize.y / 2);
-
-            Gizmos.color = gridLineColor;
+            if (!Application.isPlaying) return;
 
             // 그리드 라인 그리기
+            Gizmos.color = gridLineColor;
             int startX = -_gridCenter.x;
             int startY = -_gridCenter.y;
             int endX = gridSize.x - _gridCenter.x;
@@ -185,8 +168,16 @@ namespace Runtime.CH3.Main
                     Vector2Int gridPosition = new Vector2Int(x, y);
                     Vector3 worldPosition = GridToWorldPosition(gridPosition);
 
+                    // 차단된 셀 표시
+                    if (IsCellBlocked(gridPosition))
+                    {
+                        Gizmos.color = new Color(0.5f, 0.5f, 0.5f, 0.8f); // 회색
+                        Gizmos.DrawCube(worldPosition, new Vector3(0.9f, 0.05f, 0.9f));
+                        Gizmos.color = Color.black;
+                        Gizmos.DrawWireCube(worldPosition, new Vector3(0.9f, 0.05f, 0.9f));
+                    }
                     // (0,0) 좌표는 다른 색상으로 표시
-                    if (gridPosition == Vector2Int.zero)
+                    else if (gridPosition == Vector2Int.zero)
                     {
                         Gizmos.color = Color.green;
                         Gizmos.DrawWireSphere(worldPosition, 0.15f);
