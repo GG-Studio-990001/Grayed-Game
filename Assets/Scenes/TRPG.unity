@@ -3008,7 +3008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 0}
-  useFadeEffect: 0
+  useFadeEffect: 1
   fadeInTime: 0.25
   fadeOutTime: 0.05
   lineText: {fileID: 0}
@@ -3033,6 +3033,7 @@ MonoBehaviour:
   _runner: {fileID: 408705622}
   content: {fileID: 760993887}
   linePrefab: {fileID: 6960744051636591549, guid: b62614aebb5b5f84a95357497dcb3da8, type: 3}
+  scrollRect: {fileID: 409998942}
   _resultPanel: {fileID: 1384178493}
   _diceRollObjects: {fileID: 1907902536}
   _dice10: {fileID: 7334016540370449110}

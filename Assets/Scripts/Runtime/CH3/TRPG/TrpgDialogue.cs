@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using Yarn.Unity;
 using System;
+using UnityEngine.UI;
 
 namespace Runtime.CH3.TRPG
 {
@@ -14,6 +15,7 @@ namespace Runtime.CH3.TRPG
         [Header("=Dialogue=")]
         [SerializeField] private Transform content;               // Scroll View → Content 오브젝트
         [SerializeField] private GameObject linePrefab;           // TextLine 프리팹
+        [SerializeField] private ScrollRect scrollRect;           // Scroll Rect 컴포넌트
 
         [Header("=Result=")]
         [SerializeField] private GameObject _resultPanel;
@@ -49,6 +51,21 @@ namespace Runtime.CH3.TRPG
 
             // 4. LineView의 기본 동작 사용 (페이드 인 + 타이핑)
             base.RunLine(dialogueLine, onDialogueLineFinished);
+
+            // 5. 스크롤을 가장 밑으로 내리기
+            StartCoroutine(ScrollToBottom());
+        }
+
+        private IEnumerator ScrollToBottom()
+        {
+            // 한 프레임 대기하여 레이아웃이 업데이트되도록 함
+            yield return null;
+            
+            if (scrollRect != null)
+            {
+                // 스크롤을 가장 밑으로 내리기
+                scrollRect.verticalNormalizedPosition = 0f;
+            }
         }
 
         // 페이드 아웃을 방지하기 위해 DismissLine을 오버라이드
