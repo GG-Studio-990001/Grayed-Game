@@ -4,6 +4,8 @@ using UnityEngine;
 using Yarn.Unity;
 using System;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 namespace Runtime.CH3.TRPG
 {
@@ -17,6 +19,11 @@ namespace Runtime.CH3.TRPG
         [SerializeField] private GameObject linePrefab;           // TextLine 프리팹
         [SerializeField] private ScrollRect scrollRect;           // Scroll Rect 컴포넌트
 
+        [Header("=Options=")]
+        [SerializeField] private GameObject optionPrefab;         // 옵션 프리팹
+        [SerializeField] private Color optionHoverColor = new Color(1f, 1f, 1f, 0.3f); // 마우스 오버 색상
+        [SerializeField] private Color optionSelectedColor = new Color(1f, 1f, 1f, 0.5f); // 선택된 색상
+
         [Header("=Result=")]
         [SerializeField] private GameObject _resultPanel;
         [SerializeField] private GameObject _diceRollObjects;
@@ -25,6 +32,9 @@ namespace Runtime.CH3.TRPG
         [SerializeField] private TextMeshProUGUI _resultTxt_0;
         [SerializeField] private TextMeshProUGUI _resultTxt_1;
         [SerializeField] private TextMeshProUGUI _resultTxt_2;
+
+        private List<GameObject> currentOptions = new List<GameObject>();
+        private bool isShowingOptions = false;
 
         private void Awake()
         {
@@ -58,6 +68,130 @@ namespace Runtime.CH3.TRPG
 
             // 6. 스크롤을 가장 밑으로 내리기
             StartCoroutine(ScrollToBottom());
+        }
+
+        // 옵션 표시 메서드
+        public override void RunOptions(DialogueOption[] options, Action<int> onOptionSelected)
+        {
+            isShowingOptions = true;
+            StartCoroutine(ShowOptions(options, onOptionSelected));
+        }
+
+        private IEnumerator ShowOptions(DialogueOption[] options, Action<int> onOptionSelected)
+        {
+            // 기존 옵션들 제거
+            ClearOptions();
+
+            // 각 옵션 생성
+            for (int i = 0; i < options.Length; i++)
+            {
+                GameObject optionObj = Instantiate(optionPrefab, content);
+                TextMeshProUGUI optionText = optionObj.GetComponentInChildren<TextMeshProUGUI>();
+                Image optionBackground = optionObj.GetComponent<Image>();
+                
+                // 옵션 텍스트 설정
+                optionText.text = options[i].Line.Text.Text;
+                
+                // 옵션 인덱스 저장
+                int optionIndex = i;
+                
+                // EventTrigger 추가
+                EventTrigger eventTrigger = optionObj.GetComponent<EventTrigger>();
+                if (eventTrigger == null)
+                {
+                    eventTrigger = optionObj.AddComponent<EventTrigger>();
+                }
+                
+                // 마우스 진입 이벤트
+                EventTrigger.Entry pointerEnter = new EventTrigger.Entry();
+                pointerEnter.eventID = EventTriggerType.PointerEnter;
+                pointerEnter.callback.AddListener((data) => {
+                    if (isShowingOptions)
+                    {
+                        optionBackground.color = optionHoverColor;
+                    }
+                });
+                eventTrigger.triggers.Add(pointerEnter);
+                
+                // 마우스 나감 이벤트
+                EventTrigger.Entry pointerExit = new EventTrigger.Entry();
+                pointerExit.eventID = EventTriggerType.PointerExit;
+                pointerExit.callback.AddListener((data) => {
+                    if (isShowingOptions)
+                    {
+                        optionBackground.color = Color.clear;
+                    }
+                });
+                eventTrigger.triggers.Add(pointerExit);
+                
+                // 클릭 이벤트
+                Button optionButton = optionObj.GetComponent<Button>();
+                if (optionButton != null)
+                {
+                    optionButton.onClick.AddListener(() => {
+                        if (isShowingOptions)
+                        {
+                            SelectOption(optionIndex, onOptionSelected);
+                        }
+                    });
+                }
+                
+                currentOptions.Add(optionObj);
+                
+                // 옵션 간 약간의 딜레이
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+
+        private void SelectOption(int optionIndex, Action<int> onOptionSelected)
+        {
+            isShowingOptions = false;
+            
+            // 선택된 옵션만 남기고 나머지 제거
+            for (int i = 0; i < currentOptions.Count; i++)
+            {
+                if (i == optionIndex)
+                {
+                    // 선택된 옵션은 반투명 흰색으로 변경
+                    Image selectedBackground = currentOptions[i].GetComponent<Image>();
+                    if (selectedBackground != null)
+                    {
+                        selectedBackground.color = optionSelectedColor;
+                    }
+                    
+                    // 더 이상 상호작용 불가
+                    Button selectedButton = currentOptions[i].GetComponent<Button>();
+                    if (selectedButton != null)
+                    {
+                        selectedButton.interactable = false;
+                    }
+                }
+                else
+                {
+                    // 나머지 옵션들 제거
+                    Destroy(currentOptions[i]);
+                }
+            }
+            
+            // 선택된 옵션만 남기고 리스트 정리
+            GameObject selectedOption = currentOptions[optionIndex];
+            currentOptions.Clear();
+            currentOptions.Add(selectedOption);
+            
+            // 옵션 선택 콜백 호출
+            onOptionSelected?.Invoke(optionIndex);
+        }
+
+        private void ClearOptions()
+        {
+            foreach (GameObject option in currentOptions)
+            {
+                if (option != null)
+                {
+                    Destroy(option);
+                }
+            }
+            currentOptions.Clear();
         }
 
         private void AdjustTextHeight(GameObject lineObj, TextMeshProUGUI tmp)
