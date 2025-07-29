@@ -1520,6 +1520,7 @@ RectTransform:
   m_Children:
   - {fileID: 569315770}
   - {fileID: 2139023973}
+  - {fileID: 1253512662}
   m_Father: {fileID: 1282171525}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3034,6 +3035,7 @@ MonoBehaviour:
   content: {fileID: 760993887}
   linePrefab: {fileID: 6960744051636591549, guid: b62614aebb5b5f84a95357497dcb3da8, type: 3}
   scrollRect: {fileID: 409998942}
+  dummyTextObject: {fileID: 1253512661}
   _resultPanel: {fileID: 1384178493}
   _diceRollObjects: {fileID: 1907902536}
   _dice10: {fileID: 7334016540370449110}
@@ -4578,6 +4580,63 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1214835766}
+  m_CullTransparentMesh: 1
+--- !u!1 &1253512661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1253512662}
+  - component: {fileID: 1253512664}
+  - component: {fileID: 1253512663}
+  m_Layer: 5
+  m_Name: Dummy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1253512662
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253512661}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 409998941}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -418.824, y: 119.042725}
+  m_SizeDelta: {x: 900, y: 163.07}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1253512663
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253512661}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!222 &1253512664
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253512661}
   m_CullTransparentMesh: 1
 --- !u!1 &1282171524
 GameObject:

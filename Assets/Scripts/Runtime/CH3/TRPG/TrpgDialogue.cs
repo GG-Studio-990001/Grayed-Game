@@ -16,6 +16,7 @@ namespace Runtime.CH3.TRPG
         [SerializeField] private Transform content;               // Scroll View → Content 오브젝트
         [SerializeField] private GameObject linePrefab;           // TextLine 프리팹
         [SerializeField] private ScrollRect scrollRect;           // Scroll Rect 컴포넌트
+        [SerializeField] private GameObject dummyTextObject;      // 더미 텍스트 오브젝트 (인스펙터에서 할당)
 
         [Header("=Result=")]
         [SerializeField] private GameObject _resultPanel;
@@ -33,6 +34,7 @@ namespace Runtime.CH3.TRPG
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
+            Debug.Log("대사 출력");
             // 1. 새 대사 오브젝트 생성
             GameObject lineObj = Instantiate(linePrefab, content);
             TextMeshProUGUI tmp = lineObj.GetComponentInChildren<TextMeshProUGUI>();
@@ -71,8 +73,18 @@ namespace Runtime.CH3.TRPG
         // 페이드 아웃을 방지하기 위해 DismissLine을 오버라이드
         public override void DismissLine(Action onDismissalComplete)
         {
+            // FadeOut 처리 전에 canvasGroup을 더미 오브젝트로 갈아끼우기
+            CanvasGroup originalCanvasGroup = this.canvasGroup;
+            if (dummyTextObject != null)
+            {
+                this.canvasGroup = dummyTextObject.GetComponent<CanvasGroup>();
+            }
+            
             // 페이드 아웃 없이 즉시 완료
             onDismissalComplete?.Invoke();
+            
+            // canvasGroup 복원
+            this.canvasGroup = originalCanvasGroup;
         }
 
         private void RollDice(int val)
