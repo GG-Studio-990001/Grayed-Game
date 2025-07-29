@@ -1525,8 +1525,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.176, y: -49.455}
-  m_SizeDelta: {x: 431.812, y: 596.105}
+  m_AnchoredPosition: {x: -0.714, y: -52.289}
+  m_SizeDelta: {x: 440.128, y: 615.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &409998942
 MonoBehaviour:
@@ -2385,7 +2385,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &569315771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2860,12 +2860,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 0
+    m_Left: 10
+    m_Right: 10
+    m_Top: 10
+    m_Bottom: 10
+  m_ChildAlignment: 4
+  m_Spacing: 10
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -3035,7 +3035,6 @@ MonoBehaviour:
   content: {fileID: 760993887}
   linePrefab: {fileID: 6960744051636591549, guid: b62614aebb5b5f84a95357497dcb3da8, type: 3}
   scrollRect: {fileID: 409998942}
-  dummyTextObject: {fileID: 1253512661}
   _resultPanel: {fileID: 1384178493}
   _diceRollObjects: {fileID: 1907902536}
   _dice10: {fileID: 7334016540370449110}
@@ -4598,7 +4597,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1253512662
 RectTransform:
   m_ObjectHideFlags: 0

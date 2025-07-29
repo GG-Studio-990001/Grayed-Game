@@ -16,7 +16,6 @@ namespace Runtime.CH3.TRPG
         [SerializeField] private Transform content;               // Scroll View → Content 오브젝트
         [SerializeField] private GameObject linePrefab;           // TextLine 프리팹
         [SerializeField] private ScrollRect scrollRect;           // Scroll Rect 컴포넌트
-        [SerializeField] private GameObject dummyTextObject;      // 더미 텍스트 오브젝트 (인스펙터에서 할당)
 
         [Header("=Result=")]
         [SerializeField] private GameObject _resultPanel;
@@ -47,15 +46,35 @@ namespace Runtime.CH3.TRPG
             }
             tmp.text = dialogueLine.Text.Text;
 
-            // 3. LineView의 필드들을 설정
+            // 3. 텍스트 높이에 맞게 자동 조정
+            AdjustTextHeight(lineObj, tmp);
+
+            // 4. LineView의 필드들을 설정
             this.lineText = tmp;
             this.canvasGroup = cg;
 
-            // 4. LineView의 기본 동작 사용 (페이드 인 + 타이핑)
+            // 5. LineView의 기본 동작 사용 (페이드 인 + 타이핑)
             base.RunLine(dialogueLine, onDialogueLineFinished);
 
-            // 5. 스크롤을 가장 밑으로 내리기
+            // 6. 스크롤을 가장 밑으로 내리기
             StartCoroutine(ScrollToBottom());
+        }
+
+        private void AdjustTextHeight(GameObject lineObj, TextMeshProUGUI tmp)
+        {
+            // ContentSizeFitter가 없으면 추가
+            ContentSizeFitter fitter = lineObj.GetComponent<ContentSizeFitter>();
+            if (fitter == null)
+            {
+                fitter = lineObj.AddComponent<ContentSizeFitter>();
+            }
+            
+            // 세로 크기만 자동 조정 (가로는 고정)
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            fitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
+            
+            // 레이아웃 업데이트를 강제로 실행
+            LayoutRebuilder.ForceRebuildLayoutImmediate(lineObj.GetComponent<RectTransform>());
         }
 
         private IEnumerator ScrollToBottom()
@@ -73,18 +92,8 @@ namespace Runtime.CH3.TRPG
         // 페이드 아웃을 방지하기 위해 DismissLine을 오버라이드
         public override void DismissLine(Action onDismissalComplete)
         {
-            // FadeOut 처리 전에 canvasGroup을 더미 오브젝트로 갈아끼우기
-            CanvasGroup originalCanvasGroup = this.canvasGroup;
-            if (dummyTextObject != null)
-            {
-                this.canvasGroup = dummyTextObject.GetComponent<CanvasGroup>();
-            }
-            
             // 페이드 아웃 없이 즉시 완료
             onDismissalComplete?.Invoke();
-            
-            // canvasGroup 복원
-            this.canvasGroup = originalCanvasGroup;
         }
 
         private void RollDice(int val)
