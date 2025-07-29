@@ -26,7 +26,10 @@ namespace Runtime.CH3.Dancepace
 
         public void StartDialogue()
         {
-            _runner.StartDialogue("DPStart");
+            if (!Managers.Data.CH3.IsDancepacePlayed)
+                _runner.StartDialogue("FirstEnter");
+            else
+                _runner.StartDialogue("RandomEnter");   
         }
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)

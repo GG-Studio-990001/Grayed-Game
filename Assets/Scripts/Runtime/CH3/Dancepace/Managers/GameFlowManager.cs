@@ -354,6 +354,9 @@ namespace Runtime.CH3.Dancepace
         public void RestartRehersal()
         {
             userWantsMoreRehearsal = true;
+            Managers.Data.CH3.IsDancepacePlayed = true;
+            Managers.Data.CH3.IsDancepaceCleared = false;
+            Managers.Data.SaveGame();
         }
 
         public void StartGame()

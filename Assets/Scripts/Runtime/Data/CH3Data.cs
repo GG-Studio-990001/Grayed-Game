@@ -6,11 +6,13 @@ namespace Runtime.Data
     [Serializable]
     public class CH3Data
     {
-        //public DancepaceData Dancepace;
+        public bool IsDancepacePlayed;
+        public bool IsDancepaceCleared;
 
         public CH3Data()
         {
-            //Dancepace = new DancepaceData();
+            IsDancepacePlayed = false;
+            IsDancepaceCleared = false;
         }
     }
 }
