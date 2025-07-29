@@ -1,6 +1,32 @@
-title: DPStart
+title: FirstEnter
 ---
 <<NPCSpeak>>
-왔구나 우리의 센터!
+신입! 왜 이제서야       왔어!
+어서 빨리 우리의 춤을 전 우주에 보여주자!
+뭐...? 까먹었다고?      청년 치...ㅁ..ㅐ?
+...그래! 어서 연습부터 해보자!
+<<OpeningDialogueFin>>
+===
+
+title : RandomEnter
+---
+<<NPCSpeak>>
+<<declare $RandomCount = 0>>
+
+오 좋아! 또 왔구나
+<<set $RandomCount = random_range(0, 3)>>
+<<if $RandomCount is 0>>
+    오늘은 아이어 행성에 우리의 춤을 보여주자고!
+    그렇다고 너의 목숨까지 퍼포먼스에 쏟을 필요는 없어...
+<<elseif $RandomCount is 1>>
+    오늘은 판도라 행성에 우리의 춤을 보여주자고!
+    걱정하지 않아도 돼! 볼트 헌터는 공연에 오지 않아
+<<elseif $RandomCount is 2>>
+    오늘은 PNF-404에 우리의 춤을 보여주자고!
+    여기 원주민은 식물인지 동물인지 잘 모르겠다야
+<<else>>
+    오늘은 베스핀 행성에 우리의 춤을 보여주자고!
+    걱정 마! 여기 너의 아버지를 사칭하는 사람은 없어
+<<endif>>
 <<OpeningDialogueFin>>
 ===

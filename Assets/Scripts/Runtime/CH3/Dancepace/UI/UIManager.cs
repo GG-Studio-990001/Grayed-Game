@@ -85,23 +85,34 @@ namespace Runtime.CH3.Dancepace
             }
 
             textBalloon.gameObject.SetActive(true);
+            string push = "";
             switch (poseType)
             {
                 case EPoseType.Up:
-                    textBalloon.SetText("위");
+                    push = StringTableManager.Get("TextBallon_Push_0");
+                    textBalloon.SetText(push);
                     break;
                 case EPoseType.Down:
-                    textBalloon.SetText("아래");
+                    push = StringTableManager.Get("TextBallon_Push_2");
+                    textBalloon.SetText(push);
                     break;
                 case EPoseType.Left:
-                    textBalloon.SetText("왼쪽");
+                    push = StringTableManager.Get("TextBallon_Push_1");
+                    textBalloon.SetText(push);
                     break;
                 case EPoseType.Right:
-                    textBalloon.SetText("오른쪽");
+                    push = StringTableManager.Get("TextBallon_Push_3");
+                    textBalloon.SetText(push);
                     break;
                 default:
                     break;
             }
+        }
+        public void ShowTextBalloon(string text, float duration)
+        {
+            textBalloon?.SetText(text);
+            textBalloon?.gameObject.SetActive(true);
+            StartCoroutine(HideTextBalloonAfterDelay(duration));
         }
 
         public void HideTextBalloon()
@@ -115,13 +126,6 @@ namespace Runtime.CH3.Dancepace
                 timeBarUI.gameObject.SetActive(show);
         }
 
-        public void ShowCustomTextBalloon(string text, float duration, bool showSuffix = false)
-        {
-            if (textBalloon == null) return;
-            textBalloon.SetText(text, showSuffix);
-            textBalloon.gameObject.SetActive(true);
-            StartCoroutine(HideTextBalloonAfterDelay(duration));
-        }
 
         private IEnumerator HideTextBalloonAfterDelay(float delay)
         {

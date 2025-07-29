@@ -10,7 +10,8 @@ namespace Runtime.CH3.Main
         Structure,
         BlockedArea,
         NPC,
-        Ore 
+        Ore,
+        Teleporter
     }
 
     // 오브젝트 생성을 담당하는 팩토리

@@ -10,11 +10,6 @@ namespace Runtime.CH3.Dancepace
 {
     public class GameFlowManager : MonoBehaviour
     {
-        [Header("WaveSettings")]
-        [Range(0, 2)]
-        [Tooltip("0: Rehearsal Wave, 1: Main Wave 1, 2: Main Wave 2")]
-        [SerializeField] private int _curWave;
-
         [Header("Managers")]
         [SerializeField] private EffectController effectManager;
         [SerializeField] private DPKeyBinder keyBinder;
@@ -48,17 +43,30 @@ namespace Runtime.CH3.Dancepace
             mainWaves = new List<WaveData>();
             _gameResult = new GameResultData(0, 0, 0, 0);
 
-            rehearsalWaves.Add(_waveData.waveDatas[_curWave]);
-            mainWaves.Add(_waveData.waveDatas[1]);
-            mainWaves.Add(_waveData.waveDatas[2]);
+            rehearsalWaves.Add(_waveData.waveDatas[0]);
+            for (int i = 1; i < _waveData.waveDatas.Count; i++)
+            {
+                mainWaves.Add(_waveData.waveDatas[i]);
+            }
         }
 
         private IEnumerator GameFlow()
         {
-            isRehearsalMode = true;
-            uiManager?.SetRehearsalMode(true);
+            bool isRehearsalContinue;
 
-            bool isRehearsalContinue = true;
+            if (!Managers.Data.CH3.IsDancepacePlayed)
+            {
+                isRehearsalMode = true;
+                isRehearsalContinue = true;
+                uiManager?.SetRehearsalMode(true);
+            }
+            else
+            {
+                isRehearsalMode = false;
+                isRehearsalContinue = false;
+                uiManager?.SetRehearsalMode(false);
+            }
+
             while (isRehearsalContinue && isRehearsalMode)
             {
                 effectManager.ShowAudience(0);
@@ -80,7 +88,6 @@ namespace Runtime.CH3.Dancepace
             uiManager?.ShowTimeBar(true);
             uiManager?.ShowKeyGuide(true);
 
-            isRehearsalMode = false;
             foreach (var wave in mainWaves)
             {
                 bool timeOver = false;
@@ -189,9 +196,8 @@ namespace Runtime.CH3.Dancepace
                     // 해당 키를 누를 때까지 대기 (시간 멈춤)
                     while (!keyBinder.IsPoseKeyPressed(beat.EnumToString()))
                         yield return null;
-                    // 피드백
-                    uiManager?.ShowCustomTextBalloon(cheerText, 0.7f, false);
-                    yield return new WaitForSeconds(0.7f);
+                    uiManager?.HideTextBalloon();
+                    // TODO: 한 웨이브 시작 전, 끝나면 피드백 추가 하는 리허설 웨이브 추가
                 }
                 playerCharacter?.ResetState();
                 playerCharacter?.HideSpotlight();
@@ -208,7 +214,6 @@ namespace Runtime.CH3.Dancepace
                 if (i + 1 < beats.Count && beat.restTime > 0)
                 {
                     var nextBeat = beats[i + 1];
-                    //uiManager?.ShowTextBalloon(nextBeat.poseData);
                     yield return StartCoroutine(WaitWithTimeCheck(beat.restTime, limitTime, isTimeOver));
                 }
                 else if (beat.restTime > 0)
@@ -279,20 +284,17 @@ namespace Runtime.CH3.Dancepace
             if (ratio >= perfectMin && ratio <= perfectMax)
             {
                 ShowJudgment(EJudgmentType.Perfect, poseId);
-                //uiManager?.ShowTextBalloon(EJudgmentType.Perfect);
                 _gameResult.AddPerfect();
                 _gameResult.AddScore(_gameData.greatCoin);
             }
             else if (ratio >= greatMin && ratio <= greatMax)
             {
-                //uiManager?.ShowTextBalloon(EJudgmentType.Great);
                 ShowJudgment(EJudgmentType.Great, poseId);
                 _gameResult.AddGreat();
                 _gameResult.AddScore(_gameData.goodCoin);
             }
             else
             {
-                //uiManager?.ShowTextBalloon(EJudgmentType.Bad);
                 ShowJudgment(EJudgmentType.Bad, poseId);
                 _gameResult.AddBad();
                 _gameResult.AddScore(_gameData.badCoin);
@@ -350,17 +352,25 @@ namespace Runtime.CH3.Dancepace
         public void StartMainWaves()
         {
             userWantsMoreRehearsal = false;
+            isRehearsalMode = false; // 리허설 루프에서 벗어나도록 false로 설정
+            Managers.Data.CH3.IsDancepacePlayed = true;
+            Managers.Data.SaveGame();
         }
 
         public void RestartRehersal()
         {
             userWantsMoreRehearsal = true;
+            isRehearsalMode = true; // 리허설을 다시 시작하도록 true로 설정
+            Managers.Data.CH3.IsDancepacePlayed = false;
         }
 
         public void StartGame()
         {
+            // 게임 시작 전에 리허설 모드 초기화(테스트용)
+            Managers.Data.CH3.IsDancepacePlayed = false;
             StartCoroutine(GameFlow());
         }
+
         public void EndGame()
         {
 #if UNITY_EDITOR

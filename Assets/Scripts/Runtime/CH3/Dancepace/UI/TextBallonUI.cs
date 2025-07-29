@@ -12,14 +12,9 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private TextMeshProUGUI _text;
         private string push;
 
-        public void SetText(string text, bool showSuffix = true)
+        public void SetText(string text)
         {
-            if(push == null)
-                push = StringTableManager.Get("TextBallon_Push");
-            if (showSuffix)
-                _text.text = text + " " + push;
-            else
-                _text.text = text;
+            _text.text = text;
         }
     }
 }

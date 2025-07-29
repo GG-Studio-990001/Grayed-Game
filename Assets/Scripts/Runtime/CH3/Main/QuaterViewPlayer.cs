@@ -24,6 +24,7 @@ namespace Runtime.CH3
             _rigidbody = GetComponent<Rigidbody>();
             _interactionManager = GetComponent<InteractionManager>();
             _gridManager = FindObjectOfType<GridManager>();
+            _gridObject = GetComponent<PlayerGridObject>();
 
             // Rigidbody 설정 수정
             _rigidbody.constraints =
@@ -34,6 +35,12 @@ namespace Runtime.CH3
             if (_gridManager != null)
             {
                 transform.position = _gridManager.GetCenterPosition(transform);
+            }
+
+            // 디버그: 컴포넌트 확인
+            if (_gridObject == null)
+            {
+                Debug.LogError("PlayerGridObject 컴포넌트가 없습니다!");
             }
         }
 
@@ -56,6 +63,25 @@ namespace Runtime.CH3
 
             if (moveDirection != Vector3.zero)
             {
+                // 목표 위치 계산
+                Vector3 targetPosition = transform.position + moveDirection * moveSpeed * Time.fixedDeltaTime;
+                
+                // 목표 위치가 차단된 셀인지 확인
+                Vector2Int targetGridPos = _gridManager.WorldToGridPosition(targetPosition);
+                if (_gridManager.IsCellBlocked(targetGridPos))
+                {
+                    // 이동이 불가능하면 정지
+                    Vector3 currentVelocity = _rigidbody.velocity;
+                    currentVelocity.x = 0f;
+                    currentVelocity.z = 0f;
+                    _rigidbody.velocity = currentVelocity;
+                    _state = PlayerState.Idle;
+                    
+                    // 디버그 정보
+                    Debug.Log($"이동 차단됨: 목표 그리드 위치 ({targetGridPos.x}, {targetGridPos.y})");
+                    return;
+                }
+
                 // 이동 속도 적용
                 Vector3 targetVelocity = moveDirection * moveSpeed;
                 targetVelocity.y = _rigidbody.velocity.y; // 수직 속도 유지

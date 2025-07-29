@@ -31,6 +31,8 @@ public class LuckyDPDialogue : MonoBehaviour
         {
             _outPosition = new Vector3(773, -201, 0);
             _inPosition = new Vector3(475, -201, 0);
+            if (Managers.Data.CH3.IsDancepacePlayed)
+                LuckyExit();
         }
 
         private void LuckyEnter()
