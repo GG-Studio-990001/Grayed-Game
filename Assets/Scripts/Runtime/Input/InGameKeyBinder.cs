@@ -7,6 +7,7 @@ using Runtime.CH2.Main;
 using Runtime.CH2.SuperArio;
 using Runtime.CH3;
 using Runtime.CH3.Dancepace;
+using Runtime.CH3.TRPG;
 using Runtime.CH4;
 using Runtime.Common.View;
 using Yarn.Unity;
@@ -122,10 +123,11 @@ namespace Runtime.Input
             _gameOverControls.Player.Interaction.performed += _ => player.OnInteraction();
         }
 
-        public void TrpgKeyBinding(LineView line) // 임시
+        public void TrpgKeyBinding(SettingsUIView settingsUIView, TrpgDialogue _trpgDialogue) // 임시
         {
             _gameOverControls.UI.Enable();
-            _gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
+            _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
+            _gameOverControls.UI.DialogueInput.performed += _ => _trpgDialogue.ContinueDialogue();
         }
 
         public void DancepaceKeyBinding(DPKeyBinder keyBinder, SettingsUIView settingsUIView)

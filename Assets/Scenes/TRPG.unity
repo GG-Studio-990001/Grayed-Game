@@ -3058,29 +3058,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0873ae33e6d5bf9479d4748f18a8c81b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 0}
-  useFadeEffect: 1
-  fadeInTime: 0.25
-  fadeOutTime: 0.05
-  lineText: {fileID: 0}
-  showCharacterNameInLineView: 0
-  characterNameText: {fileID: 0}
-  characterNameContainer: {fileID: 0}
-  useTypewriterEffect: 0
-  onCharacterTyped:
-    m_PersistentCalls:
-      m_Calls: []
-  onPauseStarted:
-    m_PersistentCalls:
-      m_Calls: []
-  onPauseEnded:
-    m_PersistentCalls:
-      m_Calls: []
-  typewriterEffectSpeed: 0
-  continueButton: {fileID: 0}
-  holdTime: 1
-  autoAdvance: 0
-  palette: {fileID: 0}
   _runner: {fileID: 408705622}
   _trpgLine: {fileID: 491392265}
   content: {fileID: 760993887}
@@ -3118,7 +3095,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 841060631}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 097b95c9f69f04f2d8c08a817e7786af, type: 3}
   m_Name: 
@@ -6400,7 +6377,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ba43e46f1b68e14997f9a08dee0b534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  line: {fileID: 1510287178}
+  _settingsUIView: {fileID: 0}
+  _trpgDialogue: {fileID: 0}
 --- !u!1 &1636663979
 GameObject:
   m_ObjectHideFlags: 0

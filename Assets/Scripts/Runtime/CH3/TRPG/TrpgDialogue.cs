@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 
 namespace Runtime.CH3.TRPG
 {
-    public class TrpgDialogue : LineView
+    public class TrpgDialogue : DialogueViewBase
     {
         [Header("=Script=")]
         [SerializeField] private DialogueRunner _runner;
@@ -36,6 +36,8 @@ namespace Runtime.CH3.TRPG
 
         private List<GameObject> currentOptions = new();
         private bool isShowingOptions = false;
+        private bool isWaitingForInput = false; // 키 입력 대기 상태
+        private Action currentLineFinishedCallback; // 현재 대사 완료 콜백 저장
 
         private void Awake()
         {
@@ -44,33 +46,38 @@ namespace Runtime.CH3.TRPG
         }
 
 #region system
+        // Yarn Spinner에서 대사를 받아서 처리하는 메서드
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
             Debug.Log("대사 출력");
             // 1. 새 대사 오브젝트 생성
             GameObject lineObj = Instantiate(linePrefab, content);
             TextMeshProUGUI tmp = lineObj.GetComponentInChildren<TextMeshProUGUI>();
-            CanvasGroup cg = lineObj.GetComponent<CanvasGroup>();
 
-            // 2. 초기 설정
-            if (cg == null)
-            {
-                cg = lineObj.AddComponent<CanvasGroup>();
-            }
+            // 2. 텍스트 설정
             tmp.text = dialogueLine.Text.Text;
 
             // 3. 텍스트 높이에 맞게 자동 조정
             AdjustTextHeight(lineObj, tmp);
 
-            // 4. LineView의 필드들을 설정
-            this.lineText = tmp;
-            this.canvasGroup = cg;
-
-            // 5. LineView의 기본 동작 사용 (페이드 인 + 타이핑)
-            base.RunLine(dialogueLine, onDialogueLineFinished);
-
-            // 6. 스크롤을 가장 밑으로 내리기
+            // 4. 스크롤을 가장 밑으로 내리기
             StartCoroutine(ScrollToBottom());
+            
+            // 5. 키 입력 대기 상태로 설정 (자동으로 다음 대사로 넘어가지 않음)
+            isWaitingForInput = true;
+            currentLineFinishedCallback = onDialogueLineFinished;
+        }
+
+        // 다음 대사를 호출하는 함수 (키에 할당할 용도)
+        public void ContinueDialogue()
+        {
+            if (isWaitingForInput)
+            {
+                isWaitingForInput = false;
+                // 저장된 콜백을 호출하여 다음 대사로 진행
+                currentLineFinishedCallback?.Invoke();
+                currentLineFinishedCallback = null;
+            }
         }
 
         // 옵션 표시 메서드
@@ -250,13 +257,6 @@ namespace Runtime.CH3.TRPG
                 // 스크롤을 가장 밑으로 내리기
                 scrollRect.verticalNormalizedPosition = 0f;
             }
-        }
-
-        // 페이드 아웃을 방지하기 위해 DismissLine을 오버라이드
-        public override void DismissLine(Action onDismissalComplete)
-        {
-            // 페이드 아웃 없이 즉시 완료
-            onDismissalComplete?.Invoke();
         }
         #endregion
         private void NextDialogue(int val)
