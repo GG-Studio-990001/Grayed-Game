@@ -96,7 +96,7 @@ namespace Runtime.CH3.Dancepace
             }
 
             // 모든 웨이브가 끝나면 점수 결과만 보여줌
-            uiManager?.ShowResultPanel(_gameResult.TotalScore, _gameResult.PerfectCnt, 
+            uiManager?.ShowResultPanel(_gameResult.TotalScore, _gameResult.PerfectCnt,
             _gameResult.GreatCnt, _gameResult.BadCnt);
         }
 
@@ -114,7 +114,7 @@ namespace Runtime.CH3.Dancepace
             float wait = 3f;
             elapsed = 0f;
 
-            Managers.Sound.Play(Sound.BGM, "Dancepace/CH3_SUB_BGM_01");
+            Managers.Sound.Play(Sound.BGM, "Dancepace/New/CH3_SUB_BGM_WAVE_20Bar");
             effectManager.StartBeatAnimation();
 
             // 리허설 모드일 때: 타임바 완전 무시
@@ -138,7 +138,7 @@ namespace Runtime.CH3.Dancepace
 
             Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_SUB_SFX_99");
             uiManager?.ShowMcText();
-            yield return StartCoroutine(UpdateTimeBarWithWait(4f, limitTime));
+            yield return StartCoroutine(UpdateTimeBarWithWait(5f, limitTime));
 
             while (waveCount < _gameData.waveForCount && !timeOver)
             {
@@ -161,7 +161,9 @@ namespace Runtime.CH3.Dancepace
 
         private IEnumerator PlayPreviewPhase(List<BeatData> beats, float wait, float limitTime, Func<bool> isTimeOver)
         {
-            Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Preview");
+            Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_Intro_Outro");
+            yield return StartCoroutine(WaitWithTimeCheck(7f, limitTime, isTimeOver));
+
             foreach (var npc in previewNPCs)
                 npc?.PlayPreviewPose(EPoseType.None);
             foreach (var npc in answerNPCs)
@@ -172,8 +174,26 @@ namespace Runtime.CH3.Dancepace
             {
                 Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Good");
                 var beat = beats[i];
+                switch (beat.poseData)
+                {
+                    case EPoseType.Up:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_C_W");
+                        break;
+                    case EPoseType.Down:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_F_S");
+                        break;
+                    case EPoseType.Left:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_E_A");
+                        break;
+                    case EPoseType.Right:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_G_D");
+                        break;
+                    default:
+                        break;
+                }
                 foreach (var npc in previewNPCs)
                     npc?.PlayPreviewPose(beat.poseData);
+
                 float waitTime = beat.timing + beat.restTime;
                 yield return StartCoroutine(WaitWithTimeCheck(waitTime, limitTime, isTimeOver));
             }
@@ -208,6 +228,23 @@ namespace Runtime.CH3.Dancepace
             {
                 Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Good");
                 var beat = beats[i];
+                switch (beat.poseData)
+                {
+                    case EPoseType.Up:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_C_W");
+                        break;
+                    case EPoseType.Down:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_F_S");
+                        break;
+                    case EPoseType.Left:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_E_A");
+                        break;
+                    case EPoseType.Right:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_G_D");
+                        break;
+                    default:
+                        break;
+                }
                 foreach (var npc in answerNPCs)
                     npc?.PlayAnswerPose(beat.poseData);
                 yield return StartCoroutine(JudgeBeatInputCoroutine(beat, beat.timing, limitTime));
@@ -275,23 +312,26 @@ namespace Runtime.CH3.Dancepace
 
         private void JudgeInput(float inputTime, float beatTime, string poseId)
         {
-            float ratio = inputTime / beatTime;
-            float perfectMin = 0.5f - _gameData.perfectTimingWindow;
-            float perfectMax = 0.5f + _gameData.perfectTimingWindow;
-            float greatMin = 0.5f - _gameData.greatTimingWindow;
-            float greatMax = 0.5f + _gameData.greatTimingWindow;
+            if (inputTime <= beatTime)
+            {
+                float ratio = inputTime / beatTime;
+                float perfectMin = 0.5f - _gameData.perfectTimingWindow;
+                float perfectMax = 0.5f + _gameData.perfectTimingWindow;
+                float greatMin = 0.5f - _gameData.greatTimingWindow;
+                float greatMax = 0.5f + _gameData.greatTimingWindow;
 
-            if (ratio >= perfectMin && ratio <= perfectMax)
-            {
-                ShowJudgment(EJudgmentType.Perfect, poseId);
-                _gameResult.AddPerfect();
-                _gameResult.AddScore(_gameData.greatCoin);
-            }
-            else if (ratio >= greatMin && ratio <= greatMax)
-            {
-                ShowJudgment(EJudgmentType.Great, poseId);
-                _gameResult.AddGreat();
-                _gameResult.AddScore(_gameData.goodCoin);
+                if (ratio >= perfectMin && ratio <= perfectMax)
+                {
+                    ShowJudgment(EJudgmentType.Perfect, poseId);
+                    _gameResult.AddPerfect();
+                    _gameResult.AddScore(_gameData.greatCoin);
+                }
+                else if (ratio >= greatMin && ratio <= greatMax)
+                {
+                    ShowJudgment(EJudgmentType.Great, poseId);
+                    _gameResult.AddGreat();
+                    _gameResult.AddScore(_gameData.goodCoin);
+                }
             }
             else
             {

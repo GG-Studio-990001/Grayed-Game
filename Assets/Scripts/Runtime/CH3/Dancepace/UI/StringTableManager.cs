@@ -62,12 +62,9 @@ namespace Runtime.CH3.Dancepace
                     if (!string.IsNullOrEmpty(key) && !string.IsNullOrEmpty(value))
                     {
                         _table[key] = value;
-                        Debug.Log($"Loaded: {key} = {value}");
                     }
                 }
             }
-            
-            Debug.Log($"Total loaded entries: {_table.Count}");
         }
     }
 } 
