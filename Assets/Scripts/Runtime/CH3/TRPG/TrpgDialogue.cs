@@ -13,6 +13,7 @@ namespace Runtime.CH3.TRPG
     {
         [Header("=Script=")]
         [SerializeField] private DialogueRunner _runner;
+        [SerializeField] private TrpgLine _trpgLine;
 
         [Header("=Dialogue=")]
         [SerializeField] private Transform content;               // Scroll View → Content 오브젝트
@@ -21,8 +22,8 @@ namespace Runtime.CH3.TRPG
 
         [Header("=Options=")]
         [SerializeField] private GameObject optionPrefab;         // 옵션 프리팹
-        [SerializeField] private Color optionHoverColor = new Color(1f, 1f, 1f, 0.3f); // 마우스 오버 색상
-        [SerializeField] private Color optionSelectedColor = new Color(1f, 1f, 1f, 0.5f); // 선택된 색상
+        [SerializeField] private Color optionHoverColor = new(1f, 1f, 1f, 0.3f); // 마우스 오버 색상
+        [SerializeField] private Color optionSelectedColor = new(1f, 1f, 1f, 0.5f); // 선택된 색상
 
         [Header("=Result=")]
         [SerializeField] private GameObject _resultPanel;
@@ -38,9 +39,10 @@ namespace Runtime.CH3.TRPG
 
         private void Awake()
         {
-            _runner.AddCommandHandler<int>("RollDice", RollDice);
+            _runner.AddCommandHandler<string, string, int>("RollDice", RollDice);
         }
 
+#region system
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
             Debug.Log("대사 출력");
@@ -255,10 +257,28 @@ namespace Runtime.CH3.TRPG
             // 페이드 아웃 없이 즉시 완료
             onDismissalComplete?.Invoke();
         }
+        #endregion
 
-        private void RollDice(int val)
+        private void RollDice(string type, string difficulty, int val)
         {
-            StartCoroutine(ShowResult(val));
+            if (val % 10 == 1)
+            {
+                _runner.Stop();
+                _runner.StartDialogue($"Dollar_{val / 10}_{val % 10}_Success");
+            }
+            else
+            {
+                if (!System.Enum.TryParse(difficulty, ignoreCase: true, out Difficulty parsed))
+                {
+                    Debug.LogWarning($"Unknown difficulty '{difficulty}', defaulting to Normal");
+                    parsed = Difficulty.Normal;
+                }
+
+                _trpgLine.StartRoll(type, parsed, val, resultKey =>
+                {
+                    _runner.StartDialogue(resultKey);
+                });
+            }
         }
 
         private IEnumerator ShowResult(int val)
