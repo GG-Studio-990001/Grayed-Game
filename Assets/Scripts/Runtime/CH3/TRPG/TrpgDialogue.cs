@@ -171,36 +171,40 @@ namespace Runtime.CH3.TRPG
         {
             isShowingOptions = false;
             
-            // 선택된 옵션만 남기고 나머지 제거
-            for (int i = 0; i < currentOptions.Count; i++)
+            // 선택된 옵션을 복제해서 보관
+            GameObject selectedOption = currentOptions[optionIndex];
+            GameObject selectedOptionCopy = Instantiate(selectedOption, content);
+            
+            // 선택된 옵션은 반투명 흰색으로 변경
+            Image selectedBackground = selectedOptionCopy.GetComponent<Image>();
+            if (selectedBackground != null)
             {
-                if (i == optionIndex)
-                {
-                    // 선택된 옵션은 반투명 흰색으로 변경
-                    Image selectedBackground = currentOptions[i].GetComponent<Image>();
-                    if (selectedBackground != null)
-                    {
-                        selectedBackground.color = optionSelectedColor;
-                    }
-                    
-                    // 더 이상 상호작용 불가
-                    Button selectedButton = currentOptions[i].GetComponent<Button>();
-                    if (selectedButton != null)
-                    {
-                        selectedButton.interactable = false;
-                    }
-                }
-                else
-                {
-                    // 나머지 옵션들 제거
-                    Destroy(currentOptions[i]);
-                }
+                selectedBackground.color = optionSelectedColor;
             }
             
-            // 선택된 옵션만 남기고 리스트 정리
-            GameObject selectedOption = currentOptions[optionIndex];
+            // 더 이상 상호작용 불가
+            Button selectedButton = selectedOptionCopy.GetComponent<Button>();
+            if (selectedButton != null)
+            {
+                selectedButton.interactable = false;
+            }
+            
+            // EventTrigger 제거 (더 이상 상호작용하지 않도록)
+            EventTrigger eventTrigger = selectedOptionCopy.GetComponent<EventTrigger>();
+            if (eventTrigger != null)
+            {
+                Destroy(eventTrigger);
+            }
+            
+            // 현재 옵션들 모두 제거
+            foreach (GameObject option in currentOptions)
+            {
+                if (option != null)
+                {
+                    Destroy(option);
+                }
+            }
             currentOptions.Clear();
-            currentOptions.Add(selectedOption);
             
             // 옵션 선택 콜백 호출
             onOptionSelected?.Invoke(optionIndex);
