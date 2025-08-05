@@ -55,12 +55,12 @@ namespace Runtime.CH3.TRPG
 
         private readonly Dictionary<string, Stat> _stats = new()
         {
-            { "Stamina", new Stat("Stamina", 20) },
-            { "Strength", new Stat("Strength", 25) },
-            { "Intelligence", new Stat("Intelligence", 30) },
-            { "Mana", new Stat("Mana", 35) },
-            { "Charisma", new Stat("Charisma", 40) },
-            { "Luck", new Stat("Luck", 45) }
+            { "Stamina", new Stat("Stamina", 20) }, // 체력
+            { "Strength", new Stat("Strength", 25) }, // 근력
+            { "Intelligence", new Stat("Intelligence", 30) }, // 지능
+            { "Mana", new Stat("Mana", 35) }, // 마력
+            { "Charisma", new Stat("Charisma", 40) }, // 매력
+            { "Luck", new Stat("Luck", 45) } // 행운
         };
 
         public void StartRoll(string type, Difficulty difficulty, int val, Action<string> onComplete)
@@ -75,8 +75,18 @@ namespace Runtime.CH3.TRPG
             }
         }
 
+        private void InitResult()
+        {
+            _dice10.DiceInit();
+            _dice1.DiceInit();
+            _resultTxt_0.text = "";
+            _resultTxt_1.text = "";
+            _resultTxt_2.text = "";
+        }
+
         private IEnumerator RollDiceRoutine(Stat stat, Difficulty difficulty, int val, Action<string> onComplete)
         {
+            InitResult();
             _resultPanel.SetActive(true);
             _diceRollObjects.SetActive(true);
 
@@ -99,6 +109,7 @@ namespace Runtime.CH3.TRPG
 
             DiceResult result = EvaluateDiceResult(total, stat.Value, difficulty);
             string resultKey = $"{characterName}_{val / 10}_{val % 10}_{result.Grade}";
+            Debug.Log(resultKey);
 
             yield return new WaitForSeconds(1f);
             _resultTxt_2.text = "결과: " + result.Grade;
