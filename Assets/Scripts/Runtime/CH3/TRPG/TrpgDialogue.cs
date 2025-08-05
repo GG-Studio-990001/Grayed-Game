@@ -9,10 +9,11 @@ using UnityEngine.EventSystems;
 
 namespace Runtime.CH3.TRPG
 {
-    public class TrpgDialogue : LineView
+    public class TrpgDialogue : DialogueViewBase
     {
         [Header("=Script=")]
         [SerializeField] private DialogueRunner _runner;
+        [SerializeField] private TrpgLine _trpgLine;
 
         [Header("=Dialogue=")]
         [SerializeField] private Transform content;               // Scroll View → Content 오브젝트
@@ -21,8 +22,8 @@ namespace Runtime.CH3.TRPG
 
         [Header("=Options=")]
         [SerializeField] private GameObject optionPrefab;         // 옵션 프리팹
-        [SerializeField] private Color optionHoverColor = new Color(1f, 1f, 1f, 0.3f); // 마우스 오버 색상
-        [SerializeField] private Color optionSelectedColor = new Color(1f, 1f, 1f, 0.5f); // 선택된 색상
+        [SerializeField] private Color optionHoverColor = new(1f, 1f, 1f, 0.3f); // 마우스 오버 색상
+        [SerializeField] private Color optionSelectedColor = new(1f, 1f, 1f, 0.5f); // 선택된 색상
 
         [Header("=Result=")]
         [SerializeField] private GameObject _resultPanel;
@@ -33,41 +34,58 @@ namespace Runtime.CH3.TRPG
         [SerializeField] private TextMeshProUGUI _resultTxt_1;
         [SerializeField] private TextMeshProUGUI _resultTxt_2;
 
-        private List<GameObject> currentOptions = new List<GameObject>();
+        private List<GameObject> currentOptions = new();
         private bool isShowingOptions = false;
+        private bool isWaitingForInput = false; // 키 입력 대기 상태
+        private Action currentLineFinishedCallback; // 현재 대사 완료 콜백 저장
 
         private void Awake()
         {
-            _runner.AddCommandHandler<int>("RollDice", RollDice);
+            _runner.AddCommandHandler<string, string, int>("RollDice", RollDice);
+            _runner.AddCommandHandler<int>("NextDialogue", NextDialogue);
         }
 
+#region system
+        // Yarn Spinner에서 대사를 받아서 처리하는 메서드
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
             Debug.Log("대사 출력");
             // 1. 새 대사 오브젝트 생성
             GameObject lineObj = Instantiate(linePrefab, content);
             TextMeshProUGUI tmp = lineObj.GetComponentInChildren<TextMeshProUGUI>();
-            CanvasGroup cg = lineObj.GetComponent<CanvasGroup>();
 
-            // 2. 초기 설정
-            if (cg == null)
-            {
-                cg = lineObj.AddComponent<CanvasGroup>();
-            }
+            // 2. 텍스트 설정
             tmp.text = dialogueLine.Text.Text;
 
             // 3. 텍스트 높이에 맞게 자동 조정
             AdjustTextHeight(lineObj, tmp);
 
-            // 4. LineView의 필드들을 설정
-            this.lineText = tmp;
-            this.canvasGroup = cg;
+            // 4. 버튼에 ContinueDialogue 연결 (버튼이 있다면)
+            Button lineButton = lineObj.GetComponent<Button>();
+            if (lineButton != null)
+            {
+                lineButton.onClick.RemoveAllListeners();
+                lineButton.onClick.AddListener(ContinueDialogue);
+            }
 
-            // 5. LineView의 기본 동작 사용 (페이드 인 + 타이핑)
-            base.RunLine(dialogueLine, onDialogueLineFinished);
-
-            // 6. 스크롤을 가장 밑으로 내리기
+            // 5. 스크롤을 가장 밑으로 내리기
             StartCoroutine(ScrollToBottom());
+            
+            // 6. 키 입력 대기 상태로 설정 (자동으로 다음 대사로 넘어가지 않음)
+            isWaitingForInput = true;
+            currentLineFinishedCallback = onDialogueLineFinished;
+        }
+
+        // 다음 대사를 호출하는 함수 (키에 할당할 용도)
+        public void ContinueDialogue()
+        {
+            if (isWaitingForInput)
+            {
+                isWaitingForInput = false;
+                // 저장된 콜백을 호출하여 다음 대사로 진행
+                currentLineFinishedCallback?.Invoke();
+                currentLineFinishedCallback = null;
+            }
         }
 
         // 옵션 표시 메서드
@@ -153,36 +171,40 @@ namespace Runtime.CH3.TRPG
         {
             isShowingOptions = false;
             
-            // 선택된 옵션만 남기고 나머지 제거
-            for (int i = 0; i < currentOptions.Count; i++)
+            // 선택된 옵션을 복제해서 보관
+            GameObject selectedOption = currentOptions[optionIndex];
+            GameObject selectedOptionCopy = Instantiate(selectedOption, content);
+            
+            // 선택된 옵션은 반투명 흰색으로 변경
+            Image selectedBackground = selectedOptionCopy.GetComponent<Image>();
+            if (selectedBackground != null)
             {
-                if (i == optionIndex)
-                {
-                    // 선택된 옵션은 반투명 흰색으로 변경
-                    Image selectedBackground = currentOptions[i].GetComponent<Image>();
-                    if (selectedBackground != null)
-                    {
-                        selectedBackground.color = optionSelectedColor;
-                    }
-                    
-                    // 더 이상 상호작용 불가
-                    Button selectedButton = currentOptions[i].GetComponent<Button>();
-                    if (selectedButton != null)
-                    {
-                        selectedButton.interactable = false;
-                    }
-                }
-                else
-                {
-                    // 나머지 옵션들 제거
-                    Destroy(currentOptions[i]);
-                }
+                selectedBackground.color = optionSelectedColor;
             }
             
-            // 선택된 옵션만 남기고 리스트 정리
-            GameObject selectedOption = currentOptions[optionIndex];
+            // 더 이상 상호작용 불가
+            Button selectedButton = selectedOptionCopy.GetComponent<Button>();
+            if (selectedButton != null)
+            {
+                selectedButton.interactable = false;
+            }
+            
+            // EventTrigger 제거 (더 이상 상호작용하지 않도록)
+            EventTrigger eventTrigger = selectedOptionCopy.GetComponent<EventTrigger>();
+            if (eventTrigger != null)
+            {
+                Destroy(eventTrigger);
+            }
+            
+            // 현재 옵션들 모두 제거
+            foreach (GameObject option in currentOptions)
+            {
+                if (option != null)
+                {
+                    Destroy(option);
+                }
+            }
             currentOptions.Clear();
-            currentOptions.Add(selectedOption);
             
             // 옵션 선택 콜백 호출
             onOptionSelected?.Invoke(optionIndex);
@@ -248,60 +270,33 @@ namespace Runtime.CH3.TRPG
                 scrollRect.verticalNormalizedPosition = 0f;
             }
         }
-
-        // 페이드 아웃을 방지하기 위해 DismissLine을 오버라이드
-        public override void DismissLine(Action onDismissalComplete)
+        #endregion
+        private void NextDialogue(int val)
         {
-            // 페이드 아웃 없이 즉시 완료
-            onDismissalComplete?.Invoke();
+            _runner.Stop();
+            _runner.StartDialogue($"Dollar_{val}");
         }
 
-        private void RollDice(int val)
+        private void RollDice(string type, string difficulty, int val)
         {
-            StartCoroutine(ShowResult(val));
-        }
-
-        private IEnumerator ShowResult(int val)
-        {
-            if (val == 1)
+            if (val % 10 == 1)
             {
-                yield return null;
-                _runner.StartDialogue($"Warlocker_1_{val}");
-                yield break;
+                _runner.Stop();
+                _runner.StartDialogue($"Dollar_{val / 10}_{val % 10}_Success");
             }
+            else
+            {
+                if (!System.Enum.TryParse(difficulty, ignoreCase: true, out Difficulty parsed))
+                {
+                    Debug.LogWarning($"Unknown difficulty '{difficulty}', defaulting to Normal");
+                    parsed = Difficulty.Normal;
+                }
 
-            _resultPanel.SetActive(true);
-            _diceRollObjects.SetActive(true);
-
-            string type = (val == 2 ? "근력" : "지능");
-            _resultTxt_0.text = type + "\n40 / 100";
-
-            _dice10.RollDice();
-            while (_dice10.DiceFaceNum == -1) yield return null;
-            int dice10 = _dice10.DiceFaceNum;
-            _resultTxt_1.text = $"{dice10} + __ = ___";
-
-            _dice1.RollDice();
-            while (_dice1.DiceFaceNum == -1) yield return null;
-            int dice1 = _dice1.DiceFaceNum;
-            _resultTxt_1.text = $"{dice10} + {dice1} = ___";
-
-            yield return new WaitForSeconds(1f);
-            int sum = dice10 + dice1;
-            sum = (sum == 0) ? 100 : sum;
-            _resultTxt_1.text = $"{dice10} + {dice1} = {sum}";
-
-            yield return new WaitForSeconds(1f);
-            bool result = sum <= 40;
-            string resultStr = result ? "성공" : "실패";
-            string resultL = result ? "S" : "F";
-            _resultTxt_2.text = "결과: " + resultStr;
-
-            yield return new WaitForSeconds(2f);
-            _resultPanel.SetActive(false);
-            _diceRollObjects.SetActive(false);
-
-            _runner.StartDialogue($"Warlocker_1_{val}_{resultL}");
+                _trpgLine.StartRoll(type, parsed, val, resultKey =>
+                {
+                    _runner.StartDialogue(resultKey);
+                });
+            }
         }
     }
 }

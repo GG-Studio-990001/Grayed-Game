@@ -20,11 +20,14 @@ namespace Runtime.CH3.TRPG
             Initialize();
         }
 
-        public void RollDice()
+        public void DiceInit()
         {
             Initialize();
             SetValue();
+        }
 
+        public void RollDice()
+        {
             Debug.Log(this.name + " Vector3" + transform.localEulerAngles);
 
             _body.isKinematic = false;
