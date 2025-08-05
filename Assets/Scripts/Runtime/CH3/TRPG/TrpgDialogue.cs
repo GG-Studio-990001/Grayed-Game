@@ -60,10 +60,18 @@ namespace Runtime.CH3.TRPG
             // 3. 텍스트 높이에 맞게 자동 조정
             AdjustTextHeight(lineObj, tmp);
 
-            // 4. 스크롤을 가장 밑으로 내리기
+            // 4. 버튼에 ContinueDialogue 연결 (버튼이 있다면)
+            Button lineButton = lineObj.GetComponent<Button>();
+            if (lineButton != null)
+            {
+                lineButton.onClick.RemoveAllListeners();
+                lineButton.onClick.AddListener(ContinueDialogue);
+            }
+
+            // 5. 스크롤을 가장 밑으로 내리기
             StartCoroutine(ScrollToBottom());
             
-            // 5. 키 입력 대기 상태로 설정 (자동으로 다음 대사로 넘어가지 않음)
+            // 6. 키 입력 대기 상태로 설정 (자동으로 다음 대사로 넘어가지 않음)
             isWaitingForInput = true;
             currentLineFinishedCallback = onDialogueLineFinished;
         }
