@@ -25,7 +25,7 @@ namespace Runtime.CH3.Dancepace
         {
             switch (poseId)
             {
-                case EPoseType.Up: spriteRenderer.sprite = upSprite; break;
+                case EPoseType.Up:spriteRenderer.sprite = upSprite; break;
                 case EPoseType.Down: spriteRenderer.sprite = downSprite; break;
                 case EPoseType.Left: spriteRenderer.sprite = leftSprite; break;
                 case EPoseType.Right: spriteRenderer.sprite = rightSprite; break;

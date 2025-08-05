@@ -28,6 +28,7 @@ namespace Runtime.CH3.Dancepace
         private List<WaveData> rehearsalWaves;
         private List<WaveData> mainWaves;
         private bool isRehearsalMode;
+        private bool isSecondRehearsalMode = false; // 두 번째 리허설 모드
         private bool? userWantsMoreRehearsal = null;
         private float elapsed = 0f;
 
@@ -57,12 +58,14 @@ namespace Runtime.CH3.Dancepace
             if (!Managers.Data.CH3.IsDancepacePlayed)
             {
                 isRehearsalMode = true;
+                isSecondRehearsalMode = false;
                 isRehearsalContinue = true;
                 uiManager?.SetRehearsalMode(true);
             }
             else
             {
                 isRehearsalMode = false;
+                isSecondRehearsalMode = false;
                 isRehearsalContinue = false;
                 uiManager?.SetRehearsalMode(false);
             }
@@ -73,11 +76,24 @@ namespace Runtime.CH3.Dancepace
                 userWantsMoreRehearsal = null;
                 uiManager?.ShowKeyGuide(true);
                 uiManager?.ShowTimeBar(false);
+
+                // 첫 번째 리허설: 한 비트씩 가이드
+                isSecondRehearsalMode = false;
                 foreach (var wave in rehearsalWaves)
                 {
                     yield return StartCoroutine(PlayRoutine(wave, null));
                 }
 
+                // 두 번째 리허설: 웨이브 전체 연습
+                isSecondRehearsalMode = true;
+                bool secondRehearsalSuccess = false;
+                while (!secondRehearsalSuccess)
+                {
+                    yield return StartCoroutine(PlaySecondRehearsalRoutine());
+                    // 성공 여부는 PlaySecondRehearsalRoutine 내에서 처리됨
+                    secondRehearsalSuccess = true; // 루프 종료
+                }
+                
                 uiManager?.ShowMoreRehearsalPanel(true);
                 yield return new WaitUntil(() => userWantsMoreRehearsal != null);
                 uiManager?.ShowMoreRehearsalPanel(false);
@@ -96,7 +112,7 @@ namespace Runtime.CH3.Dancepace
             }
 
             // 모든 웨이브가 끝나면 점수 결과만 보여줌
-            uiManager?.ShowResultPanel(_gameResult.TotalScore, _gameResult.PerfectCnt, 
+            uiManager?.ShowResultPanel(_gameResult.TotalScore, _gameResult.PerfectCnt,
             _gameResult.GreatCnt, _gameResult.BadCnt);
         }
 
@@ -114,11 +130,11 @@ namespace Runtime.CH3.Dancepace
             float wait = 3f;
             elapsed = 0f;
 
-            Managers.Sound.Play(Sound.BGM, "Dancepace/CH3_SUB_BGM_01");
+            Managers.Sound.Play(Sound.BGM, "Dancepace/New/CH3_SUB_BGM_WAVE_20Bar");
             effectManager.StartBeatAnimation();
 
-            // 리허설 모드일 때: 타임바 완전 무시
-            if (isRehearsalMode)
+            // 첫 번째 리허설 모드일 때: 타임바 완전 무시
+            if (isRehearsalMode && !isSecondRehearsalMode)
             {
                 // 타임바 숨김
                 uiManager?.ShowTimeBar(false);
@@ -138,7 +154,7 @@ namespace Runtime.CH3.Dancepace
 
             Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_SUB_SFX_99");
             uiManager?.ShowMcText();
-            yield return StartCoroutine(UpdateTimeBarWithWait(4f, limitTime));
+            yield return StartCoroutine(UpdateTimeBarWithWait(5f, limitTime));
 
             while (waveCount < _gameData.waveForCount && !timeOver)
             {
@@ -161,7 +177,9 @@ namespace Runtime.CH3.Dancepace
 
         private IEnumerator PlayPreviewPhase(List<BeatData> beats, float wait, float limitTime, Func<bool> isTimeOver)
         {
-            Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Preview");
+            Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_Intro_Outro");
+            yield return StartCoroutine(WaitWithTimeCheck(7f, limitTime, isTimeOver));
+
             foreach (var npc in previewNPCs)
                 npc?.PlayPreviewPose(EPoseType.None);
             foreach (var npc in answerNPCs)
@@ -172,8 +190,26 @@ namespace Runtime.CH3.Dancepace
             {
                 Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Good");
                 var beat = beats[i];
+                switch (beat.poseData)
+                {
+                    case EPoseType.Up:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_C_W");
+                        break;
+                    case EPoseType.Down:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_F_S");
+                        break;
+                    case EPoseType.Left:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_E_A");
+                        break;
+                    case EPoseType.Right:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_G_D");
+                        break;
+                    default:
+                        break;
+                }
                 foreach (var npc in previewNPCs)
                     npc?.PlayPreviewPose(beat.poseData);
+
                 float waitTime = beat.timing + beat.restTime;
                 yield return StartCoroutine(WaitWithTimeCheck(waitTime, limitTime, isTimeOver));
             }
@@ -186,8 +222,8 @@ namespace Runtime.CH3.Dancepace
 
         private IEnumerator PlayInputPhase(List<BeatData> beats, float wait, float limitTime, Func<bool> isTimeOver)
         {
-            // 리허설 모드일 때 한 비트마다 안내, 입력 전까지 멈춤, 맞게 누르면 피드백
-            if (isRehearsalMode)
+            // 첫 번째 리허설 모드일 때 한 비트마다 안내, 입력 전까지 멈춤, 맞게 누르면 피드백
+            if (isRehearsalMode && !isSecondRehearsalMode)
             {
                 string cheerText = StringTableManager.Get("TextBallon_Cheer");
                 foreach (var beat in beats)
@@ -208,6 +244,23 @@ namespace Runtime.CH3.Dancepace
             {
                 Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Good");
                 var beat = beats[i];
+                switch (beat.poseData)
+                {
+                    case EPoseType.Up:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_C_W");
+                        break;
+                    case EPoseType.Down:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_F_S");
+                        break;
+                    case EPoseType.Left:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_E_A");
+                        break;
+                    case EPoseType.Right:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_G_D");
+                        break;
+                    default:
+                        break;
+                }
                 foreach (var npc in answerNPCs)
                     npc?.PlayAnswerPose(beat.poseData);
                 yield return StartCoroutine(JudgeBeatInputCoroutine(beat, beat.timing, limitTime));
@@ -233,6 +286,176 @@ namespace Runtime.CH3.Dancepace
             playerCharacter?.ResetState();
             while (elapsed < limitTime)
                 yield return null;
+        }
+
+        // 두 번째 리허설 루틴: 웨이브 전체 연습
+        private IEnumerator PlaySecondRehearsalRoutine()
+        {
+            bool success = false;
+            while (!success)
+            {
+                // 1. 인트로 뮤직
+                Managers.Sound.Play(Sound.BGM, "Dancepace/New/CH3_SUB_BGM_WAVE_20Bar");
+                effectManager.StartBeatAnimation();
+
+                // 2. 미리보기 박자 시작 전 TextBallon_Push_4_0
+                uiManager?.ShowTextBalloon(StringTableManager.Get("TextBallon_Push_4_0"), 2f);
+                yield return new WaitForSeconds(2f);
+
+                // 랜덤으로 4개 비트 선택
+                var randomBeats = rehearsalWaves[0].beats.OrderBy(x => UnityEngine.Random.value).Take(4).ToList();
+
+                // 미리보기 단계
+                yield return StartCoroutine(PlayPreviewPhase(randomBeats, 3f, float.PositiveInfinity, () => false));
+
+                // 3. 미리보기 박자 종료 후 TextBallon_Push_4_1
+                uiManager?.ShowTextBalloon(StringTableManager.Get("TextBallon_Push_4_1"), 2f);
+                yield return new WaitForSeconds(2f);
+
+                // 입력 단계 (타이밍 판정 포함)
+                int greatCount = 0;
+                yield return StartCoroutine(PlaySecondRehearsalInputPhase(randomBeats, (greatCnt) => greatCount = greatCnt));
+
+                // 4. Great가 2개 이상이면 성공
+                if (greatCount >= 2)
+                {
+                    uiManager?.ShowTextBalloon(StringTableManager.Get("TextBallon_Cheer"), 2f);
+                    yield return new WaitForSeconds(2f);
+                    success = true;
+                }
+                else
+                {
+                    // 실패 시 다시 시작
+                    uiManager?.ShowTextBalloon("다시해보자!", 2f);
+                    yield return new WaitForSeconds(2f);
+                    // 루프 계속
+                }
+
+                effectManager.StopBeatAnimation();
+            }
+        }
+
+        // 두 번째 리허설 입력 단계
+        private IEnumerator PlaySecondRehearsalInputPhase(List<BeatData> beats, Action<int> onGreatCount)
+        {
+            int greatCount = 0;
+
+            for (int i = 0; i < beats.Count; i++)
+            {
+                var beat = beats[i];
+                switch (beat.poseData)
+                {
+                    case EPoseType.Up:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_C_W");
+                        break;
+                    case EPoseType.Down:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_F_S");
+                        break;
+                    case EPoseType.Left:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_E_A");
+                        break;
+                    case EPoseType.Right:
+                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_G_D");
+                        break;
+                    default:
+                        break;
+                }
+                foreach (var npc in answerNPCs)
+                    npc?.PlayAnswerPose(beat.poseData);
+
+                // 타이밍 판정
+                yield return StartCoroutine(JudgeSecondRehearsalInput(beat, 1.0f, (judgment) => {
+                    if (judgment == EJudgmentType.Great || judgment == EJudgmentType.Perfect)
+                    {
+                        greatCount++;
+                    }
+                }));
+
+                if (i + 1 < beats.Count && beat.restTime > 0)
+                {
+                    yield return new WaitForSeconds(beat.restTime);
+                }
+                else if (beat.restTime > 0)
+                {
+                    yield return new WaitForSeconds(beat.restTime);
+                }
+            }
+
+            onGreatCount?.Invoke(greatCount);
+            playerCharacter?.ResetState();
+            playerCharacter?.HideSpotlight();
+        }
+
+        // 두 번째 리허설 입력 판정
+        private IEnumerator JudgeSecondRehearsalInput(BeatData beat, float beatTime, Action<EJudgmentType> onJudgment)
+        {
+            bool inputReceived = false;
+            float timer = 0f;
+            EJudgmentType result = EJudgmentType.Bad;
+
+            // 비트 시작 전에 이미 키가 눌려 있으면 Bad 판정
+            if (keyBinder.IsPoseKeyHeld(beat.EnumToString()))
+            {
+                result = EJudgmentType.Bad;
+                inputReceived = true;
+            }
+
+            // 정상 판정 루프
+            while (timer < beatTime && !inputReceived)
+            {
+                if (keyBinder.IsPoseKeyPressed(beat.EnumToString()))
+                {
+                    float inputTime = timer;
+                    result = JudgeSecondRehearsalTiming(inputTime, beatTime);
+                    inputReceived = true;
+                }
+                else if (keyBinder.IsAnyOtherPoseKeyPressed(beat.EnumToString()))
+                {
+                    result = EJudgmentType.Bad;
+                    inputReceived = true;
+                }
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            if (!inputReceived)
+            {
+                result = EJudgmentType.Bad;
+            }
+
+            // 판정 결과 표시
+            ShowJudgment(result, beat.EnumToString());
+            onJudgment?.Invoke(result);
+        }
+
+        // 두 번째 리허설 타이밍 판정
+        private EJudgmentType JudgeSecondRehearsalTiming(float inputTime, float beatTime)
+        {
+            if (inputTime <= beatTime)
+            {
+                float ratio = inputTime / beatTime;
+                float perfectMin = 0.5f - _gameData.perfectTimingWindow;
+                float perfectMax = 0.5f + _gameData.perfectTimingWindow;
+                float greatMin = 0.5f - _gameData.greatTimingWindow;
+                float greatMax = 0.5f + _gameData.greatTimingWindow;
+
+                if (ratio >= perfectMin && ratio <= perfectMax)
+                {
+                    return EJudgmentType.Perfect;
+                }
+                else if (ratio >= greatMin && ratio <= greatMax)
+                {
+                    return EJudgmentType.Great;
+                }
+                else
+                {
+                    return EJudgmentType.Bad;
+                }
+            }
+            else
+            {
+                return EJudgmentType.Bad;
+            }
         }
 
         // 타임바를 실시간으로 업데이트하는 코루틴
@@ -275,23 +498,26 @@ namespace Runtime.CH3.Dancepace
 
         private void JudgeInput(float inputTime, float beatTime, string poseId)
         {
-            float ratio = inputTime / beatTime;
-            float perfectMin = 0.5f - _gameData.perfectTimingWindow;
-            float perfectMax = 0.5f + _gameData.perfectTimingWindow;
-            float greatMin = 0.5f - _gameData.greatTimingWindow;
-            float greatMax = 0.5f + _gameData.greatTimingWindow;
+            if (inputTime <= beatTime)
+            {
+                float ratio = inputTime / beatTime;
+                float perfectMin = 0.5f - _gameData.perfectTimingWindow;
+                float perfectMax = 0.5f + _gameData.perfectTimingWindow;
+                float greatMin = 0.5f - _gameData.greatTimingWindow;
+                float greatMax = 0.5f + _gameData.greatTimingWindow;
 
-            if (ratio >= perfectMin && ratio <= perfectMax)
-            {
-                ShowJudgment(EJudgmentType.Perfect, poseId);
-                _gameResult.AddPerfect();
-                _gameResult.AddScore(_gameData.greatCoin);
-            }
-            else if (ratio >= greatMin && ratio <= greatMax)
-            {
-                ShowJudgment(EJudgmentType.Great, poseId);
-                _gameResult.AddGreat();
-                _gameResult.AddScore(_gameData.goodCoin);
+                if (ratio >= perfectMin && ratio <= perfectMax)
+                {
+                    ShowJudgment(EJudgmentType.Perfect, poseId);
+                    _gameResult.AddPerfect();
+                    _gameResult.AddScore(_gameData.greatCoin);
+                }
+                else if (ratio >= greatMin && ratio <= greatMax)
+                {
+                    ShowJudgment(EJudgmentType.Great, poseId);
+                    _gameResult.AddGreat();
+                    _gameResult.AddScore(_gameData.goodCoin);
+                }
             }
             else
             {
