@@ -14,6 +14,8 @@ namespace Runtime.CH3.TRPG
         [Header("=Dialogue=")]
         [SerializeField] private Transform content;               // Scroll View → Content 오브젝트
         [SerializeField] private GameObject linePrefab;           // TextLine 프리팹
+        [SerializeField] private ScrollRect scrollRect;           // Scroll Rect 컴포넌트
+        
         [Header("=Options=")]
         [SerializeField] private GameObject optionPrefab;         // 옵션 프리팹
         [SerializeField] private Color optionHoverColor = new(1f, 1f, 1f, 0.3f); // 마우스 오버 색상
@@ -64,17 +66,25 @@ namespace Runtime.CH3.TRPG
         private void ShowEnemyLine()
         {
             string enemyLine = dialogueData[currentDialogueIndex]["EnemyLine"].ToString();
-            Debug.Log($"[적 대사] {enemyLine}");
+            // Debug.Log($"[적 대사] {enemyLine}");
+            
+            ShowLine(enemyLine);
+        }
 
+        private void ShowLine(string str)
+        {
             // 1. 새 대사 오브젝트 생성
             GameObject lineObj = Instantiate(linePrefab, content);
             TextMeshProUGUI tmp = lineObj.GetComponentInChildren<TextMeshProUGUI>();
 
             // 2. 텍스트 설정
-            tmp.text = enemyLine;
+            tmp.text = str;
 
             // 3. 텍스트 높이에 맞게 자동 조정
             AdjustTextHeight(lineObj, tmp);
+
+            StartCoroutine(ScrollToBottom());
+            // TODO: 스페이스가 아닌 클릭으로도 Dialogue 진행할 수 있도록
         }
 
         private void AdjustTextHeight(GameObject lineObj, TextMeshProUGUI tmp)
@@ -96,16 +106,6 @@ namespace Runtime.CH3.TRPG
 
         private void ShowChoices()
         {
-            //int dialogueId = (int)dialogueData[currentDialogueIndex]["DialogueID"];
-            //Debug.Log("=== 선택지를 고르세요 ===");
-
-            //foreach (var row in dialogueData)
-            //{
-            //    if ((int)row["DialogueID"] == dialogueId)
-            //    {
-            //        Debug.Log($"{row["ChoiceID"]}. {row["ChoiceText"]}");
-            //    }
-            //}
             isShowingOptions = true;
             StartCoroutine(nameof(ShowOptions));
         }
@@ -113,7 +113,6 @@ namespace Runtime.CH3.TRPG
         private IEnumerator ShowOptions()
         {
             int dialogueId = (int)dialogueData[currentDialogueIndex]["DialogueID"];
-            // int choicesCount = 0;
 
             foreach (var row in dialogueData)
             {
@@ -124,7 +123,12 @@ namespace Runtime.CH3.TRPG
                     Image optionBackground = optionObj.GetComponent<Image>();
 
                     // 옵션 텍스트 설정
-                    optionText.text = $"{row["ChoiceID"]}. {row["ChoiceText"]}";
+                    string statStr = (string)row["Stat"] == "NONE" ? "" : $"[{row["StatKor"]}";
+                    string DifficultyStr = (string)row["Difficulty"] == "NONE" ? "" : $"/{row["DifficultyKor"]}]";
+                    optionText.text = $"{row["ChoiceID"]}. {statStr}{DifficultyStr} {row["ChoiceText"]}";
+
+                    // 옵션 텍스트 높이에 맞게 이미지 박스 높이 조정
+                    AdjustOptionHeight(optionObj, optionText);
 
                     // 옵션 인덱스 저장
                     int optionIndex = (int)row["ChoiceID"] - 1;
@@ -178,6 +182,8 @@ namespace Runtime.CH3.TRPG
                     // 옵션 간 약간의 딜레이
                     yield return new WaitForSeconds(0.1f);
                 }
+
+                StartCoroutine(ScrollToBottom());
             }
         }
 
@@ -220,9 +226,8 @@ namespace Runtime.CH3.TRPG
             }
             currentOptions.Clear();
 
-            // 옵션 선택 콜백 호출
-            // SelectChoice(idx);
-            // onOptionSelected?.Invoke(optionIndex);
+            // 옵션 선택 호출
+            SelectChoice(idx + 1);
         }
 
         private void SelectChoice(int choiceId)
@@ -237,8 +242,11 @@ namespace Runtime.CH3.TRPG
                     choicesCount++;
                     if ((int)row["ChoiceID"] == choiceId)
                     {
-                        Debug.Log($"[성공 대사] {row["SuccessText"]}");
-                        Debug.Log($"[성공 값] {row["SuccessValue"]}");
+                        ShowLine($"{row["SuccessText"]}");
+                        // ShowLine($"{row["SuccessValue"]}");
+
+                        // Debug.Log($"[성공 대사] {row["SuccessText"]}");
+                        // Debug.Log($"[성공 값] {row["SuccessValue"]}");
                     }
                 }
             }
@@ -253,6 +261,38 @@ namespace Runtime.CH3.TRPG
             else
             {
                 state = 0; // 다음 대사 대기 상태로 변경
+            }
+        }
+
+        private void AdjustOptionHeight(GameObject optionObj, TextMeshProUGUI optionText)
+        {
+            // 텍스트의 실제 높이 계산
+            Vector2 textSize = optionText.GetPreferredValues();
+
+            // 이미지 박스의 현재 높이
+            RectTransform imageRect = optionObj.GetComponent<RectTransform>();
+            float currentHeight = imageRect.sizeDelta.y;
+
+            // 텍스트 높이 + 5픽셀 여유가 현재 이미지 높이보다 크면 이미지 높이를 조정
+            float targetHeight = textSize.y + 5f;
+            if (targetHeight > currentHeight)
+            {
+                imageRect.sizeDelta = new Vector2(imageRect.sizeDelta.x, targetHeight);
+            }
+
+            // 레이아웃 업데이트를 강제로 실행
+            LayoutRebuilder.ForceRebuildLayoutImmediate(imageRect);
+        }
+
+        private IEnumerator ScrollToBottom()
+        {
+            // 한 프레임 대기하여 레이아웃이 업데이트되도록 함
+            yield return null;
+
+            if (scrollRect != null)
+            {
+                // 스크롤을 가장 밑으로 내리기
+                scrollRect.verticalNormalizedPosition = 0f;
             }
         }
     }

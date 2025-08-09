@@ -1676,6 +1676,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: {fileID: 760993887}
   linePrefab: {fileID: 6960744051636591549, guid: b62614aebb5b5f84a95357497dcb3da8, type: 3}
+  scrollRect: {fileID: 409998942}
   optionPrefab: {fileID: 1449508480439348491, guid: 038c47374b51aeb41ad69f38492905a0, type: 3}
   optionHoverColor: {r: 1, g: 1, b: 1, a: 0.3}
   optionSelectedColor: {r: 1, g: 1, b: 1, a: 0.5}
