@@ -106,13 +106,13 @@ namespace Runtime.CH3.TRPG
             //        Debug.Log($"{row["ChoiceID"]}. {row["ChoiceText"]}");
             //    }
             //}
+            isShowingOptions = true;
             StartCoroutine(nameof(ShowOptions));
         }
 
         private IEnumerator ShowOptions()
         {
             int dialogueId = (int)dialogueData[currentDialogueIndex]["DialogueID"];
-            // int dialogueId = (int)dialogueData[currentDialogueIndex]["DialogueID"];
             // int choicesCount = 0;
 
             foreach (var row in dialogueData)
