@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Runtime.ETC;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
+using UnityEngine.EventSystems;
+using System;
 
 namespace Runtime.CH3.TRPG
 {
@@ -11,7 +14,14 @@ namespace Runtime.CH3.TRPG
         [Header("=Dialogue=")]
         [SerializeField] private Transform content;               // Scroll View → Content 오브젝트
         [SerializeField] private GameObject linePrefab;           // TextLine 프리팹
+        [Header("=Options=")]
+        [SerializeField] private GameObject optionPrefab;         // 옵션 프리팹
+        [SerializeField] private Color optionHoverColor = new(1f, 1f, 1f, 0.3f); // 마우스 오버 색상
+        [SerializeField] private Color optionSelectedColor = new(1f, 1f, 1f, 0.5f); // 선택된 색상
+        private List<GameObject> currentOptions = new();
+        private bool isShowingOptions = false;
 
+        // 
         private List<Dictionary<string, object>> dialogueData;
         private int currentDialogueIndex = 0;
 
@@ -86,16 +96,133 @@ namespace Runtime.CH3.TRPG
 
         private void ShowChoices()
         {
+            //int dialogueId = (int)dialogueData[currentDialogueIndex]["DialogueID"];
+            //Debug.Log("=== 선택지를 고르세요 ===");
+
+            //foreach (var row in dialogueData)
+            //{
+            //    if ((int)row["DialogueID"] == dialogueId)
+            //    {
+            //        Debug.Log($"{row["ChoiceID"]}. {row["ChoiceText"]}");
+            //    }
+            //}
+            StartCoroutine(nameof(ShowOptions));
+        }
+
+        private IEnumerator ShowOptions()
+        {
             int dialogueId = (int)dialogueData[currentDialogueIndex]["DialogueID"];
-            Debug.Log("=== 선택지를 고르세요 ===");
+            // int dialogueId = (int)dialogueData[currentDialogueIndex]["DialogueID"];
+            // int choicesCount = 0;
 
             foreach (var row in dialogueData)
             {
                 if ((int)row["DialogueID"] == dialogueId)
                 {
-                    Debug.Log($"{row["ChoiceID"]}. {row["ChoiceText"]}");
+                    GameObject optionObj = Instantiate(optionPrefab, content);
+                    TextMeshProUGUI optionText = optionObj.GetComponentInChildren<TextMeshProUGUI>();
+                    Image optionBackground = optionObj.GetComponent<Image>();
+
+                    // 옵션 텍스트 설정
+                    optionText.text = $"{row["ChoiceID"]}. {row["ChoiceText"]}";
+
+                    // 옵션 인덱스 저장
+                    int optionIndex = (int)row["ChoiceID"] - 1;
+
+                    // EventTrigger 추가
+                    EventTrigger eventTrigger = optionObj.GetComponent<EventTrigger>();
+                    if (eventTrigger == null)
+                    {
+                        eventTrigger = optionObj.AddComponent<EventTrigger>();
+                    }
+
+                    // 마우스 진입 이벤트
+                    EventTrigger.Entry pointerEnter = new EventTrigger.Entry();
+                    pointerEnter.eventID = EventTriggerType.PointerEnter;
+                    pointerEnter.callback.AddListener((data) =>
+                    {
+                        if (isShowingOptions)
+                        {
+                            optionBackground.color = optionHoverColor;
+                        }
+                    });
+                    eventTrigger.triggers.Add(pointerEnter);
+
+                    // 마우스 나감 이벤트
+                    EventTrigger.Entry pointerExit = new EventTrigger.Entry();
+                    pointerExit.eventID = EventTriggerType.PointerExit;
+                    pointerExit.callback.AddListener((data) =>
+                    {
+                        if (isShowingOptions)
+                        {
+                            optionBackground.color = Color.clear;
+                        }
+                    });
+                    eventTrigger.triggers.Add(pointerExit);
+
+                    // 클릭 이벤트
+                    Button optionButton = optionObj.GetComponent<Button>();
+                    if (optionButton != null)
+                    {
+                        optionButton.onClick.AddListener(() =>
+                        {
+                            if (isShowingOptions)
+                            {
+                                SelectOption(optionIndex);
+                            }
+                        });
+                    }
+
+                    currentOptions.Add(optionObj);
+
+                    // 옵션 간 약간의 딜레이
+                    yield return new WaitForSeconds(0.1f);
                 }
             }
+        }
+
+        private void SelectOption(int idx)
+        {
+            isShowingOptions = false;
+
+            // 선택된 옵션을 복제해서 보관
+            GameObject selectedOption = currentOptions[idx];
+            GameObject selectedOptionCopy = Instantiate(selectedOption, content);
+
+            // 선택된 옵션은 반투명 흰색으로 변경
+            Image selectedBackground = selectedOptionCopy.GetComponent<Image>();
+            if (selectedBackground != null)
+            {
+                selectedBackground.color = optionSelectedColor;
+            }
+
+            // 더 이상 상호작용 불가
+            Button selectedButton = selectedOptionCopy.GetComponent<Button>();
+            if (selectedButton != null)
+            {
+                selectedButton.interactable = false;
+            }
+
+            // EventTrigger 제거 (더 이상 상호작용하지 않도록)
+            EventTrigger eventTrigger = selectedOptionCopy.GetComponent<EventTrigger>();
+            if (eventTrigger != null)
+            {
+                Destroy(eventTrigger);
+            }
+
+            // 현재 옵션들 모두 제거
+            foreach (GameObject option in currentOptions)
+            {
+                if (option != null)
+                {
+                    Destroy(option);
+                }
+            }
+            currentOptions.Clear();
+
+            // 옵션 선택 콜백 호출
+            // SelectChoice(idx);
+            // onOptionSelected?.Invoke(optionIndex);
         }
 
         private void SelectChoice(int choiceId)
