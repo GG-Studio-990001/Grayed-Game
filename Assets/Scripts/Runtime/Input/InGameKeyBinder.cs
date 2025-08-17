@@ -123,11 +123,11 @@ namespace Runtime.Input
             _gameOverControls.Player.Interaction.performed += _ => player.OnInteraction();
         }
 
-        public void TrpgKeyBinding(SettingsUIView settingsUIView, DialogueTest _dialogueTest) // 임시
+        public void TrpgKeyBinding(SettingsUIView settingsUIView, TrpgDialogue trpgDialogue) // 임시
         {
             _gameOverControls.UI.Enable();
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
-            _gameOverControls.UI.DialogueInput.performed += _ => _dialogueTest.ContinueDialogue();
+            _gameOverControls.UI.DialogueInput.performed += _ => trpgDialogue.ContinueDialogue();
         }
 
         public void DancepaceKeyBinding(DPKeyBinder keyBinder, SettingsUIView settingsUIView)

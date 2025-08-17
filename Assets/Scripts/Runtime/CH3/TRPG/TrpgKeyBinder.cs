@@ -7,7 +7,7 @@ namespace Runtime.CH3.TRPG
     public class TrpgKeyBinder : MonoBehaviour
     {
         [SerializeField] private SettingsUIView _settingsUIView;
-        [SerializeField] private DialogueTest _dialogueTest;
+        [SerializeField] private TrpgDialogue _trpgDialogue;
 
         private void Start()
         {
@@ -17,7 +17,7 @@ namespace Runtime.CH3.TRPG
         private void InitKeyBinding()
         {
             Managers.Data.InGameKeyBinder.GameControlReset();
-            Managers.Data.InGameKeyBinder.TrpgKeyBinding(_settingsUIView, _dialogueTest);
+            Managers.Data.InGameKeyBinder.TrpgKeyBinding(_settingsUIView, _trpgDialogue);
         }
     }
 }
