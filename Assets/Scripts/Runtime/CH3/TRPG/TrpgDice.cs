@@ -20,7 +20,6 @@ namespace Runtime.CH3.TRPG
     public enum Difficulty
     {
         NONE,     // 없음
-        EASY,     // 쉬움
         NORMAL,   // 보통 성공
         HARD,     // 어려운 성공
         EXTREME   // 극단적 성공
