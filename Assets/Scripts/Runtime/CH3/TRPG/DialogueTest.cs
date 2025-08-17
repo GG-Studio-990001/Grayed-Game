@@ -11,6 +11,9 @@ namespace Runtime.CH3.TRPG
 {
     public class DialogueTest : MonoBehaviour
     {
+        [Header("=Script=")]
+        [SerializeField] private TrpgDice _trpgDice;
+
         [Header("=Dialogue=")]
         [SerializeField] private Transform content;               // Scroll View → Content 오브젝트
         [SerializeField] private GameObject linePrefab;           // TextLine 프리팹
@@ -20,6 +23,7 @@ namespace Runtime.CH3.TRPG
         [SerializeField] private GameObject optionPrefab;         // 옵션 프리팹
         [SerializeField] private Color optionHoverColor = new(1f, 1f, 1f, 0.3f); // 마우스 오버 색상
         [SerializeField] private Color optionSelectedColor = new(1f, 1f, 1f, 0.5f); // 선택된 색상
+        
         private List<GameObject> currentOptions = new();
         private bool isShowingOptions = false;
 
@@ -101,28 +105,52 @@ namespace Runtime.CH3.TRPG
             LayoutRebuilder.ForceRebuildLayoutImmediate(lineObj.GetComponent<RectTransform>());
         }
 
-        private void ShowChoiceResult(int choiceId)
+        private void ReadyToRoll(int choiceId)
         {
-            int dialogueId = (int)dialogueData[currentDialogueIndex]["DialogueID"];
+            int dialogueId = int.Parse(dialogueData[currentDialogueIndex]["DialogueID"].ToString());
             int choicesCount = 0;
+            int targetRowIdx = -1;
+            Stat stat = Stat.NONE;
+            Difficulty difficulty = Difficulty.NONE;
 
-            foreach (var row in dialogueData)
+            // 선택지 찾기
+            for (int i = 0; i < dialogueData.Count; i++)
             {
-                if ((int)row["DialogueID"] == dialogueId)
+                var row = dialogueData[i];
+
+                if (int.Parse(row["DialogueID"].ToString()) == dialogueId)
                 {
                     choicesCount++;
-                    if ((int)row["ChoiceID"] == choiceId)
-                    {
-                        ShowLine($"{row["SuccessText"]}");
-                        // ShowLine($"{row["SuccessValue"]}");
 
-                        // Debug.Log($"[성공 대사] {row["SuccessText"]}");
-                        // Debug.Log($"[성공 값] {row["SuccessValue"]}");
+                    if (int.Parse(row["ChoiceID"].ToString()) == choiceId)
+                    {
+                        targetRowIdx = i;
+                        stat = Enum.Parse<Stat>(row["Stat"].ToString());
+                        difficulty = Enum.Parse<Difficulty>(row["Difficulty"].ToString());
                     }
                 }
             }
 
+            if (targetRowIdx == -1)
+            {
+                Debug.LogError("선택지를 찾을 수 없습니다.");
+                return;
+            }
+
             currentDialogueIndex += choicesCount;
+
+            // 주사위 판정 시작
+            _trpgDice.StartRoll(stat, difficulty, resultVal =>
+            {
+                // 판정 끝난 뒤 대사 처리
+                ShowChoiceResult(targetRowIdx, resultVal);
+            });
+        }
+
+        private void ShowChoiceResult(int rowIdx, ResultVal result)
+        {
+            var row = dialogueData[rowIdx];
+            ShowLine($"{row[result.ToString()+ "Text"]}");
 
             if (currentDialogueIndex >= dialogueData.Count)
             {
@@ -260,7 +288,7 @@ namespace Runtime.CH3.TRPG
             currentOptions.Clear();
 
             // 옵션 선택 호출
-            ShowChoiceResult(idx + 1);
+            ReadyToRoll(idx + 1);
         }
 
         private void AdjustOptionHeight(GameObject optionObj, TextMeshProUGUI optionText)
