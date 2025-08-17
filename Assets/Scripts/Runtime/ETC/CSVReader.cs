@@ -35,7 +35,19 @@ namespace Runtime.ETC
                 for (var j = 0; j < header.Length && j < values.Length; j++)
                 {
                     string value = values[j];
-                    value = value.TrimStart(TRIM_CHARS).TrimEnd(TRIM_CHARS).Replace("\\", "");
+
+                    // 값의 시작과 끝에 있는 따옴표만 제거
+                    if (value.StartsWith("\"") && value.EndsWith("\""))
+                    {
+                        value = value.Substring(1, value.Length - 2);
+                    }
+
+                    // 값 내부에 있는 이중 따옴표를 단일 따옴표로 변경
+                    value = value.Replace("\"\"", "\"");
+
+                    // 역슬래시 제거는 유지
+                    value = value.Replace("\\", "");
+
                     object finalvalue = value;
 
                     if (int.TryParse(value, out int n))
