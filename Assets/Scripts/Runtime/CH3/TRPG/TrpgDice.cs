@@ -55,7 +55,7 @@ namespace Runtime.CH3.TRPG
 
         private readonly Dictionary<Stat, int> _myStats = new()
         {
-            { Stat.NONE, 0 }, // 체력
+            { Stat.NONE, 0 },
             { Stat.STR, 60 }, // 근력
             { Stat.INT, 55 }, // 지능
             { Stat.LUK, 50 }, // 행운

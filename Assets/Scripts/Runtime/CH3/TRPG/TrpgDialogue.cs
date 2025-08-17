@@ -13,6 +13,7 @@ namespace Runtime.CH3.TRPG
     {
         [Header("=Script=")]
         [SerializeField] private TrpgDice _trpgDice;
+        [SerializeField] private CurseRateUI _curseRateUI;
 
         [Header("=Dialogue=")]
         [SerializeField] private Transform content;               // Scroll View → Content 오브젝트
@@ -150,7 +151,8 @@ namespace Runtime.CH3.TRPG
         private void ShowChoiceResult(int rowIdx, ResultVal result)
         {
             var row = dialogueData[rowIdx];
-            ShowLine($"{row[result.ToString()+ "Text"]}");
+            ShowLine($"{row[result.ToString() + "Text"]}");
+            _curseRateUI.ChangeCurseRate((int)row[result.ToString() + "Value"]);
 
             if (currentDialogueIndex >= dialogueData.Count)
             {
