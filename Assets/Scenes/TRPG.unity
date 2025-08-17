@@ -1656,7 +1656,7 @@ GameObject:
   - component: {fileID: 320219497}
   - component: {fileID: 320219496}
   m_Layer: 0
-  m_Name: NewDialogue
+  m_Name: DialogueTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6818,7 +6818,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1636575688
 Transform:
   m_ObjectHideFlags: 0
@@ -6847,7 +6847,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settingsUIView: {fileID: 1224910289}
-  _trpgDialogue: {fileID: 841060632}
+  _dialogueTest: {fileID: 320219496}
 --- !u!1 &1636663979
 GameObject:
   m_ObjectHideFlags: 0

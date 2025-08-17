@@ -23,7 +23,6 @@ namespace Runtime.CH3.TRPG
         private List<GameObject> currentOptions = new();
         private bool isShowingOptions = false;
 
-        // 
         private List<Dictionary<string, object>> dialogueData;
         private int currentDialogueIndex = 0;
 
@@ -34,35 +33,28 @@ namespace Runtime.CH3.TRPG
         {
             dialogueData = CSVReader.Read("dialogue_test");
             Debug.Log("CSV 로드 완료. 총 " + dialogueData.Count + "개의 행.");
+
+            ContinueDialogue();
         }
 
-        private void Update()
+        public void ContinueDialogue()
         {
-            if (isDialogueEnded)
-                return; // 대사 끝났으면 입력 무시
+            if (isDialogueEnded || state == 2)
+                return; // 대사 끝났거나 선택지 선택 대기 중이면 입력 무시
 
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+            if (state == 0)
             {
-                if (state == 0)
-                {
-                    ShowEnemyLine();
-                    state = 1;
-                }
-                else if (state == 1)
-                {
-                    ShowChoices();
-                    state = 2;
-                }
+                ShowEnemyLine();
+                state = 1;
             }
-
-            if (state == 2)
+            else if (state == 1)
             {
-                if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1)) SelectChoice(1);
-                else if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha2)) SelectChoice(2);
-                else if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha3)) SelectChoice(3);
+                ShowOptions();
+                state = 2;
             }
         }
 
+        #region 대사 (적&반응)
         private void ShowEnemyLine()
         {
             string enemyLine = dialogueData[currentDialogueIndex]["EnemyLine"].ToString();
@@ -84,17 +76,22 @@ namespace Runtime.CH3.TRPG
             AdjustTextHeight(lineObj, tmp);
 
             StartCoroutine(ScrollToBottom());
-            // TODO: 스페이스가 아닌 클릭으로도 Dialogue 진행할 수 있도록
+
+            // 스페이스가 아닌 클릭으로도 Dialogue 진행할 수 있도록
+            Button lineBtn = lineObj.GetComponent<Button>();
+            if (lineBtn != null)
+            {
+                lineBtn.onClick.AddListener(() =>
+                {
+                    ContinueDialogue();
+                });
+            }
         }
 
         private void AdjustTextHeight(GameObject lineObj, TextMeshProUGUI tmp)
         {
             // ContentSizeFitter가 없으면 추가
-            ContentSizeFitter fitter = lineObj.GetComponent<ContentSizeFitter>();
-            if (fitter == null)
-            {
-                fitter = lineObj.AddComponent<ContentSizeFitter>();
-            }
+            ContentSizeFitter fitter = lineObj.GetComponent<ContentSizeFitter>() ?? lineObj.AddComponent<ContentSizeFitter>();
 
             // 세로 크기만 자동 조정 (가로는 고정)
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
@@ -104,13 +101,49 @@ namespace Runtime.CH3.TRPG
             LayoutRebuilder.ForceRebuildLayoutImmediate(lineObj.GetComponent<RectTransform>());
         }
 
-        private void ShowChoices()
+        private void ShowChoiceResult(int choiceId)
+        {
+            int dialogueId = (int)dialogueData[currentDialogueIndex]["DialogueID"];
+            int choicesCount = 0;
+
+            foreach (var row in dialogueData)
+            {
+                if ((int)row["DialogueID"] == dialogueId)
+                {
+                    choicesCount++;
+                    if ((int)row["ChoiceID"] == choiceId)
+                    {
+                        ShowLine($"{row["SuccessText"]}");
+                        // ShowLine($"{row["SuccessValue"]}");
+
+                        // Debug.Log($"[성공 대사] {row["SuccessText"]}");
+                        // Debug.Log($"[성공 값] {row["SuccessValue"]}");
+                    }
+                }
+            }
+
+            currentDialogueIndex += choicesCount;
+
+            if (currentDialogueIndex >= dialogueData.Count)
+            {
+                Debug.Log("대사가 모두 끝났습니다.");
+                isDialogueEnded = true; // 더 이상 진행 불가 표시
+            }
+            else
+            {
+                state = 0; // 다음 대사 대기 상태로 변경
+            }
+        }
+        #endregion
+
+        #region 선택지
+        private void ShowOptions()
         {
             isShowingOptions = true;
-            StartCoroutine(nameof(ShowOptions));
+            StartCoroutine(nameof(ShowOptionsCoroutine));
         }
 
-        private IEnumerator ShowOptions()
+        private IEnumerator ShowOptionsCoroutine()
         {
             int dialogueId = (int)dialogueData[currentDialogueIndex]["DialogueID"];
 
@@ -165,10 +198,10 @@ namespace Runtime.CH3.TRPG
                     eventTrigger.triggers.Add(pointerExit);
 
                     // 클릭 이벤트
-                    Button optionButton = optionObj.GetComponent<Button>();
-                    if (optionButton != null)
+                    Button optionBtn = optionObj.GetComponent<Button>();
+                    if (optionBtn != null)
                     {
-                        optionButton.onClick.AddListener(() =>
+                        optionBtn.onClick.AddListener(() =>
                         {
                             if (isShowingOptions)
                             {
@@ -227,41 +260,7 @@ namespace Runtime.CH3.TRPG
             currentOptions.Clear();
 
             // 옵션 선택 호출
-            SelectChoice(idx + 1);
-        }
-
-        private void SelectChoice(int choiceId)
-        {
-            int dialogueId = (int)dialogueData[currentDialogueIndex]["DialogueID"];
-            int choicesCount = 0;
-
-            foreach (var row in dialogueData)
-            {
-                if ((int)row["DialogueID"] == dialogueId)
-                {
-                    choicesCount++;
-                    if ((int)row["ChoiceID"] == choiceId)
-                    {
-                        ShowLine($"{row["SuccessText"]}");
-                        // ShowLine($"{row["SuccessValue"]}");
-
-                        // Debug.Log($"[성공 대사] {row["SuccessText"]}");
-                        // Debug.Log($"[성공 값] {row["SuccessValue"]}");
-                    }
-                }
-            }
-
-            currentDialogueIndex += choicesCount;
-
-            if (currentDialogueIndex >= dialogueData.Count)
-            {
-                Debug.Log("대사가 모두 끝났습니다.");
-                isDialogueEnded = true; // 더 이상 진행 불가 표시
-            }
-            else
-            {
-                state = 0; // 다음 대사 대기 상태로 변경
-            }
+            ShowChoiceResult(idx + 1);
         }
 
         private void AdjustOptionHeight(GameObject optionObj, TextMeshProUGUI optionText)
@@ -283,6 +282,7 @@ namespace Runtime.CH3.TRPG
             // 레이아웃 업데이트를 강제로 실행
             LayoutRebuilder.ForceRebuildLayoutImmediate(imageRect);
         }
+        #endregion
 
         private IEnumerator ScrollToBottom()
         {
