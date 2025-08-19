@@ -11,6 +11,7 @@ namespace Runtime.CH3
     {
         [SerializeField] private float moveSpeed = 5.0f;
         [SerializeField] private Cinemachine.CinemachineVirtualCamera virtualCamera;
+        [SerializeField] private float interactDebounce = 0.2f; // 상호작용 디바운스 시간
 
         private Vector2 _movementInput;
         private PlayerState _state = PlayerState.Idle;
@@ -18,6 +19,7 @@ namespace Runtime.CH3
         private Rigidbody _rigidbody;
         private GridManager _gridManager;
         private InteractionManager _interactionManager;
+        private float _lastInteractTime = -999f;
 
         private void Awake()
         {
@@ -108,6 +110,11 @@ namespace Runtime.CH3
 
         public void OnInteraction()
         {
+            // 길게 누름/중복 입력에 대한 디바운스
+            if (Time.time - _lastInteractTime < interactDebounce)
+                return;
+            _lastInteractTime = Time.time;
+
             _interactionManager.TryInteract();
         }
 

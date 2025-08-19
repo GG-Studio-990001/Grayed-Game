@@ -8,9 +8,8 @@ namespace Runtime.CH3.Main
         [Header("Overlap Detection")]
         [SerializeField] private float detectionRadius = 1f;
         [SerializeField] private LayerMask objectLayer; // 감지할 오브젝트 레이어
-        [SerializeField] private int orderInFront = 10; // 앞에 있을 때의 추가 정렬값
+        [SerializeField] private int orderInFront = 1; // 앞에 있을 때의 추가 정렬값
     
-        private readonly List<SortingOrderObject> _nearbyObjects = new List<SortingOrderObject>();
         private Vector3 _lastPosition;
 
         protected override void Awake()
@@ -19,7 +18,7 @@ namespace Runtime.CH3.Main
             _lastPosition = transform.position;
         }
 
-        protected override void LateUpdate()
+        protected void LateUpdate()
         {
             // 위치가 변경되었을 때만 체크
             if (_lastPosition != transform.position)
@@ -27,45 +26,40 @@ namespace Runtime.CH3.Main
                 CheckNearbyObjects();
                 _lastPosition = transform.position;
             }
-        
-            base.LateUpdate();
         }
 
         private void CheckNearbyObjects()
         {
-            // 이전에 감지된 오브젝트들 초기화
-            foreach (var obj in _nearbyObjects)
-            {
-                if (obj != null)
-                {
-                    obj.SetBaseOrder(0);
-                }
-            }
-            _nearbyObjects.Clear();
-
-            // 주변 오브젝트 감지
+            // 주변 오브젝트 감지 후, 가장 가까운 대상만 기준으로 처리
             Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, objectLayer);
-        
+
+            SortingOrderObject closest = null;
+            float closestSqrDist = float.MaxValue;
+
             foreach (var col in colliders)
             {
                 var sortingObj = col.GetComponent<SortingOrderObject>();
                 if (sortingObj == null) continue;
 
-                Vector3 directionToObject = col.transform.position - transform.position;
-            
-                // 플레이어가 오브젝트 뒤에 있는지 확인
-                if (directionToObject.z > 0)
+                float sqrDist = (sortingObj.transform.position - transform.position).sqrMagnitude;
+                if (sqrDist < closestSqrDist)
                 {
-                    // 플레이어가 오브젝트 뒤에 있으면 플레이어를 앞으로
-                    SetBaseOrder(orderInFront);
+                    closestSqrDist = sqrDist;
+                    closest = sortingObj;
                 }
-                else
-                {
-                    // 플레이어가 오브젝트 앞에 있으면 기본 정렬 순서 사용
-                    SetBaseOrder(0);
-                }
+            }
 
-                _nearbyObjects.Add(sortingObj);
+            if (closest != null)
+            {
+                var objSr = closest.GetComponent<SpriteRenderer>();
+                var selfSr = GetComponent<SpriteRenderer>();
+                if (objSr != null && selfSr != null)
+                {
+                    Vector3 directionToClosest = closest.transform.position - transform.position;
+                    // 오브젝트가 플레이어 앞(z+)에 있으면 오브젝트보다 한 단계 위로, 뒤(z-)면 한 단계 아래로
+                    int delta = directionToClosest.z > 0f ? 1 : -1;
+                    selfSr.sortingOrder = objSr.sortingOrder + delta;
+                }
             }
         }
 

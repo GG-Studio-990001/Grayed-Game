@@ -14,7 +14,8 @@ namespace Runtime.CH3.Main
             if (initializeToGridPosition && gridManager != null)
             {
                 // BaseGridObject가 gridPosition을 유지하고 있으므로 그 좌표로 월드 위치 재배치
-                Vector3 world = gridManager.GridToWorldPosition(gridPosition == Vector2Int.zero ? gridPos : gridPosition);
+                Vector2Int targetGrid = gridPosition == Vector2Int.zero ? gridPos : gridPosition;
+                Vector3 world = GetWorldPositionForGrid(targetGrid);
                 transform.position = world;
                 UpdateGridPosition();
             }

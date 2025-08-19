@@ -7,8 +7,6 @@ namespace Runtime.CH3.Main
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private int baseOrder = 0;
-        [SerializeField] private bool useYPosition = true;
-        [SerializeField] private float heightOffset = 0.3f; // 높이 오프셋 추가
     
         protected virtual void Awake()
         {
@@ -16,21 +14,13 @@ namespace Runtime.CH3.Main
                 spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        protected virtual void LateUpdate()
-        {
-            UpdateSortingOrder();
-        }
-
         protected virtual void UpdateSortingOrder()
         {
             if (spriteRenderer == null) return;
         
-            // Y 위치에 높이 오프셋을 고려하여 계산
-            float adjustedY = transform.position.y - heightOffset;
-            int yOffset = useYPosition ? Mathf.RoundToInt(adjustedY * -100) : 0;
-            int targetOrder = baseOrder + yOffset;
+            int targetOrder = baseOrder;
         
-            //SmoothTransitionOrder(targetOrder);
+            SmoothTransitionOrder(targetOrder);
             spriteRenderer.sortingOrder = targetOrder;
 
         }

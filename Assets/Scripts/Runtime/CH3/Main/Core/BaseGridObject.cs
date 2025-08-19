@@ -11,6 +11,14 @@ namespace Runtime.CH3.Main
         public Vector2Int GridPosition => gridPosition;
         public GameObject GameObject => gameObject;  // GameObject 속성 구현
 
+        [Header("Position Overrides")]
+        [SerializeField] protected bool useCustomY = false;
+        [SerializeField] protected float customY = 0.53f;
+
+        [Header("Initial Sorting (Grid-Based)")]
+        [SerializeField] protected bool applyInitialGridSorting = true;
+        [SerializeField] protected int gridSortingScale = 1;
+
         protected SpriteRenderer spriteRenderer;
         private MinimapManager minimapManager;
         protected GridManager gridManager;
@@ -29,6 +37,29 @@ namespace Runtime.CH3.Main
             minimapManager.CreateMinimapIcon(transform);
             //transform.position = gridManager.GridToWorldPosition(gridPos);
             UpdateGridPosition();
+
+            // 초기 정렬: 그리드 y(앞/뒤) 기준으로 baseOrder 오프셋 적용
+            if (applyInitialGridSorting)
+            {
+                var sorting = GetComponent<SortingOrderObject>();
+                if (sorting != null)
+                {
+                    // 뒤(y가 작을수록)일수록 더 높은 정렬이 되도록 부호 반전
+                    sorting.SetBaseOrder(-gridPosition.y * gridSortingScale);
+                }
+            }
+        }
+
+        protected Vector3 GetWorldPositionForGrid(Vector2Int desiredGridPos)
+        {
+            if (gridManager == null)
+                gridManager = GridManager.Instance;
+            Vector3 world = gridManager != null
+                ? gridManager.GridToWorldPosition(desiredGridPos)
+                : transform.position;
+            if (useCustomY)
+                world.y = customY;
+            return world;
         }
 
         public virtual void UpdateGridPosition()
