@@ -1390,7 +1390,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoneStart: {x: 0, y: 0}
   zoneEnd: {x: 10, y: 10}
-  mineralSettings: []
+  mineralSettings:
+  - mineralType: 3
+    maxCount: 5
+    spawnChance: 0
   spawnHeight: 10
   fallDuration: 1
   rotationAmount: 360
@@ -2093,7 +2096,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 716496751}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18687531, y: -0.000000008451634, z: 0.0000000016077238, w: 0.98238367}
+  m_LocalRotation: {x: 0.18687533, y: 0.000000008451634, z: -0.0000000016077238, w: 0.98238367}
   m_LocalPosition: {x: 0, y: 7.9, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2330,7 +2333,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 793652119}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18687531, y: -0.000000008451634, z: 0.0000000016077238, w: 0.98238367}
+  m_LocalRotation: {x: 0.18687533, y: 0.000000008451634, z: -0.0000000016077238, w: 0.98238367}
   m_LocalPosition: {x: 0, y: 3.75, z: -9.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3355,7 +3358,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4baac95ba70413e99c00046efb76b93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabList: []
+  prefabList:
+  - type: 3
+    prefab: {fileID: 6065572252211617098, guid: 4082a43c48984174c9b7d09d34412dac, type: 3}
 --- !u!4 &1148531342
 Transform:
   m_ObjectHideFlags: 0

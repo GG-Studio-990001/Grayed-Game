@@ -60,7 +60,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8325301144200267339, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 967997931866180940, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -87,6 +92,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectType: 3
   gridPosition: {x: 0, y: 0}
+  useCustomY: 0
+  customY: 0.53
+  applyInitialGridSorting: 1
+  gridSortingScale: 1
   interactionRange: 1
   maxMiningCount: 3
   miningStageSprites: []
@@ -94,8 +103,3 @@ MonoBehaviour:
   minDropCount: 3
   maxDropCount: 3
   dropRadius: 0
-  itemDropDuration: 0.5
-  itemCollectDelay: 0.5
-  itemCollectDuration: 0.5
-  dropEase: 30
-  collectEase: 26
