@@ -77,8 +77,6 @@ namespace Runtime.CH3
                     _rigidbody.velocity = currentVelocity;
                     _state = PlayerState.Idle;
                     
-                    // 디버그 정보
-                    Debug.Log($"이동 차단됨: 목표 그리드 위치 ({targetGridPos.x}, {targetGridPos.y})");
                     return;
                 }
 

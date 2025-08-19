@@ -66,6 +66,20 @@ namespace Runtime.CH3.Main
             InitializeGrid();
         }
 
+        // Public accessors/helpers for coordinate conversions
+        public Vector2Int GridCenter => _gridCenter;
+
+        // Converts a centered grid position to array index (0..size-1). If already index, returns as-is.
+        public Vector2Int ToArrayIndex(Vector2Int position)
+        {
+            if (IsWithinGridBounds(position))
+            {
+                return position;
+            }
+            // assume centered coordinate
+            return new Vector2Int(position.x + _gridCenter.x, position.y + _gridCenter.y);
+        }
+
         private void InitializeCameraAlignment()
         {
             _forward = Vector3.ProjectOnPlane(mainCamera.transform.forward, Vector3.up).normalized;

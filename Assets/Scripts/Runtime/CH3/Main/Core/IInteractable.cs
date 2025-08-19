@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Runtime.CH3.Main
 {
@@ -9,3 +9,5 @@ namespace Runtime.CH3.Main
         void OnInteract(GameObject interactor);
     }
 }
+
+
