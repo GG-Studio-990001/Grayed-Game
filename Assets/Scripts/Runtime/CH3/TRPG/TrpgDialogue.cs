@@ -24,6 +24,9 @@ namespace Runtime.CH3.TRPG
         [SerializeField] private GameObject optionPrefab;         // 옵션 프리팹
         [SerializeField] private Color optionHoverColor = new(1f, 1f, 1f, 0.3f); // 마우스 오버 색상
         [SerializeField] private Color optionSelectedColor = new(1f, 1f, 1f, 0.5f); // 선택된 색상
+
+        [Header("=else=")]
+        [SerializeField] private GameObject tmpEndPanel;
         
         private List<GameObject> currentOptions = new();
         private bool isShowingOptions = false;
@@ -180,11 +183,17 @@ namespace Runtime.CH3.TRPG
             {
                 Debug.Log("대사가 모두 끝났습니다.");
                 isDialogueEnded = true; // 더 이상 진행 불가 표시
+                Invoke(nameof(DialogueEnd), 1f);
             }
             else
             {
                 state = 0; // 다음 대사 대기 상태로 변경
             }
+        }
+        
+        private void DialogueEnd()
+        {
+            tmpEndPanel.SetActive(true);
         }
         #endregion
 
