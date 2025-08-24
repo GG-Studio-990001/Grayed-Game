@@ -34,11 +34,33 @@ namespace Runtime.CH3.TRPG
         private int state = 0; // 0=대사 출력 대기, 1=선택지 출력 대기, 2=선택지 선택 대기
         private bool isDialogueEnded = false;
 
-        private void Start()
-        {
-            dialogueData = CSVReader.Read("dialogue_test");
-            Debug.Log("CSV 로드 완료. 총 " + dialogueData.Count + "개의 행.");
+        //private void Start()
+        //{
+        //    dialogueData = CSVReader.Read("dialogue_test");
+        //    Debug.Log("CSV 로드 완료. 총 " + dialogueData.Count + "개의 행.");
 
+        //    ContinueDialogue();
+        //}
+
+        public void StartDialogue(int val)
+        {
+            // 개발자용으로 버튼 눌러서 대화 상대 지정
+            switch(val)
+            {
+                case 0:
+                    dialogueData = CSVReader.Read("trpg_dollar");
+                    break;
+                case 1:
+                    dialogueData = CSVReader.Read("trpg_farmer");
+                    break;
+                case 2:
+                    dialogueData = CSVReader.Read("trpg_michael");
+                    break;
+                default:
+                    Debug.LogError("지정되지 않은 대화 상대");
+                    return;
+            }
+            Debug.Log("CSV 로드 완료. 총 " + dialogueData.Count + "개의 행.");
             ContinueDialogue();
         }
 
