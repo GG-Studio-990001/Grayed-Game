@@ -5,8 +5,11 @@ using DG.Tweening;
 
 namespace Runtime.CH3.Main
 {
-    public class Ore : InteractableGridObject
+    public class Ore : InteractableGridObject, IHoldInteractable
     {
+        [Header("UI")]
+        [SerializeField] private float autoHideDelay = 5f; // 자동 숨김 시간
+
         [Header("Mining Settings")]
         [SerializeField] private int maxMiningCount = 3;
         [SerializeField] private Sprite[] miningStageSprites;
@@ -17,10 +20,19 @@ namespace Runtime.CH3.Main
         [SerializeField] private int maxDropCount = 3;
         [SerializeField] private float dropRadius = 1f;
 
+        [Header("Interaction Settings")]
+        [SerializeField] private bool enableColliderOnStart = true; // 시작 시 콜라이더 활성화 여부
+        [SerializeField] private bool debugInteraction = false; // 디버그 정보 출력 여부
+        [SerializeField] private bool resetGaugeOnCancel = false; // 취소 시 게이지 초기화 여부
+
         private int currentMiningCount;
         //private SpriteRenderer spriteRenderer;
         private MineralSpawnZone spawnZone;
         private List<GameObject> droppedItems = new List<GameObject>();
+        private float lastInteractionTime;
+        private Canvas uiCanvas; // 자동 찾기
+        private UnityEngine.UI.Slider holdGauge; // 자동 찾기
+        private Collider oreCollider; // 콜라이더 참조
 
         public override void Initialize(Vector2Int gridPos)
         {
@@ -30,15 +42,107 @@ namespace Runtime.CH3.Main
             currentMiningCount = maxMiningCount;
             UpdateSprite();
 
-            // 초기에는 콜라이더 비활성화 (애니메이션 완료 후 활성화)
-            var collider = GetComponent<Collider>();
-            if (collider != null) collider.enabled = false;
+            // 콜라이더 참조 저장
+            oreCollider = GetComponent<Collider>();
+            
+            // Canvas 자동 찾기
+            uiCanvas = GetComponentInChildren<Canvas>(true);
+            if (uiCanvas != null)
+            {
+                uiCanvas.gameObject.SetActive(false);
+            }
+
+            // Slider 자동 찾기
+            holdGauge = GetComponentInChildren<UnityEngine.UI.Slider>(true);
+            if (holdGauge == null)
+            {
+                holdGauge = GetComponent<UnityEngine.UI.Slider>();
+            }
+
+            // 콜라이더 활성화 설정
+            if (oreCollider != null)
+            {
+                if (enableColliderOnStart)
+                {
+                    oreCollider.enabled = true;
+                    if (debugInteraction)
+                    {
+                        Debug.Log($"[Ore] 콜라이더 활성화됨: {gameObject.name} at {transform.position}");
+                    }
+                }
+                else
+                {
+                    // 애니메이션 완료 후 활성화하는 경우를 위한 지연 활성화
+                    StartCoroutine(EnableColliderAfterDelay(1f));
+                }
+            }
+            else if (debugInteraction)
+            {
+                Debug.LogWarning($"[Ore] 콜라이더가 없습니다: {gameObject.name}");
+            }
         }
 
-        public override void OnInteract(GameObject interactor)
+        private IEnumerator EnableColliderAfterDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            if (oreCollider != null)
+            {
+                oreCollider.enabled = true;
+                if (debugInteraction)
+                {
+                    Debug.Log($"[Ore] 지연 후 콜라이더 활성화됨: {gameObject.name}");
+                }
+            }
+        }
+
+        public override void OnInteract(GameObject interactor) { /* 연타 채집 비활성화 */ }
+
+        // IHoldInteractable 구현: 2초 홀드로 1회 채굴
+        public float HoldSeconds => 2f;
+        public void OnHoldStart(GameObject interactor)
+        {
+            lastInteractionTime = Time.time;
+            if (uiCanvas != null)
+            {
+                uiCanvas.gameObject.SetActive(true);
+                if (debugInteraction)
+                {
+                    Debug.Log($"[Ore] UI 활성화됨: {gameObject.name}");
+                }
+            }
+            if (holdGauge != null)
+            {
+                holdGauge.gameObject.SetActive(true);
+                if (debugInteraction)
+                {
+                    Debug.Log($"[Ore] 게이지 활성화됨: {gameObject.name}, 현재 값: {holdGauge.value}");
+                }
+            }
+        }
+        public void OnHoldProgress(GameObject interactor, float normalized01)
+        {
+            lastInteractionTime = Time.time;
+            if (holdGauge != null)
+            {
+                holdGauge.value = Mathf.Clamp01(normalized01);
+            }
+        }
+        public void OnHoldCancel(GameObject interactor)
+        {
+            // 취소 시에는 UI를 숨기지 않고, 5초 후 자동 숨김 로직에 맡김
+            // 게이지 값은 유지됨 (resetGaugeOnCancel 옵션에 따라)
+            if (resetGaugeOnCancel)
+            {
+                if (holdGauge != null)
+                {
+                    holdGauge.value = 0f;
+                }
+            }
+            // UI는 Update 메서드에서 5초 후 자동으로 숨겨짐
+        }
+        public void OnHoldComplete(GameObject interactor)
         {
             if (!canInteract) return;
-            
             currentMiningCount--;
             if (currentMiningCount <= 0)
             {
@@ -48,6 +152,48 @@ namespace Runtime.CH3.Main
             {
                 UpdateSprite();
                 PlayMiningEffect();
+            }
+
+            // 채굴 완료 시에는 UI를 바로 숨김
+            if (uiCanvas != null)
+            {
+                uiCanvas.gameObject.SetActive(false);
+            }
+            if (holdGauge != null)
+            {
+                holdGauge.value = 0f;
+                holdGauge.gameObject.SetActive(false);
+            }
+            
+            if (debugInteraction)
+            {
+                Debug.Log($"[Ore] 채굴 완료로 UI 숨김: {gameObject.name}");
+            }
+        }
+
+        private void Update()
+        {
+            // 5초간 입력 없으면 자동 숨김
+            if (uiCanvas != null && uiCanvas.gameObject.activeSelf)
+            {
+                if (Time.time - lastInteractionTime > autoHideDelay)
+                {
+                    uiCanvas.gameObject.SetActive(false);
+                    if (holdGauge != null)
+                    {
+                        // 자동 숨김 시에도 게이지 값 유지 (옵션에 따라)
+                        if (resetGaugeOnCancel)
+                        {
+                            holdGauge.value = 0f;
+                        }
+                        holdGauge.gameObject.SetActive(false);
+                    }
+                    
+                    if (debugInteraction)
+                    {
+                        Debug.Log($"[Ore] 5초 후 자동 숨김: {gameObject.name}");
+                    }
+                }
             }
         }
 
@@ -80,6 +226,16 @@ namespace Runtime.CH3.Main
         private IEnumerator MiningCompleteSequence(GameObject interactor)
         {
             canInteract = false;
+
+            // 콜라이더 비활성화 (상호작용 방지)
+            if (oreCollider != null)
+            {
+                oreCollider.enabled = false;
+                if (debugInteraction)
+                {
+                    Debug.Log($"[Ore] 채굴 완료로 콜라이더 비활성화: {gameObject.name}");
+                }
+            }
 
             // 아이템 드롭
             SpawnItems();
@@ -140,11 +296,19 @@ namespace Runtime.CH3.Main
             base.Remove();
         }
 
-        // 디버그용 기즈모
-        private void OnDrawGizmosSelected()
+        // 게이지 값을 완전히 초기화하는 메서드
+        public void ResetGauge()
         {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, dropRadius);
+            if (holdGauge != null)
+            {
+                holdGauge.value = 0f;
+            }
+        }
+
+        // 현재 게이지 값을 반환하는 메서드
+        public float GetCurrentGaugeValue()
+        {
+            return holdGauge != null ? holdGauge.value : 0f;
         }
     }
 }

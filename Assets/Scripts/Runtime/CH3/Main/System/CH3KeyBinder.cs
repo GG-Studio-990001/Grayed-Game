@@ -37,6 +37,27 @@ namespace Runtime.CH3.Main
             // 위에서 바인딩됨
         }
 
+        // UI 클릭 기반 홀드 지원 (마우스 왼쪽 버튼)
+        private bool _mouseHolding;
+        private void Update()
+        {
+            if (Mouse.current == null) return;
+            if (Mouse.current.rightButton.wasPressedThisFrame)
+            {
+                _player.GetComponent<InteractionManager>()?.BeginHoldAtCursor(Mouse.current.position.ReadValue());
+                _mouseHolding = true;
+            }
+            if (_mouseHolding)
+            {
+                _player.GetComponent<InteractionManager>()?.UpdateHold();
+            }
+            if (Mouse.current.rightButton.wasReleasedThisFrame)
+            {
+                _player.GetComponent<InteractionManager>()?.CancelHold();
+                _mouseHolding = false;
+            }
+        }
+
         // 세부 동작은 여기서 정의
         public void HotbarSelect(int index)
         {

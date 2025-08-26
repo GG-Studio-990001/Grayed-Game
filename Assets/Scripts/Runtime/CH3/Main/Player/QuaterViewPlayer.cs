@@ -118,6 +118,23 @@ namespace Runtime.CH3
             _interactionManager.TryInteract();
         }
 
+        // 새: 홀드형 상호작용 바인딩용
+        public void OnInteractionHold(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                _interactionManager.BeginHold();
+            }
+            else if (context.performed)
+            {
+                _interactionManager.UpdateHold();
+            }
+            else if (context.canceled)
+            {
+                _interactionManager.CancelHold();
+            }
+        }
+
         public void PlayerIdle()
         {
             _state = PlayerState.Idle;
