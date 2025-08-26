@@ -52,7 +52,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 967997931866180940, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -79,11 +80,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectType: 0
   gridPosition: {x: 0, y: 0}
+  useCustomY: 1
+  customY: 0.84
+  applyInitialGridSorting: 1
+  gridSortingScale: 1
+  isBlocking: 1
+  initializeToGridPosition: 1
   interactionRange: 2
   connectedTeleporter: {fileID: 0}
   isOneWay: 0
   teleportDelay: 0.1
-  showDebugInfo: 1
-  teleporterColor: {r: 0, g: 1, b: 1, a: 1}
-  pulseSpeed: 1
-  pulseIntensity: 0.2
+  showDebugInfo: 0
+  autoTeleport: 0
+  cooldownTime: 1
+  safeDistance: 3

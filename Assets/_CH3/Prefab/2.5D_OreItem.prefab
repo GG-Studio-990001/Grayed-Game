@@ -12,21 +12,25 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -1738853725, guid: cef43a87c94193e40a2faa1b8fa034fe, type: 3}
+    - target: {fileID: 581827426082270181, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 5049706900345146122, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_Name
       value: 2.5D_OreItem
       objectReference: {fileID: 0}
     - target: {fileID: 6512757043658307033, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6512757043658307033, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6512757043658307033, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6512757043658307033, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -72,7 +76,22 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8325301144200267339, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
+      propertyPath: m_Size.x
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 8325301144200267339, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
+      propertyPath: m_Size.y
+      value: 0.43333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 8325301144200267339, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 967997931866180940, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
+    - {fileID: -3758161525393346655, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
+    - {fileID: 562708073754503850, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -99,13 +118,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 1
   quantity: 3
+  itemData: {fileID: 11400000, guid: 7b9db195185b5f14fba5b9d7092c5110, type: 2}
   initialHeight: 0
   bounceHeight: 0.5
   dropDuration: 1
   groundOffset: -0.2
   dropEase: 30
-  collectRadius: 1
-  moveSpeed: 15
-  accelerationRate: 2
+  collectRadius: 2
+  moveSpeed: 300
+  accelerationRate: 10
   collectDistance: 0.1
   minScale: 0.3

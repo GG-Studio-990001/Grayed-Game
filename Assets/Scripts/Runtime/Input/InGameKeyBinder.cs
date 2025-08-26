@@ -11,6 +11,7 @@ using Runtime.CH3.TRPG;
 using Runtime.CH4;
 using Runtime.Common.View;
 using Yarn.Unity;
+using UnityEngine.InputSystem;
 
 namespace Runtime.Input
 {
@@ -20,6 +21,9 @@ namespace Runtime.Input
         private GameOverControls _gameOverControls;
         
         private int _playerInputEnableStack;
+        
+        // CH3 Inventory bindings cache
+        private bool _ch3InventoryBound;
         
         public InGameKeyBinder(GameOverControls gameOverControls)
         {
@@ -86,7 +90,7 @@ namespace Runtime.Input
             _gameOverControls.Player.Move.performed += player.OnMove;
             _gameOverControls.Player.Move.started += player.OnMove;
             _gameOverControls.Player.Move.canceled += player.OnMove;
-            _gameOverControls.Player.Interaction.performed += _ => player.OnInteraction();
+            // CH3: 스페이스(Interaction) 연타 채집 비활성화 - 즉시 상호작용 연결 제거
         }
         
         public void CH1UIKeyBinding(Ch1MainSystemController controller, LineView line)
@@ -114,13 +118,41 @@ namespace Runtime.Input
             //_gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
         }
 
-        public void CH3PlayerKeyBinding(QuaterViewPlayer player)
+        public void CH3PlayerKeyBinding(QuaterViewPlayer player, Runtime.CH3.Main.CH3KeyBinder binder)
         {
             _gameOverControls.Player.Enable();
             _gameOverControls.Player.Move.performed += player.OnMove;
             _gameOverControls.Player.Move.started += player.OnMove;
             _gameOverControls.Player.Move.canceled += player.OnMove;
             _gameOverControls.Player.Interaction.performed += _ => player.OnInteraction();
+
+            // 아래는 CH3 전용 인벤토리/단축바 바인딩을 동일 함수 내에서 처리
+            if (!_ch3InventoryBound)
+            {
+                _ch3InventoryBound = true;
+
+                // 숫자 1~7 선택: 하나의 Hotbar 액션에 모두 묶여 있으므로 눌린 키를 판별
+                _gameOverControls.Player.Hotbar.performed += _ =>
+                {
+                    var keyboard = Keyboard.current;
+                    int selectedIndex = -1;
+                    if (keyboard.digit1Key.wasPressedThisFrame) selectedIndex = 0;
+                    else if (keyboard.digit2Key.wasPressedThisFrame) selectedIndex = 1;
+                    else if (keyboard.digit3Key.wasPressedThisFrame) selectedIndex = 2;
+                    else if (keyboard.digit4Key.wasPressedThisFrame) selectedIndex = 3;
+                    else if (keyboard.digit5Key.wasPressedThisFrame) selectedIndex = 4;
+                    else if (keyboard.digit6Key.wasPressedThisFrame) selectedIndex = 5;
+                    else if (keyboard.digit7Key.wasPressedThisFrame) selectedIndex = 6;
+                    if (selectedIndex >= 0)
+                        binder.HotbarSelect(selectedIndex);
+                };
+
+                // 인벤토리 토글(I)
+                _gameOverControls.Player.InvetoryToggle.performed += _ => binder.InventoryToggle();
+
+                // 사용(E)
+                _gameOverControls.Player.HotbarUse.performed += _ => binder.HotbarUse();
+            }
         }
 
         public void TrpgKeyBinding(SettingsUIView settingsUIView, TrpgDialogue trpgDialogue) // 임시

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Shadow
-  m_Shader: {fileID: -6465566751694194690, guid: 96d7dd26a473d044480bc9ce401e71db, type: 3}
+  m_Name: Shader Graphs_Object
+  m_Shader: {fileID: -6465566751694194690, guid: c89230d283e620a46a4b89acb373c8da, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -41,7 +41,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Fade: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors: []
