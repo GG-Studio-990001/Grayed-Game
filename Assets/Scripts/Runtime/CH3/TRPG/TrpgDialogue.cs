@@ -24,6 +24,9 @@ namespace Runtime.CH3.TRPG
         [SerializeField] private GameObject optionPrefab;         // 옵션 프리팹
         [SerializeField] private Color optionHoverColor = new(1f, 1f, 1f, 0.3f); // 마우스 오버 색상
         [SerializeField] private Color optionSelectedColor = new(1f, 1f, 1f, 0.5f); // 선택된 색상
+
+        [Header("=else=")]
+        [SerializeField] private GameObject tmpEndPanel;
         
         private List<GameObject> currentOptions = new();
         private bool isShowingOptions = false;
@@ -34,11 +37,33 @@ namespace Runtime.CH3.TRPG
         private int state = 0; // 0=대사 출력 대기, 1=선택지 출력 대기, 2=선택지 선택 대기
         private bool isDialogueEnded = false;
 
-        private void Start()
-        {
-            dialogueData = CSVReader.Read("dialogue_test");
-            Debug.Log("CSV 로드 완료. 총 " + dialogueData.Count + "개의 행.");
+        //private void Start()
+        //{
+        //    dialogueData = CSVReader.Read("dialogue_test");
+        //    Debug.Log("CSV 로드 완료. 총 " + dialogueData.Count + "개의 행.");
 
+        //    ContinueDialogue();
+        //}
+
+        public void StartDialogue(int val)
+        {
+            // 개발자용으로 버튼 눌러서 대화 상대 지정
+            switch(val)
+            {
+                case 0:
+                    dialogueData = CSVReader.Read("trpg_dollar");
+                    break;
+                case 1:
+                    dialogueData = CSVReader.Read("trpg_farmer");
+                    break;
+                case 2:
+                    dialogueData = CSVReader.Read("trpg_michael");
+                    break;
+                default:
+                    Debug.LogError("지정되지 않은 대화 상대");
+                    return;
+            }
+            Debug.Log("CSV 로드 완료. 총 " + dialogueData.Count + "개의 행.");
             ContinueDialogue();
         }
 
@@ -158,11 +183,17 @@ namespace Runtime.CH3.TRPG
             {
                 Debug.Log("대사가 모두 끝났습니다.");
                 isDialogueEnded = true; // 더 이상 진행 불가 표시
+                Invoke(nameof(DialogueEnd), 1f);
             }
             else
             {
                 state = 0; // 다음 대사 대기 상태로 변경
             }
+        }
+        
+        private void DialogueEnd()
+        {
+            tmpEndPanel.SetActive(true);
         }
         #endregion
 
