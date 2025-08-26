@@ -2871,6 +2871,10 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6311446546498459539, guid: 141bee64260fa414db1052037a49aef3, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6362169848335636188, guid: 141bee64260fa414db1052037a49aef3, type: 3}
       propertyPath: m_Sprite
       value: 
