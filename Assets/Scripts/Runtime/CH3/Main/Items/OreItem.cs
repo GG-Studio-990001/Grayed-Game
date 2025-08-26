@@ -9,6 +9,7 @@ namespace Runtime.CH3.Main
         [Header("Item Settings")]
         [SerializeField] private string itemId;
         [SerializeField] private int quantity = 1;
+        [SerializeField] private Item itemData; // 인벤토리에 추가할 아이템 데이터(SO)
 
         [Header("Drop Animation Settings")]
         [SerializeField] private float initialHeight = 1f;
@@ -28,6 +29,7 @@ namespace Runtime.CH3.Main
         private bool isBeingCollected = false;
         private Transform playerTransform;
         private Vector3 velocity = Vector3.zero;
+        private Inventory inventory;
 
         public string ItemId => itemId;
         public int Quantity => quantity;
@@ -38,6 +40,15 @@ namespace Runtime.CH3.Main
             if (playerTransform == null)
             {
                 Debug.LogWarning("Player not found! Make sure the player has the 'Player' tag.");
+            }
+
+            if (inventory == null)
+            {
+                inventory = FindObjectOfType<Inventory>();
+                if (inventory == null)
+                {
+                    Debug.LogWarning("Inventory not found in scene. OreItem will not be collectible into inventory.");
+                }
             }
         }
 
@@ -158,6 +169,19 @@ namespace Runtime.CH3.Main
 
         private void OnCollected()
         {
+            // 인벤토리에 추가 시도
+            if (inventory != null && itemData != null)
+            {
+                bool added = inventory.TryAdd(itemData, Mathf.Max(1, quantity));
+                if (!added)
+                {
+                    // 가득 차면 수집 취소 (오브젝트 유지)
+                    isBeingCollected = false;
+                    isDropped = true;
+                    return;
+                }
+            }
+
             // 수집 효과
             Sequence collectSequence = DOTween.Sequence();
             
@@ -169,8 +193,6 @@ namespace Runtime.CH3.Main
             ));
 
             collectSequence.OnComplete(() => {
-                // 여기에 아이템 획득 로직 추가 (인벤토리 시스템 등)
-                Debug.Log($"Collected item: {itemId}, Quantity: {quantity}");
                 Destroy(gameObject);
             });
         }

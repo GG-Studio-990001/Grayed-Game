@@ -117,13 +117,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 1
   quantity: 3
+  itemData: {fileID: 11400000, guid: 7b9db195185b5f14fba5b9d7092c5110, type: 2}
   initialHeight: 0
   bounceHeight: 0.5
   dropDuration: 1
   groundOffset: -0.2
   dropEase: 30
   collectRadius: 2
-  moveSpeed: 30
-  accelerationRate: 2
+  moveSpeed: 300
+  accelerationRate: 10
   collectDistance: 0.1
   minScale: 0.3

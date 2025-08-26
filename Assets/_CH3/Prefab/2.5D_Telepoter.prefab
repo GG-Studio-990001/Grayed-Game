@@ -90,7 +90,7 @@ MonoBehaviour:
   connectedTeleporter: {fileID: 0}
   isOneWay: 0
   teleportDelay: 0.1
-  showDebugInfo: 1
+  showDebugInfo: 0
   autoTeleport: 0
-  cooldownTime: 3
+  cooldownTime: 1
   safeDistance: 3

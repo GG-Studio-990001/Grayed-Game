@@ -53,6 +53,33 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Hotbar"",
+                    ""type"": ""Button"",
+                    ""id"": ""2249286d-65cf-4396-a91c-b153e7c157a0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InvetoryToggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""5d4dc3da-2f6f-4ebb-a586-963c403368f9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HotbarUse"",
+                    ""type"": ""Button"",
+                    ""id"": ""c5b4e87a-2943-4b77-96b2-a936015668bc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -185,6 +212,105 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bb7e6b7c-a0e9-4aa2-98ee-580000d9ba8b"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ff0a493b-c951-45b5-b683-83566ab759b5"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5b76e3a3-7303-40d2-b84c-f65df7f8f5bd"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11e56d68-72fa-47bd-86eb-0f705ec6962d"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2ee64eff-ab4d-4bca-9145-fc971f713c1a"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6e8d4b46-abb0-49a1-933b-353d2c0df620"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f6405f49-7593-4ff5-9e8b-8b01574a4894"",
+                    ""path"": ""<Keyboard>/7"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b2e6ecfc-b1b2-4226-a32b-ad1a8a600a87"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InvetoryToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef84a9bb-a9f3-4cfd-9668-c24c46bc62c0"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HotbarUse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -368,6 +494,9 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_Hotbar = m_Player.FindAction("Hotbar", throwIfNotFound: true);
+        m_Player_InvetoryToggle = m_Player.FindAction("InvetoryToggle", throwIfNotFound: true);
+        m_Player_HotbarUse = m_Player.FindAction("HotbarUse", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
@@ -441,6 +570,9 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_Hotbar;
+    private readonly InputAction m_Player_InvetoryToggle;
+    private readonly InputAction m_Player_HotbarUse;
     public struct PlayerActions
     {
         private @GameOverControls m_Wrapper;
@@ -448,6 +580,9 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @Hotbar => m_Wrapper.m_Player_Hotbar;
+        public InputAction @InvetoryToggle => m_Wrapper.m_Player_InvetoryToggle;
+        public InputAction @HotbarUse => m_Wrapper.m_Player_HotbarUse;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -466,6 +601,15 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Hotbar.started += instance.OnHotbar;
+            @Hotbar.performed += instance.OnHotbar;
+            @Hotbar.canceled += instance.OnHotbar;
+            @InvetoryToggle.started += instance.OnInvetoryToggle;
+            @InvetoryToggle.performed += instance.OnInvetoryToggle;
+            @InvetoryToggle.canceled += instance.OnInvetoryToggle;
+            @HotbarUse.started += instance.OnHotbarUse;
+            @HotbarUse.performed += instance.OnHotbarUse;
+            @HotbarUse.canceled += instance.OnHotbarUse;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -479,6 +623,15 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Hotbar.started -= instance.OnHotbar;
+            @Hotbar.performed -= instance.OnHotbar;
+            @Hotbar.canceled -= instance.OnHotbar;
+            @InvetoryToggle.started -= instance.OnInvetoryToggle;
+            @InvetoryToggle.performed -= instance.OnInvetoryToggle;
+            @InvetoryToggle.canceled -= instance.OnInvetoryToggle;
+            @HotbarUse.started -= instance.OnHotbarUse;
+            @HotbarUse.performed -= instance.OnHotbarUse;
+            @HotbarUse.canceled -= instance.OnHotbarUse;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -595,6 +748,9 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnHotbar(InputAction.CallbackContext context);
+        void OnInvetoryToggle(InputAction.CallbackContext context);
+        void OnHotbarUse(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
