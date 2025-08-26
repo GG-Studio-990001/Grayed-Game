@@ -91,7 +91,9 @@ namespace Runtime.CH3.TRPG
             _resultPanel.SetActive(true);
             _diceRollObjects.SetActive(true);
 
-            _resultTxt_0.text = stat.ToString() + $" ({difficulty})\n{statVal} / 100";
+            int targetScore = (int)GetTargetScore(statVal, difficulty);
+            // 스탯: 난이도: 목표: 
+            _resultTxt_0.text = $"스탯: {stat} / 난이도: {difficulty}\n목표: {targetScore} 이하";
             _dice10.RollDice();
             while (_dice10.DiceFaceNum == -1) yield return null;
             int d10 = _dice10.DiceFaceNum;
@@ -137,19 +139,10 @@ namespace Runtime.CH3.TRPG
             }
             else
             {
-                // 세부 성공 판정
-                bool extreme = total <= statValue / 5;
-                bool hard = total <= statValue / 2;
-                bool normal = total <= statValue;
+                // 목표 점수 계산
+                float targetScore = GetTargetScore(statValue, difficulty);
 
-                isSuccess = (difficulty switch
-                {
-                    Difficulty.EXTREME => extreme,
-                    Difficulty.HARD => hard || extreme,
-                    Difficulty.NORMAL => normal || hard || extreme,
-                    _ => false
-                });
-
+                isSuccess = total <= targetScore;
                 result = isSuccess ? ResultVal.Success : ResultVal.Fail;
             }
 
@@ -159,6 +152,21 @@ namespace Runtime.CH3.TRPG
                 Result = result,
                 IsSuccess = isSuccess
             };
+        }
+
+        float GetTargetScore(int statValue, Difficulty difficulty)
+        {
+            switch(difficulty)
+            {
+                case Difficulty.EXTREME:
+                    return statValue / 5;
+                case Difficulty.HARD:
+                    return statValue / 2;
+                case Difficulty.NORMAL:
+                    return statValue;
+                default:
+                    return statValue;
+            }
         }
     }
 }
