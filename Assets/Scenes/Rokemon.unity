@@ -1260,6 +1260,7 @@ MonoBehaviour:
   _typeTxt: {fileID: 1756977470}
   _nameTxt: {fileID: 965705897}
   _lvTxt: {fileID: 1031903276}
+  _sprs: []
 --- !u!114 &284033685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3777,6 +3778,7 @@ MonoBehaviour:
   _typeTxt: {fileID: 211182114}
   _nameTxt: {fileID: 304114665}
   _lvTxt: {fileID: 1234979409}
+  _sprs: []
 --- !u!114 &753905926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4583,6 +4585,7 @@ MonoBehaviour:
   _typeTxt: {fileID: 148418572}
   _nameTxt: {fileID: 1757594900}
   _lvTxt: {fileID: 1436623506}
+  _sprs: []
 --- !u!114 &1009236976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5631,6 +5634,9 @@ MonoBehaviour:
   _typeTxt: {fileID: 1788397167}
   _nameTxt: {fileID: 199780316}
   _lvTxt: {fileID: 1221670502}
+  _sprs:
+  - {fileID: 21300000, guid: 818a41d9af85d9b4f825e3cac5ffacdf, type: 3}
+  - {fileID: 21300000, guid: bb5505dfe3f0c58428256e8a307e2758, type: 3}
 --- !u!1 &1099449698
 GameObject:
   m_ObjectHideFlags: 0
@@ -7904,6 +7910,9 @@ MonoBehaviour:
   _typeTxt: {fileID: 513737847}
   _nameTxt: {fileID: 1847962114}
   _lvTxt: {fileID: 541411143}
+  _sprs:
+  - {fileID: 21300000, guid: 818a41d9af85d9b4f825e3cac5ffacdf, type: 3}
+  - {fileID: 21300000, guid: bb5505dfe3f0c58428256e8a307e2758, type: 3}
 --- !u!1 &1610356077
 GameObject:
   m_ObjectHideFlags: 0
@@ -10150,7 +10159,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1954630541
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10231,15 +10240,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC608"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1452dd602895f7449930e1bb19972b51, type: 2}
-  m_sharedMaterial: {fileID: -281216424612694139, guid: 1452dd602895f7449930e1bb19972b51, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 69a61093d3f07b44abaa634595aa8bc8, type: 2}
+  m_sharedMaterial: {fileID: -6593194467217300932, guid: 69a61093d3f07b44abaa634595aa8bc8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278321666
-  m_fontColor: {r: 0.009433985, g: 0.009433985, b: 0.009433985, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10410,6 +10419,9 @@ MonoBehaviour:
   _typeTxt: {fileID: 459445919}
   _nameTxt: {fileID: 1842714038}
   _lvTxt: {fileID: 156039179}
+  _sprs:
+  - {fileID: 21300000, guid: 818a41d9af85d9b4f825e3cac5ffacdf, type: 3}
+  - {fileID: 21300000, guid: bb5505dfe3f0c58428256e8a307e2758, type: 3}
 --- !u!1 &2012471713
 GameObject:
   m_ObjectHideFlags: 0
@@ -11315,9 +11327,9 @@ RectTransform:
   - {fileID: 1964188185}
   m_Father: {fileID: 1281962836}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 73.095, y: -50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 140.92, y: 42.71}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2141780435
@@ -11600,6 +11612,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5667758006208890613, guid: 7cde4109580d7a342b86a9cf93636f8a, type: 3}
+      propertyPath: _sprs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5667758006208890613, guid: 7cde4109580d7a342b86a9cf93636f8a, type: 3}
+      propertyPath: _sprs.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 818a41d9af85d9b4f825e3cac5ffacdf, type: 3}
+    - target: {fileID: 5667758006208890613, guid: 7cde4109580d7a342b86a9cf93636f8a, type: 3}
+      propertyPath: _sprs.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: bb5505dfe3f0c58428256e8a307e2758, type: 3}
     - target: {fileID: 6803360155534330927, guid: 7cde4109580d7a342b86a9cf93636f8a, type: 3}
       propertyPath: m_Name
       value: Skill_1
@@ -11811,7 +11835,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -243.2, y: -175}
-  m_SizeDelta: {x: 48, y: 47}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7882505449948769417
 MonoBehaviour:

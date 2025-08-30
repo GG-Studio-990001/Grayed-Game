@@ -16,6 +16,7 @@ namespace Runtime.CH3.Rokemon
         [SerializeField] private TextMeshProUGUI _typeTxt;
         [SerializeField] private TextMeshProUGUI _nameTxt;
         [SerializeField] private TextMeshProUGUI _lvTxt;
+        [SerializeField] private Sprite[] _sprs;
         private Image _img;
 
         private void Start()
@@ -27,7 +28,7 @@ namespace Runtime.CH3.Rokemon
 
         public void SkillSelected(bool isSelected)
         {
-            _img.color = isSelected ? new Color(1f, 0.8f, 0.8f, 1f) : new Color(1f, 1f, 1f, 1f); // 빨 : 흰
+            _img.sprite = isSelected ? _sprs[1] : _sprs[0];
         }
 
         public void SetLvTxt()
