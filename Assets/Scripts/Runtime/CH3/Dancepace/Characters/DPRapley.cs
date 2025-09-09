@@ -35,6 +35,13 @@ namespace Runtime.CH3.Dancepace
 
         public void OnMove(InputAction.CallbackContext context)
         {
+            // InGameKeyBinder의 Player 입력 상태 확인
+            if (!Managers.Data.InGameKeyBinder.IsPlayerInputEnabled()) 
+            {
+                Debug.Log("DPRapley: PlayerInputDisabled");
+                return;
+            }
+            
             Vector2 inputDirection = context.ReadValue<Vector2>();
             
             if (context.performed)

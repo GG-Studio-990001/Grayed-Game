@@ -43,7 +43,10 @@ namespace Runtime.CH3.Dancepace
                 { "Left", leftKey },
                 { "Right", rightKey }
             };
+            
             Managers.Data.InGameKeyBinder.GameControlReset();
+
+            Managers.Data.InGameKeyBinder.PlayerInputDisable();
             Managers.Data.InGameKeyBinder.DancepaceKeyBinding(this, _settingsUIView);
             _settingsUIView.OnSettingsOpen += () => Managers.Data.InGameKeyBinder.PlayerInputDisable();
             _settingsUIView.OnSettingsClose += () => Managers.Data.InGameKeyBinder.PlayerInputEnable();
@@ -62,7 +65,17 @@ namespace Runtime.CH3.Dancepace
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (!isInputEnabled) return;
+            if (!isInputEnabled) 
+            {
+                Debug.Log("DPKeyBinder: isInputEnabled = false");
+                return;
+            }
+            
+            // InGameKeyBinder의 Player 입력 상태도 확인
+            if (!Managers.Data.InGameKeyBinder.IsPlayerInputEnabled()) 
+            {
+                return;
+            }
 
             if (context.performed)
             {
@@ -102,12 +115,19 @@ namespace Runtime.CH3.Dancepace
         public void OnInteraction()
         {
             if (!isInputEnabled) return;
+            
+            // InGameKeyBinder의 Player 입력 상태도 확인
+            if (!Managers.Data.InGameKeyBinder.IsPlayerInputEnabled()) return;
+            
             // 상호작용 키 입력 처리
         }
 
         public bool IsPoseKeyPressed(string poseId)
         {
             if (!isInputEnabled) return false;
+            
+            // InGameKeyBinder의 Player 입력 상태도 확인
+            if (!Managers.Data.InGameKeyBinder.IsPlayerInputEnabled()) return false;
 
             if (poseKeyBindings != null && poseKeyBindings.TryGetValue(poseId, out var key))
                 return Keyboard.current[key].wasPressedThisFrame;
@@ -118,6 +138,10 @@ namespace Runtime.CH3.Dancepace
         {
             if (!isInputEnabled || poseKeyBindings == null)
                 return false;
+                
+            // InGameKeyBinder의 Player 입력 상태도 확인
+            if (!Managers.Data.InGameKeyBinder.IsPlayerInputEnabled()) return false;
+            
             foreach (var kvp in poseKeyBindings)
             {
                 if (kvp.Key == exceptPoseId) continue;
@@ -130,6 +154,10 @@ namespace Runtime.CH3.Dancepace
         public bool IsPoseKeyHeld(string poseId)
         {
             if (!isInputEnabled) return false;
+            
+            // InGameKeyBinder의 Player 입력 상태도 확인
+            if (!Managers.Data.InGameKeyBinder.IsPlayerInputEnabled()) return false;
+            
             if (poseKeyBindings != null && poseKeyBindings.TryGetValue(poseId, out var key))
                 return Keyboard.current[key].isPressed;
             return false;
@@ -152,10 +180,13 @@ namespace Runtime.CH3.Dancepace
         private void Update()
         {
             if (!isInputEnabled) return;
+            
+            // InGameKeyBinder의 Player 입력 상태도 확인
+            if (!Managers.Data.InGameKeyBinder.IsPlayerInputEnabled()) return;
 
-            // 입력이 없을 때 타이머 증가
-            if (!Keyboard.current[upKey].isPressed && !Keyboard.current[downKey].isPressed &&
-                !Keyboard.current[leftKey].isPressed && !Keyboard.current[rightKey].isPressed)
+            // 입력이 없을 때 타이머 증가 (키 입력 상태 체크를 IsPoseKeyHeld로 변경)
+            if (!IsPoseKeyHeld("Up") && !IsPoseKeyHeld("Down") &&
+                !IsPoseKeyHeld("Left") && !IsPoseKeyHeld("Right"))
             {
                 noInputTimer += Time.deltaTime;
 
