@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Scripts:Runtime.CH3.Dancepace:DPGameConfig
   limitTime: 60
   waveForCount: 6
-  waveClearCoin: 15
+  waveClearCoin: 10
   greatCoin: 3
-  goodCoin: 2
+  goodCoin: 1
   badCoin: 0
-  perfectTimingWindow: 0.2
-  greatTimingWindow: 0.3
+  perfectTimingWindow: 0.3
+  greatTimingWindow: 0.5
