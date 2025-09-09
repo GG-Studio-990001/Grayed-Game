@@ -93,7 +93,7 @@ namespace Runtime.CH3.Dancepace
                     // 성공 여부는 PlaySecondRehearsalRoutine 내에서 처리됨
                     secondRehearsalSuccess = true; // 루프 종료
                 }
-                
+
                 uiManager?.ShowMoreRehearsalPanel(true);
                 yield return new WaitUntil(() => userWantsMoreRehearsal != null);
                 uiManager?.ShowMoreRehearsalPanel(false);
@@ -130,7 +130,6 @@ namespace Runtime.CH3.Dancepace
             float wait = 3f;
             elapsed = 0f;
 
-            Managers.Sound.Play(Sound.BGM, "Dancepace/New/CH3_SUB_BGM_WAVE_20Bar");
             effectManager.StartBeatAnimation();
 
             // 첫 번째 리허설 모드일 때: 타임바 완전 무시
@@ -141,12 +140,15 @@ namespace Runtime.CH3.Dancepace
                 foreach (var waveData in rehearsalWaves)
                 {
                     var beats = waveData.beats;
+
                     yield return StartCoroutine(PlayPreviewPhase(beats, 3f, float.PositiveInfinity, () => false));
                     yield return StartCoroutine(PlayInputPhase(beats, 3f, float.PositiveInfinity, () => false));
                 }
                 effectManager.StopBeatAnimation();
                 yield break;
             }
+            Managers.Sound.StopBGM();
+            Managers.Sound.Play(Sound.BGM, "Dancepace/New/CH3_SUB_BGM_WAVE_20Bar");
 
             uiManager?.UpdateTimeBar(0f, limitTime);
             IEnumerator timeBarUpdater = TimeBarUpdater(limitTime, () => timeOver = true);
@@ -161,6 +163,8 @@ namespace Runtime.CH3.Dancepace
                 if (timeOver) break;
                 int bitCount = UnityEngine.Random.Range(2, 5);
                 var randomBeats = wave.beats.OrderBy(x => UnityEngine.Random.value).Take(bitCount).ToList();
+                Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_Intro_Outro");
+                yield return StartCoroutine(UpdateTimeBarWithWait(7f, limitTime));
                 yield return PlayPreviewPhase(randomBeats, wait, limitTime, () => timeOver);
                 if (timeOver) break;
                 yield return PlayInputPhase(randomBeats, wait, limitTime, () => timeOver);
@@ -177,9 +181,6 @@ namespace Runtime.CH3.Dancepace
 
         private IEnumerator PlayPreviewPhase(List<BeatData> beats, float wait, float limitTime, Func<bool> isTimeOver)
         {
-            Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_Intro_Outro");
-            yield return StartCoroutine(WaitWithTimeCheck(7f, limitTime, isTimeOver));
-
             foreach (var npc in previewNPCs)
                 npc?.PlayPreviewPose(EPoseType.None);
             foreach (var npc in answerNPCs)
@@ -364,7 +365,8 @@ namespace Runtime.CH3.Dancepace
                     npc?.PlayAnswerPose(beat.poseData);
 
                 // 타이밍 판정
-                yield return StartCoroutine(JudgeSecondRehearsalInput(beat, 1.0f, (judgment) => {
+                yield return StartCoroutine(JudgeSecondRehearsalInput(beat, 1.0f, (judgment) =>
+                {
                     if (judgment == EJudgmentType.Great || judgment == EJudgmentType.Perfect)
                     {
                         greatCount++;
@@ -594,6 +596,7 @@ namespace Runtime.CH3.Dancepace
         {
             // 게임 시작 전에 리허설 모드 초기화(테스트용)
             Managers.Data.CH3.IsDancepacePlayed = false;
+
             StartCoroutine(GameFlow());
         }
 

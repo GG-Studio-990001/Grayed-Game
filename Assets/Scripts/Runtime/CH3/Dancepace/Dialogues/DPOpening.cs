@@ -26,6 +26,9 @@ namespace Runtime.CH3.Dancepace
 
         public void StartDialogue()
         {
+            Managers.Data.InGameKeyBinder.PlayerInputDisable();
+            
+            Managers.Sound.Play(Sound.BGM, "Dancepace/CH3_SUB_BGM_01_ver3");
             if (!Managers.Data.CH3.IsDancepacePlayed)
                 _runner.StartDialogue("FirstEnter");
             else
@@ -64,6 +67,7 @@ namespace Runtime.CH3.Dancepace
             Managers.Sound.StopSFX();
             ShowSpeechBubble();
             _timeline2.SetActive(true);
+            Managers.Data.InGameKeyBinder.PlayerInputEnable();
         }
 
         private void ShowSpeechBubble()
