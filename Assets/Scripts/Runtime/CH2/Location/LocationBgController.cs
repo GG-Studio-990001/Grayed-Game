@@ -39,7 +39,7 @@ namespace Runtime.CH2.Location
             { "Base", 5 },            // 기지
             { "Storage", 6 },         // 창고
             { "InStorage", 7 },      // 창고 내부
-            { "InTemple", 8 },
+            { "InTemple", 8 },       // 신전 내부
             { "TempleRoom", 9 },     // 신전 방
             { "Backstreet", 10 },      // 골목길
             { "DollarHouse", 11 },    // 달러의 집
