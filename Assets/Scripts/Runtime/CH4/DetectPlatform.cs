@@ -13,7 +13,7 @@ namespace Runtime.CH4
                 PlatformInfo info = other.GetComponent<PlatformInfo>();
                 if (info != null)
                 {
-                    switchLocation.Teleport(info.TargetLocation);
+                    switchLocation.Teleport(info.TargetLocation, info.Idx);
                 }
             }
         }
