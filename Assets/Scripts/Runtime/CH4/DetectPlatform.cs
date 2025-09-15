@@ -6,14 +6,14 @@ namespace Runtime.CH4
     {
         [SerializeField] private SwitchLocation switchLocation;
 
-        private void OnCollisionEnter2D(Collision2D other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.CompareTag("Platform"))
+            if (other.CompareTag("Platform"))
             {
-                PlatformInfo info = other.gameObject.GetComponent<PlatformInfo>();
+                PlatformInfo info = other.GetComponent<PlatformInfo>();
                 if (info != null)
                 {
-                    switchLocation.Teleport(info.TargetLocation);
+                    switchLocation.Teleport(info.TargetLocation, info.Idx);
                 }
             }
         }

@@ -13,5 +13,6 @@ namespace Runtime.CH4
     public class PlatformInfo : MonoBehaviour
     {
         public Ch4Ch2Locations TargetLocation;
+        public int Idx;
     }
 }
