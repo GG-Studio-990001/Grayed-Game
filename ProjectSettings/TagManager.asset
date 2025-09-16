@@ -10,6 +10,7 @@ TagManager:
   - D1
   - D10
   - Goal
+  - Platform
   layers:
   - Default
   - TransparentFX
