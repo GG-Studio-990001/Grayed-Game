@@ -16,7 +16,7 @@ namespace Runtime.CH3.Dancepace
     public static class StringTableManager
     {
         private static Dictionary<string, string> _table;
-        private const string CsvPath = "Data/Dancepace/CH3_Dancepace_StringTable";
+        private const string CsvPath = "Data/CH3/Dancepace/CH3_Dancepace_StringTable";
         private const string KeyColumn = "Key";
         private static LanguageEnum _currentLanguage = LanguageEnum.Korean; // 기본값
 

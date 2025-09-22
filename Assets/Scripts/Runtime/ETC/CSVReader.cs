@@ -45,8 +45,10 @@ namespace Runtime.ETC
                     // 값 내부에 있는 이중 따옴표를 단일 따옴표로 변경
                     value = value.Replace("\"\"", "\"");
 
-                    // 역슬래시 제거는 유지
-                    value = value.Replace("\\", "");
+                    value = value.Replace("\\n", "\n")
+                                 .Replace("\\t", "\t")
+                                 .Replace("\\r", "\r")
+                                 .Replace("\\\\", "\\");
 
                     object finalvalue = value;
 
