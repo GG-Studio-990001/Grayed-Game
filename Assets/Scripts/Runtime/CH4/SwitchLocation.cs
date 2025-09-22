@@ -11,7 +11,6 @@ namespace Runtime.CH4
         [SerializeField] private GameObject[] CaveObjs;
         [SerializeField] private GameObject[] TempleObjs;
         [SerializeField] private GameObject[] DefaultObjs;
-        [SerializeField] private TextMeshPro[] DefaultObjTxts;
 
         private Dictionary<Ch4Ch2Locations, GameObject[]> locationMap;
         private Dictionary<Ch4Ch2Locations, string> locationName;
@@ -74,9 +73,9 @@ namespace Runtime.CH4
                 return;
             else
             {
-                DefaultObjs[lastIdx].gameObject.SetActive(false);
-                DefaultObjs[idx].gameObject.SetActive(true);
-                DefaultObjTxts[idx].text = locationName[loc];
+                DefaultObjs[lastIdx].SetActive(false);
+                DefaultObjs[idx].SetActive(true);
+                DefaultObjs[idx].GetComponentInChildren<TextMeshPro>().text = locationName[loc];
                 lastIdx = idx;
             }
         }
