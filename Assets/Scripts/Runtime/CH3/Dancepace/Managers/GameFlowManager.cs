@@ -40,6 +40,7 @@ namespace Runtime.CH3.Dancepace
         private RehearsalPhase rehearsalPhase = RehearsalPhase.None;
         private bool? userWantsMoreRehearsal = null;
         private float elapsed = 0f;
+        private float lateLeniencySec = 0.06f;
 
         private void Awake()
         {
@@ -524,26 +525,32 @@ namespace Runtime.CH3.Dancepace
 
         private void JudgeInput(float inputTime, float beatTime, string poseId)
         {
-            if (inputTime <= beatTime)
+            if (beatTime <= 0f)
             {
-                float ratio = inputTime / beatTime;
-                float perfectMin = 0.5f - _gameData.perfectTimingWindow;
-                float perfectMax = 0.5f + _gameData.perfectTimingWindow;
-                float greatMin = 0.5f - _gameData.greatTimingWindow;
-                float greatMax = 0.5f + _gameData.greatTimingWindow;
+                ShowJudgment(EJudgmentType.Bad, poseId);
+                _gameResult.AddBad();
+                _gameResult.AddScore(_gameData.badCoin);
+                return;
+            }
+            float lateRatio = Mathf.Clamp01(lateLeniencySec / beatTime);
 
-                if (ratio >= perfectMin && ratio <= perfectMax)
-                {
-                    ShowJudgment(EJudgmentType.Perfect, poseId);
-                    _gameResult.AddPerfect();
-                    _gameResult.AddScore(_gameData.greatCoin);
-                }
-                else if (ratio >= greatMin && ratio <= greatMax)
-                {
-                    ShowJudgment(EJudgmentType.Great, poseId);
-                    _gameResult.AddGreat();
-                    _gameResult.AddScore(_gameData.goodCoin);
-                }
+            float ratio = inputTime / beatTime;
+            float perfectMin = 0.5f - _gameData.perfectTimingWindow;
+            float perfectMax = 0.5f + _gameData.perfectTimingWindow + lateRatio;
+            float greatMin = 0.5f - _gameData.greatTimingWindow ;
+            float greatMax = 0.5f + _gameData.greatTimingWindow + lateRatio;
+
+            if (ratio >= perfectMin && ratio <= perfectMax)
+            {
+                ShowJudgment(EJudgmentType.Perfect, poseId);
+                _gameResult.AddPerfect();
+                _gameResult.AddScore(_gameData.greatCoin);
+            }
+            else if (ratio >= greatMin && ratio <= greatMax)
+            {
+                ShowJudgment(EJudgmentType.Great, poseId);
+                _gameResult.AddGreat();
+                _gameResult.AddScore(_gameData.goodCoin);
             }
             else
             {
