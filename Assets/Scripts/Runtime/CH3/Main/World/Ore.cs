@@ -25,6 +25,9 @@ namespace Runtime.CH3.Main
         [SerializeField] private bool debugInteraction = false; // 디버그 정보 출력 여부
         [SerializeField] private bool resetGaugeOnCancel = false; // 취소 시 게이지 초기화 여부
 
+        [Header("Grid Position Settings")]
+        [SerializeField] private bool initializeToGridPosition = true; // 초기 스폰을 GridPosition에 맞춤
+
         private int currentMiningCount;
         //private SpriteRenderer spriteRenderer;
         private MineralSpawnZone spawnZone;
@@ -37,6 +40,17 @@ namespace Runtime.CH3.Main
         public override void Initialize(Vector2Int gridPos)
         {
             base.Initialize(gridPos);
+            
+            // 초기 배치: 인스펙터의 gridPosition을 우선 적용
+            if (initializeToGridPosition && gridManager != null)
+            {
+                // BaseGridObject가 gridPosition을 유지하고 있으므로 그 좌표로 월드 위치 재배치
+                Vector2Int targetGrid = gridPosition == Vector2Int.zero ? gridPos : gridPosition;
+                Vector3 world = GetWorldPositionForGrid(targetGrid);
+                transform.position = world;
+                UpdateGridPosition();
+            }
+            
             spriteRenderer = GetComponent<SpriteRenderer>();
             spawnZone = FindObjectOfType<MineralSpawnZone>();
             currentMiningCount = maxMiningCount;

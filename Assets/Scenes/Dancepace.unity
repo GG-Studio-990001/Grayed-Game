@@ -4101,6 +4101,8 @@ MonoBehaviour:
   playerCharacter: {fileID: 975104571}
   _gameData: {fileID: 11400000, guid: add2c5130c6fa6c439a597e0087e3b8b, type: 2}
   _waveData: {fileID: 11400000, guid: 0e661170600e0b548aef0e40af8131f7, type: 2}
+  isRehearsalMode: 0
+  startWaveIndex: 1
 --- !u!1 &714996156
 GameObject:
   m_ObjectHideFlags: 0
