@@ -73,8 +73,8 @@ namespace Runtime.CH4
                 return;
             else
             {
-                DefaultObjs[lastIdx].gameObject.SetActive(false);
-                DefaultObjs[idx].gameObject.SetActive(true);
+                DefaultObjs[lastIdx].SetActive(false);
+                DefaultObjs[idx].SetActive(true);
                 DefaultObjs[idx].GetComponentInChildren<TextMeshPro>().text = locationName[loc];
                 lastIdx = idx;
             }

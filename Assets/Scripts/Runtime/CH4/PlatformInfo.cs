@@ -9,6 +9,11 @@ namespace Runtime.CH4
         Square,
         Cave,
         Temple,
+        InTemple,
+        Backstreet,
+        Base,
+        Storage,
+        InStorage,
     }
 
     public class PlatformInfo : MonoBehaviour
