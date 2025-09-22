@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 namespace Runtime.CH4
@@ -14,5 +15,6 @@ namespace Runtime.CH4
     {
         public Ch4Ch2Locations TargetLocation;
         public int Idx;
+        public TextMeshPro Txt;
     }
 }
