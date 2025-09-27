@@ -12,7 +12,7 @@ namespace Runtime.CH3.Main
     {
         [SerializeField] private SettingsUIView _settingsUIView;
         [SerializeField] private LineView _luckyDialogue;
-        [SerializeField] private QuaterViewPlayer _player;
+        [SerializeField] private PlayerController _player;
         [Header("Inventory References")]
         [SerializeField] private InventoryUI _inventoryUI;
         [SerializeField] private Inventory _inventory;

@@ -2,7 +2,7 @@
 
 namespace Runtime.CH3.Main
 {
-    public class Structure : BaseGridObject
+    public class Structure : GridObject
     {
         [SerializeField] protected bool isBlocking = true;
         [SerializeField] private bool initializeToGridPosition = true; // 초기 스폰을 GridPosition에 맞춤

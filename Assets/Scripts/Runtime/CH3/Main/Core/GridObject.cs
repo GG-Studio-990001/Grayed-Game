@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Runtime.CH3.Main
 {
-    public class BaseGridObject : MonoBehaviour, IGridObject
+    public class GridObject : MonoBehaviour, IGridObject
     {
         [SerializeField] protected GridObjectType objectType;  // Inspector에서 설정할 수 있도록
         [SerializeField] protected Vector2Int gridPosition;

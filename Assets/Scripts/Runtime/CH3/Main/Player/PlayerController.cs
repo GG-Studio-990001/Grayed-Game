@@ -7,7 +7,7 @@ namespace Runtime.CH3
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(BoxCollider))]
-    public class QuaterViewPlayer : MonoBehaviour
+    public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float moveSpeed = 5.0f;
         [SerializeField] private Cinemachine.CinemachineVirtualCamera virtualCamera;
@@ -15,7 +15,7 @@ namespace Runtime.CH3
 
         private Vector2 _movementInput;
         private PlayerState _state = PlayerState.Idle;
-        private PlayerGridObject _gridObject;
+        private PlayerGrid _gridObject;
         private Rigidbody _rigidbody;
         private GridManager _gridManager;
         private InteractionManager _interactionManager;
@@ -26,7 +26,7 @@ namespace Runtime.CH3
             _rigidbody = GetComponent<Rigidbody>();
             _interactionManager = GetComponent<InteractionManager>();
             _gridManager = FindObjectOfType<GridManager>();
-            _gridObject = GetComponent<PlayerGridObject>();
+            _gridObject = GetComponent<PlayerGrid>();
 
             // Rigidbody 설정 수정
             _rigidbody.constraints =

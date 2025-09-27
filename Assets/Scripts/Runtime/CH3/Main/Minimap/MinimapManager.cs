@@ -81,7 +81,7 @@ namespace Runtime.CH3.Main
 
         private void FindPlayer()
         {
-            playerTransform = FindObjectOfType<PlayerGridObject>()?.transform;
+            playerTransform = FindObjectOfType<PlayerGrid>()?.transform;
             if (playerTransform != null)
             {
                 CreateMinimapIcon(playerTransform, playerIconPrefab, playerColor);

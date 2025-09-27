@@ -196,7 +196,7 @@ namespace Runtime.CH3.Main
             if (!areaObjects.ContainsKey(areaId)) return;
 
             var objectsToRemove = areaObjects[areaId]
-                .Where(obj => obj.GameObject.GetComponent<BaseGridObject>()?.GetType().Name == type.ToString())
+                .Where(obj => obj.GameObject.GetComponent<GridObject>()?.GetType().Name == type.ToString())
                 .ToList();
 
             foreach (var obj in objectsToRemove)
@@ -214,7 +214,7 @@ namespace Runtime.CH3.Main
             if (type.HasValue)
             {
                 return areaObjects[areaId].Count(obj => 
-                    obj.GameObject.GetComponent<BaseGridObject>()?.GetType().Name == type.Value.ToString());
+                    obj.GameObject.GetComponent<GridObject>()?.GetType().Name == type.Value.ToString());
             }
 
             return areaObjects[areaId].Count;
