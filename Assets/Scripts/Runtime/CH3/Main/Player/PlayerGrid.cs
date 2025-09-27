@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Runtime.CH3.Main
 {
-    public class PlayerGridObject : BaseGridObject
+    public class PlayerGrid : GridObject
     {
-        private QuaterViewPlayer playerController;
+        private PlayerController playerController;
 
         protected override void Start()
         { 
             base.Start();
-            gridManager = GridManager.Instance;
+            gridManager = GridSystem.Instance;
             if (gridManager != null)
             {
                 Vector3 centerPos = gridManager.GetCenterPosition(transform);
@@ -18,7 +18,7 @@ namespace Runtime.CH3.Main
             }
             //Vector2Int initialGridPos = gridManager != null ? gridManager.WorldToGridPosition(transform.position) : Vector2Int.zero;
             //Initialize(initialGridPos);
-            playerController = GetComponent<QuaterViewPlayer>();
+            playerController = GetComponent<PlayerController>();
         }
 
         private void LateUpdate()

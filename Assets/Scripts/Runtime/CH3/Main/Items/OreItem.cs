@@ -73,8 +73,8 @@ namespace Runtime.CH3.Main
             transform.position = spawnPos;
 
             // 최종 착지 위치 계산 (바닥 높이 고려)
-            Vector3 targetPos = startPosition + dropDirection * dropDistance;
-            targetPos.y = startPosition.y + groundOffset;
+            Vector3 targetPos = startPosition;
+            //targetPos.y = startPosition.y + groundOffset;
 
             Sequence dropSequence = DOTween.Sequence();
 

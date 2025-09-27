@@ -37,10 +37,6 @@ namespace Runtime.CH3.Main
             {
                 Debug.LogWarning($"텔레포트 {gameObject.name}에 연결된 텔레포트가 없습니다!");
             }
-            else
-            {
-                Debug.Log($"텔레포트 {gameObject.name}이 {connectedTeleporter.gameObject.name}에 연결되었습니다.");
-            }
 
             // 콜라이더 확인
             Collider collider = GetComponent<Collider>();
@@ -89,9 +85,9 @@ namespace Runtime.CH3.Main
 
             // 플레이어를 연결된 텔레포터의 GridPosition에서 y만 -1 한 GridPosition으로 이동
             Vector3 targetPosition = Vector3.zero;
-            if (GridManager.Instance != null)
+            if (GridSystem.Instance != null)
             {
-                var gridMgr = GridManager.Instance;
+                var gridMgr = GridSystem.Instance;
                 Vector2Int destGrid = connectedTeleporter.GridPosition;
                 destGrid.y -= 1; // GridPosition의 y를 -1
                 targetPosition = gridMgr.GridToWorldPosition(destGrid);
@@ -140,6 +136,7 @@ namespace Runtime.CH3.Main
         {
             yield return new WaitForSeconds(cooldownTime);
             isInCooldown = false;
+            canInteract = true; // 시작점 텔레포터도 다시 상호작용 가능하도록 설정
         }
 
         private System.Collections.IEnumerator EnableConnectedTeleporterAfterCooldown()

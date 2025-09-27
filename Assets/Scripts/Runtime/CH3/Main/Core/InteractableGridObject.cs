@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Runtime.CH3.Main
 {
-	public abstract class InteractableGridObject : BaseGridObject, IInteractable
+	public abstract class InteractableGridObject : GridObject, IInteractable
 	{
 		[SerializeField] protected float interactionRange = 2f;
 		protected bool canInteract = true;

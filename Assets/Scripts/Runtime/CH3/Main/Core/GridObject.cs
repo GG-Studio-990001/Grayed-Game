@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Runtime.CH3.Main
 {
-    public class BaseGridObject : MonoBehaviour, IGridObject
+    public class GridObject : MonoBehaviour, IGridObject
     {
         [SerializeField] protected GridObjectType objectType;  // Inspector에서 설정할 수 있도록
         [SerializeField] protected Vector2Int gridPosition;
@@ -21,22 +21,48 @@ namespace Runtime.CH3.Main
 
         protected SpriteRenderer spriteRenderer;
         private MinimapManager minimapManager;
-        protected GridManager gridManager;
+        protected GridSystem gridManager;
 
         protected virtual void Start()
         {
-            Initialize(Vector2Int.zero);
+            // GridSystem.CreateObject에서 Initialize를 호출하므로 여기서는 호출하지 않음
+            // 단, GridSystem이 없는 경우에만 기본 초기화 수행
+            if (gridManager == null)
+            {
+                gridManager = GridSystem.Instance;
+                if (gridManager != null)
+                {
+                    // 이미 월드 위치에 있는 오브젝트의 경우 그리드 위치를 계산
+                    Vector2Int calculatedGridPos = gridManager.WorldToGridPosition(transform.position);
+                    if (gridManager.IsValidGridPosition(calculatedGridPos))
+                    {
+                        Initialize(calculatedGridPos);
+                    }
+                }
+            }
         }
         
         //TODO: Vector2Int 없애기
         public virtual void Initialize(Vector2Int gridPos)
         {
-            gridManager = GridManager.Instance;
+            gridManager = GridSystem.Instance;
             minimapManager = FindObjectOfType<MinimapManager>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             minimapManager.CreateMinimapIcon(transform);
-            //transform.position = gridManager.GridToWorldPosition(gridPos);
-            UpdateGridPosition();
+            
+            // gridPosition을 먼저 설정
+            gridPosition = gridPos;
+            
+            // 월드 위치 설정 (useCustomY 고려)
+            Vector3 worldPos = gridManager.GridToWorldPosition(gridPos);
+            if (useCustomY)
+            {
+                worldPos.y = customY;
+            }
+            transform.position = worldPos;
+            
+            // 그리드 셀 점유 상태 설정은 하위 클래스에서 처리
+            // (Structure 등에서 블록 설정과 함께 처리)
 
             // 초기 정렬: 그리드 y(앞/뒤) 기준으로 baseOrder 오프셋 적용
             if (applyInitialGridSorting)
@@ -53,7 +79,7 @@ namespace Runtime.CH3.Main
         protected Vector3 GetWorldPositionForGrid(Vector2Int desiredGridPos)
         {
             if (gridManager == null)
-                gridManager = GridManager.Instance;
+                gridManager = GridSystem.Instance;
             Vector3 world = gridManager != null
                 ? gridManager.GridToWorldPosition(desiredGridPos)
                 : transform.position;

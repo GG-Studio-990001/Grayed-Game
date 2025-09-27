@@ -118,7 +118,7 @@ namespace Runtime.Input
             //_gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
         }
 
-        public void CH3PlayerKeyBinding(QuaterViewPlayer player, Runtime.CH3.Main.CH3KeyBinder binder)
+        public void CH3PlayerKeyBinding(PlayerController player, Runtime.CH3.Main.CH3KeyBinder binder)
         {
             _gameOverControls.Player.Enable();
             _gameOverControls.Player.Move.performed += player.OnMove;
