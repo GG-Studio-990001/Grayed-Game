@@ -25,7 +25,21 @@ namespace Runtime.CH3.Main
 
         protected virtual void Start()
         {
-            Initialize(Vector2Int.zero);
+            // GridSystem.CreateObject에서 Initialize를 호출하므로 여기서는 호출하지 않음
+            // 단, GridSystem이 없는 경우에만 기본 초기화 수행
+            if (gridManager == null)
+            {
+                gridManager = GridSystem.Instance;
+                if (gridManager != null)
+                {
+                    // 이미 월드 위치에 있는 오브젝트의 경우 그리드 위치를 계산
+                    Vector2Int calculatedGridPos = gridManager.WorldToGridPosition(transform.position);
+                    if (gridManager.IsValidGridPosition(calculatedGridPos))
+                    {
+                        Initialize(calculatedGridPos);
+                    }
+                }
+            }
         }
         
         //TODO: Vector2Int 없애기
@@ -35,8 +49,20 @@ namespace Runtime.CH3.Main
             minimapManager = FindObjectOfType<MinimapManager>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             minimapManager.CreateMinimapIcon(transform);
-            //transform.position = gridManager.GridToWorldPosition(gridPos);
-            UpdateGridPosition();
+            
+            // gridPosition을 먼저 설정
+            gridPosition = gridPos;
+            
+            // 월드 위치 설정 (useCustomY 고려)
+            Vector3 worldPos = gridManager.GridToWorldPosition(gridPos);
+            if (useCustomY)
+            {
+                worldPos.y = customY;
+            }
+            transform.position = worldPos;
+            
+            // 그리드 셀 점유 상태 설정은 하위 클래스에서 처리
+            // (Structure 등에서 블록 설정과 함께 처리)
 
             // 초기 정렬: 그리드 y(앞/뒤) 기준으로 baseOrder 오프셋 적용
             if (applyInitialGridSorting)

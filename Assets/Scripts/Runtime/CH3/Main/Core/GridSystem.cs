@@ -69,7 +69,6 @@ namespace Runtime.CH3.Main
         public int minCount;
         public int maxCount;
         [Range(0f, 1f)] public float spawnChance = 1f;
-        public bool allowOverlap = false;
         
         [Header("Animation Settings (Optional)")]
         public bool useAnimation = false;
@@ -151,8 +150,18 @@ namespace Runtime.CH3.Main
         {
             if (initializeOnStart)
             {
-                InitializeAreas();
+                // 씬에 미리 배치된 Structure들이 블록을 설정하도록 대기
+                StartCoroutine(InitializeAfterStructures());
             }
+        }
+        
+        private System.Collections.IEnumerator InitializeAfterStructures()
+        {
+            // 한 프레임 대기하여 모든 Structure의 Start()가 완료되도록 함
+            yield return null;
+            
+            // Structure 블록 설정 완료 후 Area 초기화
+            InitializeAreas();
         }
 
         private void Initialize()
@@ -266,7 +275,6 @@ namespace Runtime.CH3.Main
             }
             Vector2Int arrayIndex = ToArrayIndex(position);
             bool blocked = blockedCells[arrayIndex.x, arrayIndex.y];
-            //ebug.Log($"IsCellBlocked: 그리드 좌표 {position} → 배열 인덱스 {arrayIndex}, blocked: {blocked}");
             return blocked;
         }
 
@@ -292,7 +300,6 @@ namespace Runtime.CH3.Main
             }
             Vector2Int arrayIndex = ToArrayIndex(position);
             blockedCells[arrayIndex.x, arrayIndex.y] = blocked;
-            Debug.Log($"SetCellBlocked: 그리드 좌표 {position} → 배열 인덱스 {arrayIndex}, blocked: {blocked}");
         }
 
         public void SetCellOccupied(Vector2Int position, bool occupied, GameObject occupyingObject = null)
@@ -360,11 +367,10 @@ namespace Runtime.CH3.Main
 
             gridObject.Initialize(gridPosition);
             
-            // 그리드 셀을 점유 상태로 업데이트
-            if (_gridCells.TryGetValue(gridPosition, out GridCell cell))
+            // 그리드 셀을 점유 상태로 설정 (Structure는 제외 - 자체적으로 처리)
+            if (!(gridObject is Structure))
             {
-                cell.IsOccupied = true;
-                cell.OccupyingObject = instance;
+                SetCellOccupied(gridPosition, true, instance);
             }
             
             return gridObject;
@@ -445,7 +451,7 @@ namespace Runtime.CH3.Main
                 {
                     if (Random.value > rule.spawnChance) continue;
 
-                    Vector2Int position = GetValidSpawnPosition(area, occupiedPositions, rule.allowOverlap);
+                    Vector2Int position = GetValidSpawnPosition(area, occupiedPositions);
                     if (position != Vector2Int.one * -1)
                     {
                         if (rule.useAnimation)
@@ -459,10 +465,7 @@ namespace Runtime.CH3.Main
                             {
                                 areaObjects[areaId].Add(obj);
                                 areaObjectCounts[areaId][rule.objectType]++;
-                                if (!rule.allowOverlap)
-                                {
-                                    occupiedPositions.Add(position);
-                                }
+                                occupiedPositions.Add(position);
                             }
                         }
                     }
@@ -470,7 +473,7 @@ namespace Runtime.CH3.Main
             }
         }
 
-        private Vector2Int GetValidSpawnPosition(GridArea area, HashSet<Vector2Int> occupiedPositions, bool allowOverlap)
+        private Vector2Int GetValidSpawnPosition(GridArea area, HashSet<Vector2Int> occupiedPositions)
         {
             int maxAttempts = 100;
             int attempts = 0;
@@ -486,22 +489,19 @@ namespace Runtime.CH3.Main
                     continue;
                 }
 
-                // 2. 이미 점유된 위치인지 확인 (allowOverlap이 false인 경우)
-                if (!allowOverlap)
+                // 2. 이미 점유된 위치인지 확인 (항상 오브젝트가 있는 곳은 피함)
+                // 현재 스폰 중인 위치들 확인
+                if (occupiedPositions.Contains(position))
                 {
-                    // 현재 스폰 중인 위치들 확인
-                    if (occupiedPositions.Contains(position))
-                    {
-                        attempts++;
-                        continue;
-                    }
+                    attempts++;
+                    continue;
+                }
 
-                    // 실제 그리드에 있는 오브젝트들 확인
-                    if (IsCellOccupied(position))
-                    {
-                        attempts++;
-                        continue;
-                    }
+                // 실제 그리드에 있는 오브젝트들 확인
+                if (IsCellOccupied(position))
+                {
+                    attempts++;
+                    continue;
                 }
 
                 return position;
@@ -683,7 +683,7 @@ namespace Runtime.CH3.Main
                     }
                 }
                 
-                Vector2Int position = GetValidSpawnPosition(areas[areaId], occupiedPositions, rule.allowOverlap);
+                Vector2Int position = GetValidSpawnPosition(areas[areaId], occupiedPositions);
                 if (position != Vector2Int.one * -1)
                 {
                     if (rule.useAnimation)
