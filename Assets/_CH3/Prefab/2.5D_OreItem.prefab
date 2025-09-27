@@ -38,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6512757043658307033, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 6512757043658307033, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -119,10 +119,10 @@ MonoBehaviour:
   itemId: 1
   quantity: 3
   itemData: {fileID: 11400000, guid: 7b9db195185b5f14fba5b9d7092c5110, type: 2}
-  initialHeight: 0
+  initialHeight: 0.3
   bounceHeight: 0.5
-  dropDuration: 1
-  groundOffset: -0.2
+  dropDuration: 0.75
+  groundOffset: 0.3
   dropEase: 30
   collectRadius: 2
   moveSpeed: 300

@@ -22,8 +22,10 @@ namespace Runtime.CH3.Main
 
             if (isBlocking && gridManager != null)
             {
-                var indexPos = gridManager.ToArrayIndex(gridPosition);
-                GridManager.Instance.SetCellBlocked(indexPos, true);
+                // gridPosition을 직접 사용 (이미 그리드 좌표)
+                // 디버그 로그 추가
+                Debug.Log($"Structure 블록 설정: {gridPosition}, isBlocking: {isBlocking}");
+                GridSystem.Instance.SetCellBlocked(gridPosition, true);
             }
         }
 
@@ -31,8 +33,8 @@ namespace Runtime.CH3.Main
         {
             if (isBlocking && gridManager != null)
             {
-                var indexPos = gridManager.ToArrayIndex(gridPosition);
-                GridManager.Instance.SetCellBlocked(indexPos, false);
+                // gridPosition을 직접 사용 (이미 그리드 좌표)
+                GridSystem.Instance.SetCellBlocked(gridPosition, false);
             }
             base.Remove();
         }

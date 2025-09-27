@@ -1092,7 +1092,7 @@ GameObject:
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1137,20 +1137,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 549653344}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7d8837f44953be42bd52893861e27f8, type: 3}
+  m_Script: {fileID: 11500000, guid: a1b2c3d4e5f6789012345678901234ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoneStart: {x: 0, y: 0}
-  zoneEnd: {x: 10, y: 10}
-  mineralSettings:
-  - mineralType: 3
-    maxCount: 5
-    spawnChance: 0
-  spawnHeight: 10
-  fallDuration: 1
-  rotationAmount: 360
-  fallEase: 30
-  meteorEffect: {fileID: 0}
+  gridSize: 9
+  cellWidth: 1
+  heightOffset: 0.3
+  mainCamera: {fileID: 0}
+  gridLineColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+  prefabList:
+  - type: 3
+    prefab: {fileID: 6065572252211617098, guid: 4082a43c48984174c9b7d09d34412dac, type: 3}
+  areaDefinitions:
+  - areaId: OreArea0
+    start: {x: -3, y: -3}
+    end: {x: 3, y: 3}
+    spawnRules:
+    - objectType: 3
+      minCount: 1
+      maxCount: 5
+      spawnChance: 0.8
+      allowOverlap: 0
+      useAnimation: 1
+      spawnHeight: 10
+      fallDuration: 1
+      rotationAmount: 360
+      meteorEffect: {fileID: 0}
+      enableRespawn: 1
+      respawnDelayMin: 1
+      respawnDelayMax: 3
+  initializeOnStart: 1
 --- !u!1 &563994895
 GameObject:
   m_ObjectHideFlags: 0
@@ -2805,53 +2821,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133627888}
   m_CullTransparentMesh: 1
---- !u!1 &1148531340
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1148531342}
-  - component: {fileID: 1148531341}
-  m_Layer: 0
-  m_Name: Factory
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1148531341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1148531340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4baac95ba70413e99c00046efb76b93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabList:
-  - type: 3
-    prefab: {fileID: 6065572252211617098, guid: 4082a43c48984174c9b7d09d34412dac, type: 3}
---- !u!4 &1148531342
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1148531340}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1198038692
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2925,6 +2894,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1607167798841243187, guid: 141bee64260fa414db1052037a49aef3, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1607167798841243187, guid: 141bee64260fa414db1052037a49aef3, type: 3}
       propertyPath: m_Name
       value: 2.5D_Telepoter_1
       objectReference: {fileID: 0}
@@ -2986,85 +2959,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 736357456814573792, guid: 141bee64260fa414db1052037a49aef3, type: 3}
   m_PrefabInstance: {fileID: 1198038692}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1202520267
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1202520268}
-  - component: {fileID: 1202520271}
-  - component: {fileID: 1202520270}
-  - component: {fileID: 1202520269}
-  m_Layer: 0
-  m_Name: GridAreaSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1202520268
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1202520267}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1202520269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1202520267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db8ca6bc585e50b48b8630156b78c4ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaDefinitions: []
-  initializeOnStart: 1
---- !u!114 &1202520270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1202520267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 650e9e957a23a874ea484c0ed5ad3cae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridManager: {fileID: 1202520271}
-  objectFactory: {fileID: 1148531341}
---- !u!114 &1202520271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1202520267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c93d91d3acd872843bcc613618725576, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridSize: {x: 25, y: 25}
-  cellWidth: 1
-  heightOffset: 0.53
-  mainCamera: {fileID: 716496753}
-  gridLineColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
 --- !u!1 &1214100539
 GameObject:
   m_ObjectHideFlags: 0
@@ -4500,6 +4394,4 @@ SceneRoots:
   - {fileID: 1130456888}
   - {fileID: 1342219984}
   - {fileID: 549653346}
-  - {fileID: 1148531342}
-  - {fileID: 1202520268}
   - {fileID: 95409520}

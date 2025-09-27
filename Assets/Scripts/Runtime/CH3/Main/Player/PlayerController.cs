@@ -17,7 +17,7 @@ namespace Runtime.CH3
         private PlayerState _state = PlayerState.Idle;
         private PlayerGrid _gridObject;
         private Rigidbody _rigidbody;
-        private GridManager _gridManager;
+        private GridSystem _gridManager;
         private InteractionManager _interactionManager;
         private float _lastInteractTime = -999f;
 
@@ -25,7 +25,7 @@ namespace Runtime.CH3
         {
             _rigidbody = GetComponent<Rigidbody>();
             _interactionManager = GetComponent<InteractionManager>();
-            _gridManager = FindObjectOfType<GridManager>();
+            _gridManager = FindObjectOfType<GridSystem>();
             _gridObject = GetComponent<PlayerGrid>();
 
             // Rigidbody 설정 수정

@@ -10,7 +10,7 @@ namespace Runtime.CH3.Main
         protected override void Start()
         { 
             base.Start();
-            gridManager = GridManager.Instance;
+            gridManager = GridSystem.Instance;
             if (gridManager != null)
             {
                 Vector3 centerPos = gridManager.GetCenterPosition(transform);

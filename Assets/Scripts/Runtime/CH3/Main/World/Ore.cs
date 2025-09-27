@@ -30,7 +30,7 @@ namespace Runtime.CH3.Main
 
         private int currentMiningCount;
         //private SpriteRenderer spriteRenderer;
-        private MineralSpawnZone spawnZone;
+        // private MineralSpawnZone spawnZone; // GridSystem으로 통합됨
         private List<GameObject> droppedItems = new List<GameObject>();
         private float lastInteractionTime;
         private Canvas uiCanvas; // 자동 찾기
@@ -52,7 +52,7 @@ namespace Runtime.CH3.Main
             }
             
             spriteRenderer = GetComponent<SpriteRenderer>();
-            spawnZone = FindObjectOfType<MineralSpawnZone>();
+            // spawnZone = FindObjectOfType<MineralSpawnZone>(); // GridSystem으로 통합됨
             currentMiningCount = maxMiningCount;
             UpdateSprite();
 
@@ -258,9 +258,9 @@ namespace Runtime.CH3.Main
             yield return StartCoroutine(FadeOutMineral());
             
             // 광물 제거 (아이템들은 자체적으로 수집됨)
-            if (spawnZone != null)
+            if (GridSystem.Instance != null)
             {
-                spawnZone.OnMineralRemoved(objectType);
+                GridSystem.Instance.OnMineralRemoved(objectType);
             }
             Remove();
         }
@@ -303,9 +303,9 @@ namespace Runtime.CH3.Main
 
         public override void Remove()
         {
-            if (spawnZone != null)
+            if (GridSystem.Instance != null)
             {
-                spawnZone.OnMineralRemoved(objectType);
+                GridSystem.Instance.OnMineralRemoved(objectType);
             }
             base.Remove();
         }

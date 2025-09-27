@@ -21,7 +21,7 @@ namespace Runtime.CH3.Main
 
         protected SpriteRenderer spriteRenderer;
         private MinimapManager minimapManager;
-        protected GridManager gridManager;
+        protected GridSystem gridManager;
 
         protected virtual void Start()
         {
@@ -31,7 +31,7 @@ namespace Runtime.CH3.Main
         //TODO: Vector2Int 없애기
         public virtual void Initialize(Vector2Int gridPos)
         {
-            gridManager = GridManager.Instance;
+            gridManager = GridSystem.Instance;
             minimapManager = FindObjectOfType<MinimapManager>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             minimapManager.CreateMinimapIcon(transform);
@@ -53,7 +53,7 @@ namespace Runtime.CH3.Main
         protected Vector3 GetWorldPositionForGrid(Vector2Int desiredGridPos)
         {
             if (gridManager == null)
-                gridManager = GridManager.Instance;
+                gridManager = GridSystem.Instance;
             Vector3 world = gridManager != null
                 ? gridManager.GridToWorldPosition(desiredGridPos)
                 : transform.position;
