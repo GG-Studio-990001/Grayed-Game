@@ -136,6 +136,7 @@ namespace Runtime.CH3.Main
         {
             yield return new WaitForSeconds(cooldownTime);
             isInCooldown = false;
+            canInteract = true; // 시작점 텔레포터도 다시 상호작용 가능하도록 설정
         }
 
         private System.Collections.IEnumerator EnableConnectedTeleporterAfterCooldown()

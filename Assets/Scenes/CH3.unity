@@ -1140,7 +1140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1b2c3d4e5f6789012345678901234ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: 9
+  gridSize: 25
   cellWidth: 1
   heightOffset: 0.3
   mainCamera: {fileID: 0}
@@ -1154,9 +1154,9 @@ MonoBehaviour:
     end: {x: 4, y: 4}
     spawnRules:
     - objectType: 3
-      minCount: 10
-      maxCount: 10
-      spawnChance: 1
+      minCount: 1
+      maxCount: 5
+      spawnChance: 0.8
       useAnimation: 1
       spawnHeight: 10
       fallDuration: 1
