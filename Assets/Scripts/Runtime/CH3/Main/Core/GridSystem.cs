@@ -90,7 +90,7 @@ namespace Runtime.CH3.Main
 
         [Header("Grid Settings")]
         [Tooltip("정사각형 그리드 크기. 짝수면 자동으로 홀수로 변환, 최소 9")]
-        [Range(9, 25)]
+        [Range(9, 50)]
         [SerializeField] private int gridSize = 9; // 정사각형 그리드 크기
         [SerializeField] private float cellWidth = 1f;
         [SerializeField] private float heightOffset = 0.3f;
@@ -137,7 +137,6 @@ namespace Runtime.CH3.Main
             if (Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
                 Initialize();
             }
             else
@@ -768,10 +767,10 @@ namespace Runtime.CH3.Main
                         Gizmos.DrawWireSphere(worldPosition, 0.1f);
                     }
 
-#if UNITY_EDITOR
-                    UnityEditor.Handles.Label(worldPosition,
-                        $"({gridPosition.x}, {gridPosition.y})");
-#endif
+// #if UNITY_EDITOR
+//                     UnityEditor.Handles.Label(worldPosition,
+//                         $"({gridPosition.x}, {gridPosition.y})");
+// #endif
                 }
             }
 
