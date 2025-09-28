@@ -4,7 +4,8 @@ namespace Runtime.CH4
 {
     public class DetectPlatform : MonoBehaviour
     {
-        [SerializeField] private SwitchLocation switchLocation;
+        [SerializeField] private CH4Stage2GameController gameController;
+        [SerializeField] private SwitchLocation[] switchLocation;
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -13,7 +14,7 @@ namespace Runtime.CH4
                 PlatformInfo info = other.GetComponent<PlatformInfo>();
                 if (info != null)
                 {
-                    switchLocation.Teleport(info.TargetLocation, info.Idx);
+                    switchLocation[gameController.NowLevel - 1].Teleport(info.TargetLocation, info.Idx);
                 }
             }
         }

@@ -72,21 +72,36 @@ namespace Runtime.CH4
                                 {
                                     p.gameObject.SetActive(true);
                                     p.TargetLocation = (Ch4Ch2Locations)type;
-                                    if (type == 1)
+                                    // TODO: 리팩터링
+                                    switch(type)
                                     {
-                                        p.Txt.text = "1_마을입구";
-                                    }
-                                    else if (type == 2)
-                                    {
-                                        p.Txt.text = "2_광장";
-                                    }
-                                    else if (type == 3)
-                                    {
-                                        p.Txt.text = "3_동굴";
-                                    }
-                                    else if (type == 4)
-                                    {
-                                        p.Txt.text = "4_신전";
+                                        case 1:
+                                            p.Txt.text = "1_마을입구";
+                                            break;
+                                        case 2:
+                                            p.Txt.text = "2_광장";
+                                            break;
+                                        case 3:
+                                            p.Txt.text = "3_동굴";
+                                            break;
+                                        case 4:
+                                            p.Txt.text = "4_신전";
+                                            break;
+                                        case 5:
+                                            p.Txt.text = "5_신전 방";
+                                            break;
+                                        case 6:
+                                            p.Txt.text = "6_골목길";
+                                            break;
+                                        case 7:
+                                            p.Txt.text = "7_기지";
+                                            break;
+                                        case 8:
+                                            p.Txt.text = "8_창고";
+                                            break;
+                                        case 9:
+                                            p.Txt.text = "9_창고내부";
+                                            break;
                                     }
                                 }
                             }
