@@ -16,7 +16,7 @@ namespace Runtime.CH4
         private Dictionary<Ch4Ch2Locations, string> locationName;
         private GameObject[] lastLocation;
         private Ch4Ch2Locations lastVal;
-        private int lastIdx = 0;
+        private int lastIdx = -1;
 
         private void Awake()
         {
@@ -40,9 +40,9 @@ namespace Runtime.CH4
             Debug.Log("[SwitchLocation] Awake - locationMap 초기화 완료");
         }
 
-        private void Start()
+        public void StartLevel()
         {
-            Debug.Log("[SwitchLocation] Start - 초기 위치 Entrance로 설정");
+            Debug.Log("[SwitchLocation] 레벨1 Start - 초기 위치 Entrance로 설정");
             Teleport(Ch4Ch2Locations.Entrance, -1);
         }
 
@@ -73,7 +73,8 @@ namespace Runtime.CH4
                 return;
             else
             {
-                DefaultObjs[lastIdx].SetActive(false);
+                if (lastIdx != -1)
+                    DefaultObjs[lastIdx].SetActive(false);
                 DefaultObjs[idx].SetActive(true);
                 DefaultObjs[idx].GetComponentInChildren<TextMeshPro>().text = locationName[loc];
                 lastIdx = idx;

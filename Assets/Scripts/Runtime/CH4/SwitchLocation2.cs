@@ -21,7 +21,7 @@ namespace Runtime.CH4
         private Dictionary<Ch4Ch2Locations, string> locationName;
         private GameObject[] lastLocation;
         private Ch4Ch2Locations lastVal;
-        private int lastIdx = 0;
+        private int lastIdx = -1;
 
         private void Awake()
         {
@@ -32,11 +32,11 @@ namespace Runtime.CH4
                 { Ch4Ch2Locations.Square, SquareObjs },
                 { Ch4Ch2Locations.Cave, CaveObjs },
                 { Ch4Ch2Locations.Temple, TempleObjs },
-                { Ch4Ch2Locations.InTemple, TempleObjs },
-                { Ch4Ch2Locations.Backstreet, TempleObjs },
-                { Ch4Ch2Locations.Base, TempleObjs },
-                { Ch4Ch2Locations.Storage, TempleObjs },
-                { Ch4Ch2Locations.InStorage, TempleObjs }
+                { Ch4Ch2Locations.InTemple, InTempleObjs },
+                { Ch4Ch2Locations.Backstreet, BackstreetObjs },
+                { Ch4Ch2Locations.Base, BaseObjs },
+                { Ch4Ch2Locations.Storage, StorageObjs },
+                { Ch4Ch2Locations.InStorage, InStorageObjs }
             };
 
             locationName = new Dictionary<Ch4Ch2Locations, string>
@@ -49,15 +49,15 @@ namespace Runtime.CH4
                 { Ch4Ch2Locations.Backstreet, "6_골목길" },
                 { Ch4Ch2Locations.Base, "7_기지" },
                 { Ch4Ch2Locations.Storage, "8_창고" },
-                { Ch4Ch2Locations.InStorage, "9_창고 내부" }
+                { Ch4Ch2Locations.InStorage, "9_창고내부" }
             };
 
             Debug.Log("[SwitchLocation] Awake - locationMap 초기화 완료");
         }
 
-        private void Start()
+        public void StartLevel()
         {
-            Debug.Log("[SwitchLocation2] Start - 초기 위치 InStorage로 설정");
+            Debug.Log("[SwitchLocation2] 레벨2 Start - 초기 위치 InStorage로 설정");
             Teleport(Ch4Ch2Locations.InStorage, -1);
         }
 
@@ -88,7 +88,8 @@ namespace Runtime.CH4
                 return;
             else
             {
-                DefaultObjs[lastIdx].SetActive(false);
+                if (lastIdx != -1)
+                    DefaultObjs[lastIdx].SetActive(false);
                 DefaultObjs[idx].SetActive(true);
                 DefaultObjs[idx].GetComponentInChildren<TextMeshPro>().text = locationName[loc];
                 lastIdx = idx;
