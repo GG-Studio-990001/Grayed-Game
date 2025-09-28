@@ -10,8 +10,7 @@ namespace Runtime.CH4
         [SerializeField] private GameObject Player;
         [SerializeField] private GameObject Level1Obj;
         [SerializeField] private GameObject Level2Obj;
-        [SerializeField] private SwitchLocation switchLocation;
-        [SerializeField] private SwitchLocation2 switchLocation2;
+        [SerializeField] private SwitchLocation[] switchLocation;
         [SerializeField] private GameObject[] BGs;
 
         private void Start()
@@ -47,7 +46,7 @@ namespace Runtime.CH4
             foreach (var bg in BGs)
                 bg.SetActive(false);
 
-            switchLocation.StartLevel();
+            switchLocation[0].StartLevel();
 
             yield return null;
 
@@ -62,7 +61,7 @@ namespace Runtime.CH4
             foreach (var bg in BGs)
                 bg.SetActive(false);
 
-            switchLocation2.StartLevel();
+            switchLocation[1].StartLevel();
 
             yield return null;
 

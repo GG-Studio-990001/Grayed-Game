@@ -72,6 +72,7 @@ namespace Runtime.CH4
                                 {
                                     p.gameObject.SetActive(true);
                                     p.TargetLocation = (Ch4Ch2Locations)type;
+                                    // TODO: 리팩터링
                                     switch(type)
                                     {
                                         case 1:
