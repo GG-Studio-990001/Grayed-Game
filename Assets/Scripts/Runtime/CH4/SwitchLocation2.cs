@@ -15,16 +15,16 @@ namespace Runtime.CH4
             base.Awake();
 
             // 상속받은 locationMap에 새 장소 추가
-            locationMap[Ch4Ch2Locations.InTemple] = InTempleObjs;
-            locationMap[Ch4Ch2Locations.Backstreet] = BackstreetObjs;
-            locationMap[Ch4Ch2Locations.Base] = BaseObjs;
-            locationMap[Ch4Ch2Locations.Storage] = StorageObjs;
-            locationMap[Ch4Ch2Locations.InStorage] = InStorageObjs;
+            locationMap[Ch4S2Locations.InTemple] = InTempleObjs;
+            locationMap[Ch4S2Locations.Backstreet] = BackstreetObjs;
+            locationMap[Ch4S2Locations.Base] = BaseObjs;
+            locationMap[Ch4S2Locations.Storage] = StorageObjs;
+            locationMap[Ch4S2Locations.InStorage] = InStorageObjs;
         }
 
         public override void StartLevel()
         {
-            Teleport(Ch4Ch2Locations.InStorage, -1); // 초기 위치 변경
+            Teleport(Ch4S2Locations.InStorage, -1); // 초기 위치 변경
         }
     }
 }

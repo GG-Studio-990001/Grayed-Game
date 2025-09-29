@@ -12,28 +12,28 @@ namespace Runtime.CH4
         [SerializeField] protected GameObject[] TempleObjs;
         [SerializeField] protected GameObject[] DefaultObjs;
 
-        protected Dictionary<Ch4Ch2Locations, GameObject[]> locationMap;
+        protected Dictionary<Ch4S2Locations, GameObject[]> locationMap;
         protected GameObject[] lastLocation;
-        protected Ch4Ch2Locations lastVal;
+        protected Ch4S2Locations lastVal;
         protected int lastIdx = -1;
 
         protected virtual void Awake()
         {
-            locationMap = new Dictionary<Ch4Ch2Locations, GameObject[]>
+            locationMap = new Dictionary<Ch4S2Locations, GameObject[]>
             {
-                { Ch4Ch2Locations.Entrance, EntranceObjs },
-                { Ch4Ch2Locations.Square, SquareObjs },
-                { Ch4Ch2Locations.Cave, CaveObjs },
-                { Ch4Ch2Locations.Temple, TempleObjs }
+                { Ch4S2Locations.Entrance, EntranceObjs },
+                { Ch4S2Locations.Square, SquareObjs },
+                { Ch4S2Locations.Cave, CaveObjs },
+                { Ch4S2Locations.Temple, TempleObjs }
             };
         }
 
         public virtual void StartLevel()
         {
-            Teleport(Ch4Ch2Locations.Entrance, -1);
+            Teleport(Ch4S2Locations.Entrance, -1);
         }
 
-        public void Teleport(Ch4Ch2Locations loc, int idx)
+        public void Teleport(Ch4S2Locations loc, int idx)
         {
             if (lastVal == loc) return;
             if (locationMap.TryGetValue(loc, out var objs)) MoveTo(objs);

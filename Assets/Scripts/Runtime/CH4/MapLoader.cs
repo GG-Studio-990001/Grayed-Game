@@ -71,7 +71,7 @@ namespace Runtime.CH4
                                 if (p != null)
                                 {
                                     p.gameObject.SetActive(true);
-                                    p.TargetLocation = (Ch4Ch2Locations)type;
+                                    p.TargetLocation = (Ch4S2Locations)type;
                                     p.Txt.text = p.TargetLocation.GetName(); // 확장 메서드로 대체
                                 }
                             }

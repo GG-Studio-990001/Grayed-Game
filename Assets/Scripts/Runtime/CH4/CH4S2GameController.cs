@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Runtime.CH4
 {
-    public class CH4Stage2GameController : MonoBehaviour
+    public class CH4S2GameController : MonoBehaviour
     {
         [field: SerializeField]
         public int NowLevel { get; private set; }
