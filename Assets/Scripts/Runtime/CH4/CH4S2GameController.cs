@@ -12,6 +12,7 @@ namespace Runtime.CH4
         [SerializeField] private SwitchLocation[] switchLocation;
         [SerializeField] private GameObject[] BGs;
         [SerializeField] private Vector3 PlayerInitPos;
+        [SerializeField] private GameObject[] Keys;
 
         private void Start()
         {
@@ -20,6 +21,8 @@ namespace Runtime.CH4
 
         public void StartLevel(int level)
         {
+            foreach(var key in Keys)
+                key.SetActive(false);
             Player.SetActive(false);
 
             // 모든 레벨 오브젝트 초기화
@@ -47,6 +50,7 @@ namespace Runtime.CH4
             
             Player.transform.localPosition = PlayerInitPos;
             Player.SetActive(true);
+            Keys[level - 1].SetActive(true);
         }
     }
 }
