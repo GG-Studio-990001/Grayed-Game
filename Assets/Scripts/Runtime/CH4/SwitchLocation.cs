@@ -83,6 +83,20 @@ namespace Runtime.CH4
                 DefaultObjParent.SetActive(playerHere);
             }
 
+            // 텍스트 색 변경
+            foreach (var kv in locationMap)
+            {
+                var text = kv.Value[0].GetComponentInChildren<TextMeshProUGUI>(true);
+                if (text != null)
+                {
+                    // kv.Value[0]이 현재 켜진 loc의 0번째 오브젝트인지 확인
+                    if (kv.Key == loc && playerHere)
+                        text.color = Color.red;
+                    else
+                        text.color = Color.white;
+                }
+            }
+
             lastLocation = location;
             lastVal = loc;
         }
