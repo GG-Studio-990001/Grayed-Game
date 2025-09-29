@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Runtime.CH4
 {
-    public enum Ch4Ch2Locations
+    public enum Ch4S2Locations
     {
         Entrance = 1,
         Square,
@@ -18,7 +18,7 @@ namespace Runtime.CH4
 
     public class PlatformInfo : MonoBehaviour
     {
-        public Ch4Ch2Locations TargetLocation;
+        public Ch4S2Locations TargetLocation;
         public int Idx;
         public TextMeshPro Txt;
     }

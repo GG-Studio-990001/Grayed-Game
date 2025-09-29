@@ -14,23 +14,29 @@ namespace Runtime.CH4
         {
             base.Awake();
 
-            // 상속받은 locationMap에 새 장소 추가
-            locationMap[Ch4Ch2Locations.InTemple] = InTempleObjs;
-            locationMap[Ch4Ch2Locations.Backstreet] = BackstreetObjs;
-            locationMap[Ch4Ch2Locations.Base] = BaseObjs;
-            locationMap[Ch4Ch2Locations.Storage] = StorageObjs;
-            locationMap[Ch4Ch2Locations.InStorage] = InStorageObjs;
+            order = new Ch4S2Locations[]
+            {
+                Ch4S2Locations.Entrance,
+                Ch4S2Locations.Square,
+                Ch4S2Locations.Cave,
+                Ch4S2Locations.Temple,
+                Ch4S2Locations.InTemple,
+                Ch4S2Locations.Backstreet,
+                Ch4S2Locations.Base,
+                Ch4S2Locations.Storage,
+                Ch4S2Locations.InStorage
+            };
 
-            locationName[Ch4Ch2Locations.InTemple] = "5_신전 방";
-            locationName[Ch4Ch2Locations.Backstreet] = "6_골목길";
-            locationName[Ch4Ch2Locations.Base] = "7_기지";
-            locationName[Ch4Ch2Locations.Storage] = "8_창고";
-            locationName[Ch4Ch2Locations.InStorage] = "9_창고내부";
+            locationMap[Ch4S2Locations.InTemple] = InTempleObjs;
+            locationMap[Ch4S2Locations.Backstreet] = BackstreetObjs;
+            locationMap[Ch4S2Locations.Base] = BaseObjs;
+            locationMap[Ch4S2Locations.Storage] = StorageObjs;
+            locationMap[Ch4S2Locations.InStorage] = InStorageObjs;
         }
 
         public override void StartLevel()
         {
-            Teleport(Ch4Ch2Locations.InStorage, -1); // 초기 위치 변경
+            Teleport(Ch4S2Locations.InStorage, -1); // 초기 위치
         }
     }
 }
