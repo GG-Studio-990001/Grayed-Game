@@ -257,5 +257,78 @@ namespace Runtime.InGameSystem
             BGM.UnPause();
             LuckyBGM.UnPause();
         }
+
+		// BGM만 페이드 아웃 (음소거까지)
+		public IEnumerator FadeOutBGM(float duration)
+		{
+			if (duration <= 0f)
+			{
+				BGM.volume = 0f;
+				yield break;
+			}
+			float start = BGM.volume;
+			for (float t = 0f; t < duration; t += Time.deltaTime)
+			{
+				float r = t / duration;
+				BGM.volume = Mathf.Lerp(start, 0f, r);
+				yield return null;
+			}
+			BGM.volume = 0f;
+		}
+
+		// BGM만 페이드 인 (현재 설정 볼륨까지)
+		public IEnumerator FadeInBGM(float duration)
+		{
+			float target = Managers.Data.BgmVolume * (_isReducing ? 0.5f : 1.0f);
+			if (duration <= 0f)
+			{
+				BGM.volume = target;
+				yield break;
+			}
+			float start = BGM.volume;
+			for (float t = 0f; t < duration; t += Time.deltaTime)
+			{
+				float r = t / duration;
+				BGM.volume = Mathf.Lerp(start, target, r);
+				yield return null;
+			}
+			BGM.volume = target;
+		}
+
+		// 지정한 BGM으로 페이드 아웃/인하여 전환
+		public void PlayBGMWithFade(string path, float fadeOutDuration = 0.5f, float fadeInDuration = 0.8f, bool isContinue = false)
+		{
+			CoroutineRunner.Instance.StartCoroutine(PlayBGMWithFadeCoroutine(path, fadeOutDuration, fadeInDuration, isContinue));
+		}
+
+		private IEnumerator PlayBGMWithFadeCoroutine(string path, float fadeOutDuration, float fadeInDuration, bool isContinue)
+		{
+			float targetVolume = Managers.Data.BgmVolume * (_isReducing ? 0.5f : 1.0f);
+			if (BGM.isPlaying && fadeOutDuration > 0f)
+			{
+				float startVolume = BGM.volume;
+				for (float t = 0f; t < fadeOutDuration; t += Time.deltaTime)
+				{
+					float ratio = t / fadeOutDuration;
+					BGM.volume = Mathf.Lerp(startVolume, 0f, ratio);
+					yield return null;
+				}
+				BGM.volume = 0f;
+			}
+
+			// 재생 및 페이드 인
+			Play(Sound.BGM, path, isContinue);
+			if (fadeInDuration > 0f)
+			{
+				BGM.volume = 0f;
+				for (float t = 0f; t < fadeInDuration; t += Time.deltaTime)
+				{
+					float ratio = t / fadeInDuration;
+					BGM.volume = Mathf.Lerp(0f, targetVolume, ratio);
+					yield return null;
+				}
+			}
+			BGM.volume = targetVolume;
+		}
     }
 }
