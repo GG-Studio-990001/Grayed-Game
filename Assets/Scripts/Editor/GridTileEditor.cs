@@ -1,3 +1,5 @@
+//#if UNITY_EDITOR 전처리로 전체 에디터 스크립트를 플레이어 빌드에서 제외
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -1143,3 +1145,4 @@ public class GridTileEditor : EditorWindow
         }
     }
 }
+#endif
