@@ -8,37 +8,32 @@ namespace Runtime.CH4
         [field: SerializeField]
         public int NowLevel { get; private set; }
         [SerializeField] private GameObject Player;
-        [SerializeField] private GameObject Level1Obj;
-        [SerializeField] private GameObject Level2Obj;
+        [SerializeField] private GameObject[] LevelObjs;
         [SerializeField] private SwitchLocation[] switchLocation;
         [SerializeField] private GameObject[] BGs;
+        [SerializeField] private Vector3 PlayerInitPos;
 
         private void Start()
         {
-            if (NowLevel == 1)
-                StartLevel1();
-            else
-                StartLevel2();
+            StartLevel(NowLevel);
         }
 
-        public void StartLevel1()
+        public void StartLevel(int level)
         {
             Player.SetActive(false);
-            NowLevel = 1;
-            Level1Obj.SetActive(true);
-            StartCoroutine(nameof(Level1));
+
+            // 모든 레벨 오브젝트 초기화
+            foreach (var obj in LevelObjs)
+                obj.SetActive(false);
+
+            NowLevel = level;
+
+            LevelObjs[level - 1].SetActive(true);
+
+            StartCoroutine(LevelRoutine(level));
         }
 
-        public void StartLevel2()
-        {
-            Player.SetActive(false);
-            Level1Obj.SetActive(false);
-            NowLevel = 2;
-            Level2Obj.SetActive(true);
-            StartCoroutine(nameof(Level2));
-        }
-
-        private IEnumerator Level1()
+        private IEnumerator LevelRoutine(int level)
         {
             // 맵 로드 프레임 동안 대기
             yield return null;
@@ -46,26 +41,11 @@ namespace Runtime.CH4
             foreach (var bg in BGs)
                 bg.SetActive(false);
 
-            switchLocation[0].StartLevel();
+            switchLocation[level - 1].StartLevel();
 
             yield return null;
-
-            Player.SetActive(true);
-        }
-
-        private IEnumerator Level2()
-        {
-            // 맵 로드 프레임 동안 대기
-            yield return null;
-
-            foreach (var bg in BGs)
-                bg.SetActive(false);
-
-            switchLocation[1].StartLevel();
-
-            yield return null;
-
-            Player.transform.localPosition = new(-37.98f, -10.97f, 0);
+            
+            Player.transform.localPosition = PlayerInitPos;
             Player.SetActive(true);
         }
     }

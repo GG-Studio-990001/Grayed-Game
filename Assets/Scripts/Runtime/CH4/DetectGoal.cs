@@ -13,7 +13,7 @@ namespace Runtime.CH4
             {
                 if (gameController.NowLevel == 1)
                 {
-                    gameController.StartLevel2();
+                    gameController.StartLevel(2);
                 }
                 else
                 {
