@@ -20,12 +20,6 @@ namespace Runtime.CH4
             locationMap[Ch4Ch2Locations.Base] = BaseObjs;
             locationMap[Ch4Ch2Locations.Storage] = StorageObjs;
             locationMap[Ch4Ch2Locations.InStorage] = InStorageObjs;
-
-            locationName[Ch4Ch2Locations.InTemple] = "5_신전 방";
-            locationName[Ch4Ch2Locations.Backstreet] = "6_골목길";
-            locationName[Ch4Ch2Locations.Base] = "7_기지";
-            locationName[Ch4Ch2Locations.Storage] = "8_창고";
-            locationName[Ch4Ch2Locations.InStorage] = "9_창고내부";
         }
 
         public override void StartLevel()
