@@ -207,7 +207,18 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""afbd4c25-9a44-4e53-8ad7-da290bb08fee"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""90b08688-cfb2-47ec-9b5e-cbd5558d3558"",
+                    ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

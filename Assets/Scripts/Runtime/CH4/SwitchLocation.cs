@@ -6,97 +6,113 @@ namespace Runtime.CH4
 {
     public class SwitchLocation : MonoBehaviour
     {
-        [SerializeField] private GameObject[] EntranceObjs;
-        [SerializeField] private GameObject[] SquareObjs;
-        [SerializeField] private GameObject[] CaveObjs;
-        [SerializeField] private GameObject[] TempleObjs;
-        [SerializeField] private GameObject[] DefaultObjs;
-        [SerializeField] private TextMeshPro[] DefaultObjTxts;
+        [SerializeField] protected GameObject[] EntranceObjs;
+        [SerializeField] protected GameObject[] SquareObjs;
+        [SerializeField] protected GameObject[] CaveObjs;
+        [SerializeField] protected GameObject[] TempleObjs;
+        [SerializeField] protected GameObject player;
+        [SerializeField] protected GameObject DefaultObjParent;
+        [SerializeField] protected GameObject[] DefaultObjs;
 
-        private Dictionary<Ch4Ch2Locations, GameObject[]> locationMap;
-        private Dictionary<Ch4Ch2Locations, string> locationName;
-        private GameObject[] lastLocation;
-        private Ch4Ch2Locations lastVal;
-        private int lastIdx = 0;
+        protected Dictionary<Ch4S2Locations, GameObject[]> locationMap;
+        protected GameObject[] lastLocation;
+        protected Ch4S2Locations lastVal;
+        protected int lastIdx = -1;
 
-        private void Awake()
+        protected Ch4S2Locations playerLastLocation; // 플레이어가 마지막으로 있던 위치
+
+        // 기본 4곳 순서
+        protected Ch4S2Locations[] order = {
+            Ch4S2Locations.Entrance,
+            Ch4S2Locations.Square,
+            Ch4S2Locations.Cave,
+            Ch4S2Locations.Temple
+        };
+
+        protected virtual void Awake()
         {
-            // 장소와 오브젝트 배열 매핑
-            locationMap = new Dictionary<Ch4Ch2Locations, GameObject[]>
+            locationMap = new Dictionary<Ch4S2Locations, GameObject[]>
             {
-                { Ch4Ch2Locations.Entrance, EntranceObjs },
-                { Ch4Ch2Locations.Square, SquareObjs },
-                { Ch4Ch2Locations.Cave, CaveObjs },
-                { Ch4Ch2Locations.Temple, TempleObjs }
+                { Ch4S2Locations.Entrance, EntranceObjs },
+                { Ch4S2Locations.Square, SquareObjs },
+                { Ch4S2Locations.Cave, CaveObjs },
+                { Ch4S2Locations.Temple, TempleObjs }
             };
-
-            locationName = new Dictionary<Ch4Ch2Locations, string>
-            {
-                { Ch4Ch2Locations.Entrance, "1_마을입구" },
-                { Ch4Ch2Locations.Square,  "2_광장" },
-                { Ch4Ch2Locations.Cave,  "3_동굴" },
-                { Ch4Ch2Locations.Temple,  "4_신전" }
-            };
-
-            Debug.Log("[SwitchLocation] Awake - locationMap 초기화 완료");
         }
 
-        private void Start()
+        public virtual void StartLevel()
         {
-            Debug.Log("[SwitchLocation] Start - 초기 위치 Entrance로 설정");
-            Teleport(Ch4Ch2Locations.Entrance, -1);
+            Teleport(Ch4S2Locations.Entrance, -1);
         }
 
-        public void Teleport(Ch4Ch2Locations loc, int idx)
+        public void Teleport(Ch4S2Locations loc, int idx)
         {
-            // 장소 이동
-            Debug.Log($"[SwitchLocation] Teleport 요청: {loc}");
-
-            if (lastVal == loc)
+            if (idx != -1)
             {
-                Debug.Log($"[SwitchLocation] 이미 {loc}에 있음 → 무시");
-                return;
-            }
-
-            if (locationMap.TryGetValue(loc, out var objs))
-            {
-                MoveTo(objs);
-                Debug.Log($"[SwitchLocation] Teleport 성공: {lastVal} → {loc}");
-                lastVal = loc;
-            }
-            else
-            {
-                Debug.LogWarning($"[SwitchLocation] {loc} 에 해당하는 오브젝트 배열이 없습니다.");
-            }
-
-            // 발판 켜기
-            if (idx == -1)
-                return;
-            else
-            {
-                DefaultObjs[lastIdx].gameObject.SetActive(false);
-                DefaultObjs[idx].gameObject.SetActive(true);
-                DefaultObjTxts[idx].text = locationName[loc];
+                if (lastIdx != -1) DefaultObjs[lastIdx].SetActive(false);
+                DefaultObjs[idx].SetActive(true);
+                DefaultObjs[idx].GetComponentInChildren<TextMeshPro>().text = loc.GetName();
                 lastIdx = idx;
             }
+
+            // 플레이어 위치 기록
+            playerLastLocation = loc;
+
+            MoveTo(loc);
         }
 
-        private void MoveTo(GameObject[] location)
+        protected void MoveTo(Ch4S2Locations loc)
         {
+            if (!locationMap.TryGetValue(loc, out var location)) return;
+
+            // 이전 위치 끄기
             if (lastLocation != null)
+                foreach (var obj in lastLocation) obj.SetActive(false);
+
+            // 새 위치 켜기
+            foreach (var obj in location) obj.SetActive(true);
+
+            // 플레이어 켜기: 마지막으로 있던 위치일 때만
+            bool playerHere = loc == playerLastLocation;
+            if (player != null)
+                player.SetActive(playerHere);
+
+            // DefaultObjs도 플레이어 위치일 때만 켜기
+            if (DefaultObjParent != null)
             {
-                foreach (GameObject obj in lastLocation)
+                DefaultObjParent.SetActive(playerHere);
+            }
+
+            // 텍스트 색 변경
+            foreach (var kv in locationMap)
+            {
+                var text = kv.Value[0].GetComponentInChildren<TextMeshProUGUI>(true);
+                if (text != null)
                 {
-                    obj.SetActive(false);
+                    // kv.Value[0]이 현재 켜진 loc의 0번째 오브젝트인지 확인
+                    if (kv.Key == loc && playerHere)
+                        text.color = Color.red;
+                    else
+                        text.color = Color.white;
                 }
             }
 
-            foreach (GameObject obj in location)
-            {
-                obj.SetActive(true);
-            }
-
             lastLocation = location;
+            lastVal = loc;
+        }
+
+        public void MoveLeft()
+        {
+            int curIdx = System.Array.IndexOf(order, lastVal);
+            int nextIdx = (curIdx - 1 + order.Length) % order.Length;
+            MoveTo(order[nextIdx]);
+        }
+
+        public void MoveRight()
+        {
+            int curIdx = System.Array.IndexOf(order, lastVal);
+            int nextIdx = (curIdx + 1) % order.Length;
+            MoveTo(order[nextIdx]);
         }
     }
 }
