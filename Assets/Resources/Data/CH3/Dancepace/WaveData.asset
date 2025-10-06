@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WaveData
   m_EditorClassIdentifier: Scripts:Runtime.CH3.Dancepace:DPWaveDataSO
   waveDatas:
-  - waveId: Wave_Normal_0
+  - waveId: Tutorial_1
     beats:
     - poseData: 3
       timing: 0.8
@@ -27,7 +27,7 @@ MonoBehaviour:
     - poseData: 2
       timing: 0.8
       restTime: 1
-  - waveId: Wave_Normal_1
+  - waveId: Tutorial_2
     beats:
     - poseData: 4
       timing: 0.8
@@ -41,7 +41,7 @@ MonoBehaviour:
     - poseData: 3
       timing: 0.8
       restTime: 1
-  - waveId: Wave_Normal_2
+  - waveId: Normal_1
     beats:
     - poseData: 2
       timing: 0.5
@@ -55,7 +55,7 @@ MonoBehaviour:
     - poseData: 4
       timing: 0.3
       restTime: 0.4
-  - waveId: Wave_Normal_3
+  - waveId: Normal_2
     beats:
     - poseData: 4
       timing: 0.5
@@ -75,7 +75,7 @@ MonoBehaviour:
     - poseData: 1
       timing: 0.15
       restTime: 0.2
-  - waveId: Wave_Normal_4
+  - waveId: Normal_3
     beats:
     - poseData: 1
       timing: 0.24
@@ -95,7 +95,7 @@ MonoBehaviour:
     - poseData: 3
       timing: 0.15
       restTime: 0.2
-  - waveId: Wave_Normal_5
+  - waveId: Normal_4
     beats:
     - poseData: 1
       timing: 0.24
@@ -115,7 +115,7 @@ MonoBehaviour:
     - poseData: 2
       timing: 0.5
       restTime: 0.6
-  - waveId: Wave_Normal_6
+  - waveId: Normal_5
     beats:
     - poseData: 2
       timing: 0.24
@@ -138,7 +138,7 @@ MonoBehaviour:
     - poseData: 4
       timing: 0.4
       restTime: 0.5
-  - waveId: Wave_Normal_7
+  - waveId: Normal_6
     beats:
     - poseData: 2
       timing: 0.15

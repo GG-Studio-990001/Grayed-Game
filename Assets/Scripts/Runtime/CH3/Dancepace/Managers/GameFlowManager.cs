@@ -16,6 +16,7 @@ namespace Runtime.CH3.Dancepace
             First,
             Second
         }
+        
         [Header("Managers")]
         [SerializeField] private EffectController effectManager;
         [SerializeField] private DPKeyBinder keyBinder;
@@ -140,8 +141,10 @@ namespace Runtime.CH3.Dancepace
 
                 // 첫 번째 리허설: 한 비트씩 가이드
                 rehearsalPhase = RehearsalPhase.First;
-                foreach (var wave in rehearsalWaves)
+                for (int idx = 0; idx < rehearsalWaves.Count; idx++)
                 {
+                    var wave = rehearsalWaves[idx];
+                    uiManager?.ShowWaveId(GetWaveIdLabel(wave));
                     yield return StartCoroutine(PlayRoutine(wave, null));
                 }
 
@@ -185,6 +188,7 @@ namespace Runtime.CH3.Dancepace
             foreach (var wave in mainWaves)
             {
                 if (elapsed >= _gameData.limitTime) break;
+                uiManager?.ShowWaveId(GetWaveIdLabel(wave));
                 yield return StartCoroutine(PlayRoutine(wave, (to) => { }));
             }
 
@@ -658,6 +662,13 @@ namespace Runtime.CH3.Dancepace
             }
             if (!inputReceived)
                 JudgeInput(float.MaxValue, beatTime, beat.EnumToString());
+        }
+
+        private string GetWaveIdLabel(WaveData wave)
+        {
+            if (wave == null)
+                return string.Empty;
+            return wave.waveId ?? string.Empty;
         }
 
         public void StartMainWaves()
