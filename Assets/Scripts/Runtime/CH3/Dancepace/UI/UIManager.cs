@@ -128,28 +128,12 @@ namespace Runtime.CH3.Dancepace
                 timeBarUI.gameObject.SetActive(show);
         }
 
-        public void ShowWaveId(string id, float duration = 1.5f)
-        {
-            if (waveIdText == null) return;
-            waveIdText.text = id;
-            waveIdText.gameObject.SetActive(true);
-            // duration 인자는 유지하되, 자동 숨김은 하지 않음 (지속 표시)
-        }
-
         public void ShowWaveId(string id)
         {
             if (waveIdText == null) return;
             waveIdText.text = id;
             waveIdText.gameObject.SetActive(true);
         }
-
-        private IEnumerator HideWaveIdAfterDelay(float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            if (waveIdText != null)
-                waveIdText.gameObject.SetActive(false);
-        }
-
 
         private IEnumerator HideTextBalloonAfterDelay(float delay)
         {
