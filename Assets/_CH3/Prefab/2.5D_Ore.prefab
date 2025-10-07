@@ -593,7 +593,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectType: 3
   gridPosition: {x: 0, y: 0}
-  useCustomY: 0
+  useCustomY: 1
   customY: 0.53
   applyInitialGridSorting: 1
   gridSortingScale: 1
@@ -605,3 +605,7 @@ MonoBehaviour:
   minDropCount: 3
   maxDropCount: 3
   dropRadius: 0
+  enableColliderOnStart: 1
+  debugInteraction: 0
+  resetGaugeOnCancel: 0
+  initializeToGridPosition: 1
