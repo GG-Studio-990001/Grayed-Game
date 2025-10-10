@@ -323,6 +323,16 @@ namespace Runtime.CH3.Main
 
         public Vector2Int GridCenter => _gridCenter;
 
+        public int ActualGridSize
+        {
+            get
+            {
+                int size = (gridSize % 2 == 0) ? gridSize - 1 : gridSize;
+                return Mathf.Max(size, 5);
+            }
+        }
+        public float CellWidth => cellWidth;
+
         // 중심 좌표 (0,0) 얻기 - y값을 유지하도록 수정
         public Vector3 GetCenterPosition(float customHeight)
         {

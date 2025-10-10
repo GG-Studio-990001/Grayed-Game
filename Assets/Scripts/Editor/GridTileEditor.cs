@@ -32,7 +32,7 @@ public class GridTileEditor : EditorWindow
     [SerializeField] private float gridLineAlpha = 0.8f;
 
     [Header("Visual Settings")]
-    // 색상은 고정값으로 사용
+    // 색상 상수
     private static readonly Color BLOCK_COLOR = Color.red;
     private static readonly Color EVENT_AREA_COLOR = Color.blue;
     private static readonly Color TELEPORTER_COLOR = Color.yellow;
@@ -45,9 +45,9 @@ public class GridTileEditor : EditorWindow
     [SerializeField] private bool isRightDragging = false;
     [SerializeField] private Vector2Int lastDragGridPosition;
     [SerializeField] private HashSet<Vector2Int> placedPositions = new HashSet<Vector2Int>();
-    private bool isToolActive = true; // 도구는 항상 활성화
+    private bool isToolActive = true;
 
-    // 최적화를 위한 캐시
+    // 캐시
     private GridSystem cachedGridSystem;
     private GUIStyle coordinateStyle;
 
@@ -60,12 +60,12 @@ public class GridTileEditor : EditorWindow
     private void OnEnable()
     {
         SceneView.duringSceneGui += OnSceneGUI;
-        
-        // Unity Tools 비활성화 및 카메라 설정
+
+        // 에디터 카메라 고정
         Tools.current = Tool.None;
         SetCameraForGridView();
-        
-        // 자동으로 모든 설정
+
+        // 자동 설정
         AutoSetup();
     }
 
@@ -73,7 +73,7 @@ public class GridTileEditor : EditorWindow
     {
         SceneView.duringSceneGui -= OnSceneGUI;
         
-        // Unity Tools 복원 (기본 도구로)
+        // 기본 도구 복원
         Tools.current = Tool.Move;
     }
 
@@ -86,118 +86,60 @@ public class GridTileEditor : EditorWindow
         // 그리드 크기 계산
         Vector2Int gridSize = GetGridSize();
         float cellSize = GetCellSize();
-        
+
         // 그리드 중심점 계산
         Vector3 gridCenter = GetGridCenter();
-        
-        // 그리드 전체가 보이도록 카메라 거리 계산
+
+        // 카메라 거리
         float maxDimension = Mathf.Max(gridSize.x, gridSize.y) * cellSize;
-        float cameraDistance = maxDimension; // 여유를 두고 2배
-        
-        // 카메라를 그리드 위쪽에서 내려다보는 각도로 설정
+        float cameraDistance = maxDimension;
+
+        // 탑다운 각도
         Vector3 cameraPosition = gridCenter + new Vector3(0, cameraDistance, -cameraDistance * 0.5f);
-        
-        // 카메라 위치 및 회전 설정
+
         sceneView.pivot = gridCenter;
         sceneView.rotation = Quaternion.LookRotation(gridCenter - cameraPosition, Vector3.up);
-        
-        // 카메라 거리 설정
+
         sceneView.size = cameraDistance;
-        
-        // Scene View 새로고침
+
         sceneView.Repaint();
     }
 
     private Vector2Int GetGridSize()
     {
-        if (cachedGridSystem != null && IsGridSystemInitialized())
+        if (cachedGridSystem != null)
         {
             try
             {
-                // GridSystem에서 그리드 크기 가져오기
-                var actualGridSizeField = typeof(GridSystem).GetField("_actualGridSize", 
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (actualGridSizeField != null)
-                {
-                    var value = actualGridSizeField.GetValue(cachedGridSystem);
-                    if (value is Vector2Int vector2Int)
-                    {
-                        return vector2Int;
-                    }
-                    else if (value is Vector2 vector2)
-                    {
-                        return new Vector2Int((int)vector2.x, (int)vector2.y);
-                    }
-                }
+                int size = cachedGridSystem.ActualGridSize;
+                return new Vector2Int(size, size);
             }
-            catch (System.Exception ex)
-            {
-                Debug.LogWarning($"GridSystem에서 그리드 크기를 가져오는 중 오류 발생: {ex.Message}");
-            }
+            catch { }
         }
-        
-        // 기본 그리드 크기 (21x21)
         return new Vector2Int(21, 21);
     }
 
     private float GetCellSize()
     {
-        if (cachedGridSystem != null && IsGridSystemInitialized())
+        if (cachedGridSystem != null)
         {
-            try
-            {
-                // GridSystem에서 셀 크기 가져오기
-                var cellWidthField = typeof(GridSystem).GetField("cellWidth", 
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (cellWidthField != null)
-                {
-                    var value = cellWidthField.GetValue(cachedGridSystem);
-                    if (value is float floatValue)
-                    {
-                        return floatValue;
-                    }
-                }
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogWarning($"GridSystem에서 셀 크기를 가져오는 중 오류 발생: {ex.Message}");
-            }
+            try { return cachedGridSystem.CellWidth; } catch { }
         }
-        
-        // 기본 셀 크기
         return 1f;
     }
 
     private Vector3 GetGridCenter()
     {
-        if (cachedGridSystem != null && IsGridSystemInitialized())
+        if (cachedGridSystem != null)
         {
-            try
-            {
-                // GridSystem에서 그리드 중심점 가져오기
-                var gridCenterProperty = typeof(GridSystem).GetProperty("GridCenter");
-                if (gridCenterProperty != null)
-                {
-                    var value = gridCenterProperty.GetValue(cachedGridSystem);
-                    if (value is Vector3 vector3)
-                    {
-                        return vector3;
-                    }
-                }
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogWarning($"GridSystem에서 그리드 중심점을 가져오는 중 오류 발생: {ex.Message}");
-            }
+            return cachedGridSystem.transform.position;
         }
-        
-        // 기본 그리드 중심점
         return Vector3.zero;
     }
 
     private void AutoSetup()
     {
-        // 1. GridSystem 자동 찾기 및 초기화
+        // 1. GridSystem 찾기
         FindGridSystem();
         
         // 2. GridParent 자동 설정
@@ -220,7 +162,6 @@ public class GridTileEditor : EditorWindow
         if (gridSystem != null && gridSystem.gameObject != null)
         {
             cachedGridSystem = gridSystem;
-            TryInitializeGridSystem();
             return;
         }
 
@@ -228,71 +169,6 @@ public class GridTileEditor : EditorWindow
         if (cachedGridSystem == null || cachedGridSystem.gameObject == null)
         {
             cachedGridSystem = FindObjectOfType<GridSystem>();
-            if (cachedGridSystem != null)
-            {
-                TryInitializeGridSystem();
-            }
-        }
-    }
-
-    private void TryInitializeGridSystem()
-    {
-        if (cachedGridSystem == null) return;
-
-        // 이미 초기화되었으면 스킵
-        if (IsGridSystemInitialized()) return;
-
-        // 에디터 모드에서 필요한 의존성들을 먼저 설정
-        SetupGridSystemDependencies();
-
-        // 에디터 모드에서 임시로 초기화 시도
-        try
-        {
-            var initializeMethod = typeof(GridSystem).GetMethod("Initialize", 
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            
-            if (initializeMethod != null)
-            {
-                initializeMethod.Invoke(cachedGridSystem, null);
-                //Debug.Log("GridSystem을 에디터 모드에서 임시로 초기화했습니다.");
-            }
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogWarning($"GridSystem 초기화 실패: {ex.Message}");
-            Debug.LogWarning($"Inner Exception: {ex.InnerException?.Message}");
-        }
-    }
-
-    private void SetupGridSystemDependencies()
-    {
-        if (cachedGridSystem == null) return;
-
-        // mainCamera 설정
-        var mainCameraField = typeof(GridSystem).GetField("mainCamera", 
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        
-        if (mainCameraField != null)
-        {
-            var mainCamera = mainCameraField.GetValue(cachedGridSystem);
-            if (mainCamera == null)
-            {
-                // SceneView의 카메라를 사용하거나 기본 카메라 찾기
-                Camera sceneCamera = SceneView.lastActiveSceneView?.camera;
-                if (sceneCamera == null)
-                {
-                    sceneCamera = Camera.main;
-                }
-                if (sceneCamera == null)
-                {
-                    sceneCamera = FindObjectOfType<Camera>();
-                }
-                
-                if (sceneCamera != null)
-                {
-                    mainCameraField.SetValue(cachedGridSystem, sceneCamera);
-                }
-            }
         }
     }
 
@@ -313,7 +189,6 @@ public class GridTileEditor : EditorWindow
 
         // 그리드 설정
         EditorGUILayout.LabelField("Grid Settings", EditorStyles.boldLabel);
-        gridSystem = (GridSystem)EditorGUILayout.ObjectField("Grid System", gridSystem, typeof(GridSystem), true);
         gridParent = (Transform)EditorGUILayout.ObjectField("Grid Parent", gridParent, typeof(Transform), true);
         showGridGizmos = EditorGUILayout.Toggle("Show Grid Gizmos", showGridGizmos);
         showCoordinates = EditorGUILayout.Toggle("Show Coordinates", showCoordinates);
@@ -349,8 +224,7 @@ public class GridTileEditor : EditorWindow
 
         EditorGUILayout.Space();
 
-        // GridSystem 정보 표시
-        //DisplayGridSystemInfo();
+        // GridSystem 정보 표시 생략
 
         // 사용법 안내
         EditorGUILayout.HelpBox(
@@ -362,32 +236,6 @@ public class GridTileEditor : EditorWindow
 
         // 유효성 검사
         ValidateSetup();
-    }
-
-    private void DisplayGridSystemInfo()
-    {
-        if (cachedGridSystem != null)
-        {
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Grid System Info", EditorStyles.boldLabel);
-            
-            // GridSystem의 실제 정보 표시
-            var gridSizeField = typeof(GridSystem).GetField("gridSize", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            var actualGridSizeField = typeof(GridSystem).GetField("_actualGridSize", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            var cellWidthField = typeof(GridSystem).GetField("cellWidth", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            
-            int gridSize = 9;
-            int actualGridSize = 9;
-            float cellWidth = 1f;
-            
-            if (gridSizeField != null) gridSize = (int)gridSizeField.GetValue(cachedGridSystem);
-            if (actualGridSizeField != null) actualGridSize = (int)actualGridSizeField.GetValue(cachedGridSystem);
-            if (cellWidthField != null) cellWidth = (float)cellWidthField.GetValue(cachedGridSystem);
-            
-            EditorGUILayout.LabelField($"Grid Size: {gridSize} → {actualGridSize} (actual)");
-            EditorGUILayout.LabelField($"Cell Width: {cellWidth}");
-            EditorGUILayout.LabelField($"Grid Center: {cachedGridSystem.GridCenter}");
-        }
     }
 
     private void ValidateSetup()
@@ -449,7 +297,7 @@ public class GridTileEditor : EditorWindow
         Event e = Event.current;
         Vector3 mouseWorldPos = GetMouseWorldPosition(e.mousePosition);
 
-        // 그리드 기즈모 그리기 (GridSystem이 없어도 기본 그리드 표시)
+        // 그리드 기즈모
         if (showGridGizmos)
         {
             DrawGridGizmos();
@@ -460,19 +308,22 @@ public class GridTileEditor : EditorWindow
             Vector2Int gridPos;
             Vector3 snappedWorldPos;
 
-            if (cachedGridSystem != null && IsGridSystemInitialized())
+            if (cachedGridSystem != null)
             {
-                // GridSystem이 있고 초기화된 경우
-                gridPos = cachedGridSystem.WorldToGridPosition(mouseWorldPos);
-                snappedWorldPos = cachedGridSystem.GridToWorldPosition(gridPos);
+                try
+                {
+                    gridPos = cachedGridSystem.WorldToGridPosition(mouseWorldPos);
+                    snappedWorldPos = cachedGridSystem.GridToWorldPosition(gridPos);
+                }
+                catch
+                {
+                    gridPos = new Vector2Int(Mathf.RoundToInt(mouseWorldPos.x), Mathf.RoundToInt(mouseWorldPos.z));
+                    snappedWorldPos = new Vector3(gridPos.x, 0, gridPos.y);
+                }
             }
             else
             {
-                // GridSystem이 없거나 초기화되지 않은 경우 - 기본 그리드 좌표 계산
-                gridPos = new Vector2Int(
-                    Mathf.RoundToInt(mouseWorldPos.x),
-                    Mathf.RoundToInt(mouseWorldPos.z)
-                );
+                gridPos = new Vector2Int(Mathf.RoundToInt(mouseWorldPos.x), Mathf.RoundToInt(mouseWorldPos.z));
                 snappedWorldPos = new Vector3(gridPos.x, 0, gridPos.y);
             }
 
@@ -534,32 +385,12 @@ public class GridTileEditor : EditorWindow
             DrawDefaultGrid();
             return;
         }
+        // 실제 GridSystem 파라미터 참조
+        int actualGridSize;
+        float cellWidth;
+        try { actualGridSize = cachedGridSystem.ActualGridSize; } catch { actualGridSize = 21; }
+        try { cellWidth = cachedGridSystem.CellWidth; } catch { cellWidth = 1f; }
 
-        // GridSystem의 실제 그리드 정보 사용 (리플렉션)
-        var actualGridSizeField = typeof(GridSystem).GetField("_actualGridSize", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        var gridSizeField = typeof(GridSystem).GetField("gridSize", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        var cellWidthField = typeof(GridSystem).GetField("cellWidth", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        
-        int actualGridSize = 9; // 기본값
-        int gridSize = 9; // 기본값
-        float cellWidth = 1f; // 기본값
-        
-        if (actualGridSizeField != null)
-        {
-            actualGridSize = (int)actualGridSizeField.GetValue(cachedGridSystem);
-        }
-        else if (gridSizeField != null)
-        {
-            gridSize = (int)gridSizeField.GetValue(cachedGridSystem);
-            actualGridSize = (gridSize % 2 == 0) ? gridSize - 1 : gridSize;
-        }
-        
-        if (cellWidthField != null)
-        {
-            cellWidth = (float)cellWidthField.GetValue(cachedGridSystem);
-        }
-
-        // GridSystem과 동일한 형식으로 그리드 그리기
         Handles.color = new Color(GRID_LINE_COLOR.r, GRID_LINE_COLOR.g, GRID_LINE_COLOR.b, gridLineAlpha);
         
         int halfSize = actualGridSize / 2;
@@ -572,18 +403,8 @@ public class GridTileEditor : EditorWindow
         for (int x = startX; x <= endX; x++)
         {
             Vector3 startPos, endPos;
-            try
-            {
-                startPos = cachedGridSystem.GridToWorldPosition(new Vector2Int(x, startY));
-                endPos = cachedGridSystem.GridToWorldPosition(new Vector2Int(x, endY));
-            }
-            catch (System.Exception)
-            {
-                // GridSystem이 초기화되지 않았을 때는 기본 위치 계산
-                Vector3 gridCenter = cachedGridSystem.transform.position;
-                startPos = gridCenter + new Vector3(x * cellWidth, 0, startY * cellWidth);
-                endPos = gridCenter + new Vector3(x * cellWidth, 0, endY * cellWidth);
-            }
+            try { startPos = cachedGridSystem.GridToWorldPosition(new Vector2Int(x, startY)); endPos = cachedGridSystem.GridToWorldPosition(new Vector2Int(x, endY)); }
+            catch { Vector3 gridCenter = cachedGridSystem.transform.position; startPos = gridCenter + new Vector3(x * cellWidth, 0, startY * cellWidth); endPos = gridCenter + new Vector3(x * cellWidth, 0, endY * cellWidth); }
             Handles.DrawLine(startPos, endPos);
         }
 
@@ -591,58 +412,23 @@ public class GridTileEditor : EditorWindow
         for (int y = startY; y <= endY; y++)
         {
             Vector3 startPos, endPos;
-            try
-            {
-                startPos = cachedGridSystem.GridToWorldPosition(new Vector2Int(startX, y));
-                endPos = cachedGridSystem.GridToWorldPosition(new Vector2Int(endX, y));
-            }
-            catch (System.Exception)
-            {
-                // GridSystem이 초기화되지 않았을 때는 기본 위치 계산
-                Vector3 gridCenter = cachedGridSystem.transform.position;
-                startPos = gridCenter + new Vector3(startX * cellWidth, 0, y * cellWidth);
-                endPos = gridCenter + new Vector3(endX * cellWidth, 0, y * cellWidth);
-            }
+            try { startPos = cachedGridSystem.GridToWorldPosition(new Vector2Int(startX, y)); endPos = cachedGridSystem.GridToWorldPosition(new Vector2Int(endX, y)); }
+            catch { Vector3 gridCenter = cachedGridSystem.transform.position; startPos = gridCenter + new Vector3(startX * cellWidth, 0, y * cellWidth); endPos = gridCenter + new Vector3(endX * cellWidth, 0, y * cellWidth); }
             Handles.DrawLine(startPos, endPos);
         }
 
-        // 각 셀의 중심점과 좌표 표시 (GridSystem과 동일한 형식)
+        // 셀 표시
         for (int x = startX; x <= endX; x++)
         {
             for (int y = startY; y <= endY; y++)
             {
                 Vector2Int gridPosition = new Vector2Int(x, y);
                 Vector3 worldPosition;
-                
-                try
-                {
-                    worldPosition = cachedGridSystem.GridToWorldPosition(gridPosition);
-                }
-                catch (System.Exception)
-                {
-                    // GridSystem이 초기화되지 않았을 때는 기본 위치 계산
-                    Vector3 gridCenter = cachedGridSystem.transform.position;
-                    worldPosition = gridCenter + new Vector3(x * cellWidth, 0, y * cellWidth);
-                }
 
-                // 차단된 셀 표시 (GridSystem과 동일한 색상)
-                bool isBlocked = false;
-                if (IsGridSystemInitialized())
-                {
-                    try
-                    {
-                        isBlocked = cachedGridSystem.IsCellBlocked(gridPosition);
-                    }
-                    catch (System.Exception)
-                    {
-                        // GridSystem이 아직 초기화되지 않았을 때는 무시
-                    }
-                }
-                else
-                {
-                    // GridSystem이 초기화되지 않았어도 에디터에서 배치된 Block 오브젝트 확인
-                    isBlocked = IsPositionBlockedByEditorObjects(worldPosition);
-                }
+                try { worldPosition = cachedGridSystem.GridToWorldPosition(gridPosition); }
+                catch { Vector3 gridCenter = cachedGridSystem.transform.position; worldPosition = gridCenter + new Vector3(x * cellWidth, 0, y * cellWidth); }
+
+                bool isBlocked = IsPositionBlockedByEditorObjects(worldPosition);
 
                 if (isBlocked)
                 {
@@ -666,7 +452,7 @@ public class GridTileEditor : EditorWindow
 
     private void DrawDefaultGrid()
     {
-        // 기본 그리드 그리기 (GridSystem이 없을 때)
+        // 기본 그리드 (GridSystem 없음)
         Handles.color = new Color(GRID_LINE_COLOR.r, GRID_LINE_COLOR.g, GRID_LINE_COLOR.b, gridLineAlpha);
         
         int gridSize = 21; // 더 큰 그리드 크기 (21x21)
@@ -707,21 +493,6 @@ public class GridTileEditor : EditorWindow
                 }
             }
         }
-    }
-
-    private bool IsGridSystemInitialized()
-    {
-        if (cachedGridSystem == null) return false;
-        
-        // blockedCells 배열이 초기화되었는지 확인
-        var blockedCellsField = typeof(GridSystem).GetField("blockedCells", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        if (blockedCellsField != null)
-        {
-            var blockedCells = blockedCellsField.GetValue(cachedGridSystem);
-            return blockedCells != null;
-        }
-        
-        return false;
     }
 
     private bool IsPositionBlockedByEditorObjects(Vector3 worldPosition)
@@ -778,21 +549,21 @@ public class GridTileEditor : EditorWindow
 
         Handles.color = previewColor;
         
-        // 오브젝트 타입에 따라 다른 기즈모 표시
+        // 타입별 미리보기
         switch (currentObjectType)
         {
             case PlacedObjectType.Block:
-                // Block은 바닥에 붙어있는 형태로 표시
+                // Block
                 Handles.DrawWireCube(position + Vector3.up * 0.05f, new Vector3(0.9f, 0.1f, 0.9f));
                 break;
                 
             case PlacedObjectType.EventArea:
-                // EventArea는 원형으로 표시
+                // EventArea
                 Handles.DrawWireDisc(position + Vector3.up * 0.1f, Vector3.up, 0.4f);
                 break;
                 
             case PlacedObjectType.Teleporter:
-                // Teleporter는 큐브로 표시
+                // Teleporter
                 Handles.DrawWireCube(position + Vector3.up * 0.5f, Vector3.one * 0.8f);
                 break;
         }
@@ -858,20 +629,7 @@ public class GridTileEditor : EditorWindow
         }
     }
 
-    private Vector2Int GetGridPositionFromWorld(Vector3 worldPos)
-    {
-        if (cachedGridSystem != null && IsGridSystemInitialized())
-        {
-            return cachedGridSystem.WorldToGridPosition(worldPos);
-        }
-        else
-        {
-            return new Vector2Int(
-                Mathf.RoundToInt(worldPos.x),
-                Mathf.RoundToInt(worldPos.z)
-            );
-        }
-    }
+    
 
 
     private void PlaceObject(Vector3 worldPos, Vector2Int gridPos)
@@ -884,10 +642,10 @@ public class GridTileEditor : EditorWindow
         // 이미 해당 위치에 오브젝트가 있는지 확인
         if (IsObjectAtPosition(worldPos)) return;
 
-        // 그리드 유효성 검사 (GridSystem이 있을 때만)
-        if (cachedGridSystem != null && IsGridSystemInitialized())
+        // 그리드 유효성 검사 (가능한 경우)
+        if (cachedGridSystem != null)
         {
-            if (!cachedGridSystem.IsValidGridPosition(gridPos)) return;
+            try { if (!cachedGridSystem.IsValidGridPosition(gridPos)) return; } catch { }
         }
 
         // EventArea는 Block된 위치에 배치할 수 없음
@@ -913,7 +671,7 @@ public class GridTileEditor : EditorWindow
         newObject.transform.position = worldPos;
         newObject.name = $"{currentObjectType}_{gridPos.x}_{gridPos.y}";
 
-        // GridObject 컴포넌트 초기화
+        // GridObject 최소 초기화
         InitializeGridObject(newObject, gridPos);
 
         Undo.RegisterCreatedObjectUndo(newObject, $"Place {currentObjectType}");
@@ -921,51 +679,25 @@ public class GridTileEditor : EditorWindow
 
     private void InitializeGridObject(GameObject obj, Vector2Int gridPos)
     {
-        // GridObject 컴포넌트가 있다면 초기화
+        // GridObject가 있으면 위치만 동기화 (리플렉션 제거)
         GridObject gridObject = obj.GetComponent<GridObject>();
         if (gridObject != null)
         {
-            // GridSystem이 유효한지 확인하고 필요하면 초기화 시도
-            if (cachedGridSystem != null && cachedGridSystem.gameObject != null)
+            // 가능한 경우 GridSystem 좌표로 스냅, 실패 시 기본 좌표 사용
+            Vector3 worldPos;
+            if (cachedGridSystem != null)
             {
-                // 아직 초기화되지 않았으면 시도
-                if (!IsGridSystemInitialized())
-                {
-                    TryInitializeGridSystem();
-                }
-                
-                // 초기화된 경우에만 정상 초기화 시도
-                if (IsGridSystemInitialized())
-                {
-                // gridManager를 먼저 설정 (리플렉션 사용)
-                var gridManagerField = typeof(GridObject).GetField("gridManager", 
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (gridManagerField != null)
-                {
-                    gridManagerField.SetValue(gridObject, cachedGridSystem);
-                }
-
-                // 에디터 모드에서는 Initialize 메서드 대신 수동으로 설정
-                // (Initialize 메서드에서 MinimapManager 등 의존성 문제로 인한 에러 방지)
-                SetupGridObjectManually(gridObject, gridPos);
-                return;
-                }
+                try { worldPos = cachedGridSystem.GridToWorldPosition(gridPos); }
+                catch { worldPos = new Vector3(gridPos.x, 0, gridPos.y); }
             }
-            
-            // GridSystem이 없거나 초기화 실패한 경우 - 에디터 모드용 기본 설정
-            // 에디터 모드에서는 정상적인 상황이므로 로그를 출력하지 않음
-            
-            // 기본 위치는 이미 설정되어 있으므로 추가 설정만 수행
-            // GridObject의 gridPosition 필드만 설정
-            var gridPositionField = typeof(GridObject).GetField("gridPosition", 
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            if (gridPositionField != null)
+            else
             {
-                gridPositionField.SetValue(gridObject, gridPos);
+                worldPos = new Vector3(gridPos.x, 0, gridPos.y);
             }
+            gridObject.transform.position = worldPos;
         }
 
-        // 특정 타입별 추가 초기화
+        // 타입별 추가 컴포넌트 보장
         switch (currentObjectType)
         {
             case PlacedObjectType.Block:
@@ -981,7 +713,6 @@ public class GridTileEditor : EditorWindow
                 if (eventArea == null)
                 {
                     eventArea = obj.AddComponent<EventArea>();
-                    // 기본 설정
                     eventArea.SetTriggerRadius(1f);
                 }
                 break;
@@ -1032,72 +763,6 @@ public class GridTileEditor : EditorWindow
         return null;
     }
 
-    private void SetupGridObjectManually(GridObject gridObject, Vector2Int gridPos)
-    {
-        // 수동으로 GridObject의 기본 필드들 설정
-        var gridPositionField = typeof(GridObject).GetField("gridPosition", 
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        if (gridPositionField != null)
-        {
-            gridPositionField.SetValue(gridObject, gridPos);
-        }
-
-        // 월드 위치 설정
-        Vector3 worldPos;
-        if (cachedGridSystem != null)
-        {
-            try
-            {
-                worldPos = cachedGridSystem.GridToWorldPosition(gridPos);
-            }
-            catch (System.Exception)
-            {
-                // GridSystem이 제대로 작동하지 않으면 기본 위치 사용
-                worldPos = new Vector3(gridPos.x, 0, gridPos.y);
-            }
-        }
-        else
-        {
-            worldPos = new Vector3(gridPos.x, 0, gridPos.y);
-        }
-        gridObject.transform.position = worldPos;
-
-        // SpriteRenderer 설정 (있는 경우)
-        var spriteRendererField = typeof(GridObject).GetField("spriteRenderer", 
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        if (spriteRendererField != null)
-        {
-            var spriteRenderer = gridObject.GetComponent<SpriteRenderer>();
-            if (spriteRenderer != null)
-            {
-                spriteRendererField.SetValue(gridObject, spriteRenderer);
-            }
-        }
-
-        // MinimapManager 설정 (있는 경우)
-        var minimapManagerField = typeof(GridObject).GetField("minimapManager", 
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        if (minimapManagerField != null)
-        {
-            var minimapManagerType = System.Type.GetType("Runtime.CH3.Main.MinimapManager");
-            if (minimapManagerType != null)
-            {
-                var minimapManagerInstance = FindObjectOfType(minimapManagerType);
-                if (minimapManagerInstance != null)
-                {
-                    minimapManagerField.SetValue(gridObject, minimapManagerInstance);
-                }
-            }
-        }
-
-        // SortingOrderObject 설정 (있는 경우)
-        var sortingOrderObject = gridObject.GetComponent<SortingOrderObject>();
-        if (sortingOrderObject != null)
-        {
-            // 뒤(y가 작을수록)일수록 더 높은 정렬이 되도록 부호 반전
-            sortingOrderObject.SetBaseOrder(-gridPos.y * 100); // 기본 정렬 스케일
-        }
-    }
 
     private void RemoveObject(Vector3 worldPos, Vector2Int gridPos)
     {
