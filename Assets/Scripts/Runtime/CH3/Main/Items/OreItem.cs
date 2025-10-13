@@ -72,17 +72,20 @@ namespace Runtime.CH3.Main
             Vector3 spawnPos = startPosition + Vector3.up * initialHeight;
             transform.position = spawnPos;
 
-            // 최종 착지 위치 계산 (바닥 높이 고려)
-            Vector3 targetPos = startPosition;
-            //targetPos.y = startPosition.y + groundOffset;
+            // 최종 착지 위치 계산 (dropDirection과 dropDistance 활용)
+            Vector3 targetPos = startPosition + dropDirection.normalized * dropDistance;
+            targetPos.y = initialHeight;
 
             Sequence dropSequence = DOTween.Sequence();
 
-            // 포물선 경로 생성
+            // 포물선 경로 생성 (중간점을 더 자연스럽게 계산)
+            Vector3 midPoint = Vector3.Lerp(spawnPos, targetPos, 0.5f);
+            midPoint.y = Mathf.Max(spawnPos.y, targetPos.y) + bounceHeight;
+            
             Vector3[] path = new Vector3[]
             {
                 spawnPos,
-                Vector3.Lerp(spawnPos, targetPos, 0.5f) + Vector3.up * bounceHeight,
+                midPoint,
                 targetPos
             };
 
@@ -93,9 +96,9 @@ namespace Runtime.CH3.Main
                 PathType.CatmullRom
             ).SetEase(dropEase));
 
-            // 회전 효과
+            // 회전 효과 (더 자연스러운 회전)
             dropSequence.Join(transform.DORotate(
-                new Vector3(360f, 0f, 0f),
+                new Vector3(0f, 360f, 0f),
                 dropDuration,
                 RotateMode.FastBeyond360
             ));
