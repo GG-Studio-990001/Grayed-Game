@@ -16,7 +16,7 @@ namespace Runtime.CH3.Dancepace
             First,
             Second
         }
-        
+
         [Header("Managers")]
         [SerializeField] private EffectController effectManager;
         [SerializeField] private DPKeyBinder keyBinder;
@@ -103,7 +103,7 @@ namespace Runtime.CH3.Dancepace
         {
             bool isRehearsalContinue;
 
-			if (!Managers.Data.CH3.IsDancepacePlayed)
+            if (!Managers.Data.CH3.IsDancepacePlayed)
             {
                 rehearsalPhase = RehearsalPhase.First;
                 isRehearsalContinue = true;
@@ -111,25 +111,25 @@ namespace Runtime.CH3.Dancepace
             }
             else
             {
-				// 이미 플레이했더라도, 리허설 여부를 물어본다
-				userWantsMoreRehearsal = null;
-				uiManager?.ShowMoreRehearsalPanel(true);
-				yield return new WaitUntil(() => userWantsMoreRehearsal != null);
-				uiManager?.ShowMoreRehearsalPanel(false);
+                // 이미 플레이했더라도, 리허설 여부를 물어본다
+                userWantsMoreRehearsal = null;
+                uiManager?.ShowMoreRehearsalPanel(true);
+                yield return new WaitUntil(() => userWantsMoreRehearsal != null);
+                uiManager?.ShowMoreRehearsalPanel(false);
 
-				bool wantsRehearsal = userWantsMoreRehearsal == true;
-				if (wantsRehearsal)
-				{
-					rehearsalPhase = RehearsalPhase.First;
-					isRehearsalContinue = true;
-					uiManager?.SetRehearsalMode(true);
-				}
-				else
-				{
-					rehearsalPhase = RehearsalPhase.None;
-					isRehearsalContinue = false;
-					uiManager?.SetRehearsalMode(false);
-				}
+                bool wantsRehearsal = userWantsMoreRehearsal == true;
+                if (wantsRehearsal)
+                {
+                    rehearsalPhase = RehearsalPhase.First;
+                    isRehearsalContinue = true;
+                    uiManager?.SetRehearsalMode(true);
+                }
+                else
+                {
+                    rehearsalPhase = RehearsalPhase.None;
+                    isRehearsalContinue = false;
+                    uiManager?.SetRehearsalMode(false);
+                }
             }
 
             while (isRehearsalContinue && rehearsalPhase != RehearsalPhase.None)
@@ -141,12 +141,10 @@ namespace Runtime.CH3.Dancepace
 
                 // 첫 번째 리허설: 한 비트씩 가이드
                 rehearsalPhase = RehearsalPhase.First;
-                for (int idx = 0; idx < rehearsalWaves.Count; idx++)
-                {
-                    var wave = rehearsalWaves[idx];
-                    uiManager?.ShowWaveId(GetWaveIdLabel(wave));
-                    yield return StartCoroutine(PlayRoutine(wave, null));
-                }
+
+                var wave = rehearsalWaves[0];
+                uiManager?.ShowWaveId(GetWaveIdLabel(wave));
+                yield return StartCoroutine(PlayRoutine(wave, null));
 
                 // 두 번째 리허설: 웨이브 전체 연습
                 rehearsalPhase = RehearsalPhase.Second;
