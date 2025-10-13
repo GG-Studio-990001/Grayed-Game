@@ -305,27 +305,8 @@ public class GridTileEditor : EditorWindow
 
         if (mouseWorldPos != Vector3.zero)
         {
-            Vector2Int gridPos;
-            Vector3 snappedWorldPos;
-
-            if (cachedGridSystem != null)
-            {
-                try
-                {
-                    gridPos = cachedGridSystem.WorldToGridPosition(mouseWorldPos);
-                    snappedWorldPos = cachedGridSystem.GridToWorldPosition(gridPos);
-                }
-                catch
-                {
-                    gridPos = new Vector2Int(Mathf.RoundToInt(mouseWorldPos.x), Mathf.RoundToInt(mouseWorldPos.z));
-                    snappedWorldPos = new Vector3(gridPos.x, 0, gridPos.y);
-                }
-            }
-            else
-            {
-                gridPos = new Vector2Int(Mathf.RoundToInt(mouseWorldPos.x), Mathf.RoundToInt(mouseWorldPos.z));
-                snappedWorldPos = new Vector3(gridPos.x, 0, gridPos.y);
-            }
+            Vector2Int gridPos = SafeWorldToGrid(mouseWorldPos);
+            Vector3 snappedWorldPos = SafeGridToWorld(gridPos);
 
             // 좌표 표시
             if (showCoordinates)
@@ -347,6 +328,51 @@ public class GridTileEditor : EditorWindow
         }
 
         sceneView.Repaint();
+    }
+
+    // 에디터 전용 안전 좌표 변환 (GridSystem 미초기화 시에도 동작)
+    private Vector2Int SafeWorldToGrid(Vector3 worldPos)
+    {
+        Transform origin = cachedGridSystem != null ? cachedGridSystem.transform : null;
+        Vector3 basePos = origin != null ? origin.position : Vector3.zero;
+        float cell = GetCellSize();
+
+        // 방향 벡터: GridSystem 내부 정렬(_right/_forward) 미초기화 대비, Transform 기준으로 계산
+        Vector3 right = origin != null ? origin.right : Vector3.right;
+        Vector3 forward = origin != null ? origin.forward : Vector3.forward;
+        right = Vector3.ProjectOnPlane(right, Vector3.up).normalized;
+        forward = Vector3.ProjectOnPlane(forward, Vector3.up).normalized;
+        if (right.sqrMagnitude < 1e-6f) right = Vector3.right;
+        if (forward.sqrMagnitude < 1e-6f) forward = Vector3.forward;
+
+        Vector3 relative = worldPos - basePos;
+        float x = Vector3.Dot(relative, right) / Mathf.Max(cell, 1e-6f);
+        float z = Vector3.Dot(relative, forward) / Mathf.Max(cell, 1e-6f);
+        return new Vector2Int(Mathf.RoundToInt(x), Mathf.RoundToInt(z));
+    }
+
+    private Vector3 SafeGridToWorld(Vector2Int gridPos)
+    {
+        Transform origin = cachedGridSystem != null ? cachedGridSystem.transform : null;
+        Vector3 basePos = origin != null ? origin.position : Vector3.zero;
+        float cell = GetCellSize();
+
+        Vector3 right = origin != null ? origin.right : Vector3.right;
+        Vector3 forward = origin != null ? origin.forward : Vector3.forward;
+        right = Vector3.ProjectOnPlane(right, Vector3.up).normalized;
+        forward = Vector3.ProjectOnPlane(forward, Vector3.up).normalized;
+        if (right.sqrMagnitude < 1e-6f) right = Vector3.right;
+        if (forward.sqrMagnitude < 1e-6f) forward = Vector3.forward;
+
+        Vector3 world = basePos + right * (gridPos.x * cell) + forward * (gridPos.y * cell);
+        return new Vector3(world.x, 0f, world.z);
+    }
+
+    private bool IsValidGridPositionEditor(Vector2Int gridPos)
+    {
+        Vector2Int size = GetGridSize();
+        int half = size.x / 2;
+        return gridPos.x >= -half && gridPos.x <= half && gridPos.y >= -half && gridPos.y <= half;
     }
 
     private Vector3 GetMouseWorldPosition(Vector2 mousePosition)
@@ -402,18 +428,16 @@ public class GridTileEditor : EditorWindow
         // 세로선 그리기
         for (int x = startX; x <= endX; x++)
         {
-            Vector3 startPos, endPos;
-            try { startPos = cachedGridSystem.GridToWorldPosition(new Vector2Int(x, startY)); endPos = cachedGridSystem.GridToWorldPosition(new Vector2Int(x, endY)); }
-            catch { Vector3 gridCenter = cachedGridSystem.transform.position; startPos = gridCenter + new Vector3(x * cellWidth, 0, startY * cellWidth); endPos = gridCenter + new Vector3(x * cellWidth, 0, endY * cellWidth); }
+            Vector3 startPos = SafeGridToWorld(new Vector2Int(x, startY));
+            Vector3 endPos = SafeGridToWorld(new Vector2Int(x, endY));
             Handles.DrawLine(startPos, endPos);
         }
 
         // 가로선 그리기
         for (int y = startY; y <= endY; y++)
         {
-            Vector3 startPos, endPos;
-            try { startPos = cachedGridSystem.GridToWorldPosition(new Vector2Int(startX, y)); endPos = cachedGridSystem.GridToWorldPosition(new Vector2Int(endX, y)); }
-            catch { Vector3 gridCenter = cachedGridSystem.transform.position; startPos = gridCenter + new Vector3(startX * cellWidth, 0, y * cellWidth); endPos = gridCenter + new Vector3(endX * cellWidth, 0, y * cellWidth); }
+            Vector3 startPos = SafeGridToWorld(new Vector2Int(startX, y));
+            Vector3 endPos = SafeGridToWorld(new Vector2Int(endX, y));
             Handles.DrawLine(startPos, endPos);
         }
 
@@ -423,10 +447,7 @@ public class GridTileEditor : EditorWindow
             for (int y = startY; y <= endY; y++)
             {
                 Vector2Int gridPosition = new Vector2Int(x, y);
-                Vector3 worldPosition;
-
-                try { worldPosition = cachedGridSystem.GridToWorldPosition(gridPosition); }
-                catch { Vector3 gridCenter = cachedGridSystem.transform.position; worldPosition = gridCenter + new Vector3(x * cellWidth, 0, y * cellWidth); }
+                Vector3 worldPosition = SafeGridToWorld(gridPosition);
 
                 bool isBlocked = IsPositionBlockedByEditorObjects(worldPosition);
 
@@ -435,7 +456,6 @@ public class GridTileEditor : EditorWindow
                     Handles.color = new Color(0.5f, 0.5f, 0.5f, 0.8f);
                     Handles.DrawWireCube(worldPosition, new Vector3(0.9f, 0.05f, 0.9f));
                 }
-                // (0,0) 좌표는 다른 색상으로 표시
                 else if (gridPosition == Vector2Int.zero)
                 {
                     Handles.color = Color.green;
@@ -643,10 +663,7 @@ public class GridTileEditor : EditorWindow
         if (IsObjectAtPosition(worldPos)) return;
 
         // 그리드 유효성 검사 (가능한 경우)
-        if (cachedGridSystem != null)
-        {
-            try { if (!cachedGridSystem.IsValidGridPosition(gridPos)) return; } catch { }
-        }
+        if (!IsValidGridPositionEditor(gridPos)) return;
 
         // EventArea는 Block된 위치에 배치할 수 없음
         if (currentObjectType == PlacedObjectType.EventArea)
@@ -668,7 +685,7 @@ public class GridTileEditor : EditorWindow
         }
 
         // 위치 설정
-        newObject.transform.position = worldPos;
+        newObject.transform.position = SafeGridToWorld(gridPos);
         newObject.name = $"{currentObjectType}_{gridPos.x}_{gridPos.y}";
 
         // GridObject 최소 초기화
@@ -684,16 +701,7 @@ public class GridTileEditor : EditorWindow
         if (gridObject != null)
         {
             // 가능한 경우 GridSystem 좌표로 스냅, 실패 시 기본 좌표 사용
-            Vector3 worldPos;
-            if (cachedGridSystem != null)
-            {
-                try { worldPos = cachedGridSystem.GridToWorldPosition(gridPos); }
-                catch { worldPos = new Vector3(gridPos.x, 0, gridPos.y); }
-            }
-            else
-            {
-                worldPos = new Vector3(gridPos.x, 0, gridPos.y);
-            }
+            Vector3 worldPos = SafeGridToWorld(gridPos);
             gridObject.transform.position = worldPos;
         }
 
