@@ -60,6 +60,17 @@ namespace Runtime.CH3.Main
             }
         }
 
+        // 에디터에서 직접 배치된 경우를 위해 Start 시에도 차단 정보를 보강한다
+        protected override void Start()
+        {
+            base.Start();
+            if (isBlocking && gridManager != null && gridManager.IsValidGridPosition(gridPosition))
+            {
+                GridSystem.Instance.SetCellBlocked(gridPosition, true);
+                GridSystem.Instance.SetCellOccupied(gridPosition, true, gameObject);
+            }
+        }
+
         public override void Remove()
         {
             if (isBlocking && gridManager != null)

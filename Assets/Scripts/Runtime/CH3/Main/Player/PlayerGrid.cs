@@ -11,14 +11,15 @@ namespace Runtime.CH3.Main
         { 
             base.Start();
             gridManager = GridSystem.Instance;
-            if (gridManager != null)
-            {
-                Vector3 centerPos = gridManager.GetCenterPosition(transform);
-                transform.position = centerPos;
-            }
-            //Vector2Int initialGridPos = gridManager != null ? gridManager.WorldToGridPosition(transform.position) : Vector2Int.zero;
-            //Initialize(initialGridPos);
             playerController = GetComponent<PlayerController>();
+
+            // 스폰 좌표가 설정되어 있으면 그 위치로 이동, 없으면 기존 흐름 유지
+            if (gridManager != null && gridManager.HasPlayerSpawn)
+            {
+                gridPosition = gridManager.PlayerSpawnGrid;
+                Vector3 spawnWorld = gridManager.GridToWorldPosition(gridManager.PlayerSpawnGrid);
+                transform.position = spawnWorld;
+            }
         }
 
         private void LateUpdate()

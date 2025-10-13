@@ -133,6 +133,10 @@ namespace Runtime.CH3.Main
         private Dictionary<string, List<IGridObject>> areaObjects = new Dictionary<string, List<IGridObject>>();
         private Dictionary<string, Dictionary<GridObjectType, int>> areaObjectCounts = new Dictionary<string, Dictionary<GridObjectType, int>>();
 
+        [Header("Player Spawn (Editor-set)")]
+        [SerializeField] private bool hasPlayerSpawn = false;
+        [SerializeField] private Vector2Int playerSpawnGrid = Vector2Int.zero;
+
         private void Awake()
         {
             if (Instance == null)
@@ -332,6 +336,20 @@ namespace Runtime.CH3.Main
             }
         }
         public float CellWidth => cellWidth;
+
+        // Player spawn accessors
+        public bool HasPlayerSpawn => hasPlayerSpawn;
+        public Vector2Int PlayerSpawnGrid => playerSpawnGrid;
+        public void SetPlayerSpawnGrid(Vector2Int gridPos)
+        {
+            hasPlayerSpawn = true;
+            playerSpawnGrid = gridPos;
+        }
+        public void ClearPlayerSpawn()
+        {
+            hasPlayerSpawn = false;
+            playerSpawnGrid = Vector2Int.zero;
+        }
 
         // 중심 좌표 (0,0) 얻기 - y값을 유지하도록 수정
         public Vector3 GetCenterPosition(float customHeight)
@@ -789,6 +807,14 @@ namespace Runtime.CH3.Main
             Gizmos.DrawRay(transform.position, _forward * 2f);
             Gizmos.color = Color.red;
             Gizmos.DrawRay(transform.position, _right * 2f);
+
+            // Draw player spawn gizmo if set
+            if (hasPlayerSpawn)
+            {
+                Gizmos.color = Color.cyan;
+                Vector3 sp = GridToWorldPosition(playerSpawnGrid);
+                Gizmos.DrawSphere(sp + Vector3.up * 0.05f, 0.15f);
+            }
         }
 
         private void OnDrawGizmosSelected()

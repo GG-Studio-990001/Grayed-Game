@@ -16,7 +16,8 @@ public class GridTileEditor : EditorWindow
     {
         Block,          // 차단 오브젝트 (빨간색)
         EventArea,      // 연출구역 (파란색)
-        Teleporter      // 텔레포터 (노란색)
+        Teleporter,     // 텔레포터 (노란색)
+        SpawnPoint      // 플레이어 스폰 포인트 (청록, GridSystem에 좌표 저장)
     }
 
     [Header("Prefab Settings")]
@@ -36,6 +37,7 @@ public class GridTileEditor : EditorWindow
     private static readonly Color BLOCK_COLOR = Color.red;
     private static readonly Color EVENT_AREA_COLOR = Color.blue;
     private static readonly Color TELEPORTER_COLOR = Color.yellow;
+    private static readonly Color SPAWN_POINT_COLOR = new Color(0f, 1f, 1f, 1f); // 청록
     private static readonly Color GRID_LINE_COLOR = Color.white;
 
     [Header("Editor State")]
@@ -50,6 +52,9 @@ public class GridTileEditor : EditorWindow
     // 캐시
     private GridSystem cachedGridSystem;
     private GUIStyle coordinateStyle;
+    // 그리드 점유 캐시 (기즈모 성능 최적화)
+    private HashSet<Vector2Int> occupiedGridPositions = new HashSet<Vector2Int>();
+    private int lastChildCount = -1;
 
     [MenuItem("Tools/Grid Tile Editor")]
     public static void ShowWindow()
@@ -102,7 +107,7 @@ public class GridTileEditor : EditorWindow
 
         sceneView.size = cameraDistance;
 
-        sceneView.Repaint();
+        // 강제 Repaint 제거: 불필요한 에디터 부하 방지
     }
 
     private Vector2Int GetGridSize()
@@ -219,6 +224,10 @@ public class GridTileEditor : EditorWindow
         {
             ClearAllObjects();
         }
+        if (GUILayout.Button("Fill All Blocks"))
+        {
+            FillAllBlocks();
+        }
 
         EditorGUILayout.EndHorizontal();
 
@@ -254,7 +263,7 @@ public class GridTileEditor : EditorWindow
         }
 
         GameObject currentPrefab = GetCurrentPrefab();
-        if (currentPrefab == null)
+        if (currentPrefab == null && currentObjectType != PlacedObjectType.SpawnPoint)
         {
             EditorGUILayout.HelpBox($"현재 선택된 {currentObjectType} Prefab이 설정되지 않았습니다!", MessageType.Warning);
         }
@@ -270,6 +279,8 @@ public class GridTileEditor : EditorWindow
                 return eventAreaPrefab;
             case PlacedObjectType.Teleporter:
                 return teleporterPrefab;
+            case PlacedObjectType.SpawnPoint:
+                return null; // 프리팹 사용 안 함
             default:
                 return null;
         }
@@ -285,6 +296,8 @@ public class GridTileEditor : EditorWindow
                 return EVENT_AREA_COLOR;
             case PlacedObjectType.Teleporter:
                 return TELEPORTER_COLOR;
+            case PlacedObjectType.SpawnPoint:
+                return SPAWN_POINT_COLOR;
             default:
                 return Color.white;
         }
@@ -292,6 +305,11 @@ public class GridTileEditor : EditorWindow
 
     private void OnSceneGUI(SceneView sceneView)
     {
+        // 플레이 모드에서는 타일 에디터 기즈모/입력을 비활성화하여 GridSystem 기즈모와 겹치지 않도록 함
+        if (Application.isPlaying)
+        {
+            return;
+        }
         FindGridSystem();
         
         Event e = Event.current;
@@ -327,7 +345,7 @@ public class GridTileEditor : EditorWindow
             }
         }
 
-        sceneView.Repaint();
+        // 강제 Repaint는 비활성화 (에디터 부하 방지)
     }
 
     // 에디터 전용 안전 좌표 변환 (GridSystem 미초기화 시에도 동작)
@@ -468,6 +486,24 @@ public class GridTileEditor : EditorWindow
                 }
             }
         }
+
+        // SpawnPoint 기즈모 (GridSystem 기반)
+        if (cachedGridSystem != null)
+        {
+            try
+            {
+                var has = cachedGridSystem.HasPlayerSpawn;
+                if (has)
+                {
+                    Vector2Int sp = cachedGridSystem.PlayerSpawnGrid;
+                    Vector3 spWorld = SafeGridToWorld(sp);
+                    Handles.color = SPAWN_POINT_COLOR;
+                    Handles.DrawSolidDisc(spWorld + Vector3.up * 0.02f, Vector3.up, 0.25f);
+                    Handles.ArrowHandleCap(0, spWorld + Vector3.up * 0.02f, Quaternion.LookRotation(Vector3.forward, Vector3.up), 0.5f, EventType.Repaint);
+                }
+            }
+            catch {}
+        }
     }
 
     private void DrawDefaultGrid()
@@ -515,23 +551,35 @@ public class GridTileEditor : EditorWindow
         }
     }
 
+    private void RebuildOccupiedCacheIfNeeded()
+    {
+        if (gridParent == null)
+        {
+            occupiedGridPositions.Clear();
+            lastChildCount = -1;
+            return;
+        }
+        if (lastChildCount == gridParent.childCount && occupiedGridPositions.Count > 0)
+        {
+            return; // 변화 없음
+        }
+        occupiedGridPositions.Clear();
+        foreach (Transform child in gridParent)
+        {
+            if (child == null) continue;
+            if (child.GetComponent<BlockedArea>() == null) continue;
+            Vector2Int pos = SafeWorldToGrid(child.position);
+            occupiedGridPositions.Add(pos);
+        }
+        lastChildCount = gridParent.childCount;
+    }
+
     private bool IsPositionBlockedByEditorObjects(Vector3 worldPosition)
     {
         if (gridParent == null) return false;
-
-        // GridParent의 자식 오브젝트들 중에서 Block 타입인 것들 확인
-        foreach (Transform child in gridParent)
-        {
-            if (Vector3.Distance(child.position, worldPosition) < 0.1f)
-            {
-                // BlockedArea 컴포넌트가 있으면 차단된 것으로 간주
-                if (child.GetComponent<BlockedArea>() != null)
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
+        RebuildOccupiedCacheIfNeeded();
+        Vector2Int pos = SafeWorldToGrid(worldPosition);
+        return occupiedGridPositions.Contains(pos);
     }
 
     private void DrawCoordinates(Vector2Int gridPos, Vector3 worldPos)
@@ -585,6 +633,12 @@ public class GridTileEditor : EditorWindow
             case PlacedObjectType.Teleporter:
                 // Teleporter
                 Handles.DrawWireCube(position + Vector3.up * 0.5f, Vector3.one * 0.8f);
+                break;
+            case PlacedObjectType.SpawnPoint:
+                // SpawnPoint
+                Handles.DrawWireDisc(position + Vector3.up * 0.2f, Vector3.up, 0.25f);
+                Handles.DrawLine(position + Vector3.up * 0.01f + Vector3.left * 0.2f, position + Vector3.up * 0.01f + Vector3.right * 0.2f);
+                Handles.DrawLine(position + Vector3.up * 0.01f + Vector3.forward * 0.2f, position + Vector3.up * 0.01f + Vector3.back * 0.2f);
                 break;
         }
     }
@@ -657,7 +711,20 @@ public class GridTileEditor : EditorWindow
         if (!placedPositions.Add(gridPos)) return; // 중복 방지
 
         GameObject prefab = GetCurrentPrefab();
-        if (prefab == null) return;
+        if (currentObjectType != PlacedObjectType.SpawnPoint && prefab == null) return;
+
+        // SpawnPoint는 프리팹을 놓지 않고, 기존 오브젝트 유무와 무관하게 좌표만 기록
+        if (currentObjectType == PlacedObjectType.SpawnPoint)
+        {
+            if (!IsValidGridPositionEditor(gridPos)) return;
+            if (cachedGridSystem != null)
+            {
+                Undo.RecordObject(cachedGridSystem, "Set Player Spawn");
+                cachedGridSystem.SetPlayerSpawnGrid(gridPos);
+                EditorUtility.SetDirty(cachedGridSystem);
+            }
+            return;
+        }
 
         // 이미 해당 위치에 오브젝트가 있는지 확인
         if (IsObjectAtPosition(worldPos)) return;
@@ -672,6 +739,18 @@ public class GridTileEditor : EditorWindow
             {
                 return; // Block된 위치에는 EventArea 배치 불가
             }
+        }
+
+        if (currentObjectType == PlacedObjectType.SpawnPoint)
+        {
+            // GridSystem 직결 기록 (단일성 보장)
+            if (cachedGridSystem != null)
+            {
+                Undo.RecordObject(cachedGridSystem, "Set Player Spawn");
+                cachedGridSystem.SetPlayerSpawnGrid(gridPos);
+                EditorUtility.SetDirty(cachedGridSystem);
+            }
+            return;
         }
 
         // 오브젝트 생성
@@ -692,6 +771,26 @@ public class GridTileEditor : EditorWindow
         InitializeGridObject(newObject, gridPos);
 
         Undo.RegisterCreatedObjectUndo(newObject, $"Place {currentObjectType}");
+    }
+
+    private void RemoveExistingSpawnPoint()
+    {
+        if (gridParent == null) return;
+        List<GameObject> toRemove = new List<GameObject>();
+        foreach (Transform child in gridParent)
+        {
+            if (child == null) continue;
+            if (child.name.StartsWith("SpawnPoint_"))
+            {
+                toRemove.Add(child.gameObject);
+                continue;
+            }
+        // 프리팹 기반 스폰을 더 이상 사용하지 않음
+        }
+        foreach (var go in toRemove)
+        {
+            Undo.DestroyObjectImmediate(go);
+        }
     }
 
     private void InitializeGridObject(GameObject obj, Vector2Int gridPos)
@@ -816,6 +915,70 @@ public class GridTileEditor : EditorWindow
         {
             Undo.DestroyObjectImmediate(obj);
         }
+    }
+
+    private void FillAllBlocks()
+    {
+        if (blockPrefab == null || gridParent == null) return;
+
+        int actualGridSize;
+        float cellWidth;
+        try { actualGridSize = cachedGridSystem != null ? cachedGridSystem.ActualGridSize : 21; } catch { actualGridSize = 21; }
+        try { cellWidth = cachedGridSystem != null ? cachedGridSystem.CellWidth : 1f; } catch { cellWidth = 1f; }
+
+        int halfSize = actualGridSize / 2;
+        // 기존 배치된 오브젝트를 좌표 기준으로 한 번만 수집하여 O(N^2) 탐색 방지
+        HashSet<Vector2Int> occupied = BuildOccupiedGridPositions();
+
+        int undoGroup = Undo.GetCurrentGroup();
+        Undo.SetCurrentGroupName("Fill All Blocks");
+        int processed = 0;
+        int total = (halfSize * 2 + 1) * (halfSize * 2 + 1);
+        try
+        {
+            for (int x = -halfSize; x <= halfSize; x++)
+            {
+                for (int y = -halfSize; y <= halfSize; y++)
+                {
+                    Vector2Int gridPos = new Vector2Int(x, y);
+                    if (!IsValidGridPositionEditor(gridPos)) { processed++; continue; }
+                    if (occupied.Contains(gridPos)) { processed++; continue; }
+
+                    Vector3 worldPos = SafeGridToWorld(gridPos);
+
+                    GameObject newObject = PrefabUtility.InstantiatePrefab(blockPrefab, gridParent) as GameObject;
+                    if (newObject == null) { processed++; continue; }
+
+                    newObject.transform.position = worldPos;
+                    newObject.name = $"Block_{gridPos.x}_{gridPos.y}";
+
+                    var blockedArea = newObject.GetComponent<BlockedArea>();
+                    if (blockedArea == null)
+                    {
+                        newObject.AddComponent<BlockedArea>();
+                    }
+
+                    Undo.RegisterCreatedObjectUndo(newObject, "Fill Block");
+                    processed++;
+                }
+            }
+        }
+        finally
+        {
+            Undo.CollapseUndoOperations(undoGroup);
+        }
+    }
+
+    private HashSet<Vector2Int> BuildOccupiedGridPositions()
+    {
+        HashSet<Vector2Int> occupied = new HashSet<Vector2Int>();
+        if (gridParent == null) return occupied;
+        foreach (Transform child in gridParent)
+        {
+            Vector2Int pos = SafeWorldToGrid(child.position);
+            occupied.Add(pos);
+        }
+        return occupied;
     }
 }
 #endif
