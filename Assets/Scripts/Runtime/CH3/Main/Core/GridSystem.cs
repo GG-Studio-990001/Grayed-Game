@@ -8,11 +8,12 @@ namespace Runtime.CH3.Main
     // 오브젝트 타입 열거형
     public enum GridObjectType
     {
-        Structure,
         BlockedArea,
-        NPC,
+        EventArea,
+        Structure,
+        Teleporter,
         Ore,
-        Teleporter
+        NPC
     }
 
     // 그리드 셀 클래스
@@ -131,6 +132,10 @@ namespace Runtime.CH3.Main
         private Dictionary<string, GridArea> areas = new Dictionary<string, GridArea>();
         private Dictionary<string, List<IGridObject>> areaObjects = new Dictionary<string, List<IGridObject>>();
         private Dictionary<string, Dictionary<GridObjectType, int>> areaObjectCounts = new Dictionary<string, Dictionary<GridObjectType, int>>();
+
+        [Header("Player Spawn (Editor-set)")]
+        [SerializeField] private bool hasPlayerSpawn = false;
+        [SerializeField] private Vector2Int playerSpawnGrid = Vector2Int.zero;
 
         private void Awake()
         {
@@ -321,6 +326,30 @@ namespace Runtime.CH3.Main
         }
 
         public Vector2Int GridCenter => _gridCenter;
+
+        public int ActualGridSize
+        {
+            get
+            {
+                int size = (gridSize % 2 == 0) ? gridSize - 1 : gridSize;
+                return Mathf.Max(size, 5);
+            }
+        }
+        public float CellWidth => cellWidth;
+
+        // Player spawn accessors
+        public bool HasPlayerSpawn => hasPlayerSpawn;
+        public Vector2Int PlayerSpawnGrid => playerSpawnGrid;
+        public void SetPlayerSpawnGrid(Vector2Int gridPos)
+        {
+            hasPlayerSpawn = true;
+            playerSpawnGrid = gridPos;
+        }
+        public void ClearPlayerSpawn()
+        {
+            hasPlayerSpawn = false;
+            playerSpawnGrid = Vector2Int.zero;
+        }
 
         // 중심 좌표 (0,0) 얻기 - y값을 유지하도록 수정
         public Vector3 GetCenterPosition(float customHeight)
@@ -603,43 +632,42 @@ namespace Runtime.CH3.Main
         // 애니메이션과 함께 오브젝트 스폰
         private void SpawnObjectWithAnimation(SpawnRule rule, Vector2Int position, string areaId)
         {
-            Vector3 worldPosition = GridToWorldPosition(position);
-            Vector3 spawnStartPosition = worldPosition + Vector3.up * rule.spawnHeight;
+            // 오브젝트를 먼저 생성하여 GridObject.Initialize가 customY 등을 적용하도록 함
+            var obj = CreateObject(rule.objectType, position);
+            if (obj == null) return;
+
+            var objGameObject = obj.GameObject;
+
+            // Initialize()가 반영한 최종 목표 월드 좌표(특히 useCustomY)를 기준으로 애니메이션 타깃 설정
+            Vector3 targetWorldPosition = objGameObject.transform.position;
+            Vector3 spawnStartPosition = targetWorldPosition + Vector3.up * rule.spawnHeight;
 
             // 메테오 이펙트 생성
             if (rule.meteorEffect != null)
             {
                 GameObject effect = Instantiate(rule.meteorEffect, spawnStartPosition, Quaternion.identity);
-                effect.transform.DOMove(worldPosition, rule.fallDuration)
+                effect.transform.DOMove(targetWorldPosition, rule.fallDuration)
                     .SetEase(Ease.OutBounce)
                     .OnComplete(() => Destroy(effect));
             }
 
-            // 오브젝트 생성
-            var obj = CreateObject(rule.objectType, position);
-            if (obj != null)
-            {
-                var objGameObject = obj.GameObject;
-                objGameObject.transform.position = spawnStartPosition;
+            // 시작 위치로 올려놓고 낙하 애니메이션
+            objGameObject.transform.position = spawnStartPosition;
 
-                // 낙하 애니메이션
-                Sequence spawnSequence = DOTween.Sequence();
-                
-                spawnSequence.Join(objGameObject.transform.DOMove(worldPosition, rule.fallDuration)
-                    .SetEase(Ease.OutBounce));
-                
-                spawnSequence.Join(objGameObject.transform.DORotate(
-                    new Vector3(0, rule.rotationAmount, 0), 
-                    rule.fallDuration, 
-                    RotateMode.FastBeyond360));
+            Sequence spawnSequence = DOTween.Sequence();
+            spawnSequence.Join(objGameObject.transform.DOMove(targetWorldPosition, rule.fallDuration)
+                .SetEase(Ease.OutBounce));
+            spawnSequence.Join(objGameObject.transform.DORotate(
+                new Vector3(0, rule.rotationAmount, 0),
+                rule.fallDuration,
+                RotateMode.FastBeyond360));
 
-                spawnSequence.OnComplete(() => {
-                    areaObjects[areaId].Add(obj);
-                    areaObjectCounts[areaId][rule.objectType]++;
-                    var collider = objGameObject.GetComponent<Collider>();
-                    if (collider != null) collider.enabled = true;
-                });
-            }
+            spawnSequence.OnComplete(() => {
+                areaObjects[areaId].Add(obj);
+                areaObjectCounts[areaId][rule.objectType]++;
+                var collider = objGameObject.GetComponent<Collider>();
+                if (collider != null) collider.enabled = true;
+            });
         }
 
         // 오브젝트 제거 시 리스폰 처리
@@ -779,6 +807,14 @@ namespace Runtime.CH3.Main
             Gizmos.DrawRay(transform.position, _forward * 2f);
             Gizmos.color = Color.red;
             Gizmos.DrawRay(transform.position, _right * 2f);
+
+            // Draw player spawn gizmo if set
+            if (hasPlayerSpawn)
+            {
+                Gizmos.color = Color.cyan;
+                Vector3 sp = GridToWorldPosition(playerSpawnGrid);
+                Gizmos.DrawSphere(sp + Vector3.up * 0.05f, 0.15f);
+            }
         }
 
         private void OnDrawGizmosSelected()

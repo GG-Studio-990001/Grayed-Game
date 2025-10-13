@@ -45,7 +45,6 @@ namespace Runtime.CH3.Dancepace
         private void ResizeSpeechBubble()
         {
             float height = _line.text.Length <= 12 ? 200f : 225f;
-            Debug.Log($"height: {height}");
             _speechBubbleA.sizeDelta = new Vector2(_speechBubbleA.sizeDelta.x, height - 12.26f);
         }
 

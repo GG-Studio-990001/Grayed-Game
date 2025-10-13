@@ -46,10 +46,7 @@ namespace Runtime.CH3.Dancepace
         {
             _table = new Dictionary<string, string>();
             var csv = CSVReader.Read(CsvPath); // List<Dictionary<string, object>> 반환 가정
-            string valueColumn = _currentLanguage.ToString();
-            
-            Debug.Log($"Loading StringTable with language: {valueColumn}");
-            Debug.Log($"CSV row count: {csv.Count}");
+            string valueColumn = _currentLanguage.ToString();            
             
             foreach (var row in csv)
             {

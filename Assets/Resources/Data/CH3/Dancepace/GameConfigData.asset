@@ -18,5 +18,5 @@ MonoBehaviour:
   greatCoin: 3
   goodCoin: 1
   badCoin: 0
-  perfectTimingWindow: 0.3
+  perfectTimingWindow: 0.35
   greatTimingWindow: 0.5

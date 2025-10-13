@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3758161525393346655, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
+      propertyPath: baseOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 581827426082270181, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -38,7 +42,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6512757043658307033, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3
+      value: 0.32
       objectReference: {fileID: 0}
     - target: {fileID: 6512757043658307033, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -121,7 +125,7 @@ MonoBehaviour:
   initialHeight: 0.3
   bounceHeight: 0.5
   dropDuration: 0.75
-  groundOffset: 0.3
+  groundOffset: 0
   dropEase: 30
   collectRadius: 2
   moveSpeed: 300

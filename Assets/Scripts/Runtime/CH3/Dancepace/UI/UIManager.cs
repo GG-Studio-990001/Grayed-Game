@@ -12,6 +12,7 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private KeyGuideUI keyGuideUI;
         [SerializeField] private TextBallonUI textBalloon;
         [SerializeField] private ResultPanel resultPanel;
+        [SerializeField] private TextMeshProUGUI waveIdText;
 
         [Header("Panels")]
         [SerializeField] private GameObject moreRehearsalPanel;
@@ -40,6 +41,7 @@ namespace Runtime.CH3.Dancepace
             keyGuideUI.Initialize();
 
             moreRehearsalPanel.SetActive(false);
+            if (waveIdText != null) waveIdText.gameObject.SetActive(false);
         }
         public void ShowMoreRehearsalPanel(bool show)
         {
@@ -126,6 +128,12 @@ namespace Runtime.CH3.Dancepace
                 timeBarUI.gameObject.SetActive(show);
         }
 
+        public void ShowWaveId(string id)
+        {
+            if (waveIdText == null) return;
+            waveIdText.text = id;
+            waveIdText.gameObject.SetActive(true);
+        }
 
         private IEnumerator HideTextBalloonAfterDelay(float delay)
         {

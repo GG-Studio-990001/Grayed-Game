@@ -32,11 +32,11 @@ namespace Runtime.CH3.Main
                 gridManager = GridSystem.Instance;
                 if (gridManager != null)
                 {
-                    // 이미 월드 위치에 있는 오브젝트의 경우 그리드 위치를 계산
+                    // 이미 월드 위치에 있는 오브젝트의 경우 그리드 위치만 동기화 (월드 위치 재설정은 하지 않음)
                     Vector2Int calculatedGridPos = gridManager.WorldToGridPosition(transform.position);
                     if (gridManager.IsValidGridPosition(calculatedGridPos))
                     {
-                        Initialize(calculatedGridPos);
+                        gridPosition = calculatedGridPos;
                     }
                 }
             }

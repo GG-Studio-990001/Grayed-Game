@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WaveData
   m_EditorClassIdentifier: Scripts:Runtime.CH3.Dancepace:DPWaveDataSO
   waveDatas:
-  - waveId: Wave_Normal_0
+  - waveId: Tutorial_1
     beats:
     - poseData: 3
       timing: 0.8
@@ -27,75 +27,61 @@ MonoBehaviour:
     - poseData: 2
       timing: 0.8
       restTime: 1
-  - waveId: Wave_Normal_1
+  - waveId: Tutorial_2
     beats:
     - poseData: 4
       timing: 0.8
       restTime: 1
     - poseData: 1
-      timing: 0.5
-      restTime: 0.6
-    - poseData: 1
-      timing: 0.5
-      restTime: 0.6
+      timing: 0.8
+      restTime: 1
     - poseData: 3
       timing: 0.8
       restTime: 1
-  - waveId: Wave_Normal_2
+    - poseData: 2
+      timing: 0.8
+      restTime: 0.5
+    - poseData: 3
+      timing: 0.6
+      restTime: 0.5
+    - poseData: 4
+      timing: 0.6
+      restTime: 0.5
+  - waveId: Normal_1
     beats:
     - poseData: 2
-      timing: 0.5
+      timing: 0.75
       restTime: 0.6
     - poseData: 3
-      timing: 0.3
+      timing: 0.45
       restTime: 0.4
     - poseData: 1
-      timing: 0.5
+      timing: 0.75
       restTime: 0.6
     - poseData: 4
-      timing: 0.3
+      timing: 0.45
       restTime: 0.4
-  - waveId: Wave_Normal_3
+  - waveId: Normal_2
     beats:
     - poseData: 4
       timing: 0.5
       restTime: 0.6
     - poseData: 2
-      timing: 0.15
-      restTime: 0.2
+      timing: 0.2
+      restTime: 0.25
     - poseData: 2
-      timing: 0.15
-      restTime: 0.2
+      timing: 0.2
+      restTime: 0.25
     - poseData: 3
       timing: 0.5
       restTime: 0.6
     - poseData: 1
-      timing: 0.15
-      restTime: 0.2
+      timing: 0.2
+      restTime: 0.25
     - poseData: 1
-      timing: 0.15
-      restTime: 0.2
-  - waveId: Wave_Normal_4
-    beats:
-    - poseData: 1
-      timing: 0.24
-      restTime: 0.3
-    - poseData: 3
-      timing: 0.15
-      restTime: 0.2
-    - poseData: 2
-      timing: 0.5
-      restTime: 0.6
-    - poseData: 4
-      timing: 0.24
-      restTime: 0.3
-    - poseData: 3
-      timing: 0.15
-      restTime: 0.2
-    - poseData: 3
-      timing: 0.15
-      restTime: 0.2
-  - waveId: Wave_Normal_5
+      timing: 0.2
+      restTime: 0.25
+  - waveId: Normal_3
     beats:
     - poseData: 1
       timing: 0.24
@@ -103,6 +89,26 @@ MonoBehaviour:
     - poseData: 3
       timing: 0.15
       restTime: 0.2
+    - poseData: 2
+      timing: 0.5
+      restTime: 0.6
+    - poseData: 4
+      timing: 0.24
+      restTime: 0.3
+    - poseData: 3
+      timing: 0.15
+      restTime: 0.2
+    - poseData: 3
+      timing: 0.15
+      restTime: 0.2
+  - waveId: Normal_4
+    beats:
+    - poseData: 1
+      timing: 0.24
+      restTime: 0.3
+    - poseData: 3
+      timing: 0.15
+      restTime: 0.2
     - poseData: 4
       timing: 0.5
       restTime: 0.6
@@ -115,7 +121,7 @@ MonoBehaviour:
     - poseData: 2
       timing: 0.5
       restTime: 0.6
-  - waveId: Wave_Normal_6
+  - waveId: Normal_5
     beats:
     - poseData: 2
       timing: 0.24
@@ -133,40 +139,113 @@ MonoBehaviour:
       timing: 0.15
       restTime: 0.2
     - poseData: 1
-      timing: 0.07
-      restTime: 0.1
-    - poseData: 4
       timing: 0.4
       restTime: 0.5
-  - waveId: Wave_Normal_7
+  - waveId: Normal_6
     beats:
     - poseData: 2
-      timing: 0.15
+      timing: 0.3
       restTime: 0.2
     - poseData: 3
-      timing: 0.07
+      timing: 0.14
       restTime: 0.1
     - poseData: 4
-      timing: 0.15
+      timing: 0.3
       restTime: 0.2
     - poseData: 1
-      timing: 0.2
+      timing: 0.4
       restTime: 0.25
     - poseData: 3
-      timing: 0.2
+      timing: 0.4
       restTime: 0.25
     - poseData: 1
-      timing: 0.15
+      timing: 0.3
       restTime: 0.2
     - poseData: 2
+      timing: 0.3
+      restTime: 0.2
+    - poseData: 4
+      timing: 0.3
+      restTime: 0.2
+  - waveId: Normal_7
+    beats:
+    - poseData: 2
+      timing: 0.3
+      restTime: 0.4
+    - poseData: 3
+      timing: 0.3
+      restTime: 0.4
+    - poseData: 4
+      timing: 0.3
+      restTime: 0.4
+    - poseData: 1
+      timing: 0.3
+      restTime: 0.4
+  - waveId: Normal_8
+    beats:
+    - poseData: 3
+      timing: 0.75
+      restTime: 0.6
+    - poseData: 4
+      timing: 0.75
+      restTime: 0.6
+    - poseData: 1
+      timing: 0.45
+      restTime: 0.4
+    - poseData: 1
+      timing: 0.45
+      restTime: 0.4
+  - waveId: Normal_9
+    beats:
+    - poseData: 1
+      timing: 0.8
+      restTime: 1
+    - poseData: 2
+      timing: 0.8
+      restTime: 1
+    - poseData: 1
+      timing: 0.8
+      restTime: 1
+    - poseData: 2
+      timing: 0.8
+      restTime: 1
+    - poseData: 4
+      timing: 0.6
+      restTime: 0.5
+  - waveId: Normal_10
+    beats:
+    - poseData: 1
+      timing: 0.24
+      restTime: 0.3
+    - poseData: 3
       timing: 0.15
       restTime: 0.2
     - poseData: 4
+      timing: 0.5
+      restTime: 0.6
+    - poseData: 1
+      timing: 0.24
+      restTime: 0.3
+    - poseData: 3
       timing: 0.15
       restTime: 0.2
-    - poseData: 3
-      timing: 0.07
-      restTime: 0.1
+    - poseData: 4
+      timing: 0.5
+      restTime: 0.6
+  - waveId: Normal_11
+    beats:
     - poseData: 1
-      timing: 0.2
-      restTime: 0.25
+      timing: 0.24
+      restTime: 0.3
+    - poseData: 4
+      timing: 0.5
+      restTime: 0.6
+    - poseData: 4
+      timing: 0.5
+      restTime: 0.6
+    - poseData: 1
+      timing: 0.24
+      restTime: 0.3
+    - poseData: 1
+      timing: 0.24
+      restTime: 0.3

@@ -34,15 +34,31 @@ namespace Runtime.CH3
             _rigidbody.useGravity = false; // 중력 비활성화
             _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 
-            if (_gridManager != null)
-            {
-                transform.position = _gridManager.GetCenterPosition(transform);
-            }
-
             // 디버그: 컴포넌트 확인
             if (_gridObject == null)
             {
                 Debug.LogError("PlayerGridObject 컴포넌트가 없습니다!");
+            }
+        }
+
+        private void Start()
+        {
+            // GridSystem에 스폰 좌표가 있으면 플레이어를 해당 위치로 즉시 이동
+            if (_gridManager != null && _gridManager.HasPlayerSpawn)
+            {
+                Vector3 spawnPos = _gridManager.GridToWorldPosition(_gridManager.PlayerSpawnGrid);
+                spawnPos.y = transform.position.y; // Y는 현 높이 유지
+
+                if (_rigidbody != null)
+                {
+                    _rigidbody.velocity = Vector3.zero;
+                    _rigidbody.angularVelocity = Vector3.zero;
+                    _rigidbody.position = spawnPos;
+                }
+                else
+                {
+                    transform.position = spawnPos;
+                }
             }
         }
 
@@ -68,9 +84,9 @@ namespace Runtime.CH3
                 // 목표 위치 계산
                 Vector3 targetPosition = transform.position + moveDirection * moveSpeed * Time.fixedDeltaTime;
                 
-                // 목표 위치가 차단된 셀인지 확인
+                // 목표 위치가 차단/점유된 셀인지 확인 (둘 중 하나라도 true면 이동 차단)
                 Vector2Int targetGridPos = _gridManager.WorldToGridPosition(targetPosition);
-                if (_gridManager.IsCellBlocked(targetGridPos))
+                if (_gridManager.IsCellBlocked(targetGridPos) || _gridManager.IsCellOccupied(targetGridPos))
                 {
                     // 이동이 불가능하면 정지
                     Vector3 currentVelocity = _rigidbody.velocity;
