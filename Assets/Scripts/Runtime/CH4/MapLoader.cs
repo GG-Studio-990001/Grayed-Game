@@ -50,7 +50,7 @@ namespace Runtime.CH4
             int height = int.Parse(data[0][1]);
             int width = int.Parse(data[0][2]);
 
-            Debug.Log($"맵 불러오기: {mapName} ({width}x{height})");
+            Debug.Log($"맵 불러오기: {mapName} ({height}x{width})");
 
             // 모든 발판 비활성화
             int idx = 0; // 인덱스 붙여주기
