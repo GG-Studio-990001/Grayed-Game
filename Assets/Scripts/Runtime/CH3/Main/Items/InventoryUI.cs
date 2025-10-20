@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 namespace Runtime.CH3.Main
 {
     public class InventoryUI : MonoBehaviour
     {
         [SerializeField] private Inventory inventory;
-        [SerializeField] private Transform slotsRoot;
+        [SerializeField] private Transform slotsTopRoot;   // 첫 번째 줄 컨테이너
+        [SerializeField] private Transform slotsBottomRoot; // 두 번째 줄 이후 컨테이너
         [SerializeField] private Transform hotbarRoot;
         [SerializeField] private Slot slotPrefab;
         [SerializeField] private TextMeshProUGUI tooltipText;
@@ -40,7 +42,9 @@ namespace Runtime.CH3.Main
         {
             for (int i = 0; i < Inventory.Capacity; i++)
             {
-                var v = Instantiate(slotPrefab, slotsRoot);
+                // 첫 번째 줄(0~Width-1)은 상단 컨테이너, 나머지는 하단 컨테이너에 배치
+                Transform parent = (i < Inventory.Width) ? slotsTopRoot : slotsBottomRoot;
+                var v = Instantiate(slotPrefab, parent);
                 v.SetIndex(
                     i,
                     this,
@@ -105,6 +109,8 @@ namespace Runtime.CH3.Main
         }
 
         public int GetSelectedHotbarIndex() => selectedHotbar;
+        
+        // 줄 간격은 상위 VerticalLayoutGroup.spacing으로 조정하세요.
     }
 }
 

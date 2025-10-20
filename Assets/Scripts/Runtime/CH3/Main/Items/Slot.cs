@@ -183,8 +183,8 @@ namespace Runtime.CH3.Main
 
         private Vector2 GetTooltipPosition(Vector2 pointerScreenPos)
         {
-            float yOffset = isHotbarView ? 80f : -80f;
-            float xOffset = 100f;
+            float yOffset = isHotbarView ? 25f : -25f;
+            float xOffset = 50f;
             return new Vector2(pointerScreenPos.x + xOffset, pointerScreenPos.y + yOffset);
         }
 

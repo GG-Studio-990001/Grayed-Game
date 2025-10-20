@@ -83,18 +83,18 @@ namespace Runtime.CH3
             {
                 // 목표 위치 계산
                 Vector3 targetPosition = transform.position + moveDirection * moveSpeed * Time.fixedDeltaTime;
-                
-                // 목표 위치가 차단/점유된 셀인지 확인 (둘 중 하나라도 true면 이동 차단)
+
                 Vector2Int targetGridPos = _gridManager.WorldToGridPosition(targetPosition);
-                if (_gridManager.IsCellBlocked(targetGridPos) || _gridManager.IsCellOccupied(targetGridPos))
+
+                // 자기 현재 셀은 허용, 다른 셀로 이동할 때만 점유/차단 검사
+                bool movingToAnotherCell = (_gridObject != null) && (targetGridPos != _gridObject.GridPosition);
+                if (_gridManager.IsCellBlocked(targetGridPos) || (movingToAnotherCell && _gridManager.IsCellOccupied(targetGridPos)))
                 {
-                    // 이동이 불가능하면 정지
                     Vector3 currentVelocity = _rigidbody.velocity;
                     currentVelocity.x = 0f;
                     currentVelocity.z = 0f;
                     _rigidbody.velocity = currentVelocity;
                     _state = PlayerState.Idle;
-                    
                     return;
                 }
 
