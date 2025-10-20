@@ -77,9 +77,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b08423364c8c4d428dabb1ca42750ab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectType: 0
+  objectType: 2
   gridPosition: {x: 0, y: 0}
-  useCustomY: 0
+  useCustomY: 1
   customY: 0.53
   applyInitialGridSorting: 1
   gridSortingScale: 1
