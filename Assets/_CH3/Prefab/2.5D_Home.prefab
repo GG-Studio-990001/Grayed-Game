@@ -8,9 +8,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 581827426082270181, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1430623912, guid: 4c86bc5c6eea7b147b2d8801c91f7044, type: 3}
     - target: {fileID: 5049706900345146122, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_Name
-      value: 2.5D_Structure
+      value: 2.5D_Home
       objectReference: {fileID: 0}
     - target: {fileID: 6512757043658307033, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -80,7 +84,7 @@ MonoBehaviour:
   objectType: 2
   gridPosition: {x: 0, y: 0}
   useCustomY: 1
-  customY: 0.53
+  customY: 0.8
   applyInitialGridSorting: 1
   gridSortingScale: 1
   isBlocking: 1
