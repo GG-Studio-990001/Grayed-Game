@@ -15,7 +15,25 @@ namespace Runtime.CH4
 
         private void Start()
         {
+            SetPlatforms();
             LoadMap(path);
+        }
+
+        private void SetPlatforms()
+        {
+            int column = 6; // transform.childCount; 이어야 하는데 key 때문에 직접 상수 처리
+            int row = 10; // transform.GetChild(0).childCount;
+
+            platforms = new PlatformRow[column];
+            for (int i = 0; i < column; i++)
+            {
+                platforms[i].cols = new PlatformInfo[row];
+
+                for (int j = 0; j < row; j++)
+                {
+                    platforms[i].cols[j] = transform.GetChild(i).GetChild(j).GetComponent<PlatformInfo>();
+                }
+            }
         }
 
         private void LoadMap(string csvPath)
@@ -29,10 +47,10 @@ namespace Runtime.CH4
 
             // 첫 줄 : 맵 정보
             string mapName = data[0][0];
-            int width = int.Parse(data[0][1]);
-            int height = int.Parse(data[0][2]);
+            int height = int.Parse(data[0][1]);
+            int width = int.Parse(data[0][2]);
 
-            Debug.Log($"맵 불러오기: {mapName} ({width}x{height})");
+            Debug.Log($"맵 불러오기: {mapName} ({height}x{width})");
 
             // 모든 발판 비활성화
             int idx = 0; // 인덱스 붙여주기

@@ -38,6 +38,24 @@ namespace Runtime.CH4
                 { Ch4S2Locations.Cave, CaveObjs },
                 { Ch4S2Locations.Temple, TempleObjs }
             };
+
+            SetDefaultObjs();
+        }
+
+        protected virtual void SetDefaultObjs()
+        {
+            // 6 * 10
+            int column = DefaultObjParent.transform.childCount; // 세로 6;
+            int row = DefaultObjParent.transform.GetChild(0).childCount; // 가로 10;
+            int idx = 0;
+            DefaultObjs = new GameObject[column * row];
+            for (int i = 0; i < column; i++)
+            {
+                for (int j=0; j<row; j++)
+                {
+                    DefaultObjs[idx++] = DefaultObjParent.transform.GetChild(i).GetChild(j).gameObject;
+                }
+            }
         }
 
         public virtual void StartLevel()
