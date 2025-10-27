@@ -877,8 +877,6 @@ public class GridTileEditor : EditorWindow
         
         // Breakable 프리팹 찾기
         breakablePrefab = FindPrefabInFolder(prefabFolderPath, "Breakable");
-        
-        // 조용히 바인딩 (로그 없이)
     }
 
     private GameObject FindPrefabInFolder(string folderPath, string prefabName)

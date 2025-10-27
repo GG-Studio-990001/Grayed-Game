@@ -504,10 +504,10 @@ PrefabInstance:
     - target: {fileID: 581827426082270181, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -1398425168, guid: cef43a87c94193e40a2faa1b8fa034fe, type: 3}
+      objectReference: {fileID: 21300000, guid: ecce5de3bdf55664abe2b4b0e1fa8d25, type: 3}
     - target: {fileID: 5049706900345146122, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_Name
-      value: BreakableObject
+      value: Breakable
       objectReference: {fileID: 0}
     - target: {fileID: 5049706900345146122, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_Layer
