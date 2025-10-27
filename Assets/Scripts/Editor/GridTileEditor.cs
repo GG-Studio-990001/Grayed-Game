@@ -17,6 +17,7 @@ public class GridTileEditor : EditorWindow
         Block,          // 차단 오브젝트 (빨간색)
         EventArea,      // 연출구역 (파란색)
         Teleporter,     // 텔레포터 (노란색)
+        Breakable,      // 파괴 가능한 오브젝트 (주황색)
         SpawnPoint      // 플레이어 스폰 포인트 (청록, GridSystem에 좌표 저장)
     }
 
@@ -24,6 +25,7 @@ public class GridTileEditor : EditorWindow
     [SerializeField] private GameObject blockPrefab;
     [SerializeField] private GameObject eventAreaPrefab;
     [SerializeField] private GameObject teleporterPrefab;
+    [SerializeField] private GameObject breakablePrefab;
 
     [Header("Grid Settings")]
     [SerializeField] private GridSystem gridSystem;
@@ -37,6 +39,7 @@ public class GridTileEditor : EditorWindow
     private static readonly Color BLOCK_COLOR = Color.red;
     private static readonly Color EVENT_AREA_COLOR = Color.blue;
     private static readonly Color TELEPORTER_COLOR = Color.yellow;
+    private static readonly Color BREAKABLE_COLOR = new Color(1f, 0.5f, 0f, 1f); // 주황색
     private static readonly Color SPAWN_POINT_COLOR = new Color(0f, 1f, 1f, 1f); // 청록
     private static readonly Color GRID_LINE_COLOR = Color.white;
 
@@ -189,6 +192,7 @@ public class GridTileEditor : EditorWindow
         blockPrefab = (GameObject)EditorGUILayout.ObjectField("Block Prefab", blockPrefab, typeof(GameObject), false);
         eventAreaPrefab = (GameObject)EditorGUILayout.ObjectField("Event Area Prefab", eventAreaPrefab, typeof(GameObject), false);
         teleporterPrefab = (GameObject)EditorGUILayout.ObjectField("Teleporter Prefab", teleporterPrefab, typeof(GameObject), false);
+        breakablePrefab = (GameObject)EditorGUILayout.ObjectField("Breakable Prefab", breakablePrefab, typeof(GameObject), false);
 
         EditorGUILayout.Space();
 
@@ -203,7 +207,7 @@ public class GridTileEditor : EditorWindow
 
         // 시각적 설정 (색상은 고정값 사용)
         EditorGUILayout.LabelField("Visual Settings", EditorStyles.boldLabel);
-        EditorGUILayout.HelpBox("색상: Block(빨강), EventArea(파랑), Teleporter(노랑)", MessageType.Info);
+        EditorGUILayout.HelpBox("색상: Block(빨강), EventArea(파랑), Teleporter(노랑), Breakable(주황)", MessageType.Info);
 
         EditorGUILayout.Space();
 
@@ -279,6 +283,8 @@ public class GridTileEditor : EditorWindow
                 return eventAreaPrefab;
             case PlacedObjectType.Teleporter:
                 return teleporterPrefab;
+            case PlacedObjectType.Breakable:
+                return breakablePrefab;
             case PlacedObjectType.SpawnPoint:
                 return null; // 프리팹 사용 안 함
             default:
@@ -296,6 +302,8 @@ public class GridTileEditor : EditorWindow
                 return EVENT_AREA_COLOR;
             case PlacedObjectType.Teleporter:
                 return TELEPORTER_COLOR;
+            case PlacedObjectType.Breakable:
+                return BREAKABLE_COLOR;
             case PlacedObjectType.SpawnPoint:
                 return SPAWN_POINT_COLOR;
             default:
@@ -634,6 +642,17 @@ public class GridTileEditor : EditorWindow
                 // Teleporter
                 Handles.DrawWireCube(position + Vector3.up * 0.5f, Vector3.one * 0.8f);
                 break;
+                
+            case PlacedObjectType.Breakable:
+                // Breakable - 크랙이 있는 큐브로 표시
+                Handles.DrawWireCube(position + Vector3.up * 0.3f, new Vector3(0.8f, 0.6f, 0.8f));
+                // 크랙 효과를 위한 대각선들
+                Handles.DrawLine(position + Vector3.up * 0.1f + Vector3.left * 0.2f + Vector3.forward * 0.2f, 
+                               position + Vector3.up * 0.1f + Vector3.right * 0.2f + Vector3.back * 0.2f);
+                Handles.DrawLine(position + Vector3.up * 0.2f + Vector3.left * 0.1f + Vector3.back * 0.1f, 
+                               position + Vector3.up * 0.2f + Vector3.right * 0.1f + Vector3.forward * 0.1f);
+                break;
+                
             case PlacedObjectType.SpawnPoint:
                 // SpawnPoint
                 Handles.DrawWireDisc(position + Vector3.up * 0.2f, Vector3.up, 0.25f);
@@ -831,6 +850,14 @@ public class GridTileEditor : EditorWindow
                     obj.AddComponent<Teleporter>();
                 }
                 break;
+                
+            case PlacedObjectType.Breakable:
+                var breakable = obj.GetComponent<Breakable>();
+                if (breakable == null)
+                {
+                    obj.AddComponent<Breakable>();
+                }
+                break;
         }
     }
 
@@ -847,6 +874,9 @@ public class GridTileEditor : EditorWindow
         
         // Teleporter 프리팹 찾기
         teleporterPrefab = FindPrefabInFolder(prefabFolderPath, "Teleporter");
+        
+        // Breakable 프리팹 찾기
+        breakablePrefab = FindPrefabInFolder(prefabFolderPath, "Breakable");
         
         // 조용히 바인딩 (로그 없이)
     }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using UnityEngine.UI;
 
 namespace Runtime.CH3.Main
 {
@@ -29,12 +30,10 @@ namespace Runtime.CH3.Main
         [SerializeField] private bool initializeToGridPosition = true; // 초기 스폰을 GridPosition에 맞춤
 
         private int currentMiningCount;
-        //private SpriteRenderer spriteRenderer;
-        // private MineralSpawnZone spawnZone; // GridSystem으로 통합됨
         private List<GameObject> droppedItems = new List<GameObject>();
         private float lastInteractionTime;
         private Canvas uiCanvas; // 자동 찾기
-        private UnityEngine.UI.Slider holdGauge; // 자동 찾기
+        private Slider holdGauge; // 자동 찾기
         private Collider oreCollider; // 콜라이더 참조
 
         public override void Initialize(Vector2Int gridPos)

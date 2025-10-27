@@ -70,6 +70,10 @@ namespace Runtime.CH3.Main
             {
                 currentGaugeValue = ore.GetCurrentGaugeValue();
             }
+            else if (interactable is Breakable breakable)
+            {
+                currentGaugeValue = breakable.GetCurrentGaugeValue();
+            }
             holdElapsed = currentGaugeValue * interactable.HoldSeconds;
             
             currentHold.OnHoldStart(gameObject);
@@ -173,6 +177,10 @@ namespace Runtime.CH3.Main
                 if (bestHold is Ore ore)
                 {
                     currentGaugeValue = ore.GetCurrentGaugeValue();
+                }
+                else if (bestHold is Breakable breakable)
+                {
+                    currentGaugeValue = breakable.GetCurrentGaugeValue();
                 }
                 holdElapsed = currentGaugeValue * bestHold.HoldSeconds;
                 
