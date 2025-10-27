@@ -170,7 +170,7 @@ namespace Runtime.CH3.Main
             if (currentMiningCount <= 0)
             {
                 StartCoroutine(MiningCompleteSequence(interactor));
-                
+
                 // 채굴이 완전히 끝났을 때만 UI와 게이지를 초기화
                 if (uiCanvas != null)
                 {
@@ -191,7 +191,7 @@ namespace Runtime.CH3.Main
             {
                 UpdateSprite();
                 PlayMiningEffect();
-                
+
                 // 채굴이 아직 남아있으면 UI는 숨기되 게이지는 유지
                 if (uiCanvas != null)
                 {
@@ -354,6 +354,13 @@ namespace Runtime.CH3.Main
         public float GetCurrentGaugeValue()
         {
             return holdGauge != null ? holdGauge.value : 0f;
+        }
+
+        private void OnDrawGizmos()
+        {
+            // Breakable는 검은색으로 표시
+            Gizmos.color = Color.black;
+            Gizmos.DrawWireSphere(transform.position + Vector3.up * 0.1f, 0.4f);
         }
     }
 }
