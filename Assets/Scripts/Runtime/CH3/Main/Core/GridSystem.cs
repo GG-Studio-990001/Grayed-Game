@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using DG.Tweening;
+using Runtime.ETC;
 
 namespace Runtime.CH3.Main
 {
@@ -13,6 +15,7 @@ namespace Runtime.CH3.Main
         Structure,
         Teleporter,
         Ore,
+        Breakable,
         NPC
     }
 
@@ -142,7 +145,7 @@ namespace Runtime.CH3.Main
             if (Instance == null)
             {
                 Instance = this;
-                Initialize();
+            Initialize();
             }
             else
             {
@@ -157,9 +160,11 @@ namespace Runtime.CH3.Main
                 // 씬에 미리 배치된 Structure들이 블록을 설정하도록 대기
                 StartCoroutine(InitializeAfterStructures());
             }
+
+            Managers.Sound.Play(Sound.BGM, "CH3/CH3_Field_Main_BGM");
         }
         
-        private System.Collections.IEnumerator InitializeAfterStructures()
+        private IEnumerator InitializeAfterStructures()
         {
             // 한 프레임 대기하여 모든 Structure의 Start()가 완료되도록 함
             yield return null;
