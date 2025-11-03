@@ -47,9 +47,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Dancepace.unity
     guid: 4517ad690fb073e43831580aeeb16e8a
-  - enabled: 0
-    path: Assets/Scenes/CH4_Test.unity
-    guid: 33aed549cc353d74e8d18cf0f306f66d
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: f3e6a5ed471769d4aabb8105f74f71fa, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: ddc15bbc1419fef4cbf8bc7636cf3ba4, type: 2}
