@@ -269,6 +269,8 @@ namespace Runtime.CH3.Dancepace
 
                 float waitTime = beat.timing + beat.restTime;
                 yield return StartCoroutine(WaitWithTimeCheck(waitTime, limitTime, isTimeOver));
+                foreach (var npc in previewNPCs)
+                    npc?.SetIdle();
             }
 
             // 리허설에서는 항상 스포트라이트를 시작(메인과 독립)
