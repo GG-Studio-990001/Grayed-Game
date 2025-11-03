@@ -41,7 +41,8 @@ namespace Runtime.CH3.Dancepace
         private RehearsalPhase rehearsalPhase = RehearsalPhase.None;
         private bool? userWantsMoreRehearsal = null;
         private float elapsed = 0f;
-        private float lateLeniencySec = 0.06f;
+        private float timingCenterOffsetSec = 0.0f;
+        private float lateLeniencySec = 0;
         private bool hasSpotlightStarted = false;
 
         private void Awake()
@@ -166,6 +167,12 @@ namespace Runtime.CH3.Dancepace
                     rehearsalPhase = RehearsalPhase.None;
             }
 
+            foreach (var npc in previewNPCs)
+                npc?.PlayPreviewPose(EPoseType.None);
+            foreach (var npc in answerNPCs)
+                npc?.PlayAnswerPose(EPoseType.None);
+            playerCharacter?.ResetState();
+
             effectManager.ShowAudience(1);
             uiManager?.ShowKeyGuide(true);
 
@@ -270,7 +277,7 @@ namespace Runtime.CH3.Dancepace
                 float waitTime = beat.timing + beat.restTime;
                 yield return StartCoroutine(WaitWithTimeCheck(waitTime, limitTime, isTimeOver));
                 foreach (var npc in previewNPCs)
-                    npc?.SetIdle();
+                    npc?.PlayPreviewPose(EPoseType.None);
             }
 
             // 리허설에서는 항상 스포트라이트를 시작(메인과 독립)
@@ -585,13 +592,17 @@ namespace Runtime.CH3.Dancepace
                 _gameResult.AddScore(_gameData.badCoin);
                 return;
             }
-            float lateRatio = Mathf.Clamp01(lateLeniencySec / beatTime);
 
-            float ratio = inputTime / beatTime;
-            float perfectMin = 0.5f - _gameData.perfectTimingWindow;
-            float perfectMax = 0.5f + _gameData.perfectTimingWindow + lateRatio;
-            float greatMin = 0.5f - _gameData.greatTimingWindow;
-            float greatMax = 0.5f + _gameData.greatTimingWindow + lateRatio;
+            // 판정 중심 이동: 입력시간에서 오프셋(초)을 빼고 정규화
+            float ratio = (inputTime - timingCenterOffsetSec) / beatTime;
+
+            // 여유 폭(초)을 비율로 변환하고 좌우 대칭 적용
+            float leniency = Mathf.Clamp01(lateLeniencySec / beatTime);
+
+            float perfectMin = 0.5f - _gameData.perfectTimingWindow - leniency;
+            float perfectMax = 0.5f + _gameData.perfectTimingWindow + leniency;
+            float greatMin = 0.5f - _gameData.greatTimingWindow - leniency;
+            float greatMax = 0.5f + _gameData.greatTimingWindow + leniency;
 
             if (ratio >= perfectMin && ratio <= perfectMax)
             {
@@ -629,10 +640,9 @@ namespace Runtime.CH3.Dancepace
             bool inputReceived = false;
             float timer = 0f;
 
-            // 비트 시작 전에 이미 키가 눌려 있으면 Bad 판정
             if (keyBinder.IsPoseKeyHeld(beat.EnumToString()))
             {
-                JudgeInput(float.MaxValue, beat.timing, beat.EnumToString());
+                JudgeInput(float.MaxValue, beatTime, beat.EnumToString());
                 inputReceived = true;
                 // 비트 시간만큼 그냥 대기
                 while (timer < beatTime && elapsed < limitTime)
