@@ -303,6 +303,8 @@ namespace Runtime.CH3.Dancepace
                     uiManager?.HideTextBalloon();
                     // TODO: 한 웨이브 시작 전, 끝나면 피드백 추가 하는 리허설 웨이브 추가
                 }
+
+                yield return new WaitForSeconds(1f);
                 playerCharacter?.ResetState();
                 playerCharacter?.HideSpotlight();
                 yield break;
