@@ -199,7 +199,12 @@ namespace Runtime.CH3.Dancepace
 
             StopCoroutine(timeBarUpdater);
 
-            Managers.Sound.FadeOutBGM(0.5f);
+            Managers.Sound.FadeOutBGM(0f);
+            foreach (var npc in previewNPCs)
+                npc?.PlayPreviewPose(EPoseType.None);
+            foreach (var npc in answerNPCs)
+                npc?.PlayAnswerPose(EPoseType.None);
+            playerCharacter?.ResetState();
             Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_Intro_Outro");
             yield return new WaitForSeconds(3f);
 
@@ -232,25 +237,25 @@ namespace Runtime.CH3.Dancepace
                 // 타임바 숨김
                 uiManager?.ShowTimeBar(false);
                 var beats = wave.beats;
-                yield return StartCoroutine(PlayPreviewPhase(beats, wait, float.PositiveInfinity, () => false));
-                yield return StartCoroutine(PlayInputPhase(beats, wait, float.PositiveInfinity, () => false));
+                yield return StartCoroutine(PlayPreviewPhase(beats, wait, float.PositiveInfinity, () => false, true));
+                yield return StartCoroutine(PlayInputPhase(beats, wait, float.PositiveInfinity, () => false, true));
                 yield break;
             }
 
             Func<bool> isOver = () => elapsed >= limitTime;
-            yield return StartCoroutine(PlayPreviewPhase(wave.beats, wait, limitTime, isOver));
-            yield return StartCoroutine(PlayInputPhase(wave.beats, wait, limitTime, isOver));
+            yield return StartCoroutine(PlayPreviewPhase(wave.beats, wait, limitTime, isOver, true));
+            yield return StartCoroutine(PlayInputPhase(wave.beats, wait, limitTime, isOver, true));
 
             effectManager.StopBeatAnimation();
             onTimeOver?.Invoke(timeOver);
             yield return null;
         }
 
-        private IEnumerator PlayPreviewPhase(List<BeatData> beats, float wait, float limitTime, Func<bool> isTimeOver)
+        private IEnumerator PlayPreviewPhase(List<BeatData> beats, float wait, float limitTime, Func<bool> isTimeOver, bool allowWaveOverrun)
         {
-            yield return StartCoroutine(WaitWithTimeCheck(wait, limitTime, isTimeOver));
+            yield return StartCoroutine(WaitWithTimeCheck(wait, limitTime, isTimeOver, allowWaveOverrun));
 
-            for (int i = 0; i < beats.Count && !isTimeOver(); i++)
+            for (int i = 0; i < beats.Count && (allowWaveOverrun || !isTimeOver()); i++)
             {
                 Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Good");
                 var beat = beats[i];
@@ -275,7 +280,7 @@ namespace Runtime.CH3.Dancepace
                     npc?.PlayPreviewPose(beat.poseData);
 
                 float waitTime = beat.timing + beat.restTime;
-                yield return StartCoroutine(WaitWithTimeCheck(waitTime, limitTime, isTimeOver));
+                yield return StartCoroutine(WaitWithTimeCheck(waitTime, limitTime, isTimeOver, allowWaveOverrun));
                 foreach (var npc in previewNPCs)
                     npc?.PlayPreviewPose(EPoseType.None);
             }
@@ -292,10 +297,10 @@ namespace Runtime.CH3.Dancepace
                 hasSpotlightStarted = true;
             }
             //uiManager?.ShowTextBalloon(beats.Count > 0 ? beats[0].poseData : EPoseType.None);
-            yield return StartCoroutine(WaitWithTimeCheck(wait, limitTime, isTimeOver));
+            yield return StartCoroutine(WaitWithTimeCheck(wait, limitTime, isTimeOver, allowWaveOverrun));
         }
 
-        private IEnumerator PlayInputPhase(List<BeatData> beats, float wait, float limitTime, Func<bool> isTimeOver)
+        private IEnumerator PlayInputPhase(List<BeatData> beats, float wait, float limitTime, Func<bool> isTimeOver, bool allowWaveOverrun)
         {
             // 첫 번째 리허설 모드일 때 한 비트마다 안내, 입력 전까지 멈춤, 맞게 누르면 피드백
             if (rehearsalPhase == RehearsalPhase.First)
@@ -320,7 +325,7 @@ namespace Runtime.CH3.Dancepace
             // 프리뷰 포즈는 입력 페이즈 시작 시 한 번만 Idle로 복귀
             ResetPreviewToIdle();
 
-            for (int i = 0; i < beats.Count && !isTimeOver(); i++)
+            for (int i = 0; i < beats.Count && (allowWaveOverrun || !isTimeOver()); i++)
             {
                 Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_Good");
                 var beat = beats[i];
@@ -343,15 +348,15 @@ namespace Runtime.CH3.Dancepace
                 }
                 foreach (var npc in answerNPCs)
                     npc?.PlayAnswerPose(beat.poseData);
-                yield return StartCoroutine(JudgeBeatInputCoroutine(beat, beat.timing, limitTime));
+                yield return StartCoroutine(JudgeBeatInputCoroutine(beat, beat.timing, limitTime, allowWaveOverrun));
                 if (i + 1 < beats.Count && beat.restTime > 0)
                 {
                     var nextBeat = beats[i + 1];
-                    yield return StartCoroutine(WaitWithTimeCheck(beat.restTime, limitTime, isTimeOver));
+                    yield return StartCoroutine(WaitWithTimeCheck(beat.restTime, limitTime, isTimeOver, allowWaveOverrun));
                 }
                 else if (beat.restTime > 0)
                 {
-                    yield return StartCoroutine(WaitWithTimeCheck(beat.restTime, limitTime, isTimeOver));
+                    yield return StartCoroutine(WaitWithTimeCheck(beat.restTime, limitTime, isTimeOver, allowWaveOverrun));
                 }
             }
             playerCharacter?.ResetState();
@@ -392,7 +397,7 @@ namespace Runtime.CH3.Dancepace
                 var randomBeats = rehearsalWaves[0].beats.OrderBy(x => UnityEngine.Random.value).Take(4).ToList();
 
                 // 미리보기 단계
-                yield return StartCoroutine(PlayPreviewPhase(randomBeats, 3f, float.PositiveInfinity, () => false));
+                yield return StartCoroutine(PlayPreviewPhase(randomBeats, 3f, float.PositiveInfinity, () => false, true));
 
                 // 3. 미리보기 박자 종료 후 TextBallon_Push_4_1
                 uiManager?.ShowTextBalloon(StringTableManager.Get("TextBallon_Push_4_1"), 2f);
@@ -558,10 +563,10 @@ namespace Runtime.CH3.Dancepace
         }
 
         // 시간 흐름을 체크하며 대기하는 코루틴
-        private IEnumerator WaitWithTimeCheck(float waitTime, float limitTime, Func<bool> isTimeOver)
+        private IEnumerator WaitWithTimeCheck(float waitTime, float limitTime, Func<bool> isTimeOver, bool allowWaveOverrun)
         {
             float timer = 0f;
-            while (timer < waitTime && elapsed < limitTime && !isTimeOver())
+            while (timer < waitTime && (allowWaveOverrun || (elapsed < limitTime && !isTimeOver())))
             {
                 float delta = Time.deltaTime;
                 timer += delta;
@@ -635,7 +640,7 @@ namespace Runtime.CH3.Dancepace
             foreach (var npc in previewNPCs) npc?.SetIdle();
         }
 
-        private IEnumerator JudgeBeatInputCoroutine(BeatData beat, float beatTime, float limitTime)
+        private IEnumerator JudgeBeatInputCoroutine(BeatData beat, float beatTime, float limitTime, bool allowWaveOverrun)
         {
             bool inputReceived = false;
             float timer = 0f;
@@ -645,7 +650,7 @@ namespace Runtime.CH3.Dancepace
                 JudgeInput(float.MaxValue, beatTime, beat.EnumToString());
                 inputReceived = true;
                 // 비트 시간만큼 그냥 대기
-                while (timer < beatTime && elapsed < limitTime)
+                while (timer < beatTime && (allowWaveOverrun || elapsed < limitTime))
                 {
                     timer += Time.deltaTime;
                     elapsed += Time.deltaTime;
@@ -655,7 +660,7 @@ namespace Runtime.CH3.Dancepace
             }
 
             // 정상 판정 루프
-            while (timer < beatTime && elapsed < limitTime)
+            while (timer < beatTime && (allowWaveOverrun || elapsed < limitTime))
             {
                 if (!inputReceived && keyBinder.IsPoseKeyPressed(beat.EnumToString()))
                 {
