@@ -51,14 +51,14 @@ namespace Runtime.CH2.Location
 
         public void TempleRoomCarpetOpen()
         {
-            _bgSprites[9] = _extraBgSprites[0];
-            _bgImg.sprite = _bgSprites[9];
+            _bgSprites[_locationSprites["TempleRoom"]] = _extraBgSprites[0];
+            _bgImg.sprite = _bgSprites[_locationSprites["TempleRoom"]];
         }
 
         public void TempleClean()
         {
-            _bgSprites[9] = _extraBgSprites[1];
-            _bgSprites[2] = _extraBgSprites[2];
+            _bgSprites[_locationSprites["TempleRoom"]] = _extraBgSprites[1];
+            _bgSprites[_locationSprites["Temple"]] = _extraBgSprites[2];
         }
 
         public void SetLocationUI()
