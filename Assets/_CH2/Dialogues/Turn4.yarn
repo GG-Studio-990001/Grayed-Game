@@ -32,7 +32,7 @@ title: Turn4_N_Temple
 <<SetLocation Temple>>
 <<wait 2>>
 
-    :신전에 도착했지만,<br>기도 시간에는 종을 울리지 말라는 안내문이 붙어 있다.
+    :신전에 도착했지만,<br>기도 시간에는 종을 울리지 말라는 안내문이 붙어 있다. // TODO: 일러스트 있으면 좋을 듯
 
 // 장소 이동
 <<DialogueFin>>
@@ -43,7 +43,7 @@ title: Turn4_S
 ---
 <<ChangeBGM>>
 // 장소: 달러 동상
-<<SetLocation Statue>> // TODO: 확인 필요
+<<SetLocation Storage>> // TODO: 확인 필요
 <<wait 2>>
 
     :R2-Mon에게 얻은 열쇠로 숨겨진 문을 열었다.
@@ -84,7 +84,7 @@ title: Turn4_S
     :...이런, 들킨 것 같다. 도망을 가야 한다.
 
 // 장소: 달러 동상 내부
-<<SetLocation InStatue>> // TODO: 확인 필요
+<<SetLocation InStorage>> // TODO: 확인 필요
 <<wait 1>>
 <<ShowCutScene -1>>
 <<wait 1>>

@@ -19,6 +19,7 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private DialogueRunner _runner;
         [SerializeField] private TurnController _turnController;
         [SerializeField] private LocationUIController _locationUiController;
+        [SerializeField] private LocationBgController _locationBgController;
         [SerializeField] private TcgController _tcgController;
         [SerializeField] private ConnectionController _connectionController;
         [SerializeField] private CharacterManager _characterManager;
@@ -71,6 +72,9 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("DialogueAfterTCG", _tcgController.DialogueAfterTCG);
             _runner.AddCommandHandler("ShowScore", _tcgController.ShowScore);
             _runner.AddCommandHandler("HideScore", _tcgController.HideScore);
+
+            _runner.AddCommandHandler("TempleRoomCarpetOpen", _locationBgController.TempleRoomCarpetOpen);
+            _runner.AddCommandHandler("TempleClean", _locationBgController.TempleClean);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
 
@@ -158,7 +162,7 @@ namespace Runtime.CH2.Dialogue
             Managers.Sound.Play(Sound.SFX, path);
         }
         #endregion
-
+        
         private void ConnectScene(string scene)
         {
             Managers.Sound.StopBGM();

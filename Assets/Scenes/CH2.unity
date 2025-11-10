@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -728,6 +727,7 @@ MonoBehaviour:
   _runner: {fileID: 696216669}
   _turnController: {fileID: 1755298184}
   _locationUiController: {fileID: 444606903}
+  _locationBgController: {fileID: 1723448193}
   _tcgController: {fileID: 839508657}
   _connectionController: {fileID: 1027870255}
   _characterManager: {fileID: 495576460}
@@ -2346,12 +2346,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!114 &705529364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4744,6 +4744,7 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!114 &1353834677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5619,19 +5620,23 @@ MonoBehaviour:
   _bgSprites:
   - {fileID: 21300000, guid: f5c0b6fa77d76ce41b9c929741166bf7, type: 3}
   - {fileID: 21300000, guid: edf2ac4b7591b774d9207470b4794f76, type: 3}
-  - {fileID: 21300000, guid: e5b2487d67ae8b548bbf3837a54e4168, type: 3}
-  - {fileID: 21300000, guid: 40ef2c8b9fb7aad41ad7fb7606aefa9c, type: 3}
+  - {fileID: 21300000, guid: bffd43b7ff84a4e4aaea6a28e0b7d57f, type: 3}
+  - {fileID: 21300000, guid: ff53206dc1ccfb549bc722cfb3504ef8, type: 3}
   - {fileID: 21300000, guid: 499b03b1b511abf4b990a1d46ab88828, type: 3}
   - {fileID: 21300000, guid: 3ddd8f4cd8eb0a744b44a32b67321c39, type: 3}
   - {fileID: 21300000, guid: 5f12ab4901cf5234498d5ba3f93e53f8, type: 3}
   - {fileID: 21300000, guid: 70d393802d3689447a0330ea4c9d3e7e, type: 3}
-  - {fileID: 21300000, guid: e5b2487d67ae8b548bbf3837a54e4168, type: 3}
+  - {fileID: 21300000, guid: ff53206dc1ccfb549bc722cfb3504ef8, type: 3}
   - {fileID: 21300000, guid: 77bb5584b945dc14b8754cb7a6517247, type: 3}
   - {fileID: 21300000, guid: 073cdcf7cffa4e34bbe8c2642b4d8de3, type: 3}
-  - {fileID: 21300000, guid: 40ef2c8b9fb7aad41ad7fb7606aefa9c, type: 3}
-  - {fileID: 21300000, guid: 506a05f2a0c86f040b0045344e77124a, type: 3}
-  - {fileID: 21300000, guid: 40ef2c8b9fb7aad41ad7fb7606aefa9c, type: 3}
-  - {fileID: 21300000, guid: 40ef2c8b9fb7aad41ad7fb7606aefa9c, type: 3}
+  - {fileID: 21300000, guid: ff53206dc1ccfb549bc722cfb3504ef8, type: 3}
+  - {fileID: 21300000, guid: a0eb717558e14234fba805d91310b2ec, type: 3}
+  - {fileID: 21300000, guid: ff53206dc1ccfb549bc722cfb3504ef8, type: 3}
+  - {fileID: 21300000, guid: ccbd1042511e3e4439ac45f282ff07d4, type: 3}
+  _extraBgSprites:
+  - {fileID: 21300000, guid: d981577e1777a01459f39c441da9555d, type: 3}
+  - {fileID: 21300000, guid: 4c6cf09090e7bf044b9ff5dc69561ebb, type: 3}
+  - {fileID: 21300000, guid: d295c4d7238e32142bbc8f3cedd8abcb, type: 3}
 --- !u!222 &1723448195
 CanvasRenderer:
   m_ObjectHideFlags: 0
