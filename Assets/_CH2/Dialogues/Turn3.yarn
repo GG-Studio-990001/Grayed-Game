@@ -2,7 +2,7 @@ title: Turn3
 ---
 // 접속게임 스테이지1에서 열쇠 얻어 탈출함
 // 장소: 달러 동상 내부
-<<StartLocation InStatue>>
+<<StartLocation InStorage>>
 <<wait 2>>
 
 <<ChangeBGM 7>>
@@ -16,7 +16,7 @@ R2-Mon: 그럼 정말로... 미카엘에게 돌려주러 가야 하는 거겠지
 R2-Mon: 아쉽지만 이제 빠져나가 보아요...!
 
 // 장소: 달러 동상
-<<SetLocation Statue>> // TODO: 확인 필요
+<<SetLocation Storage>> // TODO: 확인 필요
 <<wait 2>>
 
     :밖으로 나오자 R2-Mon이 바닥에 떨어뜨렸던 열쇠를 발견했다.
@@ -54,7 +54,7 @@ R2-Mon: 그럼 다음에 봐요!
 
 <<HideCharacter "달러">>
     :달러가 광장을 떠났다.
-
+<<TempleClean>> // 신전 깨끗해짐, 기도상 생김 => 내부도
 <<SetCharacterExpression "라플리" "0">>
 주민1: 요즘 달러님 많이 힘드신가 봐.
 주민2: 맞아. 뭔가 더 예민해 보이시네.
@@ -172,7 +172,8 @@ title: AfterTcg3
     :파머가 달러의 집이 있는 방향으로 걸어간다. 같이 가보자.
 
 // 장소: 달러의 집
-<<SetLocation DollarHouse>> // TODO: 확인 필요
+// <<SetLocation DollarHouse>> // TODO: 확인 필요
+<<SetLocation Backstreet>>
 <<wait 2>>
 
 파머: 여기야. 달러님- 저희 왔습니다!

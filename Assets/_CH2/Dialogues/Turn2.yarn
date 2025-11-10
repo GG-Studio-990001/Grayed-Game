@@ -117,7 +117,7 @@ title: AfterTcg1
 미카엘: 심기를 건드린 죗값이니 억울해도 어쩌겠어.
 미카엘: 심심하면 가끔 구경하러 올게~
 <<HideCharacter "미카엘">>
-    :미카엘이 문을 밖에서 잠가버리고 떠났다...
+    :미카엘이 문을 밖에서 잠가버리고 떠났다... // TODO: 문 잠기는 소리
 <<ChangeBGM>>
     :침착하고 주변을 둘러보았다.
 
@@ -132,7 +132,10 @@ title: AfterTcg1
 // 대사창 없이 쿵 쿵 다가오는 sfx 출력 후, 다음 대사 진행
 <<PlaySFX 9>>
 <<wait 1>>
+<<TempleRoomCarpetOpen>>     // 여기서 카펫 열린 버전으로 바뀌기
+<<wait 2>>
     :쿵쿵 소리에 바닥의 카펫이 들썩거렸다.
+
     :자세히 살펴보니 카펫 아래 지하 문이 숨겨져 있었다.<br>누군가 그 문을 열고 나타났다.
 
 <<SetCharacterPos "R2-Mon" "B">>
@@ -142,7 +145,7 @@ R2-Mon: 휴먼, 여기에요! 빨리!! 긴급긴급!!!
 <<HideCharacter "R2-Mon">>
 
 // 장소: 통로
-<<SetLocation Storage>> // TODO: 확인 필요
+<<SetLocation Passage>> // TODO: 확인 필요
 <<wait 2>>
 
     :지하로 들어가니 긴 통로가 펼쳐졌고<br>R2-Mon을 뒤따라 나아갔다.
@@ -161,8 +164,8 @@ R2-Mon: 밖으로 나가서 차차 고민해봐요. 출구에 도착했거든요
 <<HideCharacter "R2-Mon">>
 
 // 장소: 창고와 달러 동상
-// <<SetLocation Storage>>
-// <<wait 2>>
+<<SetLocation Storage>> // 창고 앞
+<<wait 2>>
 
     :밖으로 나오자 R2-Mon이 우측의 달러 동상으로 향했다.
     :교묘하게 숨겨진 문을 찾아내고 구멍에 열쇠를 넣어 돌렸다.
@@ -177,8 +180,8 @@ R2-Mon: 헤헤~ 이런데가 있을 줄 몰랐죠? 따라와요!
 <<HideCharacter "R2-Mon">>
 
 // 장소: 달러 동상 내부
-// <<SetLocation InStatue>> // TODO: 확인 필요
-<<SetLocation Base>>
+<<SetLocation InStorage>> // TODO: 확인 필요
+// <<SetLocation Base>>
 <<wait 2>>
 
     :안으로 들어가자 R2-Mon이 문을 닫았다.<br>내부에는 청소와 관련된 각종 도구가 잔뜩 있었다.

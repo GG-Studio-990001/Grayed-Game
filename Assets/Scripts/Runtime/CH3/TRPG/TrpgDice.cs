@@ -50,7 +50,7 @@ namespace Runtime.CH3.TRPG
         [SerializeField] private TextMeshProUGUI _resultTxt_0;
         [SerializeField] private TextMeshProUGUI _resultTxt_1;
         [SerializeField] private TextMeshProUGUI _resultTxt_2;
-        private string characterName = "Dollar";
+        // private string characterName = "Dollar";
 
         private readonly Dictionary<Stat, int> _myStats = new()
         {
