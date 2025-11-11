@@ -83,6 +83,21 @@ namespace Runtime.CH3.Main
         public void UpdateHold()
         {
             if (currentHold == null) return;
+
+            // 범위 이탈 시 즉시 취소
+            var targetMb = currentHold as MonoBehaviour;
+            if (targetMb == null)
+            {
+                CancelHold();
+                return;
+            }
+            float currentDistance = Vector3.Distance(playerTransform.position, targetMb.transform.position);
+            if (currentDistance > currentHold.InteractionRange)
+            {
+                CancelHold();
+                return;
+            }
+
             holdElapsed += Time.deltaTime;
             float t = Mathf.Clamp01(holdElapsed / currentHold.HoldSeconds);
             // 대상에게 진행률 전달

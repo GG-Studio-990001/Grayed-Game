@@ -88,7 +88,8 @@ namespace Runtime.CH3
 
                 // 자기 현재 셀은 허용, 다른 셀로 이동할 때만 점유/차단 검사
                 bool movingToAnotherCell = (_gridObject != null) && (targetGridPos != _gridObject.GridPosition);
-                if (_gridManager.IsCellBlocked(targetGridPos) || (movingToAnotherCell && _gridManager.IsCellOccupied(targetGridPos)))
+                bool occupiedByImpassable = movingToAnotherCell && _gridManager.IsCellOccupiedByImpassableObject(targetGridPos);
+                if (_gridManager.IsCellBlocked(targetGridPos) || occupiedByImpassable)
                 {
                     Vector3 currentVelocity = _rigidbody.velocity;
                     currentVelocity.x = 0f;
