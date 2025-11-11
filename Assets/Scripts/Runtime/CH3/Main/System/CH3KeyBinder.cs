@@ -42,7 +42,7 @@ namespace Runtime.CH3.Main
         private void Update()
         {
             if (Mouse.current == null) return;
-            if (Mouse.current.rightButton.wasPressedThisFrame)
+            if (Mouse.current.leftButton.wasPressedThisFrame)
             {
                 _player.GetComponent<InteractionManager>()?.BeginHoldAtCursor(Mouse.current.position.ReadValue());
                 _mouseHolding = true;
@@ -51,7 +51,7 @@ namespace Runtime.CH3.Main
             {
                 _player.GetComponent<InteractionManager>()?.UpdateHold();
             }
-            if (Mouse.current.rightButton.wasReleasedThisFrame)
+            if (Mouse.current.leftButton.wasReleasedThisFrame)
             {
                 _player.GetComponent<InteractionManager>()?.CancelHold();
                 _mouseHolding = false;

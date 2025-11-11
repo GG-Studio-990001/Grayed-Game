@@ -15,7 +15,6 @@ namespace Runtime.CH3.Main
         [SerializeField] private float initialHeight = 1f;
         [SerializeField] private float bounceHeight = 0.5f;
         [SerializeField] private float dropDuration = 0.5f;
-        [SerializeField] private float groundOffset = 0.1f;
         [SerializeField] private Ease dropEase = Ease.OutBounce;
 
         [Header("Collection Settings")]
