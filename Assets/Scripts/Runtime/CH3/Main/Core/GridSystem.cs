@@ -300,6 +300,26 @@ namespace Runtime.CH3.Main
             return false;
         }
 
+        public bool IsCellOccupiedByImpassableObject(Vector2Int position)
+        {
+            if (!IsWithinGridBounds(position))
+            {
+                return true;
+            }
+
+            if (_gridCells.TryGetValue(position, out GridCell cell) && cell.IsOccupied && cell.OccupyingObject != null)
+            {
+                if (cell.OccupyingObject.TryGetComponent<IGridPassable>(out var passable))
+                {
+                    return !passable.IsPassable;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
         public void SetCellBlocked(Vector2Int position, bool blocked)
         {
             if (!IsWithinGridBounds(position)) 

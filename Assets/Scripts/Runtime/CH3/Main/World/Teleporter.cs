@@ -15,9 +15,7 @@ namespace Runtime.CH3.Main
         [SerializeField] private bool isOneWay = false; // 단방향 텔레포트
         [SerializeField] private float teleportDelay = 0.1f; // 텔레포트 지연시간
         [SerializeField] private bool showDebugInfo = true;
-        [SerializeField] private bool autoTeleport = false; // 자동 텔레포트 비활성화 (E키로만 작동)
         [SerializeField] private float cooldownTime = 3f; // 텔레포트 후 쿨다운 시간 (2초에서 3초로 증가)
-        [SerializeField] private float safeDistance = 3f; // 텔레포트 후 안전 거리 (1.5에서 3으로 증가)
 
         // Visual effects removed
 

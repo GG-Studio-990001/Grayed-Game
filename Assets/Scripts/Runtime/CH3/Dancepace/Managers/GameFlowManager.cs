@@ -32,8 +32,6 @@ namespace Runtime.CH3.Dancepace
         [SerializeField] private WaveDataSO _waveData;
         [SerializeField] private bool isRehearsalMode = false;
 
-        [Range(1, 6)]
-        [SerializeField] private int startWaveIndex = 1;
         private GameResultData _gameResult;
 
         private List<WaveData> rehearsalWaves;

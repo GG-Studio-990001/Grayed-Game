@@ -8,7 +8,6 @@ namespace Runtime.CH3.Main
         [Header("Overlap Detection")]
         [SerializeField] private float detectionRadius = 1f;
         [SerializeField] private LayerMask objectLayer; // 감지할 오브젝트 레이어
-        [SerializeField] private int orderInFront = 1; // 앞에 있을 때의 추가 정렬값
     
         private Vector3 _lastPosition;
 
