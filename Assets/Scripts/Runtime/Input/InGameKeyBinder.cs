@@ -90,7 +90,7 @@ namespace Runtime.Input
             _gameOverControls.Player.Move.performed += player.OnMove;
             _gameOverControls.Player.Move.started += player.OnMove;
             _gameOverControls.Player.Move.canceled += player.OnMove;
-            // CH3: 스페이스(Interaction) 연타 채집 비활성화 - 즉시 상호작용 연결 제거
+            _gameOverControls.Player.Interaction.performed += _ => player.OnInteraction();
         }
         
         public void CH1UIKeyBinding(Ch1MainSystemController controller, LineView line)
