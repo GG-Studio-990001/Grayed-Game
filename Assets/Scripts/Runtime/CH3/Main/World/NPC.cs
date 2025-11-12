@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Events;
 using Yarn.Unity;
 
@@ -25,6 +26,7 @@ namespace Runtime.CH3.Main
 
         private DialogueRunner subscribedRunner;
         private bool isInteractionInProgress;
+        private bool isDialogueRunnerReady;
 
         public bool IsPassable => !occupyGridCell || passableWhileOccupying;
 
@@ -49,6 +51,27 @@ namespace Runtime.CH3.Main
         {
             EnsureDialogueRunnerReference();
             SubscribeToDialogueRunner();
+            PreloadDialogueRunner();
+        }
+
+        private void PreloadDialogueRunner()
+        {
+            // DialogueRunner를 미리 준비시켜 첫 실행 시 지연을 줄임
+            if (dialogueRunner != null && dialogueRunner.yarnProject != null)
+            {
+                StartCoroutine(PrepareDialogueRunner());
+            }
+        }
+
+        private IEnumerator PrepareDialogueRunner()
+        {
+            // DialogueRunner가 준비될 때까지 기다림
+            if (dialogueRunner != null && dialogueRunner.yarnProject != null)
+            {
+                // Yarn 프로젝트가 로드되었는지 확인
+                yield return null;
+                isDialogueRunnerReady = true;
+            }
         }
 
         private void OnDisable()
@@ -97,13 +120,6 @@ namespace Runtime.CH3.Main
             }
 
             canInteract = false;
-
-            if (!TryStartDialogue(runner, nodeToStart))
-            {
-                canInteract = true;
-                return;
-            }
-
             isInteractionInProgress = true;
 
             if (lockPlayerInputDuringDialogue)
@@ -111,7 +127,28 @@ namespace Runtime.CH3.Main
                 Managers.Data?.InGameKeyBinder?.PlayerInputDisable();
             }
 
+            // 즉시 이벤트 호출하여 반응성 향상
             onDialogueStarted?.Invoke();
+
+            // 코루틴으로 대화 시작하여 지연 최소화
+            StartCoroutine(StartDialogueAsync(runner, nodeToStart));
+        }
+
+        private IEnumerator StartDialogueAsync(DialogueRunner runner, string node)
+        {
+            // 한 프레임 대기하여 UI 업데이트가 먼저 되도록 함
+            yield return null;
+
+            if (!TryStartDialogue(runner, node))
+            {
+                isInteractionInProgress = false;
+                canInteract = true;
+                
+                if (lockPlayerInputDuringDialogue)
+                {
+                    Managers.Data?.InGameKeyBinder?.PlayerInputEnable();
+                }
+            }
         }
 
         private bool TryStartDialogue(DialogueRunner runner, string node)

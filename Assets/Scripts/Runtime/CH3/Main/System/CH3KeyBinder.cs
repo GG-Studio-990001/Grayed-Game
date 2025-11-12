@@ -13,6 +13,7 @@ namespace Runtime.CH3.Main
         [SerializeField] private SettingsUIView _settingsUIView;
         [SerializeField] private LineView _luckyDialogue;
         [SerializeField] private PlayerController _player;
+        [SerializeField] private CH3Dialogue _ch3Dialogue;
         [Header("Inventory References")]
         [SerializeField] private InventoryUI _inventoryUI;
         [SerializeField] private Inventory _inventory;
@@ -28,7 +29,15 @@ namespace Runtime.CH3.Main
             Managers.Data.InGameKeyBinder.GameControlReset();
 
             Managers.Data.InGameKeyBinder.CH3PlayerKeyBinding(_player, this);
-            Managers.Data.InGameKeyBinder.CH3UIKeyBinding(_settingsUIView, _luckyDialogue);
+            
+            if (_ch3Dialogue != null)
+            {
+                Managers.Data.InGameKeyBinder.CH3UIKeyBinding(_settingsUIView, _ch3Dialogue);
+            }
+            else
+            {
+                Managers.Data.InGameKeyBinder.CH3UIKeyBinding(_settingsUIView, _luckyDialogue);
+            }
             // 인벤토리/단축바 바인딩은 CH3PlayerKeyBinding 내에서 처리됨
 
             _settingsUIView.OnSettingsOpen += () => Managers.Data.InGameKeyBinder.PlayerInputDisable();

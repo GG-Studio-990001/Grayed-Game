@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 namespace Runtime.CH3.Main
 {
@@ -18,6 +19,8 @@ namespace Runtime.CH3.Main
 
         private bool isOpen;
         private float cachedTimeScale = 1f;
+
+        public bool IsOpen => isOpen;
 
         private void Awake()
         {
@@ -69,6 +72,12 @@ namespace Runtime.CH3.Main
             if (disablePlayerInputOnOpen)
             {
                 Managers.Data?.InGameKeyBinder?.PlayerInputDisable();
+            }
+
+            // EventSystem의 자동 선택 해제 (Space 키로 버튼이 클릭되는 것을 방지)
+            if (EventSystem.current != null)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
             }
 
             onOpened?.Invoke();
