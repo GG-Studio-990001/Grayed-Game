@@ -10,21 +10,58 @@ namespace Runtime.CH3.Main
         [SerializeField] private LayerMask objectLayer; // 감지할 오브젝트 레이어
     
         private Vector3 _lastPosition;
+        private Vector2Int _lastGridPosition;
+        private PlayerGrid _playerGrid;
+        private GridSystem _gridManager;
 
         protected override void Awake()
         {
             base.Awake();
             _lastPosition = transform.position;
+            _playerGrid = GetComponent<PlayerGrid>();
+            _gridManager = GridSystem.Instance;
+        }
+
+        private void Start()
+        {
+            // 초기 그리드 위치 기반 SortingOrder 설정
+            if (_playerGrid != null && _gridManager != null)
+            {
+                Vector2Int gridPos = _playerGrid.GridPosition;
+                if (gridPos != Vector2Int.zero)
+                {
+                    _lastGridPosition = gridPos;
+                    UpdateSortingOrderFromGrid(gridPos);
+                }
+            }
         }
 
         protected void LateUpdate()
         {
-            // 위치가 변경되었을 때만 체크
+            // 그리드 위치가 변경되었는지 확인
+            if (_playerGrid != null && _gridManager != null)
+            {
+                Vector2Int currentGridPos = _gridManager.WorldToGridPosition(transform.position);
+                if (_gridManager.IsValidGridPosition(currentGridPos) && currentGridPos != _lastGridPosition)
+                {
+                    _lastGridPosition = currentGridPos;
+                    UpdateSortingOrderFromGrid(currentGridPos);
+                }
+            }
+            
+            // 위치가 변경되었을 때만 주변 오브젝트 체크
             if (_lastPosition != transform.position)
             {
                 CheckNearbyObjects();
                 _lastPosition = transform.position;
             }
+        }
+
+        private void UpdateSortingOrderFromGrid(Vector2Int gridPos)
+        {
+            // 그리드 y 좌표 기준으로 baseOrder 설정
+            // 뒤(y가 작을수록)일수록 더 높은 정렬이 되도록 부호 반전
+            SetBaseOrder(-gridPos.y);
         }
 
         private void CheckNearbyObjects()
@@ -59,6 +96,11 @@ namespace Runtime.CH3.Main
                     int delta = directionToClosest.z > 0f ? 1 : -1;
                     selfSr.sortingOrder = objSr.sortingOrder + delta;
                 }
+            }
+            else
+            {
+                // 주변 오브젝트가 없으면 그리드 기반 baseOrder 사용
+                UpdateSortingOrder();
             }
         }
 

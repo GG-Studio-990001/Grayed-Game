@@ -139,10 +139,10 @@ MonoBehaviour:
   - {fileID: 581827426082270181}
   fadeProperty: _Fade
   visibleValue: 1
-  occludedValue: 0.75
+  occludedValue: 0.65
   lerpSpeed: 10
   player: {fileID: 0}
-  detectRadius: 1.2
+  detectRadius: 1.5
   playerLayer:
     serializedVersion: 2
     m_Bits: 4294967295

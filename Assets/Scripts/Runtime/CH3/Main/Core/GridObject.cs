@@ -25,6 +25,12 @@ namespace Runtime.CH3.Main
 
         protected virtual void Start()
         {
+            // spriteRenderer 초기화 (Initialize에서 설정되지 않은 경우)
+            if (spriteRenderer == null)
+            {
+                spriteRenderer = GetComponent<SpriteRenderer>();
+            }
+            
             // GridSystem.CreateObject에서 Initialize를 호출하므로 여기서는 호출하지 않음
             // 단, GridSystem이 없는 경우에만 기본 초기화 수행
             if (gridManager == null)
@@ -37,6 +43,36 @@ namespace Runtime.CH3.Main
                     if (gridManager.IsValidGridPosition(calculatedGridPos))
                     {
                         gridPosition = calculatedGridPos;
+                        
+                        // 그리드 위치가 설정되었으므로 SortingOrder도 업데이트
+                        if (applyInitialGridSorting)
+                        {
+                            var sorting = GetComponent<SortingOrderObject>();
+                            if (sorting != null)
+                            {
+                                // 뒤(y가 작을수록)일수록 더 높은 정렬이 되도록 부호 반전
+                                sorting.SetBaseOrder(-gridPosition.y * gridSortingScale);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // gridManager가 이미 있는 경우에도 SortingOrder가 설정되지 않았으면 설정
+                // Initialize가 호출되지 않은 경우(씬에 직접 배치된 오브젝트)를 대비
+                if (applyInitialGridSorting && gridPosition != Vector2Int.zero)
+                {
+                    var sorting = GetComponent<SortingOrderObject>();
+                    if (sorting != null)
+                    {
+                        // baseOrder가 0이고 gridPosition이 설정되어 있으면 그리드 기반으로 설정
+                        // SortingOrderObject의 baseOrder는 private이므로 직접 확인 불가
+                        // 대신 spriteRenderer의 sortingOrder를 확인하여 기본값이면 설정
+                        if (spriteRenderer != null && spriteRenderer.sortingOrder == 0)
+                        {
+                            sorting.SetBaseOrder(-gridPosition.y * gridSortingScale);
+                        }
                     }
                 }
             }
@@ -97,6 +133,8 @@ namespace Runtime.CH3.Main
 
             if (gridManager.IsValidGridPosition(newGridPos))
             {
+                Vector2Int oldGridPos = gridPosition;
+                
                 GridCell oldCell = gridManager.GetCell(gridPosition);
                 if (oldCell != null)
                 {
@@ -110,6 +148,17 @@ namespace Runtime.CH3.Main
                 {
                     newCell.IsOccupied = true;
                     newCell.OccupyingObject = gameObject;
+                }
+                
+                // 그리드 위치가 변경되었을 때 SortingOrder 업데이트
+                if (applyInitialGridSorting && oldGridPos != newGridPos)
+                {
+                    var sorting = GetComponent<SortingOrderObject>();
+                    if (sorting != null)
+                    {
+                        // 뒤(y가 작을수록)일수록 더 높은 정렬이 되도록 부호 반전
+                        sorting.SetBaseOrder(-gridPosition.y * gridSortingScale);
+                    }
                 }
             }
         }
