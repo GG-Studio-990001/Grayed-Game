@@ -12,17 +12,13 @@ namespace Runtime.CH3.Main
 
         [Header("Teleporter Settings")]
         [SerializeField] private Teleporter connectedTeleporter;
-        [SerializeField] private bool isOneWay = false; // 단방향 텔레포트
-        [SerializeField] private float teleportDelay = 0.1f; // 텔레포트 지연시간
+        [SerializeField] private float teleportDelay = 0.1f;
         [SerializeField] private bool showDebugInfo = true;
-        [SerializeField] private float cooldownTime = 3f; // 텔레포트 후 쿨다운 시간 (2초에서 3초로 증가)
-
-        // Visual effects removed
+        [SerializeField] private float cooldownTime = 3f;
 
         private bool isTeleporting = false;
-        private float originalAlpha;
-        private float lastTeleportTime = 0f; // 마지막 텔레포트 시간
-        private bool isInCooldown = false; // 쿨다운 상태 추적
+        private float lastTeleportTime = 0f;
+        private bool isInCooldown = false;
 
         public override void Initialize(Vector2Int gridPos)
         {
@@ -147,41 +143,6 @@ namespace Runtime.CH3.Main
             }
         }
 
-        private System.Collections.IEnumerator FadeOutEffect()
-        {
-            if (spriteRenderer == null) yield break;
-
-            float duration = 0.3f;
-            float elapsed = 0f;
-            Color startColor = spriteRenderer.color;
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                float alpha = Mathf.Lerp(originalAlpha, 0f, elapsed / duration);
-                spriteRenderer.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
-                yield return null;
-            }
-        }
-
-        public System.Collections.IEnumerator FadeInEffect()
-        {
-            if (spriteRenderer == null) yield break;
-
-            float duration = 0.3f;
-            float elapsed = 0f;
-            Color startColor = spriteRenderer.color;
-            startColor.a = 0f;
-            spriteRenderer.color = startColor;
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                float alpha = Mathf.Lerp(0f, originalAlpha, elapsed / duration);
-                spriteRenderer.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
-                yield return null;
-            }
-        }
 
         private void OnDrawGizmos()
         {
@@ -208,10 +169,5 @@ namespace Runtime.CH3.Main
             connectedTeleporter = teleporter;
         }
 
-        // 단방향 설정
-        public void SetOneWay(bool oneWay)
-        {
-            isOneWay = oneWay;
-        }
     }
 }

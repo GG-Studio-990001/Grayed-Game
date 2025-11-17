@@ -279,7 +279,7 @@ namespace Runtime.CH3.Main
         {
             if (!IsWithinGridBounds(position)) 
             {
-                Debug.LogWarning($"IsCellBlocked: 위치 {position}가 그리드 범위를 벗어남");
+                //Debug.LogWarning($"IsCellBlocked: 위치 {position}가 그리드 범위를 벗어남");
                 return true;
             }
             Vector2Int arrayIndex = ToArrayIndex(position);

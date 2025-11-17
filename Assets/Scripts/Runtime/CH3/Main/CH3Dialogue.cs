@@ -36,7 +36,6 @@ namespace Runtime.CH3.Main
             StartCoroutine(DelayedContinue());
         }
 
-
         private IEnumerator DelayedContinue()
         {
             // 한 프레임 대기하여 DialogueRunner가 커맨드를 처리할 수 있도록 함

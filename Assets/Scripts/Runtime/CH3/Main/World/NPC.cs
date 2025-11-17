@@ -12,7 +12,6 @@ namespace Runtime.CH3.Main
         [SerializeField] private string dialogueText;
 
         [Header("Grid Position Settings")]
-        [SerializeField] private bool initializeToGridPosition = true;
         [SerializeField] private bool occupyGridCell = true;
         [SerializeField] private bool passableWhileOccupying = true;
 
@@ -26,25 +25,16 @@ namespace Runtime.CH3.Main
 
         private DialogueRunner subscribedRunner;
         private bool isInteractionInProgress;
-        private bool isDialogueRunnerReady;
 
         public bool IsPassable => !occupyGridCell || passableWhileOccupying;
 
         public override void Initialize(Vector2Int gridPos)
         {
-            Vector2Int targetGrid = gridPos;
+            // base.Initialize에서 gridPositionMode에 따라 위치 결정
+            base.Initialize(gridPos);
 
-            if (initializeToGridPosition && gridPosition != Vector2Int.zero)
-            {
-                targetGrid = gridPosition;
-            }
-
-            base.Initialize(targetGrid);
-
-            if (occupyGridCell && gridManager != null)
-            {
-                gridManager.SetCellOccupied(gridPosition, true, gameObject);
-            }
+            // occupyGridCell은 base.Initialize의 OccupyTiles에서 이미 처리됨
+            // 필요시 추가 로직을 여기에 작성
         }
 
         private void OnEnable()
@@ -70,7 +60,6 @@ namespace Runtime.CH3.Main
             {
                 // Yarn 프로젝트가 로드되었는지 확인
                 yield return null;
-                isDialogueRunnerReady = true;
             }
         }
 
