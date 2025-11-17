@@ -67,7 +67,6 @@ namespace Runtime.CH3.Dancepace
         {
             if (!isInputEnabled) 
             {
-                Debug.Log("DPKeyBinder: isInputEnabled = false");
                 return;
             }
             

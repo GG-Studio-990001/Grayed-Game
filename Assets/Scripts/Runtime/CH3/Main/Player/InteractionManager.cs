@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Linq;
-using UnityEngine.InputSystem;
 
 namespace Runtime.CH3.Main
 {
@@ -8,7 +7,6 @@ namespace Runtime.CH3.Main
     {
         [SerializeField] private float checkRadius = 3f;
         [SerializeField] private LayerMask interactableLayer;
-        [SerializeField] private UnityEngine.UI.Image holdGaugeUI; // [Deprecated] 전역 게이지(미사용)
         
         private Transform playerTransform;
         private IHoldInteractable currentHold;
@@ -26,7 +24,7 @@ namespace Runtime.CH3.Main
             Collider[] colliders = Physics.OverlapSphere(playerTransform.position, checkRadius, interactableLayer);
     
             var interactable = colliders
-                .Select(c => c.GetComponent<IInteractable>())
+                .Select(c => c.GetComponent<IInteractable>() ?? c.GetComponentInParent<IInteractable>())
                 .Where(i => i != null && i.CanInteract)
                 .OrderBy(i =>
                 {
@@ -65,15 +63,7 @@ namespace Runtime.CH3.Main
             currentHold = interactable;
             
             // 게이지 값을 유지하면서 진행률 맞추기
-            float currentGaugeValue = 0f;
-            if (interactable is Ore ore)
-            {
-                currentGaugeValue = ore.GetCurrentGaugeValue();
-            }
-            else if (interactable is Breakable breakable)
-            {
-                currentGaugeValue = breakable.GetCurrentGaugeValue();
-            }
+            float currentGaugeValue = interactable.GetCurrentGaugeValue();
             holdElapsed = currentGaugeValue * interactable.HoldSeconds;
             
             currentHold.OnHoldStart(gameObject);
@@ -122,23 +112,13 @@ namespace Runtime.CH3.Main
         {
             currentHold = null;
             holdElapsed = 0f;
-            // UpdateGauge(0f); // 게이지 값을 유지하기 위해 제거
-        }
-
-        private void UpdateGauge(float normalized)
-        {
-            if (holdGaugeUI != null)
-            {
-                holdGaugeUI.fillAmount = normalized;
-                holdGaugeUI.enabled = normalized > 0f && normalized < 1f;
-            }
         }
 
         private T FindNearest<T>() where T : class, IInteractable
         {
             Collider[] colliders = Physics.OverlapSphere(playerTransform.position, checkRadius, interactableLayer);
             return colliders
-                .Select(c => c.GetComponent<T>())
+                .Select(c => c.GetComponent<T>() ?? c.GetComponentInParent<T>())
                 .Where(i => i != null && i.CanInteract)
                 .OrderBy(i =>
                 {
@@ -166,7 +146,7 @@ namespace Runtime.CH3.Main
             
             foreach (var hit in hits)
             {
-                var hold = hit.collider.GetComponent<IHoldInteractable>();
+                var hold = hit.collider.GetComponent<IHoldInteractable>() ?? hit.collider.GetComponentInParent<IHoldInteractable>();
                 if (hold == null || !hold.CanInteract) continue;
 
                 var mb = hold as MonoBehaviour;
@@ -188,15 +168,7 @@ namespace Runtime.CH3.Main
                 currentHold = bestHold;
                 
                 // 게이지 값을 유지하면서 진행률 맞추기
-                float currentGaugeValue = 0f;
-                if (bestHold is Ore ore)
-                {
-                    currentGaugeValue = ore.GetCurrentGaugeValue();
-                }
-                else if (bestHold is Breakable breakable)
-                {
-                    currentGaugeValue = breakable.GetCurrentGaugeValue();
-                }
+                float currentGaugeValue = bestHold.GetCurrentGaugeValue();
                 holdElapsed = currentGaugeValue * bestHold.HoldSeconds;
                 
                 currentHold.OnHoldStart(gameObject);

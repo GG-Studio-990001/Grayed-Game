@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2409609684127153272, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -649858079, guid: 5c8d002f31dfcc644b0035815769055f, type: 3}
     - target: {fileID: 5049706900345146122, guid: f9c58014ee000c840be86357210d4bd1, type: 3}
       propertyPath: m_Name
       value: 2.5D_Structure
@@ -79,9 +83,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectType: 2
   gridPosition: {x: 0, y: 0}
+  tileSize: {x: 1, y: 1}
+  gridPositionMode: 0
   useCustomY: 1
   customY: 0.53
   applyInitialGridSorting: 1
   gridSortingScale: 1
+  gridVolumeTransform: {fileID: 0}
+  spriteTransform: {fileID: 0}
+  autoBindChildren: 1
   isBlocking: 1
-  gridPositionMode: 0

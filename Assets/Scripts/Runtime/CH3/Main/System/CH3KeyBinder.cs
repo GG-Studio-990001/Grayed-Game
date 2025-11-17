@@ -1,10 +1,7 @@
-using Runtime.CH2.Main;
 using Runtime.Common.View;
 using UnityEngine;
 using Yarn.Unity;
-using Runtime.CH3.Main;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Utilities;
 
 namespace Runtime.CH3.Main
 {
@@ -13,10 +10,10 @@ namespace Runtime.CH3.Main
         [SerializeField] private SettingsUIView _settingsUIView;
         [SerializeField] private LineView _luckyDialogue;
         [SerializeField] private PlayerController _player;
+        [SerializeField] private CH3Dialogue _ch3Dialogue;
         [Header("Inventory References")]
         [SerializeField] private InventoryUI _inventoryUI;
         [SerializeField] private Inventory _inventory;
-        // removed local actions, using official InGameKeyBinder instead
 
         private void Start()
         {
@@ -28,13 +25,18 @@ namespace Runtime.CH3.Main
             Managers.Data.InGameKeyBinder.GameControlReset();
 
             Managers.Data.InGameKeyBinder.CH3PlayerKeyBinding(_player, this);
-            Managers.Data.InGameKeyBinder.CH3UIKeyBinding(_settingsUIView, _luckyDialogue);
-            // 인벤토리/단축바 바인딩은 CH3PlayerKeyBinding 내에서 처리됨
+            
+            if (_ch3Dialogue != null)
+            {
+                Managers.Data.InGameKeyBinder.CH3UIKeyBinding(_settingsUIView, _ch3Dialogue);
+            }
+            else
+            {
+                Managers.Data.InGameKeyBinder.CH3UIKeyBinding(_settingsUIView, _luckyDialogue);
+            }
 
             _settingsUIView.OnSettingsOpen += () => Managers.Data.InGameKeyBinder.PlayerInputDisable();
             _settingsUIView.OnSettingsClose += () => Managers.Data.InGameKeyBinder.PlayerInputEnable();
-
-            // 위에서 바인딩됨
         }
 
         // UI 클릭 기반 홀드 지원 (마우스 왼쪽 버튼)
@@ -77,7 +79,6 @@ namespace Runtime.CH3.Main
 
         private void OnDestroy()
         {
-            // nothing
         }
     }
 }
