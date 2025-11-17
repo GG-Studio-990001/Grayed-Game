@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Runtime.CH3.Main
@@ -106,7 +105,6 @@ namespace Runtime.CH3.Main
             }
         }
 
-        // 디버그용 기즈모
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;

@@ -183,9 +183,8 @@ namespace Runtime.CH3.Main.Exploration
                         if (mat != null) mat.SetFloat(_fadePropId, value);
                     }
                 }
-            }
-        }
-    }
+			}
+		}
+	}
 }
-
 

@@ -65,7 +65,6 @@ namespace Runtime.CH3.Main
             UpdateSortingOrder();
         }
     
-        // SortingOrderObject 클래스에 추가
         private void SmoothTransitionOrder(int targetOrder)
         {
             StartCoroutine(SmoothTransitionCoroutine(targetOrder));

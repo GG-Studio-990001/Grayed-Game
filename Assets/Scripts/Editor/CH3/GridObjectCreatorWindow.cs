@@ -106,8 +106,6 @@ namespace Runtime.CH3.Main
             {
                 Selection.activeGameObject = newObject;
                 SceneView.FrameLastActiveSceneView();
-                
-                Debug.Log($"GridObject '{selectedData.id}' 생성 완료!");
             }
         }
     }

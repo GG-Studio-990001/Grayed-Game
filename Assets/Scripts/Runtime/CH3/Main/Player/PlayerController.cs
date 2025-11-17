@@ -1,9 +1,8 @@
-using Runtime.CH3.Main;
 using Runtime.ETC;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Runtime.CH3
+namespace Runtime.CH3.Main
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(BoxCollider))]
@@ -31,10 +30,9 @@ namespace Runtime.CH3
             // Rigidbody 설정 수정
             _rigidbody.constraints =
                 RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY; // Y축 위치도 고정
-            _rigidbody.useGravity = false; // 중력 비활성화
+            _rigidbody.useGravity = false;
             _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 
-            // 디버그: 컴포넌트 확인
             if (_gridObject == null)
             {
                 Debug.LogError("PlayerGridObject 컴포넌트가 없습니다!");
@@ -135,7 +133,6 @@ namespace Runtime.CH3
             _interactionManager.TryInteract();
         }
 
-        // 새: 홀드형 상호작용 바인딩용
         public void OnInteractionHold(InputAction.CallbackContext context)
         {
             if (context.started)

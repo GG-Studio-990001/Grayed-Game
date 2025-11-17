@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine.UI;
 
@@ -27,7 +26,6 @@ namespace Runtime.CH3.Main
 
         [Header("Interaction Settings")]
         [SerializeField] protected bool enableColliderOnStart = true;
-        [SerializeField] protected bool debugInteraction = false;
         [SerializeField] protected bool resetGaugeOnCancel = false;
 
         // Grid Position Settings는 base 클래스(GridObject)에서 상속됨
@@ -103,19 +101,11 @@ namespace Runtime.CH3.Main
                 if (enableColliderOnStart)
                 {
                     objectCollider.enabled = true;
-                    if (debugInteraction)
-                    {
-                        Debug.Log($"[{GetType().Name}] 콜라이더 활성화됨: {gameObject.name} at {objectCollider.transform.position}");
-                    }
                 }
                 else
                 {
                     StartCoroutine(EnableColliderAfterDelay(1f));
                 }
-            }
-            else if (debugInteraction)
-            {
-                Debug.LogWarning($"[{GetType().Name}] 콜라이더가 없습니다: {gameObject.name}");
             }
         }
 
@@ -125,10 +115,6 @@ namespace Runtime.CH3.Main
             if (objectCollider != null)
             {
                 objectCollider.enabled = true;
-                if (debugInteraction)
-                {
-                    Debug.Log($"[{GetType().Name}] 지연 후 콜라이더 활성화됨: {gameObject.name}");
-                }
             }
         }
 
@@ -140,18 +126,10 @@ namespace Runtime.CH3.Main
             if (uiCanvas != null)
             {
                 uiCanvas.gameObject.SetActive(true);
-                if (debugInteraction)
-                {
-                    Debug.Log($"[{GetType().Name}] UI 활성화됨: {gameObject.name}");
-                }
             }
             if (holdGauge != null)
             {
                 holdGauge.gameObject.SetActive(true);
-                if (debugInteraction)
-                {
-                    Debug.Log($"[{GetType().Name}] 게이지 활성화됨: {gameObject.name}, 현재 값: {holdGauge.value}");
-                }
             }
         }
 
@@ -206,11 +184,6 @@ namespace Runtime.CH3.Main
                 }
                 holdGauge.gameObject.SetActive(false);
             }
-
-            if (debugInteraction)
-            {
-                Debug.Log($"[{GetType().Name}] UI 숨김: {gameObject.name}");
-            }
         }
 
         private void Update()
@@ -227,11 +200,6 @@ namespace Runtime.CH3.Main
                             holdGauge.value = 0f;
                         }
                         holdGauge.gameObject.SetActive(false);
-                    }
-
-                    if (debugInteraction)
-                    {
-                        Debug.Log($"[{GetType().Name}] {autoHideDelay}초 후 자동 숨김: {gameObject.name}");
                     }
                 }
             }
@@ -268,10 +236,6 @@ namespace Runtime.CH3.Main
             if (objectCollider != null)
             {
                 objectCollider.enabled = false;
-                if (debugInteraction)
-                {
-                    Debug.Log($"[{GetType().Name}] 채굴 완료로 콜라이더 비활성화: {gameObject.name}");
-                }
             }
 
             SpawnItems();

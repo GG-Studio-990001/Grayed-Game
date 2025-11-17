@@ -36,8 +36,6 @@ namespace Runtime.CH3.Main
                     }
                 }
             }
-            
-            Debug.Log($"GridObjectDataManager: {_dataCache.Count}개의 레벨 데이터를 로드했습니다.");
         }
         
         /// <summary>

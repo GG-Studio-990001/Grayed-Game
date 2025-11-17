@@ -279,7 +279,6 @@ namespace Runtime.CH3.Main
         {
             if (!IsWithinGridBounds(position)) 
             {
-                //Debug.LogWarning($"IsCellBlocked: 위치 {position}가 그리드 범위를 벗어남");
                 return true;
             }
             Vector2Int arrayIndex = ToArrayIndex(position);
@@ -760,7 +759,6 @@ namespace Runtime.CH3.Main
             }
         }
 
-        // 기존 OnMineralRemoved 호환성을 위한 래퍼
         public void OnMineralRemoved(GridObjectType mineralType)
         {
             // 모든 영역에서 해당 타입의 오브젝트가 제거되었는지 확인

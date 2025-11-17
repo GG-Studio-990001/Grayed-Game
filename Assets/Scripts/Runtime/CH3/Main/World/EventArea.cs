@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
-using Runtime.CH3.Main;
 using Runtime.ETC;
 
 namespace Runtime.CH3.Main
@@ -17,7 +16,6 @@ namespace Runtime.CH3.Main
         [SerializeField] private GameObject timelineObject;
         [SerializeField] private bool triggerOnce = true;
         [SerializeField] private float triggerRadius = 1f;
-        [SerializeField] private bool showDebugInfo = true;
 
         [Header("Event Callbacks")]
         [SerializeField] private UnityEvent onTriggered = new UnityEvent();
@@ -39,7 +37,7 @@ namespace Runtime.CH3.Main
 
         protected override void Awake()
         {
-            base.Awake(); // GridObject의 자식 오브젝트 자동 바인딩 실행
+            base.Awake();
             CaptureTimelineInitialState();
         }
 
@@ -125,11 +123,6 @@ namespace Runtime.CH3.Main
         private void TriggerEvent()
         {
             if (!CanTrigger()) return;
-
-            if (showDebugInfo)
-            {
-                Debug.Log($"EventArea {gameObject.name}: 이벤트 트리거됨!");
-            }
 
             // 타임라인 활성화
             if (timelineObject != null)
@@ -239,11 +232,6 @@ namespace Runtime.CH3.Main
 
             isDisabledByLinkedEvent = true;
             hasTriggered = true;
-
-            if (showDebugInfo && source != null)
-            {
-                Debug.Log($"EventArea {gameObject.name}: {source.gameObject.name} 트리거에 의해 비활성화됩니다.");
-            }
 
             StopTimeline();
             DisableCollider();

@@ -1,5 +1,4 @@
 using UnityEngine;
-using Runtime.CH3.Main;
 
 namespace Runtime.CH3.Main
 {
@@ -13,7 +12,6 @@ namespace Runtime.CH3.Main
         [Header("Teleporter Settings")]
         [SerializeField] private Teleporter connectedTeleporter;
         [SerializeField] private float teleportDelay = 0.1f;
-        [SerializeField] private bool showDebugInfo = true;
         [SerializeField] private float cooldownTime = 3f;
 
         private bool isTeleporting = false;
@@ -24,9 +22,6 @@ namespace Runtime.CH3.Main
         {
             base.Initialize(gridPos);
 
-            // no visual initialization
-
-            // 연결된 텔레포트가 없으면 경고
             if (connectedTeleporter == null)
             {
                 Debug.LogWarning($"텔레포트 {gameObject.name}에 연결된 텔레포트가 없습니다!");
@@ -70,10 +65,6 @@ namespace Runtime.CH3.Main
             // 플레이어인지 확인
             if (interactor.CompareTag("Player"))
             {
-                if (showDebugInfo)
-                {
-                    Debug.Log($"플레이어가 텔레포트를 시도합니다: {gameObject.name}");
-                }
                 StartCoroutine(TeleportPlayer(interactor));
             }
         }
@@ -83,12 +74,7 @@ namespace Runtime.CH3.Main
             isTeleporting = true;
             canInteract = false;
             isInCooldown = true;
-            lastTeleportTime = Time.time; // 텔레포트 시작 시간 기록
-
-            if (showDebugInfo)
-            {
-                Debug.Log($"텔레포트 시작: {gameObject.name} -> {connectedTeleporter.gameObject.name}");
-            }
+            lastTeleportTime = Time.time;
 
             // 플레이어를 연결된 텔레포터의 GridPosition에서 y만 -1 한 GridPosition으로 이동
             Vector3 targetPosition = Vector3.zero;
@@ -132,11 +118,6 @@ namespace Runtime.CH3.Main
 
             // 연결된 텔레포터도 동일 쿨다운 후 재활성화
             StartCoroutine(EnableConnectedTeleporterAfterCooldown());
-
-            if (showDebugInfo)
-            {
-                Debug.Log($"텔레포트 완료: {player.name} -> {connectedTeleporter.gameObject.name}");
-            }
         }
 
         private System.Collections.IEnumerator EnableAfterCooldown()

@@ -79,14 +79,6 @@ namespace Runtime.CH3.Main
 
             if (runner == null)
             {
-                if (!string.IsNullOrWhiteSpace(dialogueText))
-                {
-                    Debug.Log($"{npcName}: {dialogueText}");
-                }
-                else
-                {
-                    Debug.LogWarning($"NPC '{name}'에 연결된 DialogueRunner가 없습니다.");
-                }
                 return;
             }
 
