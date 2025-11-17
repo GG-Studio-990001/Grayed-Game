@@ -16,7 +16,7 @@ namespace Runtime.CH3.Main
         [SerializeField] protected float autoHideDelay = 5f;
 
         [Header("Mining Settings")]
-        [SerializeField] protected int maxMiningCount = 3;
+        [SerializeField] protected int maxMiningCount = 1;
         [SerializeField] protected Sprite[] miningStageSprites;
 
         [Header("Item Drop Settings")]
