@@ -37,8 +37,9 @@ namespace Runtime.CH3.Main
 
         public event Action<EventArea> Triggered;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake(); // GridObject의 자식 오브젝트 자동 바인딩 실행
             CaptureTimelineInitialState();
         }
 
@@ -68,7 +69,26 @@ namespace Runtime.CH3.Main
 
         private void SetupCollider()
         {
+            // 먼저 자기 자신에서 찾기
             Collider collider = GetComponent<Collider>();
+            
+            // 없으면 자식에서 찾기 (리소스 분리 구조 지원)
+            if (collider == null)
+            {
+                collider = GetComponentInChildren<Collider>();
+            }
+            
+            // GridObject가 있으면 spriteTransform에서 찾기
+            if (collider == null)
+            {
+                var spriteTransform = base.GetSpriteTransform();
+                if (spriteTransform != null && spriteTransform != transform)
+                {
+                    collider = spriteTransform.GetComponent<Collider>();
+                }
+            }
+            
+            // 여전히 없으면 최상단 오브젝트에 추가
             if (collider == null)
             {
                 // Sphere Collider 추가
@@ -252,7 +272,25 @@ namespace Runtime.CH3.Main
 
         private void DisableCollider()
         {
+            // 먼저 자기 자신에서 찾기
             Collider collider = GetComponent<Collider>();
+            
+            // 없으면 자식에서 찾기
+            if (collider == null)
+            {
+                collider = GetComponentInChildren<Collider>();
+            }
+            
+            // GridObject가 있으면 spriteTransform에서 찾기
+            if (collider == null)
+            {
+                var spriteTransform = base.GetSpriteTransform();
+                if (spriteTransform != null && spriteTransform != transform)
+                {
+                    collider = spriteTransform.GetComponent<Collider>();
+                }
+            }
+            
             if (collider != null)
             {
                 collider.enabled = false;
@@ -261,7 +299,25 @@ namespace Runtime.CH3.Main
 
         private void EnableCollider()
         {
+            // 먼저 자기 자신에서 찾기
             Collider collider = GetComponent<Collider>();
+            
+            // 없으면 자식에서 찾기
+            if (collider == null)
+            {
+                collider = GetComponentInChildren<Collider>();
+            }
+            
+            // GridObject가 있으면 spriteTransform에서 찾기
+            if (collider == null)
+            {
+                var spriteTransform = base.GetSpriteTransform();
+                if (spriteTransform != null && spriteTransform != transform)
+                {
+                    collider = spriteTransform.GetComponent<Collider>();
+                }
+            }
+            
             if (collider == null)
             {
                 SetupCollider();

@@ -25,7 +25,7 @@ namespace Runtime.CH3.Main
             Collider[] colliders = Physics.OverlapSphere(playerTransform.position, checkRadius, interactableLayer);
     
             var interactable = colliders
-                .Select(c => c.GetComponent<IInteractable>())
+                .Select(c => c.GetComponent<IInteractable>() ?? c.GetComponentInParent<IInteractable>())
                 .Where(i => i != null && i.CanInteract)
                 .OrderBy(i =>
                 {
@@ -119,7 +119,7 @@ namespace Runtime.CH3.Main
         {
             Collider[] colliders = Physics.OverlapSphere(playerTransform.position, checkRadius, interactableLayer);
             return colliders
-                .Select(c => c.GetComponent<T>())
+                .Select(c => c.GetComponent<T>() ?? c.GetComponentInParent<T>())
                 .Where(i => i != null && i.CanInteract)
                 .OrderBy(i =>
                 {
@@ -147,7 +147,7 @@ namespace Runtime.CH3.Main
             
             foreach (var hit in hits)
             {
-                var hold = hit.collider.GetComponent<IHoldInteractable>();
+                var hold = hit.collider.GetComponent<IHoldInteractable>() ?? hit.collider.GetComponentInParent<IHoldInteractable>();
                 if (hold == null || !hold.CanInteract) continue;
 
                 var mb = hold as MonoBehaviour;

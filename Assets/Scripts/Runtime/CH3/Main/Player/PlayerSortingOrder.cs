@@ -74,7 +74,8 @@ namespace Runtime.CH3.Main
 
             foreach (var col in colliders)
             {
-                var sortingObj = col.GetComponent<SortingOrderObject>();
+                // SortingOrderObject는 자식 오브젝트에 있을 수 있으므로 부모에서도 찾기
+                var sortingObj = col.GetComponent<SortingOrderObject>() ?? col.GetComponentInParent<SortingOrderObject>();
                 if (sortingObj == null) continue;
 
                 float sqrDist = (sortingObj.transform.position - transform.position).sqrMagnitude;
@@ -87,7 +88,8 @@ namespace Runtime.CH3.Main
 
             if (closest != null)
             {
-                var objSr = closest.GetComponent<SpriteRenderer>();
+                // SpriteRenderer는 자식 오브젝트에 있을 수 있으므로 GetComponentInChildren 사용
+                var objSr = closest.GetComponent<SpriteRenderer>() ?? closest.GetComponentInChildren<SpriteRenderer>();
                 var selfSr = GetComponent<SpriteRenderer>();
                 if (objSr != null && selfSr != null)
                 {

@@ -75,7 +75,28 @@ namespace Runtime.CH3.Main
 
         protected virtual void InitializeCollider()
         {
+            // 먼저 자기 자신에서 찾기
             objectCollider = GetComponent<Collider>();
+            
+            // 없으면 자식에서 찾기 (리소스 분리 구조 지원)
+            if (objectCollider == null)
+            {
+                objectCollider = GetComponentInChildren<Collider>();
+            }
+            
+            // GridObject가 있으면 spriteTransform에서 찾기
+            if (objectCollider == null)
+            {
+                var gridObject = GetComponent<GridObject>();
+                if (gridObject != null)
+                {
+                    var spriteTransform = gridObject.GetSpriteTransform();
+                    if (spriteTransform != null && spriteTransform != transform)
+                    {
+                        objectCollider = spriteTransform.GetComponent<Collider>();
+                    }
+                }
+            }
 
             if (objectCollider != null)
             {
@@ -84,7 +105,7 @@ namespace Runtime.CH3.Main
                     objectCollider.enabled = true;
                     if (debugInteraction)
                     {
-                        Debug.Log($"[{GetType().Name}] 콜라이더 활성화됨: {gameObject.name} at {transform.position}");
+                        Debug.Log($"[{GetType().Name}] 콜라이더 활성화됨: {gameObject.name} at {objectCollider.transform.position}");
                     }
                 }
                 else

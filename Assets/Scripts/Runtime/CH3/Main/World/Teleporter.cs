@@ -32,8 +32,21 @@ namespace Runtime.CH3.Main
                 Debug.LogWarning($"텔레포트 {gameObject.name}에 연결된 텔레포트가 없습니다!");
             }
 
-            // 콜라이더 확인
+            // 콜라이더 확인 (자식 Sprite 오브젝트에서도 찾기)
             Collider collider = GetComponent<Collider>();
+            if (collider == null)
+            {
+                collider = GetComponentInChildren<Collider>();
+            }
+            if (collider == null)
+            {
+                // GridObject의 public 메서드 사용
+                var spriteTransform = base.GetSpriteTransform();
+                if (spriteTransform != null && spriteTransform != transform)
+                {
+                    collider = spriteTransform.GetComponent<Collider>();
+                }
+            }
             if (collider == null)
             {
                 Debug.LogError($"텔레포트 {gameObject.name}에 Collider가 없습니다!");

@@ -41,19 +41,128 @@ namespace Runtime.CH3.Main
         [SerializeField] protected bool applyInitialGridSorting = true;
         [SerializeField] protected int gridSortingScale = 1;
 
+        [Header("Child Object References (Optional)")]
+        [Tooltip("그리드 볼륨: 타일 점유/차단의 기준이 되는 자식 오브젝트. 비어있으면 자동으로 찾습니다.")]
+        [SerializeField] protected Transform gridVolumeTransform;
+        [Tooltip("이미지 리소스: SpriteRenderer가 있는 자식 오브젝트. 비어있으면 자동으로 찾습니다.")]
+        [SerializeField] protected Transform spriteTransform;
+        [Tooltip("자식 오브젝트 자동 바인딩 활성화")]
+        [SerializeField] protected bool autoBindChildren = true;
+
         protected SpriteRenderer spriteRenderer;
         private MinimapManager minimapManager;
         protected GridSystem gridManager;
         
         // 점유 중인 모든 타일 위치를 추적
         protected List<Vector2Int> occupiedTiles = new List<Vector2Int>();
+        
+        /// <summary>
+        /// 타일 점유/차단의 기준이 되는 Transform을 반환합니다.
+        /// gridVolumeTransform이 설정되어 있으면 그것을, 없으면 최상단 오브젝트를 반환합니다.
+        /// </summary>
+        protected Transform GridVolumeTransform => gridVolumeTransform != null ? gridVolumeTransform : transform;
+        
+        /// <summary>
+        /// SpriteRenderer가 있는 Transform을 반환합니다.
+        /// spriteTransform이 설정되어 있으면 그것을, 없으면 최상단 오브젝트를 반환합니다.
+        /// </summary>
+        protected Transform SpriteTransform => spriteTransform != null ? spriteTransform : transform;
+        
+        /// <summary>
+        /// 외부 컴포넌트(OcclusionFader, SortingOrderObject 등)에서 접근할 수 있도록 public 프로퍼티 제공
+        /// </summary>
+        public Transform GetSpriteTransform() => SpriteTransform;
+        
+        /// <summary>
+        /// 외부 컴포넌트에서 접근할 수 있도록 public 프로퍼티 제공
+        /// </summary>
+        public Transform GetGridVolumeTransform() => GridVolumeTransform;
+        
+        /// <summary>
+        /// 자식 오브젝트를 자동으로 찾아서 바인딩합니다.
+        /// </summary>
+        protected virtual void AutoBindChildren()
+        {
+            // GridVolume 자동 찾기
+            if (gridVolumeTransform == null)
+            {
+                // "GridVolume"이라는 이름의 자식 오브젝트 찾기
+                Transform found = transform.Find("GridVolume");
+                if (found == null)
+                {
+                    // 대소문자 구분 없이 찾기
+                    foreach (Transform child in transform)
+                    {
+                        if (child.name.Equals("GridVolume", System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            found = child;
+                            break;
+                        }
+                    }
+                }
+                gridVolumeTransform = found;
+            }
+            
+            // Sprite 자동 찾기
+            if (spriteTransform == null)
+            {
+                // 먼저 SpriteRenderer가 있는 자식 오브젝트 찾기
+                SpriteRenderer[] childRenderers = GetComponentsInChildren<SpriteRenderer>();
+                
+                // 자기 자신의 SpriteRenderer는 제외
+                SpriteRenderer selfRenderer = GetComponent<SpriteRenderer>();
+                
+                foreach (var renderer in childRenderers)
+                {
+                    // 자기 자신이 아니고, 자식 오브젝트인 경우
+                    if (renderer != selfRenderer && renderer.transform.IsChildOf(transform))
+                    {
+                        spriteTransform = renderer.transform;
+                        break;
+                    }
+                }
+                
+                // SpriteRenderer가 없으면 "Sprite" 또는 "Image"라는 이름의 자식 오브젝트 찾기
+                if (spriteTransform == null)
+                {
+                    Transform found = transform.Find("Sprite");
+                    if (found == null)
+                    {
+                        found = transform.Find("Image");
+                    }
+                    if (found == null)
+                    {
+                        // 대소문자 구분 없이 찾기
+                        foreach (Transform child in transform)
+                        {
+                            string childName = child.name.ToLower();
+                            if (childName.Contains("sprite") || childName.Contains("image"))
+                            {
+                                found = child;
+                                break;
+                            }
+                        }
+                    }
+                    spriteTransform = found;
+                }
+            }
+        }
+
+        protected virtual void Awake()
+        {
+            // 자식 오브젝트 자동 바인딩
+            if (autoBindChildren)
+            {
+                AutoBindChildren();
+            }
+        }
 
         protected virtual void Start()
         {
             // spriteRenderer 초기화 (Initialize에서 설정되지 않은 경우)
             if (spriteRenderer == null)
             {
-                spriteRenderer = GetComponent<SpriteRenderer>();
+                spriteRenderer = SpriteTransform.GetComponent<SpriteRenderer>();
             }
             
             // GridSystem.CreateObject에서 Initialize를 호출하므로 여기서는 호출하지 않음
@@ -67,7 +176,8 @@ namespace Runtime.CH3.Main
                     if (occupiedTiles == null || occupiedTiles.Count == 0)
                     {
                         // 현재 월드 위치를 기본값으로 사용 (UseNearestGridPosition일 때)
-                        Vector2Int defaultGridPos = gridManager.WorldToGridPosition(transform.position);
+                        // 그리드 볼륨의 위치를 기준으로 계산
+                        Vector2Int defaultGridPos = gridManager.WorldToGridPosition(GridVolumeTransform.position);
                         if (!gridManager.IsValidGridPosition(defaultGridPos))
                         {
                             defaultGridPos = Vector2Int.zero;
@@ -111,7 +221,7 @@ namespace Runtime.CH3.Main
                             // 그리드 위치가 설정되었으므로 SortingOrder도 업데이트
                             if (applyInitialGridSorting)
                             {
-                                var sorting = GetComponent<SortingOrderObject>();
+                                var sorting = SpriteTransform.GetComponent<SortingOrderObject>();
                                 if (sorting != null)
                                 {
                                     // 뒤(y가 작을수록)일수록 더 높은 정렬이 되도록 부호 반전
@@ -128,7 +238,7 @@ namespace Runtime.CH3.Main
                 // Initialize가 호출되지 않은 경우(씬에 직접 배치된 오브젝트)를 대비
                 if (applyInitialGridSorting && gridPosition != Vector2Int.zero)
                 {
-                    var sorting = GetComponent<SortingOrderObject>();
+                    var sorting = SpriteTransform.GetComponent<SortingOrderObject>();
                     if (sorting != null)
                     {
                         // baseOrder가 0이고 gridPosition이 설정되어 있으면 그리드 기반으로 설정
@@ -148,7 +258,7 @@ namespace Runtime.CH3.Main
         {
             gridManager = GridSystem.Instance;
             minimapManager = FindObjectOfType<MinimapManager>();
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer = SpriteTransform.GetComponent<SpriteRenderer>();
             minimapManager.CreateMinimapIcon(transform);
             
             // 그리드 위치 결정
@@ -161,7 +271,16 @@ namespace Runtime.CH3.Main
             {
                 worldPos.y = customY;
             }
+            
+            // 최상단 오브젝트 위치 설정
             transform.position = worldPos;
+            
+            // 그리드 볼륨이 별도로 설정되어 있으면, 그리드 볼륨의 위치도 조정
+            if (gridVolumeTransform != null)
+            {
+                // 그리드 볼륨은 최상단 오브젝트를 기준으로 상대 위치 유지
+                // (이미 자식이므로 자동으로 따라옴)
+            }
             
             // 여러 타일 점유
             OccupyTiles(targetGrid);
@@ -172,7 +291,7 @@ namespace Runtime.CH3.Main
             // 초기 정렬: 그리드 y(앞/뒤) 기준으로 baseOrder 오프셋 적용
             if (applyInitialGridSorting)
             {
-                var sorting = GetComponent<SortingOrderObject>();
+                var sorting = SpriteTransform.GetComponent<SortingOrderObject>();
                 if (sorting != null)
                 {
                     // 뒤(y가 작을수록)일수록 더 높은 정렬이 되도록 부호 반전
@@ -219,7 +338,8 @@ namespace Runtime.CH3.Main
                     
                     if (gridManager != null)
                     {
-                        Vector2Int nearestGrid = gridManager.WorldToGridPosition(transform.position);
+                        // 그리드 볼륨의 위치를 기준으로 가장 가까운 그리드 좌표 계산
+                        Vector2Int nearestGrid = gridManager.WorldToGridPosition(GridVolumeTransform.position);
                         return gridManager.IsValidGridPosition(nearestGrid) ? nearestGrid : defaultGridPos;
                     }
                     return defaultGridPos;
@@ -231,6 +351,7 @@ namespace Runtime.CH3.Main
         
         /// <summary>
         /// 오브젝트 중심을 기준으로 여러 타일을 점유합니다.
+        /// 그리드 볼륨의 위치를 기준으로 타일을 점유합니다.
         /// </summary>
         protected virtual void OccupyTiles(Vector2Int centerPos)
         {
@@ -324,7 +445,8 @@ namespace Runtime.CH3.Main
             if (gridManager == null)
                 return;
 
-            Vector2Int newGridPos = gridManager.WorldToGridPosition(transform.position);
+            // 그리드 볼륨의 위치를 기준으로 그리드 위치 계산
+            Vector2Int newGridPos = gridManager.WorldToGridPosition(GridVolumeTransform.position);
 
             if (gridManager.IsValidGridPosition(newGridPos))
             {
@@ -341,7 +463,8 @@ namespace Runtime.CH3.Main
                 // 그리드 위치가 변경되었을 때 SortingOrder 업데이트
                 if (applyInitialGridSorting && oldGridPos != newGridPos)
                 {
-                    var sorting = GetComponent<SortingOrderObject>();
+                    // SpriteTransform에서 SortingOrderObject 찾기
+                    var sorting = SpriteTransform.GetComponent<SortingOrderObject>();
                     if (sorting != null)
                     {
                         // 뒤(y가 작을수록)일수록 더 높은 정렬이 되도록 부호 반전

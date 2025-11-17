@@ -690,7 +690,12 @@ namespace Runtime.CH3.Main
             spawnSequence.OnComplete(() => {
                 areaObjects[areaId].Add(obj);
                 areaObjectCounts[areaId][rule.objectType]++;
+                // Collider 찾기 (자식 Sprite 오브젝트에서도 찾기)
                 var collider = objGameObject.GetComponent<Collider>();
+                if (collider == null)
+                {
+                    collider = objGameObject.GetComponentInChildren<Collider>();
+                }
                 if (collider != null) collider.enabled = true;
             });
         }
