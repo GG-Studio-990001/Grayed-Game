@@ -165,6 +165,7 @@ R2-Mon: 정식으로 소개할게요. 내 이름은 R2-Mon!<br>마을에 유일�
 R2-Mon: 도움이 필요하다면 내 기지로 오세요. 위치는 비밀~
 R2-Mon: 그럼 바빠서 이만!!!
 <<HideCharacter "R2-Mon">>
+<<BackstreetWithCard>>
 
 <<PlaySFX 13>>
 <<wait 2>>
@@ -216,6 +217,7 @@ R2-Mon: 그럼 바빠서 이만!!!
     :주위를 둘러보던 중에 눈길이 가는 것들을 집었다.
 
 // 일러스트
+<<InStorageGetItems>>
 <<ShowIllerstration 0>>
 <<wait 1>>
 <<ShowIllerstration 1>>
