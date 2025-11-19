@@ -1541,7 +1541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.49019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5635,7 +5635,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ccbd1042511e3e4439ac45f282ff07d4, type: 3}
   _extraBgSprites:
   - {fileID: 21300000, guid: d981577e1777a01459f39c441da9555d, type: 3}
-  - {fileID: 21300000, guid: 4c6cf09090e7bf044b9ff5dc69561ebb, type: 3}
+  - {fileID: 21300000, guid: faf7476be87e52d4d82e1ebbc5051808, type: 3}
   - {fileID: 21300000, guid: d295c4d7238e32142bbc8f3cedd8abcb, type: 3}
 --- !u!222 &1723448195
 CanvasRenderer:
