@@ -124,113 +124,12 @@ namespace Runtime.CH3.Main
         /// </summary>
         private static void ApplyDataToObject(GameObject obj, CH3_LevelData data, Vector2Int gridPosition)
         {
+            // GridObject 초기화 (다형성을 활용하여 자동으로 올바른 override된 메서드 호출)
+            // InitializeFromData는 virtual이므로 하위 클래스(Structure, MineableObject 등)에서 override된 메서드가 자동으로 호출됨
             var gridObject = obj.GetComponent<GridObject>();
             if (gridObject != null)
             {
-                // 리플렉션을 사용하여 필드 설정 (protected 필드 접근)
-                var type = typeof(GridObject);
-                
-                var tileSizeField = type.GetField("tileSize", 
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                tileSizeField?.SetValue(gridObject, data.TileSize);
-                
-                var gridPositionModeField = type.GetField("gridPositionMode",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                gridPositionModeField?.SetValue(gridObject, data.gridPositionMode);
-                
-                var useCustomYField = type.GetField("useCustomY",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                useCustomYField?.SetValue(gridObject, data.useCustomY);
-                
-                var customYField = type.GetField("customY",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                customYField?.SetValue(gridObject, data.customY);
-                
-                var applyInitialGridSortingField = type.GetField("applyInitialGridSorting",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                applyInitialGridSortingField?.SetValue(gridObject, data.applyInitialGridSorting);
-                
-                var gridSortingScaleField = type.GetField("gridSortingScale",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                gridSortingScaleField?.SetValue(gridObject, data.gridSortingScale);
-            }
-            
-            // Structure 설정
-            var structure = obj.GetComponent<Structure>();
-            if (structure != null)
-            {
-                var isBlockingField = typeof(Structure).GetField("isBlocking",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (isBlockingField != null)
-                {
-                    isBlockingField.SetValue(structure, data.isBlocking);
-                }
-            }
-            
-            // MineableObject 설정
-            var mineable = obj.GetComponent<MineableObject>();
-            if (mineable != null)
-            {
-                var maxMiningCountField = typeof(MineableObject).GetField("maxMiningCount",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (maxMiningCountField != null)
-                {
-                    maxMiningCountField.SetValue(mineable, data.maxMiningCount);
-                }
-                
-                var miningStageSpritesField = typeof(MineableObject).GetField("miningStageSprites",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (miningStageSpritesField != null)
-                {
-                    miningStageSpritesField.SetValue(mineable, data.miningStageSprites);
-                }
-                
-                var itemPrefabField = typeof(MineableObject).GetField("itemPrefab",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (itemPrefabField != null)
-                {
-                    itemPrefabField.SetValue(mineable, data.itemPrefab);
-                }
-                
-                var minDropCountField = typeof(MineableObject).GetField("minDropCount",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (minDropCountField != null)
-                {
-                    minDropCountField.SetValue(mineable, data.minDropCount);
-                }
-                
-                var maxDropCountField = typeof(MineableObject).GetField("maxDropCount",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (maxDropCountField != null)
-                {
-                    maxDropCountField.SetValue(mineable, data.maxDropCount);
-                }
-                
-                var dropRadiusField = typeof(MineableObject).GetField("dropRadius",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (dropRadiusField != null)
-                {
-                    dropRadiusField.SetValue(mineable, data.dropRadius);
-                }
-                
-                var enableColliderOnStartField = typeof(MineableObject).GetField("enableColliderOnStart",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (enableColliderOnStartField != null)
-                {
-                    enableColliderOnStartField.SetValue(mineable, data.enableColliderOnStart);
-                }
-            }
-            
-            // InteractableGridObject 설정
-            var interactable = obj.GetComponent<InteractableGridObject>();
-            if (interactable != null)
-            {
-                var interactionRangeField = typeof(InteractableGridObject).GetField("interactionRange",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (interactionRangeField != null)
-                {
-                    interactionRangeField.SetValue(interactable, data.interactionRange);
-                }
+                gridObject.InitializeFromData(data);
             }
         }
         
@@ -277,13 +176,6 @@ namespace Runtime.CH3.Main
             var gridObject = rootObject.GetComponent<GridObject>();
             if (gridObject != null)
             {
-                var spriteTransformField = typeof(GridObject).GetField("spriteTransform",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (spriteTransformField != null)
-                {
-                    spriteTransformField.SetValue(gridObject, spriteTransform);
-                }
-                
                 // GridVolume 찾기
                 Transform gridVolumeTransform = rootObject.transform.Find("GridVolume");
                 if (gridVolumeTransform == null)
@@ -298,22 +190,8 @@ namespace Runtime.CH3.Main
                     }
                 }
                 
-                if (gridVolumeTransform != null)
-                {
-                    var gridVolumeTransformField = typeof(GridObject).GetField("gridVolumeTransform",
-                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                    if (gridVolumeTransformField != null)
-                    {
-                        gridVolumeTransformField.SetValue(gridObject, gridVolumeTransform);
-                    }
-                }
-                
-                var autoBindChildrenField = typeof(GridObject).GetField("autoBindChildren",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (autoBindChildrenField != null)
-                {
-                    autoBindChildrenField.SetValue(gridObject, false);
-                }
+                // 자식 참조 설정 (autoBindChildren = false로 설정)
+                gridObject.SetChildReferences(spriteTransform, gridVolumeTransform, false);
             }
             
             // Collider 추가

@@ -39,6 +39,24 @@ namespace Runtime.CH3.Main
         // IHoldInteractable 구현
         public float HoldSeconds => 2f;
 
+        /// <summary>
+        /// CH3_LevelData로부터 데이터를 초기화합니다.
+        /// </summary>
+        public override void InitializeFromData(CH3_LevelData data)
+        {
+            base.InitializeFromData(data);
+            if (data != null)
+            {
+                maxMiningCount = data.maxMiningCount;
+                miningStageSprites = data.miningStageSprites;
+                itemPrefab = data.itemPrefab;
+                minDropCount = data.minDropCount;
+                maxDropCount = data.maxDropCount;
+                dropRadius = data.dropRadius;
+                enableColliderOnStart = data.enableColliderOnStart;
+            }
+        }
+
         public override void Initialize(Vector2Int gridPos)
         {
             // base.Initialize에서 gridPositionMode에 따라 위치 결정 및 이동

@@ -253,6 +253,31 @@ namespace Runtime.CH3.Main
             }
         }
         
+        /// <summary>
+        /// CH3_LevelData로부터 데이터를 초기화합니다.
+        /// </summary>
+        public virtual void InitializeFromData(CH3_LevelData data)
+        {
+            if (data == null) return;
+            
+            tileSize = data.TileSize;
+            gridPositionMode = data.gridPositionMode;
+            useCustomY = data.useCustomY;
+            customY = data.customY;
+            applyInitialGridSorting = data.applyInitialGridSorting;
+            gridSortingScale = data.gridSortingScale;
+        }
+        
+        /// <summary>
+        /// 자식 오브젝트 참조를 설정합니다.
+        /// </summary>
+        public void SetChildReferences(Transform spriteTransformRef, Transform gridVolumeTransformRef, bool autoBind = false)
+        {
+            spriteTransform = spriteTransformRef;
+            gridVolumeTransform = gridVolumeTransformRef;
+            autoBindChildren = autoBind;
+        }
+        
         //TODO: Vector2Int 없애기
         public virtual void Initialize(Vector2Int gridPos)
         {

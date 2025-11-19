@@ -14,6 +14,18 @@ namespace Runtime.CH3.Main
         /// </summary>
         public bool IsPassable => !isBlocking;
 
+        /// <summary>
+        /// CH3_LevelData로부터 데이터를 초기화합니다.
+        /// </summary>
+        public override void InitializeFromData(CH3_LevelData data)
+        {
+            base.InitializeFromData(data);
+            if (data != null)
+            {
+                isBlocking = data.isBlocking;
+            }
+        }
+        
         public override void Initialize(Vector2Int gridPos)
         {
             // base.Initialize에서 gridPositionMode에 따라 위치 결정
