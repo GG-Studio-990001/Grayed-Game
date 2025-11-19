@@ -14,6 +14,7 @@ namespace Runtime.CH3.Main
         [Header("Inventory References")]
         [SerializeField] private InventoryUI _inventoryUI;
         [SerializeField] private Inventory _inventory;
+        [SerializeField] private BuildingSystem _buildingSystem;
 
         private void Start()
         {
@@ -74,7 +75,48 @@ namespace Runtime.CH3.Main
         public void HotbarUse()
         {
             int idx = _inventoryUI.GetSelectedHotbarIndex();
-            _inventory.TryConsumeAt(idx, 1);
+            UseItem(idx);
+        }
+        
+        /// <summary>
+        /// 특정 슬롯의 아이템 사용
+        /// </summary>
+        public void UseItem(int slotIndex)
+        {
+            var slot = _inventory.GetSlot(slotIndex);
+            
+            if (slot == null || slot.item == null)
+            {
+                return;
+            }
+            
+            // 인벤토리가 열려있으면 닫기
+            if (_inventoryUI != null && _inventoryUI.IsInventoryOpen())
+            {
+                _inventoryUI.ToggleInventory();
+            }
+            
+            // 건축 아이템인 경우 건축 모드 시작
+            if (slot.item.IsBuildingItem)
+            {
+                if (_buildingSystem != null)
+                {
+                    // 이미 건축 모드 중이면 종료
+                    if (_buildingSystem.IsBuildingMode)
+                    {
+                        _buildingSystem.EndBuildingMode();
+                    }
+                    else
+                    {
+                        _buildingSystem.StartBuildingMode(slot.item, slotIndex);
+                    }
+                }
+            }
+            else
+            {
+                // 일반 아이템 사용
+                _inventory.TryConsumeAt(slotIndex, 1);
+            }
         }
 
         private void OnDestroy()

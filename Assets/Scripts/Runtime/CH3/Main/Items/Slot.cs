@@ -2,10 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using System;
 
 namespace Runtime.CH3.Main
 {
-    public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
     {
         [SerializeField] private Image image;
         [SerializeField] private TextMeshProUGUI countText;
@@ -13,9 +14,10 @@ namespace Runtime.CH3.Main
         [SerializeField] private int index;
         [SerializeField] private MonoBehaviour inventoryBehaviour; // holder only
         [SerializeField] private bool isHotbarView; // 이 슬롯이 퀵슬롯 UI인지 여부
-        private System.Func<int, (Item item, int count)> getSlotData;
-        private System.Action<int, int> moveOrMerge;
-        private System.Action<int> clearSlot;
+        private Func<int, (Item item, int count)> getSlotData;
+        private Action<int, int> moveOrMerge;
+        private Action<int> clearSlot;
+        private Action<int> useItem; // 아이템 사용 콜백
         private InventoryUI ownerUI => inventoryBehaviour as InventoryUI;
 
         private static Slot draggingFrom;
@@ -59,13 +61,15 @@ namespace Runtime.CH3.Main
         public void SetIndex(int newIndex, MonoBehaviour inv,
             System.Func<int, (Item item, int count)> getter = null,
             System.Action<int, int> mover = null,
-            System.Action<int> clearer = null)
+            System.Action<int> clearer = null,
+            System.Action<int> useItemCallback = null)
         {
             index = newIndex;
             inventoryBehaviour = inv;
             getSlotData = getter;
             moveOrMerge = mover;
             clearSlot = clearer;
+            useItem = useItemCallback;
             Refresh();
         }
 
@@ -197,6 +201,18 @@ namespace Runtime.CH3.Main
             c.blocksRaycasts = false;
             dragGhost.raycastTarget = false;
             go.SetActive(false);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            // 우클릭 시 아이템 사용
+            if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                if (item != null && useItem != null && !isDragging)
+                {
+                    useItem(index);
+                }
+            }
         }
 
         // Simple static hover label shared by all slots
