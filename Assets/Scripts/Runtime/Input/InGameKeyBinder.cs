@@ -6,7 +6,6 @@ using Runtime.CH1.Title;
 using Runtime.CH2.Main;
 using Runtime.CH2.SuperArio;
 using Runtime.CH3;
-using Runtime.CH3.Main;
 using Runtime.CH3.Dancepace;
 using Runtime.CH3.TRPG;
 using Runtime.CH4;
@@ -116,17 +115,10 @@ namespace Runtime.Input
         {
             _gameOverControls.UI.Enable();
             _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
-            _gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
+            //_gameOverControls.UI.DialogueInput.performed += _ => line.OnContinueClicked();
         }
 
-        public void CH3UIKeyBinding(SettingsUIView settingsUIView, CH3Dialogue dialogue)
-        {
-            _gameOverControls.UI.Enable();
-            _gameOverControls.UI.GameSetting.performed += _ => settingsUIView.GameSettingToggle();
-            _gameOverControls.UI.DialogueInput.performed += _ => dialogue.OnDialogueInput();
-        }
-
-        public void CH3PlayerKeyBinding(PlayerController player, CH3KeyBinder binder)
+        public void CH3PlayerKeyBinding(PlayerController player, Runtime.CH3.Main.CH3KeyBinder binder)
         {
             _gameOverControls.Player.Enable();
             _gameOverControls.Player.Move.performed += player.OnMove;

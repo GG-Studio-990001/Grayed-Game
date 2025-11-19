@@ -122,6 +122,7 @@ namespace Runtime.CH2.Main
             Managers.Data.SaveGame();
             _visitedLocations.Clear();
             Managers.Data.CH2.Turn++;
+            Debug.Log("CH2 Turn: " + Managers.Data.CH2.Turn);
         }
     }
 }

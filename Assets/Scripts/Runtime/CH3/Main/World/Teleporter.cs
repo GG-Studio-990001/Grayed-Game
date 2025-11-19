@@ -1,4 +1,5 @@
 using UnityEngine;
+using Runtime.CH3.Main;
 
 namespace Runtime.CH3.Main
 {
@@ -11,37 +12,34 @@ namespace Runtime.CH3.Main
 
         [Header("Teleporter Settings")]
         [SerializeField] private Teleporter connectedTeleporter;
-        [SerializeField] private float teleportDelay = 0.1f;
-        [SerializeField] private float cooldownTime = 3f;
+        [SerializeField] private bool isOneWay = false; // 단방향 텔레포트
+        [SerializeField] private float teleportDelay = 0.1f; // 텔레포트 지연시간
+        [SerializeField] private bool showDebugInfo = true;
+        [SerializeField] private bool autoTeleport = false; // 자동 텔레포트 비활성화 (E키로만 작동)
+        [SerializeField] private float cooldownTime = 3f; // 텔레포트 후 쿨다운 시간 (2초에서 3초로 증가)
+        [SerializeField] private float safeDistance = 3f; // 텔레포트 후 안전 거리 (1.5에서 3으로 증가)
+
+        // Visual effects removed
 
         private bool isTeleporting = false;
-        private float lastTeleportTime = 0f;
-        private bool isInCooldown = false;
+        private float originalAlpha;
+        private float lastTeleportTime = 0f; // 마지막 텔레포트 시간
+        private bool isInCooldown = false; // 쿨다운 상태 추적
 
         public override void Initialize(Vector2Int gridPos)
         {
             base.Initialize(gridPos);
 
+            // no visual initialization
+
+            // 연결된 텔레포트가 없으면 경고
             if (connectedTeleporter == null)
             {
                 Debug.LogWarning($"텔레포트 {gameObject.name}에 연결된 텔레포트가 없습니다!");
             }
 
-            // 콜라이더 확인 (자식 Sprite 오브젝트에서도 찾기)
+            // 콜라이더 확인
             Collider collider = GetComponent<Collider>();
-            if (collider == null)
-            {
-                collider = GetComponentInChildren<Collider>();
-            }
-            if (collider == null)
-            {
-                // GridObject의 public 메서드 사용
-                var spriteTransform = base.GetSpriteTransform();
-                if (spriteTransform != null && spriteTransform != transform)
-                {
-                    collider = spriteTransform.GetComponent<Collider>();
-                }
-            }
             if (collider == null)
             {
                 Debug.LogError($"텔레포트 {gameObject.name}에 Collider가 없습니다!");
@@ -65,6 +63,10 @@ namespace Runtime.CH3.Main
             // 플레이어인지 확인
             if (interactor.CompareTag("Player"))
             {
+                if (showDebugInfo)
+                {
+                    Debug.Log($"플레이어가 텔레포트를 시도합니다: {gameObject.name}");
+                }
                 StartCoroutine(TeleportPlayer(interactor));
             }
         }
@@ -74,7 +76,12 @@ namespace Runtime.CH3.Main
             isTeleporting = true;
             canInteract = false;
             isInCooldown = true;
-            lastTeleportTime = Time.time;
+            lastTeleportTime = Time.time; // 텔레포트 시작 시간 기록
+
+            if (showDebugInfo)
+            {
+                Debug.Log($"텔레포트 시작: {gameObject.name} -> {connectedTeleporter.gameObject.name}");
+            }
 
             // 플레이어를 연결된 텔레포터의 GridPosition에서 y만 -1 한 GridPosition으로 이동
             Vector3 targetPosition = Vector3.zero;
@@ -118,6 +125,11 @@ namespace Runtime.CH3.Main
 
             // 연결된 텔레포터도 동일 쿨다운 후 재활성화
             StartCoroutine(EnableConnectedTeleporterAfterCooldown());
+
+            if (showDebugInfo)
+            {
+                Debug.Log($"텔레포트 완료: {player.name} -> {connectedTeleporter.gameObject.name}");
+            }
         }
 
         private System.Collections.IEnumerator EnableAfterCooldown()
@@ -137,6 +149,41 @@ namespace Runtime.CH3.Main
             }
         }
 
+        private System.Collections.IEnumerator FadeOutEffect()
+        {
+            if (spriteRenderer == null) yield break;
+
+            float duration = 0.3f;
+            float elapsed = 0f;
+            Color startColor = spriteRenderer.color;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float alpha = Mathf.Lerp(originalAlpha, 0f, elapsed / duration);
+                spriteRenderer.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
+                yield return null;
+            }
+        }
+
+        public System.Collections.IEnumerator FadeInEffect()
+        {
+            if (spriteRenderer == null) yield break;
+
+            float duration = 0.3f;
+            float elapsed = 0f;
+            Color startColor = spriteRenderer.color;
+            startColor.a = 0f;
+            spriteRenderer.color = startColor;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float alpha = Mathf.Lerp(0f, originalAlpha, elapsed / duration);
+                spriteRenderer.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
+                yield return null;
+            }
+        }
 
         private void OnDrawGizmos()
         {
@@ -163,5 +210,10 @@ namespace Runtime.CH3.Main
             connectedTeleporter = teleporter;
         }
 
+        // 단방향 설정
+        public void SetOneWay(bool oneWay)
+        {
+            isOneWay = oneWay;
+        }
     }
 }
