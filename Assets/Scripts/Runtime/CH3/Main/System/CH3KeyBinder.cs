@@ -18,6 +18,12 @@ namespace Runtime.CH3.Main
 
         private void Start()
         {
+            // BuildingSystem 참조 자동 찾기 (안정성 향상)
+            if (_buildingSystem == null)
+            {
+                _buildingSystem = BuildingSystem.Instance;
+            }
+            
             InitKeyBinding();
         }
 

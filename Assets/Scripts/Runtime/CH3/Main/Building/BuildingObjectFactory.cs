@@ -316,42 +316,12 @@ namespace Runtime.CH3.Main
                 }
             }
             
-            // Collider 추가 (MineableObject인 경우)
+            // Collider 추가
             var mineable = rootObject.GetComponent<MineableObject>();
-            if (mineable != null)
-            {
-                BoxCollider collider = spriteTransform.GetComponent<BoxCollider>();
-                if (collider == null)
-                {
-                    collider = spriteTransform.gameObject.AddComponent<BoxCollider>();
-                }
-                collider.isTrigger = false;
-                
-                if (spriteRenderer.sprite != null)
-                {
-                    Bounds spriteBounds = spriteRenderer.sprite.bounds;
-                    collider.size = spriteBounds.size;
-                    collider.center = spriteBounds.center;
-                }
-            }
-            
-            // Structure인 경우 Collider 추가
             var structure = rootObject.GetComponent<Structure>();
-            if (structure != null && data.isBlocking)
+            if (mineable != null || (structure != null && data.isBlocking))
             {
-                BoxCollider collider = spriteTransform.GetComponent<BoxCollider>();
-                if (collider == null)
-                {
-                    collider = spriteTransform.gameObject.AddComponent<BoxCollider>();
-                }
-                collider.isTrigger = false;
-                
-                if (spriteRenderer.sprite != null)
-                {
-                    Bounds spriteBounds = spriteRenderer.sprite.bounds;
-                    collider.size = spriteBounds.size;
-                    collider.center = spriteBounds.center;
-                }
+                AddBoxColliderToSprite(spriteTransform, spriteRenderer);
             }
             
             // Breakable인 경우 UI Prefab을 자식 오브젝트로 생성
@@ -375,6 +345,28 @@ namespace Runtime.CH3.Main
                     uiObject.transform.SetParent(rootObject.transform);
                     uiObject.transform.localPosition = Vector3.zero;
                 }
+            }
+        }
+        
+        /// <summary>
+        /// Sprite 오브젝트에 BoxCollider를 추가합니다.
+        /// </summary>
+        private static void AddBoxColliderToSprite(Transform spriteTransform, SpriteRenderer spriteRenderer)
+        {
+            if (spriteTransform == null || spriteRenderer == null) return;
+            
+            BoxCollider collider = spriteTransform.GetComponent<BoxCollider>();
+            if (collider == null)
+            {
+                collider = spriteTransform.gameObject.AddComponent<BoxCollider>();
+            }
+            collider.isTrigger = false;
+            
+            if (spriteRenderer.sprite != null)
+            {
+                Bounds spriteBounds = spriteRenderer.sprite.bounds;
+                collider.size = spriteBounds.size;
+                collider.center = spriteBounds.center;
             }
         }
     }

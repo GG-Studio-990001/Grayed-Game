@@ -14,6 +14,7 @@ namespace Runtime.CH3.Main
         
         private CH3_LevelData _buildingData;
         private Material _previewMaterial;
+        private Material _borderMaterial; // 테두리 머티리얼 (메모리 누수 방지)
         private Color _validColor = new Color(1f, 1f, 1f, 0.6f);
         private Color _invalidColor = new Color(1f, 0f, 0f, 0.6f);
         private Color _validBorderColor = new Color(0f, 1f, 0f, 1f); // 초록색 테두리
@@ -94,7 +95,13 @@ namespace Runtime.CH3.Main
             borderLineRenderer.loop = true;
             borderLineRenderer.startWidth = 0.1f;
             borderLineRenderer.endWidth = 0.1f;
-            borderLineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+            
+            // 머티리얼 생성 및 저장 (메모리 누수 방지)
+            if (_borderMaterial == null)
+            {
+                _borderMaterial = new Material(Shader.Find("Sprites/Default"));
+            }
+            borderLineRenderer.material = _borderMaterial;
             borderLineRenderer.sortingOrder = 100; // 다른 오브젝트 위에 표시
             
             // 건물 크기에 맞게 테두리 그리기
@@ -136,6 +143,11 @@ namespace Runtime.CH3.Main
             if (_previewMaterial != null)
             {
                 Destroy(_previewMaterial);
+            }
+            
+            if (_borderMaterial != null)
+            {
+                Destroy(_borderMaterial);
             }
         }
     }

@@ -19,6 +19,7 @@ namespace Runtime.CH3.Main
         private readonly List<Slot> hotbarViews = new List<Slot>();
         private int selectedHotbar = 0;
         private bool inventoryOpen;
+        private CH3KeyBinder _keyBinder; // CH3KeyBinder 참조 캐싱 (성능 최적화)
 
         private void Awake()
         {
@@ -28,6 +29,9 @@ namespace Runtime.CH3.Main
             inventory.OnSlotChanged += HandleSlotChanged;
             RefreshAll();
             SelectHotbar(0);
+            
+            // CH3KeyBinder 참조 캐싱 (성능 최적화)
+            _keyBinder = FindObjectOfType<CH3KeyBinder>();
         }
 
         private void OnDestroy()
@@ -78,11 +82,10 @@ namespace Runtime.CH3.Main
         /// </summary>
         private void OnSlotUseItem(int slotIndex)
         {
-            // CH3KeyBinder의 UseItem 메서드 호출
-            var keyBinder = FindObjectOfType<CH3KeyBinder>();
-            if (keyBinder != null)
+            // CH3KeyBinder의 UseItem 메서드 호출 (캐싱된 참조 사용)
+            if (_keyBinder != null)
             {
-                keyBinder.UseItem(slotIndex);
+                _keyBinder.UseItem(slotIndex);
             }
         }
 

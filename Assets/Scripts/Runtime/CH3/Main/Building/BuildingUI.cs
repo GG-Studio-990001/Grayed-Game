@@ -16,13 +16,6 @@ namespace Runtime.CH3.Main
         [SerializeField] private Color gridLineColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
         [SerializeField] private bool showGrid = true;
         
-        [Header("Placement Indicator")]
-        [SerializeField] private GameObject placementIndicatorPrefab;
-        [SerializeField] private Color validPlacementColor = new Color(0f, 1f, 0f, 0.5f);
-        [SerializeField] private Color invalidPlacementColor = new Color(1f, 0f, 0f, 0.5f);
-        [SerializeField] private GameObject occupiedCellPrefab; // 점유된 셀 표시용
-        [SerializeField] private Color occupiedCellColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
-        
         [Header("UI Elements")]
         [SerializeField] private GameObject uiPanel;
         [SerializeField] private TextMeshProUGUI buildingNameText;
@@ -35,12 +28,10 @@ namespace Runtime.CH3.Main
         private GridSystem _gridSystem;
         private CurrencyManager _currencyManager;
         private CH3_LevelData _currentBuildingData;
-        private GameObject _currentPlacementIndicator;
         private LineRenderer[] _gridLines;
         private bool _isVisible = false;
         private Vector2Int _centerGridPosition;
         private int _displayRange;
-        private List<GameObject> _occupiedCellIndicators = new List<GameObject>();
         
         private void Awake()
         {
@@ -59,14 +50,6 @@ namespace Runtime.CH3.Main
         {
             _gridSystem = GridSystem.Instance;
             _currencyManager = CurrencyManager.Instance;
-        }
-        
-        private void Update()
-        {
-            if (_isVisible && _currentBuildingData != null)
-            {
-                UpdatePlacementIndicator();
-            }
         }
         
         /// <summary>
@@ -124,16 +107,6 @@ namespace Runtime.CH3.Main
             
             // 그리드 제거
             ClearGrid();
-            
-            // 배치 인디케이터 제거
-            if (_currentPlacementIndicator != null)
-            {
-                Destroy(_currentPlacementIndicator);
-                _currentPlacementIndicator = null;
-            }
-            
-            // 점유된 셀 인디케이터 제거
-            ClearOccupiedCellIndicators();
         }
         
         /// <summary>
@@ -235,74 +208,6 @@ namespace Runtime.CH3.Main
                 }
                 _gridLines = null;
             }
-        }
-        
-        /// <summary>
-        /// 배치 인디케이터 업데이트 (점유된 셀 표시)
-        /// </summary>
-        private void UpdatePlacementIndicator()
-        {
-            if (_gridSystem == null || _currentBuildingData == null) return;
-            
-            // 기존 인디케이터 제거
-            ClearOccupiedCellIndicators();
-            
-            // 범위 내의 모든 셀 확인
-            for (int x = _centerGridPosition.x - _displayRange; x <= _centerGridPosition.x + _displayRange; x++)
-            {
-                for (int y = _centerGridPosition.y - _displayRange; y <= _centerGridPosition.y + _displayRange; y++)
-                {
-                    Vector2Int checkPos = new Vector2Int(x, y);
-                    
-                    // 그리드 범위 체크
-                    if (!_gridSystem.IsValidGridPosition(checkPos))
-                    {
-                        continue;
-                    }
-                    
-                    // 점유된 셀 표시
-                    if (_gridSystem.IsCellOccupied(checkPos))
-                    {
-                        Vector3 worldPos = _gridSystem.GridToWorldPosition(checkPos);
-                        CreateOccupiedCellIndicator(worldPos);
-                    }
-                }
-            }
-        }
-        
-        /// <summary>
-        /// 점유된 셀 인디케이터 생성
-        /// </summary>
-        private void CreateOccupiedCellIndicator(Vector3 position)
-        {
-            if (occupiedCellPrefab == null) return;
-            
-            GameObject indicator = Instantiate(occupiedCellPrefab, gridParent);
-            indicator.transform.position = position;
-            
-            // 색상 설정
-            SpriteRenderer sr = indicator.GetComponent<SpriteRenderer>();
-            if (sr != null)
-            {
-                sr.color = occupiedCellColor;
-            }
-            
-            _occupiedCellIndicators.Add(indicator);
-        }
-        
-        /// <summary>
-        /// 점유된 셀 인디케이터 제거
-        /// </summary>
-        private void ClearOccupiedCellIndicators()
-        {
-            foreach (var indicator in _occupiedCellIndicators)
-            {
-                if (indicator != null)
-                {
-                    Destroy(indicator);
-                }
-            }
-            _occupiedCellIndicators.Clear();
         }
         
         /// <summary>
