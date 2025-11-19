@@ -78,6 +78,7 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("InStorageGetItems", _locationBgController.InStorageGetItems);
             _runner.AddCommandHandler("BackstreetWithCard", _locationBgController.BackstreetWithCard);
             _runner.AddCommandHandler("BackstreetNoCard", _locationBgController.BackstreetNoCard);
+            _runner.AddCommandHandler("BaseWithSuperArioPack", _locationBgController.BaseWithSuperArioPack);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
         }
 

@@ -1066,6 +1066,7 @@ MonoBehaviour:
   CharacterName: "\uC2AC\uB77C\uC784"
   _expressions:
   - {fileID: 21300000, guid: 0e984c060ee98cc40926c3d2356a6ac4, type: 3}
+  - {fileID: 21300000, guid: 98f9db16935c4ea4ebaf7131356e965c, type: 3}
 --- !u!114 &384806706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5640,6 +5641,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 70d393802d3689447a0330ea4c9d3e7e, type: 3}
   - {fileID: 21300000, guid: 073cdcf7cffa4e34bbe8c2642b4d8de3, type: 3}
   - {fileID: 21300000, guid: 517c44b73c6e70f4b954076a5a62471f, type: 3}
+  - {fileID: 21300000, guid: 6d42bf2f209856f4e95584e8d97469d7, type: 3}
 --- !u!222 &1723448195
 CanvasRenderer:
   m_ObjectHideFlags: 0

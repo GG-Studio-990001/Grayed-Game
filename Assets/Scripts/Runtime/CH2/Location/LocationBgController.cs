@@ -58,6 +58,13 @@ namespace Runtime.CH2.Location
                 BackstreetNoCard();
             if (turn >= 4)
                 TempleClean();
+            if (turn >= 5)
+                BaseWithSuperArioPack();
+        }
+
+        public void BaseWithSuperArioPack()
+        {
+            _bgSprites[_locationSprites["Base"]] = _extraBgSprites[6];
         }
 
         public void BackstreetWithCard()

@@ -1,5 +1,6 @@
 title: Turn5
 ---
+<<BaseWithSuperArioPack>>
 <<ChangeBGM>>
 <<StartLocation Base>>
 <<SetCharacterExpression "라플리" "0">>
@@ -152,9 +153,9 @@ title: AfterTcg6
 <<SetCharacterExpression "미카엘" "5">>
 미카엘: 근데 나도 똑같아. 괜히 걔한테 화풀이했거든.<br>달러 앞에서 그런 능력을 보여주지만 않았으면 됐을 거라고...
 <<SetCharacterExpression "미카엘" "0">>
-미카엘: 그렇게 슬라임이 혼자 나가버리고 며칠 뒤,<br>방울 소리를 따라서 광장으로 갔는데 하필 그때...
-미카엘: 슬라임 앞으로 <wave>내 얼굴이 그려진 물건</wave>이 하늘에서 떨어진 거야.
-미카엘: 그걸 나로 착각해 버린 걔는...
+미카엘: 그렇게 슬라임이 혼자 나가버리고 며칠 뒤,<br>방울 소리를 따라서 광장으로 갔어.
+미카엘: 슬라임이 있길래 다가가려던 순간<br>내 머리 위로 <wave>빨간</wave> 물건이 떨어지려 하는 거야.
+미카엘: 그걸 막으려고 날아오른 슬라임이...
 
     :말을 잠시 멈춘 미카엘이 커튼을 완전히 걷어냈다.
 
@@ -170,7 +171,7 @@ title: AfterTcg6
 미카엘: ...미안한데 그만 나가주라. 혼자 있고 싶어.
 <<HideCharacter "미카엘">>
 
-    :이제 해야 할 일을 알 것 같다.<br><wave>미카엘이 그려진 물건</wave>이 있는 곳으로...
+    :이제 해야 할 일을 알 것 같다.<br><wave>빨간</wave> 물건이 있는 곳으로...
 
 // 장소: 광장
 <<SetLocation Square>>
