@@ -49,6 +49,17 @@ namespace Runtime.CH2.Location
             { "StatueCrack", 14 }     // 달러 동상 틈새 => 수정된 이미지로 대체
         };
 
+        private void Start()
+        {
+            int turn = Managers.Data.CH2.Turn;
+            if (turn >= 1)
+                InStorageGetItems();
+            if (turn >= 2)
+                BackstreetNoCard();
+            if (turn >= 4)
+                TempleClean();
+        }
+
         public void BackstreetWithCard()
         {
             _bgSprites[_locationSprites["Backstreet"]] = _extraBgSprites[5];
