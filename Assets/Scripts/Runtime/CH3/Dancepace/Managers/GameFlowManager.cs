@@ -175,8 +175,8 @@ namespace Runtime.CH3.Dancepace
             uiManager?.ShowKeyGuide(true);
 
             Managers.Sound.StopBGM();
-            Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_SUB_SFX_99");
-            Managers.Sound.PlayBGMWithFade("Dancepace/New/CH3_SUB_BGM_WAVE_Intro_Outro", 0.5f, 0.8f);
+            Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_SUB_SFX_AudienceCry");
+            Managers.Sound.Play(Sound.BGM, "Dancepace/New/CH3_SUB_BGM_WAVE_Intro_Outro");
             uiManager?.ShowMcText();
             yield return new WaitForSeconds(5f);
             Managers.Sound.PlayBGMWithFade("Dancepace/New/CH3_SUB_BGM_WAVE_20Bar", 0.5f, 0.8f);
@@ -692,6 +692,7 @@ namespace Runtime.CH3.Dancepace
             rehearsalPhase = RehearsalPhase.None; // 리허설 종료
             Managers.Data.CH3.IsDancepacePlayed = true;
             Managers.Data.SaveGame();
+            Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_SUB_SFX_Button");
         }
 
         public void RestartRehersal()
@@ -699,6 +700,7 @@ namespace Runtime.CH3.Dancepace
             userWantsMoreRehearsal = true;
             rehearsalPhase = RehearsalPhase.First; // 리허설 재시작
             Managers.Data.CH3.IsDancepacePlayed = false;
+            Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_SUB_SFX_Button");
         }
 
         public void StartGame()

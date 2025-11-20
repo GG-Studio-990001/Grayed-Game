@@ -151,6 +151,7 @@ namespace Runtime.CH3.Dancepace
             {
                 if (spotlightObject[i] != null)
                     spotlightObject[i].SetActive(true);
+                Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_SUB_SFX_Spotlight");
 
                 if (i < count - 1)
                     yield return new WaitForSeconds(interval);
