@@ -28,7 +28,7 @@ namespace Runtime.CH3.Dancepace
         {
             Managers.Data.InGameKeyBinder.PlayerInputDisable();
             
-            Managers.Sound.Play(Sound.BGM, "Dancepace/CH3_SUB_BGM_01_ver3");
+            Managers.Sound.Play(Sound.BGM, SoundKeys.BGM_01_ver3);
             if (!Managers.Data.CH3.IsDancepacePlayed)
                 _runner.StartDialogue("FirstEnter");
             else

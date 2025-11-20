@@ -134,23 +134,33 @@ namespace Runtime.CH3.Main
         }
         
         /// <summary>
+        /// 대소문자 구분 없이 자식 오브젝트를 찾습니다.
+        /// </summary>
+        private static Transform FindChildByNameIgnoreCase(Transform parent, string name)
+        {
+            Transform child = parent.Find(name);
+            if (child != null)
+            {
+                return child;
+            }
+
+            foreach (Transform t in parent)
+            {
+                if (t.name.Equals(name, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return t;
+                }
+            }
+            return null;
+        }
+        
+        /// <summary>
         /// 자식 Sprite 오브젝트의 스프라이트를 교체합니다.
         /// </summary>
         private static void ReplaceSpriteInChild(GameObject rootObject, CH3_LevelData data)
         {
             // 자식 오브젝트에서 "Sprite" 이름의 오브젝트 찾기
-            Transform spriteTransform = rootObject.transform.Find("Sprite");
-            if (spriteTransform == null)
-            {
-                foreach (Transform child in rootObject.transform)
-                {
-                    if (child.name.Equals("Sprite", System.StringComparison.OrdinalIgnoreCase))
-                    {
-                        spriteTransform = child;
-                        break;
-                    }
-                }
-            }
+            Transform spriteTransform = FindChildByNameIgnoreCase(rootObject.transform, "Sprite");
             
             if (spriteTransform == null)
             {
@@ -177,18 +187,7 @@ namespace Runtime.CH3.Main
             if (gridObject != null)
             {
                 // GridVolume 찾기
-                Transform gridVolumeTransform = rootObject.transform.Find("GridVolume");
-                if (gridVolumeTransform == null)
-                {
-                    foreach (Transform child in rootObject.transform)
-                    {
-                        if (child.name.Equals("GridVolume", System.StringComparison.OrdinalIgnoreCase))
-                        {
-                            gridVolumeTransform = child;
-                            break;
-                        }
-                    }
-                }
+                Transform gridVolumeTransform = FindChildByNameIgnoreCase(rootObject.transform, "GridVolume");
                 
                 // 자식 참조 설정 (autoBindChildren = false로 설정)
                 gridObject.SetChildReferences(spriteTransform, gridVolumeTransform, false);
