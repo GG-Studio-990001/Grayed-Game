@@ -49,16 +49,54 @@ namespace Runtime.CH2.Location
             { "StatueCrack", 14 }     // 달러 동상 틈새 => 수정된 이미지로 대체
         };
 
+        private void Start()
+        {
+            int turn = Managers.Data.CH2.Turn;
+            if (turn >= 1)
+                InStorageGetItems();
+            if (turn >= 2)
+                BackstreetNoCard();
+            if (turn >= 4)
+                TempleClean();
+            if (turn >= 5)
+                BaseWithSuperArioPack();
+        }
+
+        public void BaseWithSuperArioPack()
+        {
+            _bgSprites[_locationSprites["Base"]] = _extraBgSprites[6];
+        }
+
+        public void BackstreetWithCard()
+        {
+            _bgSprites[_locationSprites["Backstreet"]] = _extraBgSprites[5];
+            _bgImg.sprite = _bgSprites[_locationSprites["Backstreet"]];
+        }
+
+        public void BackstreetNoCard()
+        {
+            // 명함 없는 배경으로 교체
+            _bgSprites[_locationSprites["Backstreet"]] = _extraBgSprites[4];
+            _bgImg.sprite = _bgSprites[_locationSprites["Backstreet"]];
+        }
+
+        public void InStorageGetItems()
+        {
+            // 아이템 없는 배경으로 교체
+            _bgSprites[_locationSprites["InStorage"]] = _extraBgSprites[3];
+            _bgImg.sprite = _bgSprites[_locationSprites["InStorage"]];
+        }
+
         public void TempleRoomCarpetOpen()
         {
-            _bgSprites[9] = _extraBgSprites[0];
-            _bgImg.sprite = _bgSprites[9];
+            _bgSprites[_locationSprites["TempleRoom"]] = _extraBgSprites[0];
+            _bgImg.sprite = _bgSprites[_locationSprites["TempleRoom"]]; // 바로 적용
         }
 
         public void TempleClean()
         {
-            _bgSprites[9] = _extraBgSprites[1];
-            _bgSprites[2] = _extraBgSprites[2];
+            _bgSprites[_locationSprites["TempleRoom"]] = _extraBgSprites[1];
+            _bgSprites[_locationSprites["Temple"]] = _extraBgSprites[2];
         }
 
         public void SetLocationUI()

@@ -17,18 +17,15 @@ public class GridTileEditor : EditorWindow
         Block,          // 차단 오브젝트 (빨간색)
         EventArea,      // 연출구역 (파란색)
         Teleporter,     // 텔레포터 (노란색)
-        SpawnPoint,     // 플레이어 스폰 포인트 (청록, GridSystem에 좌표 저장)
-        Object          // 데이터 기반 오브젝트 (CH3_LevelData 사용, isBreakable로 자동 판단, 보라색)
+        Breakable,      // 파괴 가능한 오브젝트 (주황색)
+        SpawnPoint      // 플레이어 스폰 포인트 (청록, GridSystem에 좌표 저장)
     }
 
     [Header("Prefab Settings")]
     [SerializeField] private GameObject blockPrefab;
     [SerializeField] private GameObject eventAreaPrefab;
     [SerializeField] private GameObject teleporterPrefab;
-    
-    [Header("Data-Based Object Settings")]
-    [SerializeField] private string objectDataId = "";
-    [SerializeField] private CH3_LevelData selectedLevelData;
+    [SerializeField] private GameObject breakablePrefab;
 
     [Header("Grid Settings")]
     [SerializeField] private GridSystem gridSystem;
@@ -42,8 +39,8 @@ public class GridTileEditor : EditorWindow
     private static readonly Color BLOCK_COLOR = Color.red;
     private static readonly Color EVENT_AREA_COLOR = Color.blue;
     private static readonly Color TELEPORTER_COLOR = Color.yellow;
+    private static readonly Color BREAKABLE_COLOR = new Color(1f, 0.5f, 0f, 1f); // 주황색
     private static readonly Color SPAWN_POINT_COLOR = new Color(0f, 1f, 1f, 1f); // 청록
-    private static readonly Color OBJECT_COLOR = new Color(0.8f, 0f, 0.8f, 1f); // 보라색
     private static readonly Color GRID_LINE_COLOR = Color.white;
 
     [Header("Editor State")]
@@ -78,9 +75,6 @@ public class GridTileEditor : EditorWindow
 
         // 자동 설정
         AutoSetup();
-        
-        // 데이터 매니저 초기화
-        GridObjectDataManager.LoadAllData();
     }
 
     private void OnDisable()
@@ -198,6 +192,7 @@ public class GridTileEditor : EditorWindow
         blockPrefab = (GameObject)EditorGUILayout.ObjectField("Block Prefab", blockPrefab, typeof(GameObject), false);
         eventAreaPrefab = (GameObject)EditorGUILayout.ObjectField("Event Area Prefab", eventAreaPrefab, typeof(GameObject), false);
         teleporterPrefab = (GameObject)EditorGUILayout.ObjectField("Teleporter Prefab", teleporterPrefab, typeof(GameObject), false);
+        breakablePrefab = (GameObject)EditorGUILayout.ObjectField("Breakable Prefab", breakablePrefab, typeof(GameObject), false);
 
         EditorGUILayout.Space();
 
@@ -212,7 +207,7 @@ public class GridTileEditor : EditorWindow
 
         // 시각적 설정 (색상은 고정값 사용)
         EditorGUILayout.LabelField("Visual Settings", EditorStyles.boldLabel);
-        EditorGUILayout.HelpBox("색상: Block(빨강), EventArea(파랑), Teleporter(노랑), Object(보라)", MessageType.Info);
+        EditorGUILayout.HelpBox("색상: Block(빨강), EventArea(파랑), Teleporter(노랑), Breakable(주황)", MessageType.Info);
 
         EditorGUILayout.Space();
 
@@ -222,39 +217,6 @@ public class GridTileEditor : EditorWindow
         // 현재 오브젝트 타입 선택
         EditorGUILayout.LabelField("Placement Settings", EditorStyles.boldLabel);
         currentObjectType = (PlacedObjectType)EditorGUILayout.EnumPopup("Current Object Type", currentObjectType);
-        
-        // Object 타입 선택 시 데이터 ID 입력
-        if (currentObjectType == PlacedObjectType.Object)
-        {
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Object ID:", GUILayout.Width(100));
-            string newId = EditorGUILayout.TextField(objectDataId);
-            if (newId != objectDataId)
-            {
-                objectDataId = newId;
-                selectedLevelData = GridObjectDataManager.GetDataById(objectDataId);
-            }
-            
-            if (GUILayout.Button("검색", GUILayout.Width(60)))
-            {
-                selectedLevelData = GridObjectDataManager.GetDataById(objectDataId);
-                if (selectedLevelData == null)
-                {
-                    EditorUtility.DisplayDialog("오류", $"ID '{objectDataId}'에 해당하는 데이터를 찾을 수 없습니다.", "확인");
-                }
-            }
-            EditorGUILayout.EndHorizontal();
-            
-            // 선택된 데이터 정보 표시
-            if (selectedLevelData != null)
-            {
-                EditorGUILayout.HelpBox($"선택된 데이터: {selectedLevelData.id} ({selectedLevelData.objectType}, {selectedLevelData.sizeX}x{selectedLevelData.sizeY})", MessageType.Info);
-            }
-            else if (!string.IsNullOrEmpty(objectDataId))
-            {
-                EditorGUILayout.HelpBox("데이터를 찾을 수 없습니다.", MessageType.Warning);
-            }
-        }
 
         EditorGUILayout.Space();
 
@@ -281,7 +243,8 @@ public class GridTileEditor : EditorWindow
         EditorGUILayout.HelpBox(
             "사용법:\n" +
             "• 좌클릭: 오브젝트 설치, 우클릭: 오브젝트 삭제\n" +
-            "• 드래그: 연속 설치 또는 삭제\n",
+            "• 좌클릭하고 마우스 휠 드래그: 연속 설치\n" +
+            "• 우클릭 드래그: 연속 삭제\n",
             MessageType.Info);
 
         // 유효성 검사
@@ -304,7 +267,7 @@ public class GridTileEditor : EditorWindow
         }
 
         GameObject currentPrefab = GetCurrentPrefab();
-        if (currentPrefab == null && currentObjectType != PlacedObjectType.SpawnPoint && currentObjectType != PlacedObjectType.Object)
+        if (currentPrefab == null && currentObjectType != PlacedObjectType.SpawnPoint)
         {
             EditorGUILayout.HelpBox($"현재 선택된 {currentObjectType} Prefab이 설정되지 않았습니다!", MessageType.Warning);
         }
@@ -320,10 +283,10 @@ public class GridTileEditor : EditorWindow
                 return eventAreaPrefab;
             case PlacedObjectType.Teleporter:
                 return teleporterPrefab;
+            case PlacedObjectType.Breakable:
+                return breakablePrefab;
             case PlacedObjectType.SpawnPoint:
                 return null; // 프리팹 사용 안 함
-            case PlacedObjectType.Object:
-                return null; // 데이터 기반 오브젝트는 프리팹 사용 안 함 (Sprite 직접 사용)
             default:
                 return null;
         }
@@ -339,10 +302,10 @@ public class GridTileEditor : EditorWindow
                 return EVENT_AREA_COLOR;
             case PlacedObjectType.Teleporter:
                 return TELEPORTER_COLOR;
+            case PlacedObjectType.Breakable:
+                return BREAKABLE_COLOR;
             case PlacedObjectType.SpawnPoint:
                 return SPAWN_POINT_COLOR;
-            case PlacedObjectType.Object:
-                return OBJECT_COLOR;
             default:
                 return Color.white;
         }
@@ -680,25 +643,21 @@ public class GridTileEditor : EditorWindow
                 Handles.DrawWireCube(position + Vector3.up * 0.5f, Vector3.one * 0.8f);
                 break;
                 
+            case PlacedObjectType.Breakable:
+                // Breakable - 크랙이 있는 큐브로 표시
+                Handles.DrawWireCube(position + Vector3.up * 0.3f, new Vector3(0.8f, 0.6f, 0.8f));
+                // 크랙 효과를 위한 대각선들
+                Handles.DrawLine(position + Vector3.up * 0.1f + Vector3.left * 0.2f + Vector3.forward * 0.2f, 
+                               position + Vector3.up * 0.1f + Vector3.right * 0.2f + Vector3.back * 0.2f);
+                Handles.DrawLine(position + Vector3.up * 0.2f + Vector3.left * 0.1f + Vector3.back * 0.1f, 
+                               position + Vector3.up * 0.2f + Vector3.right * 0.1f + Vector3.forward * 0.1f);
+                break;
+                
             case PlacedObjectType.SpawnPoint:
                 // SpawnPoint
                 Handles.DrawWireDisc(position + Vector3.up * 0.2f, Vector3.up, 0.25f);
                 Handles.DrawLine(position + Vector3.up * 0.01f + Vector3.left * 0.2f, position + Vector3.up * 0.01f + Vector3.right * 0.2f);
                 Handles.DrawLine(position + Vector3.up * 0.01f + Vector3.forward * 0.2f, position + Vector3.up * 0.01f + Vector3.back * 0.2f);
-                break;
-                
-            case PlacedObjectType.Object:
-                // Object - 데이터 기반 오브젝트
-                if (selectedLevelData != null)
-                {
-                    Vector2Int tileSize = selectedLevelData.TileSize;
-                    Vector3 size = new Vector3(tileSize.x * 0.9f, 0.1f, tileSize.y * 0.9f);
-                    Handles.DrawWireCube(position + Vector3.up * 0.05f, size);
-                }
-                else
-                {
-                    Handles.DrawWireCube(position + Vector3.up * 0.05f, new Vector3(0.9f, 0.1f, 0.9f));
-                }
                 break;
         }
     }
@@ -770,6 +729,9 @@ public class GridTileEditor : EditorWindow
     {
         if (!placedPositions.Add(gridPos)) return; // 중복 방지
 
+        GameObject prefab = GetCurrentPrefab();
+        if (currentObjectType != PlacedObjectType.SpawnPoint && prefab == null) return;
+
         // SpawnPoint는 프리팹을 놓지 않고, 기존 오브젝트 유무와 무관하게 좌표만 기록
         if (currentObjectType == PlacedObjectType.SpawnPoint)
         {
@@ -782,42 +744,6 @@ public class GridTileEditor : EditorWindow
             }
             return;
         }
-
-        // Object 타입은 데이터 기반으로 생성
-        if (currentObjectType == PlacedObjectType.Object)
-        {
-            if (selectedLevelData == null || !selectedLevelData.IsValid())
-            {
-                Debug.LogWarning("유효한 ID가 아닙니다!");
-                return;
-            }
-            
-            // 이미 해당 위치에 오브젝트가 있는지 확인
-            if (IsObjectAtPosition(worldPos)) return;
-            
-            // 그리드 유효성 검사
-            if (!IsValidGridPositionEditor(gridPos)) return;
-            
-            // 데이터 기반 오브젝트 생성
-            GameObject newObject = GridObjectDataManager.CreateObjectFromData(selectedLevelData, worldPos);
-            if (newObject == null) return;
-            
-            // 부모 설정
-            if (gridParent != null)
-            {
-                newObject.transform.SetParent(gridParent);
-            }
-            
-            // 이름 설정
-            newObject.name = $"{selectedLevelData.id}_{gridPos.x}_{gridPos.y}";
-            
-            Undo.RegisterCreatedObjectUndo(newObject, $"Place Object ({selectedLevelData.id})");
-            return;
-        }
-
-        // 기존 프리팹 기반 오브젝트 생성
-        GameObject prefab = GetCurrentPrefab();
-        if (prefab == null) return;
 
         // 이미 해당 위치에 오브젝트가 있는지 확인
         if (IsObjectAtPosition(worldPos)) return;
@@ -834,24 +760,36 @@ public class GridTileEditor : EditorWindow
             }
         }
 
+        if (currentObjectType == PlacedObjectType.SpawnPoint)
+        {
+            // GridSystem 직결 기록 (단일성 보장)
+            if (cachedGridSystem != null)
+            {
+                Undo.RecordObject(cachedGridSystem, "Set Player Spawn");
+                cachedGridSystem.SetPlayerSpawnGrid(gridPos);
+                EditorUtility.SetDirty(cachedGridSystem);
+            }
+            return;
+        }
+
         // 오브젝트 생성
-        GameObject newObject2 = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
-        if (newObject2 == null) return;
+        GameObject newObject = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+        if (newObject == null) return;
 
         // 부모 설정
         if (gridParent != null)
         {
-            newObject2.transform.SetParent(gridParent);
+            newObject.transform.SetParent(gridParent);
         }
 
         // 위치 설정
-        newObject2.transform.position = SafeGridToWorld(gridPos);
-        newObject2.name = $"{currentObjectType}_{gridPos.x}_{gridPos.y}";
+        newObject.transform.position = SafeGridToWorld(gridPos);
+        newObject.name = $"{currentObjectType}_{gridPos.x}_{gridPos.y}";
 
         // GridObject 최소 초기화
-        InitializeGridObject(newObject2, gridPos);
+        InitializeGridObject(newObject, gridPos);
 
-        Undo.RegisterCreatedObjectUndo(newObject2, $"Place {currentObjectType}");
+        Undo.RegisterCreatedObjectUndo(newObject, $"Place {currentObjectType}");
     }
 
     private void RemoveExistingSpawnPoint()
@@ -912,6 +850,14 @@ public class GridTileEditor : EditorWindow
                     obj.AddComponent<Teleporter>();
                 }
                 break;
+                
+            case PlacedObjectType.Breakable:
+                var breakable = obj.GetComponent<Breakable>();
+                if (breakable == null)
+                {
+                    obj.AddComponent<Breakable>();
+                }
+                break;
         }
     }
 
@@ -928,6 +874,9 @@ public class GridTileEditor : EditorWindow
         
         // Teleporter 프리팹 찾기
         teleporterPrefab = FindPrefabInFolder(prefabFolderPath, "Teleporter");
+        
+        // Breakable 프리팹 찾기
+        breakablePrefab = FindPrefabInFolder(prefabFolderPath, "Breakable");
     }
 
     private GameObject FindPrefabInFolder(string folderPath, string prefabName)

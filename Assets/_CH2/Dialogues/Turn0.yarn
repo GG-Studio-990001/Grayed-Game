@@ -75,11 +75,16 @@ title: Turn0
 파머: 신전은 골목길로 들어가서 왼쪽으로 꺾으면 있어.<br>부탁할게!
 <<HideCharacter "파머">>
 
+// 장소: 골목길
+<<SetLocation Backstreet>>
+<<wait 2>>
+    :파머의 말대로 골목길에 들어왔다.<br>여기서 왼쪽으로 꺾어서 나아가자.
+
 // 장소: 신전
 <<SetLocation Temple>>
 <<wait 2>>
 
-    :골목길을 왼쪽으로 나아가자 탁 트인 공간이 펼쳐졌다.<br>그곳에는 더러워 보이는 거대한 신전이 자리하고 있었다.
+    :길의 끝에 다다르자 탁 트인 공간이 펼쳐졌다.<br>그곳에는 더러워 보이는 거대한 신전이 자리하고 있었다.
     :굳게 닫힌 정문 앞에 서 있는 달러와 눈이 마주쳤다.
 
 <<SetCharacterPos "달러" "B">>
@@ -165,6 +170,7 @@ R2-Mon: 정식으로 소개할게요. 내 이름은 R2-Mon!<br>마을에 유일�
 R2-Mon: 도움이 필요하다면 내 기지로 오세요. 위치는 비밀~
 R2-Mon: 그럼 바빠서 이만!!!
 <<HideCharacter "R2-Mon">>
+<<BackstreetWithCard>>
 
 <<PlaySFX 13>>
 <<wait 2>>
@@ -216,6 +222,7 @@ R2-Mon: 그럼 바빠서 이만!!!
     :주위를 둘러보던 중에 눈길이 가는 것들을 집었다.
 
 // 일러스트
+<<InStorageGetItems>>
 <<ShowIllerstration 0>>
 <<wait 1>>
 <<ShowIllerstration 1>>
