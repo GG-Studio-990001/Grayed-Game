@@ -12,6 +12,7 @@ namespace Runtime.CH3.Main
         [SerializeField] private Item stone;
         [SerializeField] private Item coin;
         [SerializeField] private Item translationPack;
+        [SerializeField] private Item build;
 
         private void Start()
         {
@@ -23,6 +24,7 @@ namespace Runtime.CH3.Main
             inventory.TryAdd(stone, 1);
             inventory.TryAdd(coin, 1);
             inventory.TryAdd(translationPack, 1);
+            inventory.TryAdd(build, 1);
         }
     }
 }

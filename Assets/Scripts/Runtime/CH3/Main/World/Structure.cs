@@ -2,61 +2,39 @@
 
 namespace Runtime.CH3.Main
 {
-    public class Structure : GridObject
+    /// <summary>
+    /// Structure는 isBlocking이 false일 때 통과 가능하도록 IGridPassable 구현
+    /// </summary>
+    public class Structure : GridObject, IGridPassable
     {
         [SerializeField] protected bool isBlocking = true;
         
-        [Header("Grid Position Initialization")]
-        [SerializeField] private GridPositionMode gridPositionMode = GridPositionMode.UseInspectorPosition;
-        
-        public enum GridPositionMode
-        {
-            UseInspectorPosition,    // 인스펙터에서 설정한 GridPosition 사용
-            UseNearestGridPosition   // 현재 월드 위치에서 가장 가까운 그리드 좌표 사용
-        }
+        /// <summary>
+        /// isBlocking이 false이면 통과 가능
+        /// </summary>
+        public bool IsPassable => !isBlocking;
 
+        /// <summary>
+        /// CH3_LevelData로부터 데이터를 초기화합니다.
+        /// </summary>
+        public override void InitializeFromData(CH3_LevelData data)
+        {
+            base.InitializeFromData(data);
+            if (data != null)
+            {
+                isBlocking = data.isBlocking;
+            }
+        }
+        
         public override void Initialize(Vector2Int gridPos)
         {
-            Vector2Int targetGrid;
-            
-            switch (gridPositionMode)
-            {
-                case GridPositionMode.UseInspectorPosition:
-                    // 인스펙터에서 설정한 GridPosition 사용
-                    targetGrid = gridPosition == Vector2Int.zero ? gridPos : gridPosition;
-                    break;
-                    
-                case GridPositionMode.UseNearestGridPosition:
-                    // 현재 월드 위치에서 가장 가까운 그리드 좌표 사용
-                    if (gridManager == null)
-                        gridManager = GridSystem.Instance;
-                    
-                    if (gridManager != null)
-                    {
-                        Vector2Int nearestGrid = gridManager.WorldToGridPosition(transform.position);
-                        targetGrid = gridManager.IsValidGridPosition(nearestGrid) ? nearestGrid : gridPos;
-                    }
-                    else
-                    {
-                        targetGrid = gridPos;
-                    }
-                    break;
-                    
-                default:
-                    targetGrid = gridPos;
-                    break;
-            }
-            
-            // base.Initialize를 올바른 좌표로 호출
-            base.Initialize(targetGrid);
+            // base.Initialize에서 gridPositionMode에 따라 위치 결정
+            base.Initialize(gridPos);
 
-            if (isBlocking && gridManager != null)
+            // isBlocking 상태에 따라 차단 설정/해제
+            if (gridManager != null)
             {
-                // gridPosition을 직접 사용 (이미 그리드 좌표)
-                GridSystem.Instance.SetCellBlocked(gridPosition, true);
-                
-                // 블록하는 Structure는 셀을 점유 상태로도 설정
-                GridSystem.Instance.SetCellOccupied(gridPosition, true, gameObject);
+                BlockTiles(isBlocking);
             }
         }
 
@@ -64,22 +42,47 @@ namespace Runtime.CH3.Main
         protected override void Start()
         {
             base.Start();
-            if (isBlocking && gridManager != null && gridManager.IsValidGridPosition(gridPosition))
+            
+            // Initialize가 호출되지 않은 경우(씬에 직접 배치된 오브젝트)를 대비
+            if (gridManager == null)
             {
-                GridSystem.Instance.SetCellBlocked(gridPosition, true);
-                GridSystem.Instance.SetCellOccupied(gridPosition, true, gameObject);
+                gridManager = GridSystem.Instance;
+            }
+            
+            if (gridManager != null && GridPosition != Vector2Int.zero)
+            {
+                // 타일이 점유되지 않았다면 점유
+                if (occupiedTiles == null || occupiedTiles.Count == 0)
+                {
+                    OccupyTiles(GridPosition);
+                }
+                
+                // isBlocking 상태에 따라 차단 설정/해제
+                BlockTiles(isBlocking);
+            }
+        }
+        
+        /// <summary>
+        /// 인스펙터에서 isBlocking 값이 변경될 때 호출됨
+        /// </summary>
+        private void OnValidate()
+        {
+            // 에디터에서만 동작 (플레이 모드가 아니고, 씬에 배치된 오브젝트)
+            if (!Application.isPlaying) return;
+            
+            if (gridManager != null && occupiedTiles != null && occupiedTiles.Count > 0)
+            {
+                // isBlocking 상태에 따라 차단 설정/해제
+                BlockTiles(isBlocking);
             }
         }
 
         public override void Remove()
         {
-            if (isBlocking && gridManager != null)
+            // 오브젝트 제거 시 항상 차단 해제 (isBlocking 상태와 관계없이)
+            if (gridManager != null)
             {
-                // gridPosition을 직접 사용 (이미 그리드 좌표)
-                GridSystem.Instance.SetCellBlocked(gridPosition, false);
-                
-                // 셀 점유 상태도 해제
-                GridSystem.Instance.SetCellOccupied(gridPosition, false);
+                BlockTiles(false);
             }
             base.Remove();
         }

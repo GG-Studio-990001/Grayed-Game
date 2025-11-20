@@ -1,10 +1,8 @@
-using Runtime.CH2.Main;
 using Runtime.Common.View;
 using UnityEngine;
 using Yarn.Unity;
-using Runtime.CH3.Main;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Utilities;
+using Runtime.Input;
 
 namespace Runtime.CH3.Main
 {
@@ -13,13 +11,20 @@ namespace Runtime.CH3.Main
         [SerializeField] private SettingsUIView _settingsUIView;
         [SerializeField] private LineView _luckyDialogue;
         [SerializeField] private PlayerController _player;
+        [SerializeField] private CH3Dialogue _ch3Dialogue;
         [Header("Inventory References")]
         [SerializeField] private InventoryUI _inventoryUI;
         [SerializeField] private Inventory _inventory;
-        // removed local actions, using official InGameKeyBinder instead
+        [SerializeField] private BuildingSystem _buildingSystem;
 
         private void Start()
         {
+            // BuildingSystem 참조 자동 찾기 (안정성 향상)
+            if (_buildingSystem == null)
+            {
+                _buildingSystem = BuildingSystem.Instance;
+            }
+            
             InitKeyBinding();
         }
 
@@ -28,13 +33,18 @@ namespace Runtime.CH3.Main
             Managers.Data.InGameKeyBinder.GameControlReset();
 
             Managers.Data.InGameKeyBinder.CH3PlayerKeyBinding(_player, this);
-            Managers.Data.InGameKeyBinder.CH3UIKeyBinding(_settingsUIView, _luckyDialogue);
-            // 인벤토리/단축바 바인딩은 CH3PlayerKeyBinding 내에서 처리됨
+            
+            if (_ch3Dialogue != null)
+            {
+                Managers.Data.InGameKeyBinder.CH3UIKeyBinding(_settingsUIView, _ch3Dialogue);
+            }
+            else
+            {
+                Managers.Data.InGameKeyBinder.CH3UIKeyBinding(_settingsUIView, _luckyDialogue);
+            }
 
             _settingsUIView.OnSettingsOpen += () => Managers.Data.InGameKeyBinder.PlayerInputDisable();
             _settingsUIView.OnSettingsClose += () => Managers.Data.InGameKeyBinder.PlayerInputEnable();
-
-            // 위에서 바인딩됨
         }
 
         // UI 클릭 기반 홀드 지원 (마우스 왼쪽 버튼)
@@ -42,7 +52,7 @@ namespace Runtime.CH3.Main
         private void Update()
         {
             if (Mouse.current == null) return;
-            if (Mouse.current.rightButton.wasPressedThisFrame)
+            if (Mouse.current.leftButton.wasPressedThisFrame)
             {
                 _player.GetComponent<InteractionManager>()?.BeginHoldAtCursor(Mouse.current.position.ReadValue());
                 _mouseHolding = true;
@@ -51,7 +61,7 @@ namespace Runtime.CH3.Main
             {
                 _player.GetComponent<InteractionManager>()?.UpdateHold();
             }
-            if (Mouse.current.rightButton.wasReleasedThisFrame)
+            if (Mouse.current.leftButton.wasReleasedThisFrame)
             {
                 _player.GetComponent<InteractionManager>()?.CancelHold();
                 _mouseHolding = false;
@@ -72,12 +82,52 @@ namespace Runtime.CH3.Main
         public void HotbarUse()
         {
             int idx = _inventoryUI.GetSelectedHotbarIndex();
-            _inventory.TryConsumeAt(idx, 1);
+            UseItem(idx);
+        }
+        
+        /// <summary>
+        /// 특정 슬롯의 아이템 사용
+        /// </summary>
+        public void UseItem(int slotIndex)
+        {
+            var slot = _inventory.GetSlot(slotIndex);
+            
+            if (slot == null || slot.item == null)
+            {
+                return;
+            }
+            
+            // 인벤토리가 열려있으면 닫기
+            if (_inventoryUI != null && _inventoryUI.IsInventoryOpen())
+            {
+                _inventoryUI.ToggleInventory();
+            }
+            
+            // 건축 아이템인 경우 건축 모드 시작
+            if (slot.item.IsBuildingItem)
+            {
+                if (_buildingSystem != null)
+                {
+                    // 이미 건축 모드 중이면 종료
+                    if (_buildingSystem.IsBuildingMode)
+                    {
+                        _buildingSystem.EndBuildingMode();
+                    }
+                    else
+                    {
+                        _buildingSystem.StartBuildingMode(slot.item, slotIndex);
+                    }
+                }
+            }
+            else
+            {
+                // 일반 아이템 사용
+                _inventory.TryConsumeAt(slotIndex, 1);
+            }
         }
 
         private void OnDestroy()
         {
-            // nothing
         }
     }
 }

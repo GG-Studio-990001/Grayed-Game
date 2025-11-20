@@ -1,9 +1,8 @@
-using Runtime.CH3.Main;
 using Runtime.ETC;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Runtime.CH3
+namespace Runtime.CH3.Main
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(BoxCollider))]
@@ -31,10 +30,9 @@ namespace Runtime.CH3
             // Rigidbody 설정 수정
             _rigidbody.constraints =
                 RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY; // Y축 위치도 고정
-            _rigidbody.useGravity = false; // 중력 비활성화
+            _rigidbody.useGravity = false;
             _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 
-            // 디버그: 컴포넌트 확인
             if (_gridObject == null)
             {
                 Debug.LogError("PlayerGridObject 컴포넌트가 없습니다!");
@@ -88,7 +86,8 @@ namespace Runtime.CH3
 
                 // 자기 현재 셀은 허용, 다른 셀로 이동할 때만 점유/차단 검사
                 bool movingToAnotherCell = (_gridObject != null) && (targetGridPos != _gridObject.GridPosition);
-                if (_gridManager.IsCellBlocked(targetGridPos) || (movingToAnotherCell && _gridManager.IsCellOccupied(targetGridPos)))
+                bool occupiedByImpassable = movingToAnotherCell && _gridManager.IsCellOccupiedByImpassableObject(targetGridPos);
+                if (_gridManager.IsCellBlocked(targetGridPos) || occupiedByImpassable)
                 {
                     Vector3 currentVelocity = _rigidbody.velocity;
                     currentVelocity.x = 0f;
@@ -134,7 +133,6 @@ namespace Runtime.CH3
             _interactionManager.TryInteract();
         }
 
-        // 새: 홀드형 상호작용 바인딩용
         public void OnInteractionHold(InputAction.CallbackContext context)
         {
             if (context.started)

@@ -37,8 +37,7 @@ namespace Runtime.CH3.Main
             if (gridManager.IsCellBlocked(targetGridPos))
                 return false;
                 
-            GridCell targetCell = gridManager.GetCell(targetGridPos);
-            return targetCell != null && !targetCell.IsOccupied;
+            return !gridManager.IsCellOccupiedByImpassableObject(targetGridPos);
         }
 
         public List<Vector2Int> GetNeighborCells()

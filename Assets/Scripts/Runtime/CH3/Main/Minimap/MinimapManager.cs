@@ -8,7 +8,6 @@ namespace Runtime.CH3.Main
     {
         [Header("Minimap Camera Settings")]
         [SerializeField] private Camera minimapCamera;
-        //[SerializeField] private float minimapSize = 10f;
         [SerializeField] private LayerMask minimapLayers;
         [SerializeField] private float cameraHeight = 10f;
 

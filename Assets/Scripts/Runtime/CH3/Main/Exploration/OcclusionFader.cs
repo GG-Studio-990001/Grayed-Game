@@ -32,6 +32,7 @@ namespace Runtime.CH3.Main.Exploration
         private float _currentValue;
         private TextMeshPro _labelInstance;
         private SpriteRenderer _playerSr;
+        private GridObject _gridObject; // GridObject 캐싱 (최상단 오브젝트에 붙어있음)
 
         private void Reset()
         {
@@ -41,7 +42,49 @@ namespace Runtime.CH3.Main.Exploration
 
         private void Awake()
         {
-            if (spriteRenderer == null) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            // GridObject 캐싱 (최상단 오브젝트에 붙어있으므로 부모에서 찾기)
+            _gridObject = GetComponentInParent<GridObject>();
+            
+            if (spriteRenderer == null)
+            {
+                // 먼저 자기 자신에서 찾기
+                spriteRenderer = GetComponent<SpriteRenderer>();
+                
+                // 없으면 자식에서 찾기 (리소스 분리 구조 지원)
+                if (spriteRenderer == null)
+                {
+                    spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+                }
+                
+                // GridObject가 있으면 spriteTransform 참조 사용
+                if (spriteRenderer == null && _gridObject != null)
+                {
+                    // GridObject의 SpriteTransform을 통해 접근
+                    var spriteTransform = GetSpriteTransformFromGridObject(_gridObject);
+                    if (spriteTransform != null)
+                    {
+                        spriteRenderer = spriteTransform.GetComponent<SpriteRenderer>();
+                    }
+                }
+            }
+            
+            // additionalRenderers도 업데이트 (GridObject가 있으면 spriteTransform 기준)
+            if (additionalRenderers == null || additionalRenderers.Length == 0)
+            {
+                if (_gridObject != null)
+                {
+                    var spriteTransform = GetSpriteTransformFromGridObject(_gridObject);
+                    if (spriteTransform != null)
+                    {
+                        additionalRenderers = spriteTransform.GetComponentsInChildren<Renderer>();
+                    }
+                }
+                
+                if (additionalRenderers == null || additionalRenderers.Length == 0)
+                {
+                    additionalRenderers = GetComponentsInChildren<Renderer>();
+                }
+            }
             if (player == null)
             {
                 var go = GameObject.FindGameObjectWithTag("Player");
@@ -64,7 +107,18 @@ namespace Runtime.CH3.Main.Exploration
         {
             if (spriteRenderer == null || player == null || _playerSr == null) return;
 
-            bool closeEnough = (player.position - transform.position).sqrMagnitude <= (detectRadius * detectRadius);
+            // GridObject가 있으면 그리드 볼륨 위치 사용, 없으면 transform.position 사용
+            Vector3 objectPosition = transform.position;
+            if (_gridObject != null)
+            {
+                var gridVolumeTransform = GetGridVolumeTransformFromGridObject(_gridObject);
+                if (gridVolumeTransform != null)
+                {
+                    objectPosition = gridVolumeTransform.position;
+                }
+            }
+
+            bool closeEnough = (player.position - objectPosition).sqrMagnitude <= (detectRadius * detectRadius);
             bool occluded = false;
 
             if (closeEnough)
@@ -80,9 +134,36 @@ namespace Runtime.CH3.Main.Exploration
 
             if (_labelInstance != null)
             {
-                _labelInstance.transform.position = transform.position + labelOffset;
+                // GridObject가 있으면 그리드 볼륨 위치 사용, 없으면 transform.position 사용
+                Vector3 labelPosition = transform.position;
+                if (_gridObject != null)
+                {
+                    var gridVolumeTransform = GetGridVolumeTransformFromGridObject(_gridObject);
+                    if (gridVolumeTransform != null)
+                    {
+                        labelPosition = gridVolumeTransform.position;
+                    }
+                }
+                
+                _labelInstance.transform.position = labelPosition + labelOffset;
                 _labelInstance.gameObject.SetActive(occluded);
             }
+        }
+        
+        /// <summary>
+        /// GridObject의 spriteTransform을 가져옵니다
+        /// </summary>
+        private Transform GetSpriteTransformFromGridObject(GridObject gridObject)
+        {
+            return gridObject.GetSpriteTransform();
+        }
+        
+        /// <summary>
+        /// GridObject의 gridVolumeTransform을 가져옵니다
+        /// </summary>
+        private Transform GetGridVolumeTransformFromGridObject(GridObject gridObject)
+        {
+            return gridObject.GetGridVolumeTransform();
         }
 
         private void ApplyToMaterials(float value)
@@ -102,9 +183,8 @@ namespace Runtime.CH3.Main.Exploration
                         if (mat != null) mat.SetFloat(_fadePropId, value);
                     }
                 }
-            }
-        }
-    }
+			}
+		}
+	}
 }
-
 

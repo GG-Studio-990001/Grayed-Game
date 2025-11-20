@@ -19,6 +19,7 @@ namespace Runtime.CH3.Main
         private readonly List<Slot> hotbarViews = new List<Slot>();
         private int selectedHotbar = 0;
         private bool inventoryOpen;
+        private CH3KeyBinder _keyBinder; // CH3KeyBinder 참조 캐싱 (성능 최적화)
 
         private void Awake()
         {
@@ -28,6 +29,9 @@ namespace Runtime.CH3.Main
             inventory.OnSlotChanged += HandleSlotChanged;
             RefreshAll();
             SelectHotbar(0);
+            
+            // CH3KeyBinder 참조 캐싱 (성능 최적화)
+            _keyBinder = FindObjectOfType<CH3KeyBinder>();
         }
 
         private void OnDestroy()
@@ -50,7 +54,8 @@ namespace Runtime.CH3.Main
                     this,
                     getter: (idx) => { var s = inventory.GetSlot(idx); return (s?.item, s?.count ?? 0); },
                     mover: (from, to) => inventory.MoveOrMerge(from, to),
-                    clearer: (idx) => inventory.ClearSlot(idx)
+                    clearer: (idx) => inventory.ClearSlot(idx),
+                    useItemCallback: (idx) => OnSlotUseItem(idx)
                 );
                 v.SetHotbarView(false);
                 slotViews.Add(v);
@@ -64,10 +69,23 @@ namespace Runtime.CH3.Main
                     this,
                     getter: (idx) => { var s = inventory.GetSlot(idx); return (s?.item, s?.count ?? 0); },
                     mover: (from, to) => inventory.MoveOrMerge(from, to),
-                    clearer: (idx) => inventory.ClearSlot(idx)
+                    clearer: (idx) => inventory.ClearSlot(idx),
+                    useItemCallback: (idx) => OnSlotUseItem(idx)
                 );
                 v.SetHotbarView(true);
                 hotbarViews.Add(v);
+            }
+        }
+        
+        /// <summary>
+        /// 슬롯에서 아이템 사용 시 호출되는 콜백
+        /// </summary>
+        private void OnSlotUseItem(int slotIndex)
+        {
+            // CH3KeyBinder의 UseItem 메서드 호출 (캐싱된 참조 사용)
+            if (_keyBinder != null)
+            {
+                _keyBinder.UseItem(slotIndex);
             }
         }
 
@@ -106,7 +124,15 @@ namespace Runtime.CH3.Main
         {
             inventoryOpen = !inventoryOpen;
             if (inventoryPanel != null) inventoryPanel.SetActive(inventoryOpen);
+            
+            // 인벤토리를 닫을 때 툴팁도 숨기기
+            if (!inventoryOpen)
+            {
+                InventoryTooltip.Hide();
+            }
         }
+        
+        public bool IsInventoryOpen() => inventoryOpen;
 
         public int GetSelectedHotbarIndex() => selectedHotbar;
         
