@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Playables;
 using Runtime.ETC;
+using Runtime.CH3.Dancepace;
 
 namespace Runtime.CH3.Main
 {
@@ -316,7 +317,7 @@ namespace Runtime.CH3.Main
         }
         public void PlaySamepleBGM()
         {
-            Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_Intro_Outro", true);
+            Managers.Sound.Play(Sound.SFX, SoundKeys.WaveIntroOutro, true);
         }
     }
 }

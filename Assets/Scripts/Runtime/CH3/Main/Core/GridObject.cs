@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,6 +55,9 @@ namespace Runtime.CH3.Main
         
         // 점유 중인 모든 타일 위치를 추적
         protected List<Vector2Int> occupiedTiles = new List<Vector2Int>();
+        
+        // 건축 시스템에서 사용하는 건물 ID (건물 파괴 시 카운트 감소용)
+        protected string buildingId;
         
         /// <summary>
         /// 타일 점유/차단의 기준이 되는 Transform을 반환합니다.
@@ -266,6 +269,9 @@ namespace Runtime.CH3.Main
             customY = data.customY;
             applyInitialGridSorting = data.applyInitialGridSorting;
             gridSortingScale = data.gridSortingScale;
+            
+            // 건물 ID 저장 (건물 파괴 시 카운트 감소용)
+            buildingId = data.id;
         }
         
         /// <summary>
@@ -501,6 +507,9 @@ namespace Runtime.CH3.Main
 
         public virtual void Remove()
         {
+            // 건물이 파괴될 때 BuildingSystem에 알림
+            NotifyBuildingDestroyed();
+            
             ReleaseTiles();
             minimapManager.RemoveMinimapIcon(transform);
             Destroy(gameObject);
@@ -508,7 +517,26 @@ namespace Runtime.CH3.Main
 
         protected virtual void OnDestroy()
         {
+            // 건물이 파괴될 때 BuildingSystem에 알림
+            NotifyBuildingDestroyed();
+            
             ReleaseTiles();
+        }
+        
+        /// <summary>
+        /// 건물이 파괴되었을 때 BuildingSystem에 알립니다.
+        /// </summary>
+        private void NotifyBuildingDestroyed()
+        {
+            // 건축 아이템으로 건설된 건물인 경우에만 알림
+            if (!string.IsNullOrEmpty(buildingId))
+            {
+                var buildingSystem = BuildingSystem.Instance;
+                if (buildingSystem != null)
+                {
+                    buildingSystem.BuildingDestroyed(buildingId);
+                }
+            }
         }
     }
 }

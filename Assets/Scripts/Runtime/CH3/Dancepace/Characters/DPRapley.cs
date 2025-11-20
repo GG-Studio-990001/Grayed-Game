@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using Runtime.ETC;
+using Runtime.CH3.Dancepace;
 
 namespace Runtime.CH3.Dancepace
 {
@@ -91,19 +92,19 @@ namespace Runtime.CH3.Dancepace
         {
             if (direction == Vector2.up)
             {
-                Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_C_W");
+                Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Up);
             }
             else if (direction == Vector2.down)
             {
-                Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_F_S");
+                Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Down);
             }
             else if (direction == Vector2.left)
             {
-                Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_E_A");
+                Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Left);
             }
             else if (direction == Vector2.right)
             {
-                Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_G_D");
+                Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Right);
             }
         }
 
@@ -151,7 +152,7 @@ namespace Runtime.CH3.Dancepace
             {
                 if (spotlightObject[i] != null)
                     spotlightObject[i].SetActive(true);
-                Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_SUB_SFX_Spotlight");
+                Managers.Sound.Play(Sound.SFX, SoundKeys.Spotlight);
 
                 if (i < count - 1)
                     yield return new WaitForSeconds(interval);

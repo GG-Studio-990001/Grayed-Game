@@ -175,11 +175,11 @@ namespace Runtime.CH3.Dancepace
             uiManager?.ShowKeyGuide(true);
 
             Managers.Sound.StopBGM();
-            Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_SUB_SFX_AudienceCry");
-            Managers.Sound.Play(Sound.BGM, "Dancepace/New/CH3_SUB_BGM_WAVE_Intro_Outro");
+            Managers.Sound.Play(Sound.SFX, SoundKeys.AudienceCry);
+            Managers.Sound.Play(Sound.BGM, SoundKeys.WaveIntroOutro);
             uiManager?.ShowMcText();
             yield return new WaitForSeconds(5f);
-            Managers.Sound.PlayBGMWithFade("Dancepace/New/CH3_SUB_BGM_WAVE_20Bar", 0.5f, 0.8f);
+            Managers.Sound.PlayBGMWithFade(SoundKeys.Wave20Bar, 0.5f, 0.8f);
 
             uiManager?.ShowTimeBar(true);
             elapsed = 0f;
@@ -203,7 +203,7 @@ namespace Runtime.CH3.Dancepace
             foreach (var npc in answerNPCs)
                 npc?.PlayAnswerPose(EPoseType.None);
             playerCharacter?.ResetState();
-            Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_Intro_Outro");
+            Managers.Sound.Play(Sound.SFX, SoundKeys.WaveIntroOutro);
             yield return new WaitForSeconds(3f);
 
             // 모든 웨이브가 끝나면 점수 결과만 보여줌
@@ -260,16 +260,16 @@ namespace Runtime.CH3.Dancepace
                 switch (beat.poseData)
                 {
                     case EPoseType.Up:
-                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_C_W");
+                        Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Up);
                         break;
                     case EPoseType.Down:
-                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_F_S");
+                        Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Down);
                         break;
                     case EPoseType.Left:
-                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_E_A");
+                        Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Left);
                         break;
                     case EPoseType.Right:
-                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_G_D");
+                        Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Right);
                         break;
                     default:
                         break;
@@ -330,16 +330,16 @@ namespace Runtime.CH3.Dancepace
                 switch (beat.poseData)
                 {
                     case EPoseType.Up:
-                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_C_W");
+                        Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Up);
                         break;
                     case EPoseType.Down:
-                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_F_S");
+                        Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Down);
                         break;
                     case EPoseType.Left:
-                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_E_A");
+                        Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Left);
                         break;
                     case EPoseType.Right:
-                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_G_D");
+                        Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Right);
                         break;
                     default:
                         break;
@@ -435,16 +435,16 @@ namespace Runtime.CH3.Dancepace
                 switch (beat.poseData)
                 {
                     case EPoseType.Up:
-                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_C_W");
+                        Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Up);
                         break;
                     case EPoseType.Down:
-                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_F_S");
+                        Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Down);
                         break;
                     case EPoseType.Left:
-                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_E_A");
+                        Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Left);
                         break;
                     case EPoseType.Right:
-                        Managers.Sound.Play(Sound.SFX, "Dancepace/New/CH3_SUB_BGM_WAVE_SFX_G_D");
+                        Managers.Sound.Play(Sound.SFX, SoundKeys.WaveSFX_Right);
                         break;
                     default:
                         break;
@@ -692,7 +692,7 @@ namespace Runtime.CH3.Dancepace
             rehearsalPhase = RehearsalPhase.None; // 리허설 종료
             Managers.Data.CH3.IsDancepacePlayed = true;
             Managers.Data.SaveGame();
-            Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_SUB_SFX_Button");
+            Managers.Sound.Play(Sound.SFX, SoundKeys.Button);
         }
 
         public void RestartRehersal()
@@ -700,7 +700,7 @@ namespace Runtime.CH3.Dancepace
             userWantsMoreRehearsal = true;
             rehearsalPhase = RehearsalPhase.First; // 리허설 재시작
             Managers.Data.CH3.IsDancepacePlayed = false;
-            Managers.Sound.Play(Sound.SFX, "Dancepace/CH3_SUB_SFX_Button");
+            Managers.Sound.Play(Sound.SFX, SoundKeys.Button);
         }
 
         public void StartGame()

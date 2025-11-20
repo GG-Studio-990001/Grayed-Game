@@ -23,10 +23,8 @@ namespace Runtime.CH3.Main
         [SerializeField] private Image installIcon;
         [SerializeField] private GameObject installHint;
         [SerializeField] private TextMeshProUGUI currencyText;
-        [SerializeField] private Transform currencyListParent;
         
         private GridSystem _gridSystem;
-        private CurrencyManager _currencyManager;
         private CH3_LevelData _currentBuildingData;
         private LineRenderer[] _gridLines;
         private Vector2Int _centerGridPosition;
@@ -48,7 +46,6 @@ namespace Runtime.CH3.Main
         private void Start()
         {
             _gridSystem = GridSystem.Instance;
-            _currencyManager = CurrencyManager.Instance;
         }
         
         /// <summary>

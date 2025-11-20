@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Runtime.Input;
+using UnityEngine.InputSystem;
 
 namespace Runtime.CH3.Main
 {
@@ -18,7 +19,6 @@ namespace Runtime.CH3.Main
         [SerializeField] private BuildingPreview previewPrefab;
         [SerializeField] private BuildingUI buildingUI;
         [SerializeField] private Inventory inventory;
-        [SerializeField] private CurrencyManager currencyManager;
         [SerializeField] private PlayerController playerController;
         
         [Header("Building Range Settings")]
@@ -68,11 +68,6 @@ namespace Runtime.CH3.Main
             if (inventory == null)
             {
                 inventory = FindObjectOfType<Inventory>();
-            }
-            
-            if (currencyManager == null)
-            {
-                currencyManager = CurrencyManager.Instance;
             }
             
             if (playerController == null)
@@ -193,7 +188,8 @@ namespace Runtime.CH3.Main
             else
             {
                 // 마우스 위치에서 레이캐스트
-                Ray ray = mainCamera.ScreenPointToRay(UnityEngine.Input.mousePosition);
+                Vector2 mousePosition = Mouse.current != null ? Mouse.current.position.ReadValue() : Vector2.zero;
+                Ray ray = mainCamera.ScreenPointToRay(mousePosition);
                 RaycastHit hit;
                 
                 Vector3 worldPosition = Vector3.zero;
@@ -282,26 +278,28 @@ namespace Runtime.CH3.Main
         /// </summary>
         private bool HandleKeyboardInput()
         {
+            if (Keyboard.current == null) return false;
+            
             bool hasInput = false;
             Vector2Int inputDirection = Vector2Int.zero;
             
             // 방향키 또는 WASD 입력 확인
-            if (UnityEngine.Input.GetKeyDown(KeyCode.UpArrow) || UnityEngine.Input.GetKeyDown(KeyCode.W))
+            if (Keyboard.current.upArrowKey.wasPressedThisFrame || Keyboard.current.wKey.wasPressedThisFrame)
             {
                 inputDirection.y += 1;
                 hasInput = true;
             }
-            if (UnityEngine.Input.GetKeyDown(KeyCode.DownArrow) || UnityEngine.Input.GetKeyDown(KeyCode.S))
+            if (Keyboard.current.downArrowKey.wasPressedThisFrame || Keyboard.current.sKey.wasPressedThisFrame)
             {
                 inputDirection.y -= 1;
                 hasInput = true;
             }
-            if (UnityEngine.Input.GetKeyDown(KeyCode.LeftArrow) || UnityEngine.Input.GetKeyDown(KeyCode.A))
+            if (Keyboard.current.leftArrowKey.wasPressedThisFrame || Keyboard.current.aKey.wasPressedThisFrame)
             {
                 inputDirection.x -= 1;
                 hasInput = true;
             }
-            if (UnityEngine.Input.GetKeyDown(KeyCode.RightArrow) || UnityEngine.Input.GetKeyDown(KeyCode.D))
+            if (Keyboard.current.rightArrowKey.wasPressedThisFrame || Keyboard.current.dKey.wasPressedThisFrame)
             {
                 inputDirection.x += 1;
                 hasInput = true;
@@ -326,7 +324,7 @@ namespace Runtime.CH3.Main
         private void HandleInput()
         {
             // 좌클릭 - 설치
-            if (UnityEngine.Input.GetMouseButtonDown(0))
+            if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
             {
                 if (_canPlace)
                 {
@@ -335,7 +333,17 @@ namespace Runtime.CH3.Main
             }
             
             // ESC 또는 우클릭 - 취소
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape) || UnityEngine.Input.GetMouseButtonDown(1))
+            bool cancelPressed = false;
+            if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                cancelPressed = true;
+            }
+            if (Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame)
+            {
+                cancelPressed = true;
+            }
+            
+            if (cancelPressed)
             {
                 EndBuildingMode();
             }
@@ -463,6 +471,23 @@ namespace Runtime.CH3.Main
         }
         
         public bool IsBuildingMode => _isBuildingMode;
+        
+        /// <summary>
+        /// 건물이 파괴되었을 때 호출하여 건설 카운트를 감소시킵니다.
+        /// </summary>
+        public void BuildingDestroyed(string buildingId)
+        {
+            if (string.IsNullOrEmpty(buildingId)) return;
+            
+            if (_builtCounts.ContainsKey(buildingId))
+            {
+                _builtCounts[buildingId]--;
+                if (_builtCounts[buildingId] <= 0)
+                {
+                    _builtCounts.Remove(buildingId);
+                }
+            }
+        }
     }
 }
 
