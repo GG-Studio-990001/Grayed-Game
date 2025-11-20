@@ -15,7 +15,6 @@ namespace Runtime.CH3.Main
         [SerializeField] private float initialHeight = 1f;
         [SerializeField] private float bounceHeight = 0.5f;
         [SerializeField] private float dropDuration = 0.5f;
-        [SerializeField] private float groundOffset = 0.1f;
         [SerializeField] private Ease dropEase = Ease.OutBounce;
 
         [Header("Collection Settings")]
@@ -68,17 +67,13 @@ namespace Runtime.CH3.Main
 
         public void Drop(Vector3 startPosition, Vector3 dropDirection, float dropDistance)
         {
-            // 시작 위치 (약간 위에서 시작)
             Vector3 spawnPos = startPosition + Vector3.up * initialHeight;
             transform.position = spawnPos;
 
-            // 최종 착지 위치 계산 (dropDirection과 dropDistance 활용)
             Vector3 targetPos = startPosition + dropDirection.normalized * dropDistance;
             targetPos.y = initialHeight;
 
             Sequence dropSequence = DOTween.Sequence();
-
-            // 포물선 경로 생성 (중간점을 더 자연스럽게 계산)
             Vector3 midPoint = Vector3.Lerp(spawnPos, targetPos, 0.5f);
             midPoint.y = Mathf.Max(spawnPos.y, targetPos.y) + bounceHeight;
             
@@ -89,14 +84,12 @@ namespace Runtime.CH3.Main
                 targetPos
             };
 
-            // 드롭 애니메이션
             dropSequence.Append(transform.DOPath(
                 path,
                 dropDuration,
                 PathType.CatmullRom
             ).SetEase(dropEase));
 
-            // 회전 효과 (더 자연스러운 회전)
             dropSequence.Join(transform.DORotate(
                 new Vector3(0f, 360f, 0f),
                 dropDuration,
@@ -158,12 +151,9 @@ namespace Runtime.CH3.Main
                     break;
                 }
 
-                // 거리에 따른 크기 조절
                 float distanceRatio = distanceToPlayer / initialDistance;
                 float scale = Mathf.Lerp(minScale, 1f, distanceRatio);
-                //transform.localScale = Vector3.one * scale;
 
-                // 수집되는 동안 회전
                 transform.Rotate(Vector3.up * 360f * Time.deltaTime, Space.World);
 
                 yield return null;
@@ -172,7 +162,6 @@ namespace Runtime.CH3.Main
 
         private void OnCollected()
         {
-            // 인벤토리에 추가 시도
             if (inventory != null && itemData != null)
             {
                 bool added = inventory.TryAdd(itemData, Mathf.Max(1, quantity));
@@ -199,14 +188,6 @@ namespace Runtime.CH3.Main
                 Destroy(gameObject);
             });
         }
-
-        // // 디버그용 기즈모
-        // private void OnDrawGizmosSelected()
-        // {
-        //     // 수집 범위 표시
-        //     Gizmos.color = Color.yellow;
-        //     Gizmos.DrawWireSphere(transform.position, collectRadius);
-        // }
 
         public void SetQuantity(int amount)
         {

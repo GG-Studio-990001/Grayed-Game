@@ -29,7 +29,6 @@ namespace Runtime.CH3.Main
         private CurrencyManager _currencyManager;
         private CH3_LevelData _currentBuildingData;
         private LineRenderer[] _gridLines;
-        private bool _isVisible = false;
         private Vector2Int _centerGridPosition;
         private int _displayRange;
         
@@ -60,7 +59,6 @@ namespace Runtime.CH3.Main
             _currentBuildingData = buildingData;
             _centerGridPosition = centerGridPosition;
             _displayRange = range;
-            _isVisible = true;
             
             if (uiPanel != null)
             {
@@ -92,7 +90,6 @@ namespace Runtime.CH3.Main
         /// </summary>
         public void Hide()
         {
-            _isVisible = false;
             _currentBuildingData = null;
             
             if (uiPanel != null)

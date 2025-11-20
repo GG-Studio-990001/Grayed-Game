@@ -279,7 +279,6 @@ namespace Runtime.CH3.Main
         {
             if (!IsWithinGridBounds(position)) 
             {
-                Debug.LogWarning($"IsCellBlocked: 위치 {position}가 그리드 범위를 벗어남");
                 return true;
             }
             Vector2Int arrayIndex = ToArrayIndex(position);
@@ -297,6 +296,26 @@ namespace Runtime.CH3.Main
                 return cell.IsOccupied && cell.OccupyingObject != null;
             }
             
+            return false;
+        }
+
+        public bool IsCellOccupiedByImpassableObject(Vector2Int position)
+        {
+            if (!IsWithinGridBounds(position))
+            {
+                return true;
+            }
+
+            if (_gridCells.TryGetValue(position, out GridCell cell) && cell.IsOccupied && cell.OccupyingObject != null)
+            {
+                if (cell.OccupyingObject.TryGetComponent<IGridPassable>(out var passable))
+                {
+                    return !passable.IsPassable;
+                }
+
+                return true;
+            }
+
             return false;
         }
 
@@ -670,7 +689,12 @@ namespace Runtime.CH3.Main
             spawnSequence.OnComplete(() => {
                 areaObjects[areaId].Add(obj);
                 areaObjectCounts[areaId][rule.objectType]++;
+                // Collider 찾기 (자식 Sprite 오브젝트에서도 찾기)
                 var collider = objGameObject.GetComponent<Collider>();
+                if (collider == null)
+                {
+                    collider = objGameObject.GetComponentInChildren<Collider>();
+                }
                 if (collider != null) collider.enabled = true;
             });
         }
@@ -735,7 +759,6 @@ namespace Runtime.CH3.Main
             }
         }
 
-        // 기존 OnMineralRemoved 호환성을 위한 래퍼
         public void OnMineralRemoved(GridObjectType mineralType)
         {
             // 모든 영역에서 해당 타입의 오브젝트가 제거되었는지 확인

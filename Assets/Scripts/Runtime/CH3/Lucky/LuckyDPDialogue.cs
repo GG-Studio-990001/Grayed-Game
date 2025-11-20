@@ -4,8 +4,10 @@ using Runtime.Lucky;
 using UnityEngine;
 using Yarn.Unity;
 
-public class LuckyDPDialogue : MonoBehaviour
+namespace Runtime.CH3
 {
+    public class LuckyDPDialogue : MonoBehaviour
+    {
         private DialogueRunner _runner;
         [SerializeField] private LuckyBody _lucky;
         [SerializeField] private GameObject _bubble;
@@ -72,4 +74,5 @@ public class LuckyDPDialogue : MonoBehaviour
         {
             _bubble.SetActive(active);
         }
+    }
 }

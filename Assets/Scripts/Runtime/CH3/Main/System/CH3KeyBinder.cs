@@ -2,6 +2,7 @@ using Runtime.Common.View;
 using UnityEngine;
 using Yarn.Unity;
 using UnityEngine.InputSystem;
+using Runtime.Input;
 
 namespace Runtime.CH3.Main
 {
