@@ -507,9 +507,6 @@ namespace Runtime.CH3.Main
 
         public virtual void Remove()
         {
-            // 건물이 파괴될 때 BuildingSystem에 알림
-            NotifyBuildingDestroyed();
-            
             ReleaseTiles();
             minimapManager.RemoveMinimapIcon(transform);
             Destroy(gameObject);
