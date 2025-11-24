@@ -44,6 +44,14 @@ namespace Runtime.CH3.Main
         [Tooltip("건설 시 필요한 재화, 개수 (배열로 있어, 중복 적용 가능)")]
         public List<CurrencyData> buildCurrency = new List<CurrencyData>();
         
+        [ConditionalHide("isBuilding")]
+        [Tooltip("생산할 재화, 개수, 생산 간격 (배열로 있어, 중복 적용 가능)")]
+        public List<CurrencyData> productionCurrency = new List<CurrencyData>();
+        
+        [ConditionalHide("isBuilding")]
+        [Tooltip("생산 간격 (초)")]
+        public float productionInterval = 5f;
+        
         [Tooltip("타일을 차단하는지 (Structure 전용)")]
         public bool isBlocking = true;
         

@@ -118,11 +118,8 @@ namespace Runtime.CH3.Main
             _currentItemSlotIndex = slotIndex;
             _isBuildingMode = true;
             
-            // 플레이어 이동 비활성화
-            if (Managers.Data != null && Managers.Data.InGameKeyBinder != null)
-            {
-                Managers.Data.InGameKeyBinder.PlayerInputDisable();
-            }
+            // 플레이어 이동만 비활성화 (핫바 선택은 가능하도록 PlayerInputDisable 사용하지 않음)
+            // PlayerController에서 빌드모드일 때 이동을 무시하도록 처리
             
             // 프리뷰 생성
             if (previewPrefab != null && _currentPreview == null)
@@ -149,11 +146,7 @@ namespace Runtime.CH3.Main
             _currentBuildingData = null;
             _manualGridOffset = Vector2Int.zero; // 오프셋 초기화
             
-            // 플레이어 이동 활성화
-            if (Managers.Data != null && Managers.Data.InGameKeyBinder != null)
-            {
-                Managers.Data.InGameKeyBinder.PlayerInputEnable();
-            }
+            // 플레이어 이동 활성화 (이미 빌드모드에서 이동만 막았으므로 별도 처리 불필요)
             
             // 프리뷰 제거
             if (_currentPreview != null)
@@ -357,8 +350,8 @@ namespace Runtime.CH3.Main
                 return;
             }
             
-            // 좌클릭 - 설치
-            if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+            // 우클릭 - 설치
+            if (Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame)
             {
                 if (_canPlace)
                 {
@@ -366,18 +359,8 @@ namespace Runtime.CH3.Main
                 }
             }
             
-            // ESC 또는 우클릭 - 취소
-            bool cancelPressed = false;
+            // ESC - 취소
             if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
-            {
-                cancelPressed = true;
-            }
-            if (Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame)
-            {
-                cancelPressed = true;
-            }
-            
-            if (cancelPressed)
             {
                 EndBuildingMode();
             }

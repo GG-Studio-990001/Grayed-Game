@@ -17,11 +17,13 @@ MonoBehaviour:
   sizeX: 3
   sizeY: 3
   sprite: {fileID: -386042908, guid: 91814763d0b06bf4496a6c778bbdb77c, type: 3}
-  uiPrefab: {fileID: 0}
-  objectType: 2
+  uiPrefab: {fileID: 8649814607753349673, guid: 7e681f8909d098a4bb14bedcff474dc3, type: 3}
+  objectType: 3
   isBuilding: 1
   maxBuild: 1
   buildCurrency: []
+  productionCurrency: []
+  productionInterval: 5
   isBlocking: 0
   isBreakable: 0
   maxDrop: 0

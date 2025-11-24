@@ -52,10 +52,32 @@ namespace Runtime.CH3.Main
         private void Update()
         {
             if (Mouse.current == null) return;
+            
+            // 건축 모드 중이면 상호작용 처리하지 않음 (BuildingSystem에서 처리)
+            if (_buildingSystem != null && _buildingSystem.IsBuildingMode)
+            {
+                return;
+            }
+            
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                _player.GetComponent<InteractionManager>()?.BeginHoldAtCursor(Mouse.current.position.ReadValue());
-                _mouseHolding = true;
+                var interactionManager = _player.GetComponent<InteractionManager>();
+                if (interactionManager != null)
+                {
+                    Vector2 mousePos = Mouse.current.position.ReadValue();
+                    
+                    // 길게 누르기 시도
+                    bool hadHoldBefore = interactionManager.HasCurrentHold();
+                    interactionManager.BeginHoldAtCursor(mousePos);
+                    
+                    // 길게 누르기가 시작되지 않았으면 일반 상호작용 시도
+                    if (!hadHoldBefore && !interactionManager.HasCurrentHold())
+                    {
+                        interactionManager.TryInteractAtCursor(mousePos);
+                    }
+                    
+                    _mouseHolding = true;
+                }
             }
             if (_mouseHolding)
             {
@@ -71,7 +93,45 @@ namespace Runtime.CH3.Main
         // 세부 동작은 여기서 정의
         public void HotbarSelect(int index)
         {
+            // UI 선택 업데이트 (빌드모드 처리는 SelectHotbar에서 호출됨)
             _inventoryUI.SelectHotbar(index);
+        }
+        
+        /// <summary>
+        /// 핫바 선택 후 빌드모드 처리 (InventoryUI에서 호출)
+        /// </summary>
+        public void OnHotbarSelected(int index)
+        {
+            // 선택된 슬롯의 아이템 확인
+            var slot = _inventory.GetSlot(index);
+            
+            if (slot != null && slot.item != null)
+            {
+                // 건축 아이템이면 빌드모드 자동 진입
+                if (slot.item.IsBuildingItem)
+                {
+                    if (_buildingSystem != null && !_buildingSystem.IsBuildingMode)
+                    {
+                        _buildingSystem.StartBuildingMode(slot.item, index);
+                    }
+                }
+                else
+                {
+                    // 다른 아이템 선택 시 빌드모드 취소
+                    if (_buildingSystem != null && _buildingSystem.IsBuildingMode)
+                    {
+                        _buildingSystem.EndBuildingMode();
+                    }
+                }
+            }
+            else
+            {
+                // 빈 슬롯 선택 시 빌드모드 취소
+                if (_buildingSystem != null && _buildingSystem.IsBuildingMode)
+                {
+                    _buildingSystem.EndBuildingMode();
+                }
+            }
         }
 
         public void InventoryToggle()
@@ -103,27 +163,14 @@ namespace Runtime.CH3.Main
                 _inventoryUI.ToggleInventory();
             }
             
-            // 건축 아이템인 경우 건축 모드 시작
+            // 건축 아이템은 핫바 선택 시 자동으로 빌드모드 진입하므로 E 사용 시 처리하지 않음
             if (slot.item.IsBuildingItem)
             {
-                if (_buildingSystem != null)
-                {
-                    // 이미 건축 모드 중이면 종료
-                    if (_buildingSystem.IsBuildingMode)
-                    {
-                        _buildingSystem.EndBuildingMode();
-                    }
-                    else
-                    {
-                        _buildingSystem.StartBuildingMode(slot.item, slotIndex);
-                    }
-                }
+                return;
             }
-            else
-            {
-                // 일반 아이템 사용
-                _inventory.TryConsumeAt(slotIndex, 1);
-            }
+            
+            // 일반 아이템 사용
+            _inventory.TryConsumeAt(slotIndex, 1);
         }
 
         private void OnDestroy()

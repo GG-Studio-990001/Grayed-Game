@@ -30,6 +30,9 @@ namespace Runtime.CH3.Main
         [SerializeField] private Color validBorderColor = new Color(0f, 1f, 0f, 1f); // 초록색 테두리
         [SerializeField] private Color invalidBorderColor = new Color(0.5f, 0.5f, 0.5f, 1f); // 회색 테두리
         
+        [Header("Building Management UI")]
+        [SerializeField] private BuildingManagementUI buildingManagementUI;
+        
         private CH3_LevelData _currentBuildingData;
         private GridSystem _gridSystem;
         
@@ -530,6 +533,32 @@ namespace Runtime.CH3.Main
             {
                 Destroy(_previewBorder.gameObject);
                 _previewBorder = null;
+            }
+        }
+        
+        /// <summary>
+        /// 건축물 관리창 표시
+        /// </summary>
+        public void ShowManagementWindow(Producer producer)
+        {
+            if (buildingManagementUI != null)
+            {
+                buildingManagementUI.Show(producer);
+            }
+            else
+            {
+                Debug.LogWarning("BuildingManagementUI가 설정되지 않았습니다!");
+            }
+        }
+        
+        /// <summary>
+        /// 건축물 관리창 숨김
+        /// </summary>
+        public void HideManagementWindow()
+        {
+            if (buildingManagementUI != null)
+            {
+                buildingManagementUI.Hide();
             }
         }
         

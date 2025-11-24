@@ -70,6 +70,18 @@ namespace Runtime.CH3.Main
 
         private void MovePlayer()
         {
+            // 빌드모드일 때는 이동 무시
+            if (BuildingSystem.Instance != null && BuildingSystem.Instance.IsBuildingMode)
+            {
+                // 정지 상태로 유지
+                Vector3 currentVelocity = _rigidbody.velocity;
+                currentVelocity.x = 0f;
+                currentVelocity.z = 0f;
+                _rigidbody.velocity = currentVelocity;
+                _state = PlayerState.Idle;
+                return;
+            }
+            
             // 카메라 기준 이동 방향 계산
             Vector3 cameraForward = Vector3.ProjectOnPlane(virtualCamera.transform.forward, Vector3.up).normalized;
             Vector3 cameraRight = Vector3.ProjectOnPlane(virtualCamera.transform.right, Vector3.up).normalized;

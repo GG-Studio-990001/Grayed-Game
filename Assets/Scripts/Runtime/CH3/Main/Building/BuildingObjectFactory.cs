@@ -41,15 +41,19 @@ namespace Runtime.CH3.Main
                 return null;
             }
             
-            // 월드 위치 계산
             Vector3 worldPosition = gridSystem.GridToWorldPosition(gridPosition);
-            
-            // 프리팹 인스턴스화
             GameObject rootObject = Object.Instantiate(_basePrefab);
             rootObject.transform.position = worldPosition;
             
-            // GridObject 컴포넌트 추가
-            GridObject gridObject = AddGridObjectComponent(rootObject, data.objectType, data);
+            GridObject gridObject;
+            if (data.isBuilding)
+            {
+                gridObject = rootObject.AddComponent<Producer>();
+            }
+            else
+            {
+                gridObject = AddGridObjectComponent(rootObject, data.objectType, data);
+            }
             
             if (gridObject == null)
             {
@@ -58,21 +62,30 @@ namespace Runtime.CH3.Main
                 return null;
             }
             
-            // 데이터 적용
             ApplyDataToObject(rootObject, data, gridPosition);
             
-            // 자식 Sprite 오브젝트의 스프라이트 교체
-            ReplaceSpriteInChild(rootObject, data);
+            // Producer의 경우 objectType을 명시적으로 설정 (InitializeFromData 이후에 설정)
+            if (data.isBuilding)
+            {
+                gridObject.SetObjectType(GridObjectType.Producer);
+            }
             
-            // GridObject 초기화
+            ReplaceSpriteInChild(rootObject, data);
             gridObject.Initialize(gridPosition);
+            
+            if (data.isBuilding)
+            {
+                BuildingProduction production = rootObject.GetComponent<BuildingProduction>();
+                if (production == null)
+                {
+                    production = rootObject.AddComponent<BuildingProduction>();
+                }
+                production.StartProduction(data);
+            }
             
             return rootObject;
         }
         
-        /// <summary>
-        /// 오브젝트 타입과 데이터에 따라 적절한 컴포넌트를 추가합니다.
-        /// </summary>
         private static GridObject AddGridObjectComponent(GameObject obj, GridObjectType objectType, CH3_LevelData data = null)
         {
             GridObject gridObject = null;
@@ -119,13 +132,8 @@ namespace Runtime.CH3.Main
             return gridObject;
         }
         
-        /// <summary>
-        /// 레벨 데이터를 GridObject에 적용합니다.
-        /// </summary>
         private static void ApplyDataToObject(GameObject obj, CH3_LevelData data, Vector2Int gridPosition)
         {
-            // GridObject 초기화 (다형성을 활용하여 자동으로 올바른 override된 메서드 호출)
-            // InitializeFromData는 virtual이므로 하위 클래스(Structure, MineableObject 등)에서 override된 메서드가 자동으로 호출됨
             var gridObject = obj.GetComponent<GridObject>();
             if (gridObject != null)
             {
@@ -133,42 +141,15 @@ namespace Runtime.CH3.Main
             }
         }
         
-        /// <summary>
-        /// 대소문자 구분 없이 자식 오브젝트를 찾습니다.
-        /// </summary>
-        private static Transform FindChildByNameIgnoreCase(Transform parent, string name)
-        {
-            Transform child = parent.Find(name);
-            if (child != null)
-            {
-                return child;
-            }
-
-            foreach (Transform t in parent)
-            {
-                if (t.name.Equals(name, System.StringComparison.OrdinalIgnoreCase))
-                {
-                    return t;
-                }
-            }
-            return null;
-        }
-        
-        /// <summary>
-        /// 자식 Sprite 오브젝트의 스프라이트를 교체합니다.
-        /// </summary>
         private static void ReplaceSpriteInChild(GameObject rootObject, CH3_LevelData data)
         {
-            // 자식 오브젝트에서 "Sprite" 이름의 오브젝트 찾기
-            Transform spriteTransform = FindChildByNameIgnoreCase(rootObject.transform, "Sprite");
-            
+            Transform spriteTransform = CH3Utils.FindChildByNameIgnoreCase(rootObject.transform, "Sprite");
             if (spriteTransform == null)
             {
                 Debug.LogWarning($"2.5D_Object의 자식에 'Sprite' 오브젝트를 찾을 수 없습니다.");
                 return;
             }
             
-            // SpriteRenderer 찾기
             SpriteRenderer spriteRenderer = spriteTransform.GetComponent<SpriteRenderer>();
             if (spriteRenderer == null)
             {
@@ -176,40 +157,27 @@ namespace Runtime.CH3.Main
                 return;
             }
             
-            // 데이터에서 Sprite 교체
             if (data.sprite != null)
             {
                 spriteRenderer.sprite = data.sprite;
             }
             
-            // GridObject에 자식 오브젝트 참조 설정
             var gridObject = rootObject.GetComponent<GridObject>();
             if (gridObject != null)
             {
-                // GridVolume 찾기
-                Transform gridVolumeTransform = FindChildByNameIgnoreCase(rootObject.transform, "GridVolume");
-                
-                // 자식 참조 설정 (autoBindChildren = false로 설정)
+                Transform gridVolumeTransform = CH3Utils.FindChildByNameIgnoreCase(rootObject.transform, "GridVolume");
                 gridObject.SetChildReferences(spriteTransform, gridVolumeTransform, false);
             }
             
-            // Collider 추가
-            var mineable = rootObject.GetComponent<MineableObject>();
-            var structure = rootObject.GetComponent<Structure>();
-            if (mineable != null || (structure != null && data.isBlocking))
-            {
-                AddBoxColliderToSprite(spriteTransform, spriteRenderer);
-            }
+            UpdateSpriteCollider(spriteTransform, spriteRenderer, data);
             
-            // Breakable인 경우 UI Prefab을 자식 오브젝트로 생성
             var breakable = rootObject.GetComponent<Breakable>();
             if (breakable != null && data.uiPrefab != null)
             {
                 bool uiExists = false;
                 foreach (Transform child in rootObject.transform)
                 {
-                    if (child.name == data.uiPrefab.name || 
-                        (child.name.Contains(data.uiPrefab.name)))
+                    if (child.name == data.uiPrefab.name || child.name.Contains(data.uiPrefab.name))
                     {
                         uiExists = true;
                         break;
@@ -225,25 +193,23 @@ namespace Runtime.CH3.Main
             }
         }
         
-        /// <summary>
-        /// Sprite 오브젝트에 BoxCollider를 추가합니다.
-        /// </summary>
-        private static void AddBoxColliderToSprite(Transform spriteTransform, SpriteRenderer spriteRenderer)
+        private static void UpdateSpriteCollider(Transform spriteTransform, SpriteRenderer spriteRenderer, CH3_LevelData data)
         {
             if (spriteTransform == null || spriteRenderer == null) return;
             
             BoxCollider collider = spriteTransform.GetComponent<BoxCollider>();
-            if (collider == null)
-            {
-                collider = spriteTransform.gameObject.AddComponent<BoxCollider>();
-            }
-            collider.isTrigger = false;
+            if (collider == null) return;
             
-            if (spriteRenderer.sprite != null)
+            CH3Utils.UpdateColliderToSprite(collider, spriteRenderer);
+            
+            var gridObject = spriteTransform.parent?.GetComponent<GridObject>();
+            if (gridObject != null)
             {
-                Bounds spriteBounds = spriteRenderer.sprite.bounds;
-                collider.size = spriteBounds.size;
-                collider.center = spriteBounds.center;
+                CH3Utils.SetColliderTriggerByGridObject(collider, gridObject, data);
+            }
+            else
+            {
+                collider.isTrigger = false;
             }
         }
     }

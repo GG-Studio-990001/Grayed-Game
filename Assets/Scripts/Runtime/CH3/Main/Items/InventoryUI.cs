@@ -20,6 +20,7 @@ namespace Runtime.CH3.Main
         private int selectedHotbar = 0;
         private bool inventoryOpen;
         private CH3KeyBinder _keyBinder; // CH3KeyBinder 참조 캐싱 (성능 최적화)
+        private BuildingSystem _buildingSystem; // BuildingSystem 참조 캐싱
 
         private void Awake()
         {
@@ -32,6 +33,7 @@ namespace Runtime.CH3.Main
             
             // CH3KeyBinder 참조 캐싱 (성능 최적화)
             _keyBinder = FindObjectOfType<CH3KeyBinder>();
+            _buildingSystem = BuildingSystem.Instance;
         }
 
         private void OnDestroy()
@@ -117,6 +119,67 @@ namespace Runtime.CH3.Main
             for (int i = 0; i < hotbarViews.Count; i++)
             {
                 hotbarViews[i].SetSelected(i == selectedHotbar);
+            }
+            
+            // 빌드모드 처리
+            ProcessHotbarSelection(selectedHotbar);
+        }
+        
+        /// <summary>
+        /// 핫바 선택 후 빌드모드 처리
+        /// </summary>
+        private void ProcessHotbarSelection(int index)
+        {
+            // CH3KeyBinder의 OnHotbarSelected 호출
+            if (_keyBinder == null)
+            {
+                _keyBinder = FindObjectOfType<CH3KeyBinder>();
+            }
+            
+            if (_keyBinder != null)
+            {
+                _keyBinder.OnHotbarSelected(index);
+            }
+            else
+            {
+                // CH3KeyBinder를 찾을 수 없으면 직접 처리
+                if (_buildingSystem == null)
+                {
+                    _buildingSystem = BuildingSystem.Instance;
+                }
+                
+                if (_buildingSystem != null && inventory != null)
+                {
+                    var slot = inventory.GetSlot(index);
+                    
+                    if (slot != null && slot.item != null)
+                    {
+                        // 건축 아이템이면 빌드모드 자동 진입
+                        if (slot.item.IsBuildingItem)
+                        {
+                            if (!_buildingSystem.IsBuildingMode)
+                            {
+                                _buildingSystem.StartBuildingMode(slot.item, index);
+                            }
+                        }
+                        else
+                        {
+                            // 다른 아이템 선택 시 빌드모드 취소
+                            if (_buildingSystem.IsBuildingMode)
+                            {
+                                _buildingSystem.EndBuildingMode();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // 빈 슬롯 선택 시 빌드모드 취소
+                        if (_buildingSystem.IsBuildingMode)
+                        {
+                            _buildingSystem.EndBuildingMode();
+                        }
+                    }
+                }
             }
         }
 
