@@ -33,6 +33,8 @@ namespace Runtime.CH3.Main.Exploration
         private TextMeshPro _labelInstance;
         private SpriteRenderer _playerSr;
         private GridObject _gridObject; // GridObject 캐싱 (최상단 오브젝트에 붙어있음)
+        private GridSystem _gridSystem; // GridSystem 캐싱
+        private PlayerGrid _playerGrid; // PlayerGrid 캐싱
 
         private void Reset()
         {
@@ -42,6 +44,15 @@ namespace Runtime.CH3.Main.Exploration
 
         private void Awake()
         {
+            // GridSystem 및 PlayerGrid 캐싱
+            _gridSystem = GridSystem.Instance;
+            if (player == null)
+            {
+                var go = GameObject.FindGameObjectWithTag("Player");
+                if (go != null) player = go.transform;
+            }
+            _playerGrid = player != null ? player.GetComponent<PlayerGrid>() : null;
+            
             // GridObject 캐싱 (최상단 오브젝트에 붙어있으므로 부모에서 찾기)
             _gridObject = GetComponentInParent<GridObject>();
             
@@ -85,11 +96,6 @@ namespace Runtime.CH3.Main.Exploration
                     additionalRenderers = GetComponentsInChildren<Renderer>();
                 }
             }
-            if (player == null)
-            {
-                var go = GameObject.FindGameObjectWithTag("Player");
-                if (go != null) player = go.transform;
-            }
             _playerSr = player != null ? player.GetComponent<SpriteRenderer>() : null;
 
             _fadePropId = Shader.PropertyToID(fadeProperty);
@@ -123,8 +129,25 @@ namespace Runtime.CH3.Main.Exploration
 
             if (closeEnough)
             {
+                // 같은 그리드 위치인지 확인
+                bool sameGridPosition = false;
+                if (_gridSystem != null && _gridObject != null && _playerGrid != null)
+                {
+                    Vector2Int objectGridPos = _gridObject.GridPosition;
+                    Vector2Int playerGridPos = _playerGrid.GridPosition;
+                    sameGridPosition = (objectGridPos == playerGridPos);
+                }
+                
                 // 정렬 순서 비교 기반: 오브젝트가 플레이어 앞에 있으면 가림
-                occluded = spriteRenderer.sortingOrder > _playerSr.sortingOrder;
+                // 같은 칸에 있을 때는 sortingOrder가 같거나 크면 가림 처리
+                if (sameGridPosition)
+                {
+                    occluded = spriteRenderer.sortingOrder >= _playerSr.sortingOrder;
+                }
+                else
+                {
+                    occluded = spriteRenderer.sortingOrder > _playerSr.sortingOrder;
+                }
             }
 
             float target = occluded ? occludedValue : visibleValue;
