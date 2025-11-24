@@ -205,8 +205,16 @@ namespace Runtime.CH3.Main
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            // 좌클릭 시 핫바 슬롯 선택
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                if (isHotbarView && ownerUI != null && !isDragging)
+                {
+                    ownerUI.SelectHotbar(index);
+                }
+            }
             // 우클릭 시 아이템 사용
-            if (eventData.button == PointerEventData.InputButton.Right)
+            else if (eventData.button == PointerEventData.InputButton.Right)
             {
                 if (item != null && useItem != null && !isDragging)
                 {

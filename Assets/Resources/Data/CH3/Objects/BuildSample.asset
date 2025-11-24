@@ -14,15 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Build
   dev: "\uADF8\uB0E5 \uB098\uBB34"
-  sizeX: 1
+  sizeX: 3
   sizeY: 3
-  sprite: {fileID: 21300000, guid: 794d924af074c4a44844b0a83b370496, type: 3}
-  uiPrefab: {fileID: 0}
-  objectType: 2
+  sprite: {fileID: -386042908, guid: 91814763d0b06bf4496a6c778bbdb77c, type: 3}
+  uiPrefab: {fileID: 8649814607753349673, guid: 7e681f8909d098a4bb14bedcff474dc3, type: 3}
+  objectType: 3
   isBuilding: 1
   maxBuild: 1
   buildCurrency: []
-  isBlocking: 1
+  productionCurrency: []
+  productionInterval: 5
+  isBlocking: 0
   isBreakable: 0
   maxDrop: 0
   dropCurrency: []
@@ -38,7 +40,7 @@ MonoBehaviour:
   gridPositionMode: 1
   gridPosition: {x: 0, y: 0}
   useCustomY: 1
-  customY: 1.25
+  customY: 0.72
   applyInitialGridSorting: 1
   gridSortingScale: 1
   interactionRange: 2

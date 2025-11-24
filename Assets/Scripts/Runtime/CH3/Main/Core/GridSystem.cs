@@ -13,6 +13,7 @@ namespace Runtime.CH3.Main
         BlockedArea,
         EventArea,
         Structure,
+        Producer,
         Teleporter,
         Ore,
         Breakable,
@@ -415,6 +416,12 @@ namespace Runtime.CH3.Main
                 Debug.LogError($"Created object does not implement IGridObject: {type}");
                 Destroy(instance);
                 return null;
+            }
+
+            // GridObject 컴포넌트가 있으면 objectType 설정
+            if (gridObject is GridObject gridObj)
+            {
+                gridObj.SetObjectType(type);
             }
 
             gridObject.Initialize(gridPosition);

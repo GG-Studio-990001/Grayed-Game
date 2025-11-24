@@ -113,6 +113,14 @@ namespace Runtime.CH3.Main
             currentHold = null;
             holdElapsed = 0f;
         }
+        
+        /// <summary>
+        /// 현재 길게 누르기 중인지 확인
+        /// </summary>
+        public bool HasCurrentHold()
+        {
+            return currentHold != null;
+        }
 
         private T FindNearest<T>() where T : class, IInteractable
         {
@@ -142,7 +150,7 @@ namespace Runtime.CH3.Main
             RaycastHit[] hits = Physics.RaycastAll(ray, 100f, interactableLayer);
             
             IHoldInteractable bestHold = null;
-            float bestDistance = float.MaxValue;
+            float closestHitDistance = float.MaxValue;
             
             foreach (var hit in hits)
             {
@@ -152,14 +160,12 @@ namespace Runtime.CH3.Main
                 var mb = hold as MonoBehaviour;
                 if (mb == null) continue;
                 
-                float distanceToPlayer = Vector3.Distance(playerTransform.position, mb.transform.position);
-                if (distanceToPlayer > hold.InteractionRange) continue;
-                
-                // 플레이어와의 거리가 더 가까운 오브젝트를 우선 선택
-                if (distanceToPlayer < bestDistance)
+                // 거리 체크 제거 - 클릭한 오브젝트는 항상 상호작용 가능
+                // 레이캐스트 히트 거리가 가까운 것을 우선 선택
+                if (hit.distance < closestHitDistance)
                 {
                     bestHold = hold;
-                    bestDistance = distanceToPlayer;
+                    closestHitDistance = hit.distance;
                 }
             }
             
@@ -172,6 +178,45 @@ namespace Runtime.CH3.Main
                 holdElapsed = currentGaugeValue * bestHold.HoldSeconds;
                 
                 currentHold.OnHoldStart(gameObject);
+            }
+        }
+        
+        /// <summary>
+        /// 마우스 커서 위치에서 상호작용 시도 (좌클릭용)
+        /// </summary>
+        public void TryInteractAtCursor(Vector2 screenPosition)
+        {
+            if (worldCamera == null) worldCamera = Camera.main;
+            if (worldCamera == null) return;
+
+            Ray ray = worldCamera.ScreenPointToRay(screenPosition);
+            
+            // 모든 히트된 오브젝트를 가져와서 가장 적절한 것을 선택
+            RaycastHit[] hits = Physics.RaycastAll(ray, 100f, interactableLayer);
+            
+            IInteractable bestInteractable = null;
+            float closestHitDistance = float.MaxValue;
+            
+            foreach (var hit in hits)
+            {
+                var interactable = hit.collider.GetComponent<IInteractable>() ?? hit.collider.GetComponentInParent<IInteractable>();
+                if (interactable == null || !interactable.CanInteract) continue;
+
+                var mb = interactable as MonoBehaviour;
+                if (mb == null) continue;
+                
+                // 거리 체크 제거 - 클릭한 오브젝트는 항상 상호작용 가능
+                // 레이캐스트 히트 거리가 가까운 것을 우선 선택
+                if (hit.distance < closestHitDistance)
+                {
+                    bestInteractable = interactable;
+                    closestHitDistance = hit.distance;
+                }
+            }
+            
+            if (bestInteractable != null)
+            {
+                bestInteractable.OnInteract(gameObject);
             }
         }
 

@@ -42,7 +42,6 @@ namespace Runtime.CH3.Main
                 inventory = FindObjectOfType<Inventory>();
             }
             
-            // 매핑 딕셔너리 초기화
             foreach (var mapping in currencyMappings)
             {
                 if (mapping.item != null)
@@ -93,7 +92,6 @@ namespace Runtime.CH3.Main
             
             int remaining = amount;
             
-            // 인벤토리에서 해당 재화 아이템 찾아서 소모
             for (int i = 0; i < inventory.Slots.Count && remaining > 0; i++)
             {
                 var slot = inventory.GetSlot(i);
@@ -143,13 +141,11 @@ namespace Runtime.CH3.Main
         {
             if (currencies == null || currencies.Count == 0) return true;
             
-            // 먼저 모든 재화가 충분한지 확인
             if (!HasCurrencies(currencies))
             {
                 return false;
             }
             
-            // 모든 재화 소모
             foreach (var currency in currencies)
             {
                 if (!TryConsumeCurrency(currency.currency, currency.amount))
@@ -159,6 +155,47 @@ namespace Runtime.CH3.Main
             }
             
             return true;
+        }
+        
+        /// <summary>
+        /// 재화 추가 시도
+        /// </summary>
+        public bool TryAddCurrency(ECurrencyData currencyType, int amount)
+        {
+            if (amount <= 0) return true;
+            
+            if (!_currencyToItemMap.TryGetValue(currencyType, out Item item))
+            {
+                Debug.LogWarning($"CurrencyManager: {currencyType}에 해당하는 Item 매핑이 없습니다!");
+                return false;
+            }
+            
+            if (inventory == null)
+            {
+                Debug.LogWarning("CurrencyManager: 인벤토리를 찾을 수 없습니다!");
+                return false;
+            }
+            
+            return inventory.TryAdd(item, amount);
+        }
+        
+        /// <summary>
+        /// 여러 재화 추가 시도
+        /// </summary>
+        public bool TryAddCurrencies(List<CurrencyData> currencies)
+        {
+            if (currencies == null || currencies.Count == 0) return true;
+            
+            bool allSuccess = true;
+            foreach (var currency in currencies)
+            {
+                if (!TryAddCurrency(currency.currency, currency.amount))
+                {
+                    allSuccess = false;
+                }
+            }
+            
+            return allSuccess;
         }
     }
 }

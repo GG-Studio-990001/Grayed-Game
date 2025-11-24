@@ -264,28 +264,13 @@ namespace Runtime.CH3.Main
         /// </summary>
         private static void ReplaceSpriteInChild(GameObject rootObject, CH3_LevelData data)
         {
-            // 자식 오브젝트에서 "Sprite" 이름의 오브젝트 찾기
-            Transform spriteTransform = rootObject.transform.Find("Sprite");
-            if (spriteTransform == null)
-            {
-                // 대소문자 구분 없이 찾기
-                foreach (Transform child in rootObject.transform)
-                {
-                    if (child.name.Equals("Sprite", System.StringComparison.OrdinalIgnoreCase))
-                    {
-                        spriteTransform = child;
-                        break;
-                    }
-                }
-            }
-            
+            Transform spriteTransform = CH3Utils.FindChildByNameIgnoreCase(rootObject.transform, "Sprite");
             if (spriteTransform == null)
             {
                 Debug.LogWarning($"2.5D_Object의 자식에 'Sprite' 오브젝트를 찾을 수 없습니다. Sprite 오브젝트가 있는지 확인하세요.");
                 return;
             }
             
-            // SpriteRenderer 찾기
             SpriteRenderer spriteRenderer = spriteTransform.GetComponent<SpriteRenderer>();
             if (spriteRenderer == null)
             {
@@ -293,78 +278,46 @@ namespace Runtime.CH3.Main
                 return;
             }
             
-            // 데이터에서 Sprite 교체
             if (data.sprite != null)
             {
                 spriteRenderer.sprite = data.sprite;
             }
             
-            // GridObject에 자식 오브젝트 참조 설정 (이미 존재하는 경우)
             var gridObject = rootObject.GetComponent<GridObject>();
             if (gridObject != null)
             {
                 SerializedObject gridSo = new SerializedObject(gridObject);
                 
-                // GridVolume 찾기
-                Transform gridVolumeTransform = rootObject.transform.Find("GridVolume");
-                if (gridVolumeTransform == null)
-                {
-                    foreach (Transform child in rootObject.transform)
-                    {
-                        if (child.name.Equals("GridVolume", System.StringComparison.OrdinalIgnoreCase))
-                        {
-                            gridVolumeTransform = child;
-                            break;
-                        }
-                    }
-                }
-                
+                Transform gridVolumeTransform = CH3Utils.FindChildByNameIgnoreCase(rootObject.transform, "GridVolume");
                 if (gridVolumeTransform != null)
                 {
                     gridSo.FindProperty("gridVolumeTransform").objectReferenceValue = gridVolumeTransform;
                 }
                 
                 gridSo.FindProperty("spriteTransform").objectReferenceValue = spriteTransform;
-                gridSo.FindProperty("autoBindChildren").boolValue = false; // 수동으로 설정했으므로 자동 바인딩 비활성화
+                gridSo.FindProperty("autoBindChildren").boolValue = false;
                 gridSo.ApplyModifiedProperties();
             }
             
-            // Collider 추가 (MineableObject인 경우, 없으면 추가)
             var mineable = rootObject.GetComponent<MineableObject>();
             if (mineable != null)
             {
-                BoxCollider collider = spriteTransform.GetComponent<BoxCollider>();
-                if (collider == null)
+                BoxCollider collider = CH3Utils.GetOrAddBoxCollider(spriteTransform);
+                if (collider != null)
                 {
-                    collider = spriteTransform.gameObject.AddComponent<BoxCollider>();
-                }
-                collider.isTrigger = false;
-                
-                // Sprite 크기에 맞게 Collider 크기 조정
-                if (spriteRenderer.sprite != null)
-                {
-                    Bounds spriteBounds = spriteRenderer.sprite.bounds;
-                    collider.size = spriteBounds.size;
-                    collider.center = spriteBounds.center;
+                    collider.isTrigger = false;
+                    CH3Utils.UpdateColliderToSprite(collider, spriteRenderer);
                 }
             }
             
-            // Structure인 경우 Collider 추가 (선택사항, 없으면 추가)
             var structure = rootObject.GetComponent<Structure>();
             if (structure != null && data.isBlocking)
             {
-                BoxCollider collider = spriteTransform.GetComponent<BoxCollider>();
-                if (collider == null)
+                BoxCollider collider = CH3Utils.GetOrAddBoxCollider(spriteTransform);
+                if (collider != null)
                 {
-                    collider = spriteTransform.gameObject.AddComponent<BoxCollider>();
-                }
-                collider.isTrigger = false;
-                
-                if (spriteRenderer.sprite != null)
-                {
-                    Bounds spriteBounds = spriteRenderer.sprite.bounds;
-                    collider.size = spriteBounds.size;
-                    collider.center = spriteBounds.center;
+                    collider.isTrigger = false;
+                    CH3Utils.UpdateColliderToSprite(collider, spriteRenderer);
                 }
             }
             

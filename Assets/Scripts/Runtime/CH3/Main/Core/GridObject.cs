@@ -86,38 +86,18 @@ namespace Runtime.CH3.Main
         /// </summary>
         protected virtual void AutoBindChildren()
         {
-            // GridVolume 자동 찾기
             if (gridVolumeTransform == null)
             {
-                // "GridVolume"이라는 이름의 자식 오브젝트 찾기
-                Transform found = transform.Find("GridVolume");
-                if (found == null)
-                {
-                    // 대소문자 구분 없이 찾기
-                    foreach (Transform child in transform)
-                    {
-                        if (child.name.Equals("GridVolume", System.StringComparison.OrdinalIgnoreCase))
-                        {
-                            found = child;
-                            break;
-                        }
-                    }
-                }
-                gridVolumeTransform = found;
+                gridVolumeTransform = CH3Utils.FindChildByNameIgnoreCase(transform, "GridVolume");
             }
             
-            // Sprite 자동 찾기
             if (spriteTransform == null)
             {
-                // 먼저 SpriteRenderer가 있는 자식 오브젝트 찾기
                 SpriteRenderer[] childRenderers = GetComponentsInChildren<SpriteRenderer>();
-                
-                // 자기 자신의 SpriteRenderer는 제외
                 SpriteRenderer selfRenderer = GetComponent<SpriteRenderer>();
                 
                 foreach (var renderer in childRenderers)
                 {
-                    // 자기 자신이 아니고, 자식 오브젝트인 경우
                     if (renderer != selfRenderer && renderer.transform.IsChildOf(transform))
                     {
                         spriteTransform = renderer.transform;
@@ -125,28 +105,13 @@ namespace Runtime.CH3.Main
                     }
                 }
                 
-                // SpriteRenderer가 없으면 "Sprite" 또는 "Image"라는 이름의 자식 오브젝트 찾기
                 if (spriteTransform == null)
                 {
-                    Transform found = transform.Find("Sprite");
-                    if (found == null)
+                    spriteTransform = CH3Utils.FindChildByNameIgnoreCase(transform, "Sprite");
+                    if (spriteTransform == null)
                     {
-                        found = transform.Find("Image");
+                        spriteTransform = CH3Utils.FindChildByNameIgnoreCase(transform, "Image");
                     }
-                    if (found == null)
-                    {
-                        // 대소문자 구분 없이 찾기
-                        foreach (Transform child in transform)
-                        {
-                            string childName = child.name.ToLower();
-                            if (childName.Contains("sprite") || childName.Contains("image"))
-                            {
-                                found = child;
-                                break;
-                            }
-                        }
-                    }
-                    spriteTransform = found;
                 }
             }
         }
@@ -263,6 +228,7 @@ namespace Runtime.CH3.Main
         {
             if (data == null) return;
             
+            objectType = data.objectType;
             tileSize = data.TileSize;
             gridPositionMode = data.gridPositionMode;
             useCustomY = data.useCustomY;
@@ -282,6 +248,14 @@ namespace Runtime.CH3.Main
             spriteTransform = spriteTransformRef;
             gridVolumeTransform = gridVolumeTransformRef;
             autoBindChildren = autoBind;
+        }
+        
+        /// <summary>
+        /// 오브젝트 타입을 설정합니다.
+        /// </summary>
+        public void SetObjectType(GridObjectType type)
+        {
+            objectType = type;
         }
         
         //TODO: Vector2Int 없애기
