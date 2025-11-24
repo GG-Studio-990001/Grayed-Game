@@ -20,6 +20,7 @@ namespace Runtime.CH3.Main
         private Color _validBorderColor = new Color(0f, 1f, 0f, 1f); // 초록색 테두리
         private Color _invalidBorderColor = new Color(0.5f, 0.5f, 0.5f, 1f); // 회색 테두리
         private float _cellWidth = 1f;
+        private SortingOrderObject _sortingOrderObject;
         
         public void Initialize(CH3_LevelData data, float alpha, float cellWidth = 1f)
         {
@@ -70,6 +71,16 @@ namespace Runtime.CH3.Main
             
             // 테두리 초기화
             InitializeBorder();
+            
+            // SortingOrderObject 찾기
+            if (spriteTransform != null)
+            {
+                _sortingOrderObject = spriteTransform.GetComponent<SortingOrderObject>();
+            }
+            if (_sortingOrderObject == null)
+            {
+                _sortingOrderObject = GetComponentInChildren<SortingOrderObject>();
+            }
         }
         
         /// <summary>
@@ -102,26 +113,44 @@ namespace Runtime.CH3.Main
                 _borderMaterial = new Material(Shader.Find("Sprites/Default"));
             }
             borderLineRenderer.material = _borderMaterial;
-            borderLineRenderer.sortingOrder = 100; // 다른 오브젝트 위에 표시
+            // sortingOrder는 SetPosition에서 Sprite에 맞춰 동적으로 설정됨
             
             // 건물 크기에 맞게 테두리 그리기
             Vector2Int tileSize = _buildingData.TileSize;
             
-            // 테두리 꼭짓점 계산 (중심 기준)
-            float halfWidth = (tileSize.x * _cellWidth) / 2f;
-            float halfHeight = (tileSize.y * _cellWidth) / 2f;
+            // 테두리 꼭짓점 계산 (그리드 셀 경계에 정확히 맞춤)
+            // 그리드 셀의 경계는 중심에서 ±cellWidth/2 위치
+            float halfCellWidth = _cellWidth / 2f;
+            float halfCellHeight = _cellWidth / 2f;
+            
+            // 건물이 차지하는 타일 범위 계산 (GridObject.OccupyTiles와 동일한 방식)
+            int offsetX = tileSize.x % 2 == 0 ? tileSize.x / 2 - 1 : tileSize.x / 2;
+            int offsetY = tileSize.y % 2 == 0 ? tileSize.y / 2 - 1 : tileSize.y / 2;
+            
+            // 보더의 왼쪽 아래 모서리 (로컬 좌표)
+            float minX = -offsetX * _cellWidth - halfCellWidth;
+            float minZ = -offsetY * _cellWidth - halfCellHeight;
+            
+            // 보더의 오른쪽 위 모서리
+            float maxX = offsetX * _cellWidth + halfCellWidth;
+            float maxZ = offsetY * _cellWidth + halfCellHeight;
+            
+            // 짝수 크기인 경우 한쪽 방향으로 1칸 더 확장
+            if (tileSize.x % 2 == 0) maxX += _cellWidth;
+            if (tileSize.y % 2 == 0) maxZ += _cellWidth;
             
             borderLineRenderer.positionCount = 4;
-            borderLineRenderer.SetPosition(0, new Vector3(-halfWidth, 0.01f, -halfHeight));
-            borderLineRenderer.SetPosition(1, new Vector3(halfWidth, 0.01f, -halfHeight));
-            borderLineRenderer.SetPosition(2, new Vector3(halfWidth, 0.01f, halfHeight));
-            borderLineRenderer.SetPosition(3, new Vector3(-halfWidth, 0.01f, halfHeight));
+            float borderY = -1f;
+            borderLineRenderer.SetPosition(0, new Vector3(minX, borderY, minZ));
+            borderLineRenderer.SetPosition(1, new Vector3(maxX, borderY, minZ));
+            borderLineRenderer.SetPosition(2, new Vector3(maxX, borderY, maxZ));
+            borderLineRenderer.SetPosition(3, new Vector3(minX, borderY, maxZ));
         }
         
         /// <summary>
         /// 프리뷰 위치 및 유효성 업데이트
         /// </summary>
-        public void SetPosition(Vector3 position, bool isValid)
+        public void SetPosition(Vector3 position, bool isValid, Vector2Int gridPosition)
         {
             transform.position = position;
             
@@ -135,6 +164,28 @@ namespace Runtime.CH3.Main
             {
                 borderLineRenderer.startColor = isValid ? _validBorderColor : _invalidBorderColor;
                 borderLineRenderer.endColor = isValid ? _validBorderColor : _invalidBorderColor;
+            }
+            
+            // SortingOrder 업데이트 (GridObject와 동일한 로직)
+            if (_buildingData != null && _buildingData.applyInitialGridSorting)
+            {
+                int baseOrder = -gridPosition.y * _buildingData.gridSortingScale;
+                
+                if (_sortingOrderObject != null)
+                {
+                    _sortingOrderObject.SetBaseOrder(baseOrder);
+                }
+                else if (spriteRenderer != null)
+                {
+                    // SortingOrderObject가 없으면 직접 설정
+                    spriteRenderer.sortingOrder = baseOrder;
+                }
+                
+                // Border의 SortingOrder는 Sprite보다 -1 낮게 설정
+                if (borderLineRenderer != null)
+                {
+                    borderLineRenderer.sortingOrder = baseOrder - 1;
+                }
             }
         }
         

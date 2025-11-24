@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Runtime.Input;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 namespace Runtime.CH3.Main
 {
@@ -189,47 +190,61 @@ namespace Runtime.CH3.Main
             {
                 // 마우스 위치에서 레이캐스트
                 Vector2 mousePosition = Mouse.current != null ? Mouse.current.position.ReadValue() : Vector2.zero;
-                Ray ray = mainCamera.ScreenPointToRay(mousePosition);
-                RaycastHit hit;
                 
-                Vector3 worldPosition = Vector3.zero;
-                bool hitGround = false;
+                // UI 위에 마우스가 있거나 화면 밖으로 나갔으면 수동 오프셋 사용
+                bool isOverUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+                bool isOutOfScreen = mousePosition.x < 0 || mousePosition.x > Screen.width || 
+                                     mousePosition.y < 0 || mousePosition.y > Screen.height;
                 
-                if (Physics.Raycast(ray, out hit, 100f, groundLayerMask))
+                if (isOverUI || isOutOfScreen)
                 {
-                    worldPosition = hit.point;
-                    hitGround = true;
-                }
-                else
-                {
-                    // 레이캐스트 실패 시 평면과의 교차점 계산
-                    Plane groundPlane = new Plane(Vector3.up, gridSystem.transform.position);
-                    if (groundPlane.Raycast(ray, out float distance))
-                    {
-                        worldPosition = ray.GetPoint(distance);
-                        hitGround = true;
-                    }
-                }
-                
-                if (!hitGround)
-                {
-                    // 마우스 레이캐스트 실패 시 수동 오프셋 사용
+                    // UI 위에 있거나 화면 밖이면 수동 오프셋 사용
                     targetGridPos = _playerGridPosition + _manualGridOffset;
                 }
                 else
                 {
-                    // 월드 위치를 그리드 위치로 변환
-                    Vector2Int mouseGridPos = gridSystem.WorldToGridPosition(worldPosition);
+                    Ray ray = mainCamera.ScreenPointToRay(mousePosition);
+                    RaycastHit hit;
                     
-                    // 플레이어 위치 기준으로 상대 위치 계산
-                    Vector2Int relativePos = mouseGridPos - _playerGridPosition;
+                    Vector3 worldPosition = Vector3.zero;
+                    bool hitGround = false;
                     
-                    // 범위 내로 제한
-                    int clampedX = Mathf.Clamp(relativePos.x, -buildingRange, buildingRange);
-                    int clampedY = Mathf.Clamp(relativePos.y, -buildingRange, buildingRange);
+                    if (Physics.Raycast(ray, out hit, 100f, groundLayerMask))
+                    {
+                        worldPosition = hit.point;
+                        hitGround = true;
+                    }
+                    else
+                    {
+                        // 레이캐스트 실패 시 평면과의 교차점 계산
+                        Plane groundPlane = new Plane(Vector3.up, gridSystem.transform.position);
+                        if (groundPlane.Raycast(ray, out float distance))
+                        {
+                            worldPosition = ray.GetPoint(distance);
+                            hitGround = true;
+                        }
+                    }
                     
-                    targetGridPos = _playerGridPosition + new Vector2Int(clampedX, clampedY);
-                    _manualGridOffset = new Vector2Int(clampedX, clampedY);
+                    if (!hitGround)
+                    {
+                        // 마우스 레이캐스트 실패 시 수동 오프셋 사용
+                        targetGridPos = _playerGridPosition + _manualGridOffset;
+                    }
+                    else
+                    {
+                        // 월드 위치를 그리드 위치로 변환
+                        Vector2Int mouseGridPos = gridSystem.WorldToGridPosition(worldPosition);
+                        
+                        // 플레이어 위치 기준으로 상대 위치 계산
+                        Vector2Int relativePos = mouseGridPos - _playerGridPosition;
+                        
+                        // 범위 내로 제한
+                        int clampedX = Mathf.Clamp(relativePos.x, -buildingRange, buildingRange);
+                        int clampedY = Mathf.Clamp(relativePos.y, -buildingRange, buildingRange);
+                        
+                        targetGridPos = _playerGridPosition + new Vector2Int(clampedX, clampedY);
+                        _manualGridOffset = new Vector2Int(clampedX, clampedY);
+                    }
                 }
             }
             
@@ -238,9 +253,14 @@ namespace Runtime.CH3.Main
             {
                 _canPlace = false;
                 Vector3 invalidPos = gridSystem.GridToWorldPosition(targetGridPos);
+                // customY 적용
+                if (_currentBuildingData != null && _currentBuildingData.useCustomY)
+                {
+                    invalidPos.y = _currentBuildingData.customY;
+                }
                 if (_currentPreview != null)
                 {
-                    _currentPreview.SetPosition(invalidPos, false);
+                    _currentPreview.SetPosition(invalidPos, false, targetGridPos);
                 }
                 _currentGridPosition = targetGridPos;
                 
@@ -257,19 +277,26 @@ namespace Runtime.CH3.Main
             
             // 그리드 위치에 맞게 월드 위치 조정
             Vector3 snappedWorldPos = gridSystem.GridToWorldPosition(targetGridPos);
+            // customY 적용
+            if (_currentBuildingData != null && _currentBuildingData.useCustomY)
+            {
+                snappedWorldPos.y = _currentBuildingData.customY;
+            }
             
             _currentGridPosition = targetGridPos;
             
             // 프리뷰 위치 업데이트
             if (_currentPreview != null)
             {
-                _currentPreview.SetPosition(snappedWorldPos, _canPlace);
+                _currentPreview.SetPosition(snappedWorldPos, _canPlace, targetGridPos);
             }
             
             // UI 업데이트
             if (buildingUI != null)
             {
                 buildingUI.UpdatePreview(targetGridPos, _canPlace);
+                // 플레이어 위치 기준으로 그리드 가시성 업데이트
+                buildingUI.UpdatePlayerPosition(_playerGridPosition);
             }
         }
         
@@ -323,6 +350,13 @@ namespace Runtime.CH3.Main
         /// </summary>
         private void HandleInput()
         {
+            // UI 위에 마우스가 있으면 입력 무시
+            bool isOverUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+            if (isOverUI)
+            {
+                return;
+            }
+            
             // 좌클릭 - 설치
             if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
             {
@@ -408,6 +442,7 @@ namespace Runtime.CH3.Main
         
         /// <summary>
         /// 건물 설치 가능 여부 확인
+        /// GridObject.OccupyTiles와 동일한 방식으로 타일 범위 계산 (중심 기준)
         /// </summary>
         private bool CanPlaceBuilding(Vector2Int gridPosition)
         {
@@ -415,12 +450,61 @@ namespace Runtime.CH3.Main
             
             Vector2Int tileSize = _currentBuildingData.TileSize;
             
-            // 건물이 차지하는 모든 타일 확인
-            for (int x = 0; x < tileSize.x; x++)
+            // GridObject.OccupyTiles와 동일한 방식으로 타일 범위 계산 (중심 기준)
+            if (tileSize.x == 1 && tileSize.y == 1)
             {
-                for (int y = 0; y < tileSize.y; y++)
+                // 1x1 타일인 경우
+                if (!gridSystem.IsValidGridPosition(gridPosition))
                 {
-                    Vector2Int checkPos = gridPosition + new Vector2Int(x, y);
+                    return false;
+                }
+                
+                // 플레이어 주변 범위 체크
+                int distanceX = Mathf.Abs(gridPosition.x - _playerGridPosition.x);
+                int distanceY = Mathf.Abs(gridPosition.y - _playerGridPosition.y);
+                int maxDistance = Mathf.Max(distanceX, distanceY);
+                
+                if (maxDistance > buildingRange)
+                {
+                    return false;
+                }
+                
+                // 점유 여부 체크
+                if (gridSystem.IsCellOccupied(gridPosition))
+                {
+                    return false;
+                }
+                
+                // 블록 여부 체크
+                if (gridSystem.IsCellBlocked(gridPosition))
+                {
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // 중심을 기준으로 타일 범위 계산
+            // 홀수 크기: 중심에서 (size-1)/2 만큼 확장
+            // 짝수 크기: 중심에서 size/2-1 만큼 확장 (중심이 약간 오프셋됨)
+            int offsetX = tileSize.x % 2 == 0 ? tileSize.x / 2 - 1 : tileSize.x / 2;
+            int offsetY = tileSize.y % 2 == 0 ? tileSize.y / 2 - 1 : tileSize.y / 2;
+            
+            int startX = gridPosition.x - offsetX;
+            int startY = gridPosition.y - offsetY;
+            int endX = gridPosition.x + offsetX;
+            int endY = gridPosition.y + offsetY;
+            
+            // 짝수 크기인 경우 한쪽 방향으로 1칸 더 확장
+            if (tileSize.x % 2 == 0) endX++;
+            if (tileSize.y % 2 == 0) endY++;
+            
+            // 건물이 차지하는 모든 타일 확인
+            for (int x = startX; x <= endX; x++)
+            {
+                for (int y = startY; y <= endY; y++)
+                {
+                    Vector2Int checkPos = new Vector2Int(x, y);
                     
                     // 그리드 범위 체크
                     if (!gridSystem.IsValidGridPosition(checkPos))
