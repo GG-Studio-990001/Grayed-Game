@@ -8,6 +8,8 @@ namespace Runtime.CH3.Main
     {
         [Header("References")]
         [SerializeField] private GameObject shopRoot;
+        [SerializeField] private ShopSelectionPanel selectionPanel;
+        [SerializeField] private ShopCreatePanel createPanel;
 
         [Header("Behaviour")]
         [SerializeField] private bool pauseGameOnOpen = true;
@@ -19,14 +21,27 @@ namespace Runtime.CH3.Main
 
         private bool isOpen;
         private float cachedTimeScale = 1f;
+        private bool hasPausedTime = false;
 
         public bool IsOpen => isOpen;
+        public ShopSelectionPanel SelectionPanel => selectionPanel;
+        public ShopCreatePanel CreatePanel => createPanel;
 
         private void Awake()
         {
             if (shopRoot == null)
             {
                 shopRoot = gameObject;
+            }
+
+            // 패널 자동 찾기 (Inspector에서 설정하지 않은 경우)
+            if (selectionPanel == null)
+            {
+                selectionPanel = GetComponentInChildren<ShopSelectionPanel>(true);
+            }
+            if (createPanel == null)
+            {
+                createPanel = GetComponentInChildren<ShopCreatePanel>(true);
             }
 
             if (shopRoot != null)
@@ -67,6 +82,7 @@ namespace Runtime.CH3.Main
             {
                 cachedTimeScale = Time.timeScale;
                 Time.timeScale = 0f;
+                hasPausedTime = true;
             }
 
             if (disablePlayerInputOnOpen)
@@ -101,9 +117,10 @@ namespace Runtime.CH3.Main
                 shopRoot.SetActive(false);
             }
 
-            if (pauseGameOnOpen)
+            if (pauseGameOnOpen && hasPausedTime)
             {
                 Time.timeScale = cachedTimeScale;
+                hasPausedTime = false;
             }
 
             if (disablePlayerInputOnOpen)
@@ -113,6 +130,77 @@ namespace Runtime.CH3.Main
 
             onClosed?.Invoke();
             isOpen = false;
+        }
+
+        /// <summary>
+        /// 선택 패널 표시
+        /// </summary>
+        public void ShowSelectionPanel()
+        {
+            if (selectionPanel != null)
+            {
+                selectionPanel.Show();
+            }
+            if (createPanel != null)
+            {
+                createPanel.Hide();
+            }
+        }
+
+        /// <summary>
+        /// 생성 패널 표시
+        /// </summary>
+        public void ShowCreatePanel()
+        {
+            if (createPanel != null)
+            {
+                createPanel.Show();
+            }
+            if (selectionPanel != null)
+            {
+                selectionPanel.Hide();
+            }
+        }
+
+        /// <summary>
+        /// 두 패널 모두 표시 (동시에 보여야 하는 경우)
+        /// </summary>
+        public void ShowAllPanels()
+        {
+            if (selectionPanel != null)
+            {
+                selectionPanel.Show();
+            }
+            if (createPanel != null)
+            {
+                createPanel.Show();
+            }
+        }
+
+        private void Start()
+        {
+            if (selectionPanel != null && createPanel != null)
+            {
+                selectionPanel.SetCreateButtonCallback(() => createPanel.TryCraftSelectedItem());
+                selectionPanel.SetCancelButtonCallback(() => CloseShop());
+            }
+        }
+
+        private void OnEnable()
+        {
+            if (createPanel != null)
+            {
+                createPanel.RefreshSoldOutStates();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            // 씬 전환 시 Time.timeScale 복구
+            if (hasPausedTime && pauseGameOnOpen)
+            {
+                Time.timeScale = cachedTimeScale;
+            }
         }
     }
 }

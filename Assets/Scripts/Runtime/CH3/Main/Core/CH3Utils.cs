@@ -28,6 +28,29 @@ namespace Runtime.CH3.Main
         }
         
         /// <summary>
+        /// 대소문자 구분 없이 재귀적으로 자식 오브젝트를 찾습니다.
+        /// </summary>
+        public static Transform FindChildRecursive(Transform parent, string name)
+        {
+            if (parent == null || string.IsNullOrEmpty(name)) return null;
+            
+            foreach (Transform child in parent)
+            {
+                if (child.name.Equals(name, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return child;
+                }
+                
+                Transform found = FindChildRecursive(child, name);
+                if (found != null)
+                {
+                    return found;
+                }
+            }
+            return null;
+        }
+        
+        /// <summary>
         /// 스프라이트에 맞게 콜라이더 크기를 업데이트합니다.
         /// </summary>
         public static void UpdateColliderToSprite(BoxCollider collider, SpriteRenderer spriteRenderer)

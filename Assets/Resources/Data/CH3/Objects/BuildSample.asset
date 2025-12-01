@@ -22,8 +22,11 @@ MonoBehaviour:
   isBuilding: 1
   maxBuild: 1
   buildCurrency: []
-  productionCurrency: []
+  productionItems:
+  - item: {fileID: 11400000, guid: 5667713aebeb1fc4882abdb54267227b, type: 2}
+    amount: 1
   productionInterval: 5
+  maxProduction: 10
   isBlocking: 0
   isBreakable: 0
   maxDrop: 0

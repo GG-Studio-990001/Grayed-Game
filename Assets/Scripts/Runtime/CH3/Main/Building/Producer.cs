@@ -93,6 +93,14 @@ namespace Runtime.CH3.Main
             }
         }
         
+        /// <summary>
+        /// 건물 데이터 반환
+        /// </summary>
+        public CH3_LevelData GetBuildingData()
+        {
+            return _buildingData;
+        }
+        
         public override void Remove()
         {
             if (gridManager != null)
