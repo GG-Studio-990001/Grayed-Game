@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed5456a9c27318c42a45266e22e62697, type: 3}
+  m_Name: lvFactoryS_Item
+  m_EditorClassIdentifier: 
+  itemName: "\uC18C\uD615LV\uBC1C\uC804\uAE30"
+  itemIcon: {fileID: 21300000, guid: 1df7ff1fbcca0074ca5a7880d2fad3e0, type: 3}
+  buildingData: {fileID: 11400000, guid: 8083aa626759383459519eebe39b86cd, type: 2}

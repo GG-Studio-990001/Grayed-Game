@@ -14,6 +14,11 @@ namespace Runtime.CH3.Main
         private Coroutine _productionCoroutine;
         private bool _isProducing = false;
         
+        // 생산된 아이템 임시 저장소 (Item -> 개수)
+        private Dictionary<Item, int> _producedItems = new Dictionary<Item, int>();
+        
+        public event System.Action OnProductionChanged;
+        
         /// <summary>
         /// 생산 시작
         /// </summary>
@@ -27,9 +32,9 @@ namespace Runtime.CH3.Main
             
             _buildingData = buildingData;
             
-            if (_buildingData.productionCurrency == null || _buildingData.productionCurrency.Count == 0)
+            if (_buildingData.productionItems == null || _buildingData.productionItems.Count == 0)
             {
-                Debug.Log($"BuildingProduction: 생산할 재화가 설정되지 않았습니다. ({_buildingData.id})");
+                Debug.Log($"BuildingProduction: 생산할 아이템이 설정되지 않았습니다. ({_buildingData.id})");
                 return;
             }
             
@@ -83,25 +88,108 @@ namespace Runtime.CH3.Main
         
         private void ProduceResources()
         {
-            if (_buildingData == null || _buildingData.productionCurrency == null) return;
+            if (_buildingData == null || _buildingData.productionItems == null) return;
             
-            if (CurrencyManager.Instance != null)
+            foreach (var productionData in _buildingData.productionItems)
             {
-                bool success = CurrencyManager.Instance.TryAddCurrencies(_buildingData.productionCurrency);
-                if (success)
+                if (productionData.item == null)
                 {
-                    Debug.Log($"건물 생산 완료: {_buildingData.id}");
+                    Debug.LogWarning($"BuildingProduction: 생산 아이템이 null입니다!");
+                    continue;
+                }
+                
+                Item item = productionData.item;
+                int currentCount = _producedItems.TryGetValue(item, out int count) ? count : 0;
+                int maxProduction = _buildingData.maxProduction > 0 ? _buildingData.maxProduction : int.MaxValue;
+                
+                if (currentCount >= maxProduction)
+                {
+                    continue;
+                }
+                
+                int canAdd = Mathf.Min(productionData.amount, maxProduction - currentCount);
+                if (canAdd > 0)
+                {
+                    if (_producedItems.ContainsKey(item))
+                    {
+                        _producedItems[item] += canAdd;
+                    }
+                    else
+                    {
+                        _producedItems[item] = canAdd;
+                    }
+                    
+                    OnProductionChanged?.Invoke();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// 생산된 아이템 개수 반환
+        /// </summary>
+        public Dictionary<Item, int> GetProducedItems()
+        {
+            return new Dictionary<Item, int>(_producedItems);
+        }
+        
+        /// <summary>
+        /// 특정 아이템의 생산 개수 반환
+        /// </summary>
+        public int GetProducedCount(Item item)
+        {
+            return _producedItems.TryGetValue(item, out int count) ? count : 0;
+        }
+        
+        /// <summary>
+        /// 생산된 아이템을 인벤토리로 수거하고 0으로 초기화
+        /// </summary>
+        public bool RecoverProducedItems()
+        {
+            if (_inventory == null)
+            {
+                _inventory = FindObjectOfType<Inventory>();
+            }
+            
+            if (_inventory == null)
+            {
+                Debug.LogWarning("BuildingProduction: 인벤토리를 찾을 수 없습니다!");
+                return false;
+            }
+            
+            bool allSuccess = true;
+            var itemsToClear = new List<Item>();
+            
+            foreach (var kvp in _producedItems)
+            {
+                Item item = kvp.Key;
+                int count = kvp.Value;
+                
+                if (item == null || count <= 0) continue;
+                
+                if (_inventory.TryAdd(item, count))
+                {
+                    itemsToClear.Add(item);
                 }
                 else
                 {
-                    Debug.LogWarning($"건물 생산 실패 (인벤토리 가득참?): {_buildingData.id}");
+                    Debug.LogWarning($"BuildingProduction: {item.itemName} {count}개를 인벤토리에 추가하는데 실패했습니다. 인벤토리가 가득 찼을 수 있습니다.");
+                    allSuccess = false;
                 }
             }
-            else
+            
+            foreach (var item in itemsToClear)
             {
-                Debug.LogWarning("BuildingProduction: CurrencyManager를 찾을 수 없습니다!");
+                _producedItems.Remove(item);
             }
+            
+            if (itemsToClear.Count > 0)
+            {
+                OnProductionChanged?.Invoke();
+            }
+            
+            return allSuccess;
         }
+        
         
         private void OnDestroy()
         {

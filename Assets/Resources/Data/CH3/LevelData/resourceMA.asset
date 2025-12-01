@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88a010ad75faef42b805b604e62cec2, type: 3}
+  m_Name: resourceMA
+  m_EditorClassIdentifier: 
+  id: resourceMA
+  dev: "\uC911\uD615\uB9AC\uC18C\uC2A4\uB354\uBBF8A"
+  sizeX: 3
+  sizeY: 1
+  sprite: {fileID: 0}
+  uiPrefab: {fileID: 0}
+  objectType: 2
+  isBuilding: 0
+  maxBuild: 1
+  buildCurrency: []
+  productionCurrency: []
+  productionInterval: 5
+  isBlocking: 1
+  isBreakable: 1
+  maxDrop: 2
+  dropCurrency:
+  - currency: 2
+    amount: 1
+    ratio: 0.4
+  - currency: 3
+    amount: 1
+    ratio: 0.2
+  - currency: 4
+    amount: 1
+    ratio: 0.2
+  - currency: 5
+    amount: 1
+    ratio: 0.2
+  maxMiningCount: 1
+  miningStageSprites: []
+  itemPrefab: {fileID: 0}
+  minDropCount: 1
+  maxDropCount: 3
+  dropRadius: 1
+  isRespawn: 1
+  respawnDelayMin: 1
+  respawnDelayMax: 3
+  gridPositionMode: 1
+  gridPosition: {x: 0, y: 0}
+  useCustomY: 0
+  customY: 0.53
+  applyInitialGridSorting: 1
+  gridSortingScale: 1
+  interactionRange: 2
+  enableColliderOnStart: 1

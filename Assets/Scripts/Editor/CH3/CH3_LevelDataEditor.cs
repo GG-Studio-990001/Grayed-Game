@@ -18,6 +18,9 @@ namespace Runtime.CH3.Main
         private SerializedProperty isBuildingProperty;
         private SerializedProperty maxBuildProperty;
         private SerializedProperty buildCurrencyProperty;
+        private SerializedProperty productionItemsProperty;
+        private SerializedProperty productionIntervalProperty;
+        private SerializedProperty maxProductionProperty;
         
         // Structure
         private SerializedProperty isBlockingProperty;
@@ -67,6 +70,9 @@ namespace Runtime.CH3.Main
             isBuildingProperty = serializedObject.FindProperty("isBuilding");
             maxBuildProperty = serializedObject.FindProperty("maxBuild");
             buildCurrencyProperty = serializedObject.FindProperty("buildCurrency");
+            productionItemsProperty = serializedObject.FindProperty("productionItems");
+            productionIntervalProperty = serializedObject.FindProperty("productionInterval");
+            maxProductionProperty = serializedObject.FindProperty("maxProduction");
             
             isBlockingProperty = serializedObject.FindProperty("isBlocking");
             
@@ -163,6 +169,13 @@ namespace Runtime.CH3.Main
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(maxBuildProperty);
                 EditorGUILayout.PropertyField(buildCurrencyProperty);
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField("Production Settings", EditorStyles.boldLabel);
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(productionItemsProperty);
+                EditorGUILayout.PropertyField(productionIntervalProperty);
+                EditorGUILayout.PropertyField(maxProductionProperty);
+                EditorGUI.indentLevel--;
                 EditorGUI.indentLevel--;
             }
             
