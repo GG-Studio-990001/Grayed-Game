@@ -114,6 +114,35 @@ namespace Runtime.CH3.Main
             // 자식 Sprite 오브젝트의 스프라이트 교체
             ReplaceSpriteInChild(rootObject, data);
             
+            // Tile 타입인 경우 특별 처리
+            if (data.objectType == GridObjectType.Tile)
+            {
+                // Rotation X를 90도로 설정
+                Vector3 rotation = rootObject.transform.rotation.eulerAngles;
+                rotation.x = 90f;
+                rootObject.transform.rotation = Quaternion.Euler(rotation);
+                
+                // 콜리더 제거
+                var colliders = rootObject.GetComponentsInChildren<Collider>();
+                foreach (var collider in colliders)
+                {
+                    if (collider != null)
+                    {
+                        Object.DestroyImmediate(collider);
+                    }
+                }
+                
+                // OcclusionFader 제거
+                var occlusionFaders = rootObject.GetComponentsInChildren<Runtime.CH3.Main.Exploration.OcclusionFader>();
+                foreach (var fader in occlusionFaders)
+                {
+                    if (fader != null)
+                    {
+                        Object.DestroyImmediate(fader);
+                    }
+                }
+            }
+            
             return rootObject;
         }
         
@@ -159,6 +188,10 @@ namespace Runtime.CH3.Main
                     {
                         gridObject = obj.AddComponent<Structure>();
                     }
+                    break;
+                    
+                case GridObjectType.Tile:
+                    gridObject = obj.AddComponent<Tile>();
                     break;
                     
                 case GridObjectType.Ore:

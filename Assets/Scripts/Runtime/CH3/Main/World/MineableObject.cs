@@ -141,10 +141,28 @@ namespace Runtime.CH3.Main
         public void OnHoldStart(GameObject interactor)
         {
             lastInteractionTime = Time.time;
+            
+            // UI 참조가 없거나 유효하지 않으면 다시 찾기
+            if (uiCanvas == null)
+            {
+                InitializeUI();
+            }
+            
             if (uiCanvas != null)
             {
                 uiCanvas.gameObject.SetActive(true);
             }
+            
+            // holdGauge가 null이면 다시 찾기
+            if (holdGauge == null)
+            {
+                holdGauge = GetComponentInChildren<Slider>(true);
+                if (holdGauge == null)
+                {
+                    holdGauge = GetComponent<Slider>();
+                }
+            }
+            
             if (holdGauge != null)
             {
                 holdGauge.gameObject.SetActive(true);
@@ -154,8 +172,31 @@ namespace Runtime.CH3.Main
         public void OnHoldProgress(GameObject interactor, float normalized01)
         {
             lastInteractionTime = Time.time;
+            
+            // holdGauge가 null이면 다시 찾기
+            if (holdGauge == null)
+            {
+                holdGauge = GetComponentInChildren<Slider>(true);
+                if (holdGauge == null)
+                {
+                    holdGauge = GetComponent<Slider>();
+                }
+            }
+            
             if (holdGauge != null)
             {
+                // 게이지바가 비활성화되어 있으면 활성화
+                if (!holdGauge.gameObject.activeSelf)
+                {
+                    holdGauge.gameObject.SetActive(true);
+                }
+                
+                // UI Canvas도 활성화
+                if (uiCanvas != null && !uiCanvas.gameObject.activeSelf)
+                {
+                    uiCanvas.gameObject.SetActive(true);
+                }
+                
                 holdGauge.value = Mathf.Clamp01(normalized01);
             }
         }

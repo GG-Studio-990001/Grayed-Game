@@ -54,8 +54,15 @@ namespace Runtime.CH3.Main
             if (Mouse.current == null) return;
             
             // 건축 모드 중이면 상호작용 처리하지 않음 (BuildingSystem에서 처리)
+            // 빌드모드에서는 좌클릭이 건설로 사용되므로 여기서 가로채지 않음
             if (_buildingSystem != null && _buildingSystem.IsBuildingMode)
             {
+                // 빌드모드에서는 홀드 상태도 초기화
+                if (_mouseHolding)
+                {
+                    _player.GetComponent<InteractionManager>()?.CancelHold();
+                    _mouseHolding = false;
+                }
                 return;
             }
             

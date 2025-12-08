@@ -13,6 +13,7 @@ namespace Runtime.CH3.Main
         BlockedArea,
         EventArea,
         Structure,
+        Tile,
         Producer,
         Teleporter,
         Ore,

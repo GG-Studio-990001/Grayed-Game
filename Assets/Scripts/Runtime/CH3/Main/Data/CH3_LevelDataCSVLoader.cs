@@ -167,10 +167,6 @@ namespace Runtime.CH3.Main
 
             switch (data.id)
             {
-                case "Build":
-                    data.buildCurrency.Add(new CurrencyData(ECurrencyData.Tree, 10));
-                    data.buildCurrency.Add(new CurrencyData(ECurrencyData.Stone, 5));
-                    break;
                 case "endingPortal":
                     data.buildCurrency.Add(new CurrencyData(ECurrencyData.Stone, 12));
                     break;

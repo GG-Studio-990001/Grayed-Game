@@ -104,7 +104,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""name"": ""Interaction"",
                     ""type"": ""Button"",
                     ""id"": ""25bf3ffe-6aee-458f-84f8-65c0d8c7462c"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -113,7 +113,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""1db2e13d-b017-4e7f-aa28-683018904bbe"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -122,7 +122,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""name"": ""Hotbar"",
                     ""type"": ""Button"",
                     ""id"": ""2249286d-65cf-4396-a91c-b153e7c157a0"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -131,7 +131,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""name"": ""InvetoryToggle"",
                     ""type"": ""Button"",
                     ""id"": ""5d4dc3da-2f6f-4ebb-a586-963c403368f9"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -140,7 +140,16 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""name"": ""HotbarUse"",
                     ""type"": ""Button"",
                     ""id"": ""c5b4e87a-2943-4b77-96b2-a936015668bc"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MapOpen"",
+                    ""type"": ""Button"",
+                    ""id"": ""b0fe76e4-122a-4904-b473-35a4b1b7d20a"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -388,6 +397,17 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""action"": ""HotbarUse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f75763b8-60a7-4492-9de5-9965ee8a5bd9"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MapOpen"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -408,7 +428,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
                     ""name"": ""GameSetting"",
                     ""type"": ""Button"",
                     ""id"": ""1d0fe5c3-eb98-487a-898d-7436f0744739"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -572,6 +592,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         m_Player_Hotbar = m_Player.FindAction("Hotbar", throwIfNotFound: true);
         m_Player_InvetoryToggle = m_Player.FindAction("InvetoryToggle", throwIfNotFound: true);
         m_Player_HotbarUse = m_Player.FindAction("HotbarUse", throwIfNotFound: true);
+        m_Player_MapOpen = m_Player.FindAction("MapOpen", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
@@ -668,6 +689,7 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Hotbar;
     private readonly InputAction m_Player_InvetoryToggle;
     private readonly InputAction m_Player_HotbarUse;
+    private readonly InputAction m_Player_MapOpen;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -703,6 +725,10 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/HotbarUse".
         /// </summary>
         public InputAction @HotbarUse => m_Wrapper.m_Player_HotbarUse;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/MapOpen".
+        /// </summary>
+        public InputAction @MapOpen => m_Wrapper.m_Player_MapOpen;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -747,6 +773,9 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
             @HotbarUse.started += instance.OnHotbarUse;
             @HotbarUse.performed += instance.OnHotbarUse;
             @HotbarUse.canceled += instance.OnHotbarUse;
+            @MapOpen.started += instance.OnMapOpen;
+            @MapOpen.performed += instance.OnMapOpen;
+            @MapOpen.canceled += instance.OnMapOpen;
         }
 
         /// <summary>
@@ -776,6 +805,9 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
             @HotbarUse.started -= instance.OnHotbarUse;
             @HotbarUse.performed -= instance.OnHotbarUse;
             @HotbarUse.canceled -= instance.OnHotbarUse;
+            @MapOpen.started -= instance.OnMapOpen;
+            @MapOpen.performed -= instance.OnMapOpen;
+            @MapOpen.canceled -= instance.OnMapOpen;
         }
 
         /// <summary>
@@ -1020,6 +1052,13 @@ public partial class @GameOverControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHotbarUse(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "MapOpen" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMapOpen(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
