@@ -99,22 +99,12 @@ namespace Runtime.CH3.Main
             {
                 recoveryButton.onClick.RemoveAllListeners();
                 recoveryButton.onClick.AddListener(OnRecoveryButtonClicked);
-                Debug.Log($"BuildingManagementUI: Recovery 버튼 리스너 등록 완료. interactable={recoveryButton.interactable}");
-            }
-            else
-            {
-                Debug.LogWarning("BuildingManagementUI: recoveryButton이 null입니다!");
             }
             
             if (demolitionButton != null)
             {
                 demolitionButton.onClick.RemoveAllListeners();
                 demolitionButton.onClick.AddListener(OnDemolitionButtonClicked);
-                Debug.Log($"BuildingManagementUI: Demolition 버튼 리스너 등록 완료. interactable={demolitionButton.interactable}");
-            }
-            else
-            {
-                Debug.LogWarning("BuildingManagementUI: demolitionButton이 null입니다!");
             }
         }
         
@@ -125,7 +115,6 @@ namespace Runtime.CH3.Main
         {
             if (producer == null)
             {
-                Debug.LogWarning("Producer가 null입니다!");
                 return;
             }
             
@@ -149,7 +138,7 @@ namespace Runtime.CH3.Main
             
             if (_currentProduction != null)
             {
-                _currentProduction.OnProductionChanged += UpdateProductionDisplay;
+                _currentProduction.OnProductionChanged += OnProductionChanged;
             }
             
             UpdateProductionDisplay();
@@ -163,7 +152,7 @@ namespace Runtime.CH3.Main
         {
             if (_currentProduction != null)
             {
-                _currentProduction.OnProductionChanged -= UpdateProductionDisplay;
+                _currentProduction.OnProductionChanged -= OnProductionChanged;
             }
             
             _currentProducer = null;
@@ -274,7 +263,6 @@ namespace Runtime.CH3.Main
                     }
                     else
                     {
-                        Debug.LogWarning($"BuildingManagementUI: {displayItem.itemName}의 itemIcon이 null입니다!");
                         itemImage.sprite = null;
                         itemImage.color = new Color(1, 1, 1, 0);
                     }
@@ -284,10 +272,6 @@ namespace Runtime.CH3.Main
                     itemImage.sprite = null;
                     itemImage.color = new Color(1, 1, 1, 0);
                 }
-            }
-            else
-            {
-                Debug.LogWarning("BuildingManagementUI: itemImage가 null입니다!");
             }
             
             if (itemNameText != null)
@@ -301,6 +285,18 @@ namespace Runtime.CH3.Main
                     itemNameText.text = "";
                 }
             }
+            
+            // 생산 상태가 변경될 때마다 버튼 상태도 업데이트
+            UpdateButtonStates();
+        }
+        
+        /// <summary>
+        /// 생산 상태 변경 이벤트 핸들러
+        /// </summary>
+        private void OnProductionChanged()
+        {
+            UpdateProductionDisplay();
+            UpdateButtonStates();
         }
         
         /// <summary>
@@ -318,7 +314,16 @@ namespace Runtime.CH3.Main
             }
             
             var producedItems = _currentProduction.GetProducedItems();
-            bool hasProducedItems = producedItems.Count > 0;
+            // 회수할 자원 개수가 한 개라도 있으면 활성화
+            bool hasProducedItems = false;
+            foreach (var kvp in producedItems)
+            {
+                if (kvp.Value > 0)
+                {
+                    hasProducedItems = true;
+                    break;
+                }
+            }
             
             if (recoveryButton != null)
             {
@@ -331,11 +336,8 @@ namespace Runtime.CH3.Main
         /// </summary>
         private void OnRecoveryButtonClicked()
         {
-            Debug.Log("OnRecoveryButtonClicked 호출됨");
-            
             if (_currentProduction == null)
             {
-                Debug.LogWarning("BuildingManagementUI: _currentProduction이 null입니다!");
                 return;
             }
             
@@ -345,10 +347,6 @@ namespace Runtime.CH3.Main
                 UpdateProductionDisplay();
                 UpdateButtonStates();
             }
-            else
-            {
-                Debug.LogWarning("생산된 아이템 수거에 실패했습니다. 인벤토리가 가득 찼을 수 있습니다.");
-            }
         }
         
         /// <summary>
@@ -356,18 +354,14 @@ namespace Runtime.CH3.Main
         /// </summary>
         private void OnDemolitionButtonClicked()
         {
-            Debug.Log("OnDemolitionButtonClicked 호출됨");
-            
             if (_currentProducer == null)
             {
-                Debug.LogWarning("BuildingManagementUI: _currentProducer이 null입니다!");
                 return;
             }
             
             var buildingData = _currentProducer.GetBuildingData();
             if (buildingData == null || buildingData.buildCurrency == null || buildingData.buildCurrency.Count == 0)
             {
-                Debug.LogWarning("건설 재료 정보를 찾을 수 없습니다.");
                 _currentProducer.Remove();
                 Hide();
                 return;
@@ -376,34 +370,19 @@ namespace Runtime.CH3.Main
             var inventory = FindObjectOfType<Inventory>();
             if (inventory == null)
             {
-                Debug.LogWarning("인벤토리를 찾을 수 없습니다.");
                 _currentProducer.Remove();
                 Hide();
                 return;
             }
             
             var currencyToItemMap = GetCurrencyToItemMap();
-            bool allSuccess = true;
             
             foreach (var currencyData in buildingData.buildCurrency)
             {
-                if (!currencyToItemMap.TryGetValue(currencyData.currency, out Item item))
+                if (currencyToItemMap.TryGetValue(currencyData.currency, out Item item))
                 {
-                    Debug.LogWarning($"건설 재료 {currencyData.currency}에 해당하는 Item을 찾을 수 없습니다!");
-                    allSuccess = false;
-                    continue;
+                    inventory.TryAdd(item, currencyData.amount);
                 }
-                
-                if (!inventory.TryAdd(item, currencyData.amount))
-                {
-                    Debug.LogWarning($"건설 재료 {currencyData.currency} {currencyData.amount}개를 인벤토리에 추가하는데 실패했습니다.");
-                    allSuccess = false;
-                }
-            }
-            
-            if (!allSuccess)
-            {
-                Debug.LogWarning("일부 건설 재료를 인벤토리에 추가하는데 실패했습니다. 인벤토리가 가득 찼을 수 있습니다.");
             }
             
             _currentProducer.Remove();

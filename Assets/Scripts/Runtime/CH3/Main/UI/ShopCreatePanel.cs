@@ -19,8 +19,17 @@ namespace Runtime.CH3.Main
         private void Awake()
         {
             InitializeReferences();
-            LoadItemsFromCSV();
             PreloadCurrencyToItemMap();
+        }
+        
+        private void OnEnable()
+        {
+            // UI가 활성화될 때 참조 초기화 및 아이템 로드
+            InitializeReferences();
+            if (contentParent != null && (levelDataCache == null || levelDataCache.Count == 0))
+            {
+                LoadItemsFromCSV();
+            }
         }
         
         private void PreloadCurrencyToItemMap()
@@ -195,6 +204,12 @@ namespace Runtime.CH3.Main
         public void Show()
         {
             gameObject.SetActive(true);
+            // UI가 활성화된 후 참조 초기화 및 아이템 로드
+            InitializeReferences();
+            if (contentParent != null && (levelDataCache == null || levelDataCache.Count == 0))
+            {
+                LoadItemsFromCSV();
+            }
             RefreshSoldOutStates();
         }
 
