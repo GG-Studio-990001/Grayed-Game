@@ -78,6 +78,13 @@ namespace Runtime.CH3.Main
                 shopRoot.SetActive(true);
             }
 
+            // 패널 활성화 (두 패널 모두 표시)
+            // ShowAllPanels()가 createPanel.Show()를 호출하여 아이템 로드 보장
+            ShowAllPanels();
+
+            // 버튼 이벤트 바인딩 (상점이 열릴 때마다 확실히 설정)
+            SetupButtonCallbacks();
+
             if (pauseGameOnOpen)
             {
                 cachedTimeScale = Time.timeScale;
@@ -94,6 +101,14 @@ namespace Runtime.CH3.Main
             if (EventSystem.current != null)
             {
                 EventSystem.current.SetSelectedGameObject(null);
+            }
+
+            // 상점이 열릴 때 최신 상태로 업데이트
+            // Show()에서 아이템이 로드되므로 여기서는 Refresh만 호출
+            if (createPanel != null)
+            {
+                // Show()에서 이미 로드되므로 Refresh만 호출
+                createPanel.RefreshSoldOutStates();
             }
 
             onOpened?.Invoke();
@@ -179,16 +194,25 @@ namespace Runtime.CH3.Main
 
         private void Start()
         {
+            SetupButtonCallbacks();
+        }
+
+        private void SetupButtonCallbacks()
+        {
             if (selectionPanel != null && createPanel != null)
             {
+                // 제작 버튼: 아이템 제작만 수행 (상점 닫지 않음)
                 selectionPanel.SetCreateButtonCallback(() => createPanel.TryCraftSelectedItem());
+                
+                // 취소 버튼: 상점 닫기
                 selectionPanel.SetCancelButtonCallback(() => CloseShop());
             }
         }
 
         private void OnEnable()
         {
-            if (createPanel != null)
+            // createPanel이 활성화되어 있을 때만 갱신
+            if (createPanel != null && createPanel.gameObject.activeInHierarchy)
             {
                 createPanel.RefreshSoldOutStates();
             }

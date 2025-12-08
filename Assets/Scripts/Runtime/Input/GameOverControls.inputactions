@@ -18,7 +18,7 @@
                     "name": "Interaction",
                     "type": "Button",
                     "id": "25bf3ffe-6aee-458f-84f8-65c0d8c7462c",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -27,7 +27,7 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "1db2e13d-b017-4e7f-aa28-683018904bbe",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -36,7 +36,7 @@
                     "name": "Hotbar",
                     "type": "Button",
                     "id": "2249286d-65cf-4396-a91c-b153e7c157a0",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -45,7 +45,7 @@
                     "name": "InvetoryToggle",
                     "type": "Button",
                     "id": "5d4dc3da-2f6f-4ebb-a586-963c403368f9",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -54,7 +54,16 @@
                     "name": "HotbarUse",
                     "type": "Button",
                     "id": "c5b4e87a-2943-4b77-96b2-a936015668bc",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MapOpen",
+                    "type": "Button",
+                    "id": "b0fe76e4-122a-4904-b473-35a4b1b7d20a",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -302,6 +311,17 @@
                     "action": "HotbarUse",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f75763b8-60a7-4492-9de5-9965ee8a5bd9",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MapOpen",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -322,7 +342,7 @@
                     "name": "GameSetting",
                     "type": "Button",
                     "id": "1d0fe5c3-eb98-487a-898d-7436f0744739",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
