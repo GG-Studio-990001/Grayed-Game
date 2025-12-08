@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88a010ad75faef42b805b604e62cec2, type: 3}
+  m_Name: Tile_B3_3
+  m_EditorClassIdentifier: 
+  id: B3_3
+  dev: 
+  sizeX: 1
+  sizeY: 1
+  sprite: {fileID: 21300000, guid: b15922dbe3c612d4b8460dcab5bab23e, type: 3}
+  uiPrefab: {fileID: 0}
+  objectType: 3
+  isBuilding: 0
+  maxBuild: 1
+  buildCurrency: []
+  productionItems: []
+  productionInterval: 5
+  maxProduction: 10
+  isBlocking: 0
+  isBreakable: 0
+  maxDrop: 0
+  dropCurrency: []
+  maxMiningCount: 3
+  miningStageSprites: []
+  itemPrefab: {fileID: 0}
+  minDropCount: 1
+  maxDropCount: 3
+  dropRadius: 1
+  isRespawn: 0
+  respawnDelayMin: 1
+  respawnDelayMax: 3
+  gridPositionMode: 1
+  gridPosition: {x: 0, y: 0}
+  useCustomY: 1
+  customY: 0
+  applyInitialGridSorting: 1
+  gridSortingScale: 1
+  interactionRange: 2
+  enableColliderOnStart: 1

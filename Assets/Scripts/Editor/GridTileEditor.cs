@@ -808,6 +808,22 @@ public class GridTileEditor : EditorWindow
                 newObject.transform.SetParent(gridParent);
             }
             
+            // customY 적용 (데이터에 useCustomY가 true인 경우)
+            if (selectedLevelData.useCustomY)
+            {
+                Vector3 pos = newObject.transform.position;
+                pos.y = selectedLevelData.customY;
+                newObject.transform.position = pos;
+            }
+            
+            // Tile 타입인 경우 Rotation X를 90도로 설정
+            if (selectedLevelData.objectType == GridObjectType.Tile)
+            {
+                Vector3 rotation = newObject.transform.rotation.eulerAngles;
+                rotation.x = 90f;
+                newObject.transform.rotation = Quaternion.Euler(rotation);
+            }
+            
             // 이름 설정
             newObject.name = $"{selectedLevelData.id}_{gridPos.x}_{gridPos.y}";
             

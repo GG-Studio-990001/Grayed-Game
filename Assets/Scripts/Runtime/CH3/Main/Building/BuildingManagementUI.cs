@@ -365,24 +365,12 @@ namespace Runtime.CH3.Main
             }
             
             var buildingData = _currentProducer.GetBuildingData();
-            if (buildingData == null)
+            if (buildingData == null || buildingData.buildCurrency == null || buildingData.buildCurrency.Count == 0)
             {
-                Debug.LogWarning("건물 데이터를 찾을 수 없습니다.");
+                Debug.LogWarning("건설 재료 정보를 찾을 수 없습니다.");
                 _currentProducer.Remove();
                 Hide();
                 return;
-            }
-            
-            if (buildingData.buildCurrency == null || buildingData.buildCurrency.Count == 0)
-            {
-                EnsureBuildCurrency(buildingData);
-                if (buildingData.buildCurrency == null || buildingData.buildCurrency.Count == 0)
-                {
-                    Debug.LogWarning($"건설 재료 정보를 찾을 수 없습니다. (id: {buildingData.id})");
-                    _currentProducer.Remove();
-                    Hide();
-                    return;
-                }
             }
             
             var inventory = FindObjectOfType<Inventory>();
@@ -420,57 +408,6 @@ namespace Runtime.CH3.Main
             
             _currentProducer.Remove();
             Hide();
-        }
-        
-        /// <summary>
-        /// 건설 재료 정보가 없을 경우 자동으로 채워줌
-        /// </summary>
-        private void EnsureBuildCurrency(CH3_LevelData buildingData)
-        {
-            if (buildingData == null || string.IsNullOrEmpty(buildingData.id)) return;
-            
-            if (buildingData.buildCurrency == null)
-            {
-                buildingData.buildCurrency = new List<CurrencyData>();
-            }
-            
-            if (buildingData.buildCurrency.Count == 0)
-            {
-                switch (buildingData.id)
-                {
-                    case "Build":
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.Tree, 10));
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.Stone, 5));
-                        break;
-                    case "endingPortal":
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.Stone, 12));
-                        break;
-                    case "lvFactoryS":
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.Stone, 10));
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.Tree, 10));
-                        break;
-                    case "lvFactoryL":
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.Stone, 20));
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.Tree, 20));
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.Coin, 20));
-                        break;
-                    case "factoryTimber":
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.ResourceA, 5));
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.ResourceDefault, 5));
-                        break;
-                    case "factoryStone":
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.ResourceB, 5));
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.ResourceDefault, 5));
-                        break;
-                    case "factoryCoin":
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.ResourceC, 5));
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.ResourceDefault, 5));
-                        break;
-                    case "skillResetTicket":
-                        buildingData.buildCurrency.Add(new CurrencyData(ECurrencyData.Coin, 50));
-                        break;
-                }
-            }
         }
         
         /// <summary>
