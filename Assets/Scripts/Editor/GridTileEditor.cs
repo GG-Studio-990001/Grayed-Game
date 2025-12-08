@@ -366,28 +366,26 @@ public class GridTileEditor : EditorWindow
             DrawGridGizmos();
         }
 
-        if (mouseWorldPos != Vector3.zero)
+        // 마우스 위치가 유효한지 확인 (그리드 범위 내부 또는 외부 모두 처리)
+        Vector2Int gridPos = SafeWorldToGrid(mouseWorldPos);
+        Vector3 snappedWorldPos = SafeGridToWorld(gridPos);
+
+        // 좌표 표시
+        if (showCoordinates)
         {
-            Vector2Int gridPos = SafeWorldToGrid(mouseWorldPos);
-            Vector3 snappedWorldPos = SafeGridToWorld(gridPos);
+            DrawCoordinates(gridPos, snappedWorldPos);
+        }
 
-            // 좌표 표시
-            if (showCoordinates)
-            {
-                DrawCoordinates(gridPos, snappedWorldPos);
-            }
+        // 미리보기 그리기 (도구가 활성화되었을 때만)
+        if (isToolActive)
+        {
+            DrawPreview(snappedWorldPos, gridPos);
+        }
 
-            // 미리보기 그리기 (도구가 활성화되었을 때만)
-            if (isToolActive)
-            {
-                DrawPreview(snappedWorldPos);
-            }
-
-            // 마우스 입력 처리 (도구가 활성화되었을 때만)
-            if (isToolActive)
-            {
-                HandleMouseInput(e, snappedWorldPos, gridPos);
-            }
+        // 마우스 입력 처리 (도구가 활성화되었을 때만)
+        if (isToolActive)
+        {
+            HandleMouseInput(e, snappedWorldPos, gridPos);
         }
 
         // 강제 Repaint는 비활성화 (에디터 부하 방지)
@@ -655,7 +653,7 @@ public class GridTileEditor : EditorWindow
         return result;
     }
 
-    private void DrawPreview(Vector3 position)
+    private void DrawPreview(Vector3 position, Vector2Int gridPos)
     {
         Color previewColor = GetCurrentColor();
         previewColor.a = 0.5f;
@@ -692,8 +690,40 @@ public class GridTileEditor : EditorWindow
                 if (selectedLevelData != null)
                 {
                     Vector2Int tileSize = selectedLevelData.TileSize;
-                    Vector3 size = new Vector3(tileSize.x * 0.9f, 0.1f, tileSize.y * 0.9f);
-                    Handles.DrawWireCube(position + Vector3.up * 0.05f, size);
+                    float cellSize = GetCellSize();
+                    
+                    // 범위를 가진 오브젝트의 경우 전체 범위 표시
+                    if (tileSize.x > 1 || tileSize.y > 1)
+                    {
+                        // 범위 계산
+                        int offsetX = tileSize.x % 2 == 0 ? tileSize.x / 2 - 1 : tileSize.x / 2;
+                        int offsetY = tileSize.y % 2 == 0 ? tileSize.y / 2 - 1 : tileSize.y / 2;
+                        
+                        int startX = gridPos.x - offsetX;
+                        int startY = gridPos.y - offsetY;
+                        int endX = gridPos.x + offsetX;
+                        int endY = gridPos.y + offsetY;
+                        
+                        if (tileSize.x % 2 == 0) endX++;
+                        if (tileSize.y % 2 == 0) endY++;
+                        
+                        // 각 타일 위치에 미리보기 표시
+                        for (int x = startX; x <= endX; x++)
+                        {
+                            for (int y = startY; y <= endY; y++)
+                            {
+                                Vector2Int tileGridPos = new Vector2Int(x, y);
+                                Vector3 tileWorldPos = SafeGridToWorld(tileGridPos);
+                                Handles.DrawWireCube(tileWorldPos + Vector3.up * 0.05f, new Vector3(0.9f * cellSize, 0.1f, 0.9f * cellSize));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // 1x1 오브젝트
+                        Vector3 size = new Vector3(0.9f * cellSize, 0.1f, 0.9f * cellSize);
+                        Handles.DrawWireCube(position + Vector3.up * 0.05f, size);
+                    }
                 }
                 else
                 {
@@ -792,11 +822,11 @@ public class GridTileEditor : EditorWindow
                 return;
             }
             
-            // 이미 해당 위치에 오브젝트가 있는지 확인
-            if (IsObjectAtPosition(worldPos)) return;
-            
             // 그리드 유효성 검사
             if (!IsValidGridPositionEditor(gridPos)) return;
+            
+            // 범위를 가진 오브젝트는 범위만큼 점유 체크 (Tile 제외)
+            if (IsObjectAtPosition(worldPos, gridPos, selectedLevelData)) return;
             
             // 데이터 기반 오브젝트 생성
             GameObject newObject = GridObjectDataManager.CreateObjectFromData(selectedLevelData, worldPos);
@@ -824,6 +854,15 @@ public class GridTileEditor : EditorWindow
                 newObject.transform.rotation = Quaternion.Euler(rotation);
             }
             
+            // GridPosition 명시적으로 설정 (에디터에서 범위 체크를 위해 필요)
+            GridObject gridObject = newObject.GetComponent<GridObject>();
+            if (gridObject != null)
+            {
+                SerializedObject gridSo = new SerializedObject(gridObject);
+                gridSo.FindProperty("gridPosition").vector2IntValue = gridPos;
+                gridSo.ApplyModifiedProperties();
+            }
+            
             // 이름 설정
             newObject.name = $"{selectedLevelData.id}_{gridPos.x}_{gridPos.y}";
             
@@ -835,8 +874,8 @@ public class GridTileEditor : EditorWindow
         GameObject prefab = GetCurrentPrefab();
         if (prefab == null) return;
 
-        // 이미 해당 위치에 오브젝트가 있는지 확인
-        if (IsObjectAtPosition(worldPos)) return;
+        // 이미 해당 위치에 오브젝트가 있는지 확인 (프리팹 기반은 기본 1x1 크기)
+        if (IsObjectAtPosition(worldPos, gridPos, null)) return;
 
         // 그리드 유효성 검사 (가능한 경우)
         if (!IsValidGridPositionEditor(gridPos)) return;
@@ -970,27 +1009,135 @@ public class GridTileEditor : EditorWindow
     {
         if (!placedPositions.Add(gridPos)) return; // 중복 방지
 
-        GameObject objectToRemove = GetObjectAtPosition(worldPos);
+        // 범위를 가진 오브젝트도 찾을 수 있도록 gridPos 전달
+        GameObject objectToRemove = GetObjectAtPosition(worldPos, gridPos);
         if (objectToRemove != null)
         {
             Undo.DestroyObjectImmediate(objectToRemove);
         }
     }
 
-    private bool IsObjectAtPosition(Vector3 worldPos)
+    private bool IsObjectAtPosition(Vector3 worldPos, Vector2Int gridPos, CH3_LevelData dataToPlace = null)
     {
-        return GetObjectAtPosition(worldPos) != null;
+        if (gridParent == null) return false;
+        
+        // gridPos를 사용하거나, 없으면 worldPos에서 계산
+        Vector2Int targetGridPos = gridPos != default ? gridPos : SafeWorldToGrid(worldPos);
+        
+        // 설치할 오브젝트의 타일 크기
+        Vector2Int placeTileSize = dataToPlace != null ? dataToPlace.TileSize : Vector2Int.one;
+        
+        // 설치할 오브젝트가 점유할 범위 계산
+        int offsetX = placeTileSize.x % 2 == 0 ? placeTileSize.x / 2 - 1 : placeTileSize.x / 2;
+        int offsetY = placeTileSize.y % 2 == 0 ? placeTileSize.y / 2 - 1 : placeTileSize.y / 2;
+        
+        int placeStartX = targetGridPos.x - offsetX;
+        int placeStartY = targetGridPos.y - offsetY;
+        int placeEndX = targetGridPos.x + offsetX;
+        int placeEndY = targetGridPos.y + offsetY;
+        
+        if (placeTileSize.x % 2 == 0) placeEndX++;
+        if (placeTileSize.y % 2 == 0) placeEndY++;
+        
+        // 기존 오브젝트들과 범위 겹침 확인
+        foreach (Transform child in gridParent)
+        {
+            // Tile은 배경이므로 제외
+            if (child.GetComponent<Tile>() != null) continue;
+            
+            GridObject gridObject = child.GetComponent<GridObject>();
+            if (gridObject != null)
+            {
+                Vector2Int objGridPos = gridObject.GridPosition;
+                Vector2Int objTileSize = gridObject.TileSize;
+                
+                // GridPosition이 설정되지 않은 경우 월드 위치 기반으로 계산
+                if (objGridPos == Vector2Int.zero && objTileSize == Vector2Int.one)
+                {
+                    Vector2Int calculatedGridPos = SafeWorldToGrid(child.position);
+                    if (calculatedGridPos != Vector2Int.zero)
+                    {
+                        objGridPos = calculatedGridPos;
+                    }
+                }
+                
+                // 기존 오브젝트가 점유하는 범위 계산
+                int objOffsetX = objTileSize.x % 2 == 0 ? objTileSize.x / 2 - 1 : objTileSize.x / 2;
+                int objOffsetY = objTileSize.y % 2 == 0 ? objTileSize.y / 2 - 1 : objTileSize.y / 2;
+                
+                int objStartX = objGridPos.x - objOffsetX;
+                int objStartY = objGridPos.y - objOffsetY;
+                int objEndX = objGridPos.x + objOffsetX;
+                int objEndY = objGridPos.y + objOffsetY;
+                
+                if (objTileSize.x % 2 == 0) objEndX++;
+                if (objTileSize.y % 2 == 0) objEndY++;
+                
+                // 두 범위가 겹치는지 확인 (AABB 교차 검사)
+                if (placeStartX <= objEndX && placeEndX >= objStartX &&
+                    placeStartY <= objEndY && placeEndY >= objStartY)
+                {
+                    return true; // 겹침 발생
+                }
+            }
+        }
+        
+        return false;
     }
 
-    private GameObject GetObjectAtPosition(Vector3 worldPos)
+    private GameObject GetObjectAtPosition(Vector3 worldPos, Vector2Int gridPos = default)
     {
         if (gridParent == null) return null;
+        
+        Vector2Int targetGridPos = gridPos != default ? gridPos : SafeWorldToGrid(worldPos);
 
         foreach (Transform child in gridParent)
         {
-            if (Vector3.Distance(child.position, worldPos) < 0.05f) // 더 정확한 거리 체크
+            GridObject gridObject = child.GetComponent<GridObject>();
+            if (gridObject != null)
             {
-                return child.gameObject;
+                // 그리드 위치 기반으로 검색 (타일 크기 고려)
+                Vector2Int objGridPos = gridObject.GridPosition;
+                Vector2Int objTileSize = gridObject.TileSize;
+                
+                // GridPosition이 설정되지 않은 경우 (0,0이고 실제 위치와 다름)
+                // 월드 위치를 기반으로 그리드 위치 계산
+                if (objGridPos == Vector2Int.zero && objTileSize == Vector2Int.one)
+                {
+                    Vector2Int calculatedGridPos = SafeWorldToGrid(child.position);
+                    if (calculatedGridPos != Vector2Int.zero)
+                    {
+                        objGridPos = calculatedGridPos;
+                    }
+                }
+                
+                // 오브젝트가 차지하는 타일 범위 계산
+                int offsetX = objTileSize.x % 2 == 0 ? objTileSize.x / 2 - 1 : objTileSize.x / 2;
+                int offsetY = objTileSize.y % 2 == 0 ? objTileSize.y / 2 - 1 : objTileSize.y / 2;
+                
+                int startX = objGridPos.x - offsetX;
+                int startY = objGridPos.y - offsetY;
+                int endX = objGridPos.x + offsetX;
+                int endY = objGridPos.y + offsetY;
+                
+                // 짝수 크기인 경우 한쪽 방향으로 1칸 더 확장
+                if (objTileSize.x % 2 == 0) endX++;
+                if (objTileSize.y % 2 == 0) endY++;
+                
+                // 타겟 그리드 위치가 오브젝트 범위 내에 있는지 확인
+                if (targetGridPos.x >= startX && targetGridPos.x <= endX &&
+                    targetGridPos.y >= startY && targetGridPos.y <= endY)
+                {
+                    return child.gameObject;
+                }
+            }
+            else
+            {
+                // GridObject가 없는 경우 기존 방식 사용 (거리 기반)
+                if (Vector3.Distance(child.position, worldPos) < 0.05f)
+                {
+                    return child.gameObject;
+                }
             }
         }
         return null;
