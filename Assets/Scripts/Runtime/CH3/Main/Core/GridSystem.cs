@@ -96,7 +96,7 @@ namespace Runtime.CH3.Main
 
         [Header("Grid Settings")]
         [Tooltip("정사각형 그리드 크기. 짝수면 자동으로 홀수로 변환, 최소 9")]
-        [Range(9, 50)]
+        [Range(9, 120)]
         [SerializeField] private int gridSize = 9; // 정사각형 그리드 크기
         [SerializeField] private float cellWidth = 1f;
         [SerializeField] private float heightOffset = 0.3f;
