@@ -1,8 +1,9 @@
 using UnityEngine;
+using System.Collections;
+using Runtime.InGameSystem;
 
 namespace Runtime.CH3.Main
 {
-    // Structure 역할(그리드 배치/차단) + 상호작용 가능 오브젝트
     public class Teleporter : Structure, IInteractable
     {
         [Header("Interaction Settings")]
@@ -10,24 +11,41 @@ namespace Runtime.CH3.Main
         private bool canInteract = true;
 
         [Header("Teleporter Settings")]
-        [SerializeField] private Teleporter connectedTeleporter;
+        [SerializeField] private TeleportRegion region = TeleportRegion.BaseCamp;
+        [SerializeField] private bool isMainTeleporter = false;
         [SerializeField] private float teleportDelay = 0.1f;
-        [SerializeField] private float cooldownTime = 3f;
+        [SerializeField] private float uiCloseDistance = 2f;
 
-        private bool isTeleporting = false;
-        private float lastTeleportTime = 0f;
-        private bool isInCooldown = false;
+        private TeleporterState state = new TeleporterState();
+
+        public TeleportRegion Region => region;
+        public bool IsActivated => state.IsActivated;
+
+        private class TeleporterState
+        {
+            public bool IsTeleporting = false;
+            public bool IsActivated = false;
+            public bool CanInteract = true;
+            public GameObject CurrentInteractor;
+            public Coroutine DistanceCheckCoroutine;
+        }
+
+        internal void ResetState()
+        {
+            state.IsTeleporting = false;
+            state.CanInteract = true;
+            state.CurrentInteractor = null;
+            if (state.DistanceCheckCoroutine != null)
+            {
+                StopCoroutine(state.DistanceCheckCoroutine);
+                state.DistanceCheckCoroutine = null;
+            }
+        }
 
         public override void Initialize(Vector2Int gridPos)
         {
             base.Initialize(gridPos);
 
-            if (connectedTeleporter == null)
-            {
-                Debug.LogWarning($"텔레포트 {gameObject.name}에 연결된 텔레포트가 없습니다!");
-            }
-
-            // 콜라이더 확인 (자식 Sprite 오브젝트에서도 찾기)
             Collider collider = GetComponent<Collider>();
             if (collider == null)
             {
@@ -35,133 +53,187 @@ namespace Runtime.CH3.Main
             }
             if (collider == null)
             {
-                // GridObject의 public 메서드 사용
                 var spriteTransform = base.GetSpriteTransform();
                 if (spriteTransform != null && spriteTransform != transform)
                 {
                     collider = spriteTransform.GetComponent<Collider>();
                 }
             }
-            if (collider == null)
+
+            RegisterToManager();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            
+            if (TeleporterManager.Instance != null)
             {
-                Debug.LogError($"텔레포트 {gameObject.name}에 Collider가 없습니다!");
-            }
-            else if (!collider.isTrigger)
-            {
-                Debug.LogWarning($"텔레포트 {gameObject.name}의 Collider가 Trigger가 아닙니다. Is Trigger를 체크해주세요!");
+                Teleporter registered = TeleporterManager.Instance.GetTeleporter(region);
+                if (registered != this)
+                {
+                    RegisterToManager();
+                }
             }
         }
 
-        // IInteractable 구현
+        private void RegisterToManager()
+        {
+            if (TeleporterManager.Instance == null) return;
+
+            TeleporterManager.Instance.RegisterTeleporter(this);
+
+            if (isMainTeleporter || region == TeleportRegion.BaseCamp)
+            {
+                state.IsActivated = true;
+                TeleporterManager.Instance.ActivateTeleporter(region);
+            }
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            if (TeleporterManager.Instance != null)
+            {
+                TeleporterManager.Instance.UnregisterTeleporter(this);
+            }
+        }
+
         public float InteractionRange => interactionRange;
-        public bool CanInteract => canInteract;
+        public bool CanInteract => state.CanInteract && !state.IsTeleporting;
 
         public void OnInteract(GameObject interactor)
         {
-            // 텔레포트 중이거나 쿨다운 중이면 상호작용 불가
-            if (!canInteract || isTeleporting || connectedTeleporter == null ||
-                Time.time - lastTeleportTime < cooldownTime || isInCooldown) return;
+            if (!state.CanInteract || state.IsTeleporting) return;
+            if (!interactor.CompareTag("Player")) return;
 
-            // 플레이어인지 확인
-            if (interactor.CompareTag("Player"))
+            if (!state.IsActivated)
             {
-                StartCoroutine(TeleportPlayer(interactor));
+                state.IsActivated = true;
+                TeleporterManager.Instance?.ActivateTeleporter(region);
+            }
+
+            if (isMainTeleporter && TeleporterManager.Instance != null)
+            {
+                if (!TeleporterManager.Instance.HasOtherActivatedTeleporters(region))
+                {
+                    return;
+                }
+            }
+
+            if (TeleportUI.Instance != null && TeleportUI.Instance.IsShowing)
+            {
+                if (TeleportUI.Instance.CurrentTeleporter != this)
+                {
+                    TeleportUI.Instance.HideRegionList();
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            state.CurrentInteractor = interactor;
+            if (TeleportUI.Instance != null)
+            {
+                TeleportUI.Instance.ShowRegionList(region, this);
+                if (state.DistanceCheckCoroutine != null)
+                {
+                    StopCoroutine(state.DistanceCheckCoroutine);
+                }
+                state.DistanceCheckCoroutine = StartCoroutine(CheckDistanceToInteractor());
             }
         }
 
-        private System.Collections.IEnumerator TeleportPlayer(GameObject player)
+        public void TeleportToRegion(TeleportRegion targetRegion, GameObject player)
         {
-            isTeleporting = true;
-            canInteract = false;
-            isInCooldown = true;
-            lastTeleportTime = Time.time;
+            if (state.IsTeleporting) return;
 
-            // 플레이어를 연결된 텔레포터의 GridPosition에서 y만 -1 한 GridPosition으로 이동
-            Vector3 targetPosition = Vector3.zero;
-            if (GridSystem.Instance != null)
+            Teleporter targetTeleporter = TeleporterManager.Instance?.GetTeleporter(targetRegion);
+            if (targetTeleporter == null) return;
+
+            StartCoroutine(TeleportPlayer(player, targetTeleporter));
+        }
+
+        private IEnumerator TeleportPlayer(GameObject player, Teleporter targetTeleporter)
+        {
+            state.IsTeleporting = true;
+            state.CanInteract = false;
+
+            TeleportUI.Instance?.HideRegionList();
+
+            if (state.DistanceCheckCoroutine != null)
             {
-                var gridMgr = GridSystem.Instance;
-                Vector2Int destGrid = connectedTeleporter.GridPosition;
-                destGrid.y -= 1; // GridPosition의 y를 -1
-                targetPosition = gridMgr.GridToWorldPosition(destGrid);
-                targetPosition.y = player.transform.position.y;
-            }
-            else
-            {
-                Debug.LogError("GridManager 없음");
+                StopCoroutine(state.DistanceCheckCoroutine);
+                state.DistanceCheckCoroutine = null;
             }
 
-            var rb = player.GetComponent<Rigidbody>();
+            FadeController fadeController = FindObjectOfType<FadeController>();
+            if (fadeController != null)
+            {
+                fadeController.StartFadeOut();
+                yield return new WaitForSeconds(fadeController.FadeDuration);
+            }
+
+            Vector3 targetPosition = CalculateTargetPosition(player, targetTeleporter);
+            MovePlayerToPosition(player, targetPosition);
+
+            if (fadeController != null)
+            {
+                fadeController.StartFadeIn();
+                yield return new WaitForSeconds(fadeController.FadeDuration);
+            }
+
+            yield return new WaitForSeconds(teleportDelay);
+
+            ResetState();
+            targetTeleporter?.ResetState();
+        }
+
+        private Vector3 CalculateTargetPosition(GameObject player, Teleporter targetTeleporter)
+        {
+            if (GridSystem.Instance == null) return player.transform.position;
+
+            Vector2Int destGrid = targetTeleporter.GridPosition;
+            destGrid.y -= 1;
+            Vector3 targetPosition = GridSystem.Instance.GridToWorldPosition(destGrid);
+            targetPosition.y = player.transform.position.y;
+            return targetPosition;
+        }
+
+        private void MovePlayerToPosition(GameObject player, Vector3 position)
+        {
+            Rigidbody rb = player.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.velocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
-                rb.position = targetPosition;
+                rb.position = position;
             }
             else
             {
-                player.transform.position = targetPosition;
+                player.transform.position = position;
             }
-
-            // 연결된 텔레포터에도 동일 쿨다운 적용
-            connectedTeleporter.lastTeleportTime = Time.time;
-            connectedTeleporter.canInteract = false;
-            connectedTeleporter.isInCooldown = true;
-
-            // 짧은 연출 지연만 주고, 재활성화는 쿨다운이 끝난 뒤에만
-            yield return new WaitForSeconds(teleportDelay);
-
-            isTeleporting = false;
-
-            // 쿨다운 시간이 지난 후에만 완전히 재활성화
-            StartCoroutine(EnableAfterCooldown());
-
-            // 연결된 텔레포터도 동일 쿨다운 후 재활성화
-            StartCoroutine(EnableConnectedTeleporterAfterCooldown());
         }
 
-        private System.Collections.IEnumerator EnableAfterCooldown()
+        private IEnumerator CheckDistanceToInteractor()
         {
-            yield return new WaitForSeconds(cooldownTime);
-            isInCooldown = false;
-            canInteract = true; // 시작점 텔레포터도 다시 상호작용 가능하도록 설정
-        }
+            const float checkInterval = 0.1f;
+            float sqrCloseDistance = uiCloseDistance * uiCloseDistance;
 
-        private System.Collections.IEnumerator EnableConnectedTeleporterAfterCooldown()
-        {
-            yield return new WaitForSeconds(cooldownTime);
-            if (connectedTeleporter != null)
+            while (state.CurrentInteractor != null && TeleportUI.Instance != null && TeleportUI.Instance.IsShowing)
             {
-                connectedTeleporter.canInteract = true;
-                connectedTeleporter.isInCooldown = false;
+                Vector3 offset = state.CurrentInteractor.transform.position - transform.position;
+                if (offset.sqrMagnitude > sqrCloseDistance)
+                {
+                    TeleportUI.Instance.HideRegionList();
+                    state.CurrentInteractor = null;
+                    yield break;
+                }
+                yield return new WaitForSeconds(checkInterval);
             }
         }
 
-
-        private void OnDrawGizmos()
-        {
-            if (connectedTeleporter != null)
-            {
-                // 연결선 그리기
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawLine(transform.position, connectedTeleporter.transform.position);
-
-                // 화살표 그리기
-                Vector3 direction = (connectedTeleporter.transform.position - transform.position).normalized;
-                Vector3 arrowStart = transform.position + direction * 0.5f;
-                Vector3 arrowEnd = connectedTeleporter.transform.position - direction * 0.5f;
-
-                Gizmos.DrawRay(arrowStart, direction * 0.3f);
-                Gizmos.DrawRay(arrowStart, Quaternion.Euler(0, 0, 30) * -direction * 0.2f);
-                Gizmos.DrawRay(arrowStart, Quaternion.Euler(0, 0, -30) * -direction * 0.2f);
-            }
-        }
-
-        // 인스펙터에서 연결 설정
-        public void SetConnectedTeleporter(Teleporter teleporter)
-        {
-            connectedTeleporter = teleporter;
-        }
 
     }
 }
