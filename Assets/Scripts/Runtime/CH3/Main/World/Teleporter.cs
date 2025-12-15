@@ -8,13 +8,11 @@ namespace Runtime.CH3.Main
     {
         [Header("Interaction Settings")]
         [SerializeField] private float interactionRange = 2f;
-        private bool canInteract = true;
 
         [Header("Teleporter Settings")]
         [SerializeField] private TeleportRegion region = TeleportRegion.BaseCamp;
         [SerializeField] private bool isMainTeleporter = false;
         [SerializeField] private float teleportDelay = 0.1f;
-        [SerializeField] private float uiCloseDistance = 2f;
 
         private TeleporterState state = new TeleporterState();
 
