@@ -38,6 +38,7 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject _cutScene;
         [SerializeField] private GameObject[] _darkImgs;
         [SerializeField] private DialogueRunner _luckyDialogueRunner;
+        [SerializeField] private GameObject _heartRainParticle;
         private string _speaker;
         private bool _isAutoAdvanced = false;
         private Coroutine _autoDialogueCoroutine;
@@ -72,6 +73,7 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("DialogueAfterTCG", _tcgController.DialogueAfterTCG);
             _runner.AddCommandHandler("ShowScore", _tcgController.ShowScore);
             _runner.AddCommandHandler("HideScore", _tcgController.HideScore);
+            _runner.AddCommandHandler("ShowLastScore", _tcgController.ShowLastScore);
 
             _runner.AddCommandHandler("TempleRoomCarpetOpen", _locationBgController.TempleRoomCarpetOpen);
             _runner.AddCommandHandler("TempleClean", _locationBgController.TempleClean);
@@ -80,6 +82,8 @@ namespace Runtime.CH2.Dialogue
             _runner.AddCommandHandler("BackstreetNoCard", _locationBgController.BackstreetNoCard);
             _runner.AddCommandHandler("BaseWithSuperArioPack", _locationBgController.BaseWithSuperArioPack);
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
+
+            _runner.AddCommandHandler<bool>("HeartRainParticle", HeartRainParticle);
         }
 
         #region 기본
@@ -167,6 +171,11 @@ namespace Runtime.CH2.Dialogue
         }
         #endregion
         
+        private void HeartRainParticle(bool isPlay)
+        {
+            _heartRainParticle.SetActive(isPlay);
+        }    
+
         private void ConnectScene(string scene)
         {
             Managers.Sound.StopBGM();
