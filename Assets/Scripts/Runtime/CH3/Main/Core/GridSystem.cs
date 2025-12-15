@@ -102,6 +102,14 @@ namespace Runtime.CH3.Main
         [SerializeField] private float heightOffset = 0.3f;
         [SerializeField] private Camera mainCamera;
         [SerializeField] private Color gridLineColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+        
+        [Header("Gizmo Settings")]
+        [SerializeField] private bool showGizmos = true;
+        [SerializeField] private bool showGridLines = true;
+        [SerializeField] private bool showCellCenters = true;
+        [SerializeField] private bool showOnlyInViewport = true;
+        [SerializeField] private int gridLineInterval = 1;
+        [SerializeField] private float gizmoViewDistance = 50f;
 
         [System.Serializable]
         private class PrefabData
@@ -779,78 +787,98 @@ namespace Runtime.CH3.Main
         #region Debug Visualization
         private void OnDrawGizmos()
         {
-            if (!Application.isPlaying) return;
+            if (!Application.isPlaying || !showGizmos) return;
+            if (mainCamera == null) mainCamera = Camera.main;
+            if (mainCamera == null) return;
 
-            // 그리드 라인 그리기
-            Gizmos.color = gridLineColor;
             int halfSize = _actualGridSize / 2;
             int startX = -halfSize;
             int startY = -halfSize;
             int endX = halfSize;
             int endY = halfSize;
 
-            for (int x = startX; x <= endX; x++)
-            {
-                Vector3 startPos = GridToWorldPosition(new Vector2Int(x, startY));
-                Vector3 endPos = GridToWorldPosition(new Vector2Int(x, endY));
-                Gizmos.DrawLine(startPos, endPos);
-            }
+            Vector3 cameraPos = mainCamera.transform.position;
+            Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(mainCamera);
 
-            for (int y = startY; y <= endY; y++)
+            if (showGridLines)
             {
-                Vector3 startPos = GridToWorldPosition(new Vector2Int(startX, y));
-                Vector3 endPos = GridToWorldPosition(new Vector2Int(endX, y));
-                Gizmos.DrawLine(startPos, endPos);
-            }
-
-            // 각 셀의 중심점과 좌표 표시
-            for (int x = startX; x <= endX; x++)
-            {
-                for (int y = startY; y <= endY; y++)
+                Gizmos.color = gridLineColor;
+                for (int x = startX; x <= endX; x += gridLineInterval)
                 {
-                    Vector2Int gridPosition = new Vector2Int(x, y);
-                    Vector3 worldPosition = GridToWorldPosition(gridPosition);
+                    Vector3 startPos = GridToWorldPosition(new Vector2Int(x, startY));
+                    Vector3 endPos = GridToWorldPosition(new Vector2Int(x, endY));
+                    
+                    if (!showOnlyInViewport || IsPositionInViewport(startPos, frustumPlanes) || IsPositionInViewport(endPos, frustumPlanes))
+                    {
+                        Gizmos.DrawLine(startPos, endPos);
+                    }
+                }
 
-                    // 차단된 셀 표시
-                    if (IsCellBlocked(gridPosition))
+                for (int y = startY; y <= endY; y += gridLineInterval)
+                {
+                    Vector3 startPos = GridToWorldPosition(new Vector2Int(startX, y));
+                    Vector3 endPos = GridToWorldPosition(new Vector2Int(endX, y));
+                    
+                    if (!showOnlyInViewport || IsPositionInViewport(startPos, frustumPlanes) || IsPositionInViewport(endPos, frustumPlanes))
                     {
-                        Gizmos.color = new Color(0.5f, 0.5f, 0.5f, 0.8f);
-                        Gizmos.DrawCube(worldPosition, new Vector3(0.9f, 0.05f, 0.9f));
-                        Gizmos.color = Color.black;
-                        Gizmos.DrawWireCube(worldPosition, new Vector3(0.9f, 0.05f, 0.9f));
+                        Gizmos.DrawLine(startPos, endPos);
                     }
-                    // (0,0) 좌표는 다른 색상으로 표시
-                    else if (gridPosition == Vector2Int.zero)
-                    {
-                        Gizmos.color = Color.green;
-                        Gizmos.DrawWireSphere(worldPosition, 0.15f);
-                    }
-                    else
-                    {
-                        Gizmos.color = Color.yellow;
-                        Gizmos.DrawWireSphere(worldPosition, 0.1f);
-                    }
-
-// #if UNITY_EDITOR
-//                     UnityEditor.Handles.Label(worldPosition,
-//                         $"({gridPosition.x}, {gridPosition.y})");
-// #endif
                 }
             }
 
-            // 그리드 방향 표시
+            if (showCellCenters)
+            {
+                for (int x = startX; x <= endX; x++)
+                {
+                    for (int y = startY; y <= endY; y++)
+                    {
+                        Vector2Int gridPosition = new Vector2Int(x, y);
+                        Vector3 worldPosition = GridToWorldPosition(gridPosition);
+
+                        if (showOnlyInViewport)
+                        {
+                            float distance = Vector3.Distance(cameraPos, worldPosition);
+                            if (distance > gizmoViewDistance) continue;
+                            if (!IsPositionInViewport(worldPosition, frustumPlanes)) continue;
+                        }
+
+                        if (IsCellBlocked(gridPosition))
+                        {
+                            Gizmos.color = new Color(0.5f, 0.5f, 0.5f, 0.8f);
+                            Gizmos.DrawCube(worldPosition, new Vector3(0.9f, 0.05f, 0.9f));
+                            Gizmos.color = Color.black;
+                            Gizmos.DrawWireCube(worldPosition, new Vector3(0.9f, 0.05f, 0.9f));
+                        }
+                        else if (gridPosition == Vector2Int.zero)
+                        {
+                            Gizmos.color = Color.green;
+                            Gizmos.DrawWireSphere(worldPosition, 0.15f);
+                        }
+                        else
+                        {
+                            Gizmos.color = Color.yellow;
+                            Gizmos.DrawWireSphere(worldPosition, 0.1f);
+                        }
+                    }
+                }
+            }
+
             Gizmos.color = Color.blue;
             Gizmos.DrawRay(transform.position, _forward * 2f);
             Gizmos.color = Color.red;
             Gizmos.DrawRay(transform.position, _right * 2f);
 
-            // Draw player spawn gizmo if set
             if (hasPlayerSpawn)
             {
                 Gizmos.color = Color.cyan;
                 Vector3 sp = GridToWorldPosition(playerSpawnGrid);
                 Gizmos.DrawSphere(sp + Vector3.up * 0.05f, 0.15f);
             }
+        }
+
+        private bool IsPositionInViewport(Vector3 position, Plane[] frustumPlanes)
+        {
+            return GeometryUtility.TestPlanesAABB(frustumPlanes, new Bounds(position, Vector3.zero));
         }
 
         private void OnDrawGizmosSelected()

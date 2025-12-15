@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Runtime.ETC;
 using UnityEngine.UI;
 
 namespace Runtime.CH3.Main
@@ -188,6 +189,8 @@ namespace Runtime.CH3.Main
             inventoryOpen = !inventoryOpen;
             if (inventoryPanel != null) inventoryPanel.SetActive(inventoryOpen);
             
+            // TODO: 인벤열고닫음 효과음 재생
+            Managers.Sound.Play(Sound.SFX, "CH3/CH3_SFX_Inven_Onoff");
             // 인벤토리를 닫을 때 툴팁도 숨기기
             if (!inventoryOpen)
             {

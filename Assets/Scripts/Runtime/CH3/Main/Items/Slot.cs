@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using System;
+using Runtime.ETC;
 
 namespace Runtime.CH3.Main
 {
@@ -128,6 +129,8 @@ namespace Runtime.CH3.Main
             dragGhost.sprite = image.sprite;
             dragGhost.color = Color.white;
             dragGhost.gameObject.SetActive(true);
+            // TODO: 인벤그립 효과음 재생 (아이템 집었을 때)            // TODO: 인벤그립 효과음 재생
+            Managers.Sound.Play(Sound.SFX, "CH3/CH3_SFX_Inven_Grip");
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -153,6 +156,8 @@ namespace Runtime.CH3.Main
                 moveOrMerge(draggingFrom.index, target.index);
                 draggingFrom.Refresh();
                 target.Refresh();
+                // TODO: 인벤드롭 효과음 재생 (슬롯 간 이동)
+                Managers.Sound.Play(Sound.SFX, "CH3/CH3_SFX_Inven_Drop");
             }
             else
             {

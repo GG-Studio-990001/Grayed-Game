@@ -3,6 +3,7 @@ using UnityEngine;
 using Yarn.Unity;
 using UnityEngine.InputSystem;
 using Runtime.Input;
+using Runtime.CH3.Main;
 
 namespace Runtime.CH3.Main
 {
@@ -68,10 +69,22 @@ namespace Runtime.CH3.Main
             
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
+                // UI 위에 마우스가 있으면 상호작용 무시 (UI 버튼 클릭 우선)
+                if (UnityEngine.EventSystems.EventSystem.current != null && 
+                    UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+                {
+                    return;
+                }
+
                 var interactionManager = _player.GetComponent<InteractionManager>();
                 if (interactionManager != null)
                 {
                     Vector2 mousePos = Mouse.current.position.ReadValue();
+                    
+                    if (TeleportUI.Instance != null && TeleportUI.Instance.IsShowing)
+                    {
+                        return;
+                    }
                     
                     // 길게 누르기 시도
                     bool hadHoldBefore = interactionManager.HasCurrentHold();
