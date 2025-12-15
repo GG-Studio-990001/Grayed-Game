@@ -219,12 +219,12 @@ namespace Runtime.CH3.Main
         private IEnumerator CheckDistanceToInteractor()
         {
             const float checkInterval = 0.1f;
-            float sqrCloseDistance = uiCloseDistance * uiCloseDistance;
+            float sqrInteractionRange = interactionRange * interactionRange;
 
             while (state.CurrentInteractor != null && TeleportUI.Instance != null && TeleportUI.Instance.IsShowing)
             {
                 Vector3 offset = state.CurrentInteractor.transform.position - transform.position;
-                if (offset.sqrMagnitude > sqrCloseDistance)
+                if (offset.sqrMagnitude > sqrInteractionRange)
                 {
                     TeleportUI.Instance.HideRegionList();
                     state.CurrentInteractor = null;
