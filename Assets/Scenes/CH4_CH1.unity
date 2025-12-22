@@ -8500,7 +8500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 9
-  _jumpForce: 17
+  _jumpForce: 14
   _groundCheck: {fileID: 1002242982}
   _groundCheckRadius: 0.2
   _groundLayer:
