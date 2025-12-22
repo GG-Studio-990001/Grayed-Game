@@ -7,7 +7,7 @@ namespace Runtime.InGameSystem
     {
         [SerializeField] protected Image fadeImage;
 
-        protected float FadeDuration { get; set; } = 1f;
+        public float FadeDuration { get; protected set; } = 1f;
 
         public virtual void SetFadeImg()
         {
