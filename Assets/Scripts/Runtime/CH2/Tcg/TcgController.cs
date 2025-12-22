@@ -175,6 +175,12 @@ namespace Runtime.CH2.Tcg
             HeartAnim();
         }
 
+        public void ShowLastScore()
+        {
+            _scoreChange = 9999;
+            ShowScore();
+        }
+
         private void HeartAnim()
         {
             // 심장 뛰는 애니메이션
