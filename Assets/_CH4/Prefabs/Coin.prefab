@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6635164269716423087}
   - component: {fileID: 1752650269174491479}
-  - component: {fileID: 4573667598938313355}
   - component: {fileID: 7376956107527754292}
+  - component: {fileID: 1913133896223262445}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Untagged
@@ -86,8 +86,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &4573667598938313355
-CapsuleCollider2D:
+--- !u!114 &7376956107527754292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966014447548687491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3e17e075306c8439b49262bbd6ea21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &1913133896223262445
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -119,17 +131,5 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.32, y: 0.52}
-  m_Direction: 0
---- !u!114 &7376956107527754292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 966014447548687491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc3e17e075306c8439b49262bbd6ea21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  serializedVersion: 2
+  m_Radius: 1.64
