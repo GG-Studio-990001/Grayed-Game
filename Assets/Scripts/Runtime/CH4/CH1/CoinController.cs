@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CH4.CH1
 {
-    // 라플리에 부착
+    // 라플리에 부착(했지만 옮기는 게 낫겠지)
     public class CoinController : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _coinUi;
@@ -12,6 +12,7 @@ namespace CH4.CH1
         private void Start()
         {
             _coinCnt = 0;
+            UpdateCoinUi();
         }
 
         public void AddCoin()
