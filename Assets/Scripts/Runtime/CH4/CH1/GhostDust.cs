@@ -7,7 +7,7 @@ namespace CH4.CH1
     {
         [SerializeField] private Vector3 _pos1;
         [SerializeField] private Vector3 _pos2;
-        private float _duration = 1.5f;
+        private readonly float _duration = 1.5f;
 
         private void Start()
         {
@@ -22,6 +22,7 @@ namespace CH4.CH1
         {
             if (other.CompareTag("Player"))
             {
+                other.GetComponent<PlayerInteraction>().CollisionWithGhostDust();
                 Debug.Log("GhostDust hit Player");
             }
         }

@@ -9,7 +9,7 @@ namespace CH4.CH1
         {
             if (other.CompareTag("Player"))
             {
-                other.GetComponent<CoinController>().AddCoin();
+                other.GetComponent<PlayerInteraction>().CollisionWithCoin();
                 Destroy(gameObject);
             }
         }
