@@ -6,7 +6,7 @@ namespace CH4.CH1
     // CH4.CH1의 코인, 먼지유령에 대한 인터렉션
     public class PlayerInteraction : MonoBehaviour
     {
-        [SerializeField] private CoinController _coinController;
+        [SerializeField] private ResourceController _coinController;
         private SpriteRenderer _spriteRenderer;
         private bool _godMode;
 
@@ -45,7 +45,7 @@ namespace CH4.CH1
             while (elapsed < duration)
             {
                 isTransparent = !isTransparent;
-                color.a = isTransparent ? 0.3f : 1f;
+                color.a = isTransparent ? 0.5f : 1f;
                 _spriteRenderer.color = color;
 
                 yield return new WaitForSeconds(blinkInterval);
