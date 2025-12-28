@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace CH4.CH1
@@ -6,6 +7,13 @@ namespace CH4.CH1
     public class PlayerInteraction : MonoBehaviour
     {
         [SerializeField] private CoinController _coinController;
+        private SpriteRenderer _spriteRenderer;
+        private bool _godMode;
+
+        private void Start()
+        {
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
 
         public void CollisionWithCoin()
         {
@@ -16,8 +24,38 @@ namespace CH4.CH1
         public void CollisionWithGhostDust()
         {
             // 먼지와 부딪힘
+
+            if (_godMode) return;
+
             _coinController.LoseCoin();
-            // TODO: 2초 동안 무적
+            StartCoroutine(nameof(StartGodMode));
+        }
+
+        private IEnumerator StartGodMode()
+        {
+            float duration = 3f;
+            float blinkInterval = 0.2f;
+            float elapsed = 0f;
+
+            Color color = _spriteRenderer.color;
+            bool isTransparent = false;
+
+            _godMode = true;
+
+            while (elapsed < duration)
+            {
+                isTransparent = !isTransparent;
+                color.a = isTransparent ? 0.3f : 1f;
+                _spriteRenderer.color = color;
+
+                yield return new WaitForSeconds(blinkInterval);
+                elapsed += blinkInterval;
+            }
+
+            color.a = 1f;
+            _spriteRenderer.color = color;
+
+            _godMode = false;
         }
     }
 }

@@ -6,12 +6,12 @@ namespace CH4.CH1
     public class CoinController : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _coinUi;
-        [SerializeField] private int _coinCnt;
+        [SerializeField] private int _coinCnt = 0;
         private readonly int _loseCoinCnt = 20;
 
         private void Start()
         {
-            _coinCnt = 0;
+            // _coinCnt = 0;
             UpdateCoinUi();
         }
 
