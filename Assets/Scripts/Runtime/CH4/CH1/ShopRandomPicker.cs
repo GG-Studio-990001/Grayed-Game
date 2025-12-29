@@ -21,6 +21,7 @@ namespace CH4.CH1
 
     public class ShopRandomPicker : MonoBehaviour
     {
+        [SerializeField]  ResourceController resourceController;
         [Header("UI Slots")]
         [SerializeField] private List<ShopItemSlotUI> slots; // 4개
         [SerializeField] private Sprite[] itemSprs;
@@ -37,7 +38,13 @@ namespace CH4.CH1
             RefreshShop();
         }
 
-        public void RefreshShop()
+        public void RefreshShopWithCost()
+        {
+            if (resourceController.UseCoin(10))
+                RefreshShop();
+        }
+
+        private void RefreshShop()
         {
             List<ShopItem> pickedItems = RefreshItems();
             BindUI(pickedItems);

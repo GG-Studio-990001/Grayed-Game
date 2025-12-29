@@ -8,9 +8,14 @@ namespace CH4.CH1
         [SerializeField] private TextMeshProUGUI _coinUi;
         [SerializeField] private TextMeshProUGUI _jewelryUi;
         [SerializeField] private TextMeshProUGUI _fishUi;
-        [SerializeField] private int _coinCnt = 0;
-        [SerializeField] private int _jewelryCnt = 0;
-        [SerializeField] private int _fishCnt = 0;
+        public int Coin = 0;
+        public int Jewelry = 0;
+        public int Fish = 0;
+        public int Chococat = 0;
+        public int Jellycat = 0;
+        public int MellowCat = 0;
+        public int CandyPop = 0;
+        public int StickCandy = 0;
         private readonly int _loseCoinCnt = 20;
 
         private void Start()
@@ -21,31 +26,52 @@ namespace CH4.CH1
 
         public void AddCoin()
         {
-            _coinCnt++;
+            Coin++;
             UpdateUi();
         }
 
         public void LoseCoin()
         {
-            _coinCnt = Mathf.Clamp(_coinCnt - _loseCoinCnt, 0, int.MaxValue);
+            Coin = Mathf.Clamp(Coin - _loseCoinCnt, 0, int.MaxValue);
             UpdateUi();
+        }
+
+        public bool UseCoin(int cost)
+        {
+            if (Coin >= cost)
+            {
+                Coin -= cost;
+                UpdateUi();
+                return true;
+            }
+            return false;
+        }
+        public bool UseJewerly(int cost)
+        {
+            if (Jewelry >= cost)
+            {
+                Jewelry -= cost;
+                UpdateUi();
+                return true;
+            }
+            return false;
         }
 
         public void GetJewelry(int cnt)
         {
-            _jewelryCnt += cnt;
+            Jewelry += cnt;
         }
 
         public void GetFist(int cnt)
         {
-            _fishCnt += cnt;
+            Fish += cnt;
         }
 
         private void UpdateUi()
         {
-            _coinUi.text = _coinCnt.ToString();
-            _jewelryUi.text = _jewelryCnt.ToString();
-            _fishUi.text = _fishCnt.ToString();
+            _coinUi.text = Coin.ToString();
+            _jewelryUi.text = Jewelry.ToString();
+            _fishUi.text = Fish.ToString();
         }
     }
 }
