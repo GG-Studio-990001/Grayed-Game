@@ -1,6 +1,12 @@
 ﻿title: R2Mon
 tags:
 ---
-알투몬: 어서와! 뭘 줄까?
-<<OpenShop>>
+<<set $isFirstMeet to IsFirstMeetR2Mon()>>
+
+<<if $isFirstMeet>>
+    <<jump CH3_CutScene1>>
+<<else>>
+    R2-Mon: 어서와요! 뭘 줄까요?
+    <<OpenShop>>
+<<endif>>
 ===

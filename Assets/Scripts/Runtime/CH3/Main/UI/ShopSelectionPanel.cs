@@ -11,21 +11,23 @@ namespace Runtime.CH3.Main
     /// </summary>
     public class ShopSelectionPanel : MonoBehaviour
     {
-        [Header("UI References (Auto-found)")]
-        private GameObject topSection; // Top GameObject
-        private GameObject bottomSection; // Bottom GameObject
-        private GameObject buttonsSection; // Buttons GameObject
-        private GameObject selectItemImage; // SelectItemImage GameObject
+        private Transform topSection;
+        private Transform bottomSection;
+        private Transform buttonsSection;
+        private Transform selectItemImage;
 
-        private TextMeshProUGUI itemTitle; // Top > ItemTitle
-        private GameObject gridSizeBorder; // Top > GridSizeBorder
-        private GameObject countBorder; // Top > CountBorder
-
-        private TextMeshProUGUI[] bottomItemCountTexts; // Bottom > BottomItemCountIText들 (4개)
-        private Image[] bottomItemImages; // Bottom > 각 재료 슬롯의 Image들 (4개)
-
-        public Button createButton; // Buttons > CreateButton
-        private Button cancelButton; // Buttons > CancleButton
+        private TextMeshProUGUI itemTitle;
+        private TextMeshProUGUI gridSizeText;
+        private TextMeshProUGUI countText;
+        private TextMeshProUGUI[] bottomItemCountTexts;
+        private Image[] bottomItemImages;
+        private Image selectItemImageComponent;
+        public Button createButton;
+        private Button cancelButton;
+        
+        // Color 상수 캐싱
+        private static readonly Color OpaqueWhite = new Color(1, 1, 1, 1);
+        private static readonly Color TransparentWhite = new Color(1, 1, 1, 0);
 
         private void Awake()
         {
@@ -34,22 +36,36 @@ namespace Runtime.CH3.Main
 
         private void InitializeReferences()
         {
-            // 메인 섹션 찾기
-            topSection = transform.Find("Top")?.gameObject;
-            bottomSection = transform.Find("Bottom")?.gameObject;
-            buttonsSection = transform.Find("Buttons")?.gameObject;
-            selectItemImage = transform.Find("SelectItemImage")?.gameObject;
+            if (topSection == null)
+                topSection = transform.Find("Top");
+            if (bottomSection == null)
+                bottomSection = transform.Find("Bottom");
+            if (buttonsSection == null)
+                buttonsSection = transform.Find("Buttons");
+            if (selectItemImage == null)
+                selectItemImage = transform.Find("SelectItemImage");
 
             // Top 섹션 요소 찾기
             if (topSection != null)
             {
-                itemTitle = topSection.transform.Find("ItemTitle")?.GetComponent<TextMeshProUGUI>();
-                gridSizeBorder = topSection.transform.Find("GridSizeBorder")?.gameObject;
-                countBorder = topSection.transform.Find("CountBorder")?.gameObject;
+                if (itemTitle == null)
+                    itemTitle = topSection.Find("ItemTitle")?.GetComponent<TextMeshProUGUI>();
+                
+                var gridSizeBorder = topSection.Find("GridSizeBorder");
+                if (gridSizeBorder != null && gridSizeText == null)
+                {
+                    gridSizeText = gridSizeBorder.GetChild(0).GetComponent<TextMeshProUGUI>();
+                }
+                
+                var countBorder = topSection.Find("CountBorder");
+                if (countBorder != null && countText == null)
+                {
+                    countText = countBorder.GetChild(0).GetComponent<TextMeshProUGUI>();
+                }
             }
 
-            // Bottom 섹션 요소 찾기 (4개)
-            if (bottomSection != null)
+            // Bottom 섹션 요소 찾기 (배열이 비어있는 경우에만)
+            if (bottomSection != null && (bottomItemCountTexts == null || bottomItemCountTexts.Length == 0))
             {
                 var bottomTexts = new List<TextMeshProUGUI>();
                 var bottomImages = new List<Image>();
@@ -58,25 +74,29 @@ namespace Runtime.CH3.Main
                 
                 foreach (var consumeName in consumeNames)
                 {
-                    var consumeObj = bottomSection.transform.Find(consumeName);
+                    var consumeObj = bottomSection.Find(consumeName);
                     if (consumeObj != null)
                     {
+                        // TextMeshProUGUI 찾기
+                        TextMeshProUGUI textComponent = null;
                         var textObj = consumeObj.Find("Text (TMP)");
-                        if (textObj == null)
-                        {
-                            textObj = consumeObj.Find("Text");
-                        }
-                        
                         if (textObj != null)
                         {
-                            bottomTexts.Add(textObj.GetComponent<TextMeshProUGUI>());
+                            textObj.TryGetComponent<TextMeshProUGUI>(out textComponent);
                         }
                         else
                         {
-                            bottomTexts.Add(null);
+                            // "Text (TMP)"를 찾지 못했으면 "Text" 시도
+                            textObj = consumeObj.Find("Text");
+                            if (textObj != null)
+                            {
+                                textObj.TryGetComponent<TextMeshProUGUI>(out textComponent);
+                            }
                         }
+                        bottomTexts.Add(textComponent);
                         
-                        var image = consumeObj.GetComponent<Image>();
+                        // Image 컴포넌트 가져오기
+                        consumeObj.TryGetComponent<Image>(out var image);
                         bottomImages.Add(image);
                     }
                     else
@@ -93,15 +113,29 @@ namespace Runtime.CH3.Main
             // Buttons 찾기
             if (buttonsSection != null)
             {
-                createButton = buttonsSection.transform.Find("CreateButton")?.GetComponent<Button>();
-                cancelButton = buttonsSection.transform.Find("CancleButton")?.GetComponent<Button>();
+                if (createButton == null)
+                    createButton = buttonsSection.Find("CreateButton")?.GetComponent<Button>();
+                if (cancelButton == null)
+                    cancelButton = buttonsSection.Find("CancleButton")?.GetComponent<Button>();
+            }
+            
+            // selectItemImage의 Image 컴포넌트 캐싱
+            if (selectItemImage != null && selectItemImageComponent == null)
+            {
+                selectItemImage.TryGetComponent<Image>(out var image);
+                selectItemImageComponent = image;
             }
         }
 
         public void Show()
         {
             gameObject.SetActive(true);
-            InitializeReferences();
+            if (itemTitle == null || gridSizeText == null || countText == null || 
+                bottomItemCountTexts == null || bottomItemImages == null ||
+                createButton == null || selectItemImageComponent == null)
+            {
+                InitializeReferences();
+            }
         }
 
         public void Hide()
@@ -111,17 +145,17 @@ namespace Runtime.CH3.Main
 
         public void SetSelectedItem(Sprite itemSprite)
         {
-            if (selectItemImage != null && selectItemImage.TryGetComponent<Image>(out var image))
+            if (selectItemImageComponent != null)
             {
-                image.sprite = itemSprite;
+                selectItemImageComponent.sprite = itemSprite;
             }
         }
 
         public void ClearSelection()
         {
-            if (selectItemImage != null && selectItemImage.TryGetComponent<Image>(out var image))
+            if (selectItemImageComponent != null)
             {
-                image.sprite = null;
+                selectItemImageComponent.sprite = null;
             }
         }
 
@@ -143,6 +177,7 @@ namespace Runtime.CH3.Main
 
         public void SetBottomItemImage(int index, Sprite itemIcon)
         {
+            // 초기화 확인 (한 번만)
             if (bottomItemImages == null || bottomItemImages.Length == 0)
             {
                 InitializeReferences();
@@ -153,32 +188,23 @@ namespace Runtime.CH3.Main
                 }
             }
             
+            // 인덱스 범위 체크
             if (index < 0 || index >= bottomItemImages.Length)
             {
                 Debug.LogWarning($"ShopSelectionPanel: 인덱스 {index}가 범위를 벗어났습니다! (배열 크기: {bottomItemImages.Length})");
                 return;
             }
             
+            // null 체크
             if (bottomItemImages[index] == null)
             {
-                Debug.LogWarning($"ShopSelectionPanel: bottomItemImages[{index}]가 null입니다! 재초기화 시도...");
-                InitializeReferences();
-                if (bottomItemImages == null || index >= bottomItemImages.Length || bottomItemImages[index] == null)
-                {
-                    return;
-                }
+                Debug.LogWarning($"ShopSelectionPanel: bottomItemImages[{index}]가 null입니다!");
+                return;
             }
             
-            if (itemIcon != null)
-            {
-                bottomItemImages[index].sprite = itemIcon;
-                bottomItemImages[index].color = new Color(1, 1, 1, 1);
-            }
-            else
-            {
-                bottomItemImages[index].sprite = null;
-                bottomItemImages[index].color = new Color(1, 1, 1, 0);
-            }
+            // 스프라이트 및 색상 설정 (Color 상수 사용)
+            bottomItemImages[index].sprite = itemIcon;
+            bottomItemImages[index].color = itemIcon != null ? OpaqueWhite : TransparentWhite;
         }
 
         public void SetCreateButtonCallback(System.Action callback)
@@ -202,6 +228,22 @@ namespace Runtime.CH3.Main
                 {
                     cancelButton.onClick.AddListener(() => callback());
                 }
+            }
+        }
+
+        public void SetGridSizeText(string text)
+        {
+            if (gridSizeText != null)
+            {
+                gridSizeText.text = text;
+            }
+        }
+
+        public void SetCountText(string text)
+        {
+            if (countText != null)
+            {
+                countText.text = text;
             }
         }
     }
