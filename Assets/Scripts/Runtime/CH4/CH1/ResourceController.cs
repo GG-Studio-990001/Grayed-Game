@@ -11,6 +11,16 @@ namespace CH4.CH1
         public int Coin = 0;
         public int Jewelry = 0;
         public int Fish = 0;
+        [SerializeField] private TextMeshProUGUI _ChococatUi;
+        [SerializeField] private TextMeshProUGUI _JellycatUi;
+        [SerializeField] private TextMeshProUGUI _MellowCatUi;
+        [SerializeField] private TextMeshProUGUI _CandyPopUi;
+        [SerializeField] private TextMeshProUGUI _StickCandyUi;
+        [SerializeField] private GameObject[] _Chococats;
+        [SerializeField] private GameObject[] _Jellycats;
+        [SerializeField] private GameObject[] _MellowCats;
+        [SerializeField] private GameObject[] _CandyPops;
+        [SerializeField] private GameObject[] _StickCandys;
         public int Chococat = 0;
         public int Jellycat = 0;
         public int MellowCat = 0;
@@ -21,6 +31,70 @@ namespace CH4.CH1
         private void Start()
         {
             // _coinCnt = 0;
+            UpdateUi();
+        }
+
+        public void RefreshExchangeUi()
+        {
+            Debug.Log("교환 패널 새로고침");
+            _ChococatUi.text = Chococat.ToString() + "/3";
+            _JellycatUi.text = Jellycat.ToString() + "/3";
+            _MellowCatUi.text = MellowCat.ToString() + "/3";
+            _CandyPopUi.text = CandyPop.ToString() + "/3";
+            _StickCandyUi.text = StickCandy.ToString() + "/3";
+
+            for (int i = 0; i < 3; i++)
+            {
+                _Chococats[i].SetActive(Chococat >= i + 1);
+                _Jellycats[i].SetActive(Jellycat >= i + 1);
+                _MellowCats[i].SetActive(MellowCat >= i + 1);
+                _CandyPops[i].SetActive(CandyPop >= i + 1);
+                _StickCandys[i].SetActive(StickCandy >= i + 1);
+            }
+        }
+
+        public void ExchangeChococat()
+        {
+            if (Chococat < 3) return;
+
+            Chococat -= 3;
+            Jewelry += 5;
+            UpdateUi();
+        }
+
+        public void ExchangeJellyCat()
+        {
+            if (Jellycat < 3) return;
+
+            Jellycat -= 3;
+            Jewelry += 2;
+            UpdateUi();
+        }
+
+        public void ExchangeMellowCat()
+        {
+            if (MellowCat < 3) return;
+
+            MellowCat -= 3;
+            Coin += 100;
+            UpdateUi();
+        }
+
+        public void ExchangeCandyPop()
+        {
+            if (CandyPop < 3) return;
+
+            CandyPop -= 3;
+            Coin += 40;
+            UpdateUi();
+        }
+
+        public void ExchangeStickCandy()
+        {
+            if (StickCandy < 3) return;
+
+            StickCandy -= 3;
+            Coin += 50;
             UpdateUi();
         }
 
@@ -72,6 +146,7 @@ namespace CH4.CH1
             _coinUi.text = Coin.ToString();
             _jewelryUi.text = Jewelry.ToString();
             _fishUi.text = Fish.ToString();
+            RefreshExchangeUi();
         }
     }
 }

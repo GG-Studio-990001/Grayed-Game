@@ -4,6 +4,7 @@ using TMPro;
 
 namespace CH4.CH1
 {
+    [RequireComponent(typeof(Button))]
     public class ShopItemSlotUI : MonoBehaviour
     {
         [SerializeField] ResourceController resourceController;
@@ -17,7 +18,7 @@ namespace CH4.CH1
         private Button _button;
         private bool canbuy;
 
-        private void Start()
+        private void Awake()
         {
             _button = GetComponent<Button>();
             if (_button != null)

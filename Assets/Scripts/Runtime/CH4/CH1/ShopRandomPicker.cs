@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Runtime.ETC;
-using static Codice.CM.Common.CmCallContext;
 
 namespace CH4.CH1
 {
@@ -72,7 +71,6 @@ namespace CH4.CH1
                 slots[i].Bind(item, icon, currency);
             }
         }
-
 
         private void LogPickedItems(List<ShopItem> items)
         {
