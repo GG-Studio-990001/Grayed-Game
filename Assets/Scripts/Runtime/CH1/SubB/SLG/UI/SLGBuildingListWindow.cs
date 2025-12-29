@@ -1,17 +1,14 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using SLGDefines;
 
 public class SLGBuildingListWindow : MonoBehaviour
 {
     [Header("DisplayComponents")]
     [SerializeField] private GameObject _contentParent = default;
     public Button _HUDButton = default;
-    [SerializeField] List<BuildingItem> _buildingItems = new List<BuildingItem>();
+    [SerializeField] List<BuildingItem> _buildingItems = new();
 
     [Header("AnimationValue")]
     [SerializeField] private Vector2 _windowTopPos;
@@ -34,22 +31,22 @@ public class SLGBuildingListWindow : MonoBehaviour
     {
         _windowVisible = false;
         RefreshBuildingInfo();
-        ChangeWindowVisiblity(false, true);
+        ChangeWindowVisibility(false, true);
     }
     public void HideWindow()
     {
         if (_windowVisible)
         {
-            ChangeWindowVisiblity(false);
+            ChangeWindowVisibility(false);
         }
     }
 
     private void OnClickHUDButton()
     {
-        ChangeWindowVisiblity(!_windowVisible);
+        ChangeWindowVisibility(!_windowVisible);
     }
 
-    private void ChangeWindowVisiblity (bool bVisible, bool bDirect = false)
+    private void ChangeWindowVisibility (bool bVisible, bool bDirect = false)
     {
         RectTransform transform = _contentParent.GetComponent<RectTransform>();
         if (transform == null)
@@ -68,7 +65,7 @@ public class SLGBuildingListWindow : MonoBehaviour
         else 
         {
             transform.anchoredPosition = StartPos;
-            transform.DOLocalMove(EndPos, AnimTime);
+            transform.DOAnchorPos(EndPos, AnimTime);
         }
     }
 
