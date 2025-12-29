@@ -26,6 +26,7 @@ namespace CH4.CH1
         public int MellowCat = 0;
         public int CandyPop = 0;
         public int StickCandy = 0;
+        [SerializeField] private GameObject[] keyAndPanel;
         private readonly int _loseCoinCnt = 20;
 
         private void Start()
@@ -34,9 +35,17 @@ namespace CH4.CH1
             UpdateUi();
         }
 
+        public void PurchaseKey()
+        {
+            if (Fish < 7) return;
+            Fish -= 7;
+            UpdateUi();
+            foreach (GameObject obj in keyAndPanel)
+                obj.SetActive(false);
+        }
+
         public void RefreshExchangeUi()
         {
-            Debug.Log("교환 패널 새로고침");
             _ChococatUi.text = Chococat.ToString() + "/3";
             _JellycatUi.text = Jellycat.ToString() + "/3";
             _MellowCatUi.text = MellowCat.ToString() + "/3";
