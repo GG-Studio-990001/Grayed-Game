@@ -372,6 +372,19 @@ namespace Runtime.CH3.Main
             {
                 selectionPanel.SetItemTitle(levelData.dev);
                 
+                // Grid Size 업데이트
+                selectionPanel.SetGridSizeText($"{levelData.sizeX}x{levelData.sizeY}");
+                
+                // Count 업데이트 (최대 건설 가능 개수)
+                if (levelData.isBuilding)
+                {
+                    selectionPanel.SetCountText($"수량 {levelData.maxBuild:00}");
+                }
+                else
+                {
+                    selectionPanel.SetCountText("");
+                }
+                
                 var itemSO = LoadItemById(levelData.id);
                 if (itemSO != null && itemSO.itemIcon != null)
                 {
@@ -428,6 +441,8 @@ namespace Runtime.CH3.Main
             {
                 selectionPanel.SetItemTitle("");
                 selectionPanel.SetSelectedItem(null);
+                selectionPanel.SetGridSizeText("");
+                selectionPanel.SetCountText("");
                 for (int i = 0; i < 4; i++)
                 {
                     selectionPanel.SetBottomItemCount(i, "");
@@ -672,7 +687,7 @@ namespace Runtime.CH3.Main
                 return;
             }
             
-            Debug.Log($"ShopCreatePanel: LoadItemsFromCSV() - {buildableItems.Count}개 아이템 로드 시작 (itemPrefab: {(itemPrefab != null ? itemPrefab.name : "null")}, contentParent: {(contentParent != null ? contentParent.name : "null")})");
+            //Debug.Log($"ShopCreatePanel: LoadItemsFromCSV() - {buildableItems.Count}개 아이템 로드 시작 (itemPrefab: {(itemPrefab != null ? itemPrefab.name : "null")}, contentParent: {(contentParent != null ? contentParent.name : "null")})");
             
             int successCount = 0;
             int failCount = 0;
@@ -707,7 +722,7 @@ namespace Runtime.CH3.Main
                 }
             }
             
-            Debug.Log($"ShopCreatePanel: LoadItemsFromCSV() 완료 - {itemViews.Count}개 아이템 생성됨 (성공: {successCount}, 실패: {failCount})");
+            //Debug.Log($"ShopCreatePanel: LoadItemsFromCSV() 완료 - {itemViews.Count}개 아이템 생성됨 (성공: {successCount}, 실패: {failCount})");
         }
 
         private bool CheckItemSoldOut(string itemId)

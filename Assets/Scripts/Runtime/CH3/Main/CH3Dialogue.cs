@@ -17,6 +17,7 @@ namespace Runtime.CH3.Main
             _runner = GetComponent<DialogueRunner>();
             _lineView = _runner.dialogueViews[0].GetComponent<LineView>();
             _runner.AddCommandHandler("OpenShop", OpenShop);
+            _runner.AddCommandHandler("SetFirstMeet", SetFirstMeet);
         }
 
         public void OnDialogueInput()
@@ -40,9 +41,15 @@ namespace Runtime.CH3.Main
             }
         }
 
-        public void OpenShop()
+        private void OpenShop()
         {
             _shopUIController.OpenShop();
+        }
+
+        private void SetFirstMeet()
+        {
+            Managers.Data.CH3.IsFirstMeet = true;
+            Managers.Data.SaveGame();
         }
     }
 }
