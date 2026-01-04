@@ -4,6 +4,7 @@ using UnityEngine;
 namespace CH4.CH1
 {
     // CH4.CH1의 코인, 먼지유령에 대한 인터렉션
+    [RequireComponent(typeof(SpriteRenderer))]
     public class PlayerInteraction : MonoBehaviour
     {
         [SerializeField] private ResourceController _coinController;

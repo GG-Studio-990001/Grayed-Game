@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 3743257547225655311}
   - component: {fileID: 2207932516817959933}
   m_Layer: 5
-  m_Name: ResourceImg
+  m_Name: CurrencyImg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 5152753279593355459}
   - component: {fileID: 2223194922986843583}
   m_Layer: 5
-  m_Name: ValueTxt
+  m_Name: CostTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -626,13 +626,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 771f77e651b7a044abd39090d9c833a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceController: {fileID: 0}
-  recommendImage: {fileID: 8811401327813841153}
-  iconImage: {fileID: 2177281219180958527}
-  nameText: {fileID: 6253648690681123707}
-  currencyIcon: {fileID: 2207932516817959933}
-  costText: {fileID: 2223194922986843583}
-  completeImg: {fileID: 1201555998854150756}
+  _resourceController: {fileID: 0}
+  _recommendImage: {fileID: 8811401327813841153}
+  _iconImage: {fileID: 2177281219180958527}
+  _nameText: {fileID: 6253648690681123707}
+  _currencyIcon: {fileID: 2207932516817959933}
+  _costText: {fileID: 2223194922986843583}
+  _completeImg: {fileID: 1201555998854150756}
 --- !u!222 &6302456315144848767
 CanvasRenderer:
   m_ObjectHideFlags: 0

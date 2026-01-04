@@ -2268,6 +2268,10 @@ PrefabInstance:
       propertyPath: resourceController
       value: 
       objectReference: {fileID: 1593011071}
+    - target: {fileID: 4795638312170766454, guid: 8a76a372195f738438154e1500dc9985, type: 3}
+      propertyPath: _resourceController
+      value: 
+      objectReference: {fileID: 1593011071}
     - target: {fileID: 5991795234850556631, guid: 8a76a372195f738438154e1500dc9985, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -7734,8 +7738,8 @@ GameObject:
   m_Component:
   - component: {fileID: 732191893}
   - component: {fileID: 732191897}
-  - component: {fileID: 732191896}
   - component: {fileID: 732191895}
+  - component: {fileID: 732191896}
   - component: {fileID: 732191894}
   m_Layer: 5
   m_Name: JellyStore
@@ -12765,6 +12769,10 @@ PrefabInstance:
       propertyPath: resourceController
       value: 
       objectReference: {fileID: 1593011071}
+    - target: {fileID: 4795638312170766454, guid: 8a76a372195f738438154e1500dc9985, type: 3}
+      propertyPath: _resourceController
+      value: 
+      objectReference: {fileID: 1593011071}
     - target: {fileID: 5991795234850556631, guid: 8a76a372195f738438154e1500dc9985, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -16256,6 +16264,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4795638312170766454, guid: 8a76a372195f738438154e1500dc9985, type: 3}
       propertyPath: resourceController
+      value: 
+      objectReference: {fileID: 1593011071}
+    - target: {fileID: 4795638312170766454, guid: 8a76a372195f738438154e1500dc9985, type: 3}
+      propertyPath: _resourceController
       value: 
       objectReference: {fileID: 1593011071}
     - target: {fileID: 5991795234850556631, guid: 8a76a372195f738438154e1500dc9985, type: 3}
@@ -22911,7 +22923,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 1659307160}
     m_Modifications:
     - target: {fileID: 4795638312170766454, guid: 8a76a372195f738438154e1500dc9985, type: 3}
-      propertyPath: resourceController
+      propertyPath: _resourceController
       value: 
       objectReference: {fileID: 1593011071}
     - target: {fileID: 5991795234850556631, guid: 8a76a372195f738438154e1500dc9985, type: 3}
