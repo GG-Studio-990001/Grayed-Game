@@ -17057,9 +17057,9 @@ MonoBehaviour:
   MellowCat: 0
   CandyPop: 0
   StickCandy: 0
-  keyAndPanel:
-  - {fileID: 234091805}
+  _keyAndPanel:
   - {fileID: 1389282048}
+  - {fileID: 234091805}
 --- !u!1001 &1600261751
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,12 +5,14 @@ namespace CH4.CH1
 {
     public class ResourceController : MonoBehaviour
     {
+        [Header("=Main Currency=")]
         [SerializeField] private TextMeshProUGUI _coinUi;
         [SerializeField] private TextMeshProUGUI _jewelryUi;
         [SerializeField] private TextMeshProUGUI _fishUi;
         public int Coin = 0;
         public int Jewelry = 0;
         public int Fish = 0;
+        [Header("=Jellys=")]
         [SerializeField] private TextMeshProUGUI _ChococatUi;
         [SerializeField] private TextMeshProUGUI _JellycatUi;
         [SerializeField] private TextMeshProUGUI _MellowCatUi;
@@ -26,24 +28,27 @@ namespace CH4.CH1
         public int MellowCat = 0;
         public int CandyPop = 0;
         public int StickCandy = 0;
-        [SerializeField] private GameObject[] keyAndPanel;
+        [Header("=Else=")]
+        [SerializeField] private GameObject[] _keyAndPanel; // 물고기->열쇠로 교환 성공 시 패널 닫고 열쇠 비활성화
         private readonly int _loseCoinCnt = 20;
 
         private void Start()
         {
-            // _coinCnt = 0;
             UpdateUi();
         }
 
+        #region Fish to Key
         public void PurchaseKey()
         {
             if (Fish < 7) return;
             Fish -= 7;
             UpdateUi();
-            foreach (GameObject obj in keyAndPanel)
+            foreach (GameObject obj in _keyAndPanel)
                 obj.SetActive(false);
         }
+        #endregion
 
+        #region Jelly to Currency
         public void ExchangeChococat()
         {
             if (Chococat < 3) return;
@@ -88,7 +93,9 @@ namespace CH4.CH1
             Coin += 50;
             UpdateUi();
         }
+        #endregion
 
+        #region Main Currency
         public void AddCoin()
         {
             Coin++;
@@ -111,6 +118,7 @@ namespace CH4.CH1
             }
             return false;
         }
+
         public bool UseJewerly(int cost)
         {
             if (Jewelry >= cost)
@@ -121,16 +129,7 @@ namespace CH4.CH1
             }
             return false;
         }
-
-        public void GetJewelry(int cnt)
-        {
-            Jewelry += cnt;
-        }
-
-        public void GetFist(int cnt)
-        {
-            Fish += cnt;
-        }
+        #endregion
 
         public void UpdateUi()
         {
@@ -138,11 +137,12 @@ namespace CH4.CH1
             _jewelryUi.text = Jewelry.ToString();
             _fishUi.text = Fish.ToString();
 
-            _ChococatUi.text = Chococat.ToString() + "/3";
-            _JellycatUi.text = Jellycat.ToString() + "/3";
-            _MellowCatUi.text = MellowCat.ToString() + "/3";
-            _CandyPopUi.text = CandyPop.ToString() + "/3";
-            _StickCandyUi.text = StickCandy.ToString() + "/3";
+            string cntStr = "/3";
+            _ChococatUi.text = Chococat.ToString() + cntStr;
+            _JellycatUi.text = Jellycat.ToString() + cntStr;
+            _MellowCatUi.text = MellowCat.ToString() + cntStr;
+            _CandyPopUi.text = CandyPop.ToString() + cntStr;
+            _StickCandyUi.text = StickCandy.ToString() + cntStr;
 
             for (int i = 0; i < 3; i++)
             {
