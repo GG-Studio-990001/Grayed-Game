@@ -31,6 +31,12 @@ namespace CH4.CH1
         [Header("=Else=")]
         [SerializeField] private GameObject[] _keyAndPanel; // 물고기->열쇠로 교환 성공 시 패널 닫고 열쇠 비활성화
         private readonly int _loseCoinCnt = 20;
+        [SerializeField] private ButtonInteractableController _buttonInteractableController;
+
+        private void Awake()
+        {
+            _buttonInteractableController.ResourceController = this;
+        }
 
         private void Start()
         {
@@ -152,6 +158,8 @@ namespace CH4.CH1
                 _CandyPops[i].SetActive(CandyPop >= i + 1);
                 _StickCandys[i].SetActive(StickCandy >= i + 1);
             }
+
+            _buttonInteractableController.CheckExchangeBtns();
         }
     }
 }

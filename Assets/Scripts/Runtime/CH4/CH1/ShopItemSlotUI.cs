@@ -24,6 +24,7 @@ namespace CH4.CH1
         private bool _canBuy;
 
         private int _slotIndex;
+        private bool _isRefreshing;
 
         private void Awake()
         {
@@ -70,6 +71,7 @@ namespace CH4.CH1
 
         private void LoadNewItem()
         {
+            _isRefreshing = true;
             float loadTime = 1f;
             _loadingSlider.value = 1f;
 
@@ -78,7 +80,8 @@ namespace CH4.CH1
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {
-                    _shopRandomPicker.RefreshSingleItem(_slotIndex);
+                    if (_isRefreshing)
+                        _shopRandomPicker.RefreshSingleItem(_slotIndex);
                 });
         }
 
@@ -88,6 +91,7 @@ namespace CH4.CH1
             _completeImg.SetActive(false);
             _canBuy = true;
             _button.interactable = true;
+            _isRefreshing = false;
 
             // Bind
             _currentItem = item;

@@ -42,7 +42,7 @@ namespace CH4.CH1
             RefreshShop();
         }
 
-        private void RefreshShop()
+        public void RefreshShop()
         {
             List<ShopItem> pickedItems = RefreshItems();
             BindUI(pickedItems);
