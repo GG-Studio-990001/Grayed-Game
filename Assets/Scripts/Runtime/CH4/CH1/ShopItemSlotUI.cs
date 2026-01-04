@@ -17,7 +17,7 @@ namespace CH4.CH1
         [SerializeField] private GameObject _completeImg; // 추천 뱃지
         private ShopItem _currentItem;
         private Button _button;
-        private bool _canbuy;
+        private bool _canBuy;
 
         private void Awake()
         {
@@ -27,7 +27,7 @@ namespace CH4.CH1
 
         private void Purchase()
         {
-            if (!_canbuy) return;
+            if (!_canBuy) return;
 
             if (_currentItem.costType == CostType.Coin)
             {
@@ -48,7 +48,7 @@ namespace CH4.CH1
         private void PurchaseComplete()
         {
             _completeImg.SetActive(true);
-            _canbuy = false;
+            _canBuy = false;
             _button.interactable = false;
 
             switch (_currentItem.name)
@@ -77,10 +77,12 @@ namespace CH4.CH1
 
         public void Bind(ShopItem item, Sprite icon, Sprite currency)
         {
+            // Init
             _completeImg.SetActive(false);
-            _canbuy = true;
+            _canBuy = true;
             _button.interactable = true;
 
+            // Bind
             _currentItem = item;
             _recommendImage.SetActive(item.id.Contains("Fish"));
 

@@ -10380,21 +10380,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e78bba6e4ab89ce49955a2fb157ad432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceController: {fileID: 1593011071}
-  slots:
+  _resourceController: {fileID: 1593011071}
+  _slots:
   - {fileID: 466540989457385275}
   - {fileID: 1188410842}
   - {fileID: 184727538}
   - {fileID: 1523683599}
-  itemSprs:
+  _itemSprs:
   - {fileID: 1760690310, guid: 8e8ac6521f0933d468886eb96c359129, type: 3}
   - {fileID: -1061352021, guid: 8e8ac6521f0933d468886eb96c359129, type: 3}
   - {fileID: -135008614, guid: 8e8ac6521f0933d468886eb96c359129, type: 3}
   - {fileID: -898779878, guid: 8e8ac6521f0933d468886eb96c359129, type: 3}
   - {fileID: 1780446868, guid: ee99760023a809d43a310e0076f6b1d1, type: 3}
   - {fileID: 51754697, guid: ee99760023a809d43a310e0076f6b1d1, type: 3}
-  coinSprite: {fileID: 21300000, guid: da1413fb802230240aa7a7ce7901da59, type: 3}
-  jewelSprite: {fileID: 21300000, guid: 532e64652fa9c3e488c7bb4cebc73342, type: 3}
+  _coinSprite: {fileID: 21300000, guid: da1413fb802230240aa7a7ce7901da59, type: 3}
+  _jewelSprite: {fileID: 21300000, guid: 532e64652fa9c3e488c7bb4cebc73342, type: 3}
 --- !u!4 &1018154149
 Transform:
   m_ObjectHideFlags: 0
@@ -22588,6 +22588,7 @@ GameObject:
   - component: {fileID: 2127885294}
   - component: {fileID: 2127885292}
   - component: {fileID: 2127885291}
+  - component: {fileID: 2127885295}
   m_Layer: 5
   m_Name: ExchangeBtn
   m_TagString: Untagged
@@ -22709,6 +22710,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _toggleTarget: {fileID: 1216632137}
+--- !u!114 &2127885295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127885289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5c4c0bc395a4764cbcae2f96048e786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2133872422
 PrefabInstance:
   m_ObjectHideFlags: 0

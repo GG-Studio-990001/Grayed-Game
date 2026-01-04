@@ -20,14 +20,13 @@ namespace CH4.CH1
 
     public class ShopRandomPicker : MonoBehaviour
     {
-        [SerializeField]  ResourceController resourceController;
+        [Header("Scripts")]
+        [SerializeField] ResourceController _resourceController;
         [Header("UI Slots")]
-        [SerializeField] private List<ShopItemSlotUI> slots; // 4개
-        [SerializeField] private Sprite[] itemSprs;
-        [SerializeField] private Sprite coinSprite;
-        [SerializeField] private Sprite jewelSprite;
-        //private Dictionary<string, Sprite> iconMap = new Dictionary<string, Sprite>();
-
+        [SerializeField] private List<ShopItemSlotUI> _slots; // 4개
+        [SerializeField] private Sprite[] _itemSprs;
+        [SerializeField] private Sprite _coinSprite;
+        [SerializeField] private Sprite _jewelSprite;
         private List<ShopItem> allItems = new();
         private const int SHOP_ITEM_COUNT = 4;
 
@@ -39,7 +38,7 @@ namespace CH4.CH1
 
         public void RefreshShopWithCost()
         {
-            if (resourceController.UseCoin(10))
+            if (_resourceController.UseCoin(10))
                 RefreshShop();
         }
 
@@ -55,20 +54,20 @@ namespace CH4.CH1
             for (int i = 0; i < SHOP_ITEM_COUNT; i++)
             {
                 ShopItem item = items[i];
-                Sprite currency = item.costType == CostType.Coin ? coinSprite : jewelSprite;
+                Sprite currency = item.costType == CostType.Coin ? _coinSprite : _jewelSprite;
 
                 Sprite icon = item.name switch
                 {
-                    "물고기 젤리" => itemSprs[0],
-                    "초코캣" => itemSprs[1],
-                    "젤리캣" => itemSprs[2],
-                    "멜로캣" => itemSprs[3],
-                    "캔디팝" => itemSprs[4],
-                    "스틱캔디" => itemSprs[5],
+                    "물고기 젤리" => _itemSprs[0],
+                    "초코캣" => _itemSprs[1],
+                    "젤리캣" => _itemSprs[2],
+                    "멜로캣" => _itemSprs[3],
+                    "캔디팝" => _itemSprs[4],
+                    "스틱캔디" => _itemSprs[5],
                     _ => null
                 };
 
-                slots[i].Bind(item, icon, currency);
+                _slots[i].Bind(item, icon, currency);
             }
         }
 
