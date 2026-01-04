@@ -44,24 +44,6 @@ namespace CH4.CH1
                 obj.SetActive(false);
         }
 
-        public void RefreshExchangeUi()
-        {
-            _ChococatUi.text = Chococat.ToString() + "/3";
-            _JellycatUi.text = Jellycat.ToString() + "/3";
-            _MellowCatUi.text = MellowCat.ToString() + "/3";
-            _CandyPopUi.text = CandyPop.ToString() + "/3";
-            _StickCandyUi.text = StickCandy.ToString() + "/3";
-
-            for (int i = 0; i < 3; i++)
-            {
-                _Chococats[i].SetActive(Chococat >= i + 1);
-                _Jellycats[i].SetActive(Jellycat >= i + 1);
-                _MellowCats[i].SetActive(MellowCat >= i + 1);
-                _CandyPops[i].SetActive(CandyPop >= i + 1);
-                _StickCandys[i].SetActive(StickCandy >= i + 1);
-            }
-        }
-
         public void ExchangeChococat()
         {
             if (Chococat < 3) return;
@@ -150,12 +132,26 @@ namespace CH4.CH1
             Fish += cnt;
         }
 
-        private void UpdateUi()
+        public void UpdateUi()
         {
             _coinUi.text = Coin.ToString();
             _jewelryUi.text = Jewelry.ToString();
             _fishUi.text = Fish.ToString();
-            RefreshExchangeUi();
+
+            _ChococatUi.text = Chococat.ToString() + "/3";
+            _JellycatUi.text = Jellycat.ToString() + "/3";
+            _MellowCatUi.text = MellowCat.ToString() + "/3";
+            _CandyPopUi.text = CandyPop.ToString() + "/3";
+            _StickCandyUi.text = StickCandy.ToString() + "/3";
+
+            for (int i = 0; i < 3; i++)
+            {
+                _Chococats[i].SetActive(Chococat >= i + 1);
+                _Jellycats[i].SetActive(Jellycat >= i + 1);
+                _MellowCats[i].SetActive(MellowCat >= i + 1);
+                _CandyPops[i].SetActive(CandyPop >= i + 1);
+                _StickCandys[i].SetActive(StickCandy >= i + 1);
+            }
         }
     }
 }

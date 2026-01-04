@@ -45,7 +45,6 @@ namespace CH4.CH1
                     PurchaseComplete();
                 }
             }
-            // TODO: 재화 획득 구현
         }
 
         private void PurchaseComplete()
@@ -75,6 +74,7 @@ namespace CH4.CH1
                     resourceController.StickCandy++;
                     break;
             }
+            resourceController.UpdateUi();
             Debug.Log("구매 완료");
         }
 
