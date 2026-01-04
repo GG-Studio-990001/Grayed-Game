@@ -2264,6 +2264,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -87
       objectReference: {fileID: 0}
+    - target: {fileID: 4742007302333820627, guid: 8a76a372195f738438154e1500dc9985, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742007302333820627, guid: 8a76a372195f738438154e1500dc9985, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795638312170766454, guid: 8a76a372195f738438154e1500dc9985, type: 3}
+      propertyPath: _shopRandomPicker
+      value: 
+      objectReference: {fileID: 1018154148}
     - target: {fileID: 4795638312170766454, guid: 8a76a372195f738438154e1500dc9985, type: 3}
       propertyPath: resourceController
       value: 
@@ -12765,6 +12777,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -87
       objectReference: {fileID: 0}
+    - target: {fileID: 4742007302333820627, guid: 8a76a372195f738438154e1500dc9985, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742007302333820627, guid: 8a76a372195f738438154e1500dc9985, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795638312170766454, guid: 8a76a372195f738438154e1500dc9985, type: 3}
+      propertyPath: _shopRandomPicker
+      value: 
+      objectReference: {fileID: 1018154148}
     - target: {fileID: 4795638312170766454, guid: 8a76a372195f738438154e1500dc9985, type: 3}
       propertyPath: resourceController
       value: 
@@ -16262,6 +16286,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -87
       objectReference: {fileID: 0}
+    - target: {fileID: 4742007302333820627, guid: 8a76a372195f738438154e1500dc9985, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742007302333820627, guid: 8a76a372195f738438154e1500dc9985, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795638312170766454, guid: 8a76a372195f738438154e1500dc9985, type: 3}
+      propertyPath: _shopRandomPicker
+      value: 
+      objectReference: {fileID: 1018154148}
     - target: {fileID: 4795638312170766454, guid: 8a76a372195f738438154e1500dc9985, type: 3}
       propertyPath: resourceController
       value: 
@@ -17036,7 +17072,7 @@ MonoBehaviour:
   _coinUi: {fileID: 1572437494}
   _jewelryUi: {fileID: 637158078}
   _fishUi: {fileID: 1899833037}
-  Coin: 100
+  Coin: 1000
   Jewelry: 0
   Fish: 0
   _ChococatUi: {fileID: 1248070073}
@@ -18085,8 +18121,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 791138052}
-  - {fileID: 1705193207}
   - {fileID: 732191893}
+  - {fileID: 1705193207}
   - {fileID: 1389282049}
   - {fileID: 1118528600}
   m_Father: {fileID: 0}
@@ -22935,6 +22971,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1659307160}
     m_Modifications:
+    - target: {fileID: 4795638312170766454, guid: 8a76a372195f738438154e1500dc9985, type: 3}
+      propertyPath: _shopRandomPicker
+      value: 
+      objectReference: {fileID: 1018154148}
     - target: {fileID: 4795638312170766454, guid: 8a76a372195f738438154e1500dc9985, type: 3}
       propertyPath: _resourceController
       value: 

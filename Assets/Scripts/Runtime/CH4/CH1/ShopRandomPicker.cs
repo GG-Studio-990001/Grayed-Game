@@ -21,63 +21,81 @@ namespace CH4.CH1
     public class ShopRandomPicker : MonoBehaviour
     {
         [Header("Scripts")]
-        [SerializeField] ResourceController _resourceController;
+        [SerializeField] private ResourceController _resourceController;
+
         [Header("UI Slots")]
-        [SerializeField] private List<ShopItemSlotUI> _slots; // 4개
+        [SerializeField] private List<ShopItemSlotUI> _slots;
         [SerializeField] private Sprite[] _itemSprs;
         [SerializeField] private Sprite _coinSprite;
         [SerializeField] private Sprite _jewelSprite;
+
         private List<ShopItem> allItems = new();
         private const int SHOP_ITEM_COUNT = 4;
 
         private void Start()
         {
             LoadCSV();
-            RefreshShop();
-        }
 
-        public void RefreshShopWithCost()
-        {
-            if (_resourceController.UseCoin(10))
-                RefreshShop();
+            for (int i = 0; i < _slots.Count; i++)
+                _slots[i].SetSlotIndex(i);
+
+            RefreshShop();
         }
 
         private void RefreshShop()
         {
             List<ShopItem> pickedItems = RefreshItems();
             BindUI(pickedItems);
-            // LogPickedItems(pickedItems);
+        }
+
+        public void RefreshSingleItem(int slotIndex)
+        {
+            List<ShopItem> currentItems = new();
+
+            for (int i = 0; i < _slots.Count; i++)
+            {
+                if (i == slotIndex) continue;
+                currentItems.Add(_slots[i].GetCurrentItem());
+            }
+
+            ShopItem newItem = PickOneItem(currentItems);
+            BindSlot(slotIndex, newItem);
+        }
+
+        private ShopItem PickOneItem(List<ShopItem> excludeItems)
+        {
+            List<ShopItem> candidates = new(allItems);
+
+            candidates.RemoveAll(c =>
+                excludeItems.Exists(e => e.id == c.id) ||
+                IsFishConflict(excludeItems, c)
+            );
+
+            return candidates[Random.Range(0, candidates.Count)];
         }
 
         private void BindUI(List<ShopItem> items)
         {
             for (int i = 0; i < SHOP_ITEM_COUNT; i++)
-            {
-                ShopItem item = items[i];
-                Sprite currency = item.costType == CostType.Coin ? _coinSprite : _jewelSprite;
-
-                Sprite icon = item.name switch
-                {
-                    "물고기 젤리" => _itemSprs[0],
-                    "초코캣" => _itemSprs[1],
-                    "젤리캣" => _itemSprs[2],
-                    "멜로캣" => _itemSprs[3],
-                    "캔디팝" => _itemSprs[4],
-                    "스틱캔디" => _itemSprs[5],
-                    _ => null
-                };
-
-                _slots[i].Bind(item, icon, currency);
-            }
+                BindSlot(i, items[i]);
         }
 
-        private void LogPickedItems(List<ShopItem> items)
+        private void BindSlot(int index, ShopItem item)
         {
-            Debug.Log("=== Shop Items ===");
-            foreach (var item in items)
+            Sprite currency = item.costType == CostType.Coin ? _coinSprite : _jewelSprite;
+
+            Sprite icon = item.name switch
             {
-                Debug.Log($"{item.id} | {item.costType} : {item.cost}");
-            }
+                "물고기 젤리" => _itemSprs[0],
+                "초코캣" => _itemSprs[1],
+                "젤리캣" => _itemSprs[2],
+                "멜로캣" => _itemSprs[3],
+                "캔디팝" => _itemSprs[4],
+                "스틱캔디" => _itemSprs[5],
+                _ => null
+            };
+
+            _slots[index].Bind(item, icon, currency);
         }
 
         private List<ShopItem> RefreshItems()
@@ -85,7 +103,7 @@ namespace CH4.CH1
             List<ShopItem> candidates = new(allItems);
             List<ShopItem> result = new();
 
-            while (result.Count < SHOP_ITEM_COUNT && candidates.Count > 0)
+            while (result.Count < SHOP_ITEM_COUNT)
             {
                 int index = Random.Range(0, candidates.Count);
                 ShopItem picked = candidates[index];
@@ -117,14 +135,13 @@ namespace CH4.CH1
         private void LoadCSV()
         {
             var data = CSVReader.Read("JellyStoreData");
-
             allItems.Clear();
 
             foreach (var row in data)
             {
                 ShopItem item = new();
                 item.id = row["id"].ToString();
-                item.name = row["name"].ToString(); // 추가
+                item.name = row["name"].ToString();
 
                 if (row.ContainsKey("jewel") && row["jewel"].ToString() != "")
                 {
@@ -140,6 +157,5 @@ namespace CH4.CH1
                 allItems.Add(item);
             }
         }
-
     }
 }
