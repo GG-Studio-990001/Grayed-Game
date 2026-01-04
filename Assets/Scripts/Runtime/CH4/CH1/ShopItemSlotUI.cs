@@ -1,99 +1,112 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 namespace CH4.CH1
 {
     [RequireComponent(typeof(Button))]
     public class ShopItemSlotUI : MonoBehaviour
     {
-        [SerializeField] ResourceController resourceController;
-        [SerializeField] private GameObject recommendImage; // 추천 뱃지
-        [SerializeField] private Image iconImage;           // 아이템 아이콘
-        [SerializeField] private TextMeshProUGUI nameText;  // 이름 텍스트
-        [SerializeField] private Image currencyIcon;        // 재화 아이콘
-        [SerializeField] private TextMeshProUGUI costText;  // 재화 개수 텍스트
-        [SerializeField] private GameObject completeImg; // 추천 뱃지
-        private ShopItem currentItem;
+        [SerializeField] private ResourceController _resourceController;
+        [SerializeField] private ShopRandomPicker _shopRandomPicker;
+
+        [SerializeField] private GameObject _recommendImage;
+        [SerializeField] private Image _iconImage;
+        [SerializeField] private TextMeshProUGUI _nameText;
+        [SerializeField] private Image _currencyIcon;
+        [SerializeField] private TextMeshProUGUI _costText;
+        [SerializeField] private GameObject _completeImg;
+        [SerializeField] private Slider _loadingSlider;
+
+        private ShopItem _currentItem;
         private Button _button;
-        private bool canbuy;
+        private bool _canBuy;
+
+        private int _slotIndex;
+        private bool _isRefreshing;
 
         private void Awake()
         {
             _button = GetComponent<Button>();
-            if (_button != null)
-            {
-                _button.onClick.AddListener(Purchase);
-            }
+            _button.onClick.AddListener(Purchase);
+        }
+
+        public void SetSlotIndex(int index)
+        {
+            _slotIndex = index;
         }
 
         private void Purchase()
         {
-            if (!canbuy) return;
+            if (!_canBuy) return;
 
-            if (currentItem.costType == CostType.Coin)
-            {
-                if (resourceController.UseCoin(currentItem.cost))
-                {
-                    PurchaseComplete();
-                }
-            }
-            else
-            {
-                if (resourceController.UseJewerly(currentItem.cost))
-                {
-                    PurchaseComplete();
-                }
-            }
-            // TODO: 재화 획득 구현
+            bool success = _currentItem.costType == CostType.Coin
+                ? _resourceController.UseCoin(_currentItem.cost)
+                : _resourceController.UseJewerly(_currentItem.cost);
+
+            if (success)
+                PurchaseComplete();
         }
 
         private void PurchaseComplete()
         {
-            completeImg.SetActive(true);
-            canbuy = false;
+            _completeImg.SetActive(true);
+            _canBuy = false;
             _button.interactable = false;
 
-            switch (currentItem.name)
+            switch (_currentItem.name)
             {
-                case "물고기 젤리":
-                    resourceController.Fish++;
-                    break;
-                case "초코캣":
-                    resourceController.Chococat++;
-                    break;
-                case "젤리캣":
-                    resourceController.Jellycat++;
-                    break;
-                case "멜로캣":
-                    resourceController.MellowCat++;
-                    break;
-                case "캔디팝":
-                    resourceController.CandyPop++;
-                    break;
-                case "스틱캔디":
-                    resourceController.StickCandy++;
-                    break;
+                case "물고기 젤리": _resourceController.Fish++; break;
+                case "초코캣": _resourceController.Chococat++; break;
+                case "젤리캣": _resourceController.Jellycat++; break;
+                case "멜로캣": _resourceController.MellowCat++; break;
+                case "캔디팝": _resourceController.CandyPop++; break;
+                case "스틱캔디": _resourceController.StickCandy++; break;
             }
-            Debug.Log("구매 완료");
+
+            _resourceController.UpdateUi();
+            LoadNewItem();
+        }
+
+        private void LoadNewItem()
+        {
+            _isRefreshing = true;
+            float loadTime = 1f;
+            _loadingSlider.value = 1f;
+
+            _loadingSlider
+                .DOValue(0f, loadTime)
+                .SetEase(Ease.Linear)
+                .OnComplete(() =>
+                {
+                    if (_isRefreshing)
+                        _shopRandomPicker.RefreshSingleItem(_slotIndex);
+                });
         }
 
         public void Bind(ShopItem item, Sprite icon, Sprite currency)
         {
-            completeImg.SetActive(false);
-            canbuy = true;
+            // Init
+            _completeImg.SetActive(false);
+            _canBuy = true;
             _button.interactable = true;
+            _isRefreshing = false;
 
-            currentItem = item;
-            recommendImage.SetActive(item.id.Contains("Fish"));
+            // Bind
+            _currentItem = item;
 
-            iconImage.sprite = icon;
-            nameText.text = item.name.ToString();
+            _recommendImage.SetActive(item.id.Contains("Fish"));
+            _iconImage.sprite = icon;
+            _nameText.text = item.name;
 
-            currencyIcon.sprite = currency;
-            costText.text = item.cost.ToString();
+            _currencyIcon.sprite = currency;
+            _costText.text = item.cost.ToString();
+        }
 
-            // TODO: Check Is currency enough
+        public ShopItem GetCurrentItem()
+        {
+            return _currentItem;
         }
     }
 }

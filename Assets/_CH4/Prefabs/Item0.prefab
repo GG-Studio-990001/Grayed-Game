@@ -372,6 +372,8 @@ GameObject:
   - component: {fileID: 469840322106505429}
   - component: {fileID: 6958199728703398489}
   - component: {fileID: 3320745388442299345}
+  - component: {fileID: 2851653633251181742}
+  - component: {fileID: 4272750376640723532}
   m_Layer: 5
   m_Name: ExchangeBtn
   m_TagString: Untagged
@@ -494,6 +496,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!225 &2851653633251181742
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2482445006780705439}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &4272750376640723532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2482445006780705439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a617c1a8f02b9214c9126d5716c59606, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5765705243638255917
 GameObject:
   m_ObjectHideFlags: 0
