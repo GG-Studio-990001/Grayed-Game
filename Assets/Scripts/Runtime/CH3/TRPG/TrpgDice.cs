@@ -91,7 +91,7 @@ namespace Runtime.CH3.TRPG
             _resultPanel.SetActive(true);
             _diceRollObjects.SetActive(true);
 
-            int targetScore = (int)GetTargetScore(statVal, difficulty);
+            int targetScore = (int)ReturnTargetScore(statVal, difficulty);
             // 스탯: 난이도: 목표: 
             _resultTxt_0.text = $"스탯: {stat} / 난이도: {difficulty}\n목표: {targetScore} 이하";
             _dice10.RollDice();
@@ -140,7 +140,7 @@ namespace Runtime.CH3.TRPG
             else
             {
                 // 목표 점수 계산
-                float targetScore = GetTargetScore(statValue, difficulty);
+                float targetScore = ReturnTargetScore(statValue, difficulty);
 
                 isSuccess = total <= targetScore;
                 result = isSuccess ? ResultVal.Success : ResultVal.Fail;
@@ -154,7 +154,14 @@ namespace Runtime.CH3.TRPG
             };
         }
 
-        float GetTargetScore(int statValue, Difficulty difficulty)
+        public int GetTargetScore(Stat stat, Difficulty difficulty)
+        {
+            if (stat == Stat.NONE) return 0;
+            return Mathf.FloorToInt(ReturnTargetScore(_myStats[stat], difficulty));
+        }
+
+
+        float ReturnTargetScore(int statValue, Difficulty difficulty)
         {
             switch(difficulty)
             {
