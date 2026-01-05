@@ -43,10 +43,10 @@ namespace Runtime.CH3.Main
 			gridManager = GridSystem.Instance;
 		}
 		
-		// Tile은 배경이므로 SortingOrder를 제일 낮은 값으로 고정
+		// Tile은 배경이므로 SortingOrder를 -50으로 고정
 		if (spriteRenderer != null)
 		{
-			spriteRenderer.sortingOrder = int.MinValue;
+			spriteRenderer.sortingOrder = -50;
 		}
 		
 		// 콜리더 제거
