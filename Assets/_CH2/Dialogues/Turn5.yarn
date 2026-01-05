@@ -194,7 +194,7 @@ title: AfterTcg6
  
     :이야기를 마친 주민들이 흩어졌다.
     
-// 장소 선택지 On // TODO: 달러동상 선택지 제외하기
+// 장소 선택지 On
 <<DialogueFin>>
 <<NextTurn>>
 <<ShowOptions>>

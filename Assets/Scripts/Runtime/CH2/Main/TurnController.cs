@@ -87,28 +87,15 @@ namespace Runtime.CH2.Main
 
         private List<string> GetAvailableLocations()
         {
-            // 기본적으로 4개의 위치이며, 여기서 현재 위치를 제거하고 Turn이 4보다 작다면 '달러 동상'도 제거
+            // 기존에 Turn5 이후에는 Statue 장소 추가했었지만 해당 부분 삭제됨
+
             List<string> loc = new()
             {
                 "Entrance",
                 "Square",
-                "Temple",
-                "Statue"
+                "Temple"
             };
 
-            for (int i = loc.Count - 1; i >= 0; i--)
-            {
-                if (Managers.Data.CH2.Turn < 4 && i == 3)
-                {
-                    loc.RemoveAt(3);
-                }
-                else if (loc[i] == Managers.Data.CH2.Location)
-                {
-                    loc.RemoveAt(i);
-                    break;
-                }
-            }
-            
             return loc; // 이동 가능한 장소 리스트 반환
         }
 

@@ -217,9 +217,13 @@ namespace Runtime.CH3.TRPG
                     Image optionBackground = optionObj.GetComponent<Image>();
 
                     // 옵션 텍스트 설정
-                    string statStr = (string)row["Stat"] == "NONE" ? "" : $"[{row["StatKor"]}";
-                    string DifficultyStr = (string)row["Difficulty"] == "NONE" ? "" : $"/{row["DifficultyKor"]}]";
-                    optionText.text = $"{row["ChoiceID"]}. {statStr}{DifficultyStr} {row["ChoiceText"]}";
+                    Stat stat = Enum.Parse<Stat>(row["Stat"].ToString());
+                    Difficulty difficulty = Enum.Parse<Difficulty>(row["Difficulty"].ToString());
+
+                    string statStr = stat == Stat.NONE ? "" : $"[{row["StatKor"]}] "; // 스탯
+                    string DifficultyStr = difficulty == Difficulty.NONE ? "" : $"{row["DifficultyKor"]} "; // 난이도
+                    string TargetScore = stat == Stat.NONE ? "" : $"({_trpgDice.GetTargetScore(stat, difficulty)}↓)\n"; // 타겟 점수
+                    optionText.text = $"{row["ChoiceID"]}. {statStr}{DifficultyStr}{TargetScore}{row["ChoiceText"]}";
 
                     // 옵션 텍스트 높이에 맞게 이미지 박스 높이 조정
                     AdjustOptionHeight(optionObj, optionText);

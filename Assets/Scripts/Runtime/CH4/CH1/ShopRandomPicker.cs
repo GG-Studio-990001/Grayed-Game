@@ -42,10 +42,19 @@ namespace CH4.CH1
             RefreshShop();
         }
 
-        public void RefreshShop()
+        private void RefreshShop()
         {
             List<ShopItem> pickedItems = RefreshItems();
             BindUI(pickedItems);
+        }
+
+        // 버튼에 연결
+        public void RefreshShopWithCost()
+        {
+            if (_resourceController.UseCoin(10))
+            {
+                RefreshShop();
+            }
         }
 
         public void RefreshSingleItem(int slotIndex)
