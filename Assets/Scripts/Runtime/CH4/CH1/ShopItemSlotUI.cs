@@ -37,13 +37,25 @@ namespace CH4.CH1
             _slotIndex = index;
         }
 
+        public bool CheckCanPurchase()
+        {
+            if (_currentItem == null)
+                return false;
+
+            bool canPurchase = _currentItem.costType == CostType.Coin
+                ? _resourceController.Coin >= _currentItem.cost
+                : _resourceController.Jewelry >= _currentItem.cost;
+
+            return canPurchase;
+        }
+
         private void Purchase()
         {
             if (!_canBuy) return;
 
             bool success = _currentItem.costType == CostType.Coin
                 ? _resourceController.UseCoin(_currentItem.cost)
-                : _resourceController.UseJewerly(_currentItem.cost);
+                : _resourceController.UseJewelry(_currentItem.cost);
 
             if (success)
                 PurchaseComplete();
@@ -102,6 +114,8 @@ namespace CH4.CH1
 
             _currencyIcon.sprite = currency;
             _costText.text = item.cost.ToString();
+
+            _resourceController.UpdateUi();
         }
 
         public ShopItem GetCurrentItem()

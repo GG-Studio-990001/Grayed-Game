@@ -125,7 +125,7 @@ namespace CH4.CH1
             return false;
         }
 
-        public bool UseJewerly(int cost)
+        public bool UseJewelry(int cost)
         {
             if (Jewelry >= cost)
             {
@@ -160,6 +160,8 @@ namespace CH4.CH1
             }
 
             _buttonInteractableController.CheckExchangeBtns();
+            _buttonInteractableController.CheckPurchaseBtns();
+            _buttonInteractableController.CheckRefreshBtn();
         }
     }
 }
