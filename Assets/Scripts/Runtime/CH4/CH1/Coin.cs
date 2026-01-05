@@ -35,7 +35,7 @@ namespace CH4.CH1
 
         private IEnumerator RespawnCoroutine()
         {
-            float respawnTime = Random.Range(5f, 10f);
+            float respawnTime = Random.Range(20f, 30f);
             yield return new WaitForSeconds(respawnTime);
 
             ActiveCoin(true);
