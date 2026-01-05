@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Runtime.CH3.TRPG
 {
@@ -50,6 +51,8 @@ namespace Runtime.CH3.TRPG
         [SerializeField] private TextMeshProUGUI _resultTxt_0;
         [SerializeField] private TextMeshProUGUI _resultTxt_1;
         [SerializeField] private TextMeshProUGUI _resultTxt_2;
+        [SerializeField] private Image _resultImg;
+        [SerializeField] private Sprite[] _resultSprs;
         // private string characterName = "Dollar";
 
         private readonly Dictionary<Stat, int> _myStats = new()
@@ -67,9 +70,10 @@ namespace Runtime.CH3.TRPG
         {
             _dice10.DiceInit();
             _dice1.DiceInit();
-            _resultTxt_0.text = "";
+            // _resultTxt_0.text = "";
             _resultTxt_1.text = "";
-            _resultTxt_2.text = "";
+            // _resultTxt_2.text = "";
+            _resultImg.gameObject.SetActive(false);
         }
 
         public void StartRoll(Stat stat, Difficulty difficulty, Action<ResultVal> onComplete)
@@ -93,7 +97,7 @@ namespace Runtime.CH3.TRPG
 
             int targetScore = (int)ReturnTargetScore(statVal, difficulty);
             // 스탯: 난이도: 목표: 
-            _resultTxt_0.text = $"스탯: {stat} / 난이도: {difficulty}\n목표: {targetScore} 이하";
+            // _resultTxt_0.text = $"스탯: {stat} / 난이도: {difficulty}\n목표: {targetScore} 이하";
             _dice10.RollDice();
             while (_dice10.DiceFaceNum == -1) yield return null;
             int d10 = _dice10.DiceFaceNum;
@@ -115,7 +119,10 @@ namespace Runtime.CH3.TRPG
             Debug.Log(resultKey);
 
             yield return new WaitForSeconds(1f);
-            _resultTxt_2.text = "결과: " + resultKey;
+            // _resultTxt_2.text = "결과: " + resultKey;
+            _resultImg.gameObject.SetActive(true);
+            _resultImg.sprite = _resultSprs[(int)diceResult.Result];
+
 
             yield return new WaitForSeconds(2f);
             _resultPanel.SetActive(false);
@@ -163,7 +170,7 @@ namespace Runtime.CH3.TRPG
 
         float ReturnTargetScore(int statValue, Difficulty difficulty)
         {
-            switch(difficulty)
+            switch (difficulty)
             {
                 case Difficulty.EXTREME:
                     return statValue / 5;
