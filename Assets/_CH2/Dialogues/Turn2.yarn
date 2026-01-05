@@ -46,14 +46,18 @@ title: Turn2_S
 
     :미카엘이 곧바로 선물 받은 링으로 교체했다.
 
-// TODO: 후광 추가
+// 후광 추가
+<<ShowHaloLight true>>
+<<ShowMichael 0>>
 // <<ChangeBGM>>
 <<PlaySFX 8>>
 <<wait 1>>
 <<SetCharacterExpression "미카엘" "0">>
+<<ShowMichael 1>>
 <<wait 1>>
 
 미카엘: 드디어 앞이 훤하고 밝아졌네. 나쁘지 않은걸?
+<<ShowHaloLight false>>
 <<SetCharacterExpression "미카엘" "3">>
 미카엘: 너는 '아예 출입불가'에서 이제 '아슬아슬하게 출입불가'야!
 미카엘: 이제보니 네 강점은 발전인 것 같네.

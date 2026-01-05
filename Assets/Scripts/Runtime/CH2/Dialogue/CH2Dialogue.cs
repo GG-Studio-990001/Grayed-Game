@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Runtime.CH2.Location;
 using Runtime.CH2.Main;
 using Runtime.CH2.Tcg;
@@ -39,9 +40,12 @@ namespace Runtime.CH2.Dialogue
         [SerializeField] private GameObject[] _darkImgs;
         [SerializeField] private DialogueRunner _luckyDialogueRunner;
         [SerializeField] private GameObject _heartRainParticle;
+        [SerializeField] private Image _michaelHaloLight;
+        [SerializeField] private GameObject[] _michaels;
         private string _speaker;
         private bool _isAutoAdvanced = false;
         private Coroutine _autoDialogueCoroutine;
+        private Tween _haloTween;
 
         private void Awake()
         {
@@ -84,6 +88,8 @@ namespace Runtime.CH2.Dialogue
             //_runner.AddCommandHandler<int>("NpcFace", NpcFace);
 
             _runner.AddCommandHandler<bool>("HeartRainParticle", HeartRainParticle);
+            _runner.AddCommandHandler<bool>("ShowHaloLight", ShowHaloLight);
+            _runner.AddCommandHandler<int>("ShowMichael", ShowMichael);
         }
 
         #region 기본
@@ -170,7 +176,41 @@ namespace Runtime.CH2.Dialogue
             Managers.Sound.Play(Sound.SFX, path);
         }
         #endregion
-        
+
+        private void ShowMichael(int val)
+        {
+            _michaels[0].SetActive(val == 0);
+            _michaels[1].SetActive(val != 0);
+        }
+
+        private void ShowHaloLight(bool isOn)
+        {
+            _haloTween?.Kill();
+
+            Color color = _michaelHaloLight.color;
+
+            if (isOn)
+            {
+                _michaelHaloLight.gameObject.SetActive(true);
+                color.a = 0f;
+                _michaelHaloLight.color = color;
+
+                _haloTween = _michaelHaloLight
+                    .DOFade(1f, 1f)
+                    .SetEase(Ease.OutSine);
+            }
+            else
+            {
+                _haloTween = _michaelHaloLight
+                    .DOFade(0f, 1f)
+                    .SetEase(Ease.OutSine)
+                    .OnComplete(() =>
+                    {
+                        _michaelHaloLight.gameObject.SetActive(false);
+                    });
+            }
+        }
+
         private void HeartRainParticle(bool isPlay)
         {
             _heartRainParticle.SetActive(isPlay);
