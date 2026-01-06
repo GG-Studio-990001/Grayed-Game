@@ -12,7 +12,7 @@ namespace Runtime.CH3.TRPG
         private void Start()
         {
             InitKeyBinding();
-            Managers.Sound.Play(Sound.BGM, "CH3/CH3_Field_Main_BGM");
+            Managers.Sound.Play(Sound.BGM, "CH3/CoC/CH3_CoC_Main_BGM");
         }
 
         private void InitKeyBinding()
