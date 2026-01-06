@@ -1,6 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Runtime.ETC;
 
 namespace Runtime.CH3.TRPG
 {
@@ -19,12 +20,26 @@ namespace Runtime.CH3.TRPG
         public void ChangeCurseRate(int rate)
         {
             // 값 합산 및 Clamp
+            float previousRate = CurseRemovalRate;
             CurseRemovalRate = Mathf.Clamp(CurseRemovalRate + rate, -100, 100);
 
-            // Tween으로 슬라이더 값 변경, 딜레이 후 값 변경 애니메이션
-            float targetValue = MapRateToSlider(CurseRemovalRate);
             float changeTime = 1f;
             float delayTime = 0.5f;
+
+            // 사운드 딜레이
+            if (previousRate != CurseRemovalRate)
+            {
+                DOVirtual.DelayedCall(delayTime, () =>
+                {
+                    if (previousRate < CurseRemovalRate)
+                        Managers.Sound.Play(Sound.SFX, "CH3/CoC/CH3_SFX_CoC_Curse_Gauge_Up");
+                    else
+                        Managers.Sound.Play(Sound.SFX, "CH3/CoC/CH3_SFX_CoC_Curse_Gauge_Down");
+                });
+            }
+
+            // 슬라이더 Tween
+            float targetValue = MapRateToSlider(CurseRemovalRate);
 
             _slider.DOValue(targetValue, changeTime)
                    .SetEase(Ease.OutCubic)
