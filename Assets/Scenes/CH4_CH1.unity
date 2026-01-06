@@ -17331,7 +17331,7 @@ MonoBehaviour:
   _coinUi: {fileID: 1572437494}
   _jewelryUi: {fileID: 637158078}
   _fishUi: {fileID: 1899833037}
-  Coin: 10
+  Coin: 77
   Jewelry: 0
   Fish: 0
   _ChococatUi: {fileID: 1248070073}
