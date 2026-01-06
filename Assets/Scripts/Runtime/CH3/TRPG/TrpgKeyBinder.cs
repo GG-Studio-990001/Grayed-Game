@@ -1,6 +1,6 @@
 using Runtime.Common.View;
 using UnityEngine;
-using Yarn.Unity;
+using Runtime.ETC;
 
 namespace Runtime.CH3.TRPG
 {
@@ -12,6 +12,7 @@ namespace Runtime.CH3.TRPG
         private void Start()
         {
             InitKeyBinding();
+            Managers.Sound.Play(Sound.BGM, "CH3/CH3_Field_Main_BGM.wav");
         }
 
         private void InitKeyBinding()
