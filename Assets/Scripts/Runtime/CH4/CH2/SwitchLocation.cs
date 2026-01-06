@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Runtime.ETC;
 
 namespace Runtime.CH4
 {
@@ -119,11 +120,15 @@ namespace Runtime.CH4
             lastVal = loc;
         }
 
+        // 버튼에 직접 할당
         public void MoveLeft()
         {
             int curIdx = System.Array.IndexOf(order, lastVal);
             int nextIdx = (curIdx - 1 + order.Length) % order.Length;
             MoveTo(order[nextIdx]);
+
+            if (player.activeInHierarchy)
+                Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_14");
         }
 
         public void MoveRight()
@@ -131,6 +136,9 @@ namespace Runtime.CH4
             int curIdx = System.Array.IndexOf(order, lastVal);
             int nextIdx = (curIdx + 1) % order.Length;
             MoveTo(order[nextIdx]);
+
+            if (player.activeInHierarchy)
+                Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_08");
         }
     }
 }

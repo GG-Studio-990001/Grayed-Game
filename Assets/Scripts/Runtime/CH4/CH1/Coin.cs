@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Runtime.ETC;
 
 namespace CH4.CH1
 {
@@ -28,6 +29,7 @@ namespace CH4.CH1
 
         private void CoinEaten()
         {
+            Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_10");
             ActiveCoin(false);
 
             StartCoroutine(nameof(RespawnCoroutine));

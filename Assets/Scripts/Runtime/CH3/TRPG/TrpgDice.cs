@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Runtime.ETC;
 
 namespace Runtime.CH3.TRPG
 {
@@ -102,17 +103,20 @@ namespace Runtime.CH3.TRPG
             while (_dice10.DiceFaceNum == -1) yield return null;
             int d10 = _dice10.DiceFaceNum;
             _resultTxt_1.text = $"{d10} + __ = ___";
+            Managers.Sound.Play(Sound.SFX, "CH3/CoC/CH3_SFX_CoC_Number");
 
             _dice1.RollDice();
             while (_dice1.DiceFaceNum == -1) yield return null;
             int d1 = _dice1.DiceFaceNum;
             _resultTxt_1.text = $"{d10} + {d1} = ___";
+            Managers.Sound.Play(Sound.SFX, "CH3/CoC/CH3_SFX_CoC_Number");
 
             int total = d10 + d1;
             total = (total == 0) ? 100 : total;
 
             yield return new WaitForSeconds(1f);
             _resultTxt_1.text = $"{d10} + {d1} = {total}";
+            Managers.Sound.Play(Sound.SFX, "CH3/CoC/CH3_SFX_CoC_Number");
 
             DiceResult diceResult = EvaluateDiceResult(total, statVal, difficulty);
             ResultVal resultKey = diceResult.Result;
@@ -121,8 +125,25 @@ namespace Runtime.CH3.TRPG
             yield return new WaitForSeconds(1f);
             // _resultTxt_2.text = "결과: " + resultKey;
             _resultImg.gameObject.SetActive(true);
-            _resultImg.sprite = _resultSprs[(int)diceResult.Result];
-
+            int resultIdx = (int)diceResult.Result;
+            _resultImg.sprite = _resultSprs[resultIdx];
+            switch (resultIdx)
+            {
+                case 0:
+                     Managers.Sound.Play(Sound.SFX, "CH3/CoC/CH3_SFX_CoC_Critical");
+                    Debug.Log("대성공");
+                    break;
+                case 1:
+                    Managers.Sound.Play(Sound.SFX, "CH3/CoC/CH3_SFX_CoC_Success");
+                    Debug.Log("성공");
+                    break;
+                case 2:
+                    Managers.Sound.Play(Sound.SFX, "CH3/CoC/CH3_SFX_CoC_Fail");
+                    break;
+                default:
+                    Managers.Sound.Play(Sound.SFX, "CH3/CoC/CH3_SFX_CoC_Fumble");
+                    break;
+            }
 
             yield return new WaitForSeconds(2f);
             _resultPanel.SetActive(false);
@@ -166,7 +187,6 @@ namespace Runtime.CH3.TRPG
             if (stat == Stat.NONE) return 0;
             return Mathf.FloorToInt(ReturnTargetScore(_myStats[stat], difficulty));
         }
-
 
         float ReturnTargetScore(int statValue, Difficulty difficulty)
         {

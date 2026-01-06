@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using Runtime.ETC;
 
 namespace CH4.CH1
 {

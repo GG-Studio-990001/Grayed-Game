@@ -47,7 +47,7 @@ namespace Runtime.CH3.TRPG
 
         public void StartDialogue(int val)
         {
-            // 개발자용으로 버튼 눌러서 대화 상대 지정
+            // 개발자용, 버튼 눌러서 대화 상대 지정
             switch(val)
             {
                 case 0:
@@ -95,6 +95,8 @@ namespace Runtime.CH3.TRPG
 
         private void ShowLine(string str)
         {
+            Managers.Sound.Play(Sound.SFX, "CH3/CoC/CH3_SFX_CoC_Log_Play");
+
             // 1. 새 대사 오브젝트 생성
             GameObject lineObj = Instantiate(linePrefab, content);
             TextMeshProUGUI tmp = lineObj.GetComponentInChildren<TextMeshProUGUI>();
@@ -246,6 +248,8 @@ namespace Runtime.CH3.TRPG
                         if (isShowingOptions)
                         {
                             optionBackground.color = optionHoverColor;
+                            Managers.Sound.Play(Sound.SFX, "CH3/CoC/CH3_SFX_CoC_Choice_Mouse_Over");
+
                         }
                     });
                     eventTrigger.triggers.Add(pointerEnter);
@@ -271,6 +275,7 @@ namespace Runtime.CH3.TRPG
                             if (isShowingOptions)
                             {
                                 SelectOption(optionIndex);
+                                Managers.Sound.Play(Sound.SFX, "CH3/CoC/CH3_SFX_CoC_Choice_Select");
                             }
                         });
                     }

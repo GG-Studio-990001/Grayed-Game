@@ -1,4 +1,5 @@
 using UnityEngine;
+using Runtime.ETC;
 
 namespace Runtime.CH4
 {
@@ -11,6 +12,8 @@ namespace Runtime.CH4
         {
             if (other.CompareTag("Goal"))
             {
+                Managers.Sound.Play(Sound.SFX, "Pacmom/Pacmom_SFX_14");
+
                 if (gameController.NowLevel == 1)
                 {
                     gameController.StartLevel(2);
