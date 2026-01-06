@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7179,6 +7178,7 @@ MonoBehaviour:
   m_BoundingShape2D: {fileID: 334520257}
   m_Damping: 0
   m_MaxWindowSize: -1
+  m_Padding: 0
 --- !u!114 &176233993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11520,6 +11520,7 @@ GameObject:
   - component: {fileID: 303944752}
   - component: {fileID: 303944751}
   - component: {fileID: 303944750}
+  - component: {fileID: 303944753}
   m_Layer: 5
   m_Name: LeftBtn
   m_TagString: Untagged
@@ -11640,6 +11641,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 303944748}
   m_CullTransparentMesh: 1
+--- !u!114 &303944753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303944748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5c4c0bc395a4764cbcae2f96048e786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &305223428
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29737,6 +29750,7 @@ GameObject:
   - component: {fileID: 798951782}
   - component: {fileID: 798951781}
   - component: {fileID: 798951780}
+  - component: {fileID: 798951783}
   m_Layer: 5
   m_Name: RightBtn
   m_TagString: Untagged
@@ -29857,6 +29871,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 798951778}
   m_CullTransparentMesh: 1
+--- !u!114 &798951783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798951778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5c4c0bc395a4764cbcae2f96048e786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &799901089
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36107,7 +36133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &961585681
 RectTransform:
   m_ObjectHideFlags: 0
@@ -43788,6 +43814,7 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!114 &1126644822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52852,6 +52879,7 @@ GameObject:
   - component: {fileID: 1378303762}
   - component: {fileID: 1378303761}
   - component: {fileID: 1378303760}
+  - component: {fileID: 1378303763}
   m_Layer: 5
   m_Name: LeftBtn
   m_TagString: Untagged
@@ -52972,6 +53000,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1378303758}
   m_CullTransparentMesh: 1
+--- !u!114 &1378303763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378303758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5c4c0bc395a4764cbcae2f96048e786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1380076719
 GameObject:
   m_ObjectHideFlags: 0
@@ -57456,6 +57496,7 @@ GameObject:
   - component: {fileID: 1502844087}
   - component: {fileID: 1502844086}
   - component: {fileID: 1502844085}
+  - component: {fileID: 1502844088}
   m_Layer: 5
   m_Name: RightBtn
   m_TagString: Untagged
@@ -57576,6 +57617,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1502844083}
   m_CullTransparentMesh: 1
+--- !u!114 &1502844088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502844083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5c4c0bc395a4764cbcae2f96048e786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1503784647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58627,6 +58680,7 @@ MonoBehaviour:
   _anim: {fileID: 1525728728}
   _coyoteTime: 0.1
   _jumpBufferTime: 0.1
+  _jumpSfxCooldown: 0.05
 --- !u!4 &1525728730
 Transform:
   m_ObjectHideFlags: 0
@@ -68888,12 +68942,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!114 &1802096010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82258,6 +82312,7 @@ MonoBehaviour:
   _anim: {fileID: 8443206241476779020}
   _coyoteTime: 0.1
   _jumpBufferTime: 0.1
+  _jumpSfxCooldown: 0.05
 --- !u!95 &8443206241476779019
 Animator:
   serializedVersion: 5

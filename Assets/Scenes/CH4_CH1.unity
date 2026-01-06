@@ -9801,6 +9801,7 @@ GameObject:
   - component: {fileID: 860986431}
   - component: {fileID: 860986435}
   - component: {fileID: 860986434}
+  - component: {fileID: 860986436}
   m_Layer: 5
   m_Name: PurchaseBtn
   m_TagString: Untagged
@@ -9946,6 +9947,19 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &860986436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860986429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02a7030d0274f304a86fe7f02337e76c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sfxType: 2
 --- !u!224 &895189352 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5991795234850556631, guid: 8a76a372195f738438154e1500dc9985, type: 3}
@@ -17504,6 +17518,7 @@ GameObject:
   - component: {fileID: 1623470175}
   - component: {fileID: 1623470174}
   - component: {fileID: 1623470173}
+  - component: {fileID: 1623470176}
   m_Layer: 5
   m_Name: XBtn
   m_TagString: Untagged
@@ -17624,6 +17639,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1623470171}
   m_CullTransparentMesh: 1
+--- !u!114 &1623470176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623470171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02a7030d0274f304a86fe7f02337e76c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sfxType: 3
 --- !u!224 &1625855156 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5991795234850556631, guid: 8a76a372195f738438154e1500dc9985, type: 3}
@@ -19664,6 +19692,7 @@ GameObject:
   - component: {fileID: 1843598251}
   - component: {fileID: 1843598253}
   - component: {fileID: 1843598252}
+  - component: {fileID: 1843598254}
   m_Layer: 5
   m_Name: RefreshBtn
   m_TagString: Untagged
@@ -19809,6 +19838,19 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1843598254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843598246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02a7030d0274f304a86fe7f02337e76c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sfxType: 3
 --- !u!1 &1852043921
 GameObject:
   m_ObjectHideFlags: 0
@@ -21909,6 +21951,7 @@ GameObject:
   - component: {fileID: 2079917316}
   - component: {fileID: 2079917315}
   - component: {fileID: 2079917314}
+  - component: {fileID: 2079917317}
   m_Layer: 5
   m_Name: XBtn
   m_TagString: Untagged
@@ -22029,6 +22072,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2079917312}
   m_CullTransparentMesh: 1
+--- !u!114 &2079917317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079917312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02a7030d0274f304a86fe7f02337e76c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sfxType: 3
 --- !u!1001 &2088975236
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23068,9 +23124,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2127885289}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5c4c0bc395a4764cbcae2f96048e786, type: 3}
+  m_Script: {fileID: 11500000, guid: 02a7030d0274f304a86fe7f02337e76c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sfxType: 3
 --- !u!1001 &2133872422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23376,22 +23433,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemBtn
       objectReference: {fileID: 0}
-    - target: {fileID: 8722001868797509534, guid: 8a76a372195f738438154e1500dc9985, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8722001868797509534, guid: 8a76a372195f738438154e1500dc9985, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.b
-      value: 0.8490566
-      objectReference: {fileID: 0}
-    - target: {fileID: 8722001868797509534, guid: 8a76a372195f738438154e1500dc9985, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.g
-      value: 0.8490566
-      objectReference: {fileID: 0}
-    - target: {fileID: 8722001868797509534, guid: 8a76a372195f738438154e1500dc9985, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.r
-      value: 0.8490566
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23511,22 +23552,6 @@ PrefabInstance:
     - target: {fileID: 798729909262121327, guid: 0f6bbb73b7323ce47aefc902868afe6a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3320745388442299345, guid: 0f6bbb73b7323ce47aefc902868afe6a, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3320745388442299345, guid: 0f6bbb73b7323ce47aefc902868afe6a, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3320745388442299345, guid: 0f6bbb73b7323ce47aefc902868afe6a, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3320745388442299345, guid: 0f6bbb73b7323ce47aefc902868afe6a, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.r
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3320745388442299345, guid: 0f6bbb73b7323ce47aefc902868afe6a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -23923,6 +23948,7 @@ MonoBehaviour:
   _anim: {fileID: 8443206241476779020}
   _coyoteTime: 0.1
   _jumpBufferTime: 0.1
+  _jumpSfxCooldown: 0.05
 --- !u!95 &8443206241476779019
 Animator:
   serializedVersion: 5
