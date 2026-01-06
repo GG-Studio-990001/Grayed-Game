@@ -39418,6 +39418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 8443206241476779018}
   _settingsUIView: {fileID: 555636042}
+  _chapterNum: 2
 --- !u!4 &1044043259
 Transform:
   m_ObjectHideFlags: 0
