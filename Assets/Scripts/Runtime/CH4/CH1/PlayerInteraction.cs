@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Runtime.ETC;
 
 namespace CH4.CH1
 {
@@ -28,6 +29,7 @@ namespace CH4.CH1
 
             if (_godMode) return;
 
+            Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_14");
             _coinController.LoseCoin();
             StartCoroutine(nameof(StartGodMode));
         }

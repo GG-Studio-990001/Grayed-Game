@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Runtime.ETC;
 
 namespace Runtime.CH4
 {
@@ -23,6 +24,10 @@ namespace Runtime.CH4
         private float _coyoteTimer;
         [SerializeField] private float _jumpBufferTime = 0.1f;
         private float _jumpBufferTimer;
+
+        // 점프 사운드 중복 방지
+        [SerializeField] private float _jumpSfxCooldown = 0.05f;
+        private float _lastJumpSfxTime;
 
         private Rigidbody2D _rb;
         private Vector2 _moveInput;
@@ -68,6 +73,13 @@ namespace Runtime.CH4
             // 버퍼 점프 조건
             if (_jumpBufferTimer > 0 && _coyoteTimer > 0)
             {
+                // 사운드만 쿨타임 처리
+                if (Time.time - _lastJumpSfxTime >= _jumpSfxCooldown)
+                {
+                    Managers.Sound.Play(Sound.SFX, "SuperArio/CH2_SUB_SFX_33");
+                    _lastJumpSfxTime = Time.time;
+                }
+
                 _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
                 _coyoteTimer = 0f;
                 _jumpBufferTimer = 0f;
@@ -75,7 +87,6 @@ namespace Runtime.CH4
 
             _anim.UpdateAnim(_moveInput, _isGrounded);
         }
-
 
         private void FixedUpdate()
         {

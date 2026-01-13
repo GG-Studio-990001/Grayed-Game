@@ -32,6 +32,8 @@ namespace CH4.CH1
         private List<ShopItem> allItems = new();
         private const int SHOP_ITEM_COUNT = 4;
 
+        private bool _isFirstRefresh = true; // 최초 1회 여부 체크
+
         private void Start()
         {
             LoadCSV();
@@ -46,12 +48,14 @@ namespace CH4.CH1
         {
             List<ShopItem> pickedItems = RefreshItems();
             BindUI(pickedItems);
+
+            _isFirstRefresh = false; // 첫 갱신 후 false 처리
         }
 
         // 버튼에 연결
         public void RefreshShopWithCost()
         {
-            if (_resourceController.UseCoin(10))
+            if (_resourceController.UseCoin(3)) // 주의: 값 바꿀 때 UI 인스펙터와 ButtonInteractableController 모두 수정 필요
             {
                 RefreshShop();
             }
@@ -64,10 +68,23 @@ namespace CH4.CH1
             for (int i = 0; i < _slots.Count; i++)
             {
                 if (i == slotIndex) continue;
-                currentItems.Add(_slots[i].GetCurrentItem());
+
+                ShopItem item = _slots[i].GetCurrentItem();
+                currentItems.Add(item);
             }
 
-            ShopItem newItem = PickOneItem(currentItems);
+            ShopItem newItem;
+
+            // 튜토리얼 물고기를 구매했으면 항상 Fish_01 고정
+            if (_slots[slotIndex].GetCurrentItem().id == "Fish_Tutorial")
+            {
+                newItem = allItems.Find(i => i.id == "Fish_01");
+            }
+            else
+            {
+                newItem = PickOneItem(currentItems);
+            }
+
             BindSlot(slotIndex, newItem);
         }
 
@@ -77,7 +94,8 @@ namespace CH4.CH1
 
             candidates.RemoveAll(c =>
                 excludeItems.Exists(e => e.id == c.id) ||
-                IsFishConflict(excludeItems, c)
+                IsFishConflict(excludeItems, c) ||
+                c.id == "Fish_Tutorial" // 튜토리얼은 최초 한 번만
             );
 
             return candidates[Random.Range(0, candidates.Count)];
@@ -109,22 +127,22 @@ namespace CH4.CH1
 
         private List<ShopItem> RefreshItems()
         {
-            List<ShopItem> candidates = new(allItems);
             List<ShopItem> result = new();
 
-            while (result.Count < SHOP_ITEM_COUNT)
+            for (int i = 0; i < SHOP_ITEM_COUNT; i++)
             {
-                int index = Random.Range(0, candidates.Count);
-                ShopItem picked = candidates[index];
-
-                if (IsFishConflict(result, picked))
+                if (_isFirstRefresh && i == 0)
                 {
-                    candidates.RemoveAt(index);
+                    // 최초 1회 첫 슬롯은 튜토리얼 고정
+                    result.Add(allItems.Find(x => x.id == "Fish_Tutorial"));
                     continue;
                 }
 
-                result.Add(picked);
-                candidates.RemoveAt(index);
+                List<ShopItem> candidates = new(allItems);
+                candidates.RemoveAll(c => result.Exists(r => r.id == c.id) || IsFishConflict(result, c) || c.id == "Fish_Tutorial");
+
+                int index = Random.Range(0, candidates.Count);
+                result.Add(candidates[index]);
             }
 
             return result;
@@ -132,11 +150,11 @@ namespace CH4.CH1
 
         private bool IsFishConflict(List<ShopItem> current, ShopItem picked)
         {
-            if (picked.id == "Fish_01")
-                return current.Exists(i => i.id == "Fish_02");
-
-            if (picked.id == "Fish_02")
-                return current.Exists(i => i.id == "Fish_01");
+            // Fish_Tutorial, Fish_01, Fish_02 모두 상호 충돌
+            if (picked.id == "Fish_Tutorial" || picked.id == "Fish_01" || picked.id == "Fish_02")
+            {
+                return current.Exists(i => i.id == "Fish_Tutorial" || i.id == "Fish_01" || i.id == "Fish_02");
+            }
 
             return false;
         }

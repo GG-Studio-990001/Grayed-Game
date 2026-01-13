@@ -48,7 +48,7 @@ namespace CH4.CH1
 
         public void CheckRefreshBtn()
         {
-            _refreshBtn.SetBtnAlpha(ResourceController.Coin >= 10, 0.85f);
+            _refreshBtn.SetBtnAlpha(ResourceController.Coin >= 3, 0.85f);
         }
     }
 }
