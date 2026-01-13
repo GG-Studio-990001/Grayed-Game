@@ -113,6 +113,9 @@ namespace Runtime.CH3.Main
             _playerGridPosition = gridSystem.WorldToGridPosition(playerWorldPos);
             _manualGridOffset = Vector2Int.zero; // 오프셋 초기화
             
+            // 이미 빌드모드이고 다른 아이템이면 프리뷰 재생성
+            bool isSwitchingItem = _isBuildingMode && _currentBuildingItem != buildingItem;
+            
             _currentBuildingItem = buildingItem;
             _currentBuildingData = buildingItem.buildingData;
             _currentItemSlotIndex = slotIndex;
@@ -121,15 +124,26 @@ namespace Runtime.CH3.Main
             // 플레이어 이동만 비활성화 (핫바 선택은 가능하도록 PlayerInputDisable 사용하지 않음)
             // PlayerController에서 빌드모드일 때 이동을 무시하도록 처리
             
-            // 프리뷰 생성
-            if (previewPrefab != null && _currentPreview == null)
+            // 프리뷰 생성 또는 업데이트
+            if (previewPrefab != null)
             {
-                _currentPreview = Instantiate(previewPrefab);
-                float cellWidth = gridSystem != null ? gridSystem.CellWidth : 1f;
-                _currentPreview.Initialize(_currentBuildingData, previewAlpha, cellWidth);
+                if (_currentPreview == null)
+                {
+                    _currentPreview = Instantiate(previewPrefab);
+                    float cellWidth = gridSystem != null ? gridSystem.CellWidth : 1f;
+                    _currentPreview.Initialize(_currentBuildingData, previewAlpha, cellWidth);
+                }
+                else if (isSwitchingItem)
+                {
+                    // 다른 아이템으로 전환 시 프리뷰 재생성
+                    Destroy(_currentPreview.gameObject);
+                    _currentPreview = Instantiate(previewPrefab);
+                    float cellWidth = gridSystem != null ? gridSystem.CellWidth : 1f;
+                    _currentPreview.Initialize(_currentBuildingData, previewAlpha, cellWidth);
+                }
             }
             
-            // UI 표시 (플레이어 위치 전달)
+            // UI 표시 또는 업데이트 (플레이어 위치 전달)
             if (buildingUI != null)
             {
                 buildingUI.Show(_currentBuildingData, _playerGridPosition, buildingRange);
@@ -538,6 +552,11 @@ namespace Runtime.CH3.Main
         }
         
         public bool IsBuildingMode => _isBuildingMode;
+        
+        /// <summary>
+        /// 현재 선택된 건축 아이템 반환
+        /// </summary>
+        public Item GetCurrentBuildingItem() => _currentBuildingItem;
         
         /// <summary>
         /// 건물이 파괴되었을 때 호출하여 건설 카운트를 감소시킵니다.

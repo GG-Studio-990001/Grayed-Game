@@ -92,9 +92,11 @@ namespace Runtime.CH3.Main
             {
                 soldOutTransform.gameObject.SetActive(soldOut);
             }
+            // 버튼은 항상 활성화 (매진되어도 선택 및 재료 확인은 가능)
+            // 제작 버튼은 ShopCreatePanel.UpdateCreateButtonState()에서 별도로 제어
             if (button != null)
             {
-                button.interactable = !soldOut;
+                button.interactable = true;
             }
         }
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -22,6 +23,7 @@ namespace Runtime.CH3.Main
         private bool isOpen;
         private float cachedTimeScale = 1f;
         private bool hasPausedTime = false;
+        private InventoryUI _inventoryUI;
 
         public bool IsOpen => isOpen;
         public ShopSelectionPanel SelectionPanel => selectionPanel;
@@ -43,6 +45,9 @@ namespace Runtime.CH3.Main
             {
                 createPanel = GetComponentInChildren<ShopCreatePanel>(true);
             }
+
+            // InventoryUI 찾기 (핫바 제어용)
+            _inventoryUI = FindObjectOfType<InventoryUI>();
 
             if (shopRoot != null)
             {
@@ -73,13 +78,29 @@ namespace Runtime.CH3.Main
                 return;
             }
 
+            StartCoroutine(OpenShopCoroutine());
+        }
+
+        private IEnumerator OpenShopCoroutine()
+        {
+            // shopRoot를 먼저 활성화 (로드를 위해 필요하지만, 로드 완료 전까지는 보이지 않음)
             if (shopRoot != null)
             {
                 shopRoot.SetActive(true);
             }
 
-            // 패널 활성화 (두 패널 모두 표시)
-            // ShowAllPanels()가 createPanel.Show()를 호출하여 아이템 로드 보장
+            // 로드가 완료될 때까지 대기
+            if (createPanel != null)
+            {
+                // 이미 Show()에서 로드가 시작되지만, 여기서는 직접 로드하여 완료를 기다림
+                createPanel.InitializeReferences();
+                createPanel.SubscribeToInventoryEvents();
+                
+                // 로드가 완료될 때까지 대기
+                yield return createPanel.StartCoroutine(createPanel.LoadItemsWhenReady());
+            }
+
+            // 로드 완료 후 패널 활성화 (두 패널 모두 표시)
             ShowAllPanels();
 
             // 버튼 이벤트 바인딩 (상점이 열릴 때마다 확실히 설정)
@@ -104,12 +125,19 @@ namespace Runtime.CH3.Main
             }
 
             // 상점이 열릴 때 최신 상태로 업데이트
-            // Show()에서 아이템이 로드되므로 여기서는 Refresh만 호출
             if (createPanel != null)
             {
-                // Show()에서 이미 로드되므로 Refresh만 호출
                 createPanel.RefreshSoldOutStates();
             }
+
+            // 상점 열릴 때 핫바 끄기
+            if (_inventoryUI != null && _inventoryUI.GetHotbarRootTransform() != null)
+            {
+                _inventoryUI.GetHotbarRootTransform().gameObject.SetActive(false);
+            }
+
+            // 상점 열릴 때 툴팁 숨기기
+            InventoryTooltip.Hide();
 
             onOpened?.Invoke();
             isOpen = true;
@@ -142,6 +170,15 @@ namespace Runtime.CH3.Main
             {
                 Managers.Data?.InGameKeyBinder?.PlayerInputEnable();
             }
+
+            // 상점 닫힐 때 핫바 켜기
+            if (_inventoryUI != null && _inventoryUI.GetHotbarRootTransform() != null)
+            {
+                _inventoryUI.GetHotbarRootTransform().gameObject.SetActive(true);
+            }
+
+            // 상점 닫힐 때 툴팁 숨기기
+            InventoryTooltip.Hide();
 
             onClosed?.Invoke();
             isOpen = false;
@@ -188,7 +225,8 @@ namespace Runtime.CH3.Main
             }
             if (createPanel != null)
             {
-                createPanel.Show();
+                // 이미 로드가 완료되었으므로 Show() 대신 직접 활성화만 수행
+                createPanel.gameObject.SetActive(true);
             }
         }
 

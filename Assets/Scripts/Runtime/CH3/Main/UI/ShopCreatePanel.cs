@@ -19,6 +19,7 @@ namespace Runtime.CH3.Main
         private Dictionary<ECurrencyData, Item> _currencyToItemMapCache;
         private Inventory _inventory;
         private bool _isLoadingItems = false;
+        public bool IsLoadingItems => _isLoadingItems;
 
         private void Awake()
         {
@@ -66,7 +67,7 @@ namespace Runtime.CH3.Main
             // Show()에서 명시적으로 로드하도록 변경
         }
 
-        private IEnumerator LoadItemsWhenReady()
+        public IEnumerator LoadItemsWhenReady()
         {
             // 중복 실행 방지
             if (_isLoadingItems)
@@ -175,7 +176,7 @@ namespace Runtime.CH3.Main
             UnsubscribeFromInventoryEvents();
         }
 
-        private void SubscribeToInventoryEvents()
+        public void SubscribeToInventoryEvents()
         {
             UnsubscribeFromInventoryEvents();
             
@@ -209,7 +210,7 @@ namespace Runtime.CH3.Main
             _currencyToItemMapCache = GetCurrencyToItemMap();
         }
 
-        private void InitializeReferences()
+        public void InitializeReferences()
         {
             var creatList = CH3Utils.FindChildByNameIgnoreCase(transform, "CreatList");
             if (creatList == null)
@@ -394,6 +395,20 @@ namespace Runtime.CH3.Main
                 {
                     selectionPanel.SetSelectedItem(levelData.sprite);
                 }
+                
+                // selectPrefabImageComponent에 buildingData.sprite 설정
+                if (itemSO != null && itemSO.buildingData != null && itemSO.buildingData.sprite != null)
+                {
+                    selectionPanel.SetSelectedPrefab(itemSO.buildingData.sprite);
+                }
+                else if (levelData.sprite != null)
+                {
+                    selectionPanel.SetSelectedPrefab(levelData.sprite);
+                }
+                else
+                {
+                    selectionPanel.SetSelectedPrefab(null);
+                }
 
                 if (levelData.buildCurrency != null && levelData.buildCurrency.Count > 0)
                 {
@@ -441,6 +456,7 @@ namespace Runtime.CH3.Main
             {
                 selectionPanel.SetItemTitle("");
                 selectionPanel.SetSelectedItem(null);
+                selectionPanel.SetSelectedPrefab(null);
                 selectionPanel.SetGridSizeText("");
                 selectionPanel.SetCountText("");
                 for (int i = 0; i < 4; i++)

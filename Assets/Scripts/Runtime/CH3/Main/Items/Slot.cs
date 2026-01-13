@@ -95,6 +95,13 @@ namespace Runtime.CH3.Main
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (isDragging) return;
+            
+            // 건축 모드일 때 핫바 슬롯의 마우스 오버 무시
+            if (isHotbarView && BuildingSystem.Instance != null && BuildingSystem.Instance.IsBuildingMode)
+            {
+                return;
+            }
+            
             if (item != null)
             {
                 InventoryTooltip.Show(item.itemName, GetTooltipPosition(eventData.position));
@@ -109,6 +116,13 @@ namespace Runtime.CH3.Main
         public void OnPointerMove(PointerEventData eventData)
         {
             if (isDragging) return;
+            
+            // 건축 모드일 때 핫바 슬롯의 마우스 오버 무시
+            if (isHotbarView && BuildingSystem.Instance != null && BuildingSystem.Instance.IsBuildingMode)
+            {
+                return;
+            }
+            
             if (item != null)
             {
                 InventoryTooltip.Show(item.itemName, GetTooltipPosition(eventData.position));
@@ -215,6 +229,12 @@ namespace Runtime.CH3.Main
             {
                 if (isHotbarView && ownerUI != null && !isDragging)
                 {
+                    // 건축 모드일 때 핫바 클릭 무시
+                    if (BuildingSystem.Instance != null && BuildingSystem.Instance.IsBuildingMode)
+                    {
+                        return;
+                    }
+                    
                     ownerUI.SelectHotbar(index);
                 }
             }

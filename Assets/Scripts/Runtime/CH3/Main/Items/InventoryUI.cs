@@ -189,13 +189,37 @@ namespace Runtime.CH3.Main
             inventoryOpen = !inventoryOpen;
             if (inventoryPanel != null) inventoryPanel.SetActive(inventoryOpen);
             
+            // 인벤토리 열릴 때 핫바 끄기, 닫힐 때 핫바 켜기
+            if (hotbarRoot != null)
+            {
+                hotbarRoot.gameObject.SetActive(!inventoryOpen);
+            }
+            
+            // 인벤토리 열릴 때 핫바 선택 취소 및 빌드모드 종료
+            if (inventoryOpen)
+            {
+                // 모든 핫바 선택 취소
+                for (int i = 0; i < hotbarViews.Count; i++)
+                {
+                    hotbarViews[i].SetSelected(false);
+                }
+                selectedHotbar = -1; // 선택 없음으로 표시
+                
+                // 빌드모드 종료
+                if (_buildingSystem == null)
+                {
+                    _buildingSystem = BuildingSystem.Instance;
+                }
+                if (_buildingSystem != null && _buildingSystem.IsBuildingMode)
+                {
+                    _buildingSystem.EndBuildingMode();
+                }
+            }
+            
             // TODO: 인벤열고닫음 효과음 재생
             Managers.Sound.Play(Sound.SFX, "CH3/CH3_SFX_Inven_Onoff");
-            // 인벤토리를 닫을 때 툴팁도 숨기기
-            if (!inventoryOpen)
-            {
-                InventoryTooltip.Hide();
-            }
+            // 인벤토리 열릴 때와 닫힐 때 모두 툴팁 숨기기
+            InventoryTooltip.Hide();
         }
         
         public bool IsInventoryOpen() => inventoryOpen;

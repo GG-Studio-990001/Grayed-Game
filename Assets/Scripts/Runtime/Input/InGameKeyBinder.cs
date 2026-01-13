@@ -232,5 +232,10 @@ namespace Runtime.Input
         {
             return _playerInputEnableStack == 0;
         }
+
+        public GameOverControls GetGameOverControls()
+        {
+            return _gameOverControls;
+        }
     }
 }
