@@ -18,6 +18,12 @@ namespace Runtime.CH3.Main
         [SerializeField] private Inventory _inventory;
         [SerializeField] private BuildingSystem _buildingSystem;
 
+        private void Awake()
+        {
+            // Awake에서 먼저 초기화하여 다른 컴포넌트보다 먼저 실행되도록 함
+            InitKeyBinding();
+        }
+
         private void Start()
         {
             // BuildingSystem 참조 자동 찾기 (안정성 향상)
@@ -32,8 +38,20 @@ namespace Runtime.CH3.Main
                 _shopUIController = FindObjectOfType<ShopUIController>();
             }
             
-            InitKeyBinding();
             SetupDialogueHotbarControl();
+            
+            // Start에서도 한 번 더 확인하여 입력이 활성화되었는지 보장
+            EnsurePlayerInputEnabled();
+        }
+        
+        private void EnsurePlayerInputEnabled()
+        {
+            // 스택이 0이 아니면 Player 입력이 활성화되었는지 확인
+            if (!Managers.Data.InGameKeyBinder.IsPlayerInputEnabled())
+            {
+                // 스택을 강제로 0으로 설정하고 Player 입력 활성화
+                Managers.Data.InGameKeyBinder.ForceEnablePlayerInput();
+            }
         }
 
         private void InitKeyBinding()

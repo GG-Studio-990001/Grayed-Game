@@ -45,7 +45,24 @@ namespace Runtime.CH3.Main
             if (_gridManager != null && _gridManager.HasPlayerSpawn)
             {
                 Vector3 spawnPos = _gridManager.GridToWorldPosition(_gridManager.PlayerSpawnGrid);
-                spawnPos.y = transform.position.y; // Y는 현 높이 유지
+                
+                // PlayerGrid의 useCustomY 설정 확인 (GridObject에서 상속받은 필드)
+                if (_gridObject != null)
+                {
+                    // useCustomY가 활성화되어 있으면 customY 사용, 아니면 현재 y 좌표 유지
+                    if (_gridObject.UseCustomY)
+                    {
+                        spawnPos.y = _gridObject.CustomY;
+                    }
+                    else
+                    {
+                        spawnPos.y = transform.position.y; // Y는 현 높이 유지
+                    }
+                }
+                else
+                {
+                    spawnPos.y = transform.position.y; // Y는 현 높이 유지
+                }
 
                 if (_rigidbody != null)
                 {

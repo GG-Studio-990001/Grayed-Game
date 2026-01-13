@@ -203,7 +203,14 @@ namespace Runtime.Input
         // ETC
         public void GameControlReset()
         {
-            _gameOverControls.Dispose();
+            // Dispose 전에 Player와 UI를 명시적으로 Disable하여 메모리 누수 방지
+            if (_gameOverControls != null)
+            {
+                _gameOverControls.Player.Disable();
+                _gameOverControls.UI.Disable();
+                _gameOverControls.Dispose();
+            }
+            
             _gameOverControls = new GameOverControls();
 
             _playerInputEnableStack = 0;
@@ -233,6 +240,19 @@ namespace Runtime.Input
         public bool IsPlayerInputEnabled()
         {
             return _playerInputEnableStack == 0;
+        }
+        
+        /// <summary>
+        /// 플레이어 입력 스택을 강제로 0으로 설정하고 입력을 활성화합니다.
+        /// 씬 전환 시 간헐적으로 발생하는 입력 비활성화 문제를 해결하기 위해 사용됩니다.
+        /// </summary>
+        public void ForceEnablePlayerInput()
+        {
+            _playerInputEnableStack = 0;
+            if (_gameOverControls != null)
+            {
+                _gameOverControls.Player.Enable();
+            }
         }
 
         public GameOverControls GetGameOverControls()

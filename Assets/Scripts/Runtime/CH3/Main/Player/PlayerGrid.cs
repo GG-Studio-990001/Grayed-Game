@@ -6,6 +6,10 @@ namespace Runtime.CH3.Main
     public class PlayerGrid : GridObject
     {
         private PlayerController playerController;
+        
+        // PlayerController에서 useCustomY와 customY에 접근할 수 있도록 public 프로퍼티 제공
+        public bool UseCustomY => useCustomY;
+        public float CustomY => customY;
 
         protected override void Start()
         { 
@@ -18,6 +22,13 @@ namespace Runtime.CH3.Main
             {
                 gridPosition = gridManager.PlayerSpawnGrid;
                 Vector3 spawnWorld = gridManager.GridToWorldPosition(gridManager.PlayerSpawnGrid);
+                
+                // useCustomY가 활성화되어 있으면 customY 사용 (GridObject의 로직과 동일)
+                if (useCustomY)
+                {
+                    spawnWorld.y = customY;
+                }
+                
                 transform.position = spawnWorld;
             }
         }
