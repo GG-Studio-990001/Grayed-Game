@@ -26,6 +26,12 @@ namespace Runtime.CH3.Main
                 _buildingSystem = BuildingSystem.Instance;
             }
             
+            // ShopUIController 참조 초기화
+            if (_shopUIController == null)
+            {
+                _shopUIController = FindObjectOfType<ShopUIController>();
+            }
+            
             InitKeyBinding();
             SetupDialogueHotbarControl();
         }
@@ -133,10 +139,6 @@ namespace Runtime.CH3.Main
             if (Mouse.current == null) return;
             
             // 상점창이 열려있으면 상호작용 무시
-            if (_shopUIController == null)
-            {
-                _shopUIController = FindObjectOfType<ShopUIController>();
-            }
             if (_shopUIController != null && _shopUIController.IsOpen)
             {
                 // 상점창이 열려있으면 홀드 상태도 초기화
