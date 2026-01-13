@@ -1,6 +1,7 @@
 using Runtime.Common.Presentation;
 using Runtime.ETC;
 using Runtime.Event;
+using Runtime.CH3.Main;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -70,6 +71,9 @@ namespace Runtime.Common.View
             }
             else
             {
+                // 세팅창 열릴 때 툴팁 숨기기
+                InventoryTooltip.Hide();
+                
                 OnSettingsOpen?.Invoke();
                 Time.timeScale = 0;
                 SettingsEvent.ToggleSettings(true);
@@ -81,6 +85,9 @@ namespace Runtime.Common.View
         {
             if (!SettingUIObject.activeSelf) return;
     
+            // 세팅창 닫힐 때 툴팁 숨기기
+            InventoryTooltip.Hide();
+            
             OnSettingsClose?.Invoke();
             Time.timeScale = 1;
             SettingsEvent.ToggleSettings(false);

@@ -22,9 +22,10 @@ MonoBehaviour:
   isBuilding: 0
   maxBuild: 1
   buildCurrency: []
-  productionCurrency: []
+  productionItems: []
   productionInterval: 5
-  isBlocking: 1
+  maxProduction: 10
+  isBlocking: 0
   isBreakable: 0
   maxDrop: 0
   dropCurrency: []

@@ -16,15 +16,16 @@ MonoBehaviour:
   dev: "\uB364\uBD88"
   sizeX: 2
   sizeY: 1
-  sprite: {fileID: 0}
-  uiPrefab: {fileID: 0}
-  objectType: 2
+  sprite: {fileID: 21300000, guid: c8086ba02f554de4095b8dcbb6b77543, type: 3}
+  uiPrefab: {fileID: 694935521674355280, guid: 961e64613bb788d458e6f055eb3171c6, type: 3}
+  objectType: 7
   isBuilding: 0
   maxBuild: 1
   buildCurrency: []
-  productionCurrency: []
+  productionItems: []
   productionInterval: 5
-  isBlocking: 1
+  maxProduction: 10
+  isBlocking: 0
   isBreakable: 1
   maxDrop: 2
   dropCurrency:

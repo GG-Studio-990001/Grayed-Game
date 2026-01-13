@@ -15,6 +15,7 @@ namespace Runtime.CH3.Main
         private Transform bottomSection;
         private Transform buttonsSection;
         private Transform selectItemImage;
+        private Transform selectPrefabImage;
 
         private TextMeshProUGUI itemTitle;
         private TextMeshProUGUI gridSizeText;
@@ -22,6 +23,7 @@ namespace Runtime.CH3.Main
         private TextMeshProUGUI[] bottomItemCountTexts;
         private Image[] bottomItemImages;
         private Image selectItemImageComponent;
+        private Image selectPrefabImageComponent;
         public Button createButton;
         private Button cancelButton;
         
@@ -44,6 +46,8 @@ namespace Runtime.CH3.Main
                 buttonsSection = transform.Find("Buttons");
             if (selectItemImage == null)
                 selectItemImage = transform.Find("SelectItemImage");
+            if (selectPrefabImage == null)
+                selectPrefabImage = transform.Find("SelectPrefabImage");
 
             // Top 섹션 요소 찾기
             if (topSection != null)
@@ -125,6 +129,11 @@ namespace Runtime.CH3.Main
                 selectItemImage.TryGetComponent<Image>(out var image);
                 selectItemImageComponent = image;
             }
+            if (selectPrefabImage != null && selectPrefabImageComponent == null)
+            {
+                selectPrefabImage.TryGetComponent<Image>(out var image);
+                selectPrefabImageComponent = image;
+            }
         }
 
         public void Show()
@@ -132,7 +141,7 @@ namespace Runtime.CH3.Main
             gameObject.SetActive(true);
             if (itemTitle == null || gridSizeText == null || countText == null || 
                 bottomItemCountTexts == null || bottomItemImages == null ||
-                createButton == null || selectItemImageComponent == null)
+                createButton == null || selectItemImageComponent == null || selectPrefabImageComponent == null)
             {
                 InitializeReferences();
             }
@@ -151,11 +160,23 @@ namespace Runtime.CH3.Main
             }
         }
 
+        public void SetSelectedPrefab(Sprite prefabSprite)
+        {
+            if (selectPrefabImageComponent != null)
+            {
+                selectPrefabImageComponent.sprite = prefabSprite;
+            }
+        }
+
         public void ClearSelection()
         {
             if (selectItemImageComponent != null)
             {
                 selectItemImageComponent.sprite = null;
+            }
+            if (selectPrefabImageComponent != null)
+            {
+                selectPrefabImageComponent.sprite = null;
             }
         }
 

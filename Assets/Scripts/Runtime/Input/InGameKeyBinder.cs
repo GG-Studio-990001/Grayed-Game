@@ -128,6 +128,8 @@ namespace Runtime.Input
 
         public void CH3PlayerKeyBinding(PlayerController player, CH3KeyBinder binder)
         {
+            // 플레이어 입력 스택 초기화 (빌드 환경에서 스택이 잘못된 상태일 수 있음)
+            _playerInputEnableStack = 0;
             _gameOverControls.Player.Enable();
             _gameOverControls.Player.Move.performed += player.OnMove;
             _gameOverControls.Player.Move.started += player.OnMove;
@@ -231,6 +233,11 @@ namespace Runtime.Input
         public bool IsPlayerInputEnabled()
         {
             return _playerInputEnableStack == 0;
+        }
+
+        public GameOverControls GetGameOverControls()
+        {
+            return _gameOverControls;
         }
     }
 }
