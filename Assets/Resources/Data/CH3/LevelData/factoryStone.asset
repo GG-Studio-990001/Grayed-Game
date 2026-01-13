@@ -16,15 +16,18 @@ MonoBehaviour:
   dev: "\uC11D\uC7AC\uCC44\uAD74\uC18C"
   sizeX: 4
   sizeY: 4
-  sprite: {fileID: 0}
-  uiPrefab: {fileID: 0}
-  objectType: 3
+  sprite: {fileID: 21300000, guid: 1e3874f8371adcf4aa052de4c16eec84, type: 3}
+  uiPrefab: {fileID: 8649814607753349673, guid: 7e681f8909d098a4bb14bedcff474dc3, type: 3}
+  objectType: 2
   isBuilding: 1
-  maxBuild: 99
+  maxBuild: 1
   buildCurrency: []
-  productionCurrency: []
+  productionItems:
+  - item: {fileID: 11400000, guid: b9bb36aca9e62d4409b693f231c85235, type: 2}
+    amount: 1
   productionInterval: 5
-  isBlocking: 1
+  maxProduction: 10
+  isBlocking: 0
   isBreakable: 0
   maxDrop: 0
   dropCurrency: []
@@ -39,8 +42,8 @@ MonoBehaviour:
   respawnDelayMax: 3
   gridPositionMode: 1
   gridPosition: {x: 0, y: 0}
-  useCustomY: 0
-  customY: 0.53
+  useCustomY: 1
+  customY: 2.11
   applyInitialGridSorting: 1
   gridSortingScale: 1
   interactionRange: 2
