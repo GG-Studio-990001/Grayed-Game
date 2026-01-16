@@ -39,6 +39,9 @@ namespace CH4.CH1
 
         public bool CheckCanPurchase()
         {
+            if (_isRefreshing || !_canBuy)
+                return false;
+
             if (_currentItem == null)
                 return false;
 
