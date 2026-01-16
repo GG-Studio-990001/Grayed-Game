@@ -98,5 +98,10 @@ namespace Runtime.Common.View
         {
             Managers.Sound.Play(Sound.SFX, "Setting/SFX_Setting_UI_Basic_Click");
         }
+
+        public void PlayBackClickSound()
+        {
+            Managers.Sound.Play(Sound.SFX, "Setting/SFX_Setting_UI_Back_Click");
+        }
     }
 }

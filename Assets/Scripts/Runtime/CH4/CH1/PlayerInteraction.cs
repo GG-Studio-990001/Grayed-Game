@@ -48,6 +48,8 @@ namespace CH4.CH1
             while (elapsed < duration)
             {
                 isTransparent = !isTransparent;
+                if (isTransparent)
+                    Managers.Sound.Play(Sound.SFX, "CH4/CH4_SFX_16_Dust");
                 color.a = isTransparent ? 0.5f : 1f;
                 _spriteRenderer.color = color;
 

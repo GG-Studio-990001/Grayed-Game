@@ -16,11 +16,11 @@ namespace Runtime.CH4
 
             if (_chapterNum == 1)
             {
-                Managers.Sound.Play(Sound.BGM, "CH1/Main(Cave)_BGM");
+                Managers.Sound.Play(Sound.BGM, "CH4/CH4_BGM_Floyard's Crying");
             }
             else if (_chapterNum == 2)
             {
-                Managers.Sound.Play(Sound.BGM, "CH2/BGM_06_Micael's Riddle");
+                Managers.Sound.Play(Sound.BGM, "CH4/CH4_BGM_CH2_Main");
             }
         }
 
