@@ -31,9 +31,12 @@ public class CustomOverlay : Overlay
 
         // ==== 원하는 씬 버튼 추가 ====
         AddButton("Main Scene", "Assets/Scenes/Main.unity");
-        AddButton("CH0 Scene", "Assets/Scenes/CH0.unity");
-        AddButton("CH1 Scene", "Assets/Scenes/CH1.unity");
+        //AddButton("CH0 Scene", "Assets/Scenes/CH0.unity");
+        //AddButton("CH1 Scene", "Assets/Scenes/CH1.unity");
         AddButton("CH2 Scene", "Assets/Scenes/CH2.unity");
+        AddButton("CH3 Scene", "Assets/Scenes/CH3.unity");
+        AddButton("CH4_2 Scene", "Assets/Scenes/CH4.unity");
+        AddButton("CH4_1 Scene", "Assets/Scenes/CH4_CH1.unity");
 
         return root;
     }

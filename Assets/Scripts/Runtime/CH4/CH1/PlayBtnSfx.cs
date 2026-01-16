@@ -13,6 +13,7 @@ namespace Runtime.CH4.CH1
             Exchange,
             PurchaseKey,
             Normal,
+            Exit,
         }
 
         [SerializeField] private ButtonType _sfxType;
@@ -29,7 +30,7 @@ namespace Runtime.CH4.CH1
             switch (_sfxType)
             {
                 case ButtonType.JellyStoreItem:
-                    Managers.Sound.Play(Sound.SFX, "SLG/SLG_Stone_SFX");
+                    Managers.Sound.Play(Sound.SFX, "CH4/CH4_SFX_04_Buy");
                     break;
                 case ButtonType.Exchange:
                     Managers.Sound.Play(Sound.SFX, "CH1/Puzzle_Puff_SFX_23");
@@ -39,6 +40,9 @@ namespace Runtime.CH4.CH1
                     break;
                 case ButtonType.Normal:
                     Managers.Sound.Play(Sound.SFX, "Setting/SFX_Setting_UI_Basic_Click");
+                    break;
+                case ButtonType.Exit:
+                    Managers.Sound.Play(Sound.SFX, "Setting/SFX_Setting_UI_Back_Click");
                     break;
             }
         }

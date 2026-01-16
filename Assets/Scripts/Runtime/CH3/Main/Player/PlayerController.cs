@@ -10,7 +10,13 @@ namespace Runtime.CH3.Main
     {
         [SerializeField] private float moveSpeed = 5.0f;
         [SerializeField] private Cinemachine.CinemachineVirtualCamera virtualCamera;
-        [SerializeField] private float interactDebounce = 0.2f; // 상호작용 디바운스 시간
+        [SerializeField] private float interactDebounce = 0.2f;
+
+        // 애니메이션 관련 추가
+        private Animator _animator;
+        private static readonly int HashMoveSpeed = Animator.StringToHash("MoveSpeed");
+        private static readonly int HashDirX = Animator.StringToHash("DirX");
+        private static readonly int HashDirY = Animator.StringToHash("DirY");
 
         private Vector2 _movementInput;
         private PlayerState _state = PlayerState.Idle;
@@ -27,123 +33,105 @@ namespace Runtime.CH3.Main
             _gridManager = FindObjectOfType<GridSystem>();
             _gridObject = GetComponent<PlayerGrid>();
 
-            // Rigidbody 설정 수정
-            _rigidbody.constraints =
-                RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY; // Y축 위치도 고정
+            // Animator 컴포넌트 가져오기 (자식 오브젝트에 있다면 GetComponentInChildren 사용)
+            _animator = GetComponentInChildren<Animator>();
+
+            _rigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
             _rigidbody.useGravity = false;
             _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 
-            if (_gridObject == null)
-            {
-                Debug.LogError("PlayerGridObject 컴포넌트가 없습니다!");
-            }
+            if (_gridObject == null) Debug.LogError("PlayerGridObject 컴포넌트가 없습니다!");
         }
 
         private void Start()
         {
-            // GridSystem에 스폰 좌표가 있으면 플레이어를 해당 위치로 즉시 이동
+            // (기존 스폰 좌표 로직 유지...)
             if (_gridManager != null && _gridManager.HasPlayerSpawn)
             {
                 Vector3 spawnPos = _gridManager.GridToWorldPosition(_gridManager.PlayerSpawnGrid);
-                
-                // PlayerGrid의 useCustomY 설정 확인 (GridObject에서 상속받은 필드)
                 if (_gridObject != null)
-                {
-                    // useCustomY가 활성화되어 있으면 customY 사용, 아니면 현재 y 좌표 유지
-                    if (_gridObject.UseCustomY)
-                    {
-                        spawnPos.y = _gridObject.CustomY;
-                    }
-                    else
-                    {
-                        spawnPos.y = transform.position.y; // Y는 현 높이 유지
-                    }
-                }
+                    spawnPos.y = _gridObject.UseCustomY ? _gridObject.CustomY : transform.position.y;
                 else
-                {
-                    spawnPos.y = transform.position.y; // Y는 현 높이 유지
-                }
+                    spawnPos.y = transform.position.y;
 
                 if (_rigidbody != null)
                 {
                     _rigidbody.velocity = Vector3.zero;
-                    _rigidbody.angularVelocity = Vector3.zero;
                     _rigidbody.position = spawnPos;
                 }
                 else
-                {
                     transform.position = spawnPos;
-                }
             }
         }
 
         private void FixedUpdate()
         {
-            if (_state == PlayerState.Get)
-                return;
+            if (_state == PlayerState.Get) return;
 
             MovePlayer();
+            UpdateAnimation(); // 애니메이션 파라미터 업데이트 호출
         }
 
         private void MovePlayer()
         {
-            // 빌드모드일 때는 이동 무시
             if (BuildingSystem.Instance != null && BuildingSystem.Instance.IsBuildingMode)
             {
-                // 정지 상태로 유지
-                Vector3 currentVelocity = _rigidbody.velocity;
-                currentVelocity.x = 0f;
-                currentVelocity.z = 0f;
-                _rigidbody.velocity = currentVelocity;
-                _state = PlayerState.Idle;
+                StopMovement();
                 return;
             }
-            
-            // 카메라 기준 이동 방향 계산
+
             Vector3 cameraForward = Vector3.ProjectOnPlane(virtualCamera.transform.forward, Vector3.up).normalized;
             Vector3 cameraRight = Vector3.ProjectOnPlane(virtualCamera.transform.right, Vector3.up).normalized;
 
-            // 입력값을 기반으로 이동 방향 계산
             Vector3 moveDirection = (cameraForward * _movementInput.y + cameraRight * _movementInput.x).normalized;
 
             if (moveDirection != Vector3.zero)
             {
-                // 목표 위치 계산
                 Vector3 targetPosition = transform.position + moveDirection * moveSpeed * Time.fixedDeltaTime;
-
                 Vector2Int targetGridPos = _gridManager.WorldToGridPosition(targetPosition);
 
-                // 자기 현재 셀은 허용, 다른 셀로 이동할 때만 점유/차단 검사
                 bool movingToAnotherCell = (_gridObject != null) && (targetGridPos != _gridObject.GridPosition);
                 bool occupiedByImpassable = movingToAnotherCell && _gridManager.IsCellOccupiedByImpassableObject(targetGridPos);
+
                 if (_gridManager.IsCellBlocked(targetGridPos) || occupiedByImpassable)
                 {
-                    Vector3 currentVelocity = _rigidbody.velocity;
-                    currentVelocity.x = 0f;
-                    currentVelocity.z = 0f;
-                    _rigidbody.velocity = currentVelocity;
-                    _state = PlayerState.Idle;
+                    StopMovement();
                     return;
                 }
 
-                // 이동 속도 적용
-                Vector3 targetVelocity = moveDirection * moveSpeed;
-                targetVelocity.y = _rigidbody.velocity.y; // 수직 속도 유지
-
-                // 부드러운 이동을 위해 Velocity 사용
-                _rigidbody.velocity = targetVelocity;
-
+                _rigidbody.velocity = new Vector3(moveDirection.x * moveSpeed, _rigidbody.velocity.y, moveDirection.z * moveSpeed);
                 _state = PlayerState.Move;
             }
             else
             {
-                // 정지 시 수평 속도를 0으로 설정
-                Vector3 currentVelocity = _rigidbody.velocity;
-                currentVelocity.x = 0f;
-                currentVelocity.z = 0f;
-                _rigidbody.velocity = currentVelocity;
+                StopMovement();
+            }
+        }
 
-                _state = PlayerState.Idle;
+        private void StopMovement()
+        {
+            Vector3 currentVelocity = _rigidbody.velocity;
+            currentVelocity.x = 0f;
+            currentVelocity.z = 0f;
+            _rigidbody.velocity = currentVelocity;
+            _state = PlayerState.Idle;
+        }
+
+        // 애니메이션 파라미터 갱신 로직
+        private void UpdateAnimation()
+        {
+            if (_animator == null) return;
+
+            // 1. 이동 속도 전달 (magnitude를 사용하여 0~1 사이 값 전달)
+            // _movementInput.magnitude를 쓰면 입력의 강도에 따라 걷기/뛰기 블렌딩 가능
+            float speed = (_state == PlayerState.Move) ? _movementInput.magnitude : 0f;
+            _animator.SetFloat(HashMoveSpeed, speed);
+
+            // 2. 방향 전달 (입력이 있을 때만 갱신하여 멈췄을 때 마지막 방향 유지)
+            if (_movementInput != Vector2.zero)
+            {
+                _animator.SetFloat(HashDirX, _movementInput.x);
+                _animator.SetFloat(HashDirY, _movementInput.y);
             }
         }
 
@@ -152,30 +140,19 @@ namespace Runtime.CH3.Main
             _movementInput = context.ReadValue<Vector2>();
         }
 
+        // (나머지 OnInteraction, OnInteractionHold 등 기존 코드 유지...)
         public void OnInteraction()
         {
-            // 길게 누름/중복 입력에 대한 디바운스
-            if (Time.time - _lastInteractTime < interactDebounce)
-                return;
+            if (Time.time - _lastInteractTime < interactDebounce) return;
             _lastInteractTime = Time.time;
-
             _interactionManager.TryInteract();
         }
 
         public void OnInteractionHold(InputAction.CallbackContext context)
         {
-            if (context.started)
-            {
-                _interactionManager.BeginHold();
-            }
-            else if (context.performed)
-            {
-                _interactionManager.UpdateHold();
-            }
-            else if (context.canceled)
-            {
-                _interactionManager.CancelHold();
-            }
+            if (context.started) _interactionManager.BeginHold();
+            else if (context.performed) _interactionManager.UpdateHold();
+            else if (context.canceled) _interactionManager.CancelHold();
         }
 
         public void PlayerIdle()
@@ -185,7 +162,11 @@ namespace Runtime.CH3.Main
 
         public void SetLastInput(Vector2 direction)
         {
-            // 마지막 입력 방향 설정
+            if (_animator != null)
+            {
+                _animator.SetFloat(HashDirX, direction.x);
+                _animator.SetFloat(HashDirY, direction.y);
+            }
         }
     }
 }

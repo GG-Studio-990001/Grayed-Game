@@ -2822,7 +2822,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 977441387082237809}
         m_TargetAssemblyTypeName: Runtime.Common.View.SettingsUIView, Scripts
-        m_MethodName: PlayBasicClickSound
+        m_MethodName: PlayBackClickSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
