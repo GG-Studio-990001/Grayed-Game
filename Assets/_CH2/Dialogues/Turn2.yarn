@@ -184,7 +184,7 @@ R2-Mon: 헤헤~ 이런데가 있을 줄 몰랐죠? 따라와요!
 <<HideCharacter "R2-Mon">>
 
 // 장소: 달러 동상 내부
-<<SetLocation InStorage>>
+<<SetLocation InStatue>>
 // <<SetLocation Base>>
 <<wait 2>>
 
