@@ -17,6 +17,9 @@ namespace Runtime.CH3.Main
         private static readonly int HashMoveSpeed = Animator.StringToHash("MoveSpeed");
         private static readonly int HashDirX = Animator.StringToHash("DirX");
         private static readonly int HashDirY = Animator.StringToHash("DirY");
+        private static readonly int HashIsAxing = Animator.StringToHash("isAxing");   // Trigger
+        private static readonly int HashIsMining = Animator.StringToHash("isMining");   // Trigger
+        private static readonly int HashToIdle = Animator.StringToHash("toIdle");     // Trigger (채집 종료 → Idle)
 
         private Vector2 _movementInput;
         private PlayerState _state = PlayerState.Idle;
@@ -167,6 +170,48 @@ namespace Runtime.CH3.Main
                 _animator.SetFloat(HashDirX, direction.x);
                 _animator.SetFloat(HashDirY, direction.y);
             }
+        }
+
+        /// <summary>
+        /// 채집(채광/벌목) 애니메이션을 시작합니다.
+        /// targetObjectName에 'tree'가 포함되어 있으면 도끼 애니메이션(isAxing Trigger),
+        /// 'bush' 또는 'stone'이 포함되어 있으면 채광 애니메이션(isMinig Trigger)을 사용합니다.
+        /// </summary>
+        public void StartGatherAnimation(string targetObjectName)
+        {
+            if (_animator == null) return;
+
+            // 이동을 멈추고 채집 상태로 고정
+            _state = PlayerState.Get;
+            StopMovement();
+
+            string nameLower = string.IsNullOrEmpty(targetObjectName)
+                ? string.Empty
+                : targetObjectName.ToLower();
+
+            bool isTree = nameLower.Contains("tree");
+            bool isMining = !isTree && (nameLower.Contains("bush") || nameLower.Contains("stone"));
+
+            if (isTree)
+            {
+                _animator.SetTrigger(HashIsAxing);
+            }
+            else if (isMining)
+            {
+                _animator.SetTrigger(HashIsMining);
+            }
+        }
+
+        /// <summary>
+        /// 채집 애니메이션을 정지하고 다시 Idle 상태로 돌립니다.
+        /// </summary>
+        public void StopGatherAnimation()
+        {
+            if (_animator == null) return;
+
+            _state = PlayerState.Idle;
+            // 채집/도끼질 루프 스테이트에서 Idle로 돌아가도록 전용 트리거 발동
+            _animator.SetTrigger(HashToIdle);
         }
     }
 }

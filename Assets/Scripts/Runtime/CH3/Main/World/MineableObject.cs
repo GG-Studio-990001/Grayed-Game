@@ -167,6 +167,18 @@ namespace Runtime.CH3.Main
             {
                 holdGauge.gameObject.SetActive(true);
             }
+
+            // 플레이어 채집 애니메이션 시작
+            if (interactor != null)
+            {
+                var player = interactor.GetComponent<PlayerController>();
+                if (player != null)
+                {
+                    // 이 MineableObject가 속한 게임오브젝트 이름을 기준으로
+                    // 어떤 채집 애니메이션을 쓸지 결정한다.
+                    player.StartGatherAnimation(gameObject.name);
+                }
+            }
         }
 
         public void OnHoldProgress(GameObject interactor, float normalized01)
@@ -210,6 +222,16 @@ namespace Runtime.CH3.Main
                     holdGauge.value = 0f;
                 }
             }
+
+            // 채집이 중간에 취소되면 애니메이션도 정지
+            if (interactor != null)
+            {
+                var player = interactor.GetComponent<PlayerController>();
+                if (player != null)
+                {
+                    player.StopGatherAnimation();
+                }
+            }
         }
 
         public void OnHoldComplete(GameObject interactor)
@@ -227,6 +249,16 @@ namespace Runtime.CH3.Main
             }
 
             HideUI();
+
+             // 채집이 완료되면 애니메이션 정지
+            if (interactor != null)
+            {
+                var player = interactor.GetComponent<PlayerController>();
+                if (player != null)
+                {
+                    player.StopGatherAnimation();
+                }
+            }
         }
 
         protected virtual void HideUI()
