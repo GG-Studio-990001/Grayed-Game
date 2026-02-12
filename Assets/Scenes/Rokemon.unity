@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3690,12 +3689,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!114 &705529364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4213,8 +4212,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 238, y: -70.8}
-  m_SizeDelta: {x: 274.8, y: 290.4}
+  m_AnchoredPosition: {x: 238, y: -63.000004}
+  m_SizeDelta: {x: 191.6, y: 306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &893930045
 MonoBehaviour:
@@ -4238,7 +4237,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 2d879d3f615f3a946ac1d84c9c1f3fd1, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -6202,8 +6201,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 238, y: -70.8}
-  m_SizeDelta: {x: 129.14, y: 185.74}
+  m_AnchoredPosition: {x: 238, y: -63}
+  m_SizeDelta: {x: 191.6, y: 289.74}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1262512102
 MonoBehaviour:
@@ -6225,7 +6224,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6b4fbcf0b0b98c74a9edbb434b5242ab, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2838b346ecf996e4d88bac998d29971d, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -10083,6 +10082,7 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!114 &1911560378
 MonoBehaviour:
   m_ObjectHideFlags: 0
