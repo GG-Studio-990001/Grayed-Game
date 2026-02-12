@@ -2,7 +2,7 @@ title: Turn3
 ---
 // 접속게임 스테이지1에서 열쇠 얻어 탈출함
 // 장소: 달러 동상 내부
-<<StartLocation InStorage>>
+<<StartLocation InStatue>>
 <<wait 2>>
 
 <<ChangeBGM 7>>
